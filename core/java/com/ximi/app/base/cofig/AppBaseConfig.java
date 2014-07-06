@@ -6,6 +6,7 @@ import com.jfinal.config.Interceptors;
 import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
+import com.jfinal.plugin.druid.DruidPlugin;
 
 public class AppBaseConfig extends JFinalConfig {
 
@@ -25,8 +26,12 @@ public class AppBaseConfig extends JFinalConfig {
 	}
 
 	@Override
-	public void configPlugin(Plugins arg0) {
-
+	public void configPlugin(Plugins plugins) {
+		String password = null;
+		String username = null;
+		String url = null;
+		DruidPlugin druidPlugin = new DruidPlugin(url, username, password);
+		plugins.add(druidPlugin);
 	}
 
 	@Override
