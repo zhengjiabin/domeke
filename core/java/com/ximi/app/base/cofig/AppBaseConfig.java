@@ -7,6 +7,7 @@ import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.plugin.druid.DruidStatViewHandler;
 
 public class AppBaseConfig extends JFinalConfig {
 
@@ -16,8 +17,8 @@ public class AppBaseConfig extends JFinalConfig {
 	}
 
 	@Override
-	public void configHandler(Handlers arg0) {
-
+	public void configHandler(Handlers handlers) {
+		DruidStatViewHandler dsvh = new DruidStatViewHandler("/druid");
 	}
 
 	@Override
