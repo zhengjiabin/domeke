@@ -17,8 +17,7 @@ public class AppBaseConfig extends JFinalConfig {
 
 	@Override
 	public void configHandler(Handlers handlers) {
-		DruidStatViewHandler dsvh = new DruidStatViewHandler(DruidDatasouceUtil.getHandlerProperty());
-		handlers.add(dsvh);
+		handlers.add(DruidDatasouceUtil.getHandlerProperty());
 	}
 
 	@Override

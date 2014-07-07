@@ -3,11 +3,13 @@ package com.ximi.app.base.cofig;
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.alibaba.druid.filter.config.ConfigTools;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.plugin.druid.DruidStatViewHandler;
 
 public class DruidDatasouceUtil {
 	
@@ -30,28 +32,62 @@ public class DruidDatasouceUtil {
 		String driveClass = getProperty("jdbc.driverClass");
 		DruidPlugin druidPlugin = new DruidPlugin(url, username, password);
 		druidPlugin.setDriverClass(driveClass);
-		druidPlugin.setFilters(getProperty("jdbc.filters"));
+		
+		if(StringUtils.isNotBlank(getProperty("jdbc.filters"))){
+			druidPlugin.setFilters(getProperty("jdbc.filters"));
+		}
 		
 		
-		int initialSize = getIntProperty("jdbc.initialSize");
-		druidPlugin.setInitialSize(initialSize);
-		int minIdle =getIntProperty("jdbc.minIdle");
-		druidPlugin.setMinIdle(minIdle);
-		int maxActive=getIntProperty("jdbc.maxActive");
-		druidPlugin.setMaxActive(maxActive);
-		long maxWait=getLongPropertiy("jdbc.maxWait");
-		druidPlugin.setMaxWait(maxWait);
-		long timeBetweenConnectErrorMillis=getLongPropertiy("jdbc.timeBetweenConnectErrorMillis");
-		druidPlugin.setTimeBetweenConnectErrorMillis(timeBetweenConnectErrorMillis);
-		long timeBetweenEvictionRunsMillis=getLongPropertiy("jdbc.timeBetweenEvictionRunsMillis");
-		druidPlugin.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
-		long minEvictableIdleTimeMillis=getLongPropertiy("jdbc.minEvictableIdleTimeMillis");
-		druidPlugin.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
+		if(getIntProperty("jdbc.initialSize") > 0){
+			int initialSize = getIntProperty("jdbc.initialSize");
+			druidPlugin.setInitialSize(initialSize);
+		}
+		if(getIntProperty("jdbc.initialSize")>0){
+			
+			int minIdle =getIntProperty("jdbc.minIdle");
+			druidPlugin.setMinIdle(minIdle);
+		}
 		
-		String validationQuery=getProperty("jdbc.validationQuery");
-		druidPlugin.setValidationQuery(validationQuery);
-		boolean testWhileIdle= getBoolenProperty("jdbc.testWhileIdle");
-		druidPlugin.setTestWhileIdle(testWhileIdle);
+		if(getIntProperty("jdbc.maxActive") > 0) {
+			
+			int maxActive=getIntProperty("jdbc.maxActive");
+			druidPlugin.setMaxActive(maxActive);
+		}
+		
+		if(getLongPropertiy("jdbc.maxWait")  > 0) {
+			long maxWait=getLongPropertiy("jdbc.maxWait");
+			
+			druidPlugin.setMaxWait(maxWait);
+		}
+		
+		if(getLongPropertiy("jdbc.timeBetweenConnectErrorMillis") > 0) {
+			
+			long timeBetweenConnectErrorMillis=getLongPropertiy("jdbc.timeBetweenConnectErrorMillis");
+			druidPlugin.setTimeBetweenConnectErrorMillis(timeBetweenConnectErrorMillis);
+		}
+		
+		if(getLongPropertiy("jdbc.timeBetweenEvictionRunsMillis") > 0 ){
+			long timeBetweenEvictionRunsMillis=getLongPropertiy("jdbc.timeBetweenEvictionRunsMillis");
+			druidPlugin.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
+			
+		}
+		
+		if(getLongPropertiy("jdbc.minEvictableIdleTimeMillis") > 0){
+			
+			long minEvictableIdleTimeMillis=getLongPropertiy("jdbc.minEvictableIdleTimeMillis");
+			druidPlugin.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
+		}
+		
+		
+		if(StringUtils.isNotBlank(getProperty("jdbc.validationQuery"))){
+			
+			String validationQuery=getProperty("jdbc.validationQuery");
+			druidPlugin.setValidationQuery(validationQuery);
+		}
+		if(getBoolenProperty("jdbc.testWhileIdle")){
+			boolean testWhileIdle= getBoolenProperty("jdbc.testWhileIdle");
+			druidPlugin.setTestWhileIdle(testWhileIdle);
+		}
 		boolean testOnBorrow =getBoolenProperty("jdbc.testOnBorrow");
 		druidPlugin.setTestOnBorrow(testOnBorrow);
 		boolean testOnReturn=getBoolenProperty("jdbc.testOnReturn");
@@ -67,18 +103,19 @@ public class DruidDatasouceUtil {
 		int maxPoolPreparedStatementPerConnectionSize= getIntProperty("jdbc.maxPoolPreparedStatementPerConnectionSize");
 		//只要maxPoolPreparedStatementPerConnectionSize>0,poolPreparedStatements就会被自动设定为true，参照druid的源码
 		druidPlugin.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
-		
-		
 		return druidPlugin;
 
 	}
 	
-	public static String getHandlerProperty(){
+	public static DruidStatViewHandler getHandlerProperty(){
 		if(config == null) {
 			loadConfigurationFile("datasource.properties");
 		}
-		return config.getString("jdbc.stat");
+		DruidStatViewHandler dsvh = new DruidStatViewHandler(config.getString("jdbc.stat"));
+		return dsvh;
 	}
+	
+	
 	
 	private static Configuration loadConfigurationFile(String file) {
 		try {
