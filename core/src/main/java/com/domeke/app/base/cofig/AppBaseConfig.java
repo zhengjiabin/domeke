@@ -1,4 +1,4 @@
-package com.ximi.app.base.cofig;
+package com.domeke.app.base.cofig;
 
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;

@@ -1,4 +1,4 @@
-package com.ximi.app.base.cofig;
+package com.domeke.app.base.cofig;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
@@ -101,7 +101,7 @@ public class DruidDatasouceUtil {
 		druidPlugin.setLogAbandoned(logAbandoned);
 		
 		int maxPoolPreparedStatementPerConnectionSize= getIntProperty("jdbc.maxPoolPreparedStatementPerConnectionSize");
-		//只要maxPoolPreparedStatementPerConnectionSize>0,poolPreparedStatements就会被自动设定为true，参照druid的源码
+		//只要maxPoolPreparedStatementPerConnectionSize>0,poolPreparedStatements就会被自动设定为true，参照druid的源�?
 		druidPlugin.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
 		return druidPlugin;
 
@@ -121,7 +121,7 @@ public class DruidDatasouceUtil {
 		try {
 			config = new PropertiesConfiguration(file);
 		} catch (ConfigurationException e) {
-			logger.error("Config file loading failed！", e);
+			logger.error("Config file loading failed�?", e);
 			throw new RuntimeException("Config file loading failed: " + file);
 		}
 		return config;
