@@ -5,12 +5,13 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import com.domeke.app.base.cofig.DruidDatasouceUtil;
+import com.jfinal.plugin.druid.DruidPlugin;
 
 public class TestDruidDatasouceUtil {
 
 	@Test
 	public void testGetDruidPlugin() {
-		DruidDatasouceUtil.getDruidPlugin();
+		DruidPlugin druidPlugin = DruidDatasouceUtil.getDruidPlugin();
 	}
 
 }
