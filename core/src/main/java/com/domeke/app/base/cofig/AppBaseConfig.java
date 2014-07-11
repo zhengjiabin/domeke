@@ -6,7 +6,6 @@ import com.jfinal.config.Interceptors;
 import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
-import com.jfinal.plugin.druid.DruidStatViewHandler;
 
 public class AppBaseConfig extends JFinalConfig {
 
