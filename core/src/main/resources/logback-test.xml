@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- 定义日志路径 -->
+	<property name="USER_HOME" value="/Users/lijiasen/Documents" />
+	<property name="PATTERNINFO" value="%d{yyyy-MM-dd HH:mm:ss.SSS} - [%thread] %-5level 耗时-%r-毫秒 %caller{1} - %msg%n"/>
+
+	<!-- 控制台标准输出 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${PATTERNINFO}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 生成滚动INFO级别日志 -->
+	<appender name="INFOFILE" additivity="false"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<!-- <Prudent>true</Prudent> -->
+		<File>${USER_HOME}/domeke_info.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${USER_HOME}/domeke_info-%d{yyyy-MM-dd_HH}-%i.log
+			</FileNamePattern>
+			<MaxHistory>30</MaxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>5MB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+
+
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${PATTERNINFO}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 仅打印ERR级别日志 -->
+	<appender name="WARNFILE" additivity="false"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<!-- <Prudent>true</Prudent> -->
+		<File>${USER_HOME}/domeke_warn.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>${USER_HOME}/domeke_warn-%d{yyyyMMdd}.log
+			</FileNamePattern>
+		</rollingPolicy>
+
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>${PATTERNINFO}</pattern>
+		</encoder>
+
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>WARN</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<!-- 定义各个包的日志级别 -->
+	<logger name="org.springframework" additivity="false">
+		<level value="WARN" />
+	</logger>
+	<logger name="org.apache.activemq" additivity="false">
+		<level value="INFO" />
+	</logger>
+	
+	<logger name="ch.qos.logback" additivity="false">
+		<level value="INFO" />
+	</logger>
+
+
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="WARNFILE" />
+		<appender-ref ref="INFOFILE" />
+	</root>
+</configuration>

@@ -19,6 +19,7 @@ public class DruidDatasouceUtil {
 	
 	public static DruidPlugin getDruidPlugin() {
 		
+		logger.info("===加载数据库配置文件===start");
 		loadConfigurationFile("datasource.properties");
 		String url = getProperty("jdbc.url");
 		String password = getProperty("jdbc.password");
@@ -30,6 +31,7 @@ public class DruidDatasouceUtil {
 		}
 		String username = getProperty("jdbc.username");
 		String driveClass = getProperty("jdbc.driverClass");
+		logger.info("====数据库URL==={}",url);
 		DruidPlugin druidPlugin = new DruidPlugin(url, username, password);
 		druidPlugin.setDriverClass(driveClass);
 		
@@ -42,7 +44,7 @@ public class DruidDatasouceUtil {
 			int initialSize = getIntProperty("jdbc.initialSize");
 			druidPlugin.setInitialSize(initialSize);
 		}
-		if(getIntProperty("jdbc.initialSize")>0){
+		if(getIntProperty("jdbc.minIdle")>0){
 			
 			int minIdle =getIntProperty("jdbc.minIdle");
 			druidPlugin.setMinIdle(minIdle);
@@ -101,8 +103,9 @@ public class DruidDatasouceUtil {
 		druidPlugin.setLogAbandoned(logAbandoned);
 		
 		int maxPoolPreparedStatementPerConnectionSize= getIntProperty("jdbc.maxPoolPreparedStatementPerConnectionSize");
-		//只要maxPoolPreparedStatementPerConnectionSize>0,poolPreparedStatements就会被自动设定为true，参照druid的源�?
+		//只要maxPoolPreparedStatementPerConnectionSize>0,poolPreparedStatements就会被自动设定为true，参照druid的源�?
 		druidPlugin.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
+		logger.info("===加载数据库配置文件===end");
 		return druidPlugin;
 
 	}
@@ -121,7 +124,7 @@ public class DruidDatasouceUtil {
 		try {
 			config = new PropertiesConfiguration(file);
 		} catch (ConfigurationException e) {
-			logger.error("Config file loading failed�?", e);
+			logger.error("Config file loading failed?", e);
 			throw new RuntimeException("Config file loading failed: " + file);
 		}
 		return config;

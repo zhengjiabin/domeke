@@ -10,6 +10,7 @@ public class TestDruidDatasouceUtil {
 	@Test
 	public void testGetDruidPlugin() {
 		DruidPlugin druidPlugin = DruidDatasouceUtil.getDruidPlugin();
+		druidPlugin.getDataSource();
 	}
 
 }
