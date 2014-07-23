@@ -1,4 +1,4 @@
-package com.domeke.interceptor;
+package com.domeke.app.interceptor;
 
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.ActionInvocation;
@@ -11,7 +11,6 @@ import com.jfinal.kit.StrKit;
  * 全局拦截区，用于权限、session等控制
  */
 public class GlobalInterceptor implements Interceptor {
-	@Override
 	public void intercept(ActionInvocation ai) {
 		Controller controller = ai.getController();
 		String username = controller.getCookie("username");
