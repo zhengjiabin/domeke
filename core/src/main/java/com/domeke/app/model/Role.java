@@ -10,5 +10,6 @@ import com.jfinal.plugin.activerecord.Model;
  * 角色
  */
 public class Role extends Model<Role> {
+	public static Role dao = new Role();
 
 }

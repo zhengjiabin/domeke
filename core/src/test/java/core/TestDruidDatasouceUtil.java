@@ -2,7 +2,7 @@ package core;
 
 import org.junit.Test;
 
-import com.domeke.app.base.cofig.DruidDatasouceUtil;
+import com.domeke.app.base.config.DruidDatasouceUtil;
 import com.jfinal.plugin.druid.DruidPlugin;
 
 public class TestDruidDatasouceUtil {

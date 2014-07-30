@@ -1,4 +1,4 @@
-package com.domeke.app.base.cofig;
+package com.domeke.app.base.config;
 
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;

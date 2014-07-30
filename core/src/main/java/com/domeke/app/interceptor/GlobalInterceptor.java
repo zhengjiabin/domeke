@@ -13,11 +13,7 @@ import com.jfinal.kit.StrKit;
 public class GlobalInterceptor implements Interceptor {
 	public void intercept(ActionInvocation ai) {
 		Controller controller = ai.getController();
-		String username = controller.getCookie("username");
-		String password = controller.getCookie("password");
-		if(controller.getSessionAttr("user")==null && StrKit.notBlank(username,password)){
-			
-		}
+
 		ai.invoke();
 	}
 
