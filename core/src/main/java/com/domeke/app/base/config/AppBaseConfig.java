@@ -1,6 +1,7 @@
 package com.domeke.app.base.config;
 
 import com.domeke.app.controller.LoginController;
+import com.domeke.app.model.User;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -8,12 +9,14 @@ import com.jfinal.config.JFinalConfig;
 import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.handler.ContextPathHandler;
+import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.druid.DruidPlugin;
 
 public class AppBaseConfig extends JFinalConfig {
 
 	@Override
 	public void configConstant(Constants constants) {
-		//设置编码格式统一为utf-8  解决乱码问题
+		// 设置编码格式统一为utf-8 解决乱码问题
 		constants.setEncoding("utf-8");
 	}
 
@@ -30,7 +33,12 @@ public class AppBaseConfig extends JFinalConfig {
 
 	@Override
 	public void configPlugin(Plugins plugins) {
-		plugins.add(DruidDatasouceUtil.getDruidPlugin());
+		DruidPlugin druidPlugin = DruidDatasouceUtil.getDruidPlugin();
+		plugins.add(druidPlugin);
+		// 配置ActiveRecord插件
+		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+		plugins.add(arp);
+		arp.addMapping("user", User.class);
 	}
 
 	@Override

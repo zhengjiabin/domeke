@@ -1,9 +1,18 @@
-#创建底层数据库表结构
-#001 用户表
-#userId,userKey,username, password, createdate,modifydate,fromdate,todate,status
-#002 人员表
-#personId,personKey,firstName,lastName, createDate,modifyDate,mobile,email
-#003 岗位表
-#positionId,positionKey,positionName,creater,createDate,modifier,modifyDate
-#004 文件存取路径
-#fileId,fileKey,fileName,host,filePath,creater,createDate,modifier,modifyDate,status
+CREATE TABLE IF NOT EXISTS `domeke`.`user` (
+  `id` BIGINT(20) NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(16) NOT NULL,
+  `password` VARCHAR(32) NOT NULL,
+  `email` VARCHAR(255) NULL,
+  `moblie` VARCHAR(32) NULL,
+  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` VARCHAR(64) NULL,
+  `modifier` VARCHAR(64) NULL,
+  `modify_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `username_idx` (`username` ASC),
+  UNIQUE INDEX `email` (`email` ASC));
+  
+INSERT INTO domeke.user
+(id, username, password, email, moblie, create_time, creater, modifier, modify_time)
+VALUES(0, 'admin', '', '7061089@qq.com', '11111111111', CURRENT_TIMESTAMP, 'admin', 'admin', CURRENT_TIMESTAMP);
+
