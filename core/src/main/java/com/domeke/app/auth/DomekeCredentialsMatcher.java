@@ -5,16 +5,14 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 
-public class DomekeMather extends HashedCredentialsMatcher {
+public class DomekeCredentialsMatcher extends HashedCredentialsMatcher {
 	@Override
 	public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
 		UsernamePasswordToken upToken = (UsernamePasswordToken) token;
 		String password = String.valueOf(upToken.getPassword());
 		Object credentials = getCredentials(info);
 
-		String username = (String) token.getPrincipal();
-
-		return false;
+		return equals(password, credentials);
 	}
 
 }
