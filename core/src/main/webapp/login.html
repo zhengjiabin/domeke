@@ -4,7 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>管理员登陆</title>
     <!-- Bootstrap -->
-    <!-- 设置默认的contextPath html无法使用${}宏变量-->
+    <!-- 设置默认的contextPath html无法使用宏变量-->
     <base href="/app-core/" />
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
@@ -21,6 +21,7 @@
       <form class="form-signin" action="user/login" method="post">
         <h2 class="form-signin-heading">请登录</h2>
         <input type="text" id="username" name="username" class="input-block-level" placeholder="电子邮箱">
+
         <input type="password" id="password" name="password" class="input-block-level" placeholder="密码">
         <label class="checkbox">
           <input type="checkbox" value="remember-me"> 记住我

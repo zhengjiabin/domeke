@@ -6,4 +6,6 @@ public class DomeKeConstants {
 	 */
 	public final static String IS_ADMIN = "admin";
 
+	public final static String HASH_ALGORITHM_NAME = "md5";
+
 }

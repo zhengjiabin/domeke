@@ -1,5 +1,8 @@
 package com.domeke.app.base.config;
 
+import org.beetl.core.GroupTemplate;
+import org.beetl.ext.jfinal.BeetlRenderFactory;
+
 import com.domeke.app.controller.LoginController;
 import com.domeke.app.model.User;
 import com.jfinal.config.Constants;
@@ -18,6 +21,9 @@ public class AppBaseConfig extends JFinalConfig {
 	public void configConstant(Constants constants) {
 		// 设置编码格式统一为utf-8 解决乱码问题
 		constants.setEncoding("utf-8");
+		constants.setDevMode(true);
+		constants.setMainRenderFactory(new BeetlRenderFactory());
+		GroupTemplate gt = BeetlRenderFactory.groupTemplate;
 	}
 
 	@Override
@@ -35,6 +41,7 @@ public class AppBaseConfig extends JFinalConfig {
 	public void configPlugin(Plugins plugins) {
 		DruidPlugin druidPlugin = DruidDatasouceUtil.getDruidPlugin();
 		plugins.add(druidPlugin);
+
 		// 配置ActiveRecord插件
 		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
 		plugins.add(arp);
