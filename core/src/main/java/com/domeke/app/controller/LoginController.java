@@ -23,20 +23,16 @@ public class LoginController extends Controller {
 		try {
 			currentUser.login(token);
 		} catch (AuthenticationException e) {
-
 			setAttr("msg", "username or password is invalid!");
-			forwardAction("/index.html");
+			render("/login.html");
 		}
 		setCache(username, password, token, currentUser);
+		setAttr("username", username);
 		render("/index.html");
 	}
 
 	private void setCache(String username, String password, UsernamePasswordToken token, Subject currentUser) {
 		setCookie("username", username, 3600 * 24 * 30);
-		// if (getParaToBoolean("rememberMe")) {
-		// token.setRememberMe(true);
-		// setCookie("password", password, 3600 * 24 * 30);
-		// }
 
 		if (DomeKeConstants.IS_ADMIN.equals(username)) {
 			setSessionAttr("isAdmin", "true");

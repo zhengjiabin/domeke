@@ -2,14 +2,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ximi.app</groupId>
-	<artifactId>app-core</artifactId>
+	<artifactId>core</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>core Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
 	<build>
-		<finalName>app-core</finalName>
+		<finalName>core</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -143,6 +143,12 @@
 			<groupId>org.beetl</groupId>
 			<artifactId>beetl-core</artifactId>
 			<version>2.0.10</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jfinal</groupId>
+			<artifactId>jfinal-ext</artifactId>
+			<version>3.1.0</version>
 		</dependency>
 
 	</dependencies>

@@ -6,6 +6,19 @@ public class DomeKeConstants {
 	 */
 	public final static String IS_ADMIN = "admin";
 
+	/**
+	 * 加密方式
+	 */
 	public final static String HASH_ALGORITHM_NAME = "md5";
+
+	/**
+	 * 编码类型
+	 */
+	public final static String ENCODE = "utf-8";
+
+	/**
+	 * 数据库类型
+	 */
+	public final static String DB_TYPE = "mysql";
 
 }
