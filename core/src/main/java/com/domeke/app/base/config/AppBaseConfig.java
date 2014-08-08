@@ -17,7 +17,10 @@ import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.ext.plugin.shiro.ShiroPlugin;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.tx.TxByActionMethods;
+import com.jfinal.plugin.activerecord.tx.TxByRegex;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.plugin.ehcache.EhCachePlugin;
 
 public class AppBaseConfig extends JFinalConfig {
 
@@ -42,10 +45,12 @@ public class AppBaseConfig extends JFinalConfig {
 	@Override
 	public void configInterceptor(Interceptors interceptors) {
 		interceptors.add(new SessionInViewInterceptor());
+		interceptors.add(new TxByActionMethods("save", "update","delete"));
 	}
 
 	@Override
 	public void configPlugin(Plugins plugins) {
+		plugins.add(new EhCachePlugin());
 		DruidPlugin druidPlugin = DruidDatasouceUtil.getDruidPlugin();
 //		plugins.add(druidPlugin);
 
