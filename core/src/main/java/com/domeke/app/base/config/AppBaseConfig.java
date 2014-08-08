@@ -47,17 +47,17 @@ public class AppBaseConfig extends JFinalConfig {
 	@Override
 	public void configPlugin(Plugins plugins) {
 		DruidPlugin druidPlugin = DruidDatasouceUtil.getDruidPlugin();
-		plugins.add(druidPlugin);
+//		plugins.add(druidPlugin);
 
 		WallFilter wallFilter = new WallFilter();
 		wallFilter.setDbType(DomeKeConstants.DB_TYPE);
 		druidPlugin.addFilter(wallFilter);
 
 		// 配置ActiveRecord插件
-		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-		plugins.add(arp);
-		arp.addMapping("user", User.class);
-		arp.addMapping("role", Role.class);
+//		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+//		plugins.add(arp);
+//		arp.addMapping("user","userid" User.class);
+//		arp.addMapping("role", "roleid",Role.class);
 		plugins.add(new ShiroPlugin(routes));
 	}
 
