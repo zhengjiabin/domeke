@@ -4,11 +4,11 @@ CREATE TABLE IF NOT EXISTS `domeke`.`user` (
   `password` VARCHAR(32) NOT NULL,
   `email` VARCHAR(255) NULL,
   `moblie` VARCHAR(32) NULL,
-  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `create_time` TIMESTAMP NULL 
   `creater` VARCHAR(64) NULL,
   `modifier` VARCHAR(64) NULL,
-  `modify_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
+  `modify_time` TIMESTAMP NULL 
+  PRIMARY KEY (`userid`),
   UNIQUE INDEX `username_idx` (`username` ASC),
   UNIQUE INDEX `email` (`email` ASC));
   
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `domeke`.`role` (
   `creater` VARCHAR(45) NULL,
   `modifier` VARCHAR(45) NULL,
   `modify_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`roleid`))
 ENGINE = InnoDB;
 
 INSERT INTO domeke.role(rolename) VALUES('user');
