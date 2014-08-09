@@ -4,10 +4,10 @@ CREATE TABLE IF NOT EXISTS `domeke`.`user` (
   `password` VARCHAR(32) NOT NULL,
   `email` VARCHAR(255) NULL,
   `moblie` VARCHAR(32) NULL,
-  `create_time` TIMESTAMP NULL 
+  `create_time` TIMESTAMP NULL ,
   `creater` VARCHAR(64) NULL,
-  `modifier` VARCHAR(64) NULL,
-  `modify_time` TIMESTAMP NULL 
+  `modifier` VARCHAR(64) NULL,s
+  `modify_time` TIMESTAMP NULL ,
   PRIMARY KEY (`userid`),
   UNIQUE INDEX `username_idx` (`username` ASC),
   UNIQUE INDEX `email` (`email` ASC));
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `domeke`.`Permission` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-INSERT INTO domeke.Permission(roleid,Permission,remark) VALUES(2,'all','拥有所有权限');
+INSERT INTO domeke.Permission(roleid,Permission,remark) VALUES(2,'all','鎷ユ湁鎵�湁鏉冮檺');
 
 
 
