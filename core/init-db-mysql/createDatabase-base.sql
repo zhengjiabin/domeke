@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `domeke`.`user` (
   `moblie` VARCHAR(32) NULL,
   `create_time` TIMESTAMP NULL ,
   `creater` VARCHAR(64) NULL,
-  `modifier` VARCHAR(64) NULL,s
+  `modifier` VARCHAR(64) NULL,
   `modify_time` TIMESTAMP NULL ,
   PRIMARY KEY (`userid`),
   UNIQUE INDEX `username_idx` (`username` ASC),
