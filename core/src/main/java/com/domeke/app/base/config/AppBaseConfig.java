@@ -5,8 +5,7 @@ import org.beetl.ext.jfinal.BeetlRenderFactory;
 import com.alibaba.druid.wall.WallFilter;
 import com.domeke.app.controller.HomeController;
 import com.domeke.app.controller.LoginController;
-import com.domeke.app.model.Role;
-import com.domeke.app.model.User;
+import com.domeke.app.shiro.ShiroPlugin;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -15,10 +14,7 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
-import com.jfinal.ext.plugin.shiro.ShiroPlugin;
-import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.tx.TxByActionMethods;
-import com.jfinal.plugin.activerecord.tx.TxByRegex;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 
@@ -45,24 +41,24 @@ public class AppBaseConfig extends JFinalConfig {
 	@Override
 	public void configInterceptor(Interceptors interceptors) {
 		interceptors.add(new SessionInViewInterceptor());
-		interceptors.add(new TxByActionMethods("save", "update","delete"));
+		interceptors.add(new TxByActionMethods("save", "update", "delete"));
 	}
 
 	@Override
 	public void configPlugin(Plugins plugins) {
 		plugins.add(new EhCachePlugin());
 		DruidPlugin druidPlugin = DruidDatasouceUtil.getDruidPlugin();
-//		plugins.add(druidPlugin);
+		// plugins.add(druidPlugin);
 
 		WallFilter wallFilter = new WallFilter();
 		wallFilter.setDbType(DomeKeConstants.DB_TYPE);
 		druidPlugin.addFilter(wallFilter);
 
 		// 配置ActiveRecord插件
-//		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-//		plugins.add(arp);
-//		arp.addMapping("user","userid" User.class);
-//		arp.addMapping("role", "roleid",Role.class);
+		// ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+		// plugins.add(arp);
+		// arp.addMapping("user","userid" User.class);
+		// arp.addMapping("role", "roleid",Role.class);
 		plugins.add(new ShiroPlugin(routes));
 	}
 

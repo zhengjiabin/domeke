@@ -7,9 +7,9 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 
+import com.domeke.app.shiro.ShiroInterceptor;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
-import com.jfinal.ext.plugin.shiro.ShiroInterceptor;
 
 /**
  * @author lijiasen@domeke.com
