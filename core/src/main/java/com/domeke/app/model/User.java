@@ -3,6 +3,8 @@
  */
 package com.domeke.app.model;
 
+import com.domeke.app.utils.EncryptUtils;
+import com.domeke.app.utils.HtmlTagKit;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
@@ -31,6 +33,22 @@ public class User extends Model<User> {
 	public User login(String username) {
 		String sql = "select password from user where username=? ";
 		return dao.findFirst(sql, username);
+	}
+
+	public void saveUser() {
+		HtmlTagKit.processHtmlSpecialTag(this, "username");
+		String pasword = EncryptUtils.encryptMd5(this.getStr("password"));
+		this.set("password", pasword);
+		this.save();
+	}
+
+	public void updateUser() {
+		HtmlTagKit.processHtmlSpecialTag(this, "username", "headImg", "blogUrl", "feeling");
+		this.update();
+	}
+
+	public void updatePassword() {
+		this.update();
 	}
 
 }
