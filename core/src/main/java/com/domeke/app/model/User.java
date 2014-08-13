@@ -36,19 +36,25 @@ public class User extends Model<User> {
 	}
 
 	public void saveUser() {
-		HtmlTagKit.processHtmlSpecialTag(this, "username");
+		HtmlTagKit.processHtmlSpecialTag(this, "username", "email", "mobile");
 		String pasword = EncryptUtils.encryptMd5(this.getStr("password"));
 		this.set("password", pasword);
 		this.save();
 	}
 
 	public void updateUser() {
-		HtmlTagKit.processHtmlSpecialTag(this, "username", "headImg", "blogUrl", "feeling");
+		HtmlTagKit.processHtmlSpecialTag(this, "email", "mobile");
 		this.update();
 	}
 
 	public void updatePassword() {
 		this.update();
+	}
+
+	public boolean containColumn(String column, String paras) {
+		String sql = " select  1 from user where " + column + "= ? limit 1 ";
+		User user = dao.findFirst(sql, paras);
+		return user != null;
 	}
 
 }

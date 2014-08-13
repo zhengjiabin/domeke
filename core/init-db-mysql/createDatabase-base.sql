@@ -1,9 +1,10 @@
 CREATE TABLE IF NOT EXISTS `domeke`.`user` (
   `userid` BIGINT(20) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(16) NOT NULL,
+   `nickname` VARCHAR(64) NULL,
   `password` VARCHAR(32) NOT NULL,
   `email` VARCHAR(255) NULL,
-  `moblie` VARCHAR(32) NULL,
+  `mobile` VARCHAR(32) NULL,
   `create_time` TIMESTAMP NULL ,
   `creater` VARCHAR(64) NULL,
   `modifier` VARCHAR(64) NULL,
@@ -11,6 +12,7 @@ CREATE TABLE IF NOT EXISTS `domeke`.`user` (
   PRIMARY KEY (`userid`),
   UNIQUE INDEX `username_idx` (`username` ASC),
   UNIQUE INDEX `email` (`email` ASC));
+  
   
 INSERT INTO domeke.user
 (username, password, email, moblie, create_time, creater, modifier, modify_time)

@@ -42,7 +42,7 @@ public class LoginController extends Controller {
 	public void logout() {
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
-		render("/login.html");
+		render("/demo/login.html");
 	}
 
 }
