@@ -23,7 +23,7 @@ public class UserController extends Controller {
 		render("/demo/regist.html");
 	}
 
-	@Before(RegistValidator.class)
+//	@Before(RegistValidator.class)
 	public void regist() {
 		User user = getModel(User.class);
 		user.saveUser();
