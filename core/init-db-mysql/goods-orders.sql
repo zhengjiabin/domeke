@@ -12,9 +12,9 @@ tamllurl	varchar(255) NOT NULL ,
 submitdate	int(14) unsigned NOT NULL ,
 status	char(3) NOT NULL ,
 create_time  timestamp not null default current_timestamp ,
-creater	mediumint(8) unsigned NOT NULL ,
+creater		varchar(64) unsigned NOT NULL ,
 modify_time	 timestamp not null default current_timestamp ,
-modifier	mediumint(8) unsigned NOT NULL 
+modifier	varchar(64) unsigned NOT NULL 
 );
 
 DROP TABLE IF EXISTS orders;
@@ -31,7 +31,7 @@ confirmdate	int(10) unsigned NOT NULL,
 email	char(40) NOT NULL,
 ip	char(15) NOT NULL,
 create_time	timestamp not null default current_timestamp ,
-creater	mediumint(8) unsigned NOT NULL,
+creater	varchar(64) unsigned NOT NULL,
 modify_time	timestamp not null default current_timestamp ,
-modifier	mediumint(8) unsigned NOT NULL
+modifier	varchar(64) unsigned NOT NULL
 );
