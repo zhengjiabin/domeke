@@ -1,7 +1,7 @@
 
-DROP TABLE IF EXISTS pre_goods;
-CREATE TABLE IF NOT EXISTS pre_goods (
-goodsid	char(32) NOT NULL PRIMARY KEY,
+DROP TABLE IF EXISTS goods;
+CREATE TABLE IF NOT EXISTS goods (
+goodsid	BIGINT(32) PRIMARY KEY NOT NULL AUTO_INCREMENT,
 goods 	char(50) NOT NULL ,
 goodsname	varchar(255) NOT NULL ,
 price	float(7,2) unsigned NOT NULL ,
@@ -19,7 +19,7 @@ modifier	mediumint(8) unsigned NOT NULL
 
 DROP TABLE IF EXISTS orders;
 CREATE TABLE IF NOT EXISTS orders (
-orderid	char(32) NOT NULL PRIMARY KEY,
+orderid	BIGINT(32) PRIMARY KEY NOT NULL AUTO_INCREMENT,
 goodsid	char(32) NOT NULL ,
 status	char(3) NOT NULL,
 buyer	char(50) NOT NULL,
