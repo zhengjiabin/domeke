@@ -1,7 +1,7 @@
 
 DROP TABLE IF EXISTS goods;
 CREATE TABLE IF NOT EXISTS goods (
-goodsid	BIGINT(32) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+goodsid	BIGINT(32) PRIMARY KEY NOT NULL AUTO_INCREMENT ,
 goods 	char(50) NOT NULL ,
 goodsname	varchar(255) NOT NULL ,
 price	float(7,2) unsigned NOT NULL ,
