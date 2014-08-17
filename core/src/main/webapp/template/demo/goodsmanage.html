@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>商品</title>
+<base href="${core}/" />
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+<body>
+	<a href="goods/goAddGoods">添加商品信息</a>
+	<div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>商城类目</th>
+				<th>商品名称</th>
+				<th>价格</th>
+				<th>商品数量</th>
+				<th>商品描述</th>
+				<th>淘宝地址</th>
+				<th>发布时间</th>
+				<th>状态</th>
+				<th>创建人</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% 
+			var index = 0 ;
+			for(goods in goodslist){
+				index = index + 1 ;
+			%>
+			<tr>
+				<td>${index}</td>
+				<td>${goods.goods!}</td>
+				<td>${goods.goodsname!}</td>
+				<td>${goods.price!}</td>
+				<td>${goods.amount!}</td>
+				<td>${goods.message!}</td>
+				<td>${goods.tamllurl!}</td>
+				<td>${goods.submitdate!}</td>
+				<td>${goods.status!}</td>
+				<td>${goods.creater!}</td>
+				<td> 
+                    <a href="goods/getGoodsById/${goods.goodsid}">修改</a>
+					<a href="goods/delete/${goods.goodsid}" onclick="return confirm('确定删除？')">删除</a>
+				</td>
+			</tr>
+			<% } %>
+		</tbody>
+	</table>
+	</div>
+</body>
+</html>
