@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>活动信息</title>
+<base href="${core}/" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Bootstrap -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+<script type="text/javascript" language="text/javascript">
+	function activityPage_goToPageSize(pageSize) {
+		location.href = "./activity/find?activityPage_pageSize=" + pageSize
+				+ "&activityPage_pageNumber=1";
+	};
+
+	function activityPage_pageSize(pageSize) {
+		var obj = document.getElementById('activityPage_pageSize');
+		for (var i = 0; i < obj.length; i++) {
+			if (pageSize == obj.options[i].value) {
+				obj.options[i].selected = true;
+			} else {
+				obj.options[i].selected = false;
+			}
+
+		}
+	}
+</script>
+
+</head>
+
+<body onload="activityPage_pageSize(${activityPage.pageSize})">
+	<form action="activityapply/save" id="activityapply_save"
+		class="form-horizontal" method="post">
+		<div class="control-group">
+			<h1>
+				<a href="activity/addActivity">活动申请 </a>
+			</h1>
+			<hr>
+			每页<select name="activityPage_pageSize" id="activityPage_pageSize"
+				onchange="activityPage_goToPageSize(this.value)">
+				<option value="2" selected="true">2</option>
+				<option value="3">3</option>
+				<option value="5">5</option>
+				<option value="8">8</option>
+				<option value="10">10</option>
+			</select>条&nbsp;共${activityPage.totalRow!}条&nbsp;第${activityPage.pageNumber!}
+			/${activityPage.totalPage!}页 <a
+				href="./activity/find?activityPage_pageNumber=1">首页</a> <a
+				href="./activity/find?activityPage_pageNumber=${activityPage.pageNumber!-1<1?1:activityPage.pageNumber!-1}">上页</a>
+			<a
+				href="./activity/find?activityPage_pageNumber=${activityPage.pageNumber!+1>activityPage.totalPage!?activityPage.totalPage!:activityPage.pageNumber!+1}">下页</a>
+			<a
+				href="./activity/find?activityPage_pageNumber=${activityPage.totalPage!}">末页</a>
+			<table>
+				<thead>
+					<tr>
+						<td style="width: 250px">每人花销</td>
+						<td style="width: 250px">开始时间</td>
+						<td style="width: 250px">结束时间</td>
+						<td style="width: 250px">地点</td>
+						<td style="width: 250px">类别、活动分类</td>
+						<td style="width: 250px">性别</td>
+						<td style="width: 250px">人数</td>
+						<td style="width: 250px">已参加人数</td>
+						<td style="width: 250px">报名截止日期</td>
+						<td style="width: 250px">活动详细内容</td>
+						<td style="width: 250px">需消耗积分</td>
+						<td style="width: 250px">操作</td>
+					</tr>
+				</thead>
+				<tbody>
+					<% for (activity in activityPage.list){ %>
+					<tr>
+						<td>${activity.cost!}</td>
+						<td>${activity.starttimefrom!}</td>
+						<td>${activity.starttimeto!}</td>
+						<td>${activity.place!}</td>
+						<td>${activity.class!}</td>
+						<td>${activity.gender!}</td>
+						<td>${activity.number!}</td>
+						<td>${activity.applynumber!}</td>
+						<td>${activity.expiration!}</td>
+						<td>${activity.ufield!}</td>
+						<td>${activity.credit!}</td>
+						<td><a href="./activity/findById/${activity.activityid}">修改</a>
+							<a href="./activity/deleteById/${activity.activityid}"
+							onclick="return confirm('确定删除？')">删除</a></td>
+					</tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">提交</button>
+			<button type="button" class="btn">取消</button>
+		</div>
+	</form>
+</body>
+
+</html>
