@@ -1,6 +1,6 @@
-package com.domeke.app.controller.community;
+package com.domeke.app.controller;
 
-import com.domeke.app.model.community.Post;
+import com.domeke.app.model.Post;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -17,7 +17,7 @@ public class PostController extends Controller {
 		Page<Post> postPage = Post.dao.paginate(pageNumber, pageSize,
 				"select *", "from post order by create_time");
 		setAttr("postPage", postPage);
-		render("/community/post.html");
+		render("/demo/post.html");
 	}
 
 	/**
@@ -29,7 +29,7 @@ public class PostController extends Controller {
 		int postid = getParaToInt();
 		Post post = Post.dao.findById(postid);
 		setAttr("post", post);
-		render("/community/modifyPost.html");
+		render("/demo/modifyPost.html");
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class PostController extends Controller {
 	 * 跳转帖子申请
 	 */
 	public void skipCreate() {
-		render("/community/createPost.html");
+		render("/demo/createPost.html");
 	}
 
 	/**
@@ -67,6 +67,6 @@ public class PostController extends Controller {
 	}
 
 	public void index() {
-		render("/community/post.html");
+		render("/demo/post.html");
 	}
 }

@@ -1,4 +1,4 @@
-package com.domeke.app.model.community;
+package com.domeke.app.model;
 
 import com.jfinal.plugin.activerecord.Model;
 

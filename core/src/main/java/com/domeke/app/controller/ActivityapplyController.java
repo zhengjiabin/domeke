@@ -1,6 +1,6 @@
-package com.domeke.app.controller.community;
+package com.domeke.app.controller;
 
-import com.domeke.app.model.community.Activityapply;
+import com.domeke.app.model.Activityapply;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -18,7 +18,7 @@ public class ActivityapplyController extends Controller {
 				pageNumber, pageSize, "select *",
 				"from activityapply order by create_time");
 		setAttr("activityapplyPage", activityapplyPage);
-		render("/community/activityapply.html");
+		render("/demo/activityapply.html");
 	}
 
 	/**
@@ -31,7 +31,7 @@ public class ActivityapplyController extends Controller {
 		Activityapply activityapply = Activityapply.dao
 				.findById(activityapplyid);
 		setAttr("activityapply", activityapply);
-		render("/community/modifyActivityapply.html");
+		render("/demo/modifyActivityapply.html");
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class ActivityapplyController extends Controller {
 	 * 跳转活动申请
 	 */
 	public void skipCreate() {
-		render("/community/createActivityapply.html");
+		render("/demo/createActivityapply.html");
 	}
 
 	/**
@@ -69,6 +69,6 @@ public class ActivityapplyController extends Controller {
 	}
 
 	public void index() {
-		render("/community/activityapply.html");
+		render("/demo/activityapply.html");
 	}
 }

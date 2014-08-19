@@ -1,6 +1,6 @@
-package com.domeke.app.controller.community;
+package com.domeke.app.controller;
 
-import com.domeke.app.model.community.Activity;
+import com.domeke.app.model.Activity;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -17,7 +17,7 @@ public class ActivityController extends Controller {
 		Page<Activity> activityPage = Activity.dao.paginate(pageNumber,
 				pageSize, "select *", "from activity order by create_time");
 		setAttr("activityPage", activityPage);
-		render("/community/activity.html");
+		render("/demo/activity.html");
 	}
 
 	/**
@@ -29,7 +29,7 @@ public class ActivityController extends Controller {
 		int activityid = getParaToInt();
 		Activity activity = Activity.dao.findById(activityid);
 		setAttr("activity", activity);
-		render("/community/modifyActivity.html");
+		render("/demo/modifyActivity.html");
 	}
 
 	/**
@@ -51,6 +51,6 @@ public class ActivityController extends Controller {
 	}
 
 	public void index() {
-		render("/community/activity.html");
+		render("/demo/activity.html");
 	}
 }
