@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `treasureapprove`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `treasureapprove` (
-  `treasureapproveid` int(10) unsigned NOT NULL DEFAULT '0',
+  `treasureapproveid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `treasureid` int(10) unsigned NOT NULL,
   `status` tinyint(3) NOT NULL DEFAULT '0',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

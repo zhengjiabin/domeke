@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `attachment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `attachment` (
-  `aattachmentid` mediumint(8) unsigned NOT NULL,
+  `aattachmentid` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `postid` int(10) unsigned NOT NULL DEFAULT '0',
   `uid` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `dateline` int(14) unsigned NOT NULL DEFAULT '0',

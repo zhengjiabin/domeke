@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>活动信息</title>
+<base href="${core}/" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Bootstrap -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+<script type="text/javascript" language="text/javascript">
+	function postPage_goToPageSize(pageSize) {
+		location.href = "./post/find?postPage_pageSize=" + pageSize
+				+ "&postPage_pageNumber=1";
+	};
+
+	function postPage_pageSize(pageSize) {
+		var obj = document.getElementById('postPage_pageSize');
+		for (var i = 0; i < obj.length; i++) {
+			if (pageSize == obj.options[i].value) {
+				obj.options[i].selected = true;
+			} else {
+				obj.options[i].selected = false;
+			}
+
+		}
+	}
+</script>
+
+</head>
+
+<body onload="postPage_pageSize(${postPage.pageSize})">
+	<form action="post/save" id="post_save"
+		class="form-horizontal" method="post">
+		<div class="control-group">
+			<h1>
+				<a href="post/skipPost">帖子申请</a>
+			</h1>
+			<hr>
+			每页<select name="postPage_pageSize" id="postPage_pageSize"
+				onchange="postPage_goToPageSize(this.value)">
+				<option value="2" selected="true">2</option>
+				<option value="3">3</option>
+				<option value="5">5</option>
+				<option value="8">8</option>
+				<option value="10">10</option>
+			</select>条&nbsp;共${postPage.totalRow!}条&nbsp;第${postPage.pageNumber!}
+			/${postPage.totalPage!}页 <a
+				href="./post/find?postPage_pageNumber=1">首页</a> <a
+				href="./post/find?postPage_pageNumber=${postPage.pageNumber!-1<1?1:postPage.pageNumber!-1}">上页</a>
+			<a
+				href="./post/find?postPage_pageNumber=${postPage.pageNumber!+1>postPage.totalPage!?postPage.totalPage!:postPage.pageNumber!+1}">下页</a>
+			<a
+				href="./post/find?postPage_pageNumber=${postPage.totalPage!}">末页</a>
+			<table>
+				<thead>
+					<tr>
+						<td style="width: 250px">作者姓名</td>
+						<td style="width: 250px">标题</td>
+						<td style="width: 250px">发帖时间</td>
+						<td style="width: 250px">帖子内容</td>
+						<td style="width: 250px">是否通过审核</td>
+						<td style="width: 250px">是否匿名</td>
+						<td style="width: 250px">是否启用签名</td>
+						<td style="width: 250px">是否有附件</td>
+						<td style="width: 250px">评分分数</td>
+						<td style="width: 250px">评分次数</td>
+						<td style="width: 250px">帖子状态</td>
+						<td style="width: 250px">是否存在点评</td>
+						<td style="width: 250px">回帖获得积分记录</td>
+						<td style="width: 250px">操作</td>
+					</tr>
+				</thead>
+				<tbody>
+					<% for (post in postPage.list){ %>
+					<tr>
+						<td>${post.author!}</td>
+						<td>${post.subject!}</td>
+						<td>${post.dateline!}</td>
+						<td>${post.message!}</td>
+						<td>${post.invisible!}</td>
+						<td>${post.anonymous!}</td>
+						<td>${post.usesig!}</td>
+						<td>${post.attachment!}</td>
+						<td>${post.rate!}</td>
+						<td>${post.ratetimes!}</td>
+						<td>${post.status!}</td>
+						<td>${post.comment!}</td>
+						<td>${post.replycredit!}</td>
+						<td><a href="./post/findById/${post.postid}">修改</a>
+							<a href="./post/deleteById/${post.postid}"
+							onclick="return confirm('确定删除？')">删除</a></td>
+					</tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">提交</button>
+			<button type="button" class="btn">取消</button>
+		</div>
+	</form>
+</body>
+
+</html>

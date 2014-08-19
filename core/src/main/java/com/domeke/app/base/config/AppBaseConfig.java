@@ -6,8 +6,14 @@ import com.alibaba.druid.wall.WallFilter;
 import com.domeke.app.controller.HomeController;
 import com.domeke.app.controller.LoginController;
 import com.domeke.app.controller.UserController;
+import com.domeke.app.controller.community.ActivityController;
+import com.domeke.app.controller.community.ActivityapplyController;
+import com.domeke.app.controller.community.PostController;
 import com.domeke.app.model.Role;
 import com.domeke.app.model.User;
+import com.domeke.app.model.community.Activity;
+import com.domeke.app.model.community.Activityapply;
+import com.domeke.app.model.community.Post;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -44,7 +50,8 @@ public class AppBaseConfig extends JFinalConfig {
 	@Override
 	public void configInterceptor(Interceptors interceptors) {
 		interceptors.add(new SessionInViewInterceptor());
-		interceptors.add(new TxByActionMethods("save", "update", "delete", "regist"));
+		interceptors.add(new TxByActionMethods("save", "update", "delete",
+				"regist"));
 	}
 
 	@Override
@@ -62,7 +69,9 @@ public class AppBaseConfig extends JFinalConfig {
 		plugins.add(arp);
 		arp.addMapping("user", "userid", User.class);
 		arp.addMapping("role", "roleid", Role.class);
-		// plugins.add(new ShiroPlugin(routes));
+		arp.addMapping("activity", "activityid", Activity.class);
+		arp.addMapping("activityapply", "activityapplyid", Activityapply.class);
+		arp.addMapping("post", "postid", Post.class);
 	}
 
 	@Override
@@ -71,6 +80,9 @@ public class AppBaseConfig extends JFinalConfig {
 		routes.add("/login", LoginController.class);
 		routes.add("/user", UserController.class);
 		routes.add("/home", HomeController.class);
+		routes.add("/activity", ActivityController.class);
+		routes.add("/activityapply", ActivityapplyController.class);
+		routes.add("/post", PostController.class);
 	}
 
 }

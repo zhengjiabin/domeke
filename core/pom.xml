@@ -75,6 +75,22 @@
 			<version>2.3.20</version>
 		</dependency>
 		<!-- FREEMARKER 依赖 END -->
+		
+		<!-- servlet 依赖 START -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.3</version>
+		</dependency>
+		<!-- servlet 依赖 END -->
+		
+		<!-- mysql 依赖 START -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.24</version>
+		</dependency>
+		<!-- mysql 依赖 END -->
 
 		<!-- SL4J 依赖 START -->
 		<dependency>
@@ -144,13 +160,6 @@
 			<artifactId>beetl-core</artifactId>
 			<version>2.0.10</version>
 		</dependency>
-		
-		<dependency>
-	<groupId>mysql</groupId>
-	<artifactId>mysql-connector-java</artifactId>
-	<version>5.1.31</version>
-</dependency>
-		
 
 	</dependencies>
 </project>

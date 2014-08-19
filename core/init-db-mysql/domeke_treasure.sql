@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `treasure`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `treasure` (
-  `treasureid` int(10) unsigned NOT NULL,
+  `treasureid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `author` varchar(15) NOT NULL,
   `authorid` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(80) NOT NULL,
