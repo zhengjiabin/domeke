@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>商品</title>
+<base href="${core}/" />
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+<body>
+	<a href="#">添加我的收藏</a>
+	<div>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+			我的收藏记录${favouritelist.~size}
+			</tr>
+			<tr>
+				<th>序号</th>
+				<th>cartoon_name</th>
+				<th>section_name</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% 
+			var index = 0 ;
+			for(f in favouritelist){
+				index = index + 1 ;
+			%>
+			<tr>
+				<td>${index}</td>
+				<td>${f.cartoon_name!}</td>
+				<td>${f.section_name!}</td>
+				<td> 
+                    <a href="fav/selectById/${f.FavouriteId}">修改</a>
+					<a href="fav/getDeleteFavourite/${f.FavouriteId}" onclick="return confirm('确定删除？')">删除</a>
+				</td>
+			</tr>
+			<% } %>
+		</tbody>
+	</table>
+	</div>
+</body>
+</html>

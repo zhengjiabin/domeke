@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title></title>
+	<base href="${core}/"/>
+     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+<body>
+   <div>
+     <form class="form-signin" action="fav/goUpFavourite" method="post">
+        <h2 class="form-signin-heading">编辑收藏</h2>
+        	<input name="favourite.FavouriteId" value="${favourite.FavouriteId}" type="text" class="span6 m-wrap" style="display:none"/><br>
+        	<label class="control-label">cartoon_name：</label>
+        	<input name="favourite.cartoon_name" value="${favourite.cartoon_name!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">section_name：</label>
+        	<input name="favourite.section_name" value="${favourite.section_name!}" type="text" class="span6 m-wrap" /><br>
+        <button class="btn btn-large btn-primary" type="submit" >保存修改</button>
+      </form>
+    </div>
+</body>
+</html>
