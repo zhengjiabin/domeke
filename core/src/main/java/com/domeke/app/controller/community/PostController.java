@@ -14,8 +14,8 @@ public class PostController extends Controller {
 	public void find() {
 		int pageNumber = getParaToInt("postPage_pageNumber", 1);
 		int pageSize = getParaToInt("postPage_pageSize", 2);
-		Page<Post> postPage = Post.dao.paginate(pageNumber,
-				pageSize, "select *", "from post order by create_time");
+		Page<Post> postPage = Post.dao.paginate(pageNumber, pageSize,
+				"select *", "from post order by create_time");
 		setAttr("postPage", postPage);
 		render("/community/post.html");
 	}
@@ -47,6 +47,22 @@ public class PostController extends Controller {
 	public void deleteById() {
 		int postid = getParaToInt();
 		Post.dao.deleteById(postid);
+		find();
+	}
+
+	/**
+	 * 跳转帖子申请
+	 */
+	public void skipCreate() {
+		render("/community/createPost.html");
+	}
+
+	/**
+	 * 创建帖子申请
+	 */
+	public void create() {
+		Post post = getModel(Post.class);
+		post.save();
 		find();
 	}
 
