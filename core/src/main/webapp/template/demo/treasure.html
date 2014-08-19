@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>活动信息</title>
+<base href="${core}/" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Bootstrap -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+<script type="text/javascript" language="text/javascript">
+	function treasurePage_goToPageSize(pageSize) {
+		location.href = "./treasure/find?treasurePage_pageSize=" + pageSize
+				+ "&treasurePage_pageNumber=1";
+	};
+
+	function treasurePage_pageSize(pageSize) {
+		var obj = document.getElementById('treasurePage_pageSize');
+		for (var i = 0; i < obj.length; i++) {
+			if (pageSize == obj.options[i].value) {
+				obj.options[i].selected = true;
+			} else {
+				obj.options[i].selected = false;
+			}
+
+		}
+	}
+</script>
+
+</head>
+
+<body onload="treasurePage_pageSize(${treasurePage.pageSize!})">
+	<form action="treasureapply/save" id="treasureapply_save"
+		class="form-horizontal" method="post">
+		<div class="control-group">
+			<h1>
+				<a href="./treasure/skipCreate">活动申请 </a>
+			</h1>
+			<hr>
+			每页<select name="treasurePage_pageSize" id="treasurePage_pageSize"
+				onchange="treasurePage_goToPageSize(this.value)">
+				<option value="2" selected="true">2</option>
+				<option value="3">3</option>
+				<option value="5">5</option>
+				<option value="8">8</option>
+				<option value="10">10</option>
+			</select>条&nbsp;共${treasurePage.totalRow!}条&nbsp;第${treasurePage.pageNumber!}
+			/${treasurePage.totalPage!}页 <a
+				href="./treasure/find?treasurePage_pageNumber=1">首页</a> <a
+				href="./treasure/find?treasurePage_pageNumber=${treasurePage.pageNumber!-1<1?1:treasurePage.pageNumber!-1}">上页</a>
+			<a
+				href="./treasure/find?treasurePage_pageNumber=${treasurePage.pageNumber!+1>treasurePage.totalPage!?treasurePage.totalPage!:treasurePage.pageNumber!+1}">下页</a>
+			<a
+				href="./treasure/find?treasurePage_pageNumber=${treasurePage.totalPage!}">末页</a>
+			<table>
+				<thead>
+					<tr>
+						<td style="width: 250px">作者姓名</td>
+						<td style="width: 250px">标题</td>
+						<td style="width: 250px">发表时间</td>
+						<td style="width: 250px">内容</td>
+						<td style="width: 250px">是否通过审核</td>
+						<td style="width: 250px">是否匿名</td>
+						<td style="width: 250px">是否启用签名</td>
+						<td style="width: 250px">是否有附件</td>
+						<td style="width: 250px">评分分数</td>
+						<td style="width: 250px">评分次数</td>
+						<td style="width: 250px">状态</td>
+						<td style="width: 250px">是否存在点评</td>
+						<td style="width: 250px">回复活动积分记录</td>
+						<td style="width: 250px">操作</td>
+					</tr>
+				</thead>
+				<tbody>
+					<% for (treasure in treasurePage.list){ %>
+					<tr>
+						<td>${treasure.author!}</td>
+						<td>${treasure.subject!}</td>
+						<td>${treasure.dateline!}</td>
+						<td>${treasure.message!}</td>
+						<td>${treasure.invisible!}</td>
+						<td>${treasure.anonymous!}</td>
+						<td>${treasure.usesig!}</td>
+						<td>${treasure.attachment!}</td>
+						<td>${treasure.rate!}</td>
+						<td>${treasure.status!}</td>
+						<td>${treasure.comment!}</td>
+						<td>${treasure.replycredit!}</td>
+						<td><a href="./treasure/findById/${treasure.treasureid}">修改</a>
+							<a href="./treasure/deleteById/${treasure.treasureid}"
+							onclick="return confirm('确定删除？')">删除</a></td>
+					</tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">提交</button>
+			<button type="button" class="btn">取消</button>
+		</div>
+	</form>
+</body>
+
+</html>
