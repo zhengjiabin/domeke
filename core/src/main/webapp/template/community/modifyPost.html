@@ -83,7 +83,7 @@
 		<div class="control-group">
 			<label class="control-label">评分分数<span class="required">*</span></label>
 			<div class="controls">
-				<input type="datetime" name="post.rate"
+				<input type="text" name="post.rate"
 					value="${post.rate!}" class="span6 m-wrap" />
 			</div>
 		</div>
@@ -97,10 +97,18 @@
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">需消耗积分<span class="required">*</span></label>
+			<label class="control-label">是否存在点评<span class="required">*</span></label>
 			<div class="controls">
-				<input type="text" name="post.credit"
-					value="${post.credit!}" class="span6 m-wrap" />
+				<input type="text" name="post.comment"
+					value="${post.comment!}" class="span6 m-wrap" />
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label">回帖获得积分记录<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="post.replycredit"
+					value="${post.replycredit!}" class="span6 m-wrap" />
 			</div>
 		</div>
 
