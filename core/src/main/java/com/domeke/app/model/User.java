@@ -3,6 +3,7 @@
  */
 package com.domeke.app.model;
 
+import com.domeke.app.tablebind.TableBind;
 import com.domeke.app.utils.EncryptUtils;
 import com.domeke.app.utils.HtmlTagKit;
 import com.jfinal.plugin.activerecord.Model;
@@ -24,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `domeke`.`user` (
   UNIQUE INDEX `username_idx` (`username` ASC),
   UNIQUE INDEX `email` (`email` ASC));
  */
+@TableBind(tableName = "user", pkName = "userid")
 public class User extends Model<User> {
 
 	private static final long serialVersionUID = 1L;

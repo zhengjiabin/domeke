@@ -3,6 +3,7 @@
  */
 package com.domeke.app.model;
 
+import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
@@ -18,6 +19,7 @@ CREATE TABLE IF NOT EXISTS `domeke`.`role` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
  */
+@TableBind(tableName = "role", pkName = "roleid")
 public class Role extends Model<Role> {
 	public static Role dao = new Role();
 

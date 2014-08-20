@@ -2,6 +2,10 @@ package com.domeke.app.controller;
 
 import java.util.List;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+
 import com.domeke.app.model.Favourite;
 import com.jfinal.core.Controller;
 /**

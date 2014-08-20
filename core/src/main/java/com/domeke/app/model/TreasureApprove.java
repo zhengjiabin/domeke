@@ -14,6 +14,6 @@ CREATE TABLE `treasureapprove` (
   PRIMARY KEY (`treasureapproveid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 */
-public class Treasureapprove extends Model<Treasureapprove>{
-	public static Treasureapprove dao = new Treasureapprove();
+public class TreasureApprove extends Model<TreasureApprove>{
+	public static TreasureApprove dao = new TreasureApprove();
 }

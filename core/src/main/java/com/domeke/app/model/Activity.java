@@ -29,5 +29,5 @@ import com.jfinal.plugin.activerecord.Model;
  */
 public class Activity extends Model<Activity> {
 	public static Activity dao = new Activity();
-	
+
 }
