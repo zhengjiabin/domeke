@@ -1,6 +1,6 @@
 package com.domeke.app.controller;
 
-import com.domeke.app.model.Treasureapprove;
+import com.domeke.app.model.TreasureApprove;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -14,7 +14,7 @@ public class TreasureApproveController extends Controller {
 	public void find() {
 		int pageNumber = getParaToInt("treasureApprovePage_pageNumber", 1);
 		int pageSize = getParaToInt("treasureApprovePage_pageSize", 2);
-		Page<Treasureapprove> treasureApprovePage = Treasureapprove.dao.paginate(
+		Page<TreasureApprove> treasureApprovePage = TreasureApprove.dao.paginate(
 				pageNumber, pageSize, "select *",
 				"from treasureApprove order by create_time");
 		setAttr("treasureApprovePage", treasureApprovePage);
@@ -28,7 +28,7 @@ public class TreasureApproveController extends Controller {
 	 */
 	public void findById() {
 		int treasureApproveid = getParaToInt();
-		Treasureapprove treasureApprove = Treasureapprove.dao
+		TreasureApprove treasureApprove = TreasureApprove.dao
 				.findById(treasureApproveid);
 		setAttr("treasureApprove", treasureApprove);
 		render("/demo/modifytreasureApprove.html");
@@ -38,7 +38,7 @@ public class TreasureApproveController extends Controller {
 	 * 修改活动信息
 	 */
 	public void modify() {
-		Treasureapprove treasureApprove = getModel(Treasureapprove.class);
+		TreasureApprove treasureApprove = getModel(TreasureApprove.class);
 		treasureApprove.update();
 		find();
 	}
@@ -48,7 +48,7 @@ public class TreasureApproveController extends Controller {
 	 */
 	public void deleteById() {
 		int treasureApproveid = getParaToInt();
-		Treasureapprove.dao.deleteById(treasureApproveid);
+		TreasureApprove.dao.deleteById(treasureApproveid);
 		find();
 	}
 
@@ -63,7 +63,7 @@ public class TreasureApproveController extends Controller {
 	 * 创建宝贝
 	 */
 	public void create() {
-		Treasureapprove treasureApprove = getModel(Treasureapprove.class);
+		TreasureApprove treasureApprove = getModel(TreasureApprove.class);
 		treasureApprove.save();
 		find();
 	}
