@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>帖子审核</title>
+<base href="${core}/" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Bootstrap -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+</head>
+
+<body>
+	<form action="comment/create" id="comment_create"
+		class="form-horizontal" method="post">
+
+		<div class="control-group">
+			<label class="control-label">评论ID<span class="required">*</span></label>
+			<div class="controls">
+				<input type="hidden" name="comment.commentid"
+					value="${comment.commentid!}" class="span6 m-wrap" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">评论对象id<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="comment.idtype" value="${comment.idtype!}"
+					class="span6 m-wrap" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">用户名<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="comment.author" value="${comment.author!}"
+					class="span6 m-wrap" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">评论ip<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="comment.ip" value="${comment.ip!}"
+					class="span6 m-wrap" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">评论时间<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="comment.dateline"
+					value="${comment.dateline!}" class="span6 m-wrap" />
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">评论内容<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="comment.message"
+					value="${comment.message!}" class="span6 m-wrap" />
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">提交</button>
+			<button type="button" class="btn">取消</button>
+		</div>
+	</form>
+</body>
+
+</html>
