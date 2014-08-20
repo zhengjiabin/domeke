@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `domeke` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `domeke`;
 -- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
 -- Host: localhost    Database: domeke
@@ -29,7 +27,7 @@ CREATE TABLE `treasure` (
   `author` varchar(15) NOT NULL,
   `authorid` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(80) NOT NULL,
-  `dateline` timestamp NOT NULL ,
+  `dateline` int(10) unsigned NOT NULL DEFAULT '0',
   `message` text NOT NULL,
   `useip` varchar(15) NOT NULL,
   `invisible` tinyint(1) NOT NULL DEFAULT '0',
