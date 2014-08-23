@@ -12,12 +12,12 @@
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <body>
-	<a href="favourite/goFavourite">添加我的收藏</a>
+	<a href="#">添加我的收藏</a>
 	<div>
 	<table class="table table-striped">
 		<thead>
 			<tr>
-			我的收藏记录${favouritelist.~size}
+			我的收藏记录${favouriteList.~size}
 			</tr>
 			<tr>
 				<th>序号</th>
@@ -28,7 +28,7 @@
 		<tbody>
 			<% 
 			var index = 0 ;
-			for(f in favouritelist){
+			for(f in favouriteList){
 				index = index + 1 ;
 			%>
 			<tr>
@@ -36,8 +36,8 @@
 				<td>${f.cartoon_name!}</td>
 				<td>${f.section_name!}</td>
 				<td> 
-                    <a href="favourite/selectById/${f.FavouriteId}">修改</a>
-					<a href="favourite/getDeleteFavourite/${f.FavouriteId}" onclick="return confirm('确定删除？')">删除</a>
+                    <a href="favourite/selectFavouriteById/${f.favouriteid}">修改</a>
+					<a href="favourite/deleteFavourite/${f.favouriteid}" onclick="return confirm('确定删除？')">删除</a>
 				</td>
 			</tr>
 			<% } %>

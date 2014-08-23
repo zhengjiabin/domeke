@@ -2,7 +2,9 @@ package com.domeke.app.model;
 
 import java.util.List;
 
+import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.ehcache.CacheKit;
 
 /**
  * @author 陈智聪
@@ -21,9 +23,10 @@ CREATE TABLE `favourite` (
   PRIMARY KEY (`favouriteid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
  */
+@TableBind(tableName="favourite", pkName="favouriteid")
 public class Favourite extends Model<Favourite> {
 	
-	public static Favourite dao = new Favourite();
+	public static Favourite favouriteDao = new Favourite();
 	
 	/**
 	 * 新增
@@ -34,25 +37,43 @@ public class Favourite extends Model<Favourite> {
 	
 	/**
 	 * 查询
-	 * @return
+	 * @return 查询列表
 	 */
-	public List<Favourite> getFavouriteList(){
-		List<Favourite> favouritelist = dao.findByCache("favouritelist", "key", "select * from favourite");					
-		return favouritelist;	
+	public List<Favourite> selectFavourite(){
+		List<Favourite> favouriteList = this.find("select * from favourite");
+		return favouriteList;
 	}
 	
 	/**
-	 * 删除
-	 * @param favouriteid
+	 * 根据
+	 * @param 
+	 * @return 
 	 */
-	public void deleteFavourite(int favouriteid){
-		dao.deleteById(favouriteid);
+	public Favourite selectFavouriteById(int favouriteid){
+		Favourite favourite = this.findById(favouriteid);
+		return favourite;
 	}
 	
 	/**
 	 * 更新
 	 */
 	public void updateFavourite(){
-		dao.update();
+		this.update();
 	}
+	
+	/**
+	 * 删除
+	 * @param 
+	 */
+	public void deleteFavourite(int favouriteid){
+		this.deleteById(favouriteid);
+	}
+	
+	/**
+	 * 删除缓存
+	 */
+	public void removeCache(){
+		CacheKit.removeAll("Favourite");
+		CacheKit.removeAll("favouriteList");
+	}	
 }
