@@ -19,7 +19,7 @@ SET FOREIGN_KEY_CHECKS=0;
 -- Table structure for favourite
 -- ----------------------------
 DROP TABLE IF EXISTS `favourite`;
-CREATE TABLE `favourite` (
+CREATE TABLE `favourite` ( 
   `favouriteid` bigint(20) NOT NULL AUTO_INCREMENT,
   `userid` bigint(20) DEFAULT NULL,
   `cartoon_name` varchar(50) DEFAULT NULL COMMENT '卡通名称',
