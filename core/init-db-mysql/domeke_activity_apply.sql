@@ -19,14 +19,14 @@
 -- Table structure for table `activityapply`
 --
 
-DROP TABLE IF EXISTS `activityapply`;
+DROP TABLE IF EXISTS `activity_apply`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `activityapply` (
-  `activityapplyid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `activityid` mediumint(8) unsigned NOT NULL DEFAULT '0',
+CREATE TABLE `activity_apply` (
+  `activityapplyid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `activityid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `username` varchar(255) NOT NULL,
-  `uid` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `uid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `message` varchar(255) NOT NULL,
   `verified` tinyint(1) NOT NULL DEFAULT '0',
   `dateline` timestamp NOT NULL ,
@@ -34,11 +34,11 @@ CREATE TABLE `activityapply` (
   `ufielddata` text NOT NULL,
   `gender` tinyint(1) NOT NULL DEFAULT '0',
   `papers` tinyint(1) DEFAULT '0',
-  `papersid` varchar(30) DEFAULT '0',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `papersid` bigint(20) DEFAULT '0',
+  `createtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) NULL,
+  `modifier` bigint(20) NULL,
+  `modifytime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`activityapplyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -47,7 +47,7 @@ CREATE TABLE `activityapply` (
 -- Dumping data for table `activityapply`
 --
 
-LOCK TABLES `activityapply` WRITE;
+LOCK TABLES `activity_apply` WRITE;
 /*!40000 ALTER TABLE `activityapply` DISABLE KEYS */;
 /*!40000 ALTER TABLE `activityapply` ENABLE KEYS */;
 UNLOCK TABLES;

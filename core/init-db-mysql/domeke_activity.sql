@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `domeke` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `domeke`;
 -- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
 --
 -- Host: localhost    Database: domeke
@@ -25,9 +23,9 @@ DROP TABLE IF EXISTS `activity`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `activity` (
-  `activityid` mediumint(8) unsigned NOT NULL  AUTO_INCREMENT,
-  `uid` mediumint(8) NOT NULL DEFAULT '0' ,
-  `aid` mediumint(8) NOT NULL DEFAULT '0' ,
+  `activityid` bigint(20) unsigned NOT NULL  AUTO_INCREMENT,
+  `uid` bigint(20) NOT NULL DEFAULT '0' ,
+  `aid` bigint(20) NOT NULL DEFAULT '0' ,
   `cost` mediumint(8) NOT NULL DEFAULT '0',
   `starttimefrom` timestamp NOT NULL ,
   `starttimeto` timestamp NOT NULL ,
@@ -40,10 +38,10 @@ CREATE TABLE `activity` (
   `ufield` text NOT NULL,
   `credit` smallint(6) unsigned NOT NULL DEFAULT '0',
   `status` tinyint(1) DEFAULT NULL,
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `createtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) NULL,
+  `modifier` bigint(20) NULL,
+  `modifytime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`activityid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

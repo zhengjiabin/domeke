@@ -1,5 +1,6 @@
 package com.domeke.app.model;
 
+import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
@@ -23,7 +24,12 @@ import com.jfinal.plugin.activerecord.Model;
  * PRIMARY KEY (`activityapplyid`)
  * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */
-public class Activityapply extends Model<Activityapply> {
-	public static Activityapply dao = new Activityapply();
-	
+@TableBind(tableName = "activity_apply", pkName = "activityapplyid")
+public class ActivityApply extends Model<ActivityApply> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static ActivityApply dao = new ActivityApply();
+
 }

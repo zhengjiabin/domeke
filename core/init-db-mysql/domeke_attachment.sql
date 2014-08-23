@@ -23,9 +23,9 @@ DROP TABLE IF EXISTS `attachment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `attachment` (
-  `aattachmentid` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `postid` int(10) unsigned NOT NULL DEFAULT '0',
-  `uid` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `aattachmentid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `postid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `uid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `dateline` int(14) unsigned NOT NULL DEFAULT '0',
   `filename` varchar(255) NOT NULL,
   `filesize` int(10) unsigned NOT NULL DEFAULT '0',
@@ -34,10 +34,10 @@ CREATE TABLE `attachment` (
   `isimage` tinyint(1) NOT NULL DEFAULT '0',
   `width` smallint(6) unsigned NOT NULL DEFAULT '0',
   `downloads` mediumint(8) NOT NULL DEFAULT '0',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `createtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) NULL,
+  `modifier` bigint(20) NULL,
+  `modifytime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`aattachmentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
