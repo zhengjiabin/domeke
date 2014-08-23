@@ -6,6 +6,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
 import com.domeke.app.base.config.DomeKeConstants;
+import com.domeke.app.model.User;
 import com.domeke.app.utils.EncryptUtils;
 import com.domeke.app.validator.login.LoginValidator;
 import com.jfinal.aop.Before;
@@ -33,7 +34,9 @@ public class LoginController extends Controller {
 
 	private void setCache(String username, String password, UsernamePasswordToken token, Subject currentUser) {
 		setCookie("username", username, 3600 * 24 * 30);
-
+		User user = getModel(User.class).findUserIdByUsername(username);
+		user.set("username", username);
+		setSessionAttr("user",user );
 		if (DomeKeConstants.IS_ADMIN.equals(username)) {
 			setSessionAttr("isAdmin", "true");
 		}
