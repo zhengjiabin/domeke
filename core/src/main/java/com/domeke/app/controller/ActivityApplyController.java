@@ -1,10 +1,12 @@
 package com.domeke.app.controller;
 
 import com.domeke.app.model.ActivityApply;
+import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
-public class ActivityapplyController extends Controller {
+@ControllerBind(controllerKey = "activityApply")
+public class ActivityApplyController extends Controller {
 
 	/**
 	 * 查询所有活动申请信息

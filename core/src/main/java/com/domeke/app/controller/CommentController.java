@@ -1,9 +1,11 @@
 package com.domeke.app.controller;
 
 import com.domeke.app.model.Comment;
+import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
+@ControllerBind(controllerKey = "comment")
 public class CommentController extends Controller {
 
 	/**
@@ -14,9 +16,8 @@ public class CommentController extends Controller {
 	public void find() {
 		int pageNumber = getParaToInt("commentPage_pageNumber", 1);
 		int pageSize = getParaToInt("commentPage_pageSize", 2);
-		Page<Comment> commentPage = Comment.dao.paginate(
-				pageNumber, pageSize, "select *",
-				"from comment order by create_time");
+		Page<Comment> commentPage = Comment.dao.paginate(pageNumber, pageSize,
+				"select *", "from comment order by create_time");
 		setAttr("commentPage", commentPage);
 		render("/demo/comment.html");
 	}
@@ -28,8 +29,7 @@ public class CommentController extends Controller {
 	 */
 	public void findById() {
 		int commentid = getParaToInt();
-		Comment comment = Comment.dao
-				.findById(commentid);
+		Comment comment = Comment.dao.findById(commentid);
 		setAttr("comment", comment);
 		render("/demo/modifycomment.html");
 	}

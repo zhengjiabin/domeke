@@ -1,9 +1,11 @@
 package com.domeke.app.controller;
 
 import com.domeke.app.model.Post;
+import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
+@ControllerBind(controllerKey = "post")
 public class PostController extends Controller {
 
 	/**

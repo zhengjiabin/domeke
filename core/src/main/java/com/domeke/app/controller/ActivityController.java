@@ -1,9 +1,11 @@
 package com.domeke.app.controller;
 
 import com.domeke.app.model.Activity;
+import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
+@ControllerBind(controllerKey = "activity")
 public class ActivityController extends Controller {
 
 	/**
@@ -13,9 +15,9 @@ public class ActivityController extends Controller {
 	 */
 	public void find() {
 		int pageNumber = getParaToInt("activityPage_pageNumber", 1);
-		int pageSize = getParaToInt("activityPage_pageSize", 2);
+		int pageSize = getParaToInt("activityPage_pageSize", 10);
 		Page<Activity> activityPage = Activity.dao.paginate(pageNumber,
-				pageSize, "select *", "from activity order by create_time");
+				pageSize, "select *", "from activity order by createtime");
 		setAttr("activityPage", activityPage);
 		render("/demo/activity.html");
 	}
@@ -51,6 +53,6 @@ public class ActivityController extends Controller {
 	}
 
 	public void index() {
-		render("/demo/activity.html");
+		find();
 	}
 }

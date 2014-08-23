@@ -1,10 +1,12 @@
 package com.domeke.app.controller;
 
 import com.domeke.app.model.PostApprove;
+import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
-public class PostapproveController extends Controller {
+@ControllerBind(controllerKey = "postApprove")
+public class PostApproveController extends Controller {
 
 	/**
 	 * 查询所有帖子审核信息
@@ -28,8 +30,7 @@ public class PostapproveController extends Controller {
 	 */
 	public void findById() {
 		int postapproveid = getParaToInt();
-		PostApprove postapprove = PostApprove.dao
-				.findById(postapproveid);
+		PostApprove postapprove = PostApprove.dao.findById(postapproveid);
 		setAttr("postapprove", postapprove);
 		render("/demo/modifyPostapprove.html");
 	}

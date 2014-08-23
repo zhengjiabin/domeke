@@ -1,9 +1,11 @@
 package com.domeke.app.controller;
 
 import com.domeke.app.model.Treasure;
+import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
+@ControllerBind(controllerKey = "treasure")
 public class TreasureController extends Controller {
 
 	/**
