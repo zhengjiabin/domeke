@@ -22,6 +22,8 @@ DROP TABLE IF EXISTS `code_table`;
 CREATE TABLE `code_table` (
   `codetableid` bigint(20) NOT NULL AUTO_INCREMENT,
   `codekey` varchar(32) DEFAULT NULL,
+  `codetype` varchar(32) DEFAULT NULL,
+  `codename` varchar(32) DEFAULT NULL,
   `ccodevalue` varchar(256) DEFAULT NULL,
   `sortnum` int(11) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
