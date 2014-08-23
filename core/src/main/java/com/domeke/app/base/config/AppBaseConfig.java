@@ -3,8 +3,6 @@ package com.domeke.app.base.config;
 import org.beetl.ext.jfinal.BeetlRenderFactory;
 
 import com.alibaba.druid.wall.WallFilter;
-import com.domeke.app.controller.CodeTypeController;
-import com.domeke.app.model.CodeType;
 import com.domeke.app.route.AutoBindRoutes;
 import com.domeke.app.tablebind.AutoTableBindPlugin;
 import com.domeke.app.tablebind.SimpleNameStyles;
