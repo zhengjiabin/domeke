@@ -1,6 +1,6 @@
 package com.domeke.app.controller;
 
-import com.domeke.app.model.Postapprove;
+import com.domeke.app.model.PostApprove;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -14,7 +14,7 @@ public class PostapproveController extends Controller {
 	public void find() {
 		int pageNumber = getParaToInt("postapprovePage_pageNumber", 1);
 		int pageSize = getParaToInt("postapprovePage_pageSize", 2);
-		Page<Postapprove> postapprovePage = Postapprove.dao.paginate(
+		Page<PostApprove> postapprovePage = PostApprove.dao.paginate(
 				pageNumber, pageSize, "select *",
 				"from postapprove order by create_time");
 		setAttr("postapprovePage", postapprovePage);
@@ -28,7 +28,7 @@ public class PostapproveController extends Controller {
 	 */
 	public void findById() {
 		int postapproveid = getParaToInt();
-		Postapprove postapprove = Postapprove.dao
+		PostApprove postapprove = PostApprove.dao
 				.findById(postapproveid);
 		setAttr("postapprove", postapprove);
 		render("/demo/modifyPostapprove.html");
@@ -38,7 +38,7 @@ public class PostapproveController extends Controller {
 	 * 修改帖子审核信息
 	 */
 	public void modify() {
-		Postapprove postapprove = getModel(Postapprove.class);
+		PostApprove postapprove = getModel(PostApprove.class);
 		postapprove.update();
 		find();
 	}
@@ -48,7 +48,7 @@ public class PostapproveController extends Controller {
 	 */
 	public void deleteById() {
 		int postapproveid = getParaToInt();
-		Postapprove.dao.deleteById(postapproveid);
+		PostApprove.dao.deleteById(postapproveid);
 		find();
 	}
 
@@ -63,7 +63,7 @@ public class PostapproveController extends Controller {
 	 * 创建帖子审核
 	 */
 	public void create() {
-		Postapprove postapprove = getModel(Postapprove.class);
+		PostApprove postapprove = getModel(PostApprove.class);
 		postapprove.save();
 		find();
 	}

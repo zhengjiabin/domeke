@@ -15,7 +15,7 @@ import com.jfinal.plugin.activerecord.Model;
  * PRIMARY KEY (`treasureapproveid`)
  * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */
-@TableBind(tableName = "treasureapprove", pkName = "treasureapproveid")
+@TableBind(tableName = "treasure_approve", pkName = "treasureapproveid")
 public class TreasureApprove extends Model<TreasureApprove> {
 	/**
 	 * 

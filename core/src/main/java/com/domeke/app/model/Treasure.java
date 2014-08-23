@@ -1,5 +1,6 @@
 package com.domeke.app.model;
 
+import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
@@ -27,6 +28,11 @@ import com.jfinal.plugin.activerecord.Model;
  * PRIMARY KEY (`treasureid`)
  * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */
+@TableBind(tableName = "treasure", pkName = "treasureid")
 public class Treasure extends Model<Treasure> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static Treasure dao = new Treasure();
 }

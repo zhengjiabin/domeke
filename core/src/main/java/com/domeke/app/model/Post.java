@@ -1,5 +1,6 @@
 package com.domeke.app.model;
 
+import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
@@ -27,6 +28,11 @@ import com.jfinal.plugin.activerecord.Model;
  * PRIMARY KEY (`postid`)
  * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */
+@TableBind(tableName = "post", pkName = "postid")
 public class Post extends Model<Post> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static Post dao = new Post();
 }

@@ -1,5 +1,6 @@
 package com.domeke.app.model;
 
+import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
@@ -14,6 +15,11 @@ import com.jfinal.plugin.activerecord.Model;
  * PRIMARY KEY (`postapproveid`)
  * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */
-public class Postapprove extends Model<Postapprove> {
-	public static Postapprove dao = new Postapprove();
+@TableBind(tableName = "post_approve", pkName = "postapproveid")
+public class PostApprove extends Model<PostApprove> {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public static PostApprove dao = new PostApprove();
 }
