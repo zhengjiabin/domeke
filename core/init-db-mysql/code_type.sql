@@ -21,8 +21,8 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `code_type`;
 CREATE TABLE `code_type` (
   `codetypeid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `codetype` varchar(256) DEFAULT NULL,
-  `ccodekey` varchar(32) DEFAULT NULL,
+  `codetype` varchar(32) DEFAULT NULL,
+  `codename` varchar(256) DEFAULT NULL,
   `sortnum` int(11) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `creater` varchar(32) DEFAULT NULL,
