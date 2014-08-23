@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>商品</title>
+<title>系统信息</title>
 <base href="${core}/" />
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
 	media="screen">
@@ -12,32 +12,32 @@
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <body>
-	<a href="favourite/goFavourite">添加我的收藏</a>
+	<a href="um/goUserMessage">系统信息</a>
 	<div>
 	<table class="table table-striped">
 		<thead>
 			<tr>
-			我的收藏记录${favouritelist.~size}
+			系统信息${userMessageList.~size}
 			</tr>
 			<tr>
 				<th>序号</th>
-				<th>cartoon_name</th>
-				<th>section_name</th>
+				<th>标题</th>
+				<th>内容</th>
 			</tr>
 		</thead>
 		<tbody>
 			<% 
 			var index = 0 ;
-			for(f in favouritelist){
+			for(u in userMessageList){
 				index = index + 1 ;
 			%>
 			<tr>
 				<td>${index}</td>
-				<td>${f.cartoon_name!}</td>
-				<td>${f.section_name!}</td>
+				<td>${u.title!}</td>
+				<td>${u.content!}</td>
 				<td> 
-                    <a href="favourite/selectById/${f.FavouriteId}">修改</a>
-					<a href="favourite/getDeleteFavourite/${f.FavouriteId}" onclick="return confirm('确定删除？')">删除</a>
+                    <a href="um/selectUserMessageById/${u.messageid}">修改</a>
+					<a href="um/deleteUserMessage/${u.messageid}" onclick="return confirm('确定删除？')">删除</a>
 				</td>
 			</tr>
 			<% } %>
