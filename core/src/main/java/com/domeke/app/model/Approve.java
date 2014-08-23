@@ -4,14 +4,15 @@
 package com.domeke.app.model;
 
 import java.util.List;
-import java.util.Map;
 
+import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
  * @author Administrator
  *
  */
+@TableBind(tableName = "approve", pkName = "approveid")
 public class Approve extends Model<Approve> {
 	public static Approve dao = new Approve();
 	public List<Approve> getApprove(){

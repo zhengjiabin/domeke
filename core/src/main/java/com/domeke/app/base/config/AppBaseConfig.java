@@ -56,16 +56,6 @@ public class AppBaseConfig extends JFinalConfig {
 
 		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.DEFAULT);
 		plugins.add(atbp);
-		// 配置ActiveRecord插件
-//		 ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-//		 plugins.add(arp);
-		// arp.addMapping("user", "userid", User.class);
-		// arp.addMapping("role", "roleid", Role.class);
-		// arp.addMapping("activity", "activityid", Activity.class);
-		// arp.addMapping("activityapply", "activityapplyid",
-		// Activityapply.class);
-		// arp.addMapping("post", "postid", Post.class);
-		//arp.addMapping("codetype", "codetypeid", CodeType.class);
 	}
 
 	@Override
@@ -73,13 +63,6 @@ public class AppBaseConfig extends JFinalConfig {
 		this.routes = routes;
 		AutoBindRoutes abs = new AutoBindRoutes();
 		routes.add(abs);
-		// routes.add("/login", LoginController.class);
-		// routes.add("/user", UserController.class);
-		// routes.add("/home", HomeController.class);
-		// routes.add("/activity", ActivityController.class);
-		// routes.add("/activityapply", ActivityapplyController.class);
-		// routes.add("/post", PostController.class);
-		//routes.add("/codetype", CodeTypeController.class);
 	}
 
 }

@@ -34,6 +34,7 @@ public class DomekeRealm extends AuthorizingRealm {
 			String password = user.getStr("password");
 			info = new SimpleAuthenticationInfo(username, password, getName());
 		} else {
+			logger.error("未知的用户名！", new UnknownAccountException());
 			throw new UnknownAccountException();
 		}
 		return info;

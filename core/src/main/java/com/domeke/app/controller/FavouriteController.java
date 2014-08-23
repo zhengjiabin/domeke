@@ -2,72 +2,66 @@ package com.domeke.app.controller;
 
 import java.util.List;
 
-import org.apache.shiro.authz.annotation.Logical;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-
 import com.domeke.app.model.Favourite;
+import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 /**
- * 功能：收藏记录表controller
- * 创建时间：2014-08-17
- * 类全名：com.domeke.app.controller.FavouriteController.new
  * @author 陈智聪
  *
  */
+@ControllerBind(controllerKey="favourite")
 public class FavouriteController extends Controller {
+	
+	public void goFavourite(){
+		render("/demo/addFavourite.html");
+	}
 	
 	/**
 	 * 新增
 	 */
-	public void save() {
+	public void saveFavourite(){
 		Favourite favourite = getModel(Favourite.class);
 		favourite.saveFavourite();
-		render("/demo/favourite.html");
-	} 
-
-	public void goFavourite() {
-		render("/demo/favourite.html");
-	}
-	
-	/**
-	 * 删除
-	 */
-	public void getDeleteFavourite(){
-		Favourite favourite = getModel(Favourite.class);
-		//int favouriteid = favourite.getInt("favouriteid");
-		int favouriteid = getParaToInt();
-		favourite.deleteFavourite(favouriteid);
-		render("/demo/selectFavourite.html");
+		selectFavourite();
 	}
 	
 	/**
 	 * 查询
 	 */
-	public void goFavouriteList() {
+	public void selectFavourite(){
+		Favourite.favouriteDao.removeCache();
 		Favourite favourite = getModel(Favourite.class);
-		List<Favourite> favouriteList = favourite.getFavouriteList();
-		this.setAttr("favouritelist", favouriteList);
+		List<Favourite> favouriteList = favourite.selectFavourite();
+		setAttr("favouriteList", favouriteList);
 		render("/demo/selectFavourite.html");
+	}
+	
+	/**
+	 * 根据id查询
+	 */
+	public void selectFavouriteById(){
+		int favouriteId = getParaToInt();
+		Favourite favourite = Favourite.favouriteDao.selectFavouriteById(favouriteId);
+		setAttr("favourite", favourite);
+		render("/demo/updateFavourite.html");
 	}
 	
 	/**
 	 * 更新
 	 */
-	public void goUpFavourite(){
+	public void updateFavourite(){
 		Favourite favourite = getModel(Favourite.class);
-		int favouriteid = favourite.getInt("FavouriteId");
-		favourite.dao.findById(favouriteid).setAttrs(favourite).update();
-		goFavouriteList();
+		favourite.updateFavourite();
+		selectFavourite();
 	}
-	public void selectById(){
-		int favouriteid = getParaToInt();
-		Favourite favourite = Favourite.dao.findById(favouriteid);
-		setAttr("favourite", favourite);
-		render("/demo/updatefavourite.html");
+	
+	/**
+	 * 删除
+	 */
+	public void deleteFavourite(){
+		Favourite favourite = getModel(Favourite.class);
+		int favouriteId = getParaToInt();
+		favourite.deleteFavourite(favouriteId);
+		selectFavourite();
 	}
-	public void goUpdate(){
-		render("/demo/upfavourite.html");
-	}
-
 }

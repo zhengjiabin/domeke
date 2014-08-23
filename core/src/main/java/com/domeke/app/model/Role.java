@@ -12,10 +12,10 @@ import com.jfinal.plugin.activerecord.Model;
 CREATE TABLE IF NOT EXISTS `domeke`.`role` (
   `roleid` bigint(20) NULL AUTO_INCREMENT,
   `rolename` VARCHAR(45) NULL,
-  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` VARCHAR(45) NULL,
-  `modifier` VARCHAR(45) NULL,
-  `modify_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `createtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) NULL,
+  `modifier` bigint(20) NULL,
+  `modifytime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
  */
