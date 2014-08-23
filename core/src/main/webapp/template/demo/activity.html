@@ -31,7 +31,9 @@
 	}
 	
 	function openApply(activityId){
-		window.top.location.href='./activityApply/skipCreate?activityId='+activityId;
+		var url = "./activityApply/skipCreate?activityId="+activityId;
+		var attribute = "height=500, width=500, top=0,left=0,toolbar=no, menubar=no, scrollbars=no, resizable=yes, location=no,status=no";
+		window.open (url, "报名参与", attribute);
 	}
 	
 </script>
@@ -87,7 +89,7 @@
 						<td>${activity.class!}</td>
 						<td>${activity.applynumber!}</td>
 						<td>${activity.expiration!}</td>
-						<td onclick="openApply(${activity.activityid!})">报名参加</td>
+						<td><a herf="#" onclick="openApply(${activity.activityid!})">报名参加</a></td>
 					</tr>
 					<% } %>
 				</tbody>
