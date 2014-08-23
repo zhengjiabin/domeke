@@ -30,7 +30,6 @@ public class ActivityApply extends Model<ActivityApply> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 	public static ActivityApply dao = new ActivityApply();
 
 }
