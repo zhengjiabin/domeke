@@ -14,11 +14,11 @@ public class PostController extends Controller {
 	 * @return 帖子信息
 	 */
 	public void find() {
-		int pageNumber = getParaToInt("postPage_pageNumber", 1);
-		int pageSize = getParaToInt("postPage_pageSize", 2);
-		Page<Post> postPage = Post.dao.paginate(pageNumber, pageSize,
-				"select *", "from post order by create_time");
-		setAttr("postPage", postPage);
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 2);
+		Page<Post> page = Post.dao.paginate(pageNumber, pageSize,
+				"select *", "from post order by status,createtime");
+		setAttr("page", page);
 		render("/demo/post.html");
 	}
 
