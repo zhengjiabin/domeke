@@ -5,10 +5,10 @@ CREATE TABLE IF NOT EXISTS `domeke`.`user` (
   `password` VARCHAR(32) NOT NULL,
   `email` VARCHAR(255) NULL,
   `mobile` VARCHAR(32) NULL,
-  `create_time` TIMESTAMP NULL ,
-  `creater` VARCHAR(64) NULL,
-  `modifier` VARCHAR(64) NULL,
-  `modify_time` TIMESTAMP NULL ,
+  `createtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) NULL,
+  `modifier` bigint(20) NULL,
+  `modifytime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`userid`),
   UNIQUE INDEX `username_idx` (`username` ASC),
   UNIQUE INDEX `email` (`email` ASC));
@@ -22,10 +22,10 @@ VALUES('admin', 'ISMvKXpXpadDiUoOSoAfww==', '7061089@qq.com', '11111111111', CUR
 CREATE TABLE IF NOT EXISTS `domeke`.`role` (
   `roleid` bigint(20) NULL AUTO_INCREMENT,
   `rolename` VARCHAR(45) NULL,
-  `create_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` VARCHAR(45) NULL,
-  `modifier` VARCHAR(45) NULL,
-  `modify_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `createtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) NULL,
+  `modifier` bigint(20) NULL,
+  `modifytime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`roleid`))
 ENGINE = InnoDB;
 
@@ -38,6 +38,10 @@ CREATE TABLE IF NOT EXISTS `domeke`.`Permission` (
   `roleid` BIGINT NULL,
   `Permission` VARCHAR(45) NULL,
   `remark` VARCHAR(500) NULL,
+  `createtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) NULL,
+  `modifier` bigint(20) NULL,
+  `modifytime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`permissionId`),
   CONSTRAINT `fk_role_id`
     FOREIGN KEY (roleid)

@@ -3,6 +3,7 @@
  */
 package com.domeke.app.controller;
 
+import com.domeke.app.interceptor.MailAuthInterceptor;
 import com.domeke.app.model.User;
 import com.domeke.app.validator.RegistValidator;
 import com.jfinal.aop.Before;
@@ -23,7 +24,7 @@ public class UserController extends Controller {
 		render("/demo/regist.html");
 	}
 
-//	@Before(RegistValidator.class)
+	@Before({RegistValidator.class,MailAuthInterceptor.class})
 	public void regist() {
 		User user = getModel(User.class);
 		user.saveUser();
