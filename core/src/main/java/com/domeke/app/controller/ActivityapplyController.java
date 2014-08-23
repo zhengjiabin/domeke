@@ -1,6 +1,6 @@
 package com.domeke.app.controller;
 
-import com.domeke.app.model.Activityapply;
+import com.domeke.app.model.ActivityApply;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -14,7 +14,7 @@ public class ActivityapplyController extends Controller {
 	public void find() {
 		int pageNumber = getParaToInt("activityapplyPage_pageNumber", 1);
 		int pageSize = getParaToInt("activityapplyPage_pageSize", 2);
-		Page<Activityapply> activityapplyPage = Activityapply.dao.paginate(
+		Page<ActivityApply> activityapplyPage = ActivityApply.dao.paginate(
 				pageNumber, pageSize, "select *",
 				"from activityapply order by create_time");
 		setAttr("activityapplyPage", activityapplyPage);
@@ -28,7 +28,7 @@ public class ActivityapplyController extends Controller {
 	 */
 	public void findById() {
 		int activityapplyid = getParaToInt();
-		Activityapply activityapply = Activityapply.dao
+		ActivityApply activityapply = ActivityApply.dao
 				.findById(activityapplyid);
 		setAttr("activityapply", activityapply);
 		render("/demo/modifyActivityapply.html");
@@ -38,7 +38,7 @@ public class ActivityapplyController extends Controller {
 	 * 修改活动信息
 	 */
 	public void modify() {
-		Activityapply activityapply = getModel(Activityapply.class);
+		ActivityApply activityapply = getModel(ActivityApply.class);
 		activityapply.update();
 		find();
 	}
@@ -48,7 +48,7 @@ public class ActivityapplyController extends Controller {
 	 */
 	public void deleteById() {
 		int activityapplyid = getParaToInt();
-		Activityapply.dao.deleteById(activityapplyid);
+		ActivityApply.dao.deleteById(activityapplyid);
 		find();
 	}
 
@@ -63,7 +63,7 @@ public class ActivityapplyController extends Controller {
 	 * 创建活动申请
 	 */
 	public void create() {
-		Activityapply activityapply = getModel(Activityapply.class);
+		ActivityApply activityapply = getModel(ActivityApply.class);
 		activityapply.save();
 		find();
 	}
