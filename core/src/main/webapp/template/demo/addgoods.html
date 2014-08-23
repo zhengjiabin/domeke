@@ -11,13 +11,13 @@
 </head>
 <body>
  <div class="container">
-      <form class="form-signin" action="goods/save" method="post">
+      <form class="form-signin" action="goods/save" method="post" enctype="multipart/form-data">
         <h2 align="center" class="form-signin-heading">请录入商品信息</h2>
         <input type="text" id="goods" name="goods.goods" class="input-block-level" placeholder="商城类目" />
         <input type="text" id="goodsname" name="goods.goodsname" class="input-block-level" placeholder="商品名称" />
         <input type="text" id="price" name="goods.price" class="input-block-level" placeholder="价格" />
         <input type="text" id="amount" name="goods.amount" class="input-block-level" placeholder="商品数量" />
-        <input type="text" id="pic" name="goods.pic" class="input-block-level" placeholder="宝贝图片">
+		选择要上传的图片：<input type="file" id="picture" name="picture" size="20" maxlength="255" />
         <input type="text" id="message" name="goods.message" class="input-block-level" placeholder="商品描述" />
         <input type="text" id="tamllurl" name="goods.tamllurl" class="input-block-level" placeholder="淘宝地址" />
         <input type="text" id="status" name="goods.status" class="input-block-level" placeholder="状态" />
