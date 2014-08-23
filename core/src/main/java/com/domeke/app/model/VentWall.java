@@ -61,6 +61,9 @@ public class VentWall extends Model<VentWall>{
 	public void updateVentWall(int ventwallid){
 		//venWdao.findById(ventwallid).setAttrs();
 	}
+	/**
+	 * 
+	 */
     public void removeCache(){
         CacheKit.removeAll("VentWall");
         CacheKit.removeAll("ventWallList");
