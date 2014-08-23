@@ -1,4 +1,4 @@
-﻿/**
+/**
  * 
  */
 package com.domeke.app.controller;
@@ -6,12 +6,14 @@ package com.domeke.app.controller;
 import java.sql.Timestamp;
 
 import com.domeke.app.model.VentWall;
+import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 
 /**
  * @author zhouying
  *
  */
+@ControllerBind(controllerKey="ventwall")
 public class VentWallController extends Controller {
 
 	/**
@@ -19,8 +21,8 @@ public class VentWallController extends Controller {
 	 */
 	public void save(){
 		VentWall ventWall = getModel(VentWall.class);
-		Timestamp nowdate = new Timestamp(System.currentTimeMillis());
-		ventWall.set("create_time", nowdate);
+//		Timestamp nowdate = new Timestamp(System.currentTimeMillis());
+//		ventWall.set("createtime", nowdate);
 		ventWall.saveVentWall();
 		render("/demo/selectventwall.html");
 	}
