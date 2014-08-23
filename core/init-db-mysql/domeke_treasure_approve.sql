@@ -19,17 +19,17 @@
 -- Table structure for table `treasureapprove`
 --
 
-DROP TABLE IF EXISTS `treasureapprove`;
+DROP TABLE IF EXISTS `treasure_approve`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `treasureapprove` (
-  `treasureapproveid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `treasureid` int(10) unsigned NOT NULL,
+CREATE TABLE `treasure_approve` (
+  `treasureapproveid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `treasureid` bigint(20) unsigned NOT NULL,
   `status` tinyint(3) NOT NULL DEFAULT '0',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `createtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) NULL,
+  `modifier` bigint(20) NULL,
+  `modifytime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`treasureapproveid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -38,7 +38,7 @@ CREATE TABLE `treasureapprove` (
 -- Dumping data for table `treasureapprove`
 --
 
-LOCK TABLES `treasureapprove` WRITE;
+LOCK TABLES `treasure_approve` WRITE;
 /*!40000 ALTER TABLE `treasureapprove` DISABLE KEYS */;
 /*!40000 ALTER TABLE `treasureapprove` ENABLE KEYS */;
 UNLOCK TABLES;

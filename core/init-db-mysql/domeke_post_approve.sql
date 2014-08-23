@@ -19,17 +19,17 @@
 -- Table structure for table `postapprove`
 --
 
-DROP TABLE IF EXISTS `postapprove`;
+DROP TABLE IF EXISTS `post_approve`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `postapprove` (
-  `postapproveid` int(10) unsigned NOT NULL AUTO_INCREMENT ,
-  `postid` int(10) unsigned NOT NULL DEFAULT '0',
+CREATE TABLE `post_approve` (
+  `postapproveid` bigint(20) unsigned NOT NULL AUTO_INCREMENT ,
+  `postid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `status` tinyint(3) NOT NULL DEFAULT '0',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `createtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) NULL,
+  `modifier` bigint(20) NULL,
+  `modifytime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`postapproveid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -38,7 +38,7 @@ CREATE TABLE `postapprove` (
 -- Dumping data for table `postapprove`
 --
 
-LOCK TABLES `postapprove` WRITE;
+LOCK TABLES `post_approve` WRITE;
 /*!40000 ALTER TABLE `postapprove` DISABLE KEYS */;
 /*!40000 ALTER TABLE `postapprove` ENABLE KEYS */;
 UNLOCK TABLES;
