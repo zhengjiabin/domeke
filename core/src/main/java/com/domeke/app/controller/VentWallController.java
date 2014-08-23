@@ -21,8 +21,6 @@ public class VentWallController extends Controller {
 	 */
 	public void save(){
 		VentWall ventWall = getModel(VentWall.class);
-//		Timestamp nowdate = new Timestamp(System.currentTimeMillis());
-//		ventWall.set("createtime", nowdate);
 		ventWall.saveVentWall();
 		render("/demo/selectventwall.html");
 	}
