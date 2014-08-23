@@ -14,7 +14,6 @@ import com.jfinal.config.Plugins;
 import com.jfinal.config.Routes;
 import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
-import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.tx.TxByActionMethods;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
@@ -55,11 +54,11 @@ public class AppBaseConfig extends JFinalConfig {
 		wallFilter.setDbType(DomeKeConstants.DB_TYPE);
 		druidPlugin.addFilter(wallFilter);
 
-		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.UP_UNDERLINE);
+		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.DEFAULT);
 		plugins.add(atbp);
 		// 配置ActiveRecord插件
-		 ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-		 plugins.add(arp);
+//		 ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+//		 plugins.add(arp);
 		// arp.addMapping("user", "userid", User.class);
 		// arp.addMapping("role", "roleid", Role.class);
 		// arp.addMapping("activity", "activityid", Activity.class);
