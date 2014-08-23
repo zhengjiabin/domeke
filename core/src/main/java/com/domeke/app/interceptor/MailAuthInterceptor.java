@@ -2,6 +2,8 @@
  * 
  */
 package com.domeke.app.interceptor;
+import org.springframework.mail.javamail.JavaMailSender;
+
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.ActionInvocation;
 import com.jfinal.core.Controller;
@@ -20,5 +22,6 @@ public class MailAuthInterceptor implements Interceptor {
 			ai.invoke();
 			Controller c = ai.getController();
 			String email = c.getPara("email");
+			JavaMailSender sender = null;
 	}
 }

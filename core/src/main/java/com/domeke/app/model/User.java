@@ -58,5 +58,11 @@ public class User extends Model<User> {
 		User user = dao.findFirst(sql, paras);
 		return user != null;
 	}
+	
+	public User findUserIdByUsername(String username){
+		String sql = "select userid from user where username = ? ";
+		User user = dao.findFirst(sql,username);
+		return user;
+	}
 
 }
