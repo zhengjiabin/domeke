@@ -24,7 +24,7 @@ import com.jfinal.plugin.ehcache.CacheKit;
  * `modifier` bigint(20) NULL,
  * PRIMARY KEY (`ventwallid`));
  */
-@TableBind(tableName = "vent_Wall", pkName = "ventwallid")
+@TableBind(tableName = "vent_wall", pkName = "ventwallid")
 public class VentWall extends Model<VentWall>{
 	
 	/**
@@ -61,6 +61,9 @@ public class VentWall extends Model<VentWall>{
 	public void updateVentWall(int ventwallid){
 		//venWdao.findById(ventwallid).setAttrs();
 	}
+	/**
+	 * 
+	 */
     public void removeCache(){
         CacheKit.removeAll("VentWall");
         CacheKit.removeAll("ventWallList");
