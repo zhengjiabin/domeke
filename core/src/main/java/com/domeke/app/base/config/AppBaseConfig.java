@@ -3,17 +3,11 @@ package com.domeke.app.base.config;
 import org.beetl.ext.jfinal.BeetlRenderFactory;
 
 import com.alibaba.druid.wall.WallFilter;
-import com.domeke.app.controller.ActivityController;
-import com.domeke.app.controller.ActivityapplyController;
-import com.domeke.app.controller.HomeController;
-import com.domeke.app.controller.LoginController;
-import com.domeke.app.controller.PostController;
-import com.domeke.app.controller.UserController;
-import com.domeke.app.model.Activity;
-import com.domeke.app.model.Activityapply;
-import com.domeke.app.model.Post;
-import com.domeke.app.model.Role;
-import com.domeke.app.model.User;
+import com.domeke.app.controller.CodeTypeController;
+import com.domeke.app.model.CodeType;
+import com.domeke.app.route.AutoBindRoutes;
+import com.domeke.app.tablebind.AutoTableBindPlugin;
+import com.domeke.app.tablebind.SimpleNameStyles;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -50,8 +44,7 @@ public class AppBaseConfig extends JFinalConfig {
 	@Override
 	public void configInterceptor(Interceptors interceptors) {
 		interceptors.add(new SessionInViewInterceptor());
-		interceptors.add(new TxByActionMethods("save", "update", "delete",
-				"regist"));
+		interceptors.add(new TxByActionMethods("save", "update", "delete", "regist"));
 	}
 
 	@Override
@@ -64,25 +57,32 @@ public class AppBaseConfig extends JFinalConfig {
 		wallFilter.setDbType(DomeKeConstants.DB_TYPE);
 		druidPlugin.addFilter(wallFilter);
 
+		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.UP_UNDERLINE);
+		plugins.add(atbp);
 		// 配置ActiveRecord插件
-		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-		plugins.add(arp);
-		arp.addMapping("user", "userid", User.class);
-		arp.addMapping("role", "roleid", Role.class);
-		arp.addMapping("activity", "activityid", Activity.class);
-		arp.addMapping("activityapply", "activityapplyid", Activityapply.class);
-		arp.addMapping("post", "postid", Post.class);
+		 ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
+		 plugins.add(arp);
+		// arp.addMapping("user", "userid", User.class);
+		// arp.addMapping("role", "roleid", Role.class);
+		// arp.addMapping("activity", "activityid", Activity.class);
+		// arp.addMapping("activityapply", "activityapplyid",
+		// Activityapply.class);
+		// arp.addMapping("post", "postid", Post.class);
+		//arp.addMapping("codetype", "codetypeid", CodeType.class);
 	}
 
 	@Override
 	public void configRoute(Routes routes) {
 		this.routes = routes;
-		routes.add("/login", LoginController.class);
-		routes.add("/user", UserController.class);
-		routes.add("/home", HomeController.class);
-		routes.add("/activity", ActivityController.class);
-		routes.add("/activityapply", ActivityapplyController.class);
-		routes.add("/post", PostController.class);
+		AutoBindRoutes abs = new AutoBindRoutes();
+		routes.add(abs);
+		// routes.add("/login", LoginController.class);
+		// routes.add("/user", UserController.class);
+		// routes.add("/home", HomeController.class);
+		// routes.add("/activity", ActivityController.class);
+		// routes.add("/activityapply", ActivityapplyController.class);
+		// routes.add("/post", PostController.class);
+		//routes.add("/codetype", CodeTypeController.class);
 	}
 
 }
