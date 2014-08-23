@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>会员帖子</title>
+<title>我的帖子</title>
 <base href="${core}/" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- Bootstrap -->
@@ -34,8 +34,8 @@
 </head>
 
 <body onload="pageSize(${page.pageSize})">
-	<form action="post/find" id="post_find"
-		class="form-horizontal" method="post">
+	<form action="post/find" id="post_find" class="form-horizontal"
+		method="post">
 		<div class="control-group">
 			<h1>
 				<a href="./post/skipCreate">发表帖子</a>
@@ -49,13 +49,11 @@
 				<option value="80">80</option>
 				<option value="100">100</option>
 			</select>条&nbsp;共${page.totalRow!}条&nbsp;第${page.pageNumber!}
-			/${page.totalPage!}页 <a
-				href="./post/find?pageNumber=1">首页</a> <a
+			/${page.totalPage!}页 <a href="./post/find?pageNumber=1">首页</a> <a
 				href="./post/find?pageNumber=${page.pageNumber!-1<1?1:page.pageNumber!-1}">上页</a>
 			<a
 				href="./post/find?pageNumber=${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1}">下页</a>
-			<a
-				href="./post/find?pageNumber=${page.totalPage!}">末页</a>
+			<a href="./post/find?pageNumber=${page.totalPage!}">末页</a>
 			<table>
 				<thead>
 					<tr>
@@ -65,6 +63,7 @@
 						<td style="width: 250px">帖子内容</td>
 						<td style="width: 250px">评分次数</td>
 						<td style="width: 250px">帖子状态</td>
+						<td style="width: 250px">操作</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -76,6 +75,10 @@
 						<td>${post.message!}</td>
 						<td>${post.ratetimes!}</td>
 						<td>${post.status!}</td>
+						<td><a
+							href="./postapprove/findById/${postapprove.postapproveid}">修改</a>
+							<a href="./postapprove/deleteById/${postapprove.postapproveid}"
+							onclick="return confirm('确定删除？')">删除</a></td>
 					</tr>
 					<% } %>
 				</tbody>

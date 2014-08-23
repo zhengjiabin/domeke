@@ -1,9 +1,11 @@
 package com.domeke.app.controller;
 
 import com.domeke.app.model.Attachment;
+import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
+@ControllerBind(controllerKey = "attachment")
 public class AttachmentController extends Controller {
 
 	/**
@@ -14,9 +16,8 @@ public class AttachmentController extends Controller {
 	public void find() {
 		int pageNumber = getParaToInt("attachmentPage_pageNumber", 1);
 		int pageSize = getParaToInt("attachmentPage_pageSize", 2);
-		Page<Attachment> attachmentPage = Attachment.dao.paginate(
-				pageNumber, pageSize, "select *",
-				"from attachment order by create_time");
+		Page<Attachment> attachmentPage = Attachment.dao.paginate(pageNumber,
+				pageSize, "select *", "from attachment order by create_time");
 		setAttr("attachmentPage", attachmentPage);
 		render("/demo/attachment.html");
 	}
@@ -28,8 +29,7 @@ public class AttachmentController extends Controller {
 	 */
 	public void findById() {
 		int attachmentid = getParaToInt();
-		Attachment attachment = Attachment.dao
-				.findById(attachmentid);
+		Attachment attachment = Attachment.dao.findById(attachmentid);
 		setAttr("attachment", attachment);
 		render("/demo/modifyAttachment.html");
 	}
