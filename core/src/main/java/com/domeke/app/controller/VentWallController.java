@@ -22,11 +22,13 @@ public class VentWallController extends Controller {
 	public void save(){
 		VentWall ventWall = getModel(VentWall.class);
 		ventWall.saveVentWall();
-		render("/demo/selectventwall.html");
+		//render("/demo/selectventwall.html");
+		select();
 	}
 	
 	public void index() {
-		render("/demo/ventwall.html");
+		//render("/demo/ventwall.html");
+		render("/demo/zointest.html");
 	}
 	/**
 	 * 查询留言
@@ -46,11 +48,11 @@ public class VentWallController extends Controller {
 		render("/demo/ediventwall.html");
 	}
 	/**
-	 * 删除留言
+	 * 更新留言
 	 */
-	public void uodateById(){
+	public void updateById(){
 		VentWall ventWall = getModel(VentWall.class);
-		int ventwallid = ventWall.getInt("VentWallId");
+		Long ventwallid = ventWall.get("ventwallid");
 		VentWall.venWdao.findById(ventwallid).setAttrs(ventWall).update();
 		select();
 	}
