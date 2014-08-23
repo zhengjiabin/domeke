@@ -15,9 +15,9 @@ public class ActivityController extends Controller {
 	 */
 	public void find() {
 		int pageNumber = getParaToInt("activityPage_pageNumber", 1);
-		int pageSize = getParaToInt("activityPage_pageSize", 10);
+		int pageSize = getParaToInt("activityPage_pageSize", 2);
 		Page<Activity> activityPage = Activity.dao.paginate(pageNumber,
-				pageSize, "select *", "from activity order by createtime");
+				pageSize, "select *", "from activity order by create_time");
 		setAttr("activityPage", activityPage);
 		render("/demo/activity.html");
 	}
@@ -53,6 +53,6 @@ public class ActivityController extends Controller {
 	}
 
 	public void index() {
-		find();
+		render("/demo/activity.html");
 	}
 }

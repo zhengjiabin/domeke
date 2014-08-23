@@ -2,6 +2,7 @@ package com.domeke.app.model;
 
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 
 /**
  * CREATE TABLE `post` (
@@ -35,4 +36,34 @@ public class Post extends Model<Post> {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static Post dao = new Post();
+
+	/**
+	 * 分页查询帖子
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Post> findPage(int pageNumber, int pageSize) {
+		Page<Post> page = this.paginate(pageNumber, pageSize, "select *",
+				"from post order by status,createtime");
+		return page;
+	}
+
+	/**
+	 * 分页查询指定发帖人的帖子
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Post> findByAuthorid(Object userId, int pageNumber, int pageSize) {
+		Page<Post> page = this.paginate(pageNumber, pageSize, "select *",
+				"from post where userid=? order by status,createtime", userId);
+		return page;
+	}
 }
