@@ -29,11 +29,6 @@
 
 		}
 	}
-	
-	function openApply(activityId){
-		window.top.location.href='./activityApply/skipCreate?activityId='+activityId;
-	}
-	
 </script>
 
 </head>
@@ -43,29 +38,25 @@
 		method="post">
 		<div class="control-group">
 			<h1>
-				<a href="./activity/skipCreate">申请活动</a>
-			</h1>
-			<h1>
-				<a href="./activity/findByUserId">我申请的活动 </a>
+				<a href="./activity/find">所有活动</a>
 			</h1>
 			<hr>
 			每页<select name="pageSize" id="pageSize"
 				onchange="goToPageSize(this.value)">
-				<option value="20" selected="true">20</option>
-				<option value="30">30</option>
-				<option value="50">50</option>
-				<option value="80">80</option>
-				<option value="100">100</option>
+				<option value="2" selected="true">2</option>
+				<option value="3">3</option>
+				<option value="5">5</option>
+				<option value="8">8</option>
+				<option value="10">10</option>
 			</select>条&nbsp;共${page.totalRow!}条&nbsp;第${page.pageNumber!}
-			/${page.totalPage!}页 <a href="./activity/find?pageNumber=1">首页</a> <a
-				href="./activity/find?pageNumber=${page.pageNumber!-1<1?1:page.pageNumber!-1}">上页</a>
+			/${page.totalPage!}页 <a href="./activity/findByUserId?pageNumber=1">首页</a> <a
+				href="./activity/findByUserId?pageNumber=${page.pageNumber!-1<1?1:page.pageNumber!-1}">上页</a>
 			<a
-				href="./activity/find?pageNumber=${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1}">下页</a>
-			<a href="./activity/find?pageNumber=${page.totalPage!}">末页</a>
+				href="./activity/findByUserId?pageNumber=${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1}">下页</a>
+			<a href="./activity/findByUserId?pageNumber=${page.totalPage!}">末页</a>
 			<table>
 				<thead>
 					<tr>
-						<td style="width: 250px">发起人姓名</td>
 						<td style="width: 250px">标题</td>
 						<td style="width: 250px">开始时间</td>
 						<td style="width: 250px">结束时间</td>
@@ -79,7 +70,6 @@
 				<tbody>
 					<% for (activity in page.list){ %>
 					<tr>
-						<td>${username!}</td>
 						<td>${activity.subject!}</td>
 						<td>${activity.starttimefrom!}</td>
 						<td>${activity.starttimeto!}</td>
@@ -87,7 +77,11 @@
 						<td>${activity.class!}</td>
 						<td>${activity.applynumber!}</td>
 						<td>${activity.expiration!}</td>
-						<td onclick="openApply(${activity.activityid!})">报名参加</td>
+						<td><a
+							href="./activity/findById?activityId=${activity.activityid!}">修改</a>
+							<a
+							href="./activity/deleteById?activityId=${activity.activityid!}"
+							onclick="return confirm('确定删除？')">删除</a></td>
 					</tr>
 					<% } %>
 				</tbody>

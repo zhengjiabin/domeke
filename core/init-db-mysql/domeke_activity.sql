@@ -24,7 +24,8 @@ DROP TABLE IF EXISTS `activity`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `activity` (
   `activityid` bigint(20) unsigned NOT NULL  AUTO_INCREMENT,
-  `uid` bigint(20) NOT NULL DEFAULT '0' ,
+  `subject` varchar(80) NOT NULL,
+  `userid` bigint(20) NOT NULL DEFAULT '0' ,
   `aid` bigint(20) NOT NULL DEFAULT '0' ,
   `cost` mediumint(8) NOT NULL DEFAULT '0',
   `starttimefrom` timestamp NOT NULL ,

@@ -32,14 +32,14 @@ public class PostController extends Controller {
 	 * 
 	 * @return 帖子信息
 	 */
-	public void findByAuthorid() {
+	public void findByUserId() {
 		User user = getUser();
 		String userId = user.getStr("userid");
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 
 		Post post = getModel(Post.class);
-		Page<Post> page = post.findByAuthorid(userId, pageNumber, pageSize);
+		Page<Post> page = post.findByUserId(userId, pageNumber, pageSize);
 		setAttr("page", page);
 		render("/demo/myPost.html");
 	}
@@ -63,7 +63,7 @@ public class PostController extends Controller {
 		Post postid = getModel(Post.class);
 		postid.update();
 		
-		findByAuthorid();
+		findByUserId();
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class PostController extends Controller {
 		String postid = getPara("postId");
 		Post.dao.deleteById(postid);
 
-		findByAuthorid();
+		findByUserId();
 	}
 
 	/**
@@ -97,7 +97,7 @@ public class PostController extends Controller {
 		post.set("useip", remoteIp);
 		post.save();
 
-		findByAuthorid();
+		findByUserId();
 	}
 
 	public void index() {
