@@ -4,6 +4,8 @@ import org.beetl.ext.jfinal.BeetlRenderFactory;
 
 import com.alibaba.druid.wall.WallFilter;
 import com.domeke.app.route.AutoBindRoutes;
+import com.domeke.app.tablebind.AutoTableBindPlugin;
+import com.domeke.app.tablebind.SimpleNameStyles;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -52,7 +54,8 @@ public class AppBaseConfig extends JFinalConfig {
 		wallFilter.setDbType(DomeKeConstants.DB_TYPE);
 		druidPlugin.addFilter(wallFilter);
 		
-		
+		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.DEFAULT);
+		plugins.add(atbp);
 		
 //		plugins.add(new SpringPlugin());
 	}
