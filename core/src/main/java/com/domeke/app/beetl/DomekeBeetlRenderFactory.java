@@ -33,7 +33,7 @@ public class DomekeBeetlRenderFactory extends BeetlRenderFactory implements IMai
 		try
 		{
 			Configuration cfg = Configuration.defaultConfiguration();
-			WebAppResourceLoader resourceLoader = new WebAppResourceLoader("/tempalte");
+			WebAppResourceLoader resourceLoader = new WebAppResourceLoader();
 			groupTemplate = new GroupTemplate(resourceLoader, cfg);
 
 		}

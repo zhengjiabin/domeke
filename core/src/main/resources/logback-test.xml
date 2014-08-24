@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<!-- 定义日志路径 -->
-	<property name="USER_HOME" value="D:/logs" />
+	<property name="USER_HOME" value="/logs" />
 	<property name="PATTERNINFO" value="%d{yyyy-MM-dd HH:mm:ss.SSS} - [%thread] %-5level 耗时-%r-毫秒 %caller{1} - %msg%n"/>
 
 	<!-- 控制台标准输出 -->

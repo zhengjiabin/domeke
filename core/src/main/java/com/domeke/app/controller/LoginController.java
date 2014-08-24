@@ -7,11 +7,14 @@ import org.apache.shiro.subject.Subject;
 
 import com.domeke.app.base.config.DomeKeConstants;
 import com.domeke.app.model.User;
+import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.EncryptKit;
 import com.domeke.app.validator.login.LoginValidator;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 
+
+@ControllerBind(controllerKey = "login")
 public class LoginController extends Controller {
 
 	@Before(LoginValidator.class)
