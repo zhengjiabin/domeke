@@ -30,6 +30,7 @@ public class CodeKit implements ServletContextListener{
 		ActiveRecordPlugin record = new ActiveRecordPlugin(druidPlugin);
 		record.addMapping("code_table", CodeTable.class);
 		record.addMapping("code_type", CodeType.class);
+		
 		record.start();
 		load();
 		
