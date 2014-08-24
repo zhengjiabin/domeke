@@ -2,7 +2,6 @@ package com.domeke.app.model;
 
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
-import com.jfinal.plugin.activerecord.Page;
 
 /**
  * CREATE TABLE `treasure` (
@@ -35,38 +34,5 @@ public class Treasure extends Model<Treasure> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	public static Treasure dao = new Treasure();
-
-	/**
-	 * 分页查询宝贝
-	 * 
-	 * @param pageNumber
-	 *            页号
-	 * @param pageSize
-	 *            页数
-	 * @return
-	 */
-	public Page<Treasure> findPage(int pageNumber, int pageSize) {
-		Page<Treasure> page = this.paginate(pageNumber, pageSize, "select *",
-				"from treasure order by status,createtime");
-		return page;
-	}
-
-	/**
-	 * 分页用户的宝贝
-	 * 
-	 * @param pageNumber
-	 *            页号
-	 * @param pageSize
-	 *            页数
-	 * @return
-	 */
-	public Page<Treasure> findByUserId(Object userId, int pageNumber,
-			int pageSize) {
-		Page<Treasure> page = this.paginate(pageNumber, pageSize, "select *",
-				"from treasure where userid=? order by status,createtime",
-				userId);
-		return page;
-	}
 }

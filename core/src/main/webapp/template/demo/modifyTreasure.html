@@ -16,10 +16,18 @@
 <body>
 	<form class="form-signin" action="treasure/modify" method="post">
 
-		<div class="control-group" hidden="block">
-			<label class="control-label">宝贝ID<span class="required">*</span></label>
+		<div class="control-group" >
+			<label class="control-label">帖子ID<span class="required">*</span></label>
 			<div class="controls">
-				<input name="treasure.treasureid" value="${treasure.treasureid!}"
+				<input type="hidden" name="treasure.treasureid" value="${treasure.treasureid!}"
+					class="span6 m-wrap" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">作者姓名<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="treasure.author" value="${treasure.author!}"
 					class="span6 m-wrap" />
 			</div>
 		</div>
@@ -33,7 +41,7 @@
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">发布时间<span class="required">*</span></label>
+			<label class="control-label">发帖时间<span class="required">*</span></label>
 			<div class="controls">
 				<input type="datetime" name="treasure.dateline"
 					value="${treasure.dateline!}" class="span6 m-wrap" />
@@ -41,18 +49,18 @@
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">内容<span class="required">*</span></label>
+			<label class="control-label">帖子内容<span class="required">*</span></label>
 			<div class="controls">
-				<input type="text" name="treasure.message"
-					value="${treasure.message!}" class="span6 m-wrap" />
+				<input type="text" name="treasure.message" value="${treasure.message!}"
+					class="span6 m-wrap" />
 			</div>
 		</div>
 
 		<div class="control-group">
 			<label class="control-label">是否匿名<span class="required">*</span></label>
 			<div class="controls">
-				<input type="text" name="treasure.anonymous"
-					value="${treasure.anonymous!}" class="span6 m-wrap" />
+				<input type="text" name="treasure.anonymous" value="${treasure.anonymous!}"
+					class="span6 m-wrap" />
 			</div>
 		</div>
 
@@ -61,6 +69,46 @@
 			<div class="controls">
 				<input type="text" name="treasure.usesig"
 					value="${treasure.usesig!}" class="span6 m-wrap" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">是否有附件<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="treasure.attachment"
+					value="${treasure.attachment!}" class="span6 m-wrap" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">评分分数<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="treasure.rate"
+					value="${treasure.rate!}" class="span6 m-wrap" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">评分次数<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="treasure.ratetimes"
+					value="${treasure.ratetimes!}" class="span6 m-wrap" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label">是否存在点评<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="treasure.comment"
+					value="${treasure.comment!}" class="span6 m-wrap" />
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label">回帖获得积分记录<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="treasure.replycredit"
+					value="${treasure.replycredit!}" class="span6 m-wrap" />
 			</div>
 		</div>
 
