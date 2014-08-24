@@ -41,17 +41,7 @@ public class FilesLoadController extends Controller {
 		UploadFile uploadFile = getFile("picture", saveFolderName + "\\"
 				+ userName, maxPostSize, encoding);
 		File picture = uploadFile.getFile();
-		// 通过文件名截取出文件的类型
-		String fileName = picture.getName();
-		String fileType = "";
-		if (fileName != null && fileName.indexOf('.') > 0) {
-			String[] temp = fileName.split("\\.");
-			fileType = temp[temp.length - 1];
-		}
-		// 以当前时间的毫秒数重命名文件名
-		File replaceFile = new File(uploadFile.getSaveDirectory() + "\\"
-				+ System.currentTimeMillis() + "." + fileType);
-		picture.renameTo(replaceFile);
+		File replaceFile = renameToFile(uploadFile, picture);
 		// 获取文件的绝对路径
 		String picturePath = replaceFile.getAbsolutePath();
 		// \project
@@ -63,6 +53,21 @@ public class FilesLoadController extends Controller {
 			picturePath = contextPath + picturePath.replaceAll("\\\\", "/");
 		}
 		return picturePath;
+	}
+
+	private File renameToFile(UploadFile uploadFile, File oldFile) {
+		// 通过文件名截取出文件的类型
+		String fileName = oldFile.getName();
+		String fileType = "";
+		if (fileName != null && fileName.indexOf('.') > 0) {
+			String[] temp = fileName.split("\\.");
+			fileType = temp[temp.length - 1];
+		}
+		// 以当前时间的毫秒数重命名文件名
+		File replaceFile = new File(uploadFile.getSaveDirectory() + "\\"
+				+ System.currentTimeMillis() + "." + fileType);
+		oldFile.renameTo(replaceFile);
+		return replaceFile;
 	}
 
 }
