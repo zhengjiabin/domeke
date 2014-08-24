@@ -21,7 +21,7 @@ public class CodeKit implements ServletContextListener{
 	
 	private static Map<String,Map<String,String>> codeTypeMap;
 	
-	private static String loadCodeTable = "select t.codetype,t.typename,c.codekey,c.codename,c.codevalue from code_type t,code_table c where t.codetype=c.codetype";
+	private static String loadCodeTable = "select t.codetype,t.typename,c.codekey,c.codename,c.codevalue from code_type t,code_table c where t.codetype=c.codetype and t.status = '0'";
 	
 	
 	public void init(){
@@ -39,14 +39,15 @@ public class CodeKit implements ServletContextListener{
 	private void load() {
 		List<Record> codetableList = Db.find(loadCodeTable);
 		
+		codeTypeMap = Maps.newHashMap();
 		for (Record codeTable : codetableList) {
-			codeTypeMap = Maps.newHashMap();
 			String codeType = codeTable.getStr("codetype");
 			String codeKey = codeTable.getStr("codekey");
 			String codeValue = codeTable.getStr("codevalue");
 			if(!codeTypeMap.containsKey(codeType)){
 				codeTableMap = Maps.newHashMap();
 				codeTypeMap.put(codeType, codeTableMap);
+				codeTableMap.put(codeKey, codeValue);
 			}else {
 				codeTableMap = codeTypeMap.get(codeType);
 				codeTableMap.put(codeKey, codeValue);
@@ -67,7 +68,7 @@ public class CodeKit implements ServletContextListener{
 			CodeKit kit = new CodeKit();
 			kit.init();
 		}
-		return codeMap.get(codeKey)!=null ? codeMap.get(codeKey):"";
+		return codeMap!= null && codeMap.get(codeKey)!=null ? codeMap.get(codeKey):"";
 	}
 	/**
 	 * 返回码表列表
