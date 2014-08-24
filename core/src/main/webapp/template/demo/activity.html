@@ -83,7 +83,7 @@
 					<% for (activity in page.list){ %>
 					<tr>
 						<td>${username!}</td>
-						<td>${activity.subject!}</td>
+						<td><a href="./activity/findById?activityId=${activity.activityid!}">${activity.subject!}</a></td>
 						<td>${activity.starttimefrom!}</td>
 						<td>${activity.starttimeto!}</td>
 						<td>${activity.place!}</td>

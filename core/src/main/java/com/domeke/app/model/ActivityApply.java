@@ -2,6 +2,7 @@ package com.domeke.app.model;
 
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 
 /**
  * CREATE TABLE `activityapply` (
@@ -30,6 +31,23 @@ public class ActivityApply extends Model<ActivityApply> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	public static ActivityApply dao = new ActivityApply();
-
+	
+	/**
+	 * 分页查询指定发起人活动的报名申请信息
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<ActivityApply> findByUserId(Object userId, int pageNumber,
+			int pageSize) {
+		Page<ActivityApply> page = this.paginate(pageNumber, pageSize, "select *",
+				"from activity_apply where userid=? order by createtime",
+				userId);
+		return page;
+	}
 }
