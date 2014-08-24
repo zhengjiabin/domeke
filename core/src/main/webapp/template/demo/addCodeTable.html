@@ -18,10 +18,18 @@
 
       <form class="form-signin" action="codetable/saveCodeTable" method="post">
         <h2 class="form-signin-heading">基础码表</h2>
-        	<label class="control-label">码表类型：</label>
+        	<label class="control-label">码表键：</label>
         	<input name="codeTable.codekey" value="${codeTable.codekey!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">码表对应键：</label>
-        	<input name="codeTable.ccodevalue" value="${codeTable.ccodevalue!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">码表类型：</label>
+        	<input name="codeTable.codetype" value="${codeTable.codetype!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">码表名称：</label>
+        	<input name="codeTable.codename" value="${codeTable.codename!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">码表对值：</label>
+        	<input name="codeTable.codevalue" value="${codeTable.codevalue!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">排序：</label>
+        	<input name="codeTable.sortnum" value="${codeTable.sortnum!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">状态：</label>
+        	<input name="codeTable.status" value="${codeTable.status!}" type="text" class="span6 m-wrap" /><br>
         <button class="btn btn-large btn-primary" type="submit" >保存</button>
       </form>
 
