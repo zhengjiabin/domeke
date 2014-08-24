@@ -24,13 +24,11 @@ DROP TABLE IF EXISTS `comment`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comment` (
   `commentid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `uid` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `id` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `idtype` varchar(20) NOT NULL,
-  `authorid` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `author` varchar(15) NOT NULL,
+  `userid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `targetid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `idtype` varchar(4) NOT NULL,
   `ip` varchar(20) NOT NULL,
-  `dateline` int(14) unsigned NOT NULL DEFAULT '0',
+  `dateline` TIMESTAMP  NOT NULL,
   `message` text NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   `createtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
