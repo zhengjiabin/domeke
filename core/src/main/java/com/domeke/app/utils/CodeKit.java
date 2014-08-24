@@ -21,19 +21,20 @@ public class CodeKit implements ServletContextListener{
 	
 	private static Map<String,Map<String,String>> codeTypeMap;
 	
-	private static String loadCodeTable = "select t.codetype,t.typename,c.codekey,c.codename,c.codevalue from code_type t,code_table c where t.codetype=c.codetype and t.status = '0'";
+	private static String loadCodeTable = "select t.codetype,t.typename,c.codekey,c.codename,c.codevalue from code_type t,code_table c where t.codetype=c.codetype and c.status = '0'";
 	
 	
 	public void init(){
 		DruidPlugin druidPlugin = DruidDatasouceUtil.getDruidPlugin();
 		druidPlugin.start();
 		ActiveRecordPlugin record = new ActiveRecordPlugin(druidPlugin);
-		record.addMapping("code_table", CodeTable.class);
-		record.addMapping("code_type", CodeType.class);
+		record.addMapping("code_table","codetableid", CodeTable.class);
+		record.addMapping("code_type", "codetypeid",CodeType.class);
 		
 		record.start();
 		load();
-		
+		record.stop();
+		druidPlugin.stop();
 	}
 	@SuppressWarnings("unchecked")
 	private void load() {
