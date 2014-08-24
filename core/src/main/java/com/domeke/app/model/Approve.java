@@ -49,7 +49,4 @@ public class Approve extends Model<Approve> {
 			Db.update(sql);
 		}
 	}
-	public void addApproveRecord(){
-		Goods gooddao = new Goods();
-	}
 }
