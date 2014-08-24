@@ -1,7 +1,11 @@
 package com.domeke.app.model;
 
+import java.util.List;
+
 import com.domeke.app.tablebind.TableBind;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 
 /**
  * CREATE TABLE `comment` (
@@ -28,5 +32,40 @@ public class Comment extends Model<Comment> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	public static Comment dao = new Comment();
+
+	/**
+	 * 根据targetId查询子回复信息
+	 * 
+	 * @return
+	 */
+	public List<Comment> findFollowByTargetId(Object targetId) {
+		String sql = "select * from comment where status='10' and tguserid<>0 and targetid =? order by createtime";
+		List<Comment> list = this.find(sql, targetId);
+		return list;
+	}
+
+	/**
+	 * 根据targetId查询主回复信息
+	 * 
+	 * @return
+	 */
+	public Page<Comment> findPageByTargetId(Object targetId, int pageNumber,
+			int pageSize) {
+		String sql = "from comment where status='10' and tguserid=0 and targetid=? order by createtime";
+		Page<Comment> page = this.paginate(pageNumber, pageSize, "select *",
+				sql, targetId);
+		return page;
+	}
+
+	/**
+	 * 删除主子回复信息
+	 * 
+	 * @return
+	 */
+	public void deleteReplyAll(Object targetId) {
+		String sql = "delete from comment where commentid=? or pid=?";
+		Db.batch(sql, new Object[][] { { targetId, targetId } }, 1);
+	}
 }

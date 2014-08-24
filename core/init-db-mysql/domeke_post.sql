@@ -24,7 +24,6 @@ DROP TABLE IF EXISTS `post`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `post` (
   `postid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(15) NOT NULL,
   `userid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(80) NOT NULL,
   `dateline` timestamp  NOT NULL ,
