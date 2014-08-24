@@ -12,49 +12,43 @@
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <body>
-	<a href="goods/goAddGoods">添加商品信息</a>
 	<div>
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>序号</th>
-				<th>商城类目</th>
-				<th>商品名称</th>
-				<th>价格</th>
-				<th>商品数量</th>
-				<th>商品描述</th>
-				<th>淘宝地址</th>
-				<th>发布时间</th>
-				<th>状态</th>
-				<th>创建人</th>
-				<th>操作</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% 
-			var index = 0 ;
-			for(goods in goodslist){
-				index = index + 1 ;
-			%>
-			<tr>
-				<td>${index}</td>
-				<td>${goods.goods!}</td>
-				<td>${goods.goodsname!}</td>
-				<td>${goods.price!}</td>
-				<td>${goods.amount!}</td>
-				<td>${goods.message!}</td>
-				<td>${goods.tamllurl!}</td>
-				<td>${goods.submitdate!}</td>
-				<td>${goods.status!}</td>
-				<td>${goods.creater!}</td>
-				<td> 
-                    <a href="goods/getGoodsById/${goods.goodsid}">修改</a>
-					<a href="goods/delete/${goods.goodsid}" onclick="return confirm('确定删除？')">删除</a>
-				</td>
-			</tr>
-			<% } %>
-		</tbody>
-	</table>
+		<a href="">创意生活</a> <a href="">进口商品</a>
+	</div>
+	<div>
+		<a href="goods/goAddGoods">添加商品信息</a>
+	</div>
+	<div class="block-content collapse in" >
+		<% 
+		var index = 0 ;
+		var column = 3 ;
+		for(goods in goodslist){ 
+			index = index + 1 ;
+			if(index % column == 1){ 
+		%>
+			<div class="row-fluid padd-bottom">
+		<% 
+			}
+		%>
+			<div class="span3">
+				<div>
+					<a href="${goods.tamllurl!}" class="thumbnail"> 
+						<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${goods.pic!}" title="点击商品下单"/>
+					</a>
+				</div>
+				<div>
+					<a href="goods/getGoodsById/${goods.goodsid!}">修改</a> 
+					<a href="goods/delete/${goods.goodsid!}" onclick="return confirm('确定删除？')">删除</a>
+				</div>
+			</div>
+		<% 
+			if(index % column == 0){ 
+		%>
+			</div>
+		<% 
+			} 
+		} 
+		%>
 	</div>
 </body>
 </html>

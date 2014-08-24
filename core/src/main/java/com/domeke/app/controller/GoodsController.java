@@ -1,12 +1,9 @@
 package com.domeke.app.controller;
 
-import java.io.File;
 import java.util.List;
 
 import com.domeke.app.model.Goods;
 import com.domeke.app.route.ControllerBind;
-import com.jfinal.core.Controller;
-import com.jfinal.upload.UploadFile;
 
 /**
  * 商品model控制器
@@ -15,7 +12,7 @@ import com.jfinal.upload.UploadFile;
  *
  */
 @ControllerBind(controllerKey = "/goods")
-public class GoodsController extends Controller {
+public class GoodsController extends FilesLoadController {
 
 	/**
 	 * 跳转商品管理界面
@@ -33,24 +30,13 @@ public class GoodsController extends Controller {
 	}
 
 	/**
-	 * 保存商品信息
+	 * 保存商品信息<br>
+	 * 注：// 图片上传后，以会员的名字作为文件名，路径\core\ upload\goodspic\XXXX\XXXXX.jpg
 	 */
 	public void save() {
 		try {
-			// 图片上传后，以会员的名字作为文件名
-			UploadFile uploadFile = getFile("picture", "chenhailin",
+			String picturePath = upLoad("pictrue", "goodspic",
 					200 * 1024 * 1024, "utf-8");
-			File picture = uploadFile.getFile();
-			String fileName = picture.getName();
-			String type = "jpg";
-			if (fileName != null && fileName.indexOf('.') > 0) {
-				String[] temp = fileName.split("\\.");
-				type = temp[temp.length - 1];
-			}
-			File replace = new File(uploadFile.getSaveDirectory() + "\\"
-					+ System.currentTimeMillis() + "." + type);
-			picture.renameTo(replace);
-			String picturePath = replace.getAbsolutePath();
 			Goods goodsModel = getModel(Goods.class);
 			goodsModel.set("pic", picturePath);
 			// 可改为获取当前用户的名字或者ID
@@ -77,7 +63,13 @@ public class GoodsController extends Controller {
 	 * 更新已修的商品
 	 */
 	public void update() {
+		String picturePath = upLoad("pictrue", "goodspic", 200 * 1024 * 1024,
+				"utf-8");
 		Goods goodsModel = getModel(Goods.class);
+		goodsModel.set("pic", picturePath);
+		// 可改为获取当前用户的名字或者ID
+		goodsModel.set("creater", 111111);
+		goodsModel.set("modifier", 111111);
 		goodsModel.update();
 		goGoodsMan();
 	}

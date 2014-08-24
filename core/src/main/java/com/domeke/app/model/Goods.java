@@ -26,7 +26,14 @@ public class Goods extends Model<Goods> {
 	 * 保存数据信息到数据库
 	 */
 	public void saveGoodsInfo() {
-		this.save();
+		dao.save();
+	}
+
+	/**
+	 * 更新商品信息
+	 */
+	public void updateGoodsInfo() {
+		dao.update();
 	}
 
 	/**
