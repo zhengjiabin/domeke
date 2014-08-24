@@ -3,6 +3,7 @@ package com.domeke.app.controller;
 import javax.servlet.http.HttpSession;
 
 import com.domeke.app.model.Activity;
+import com.domeke.app.model.ActivityApply;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
@@ -51,6 +52,25 @@ public class ActivityController extends Controller {
 	 * @return 指定活动信息
 	 */
 	public void findById() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 20);
+		String activityId = getPara("activityId");
+		Activity activity = Activity.dao.findById(activityId);
+		setAttr("activity", activity);
+
+		Object userId = activity.get("userid");
+		Page<ActivityApply> page = ActivityApply.dao
+				.findByUserId(userId, pageNumber, pageSize);
+		setAttr("page", page);
+		render("/demo/detailActivity.html");
+	}
+
+	/**
+	 * 查询修改的指定活动信息
+	 * 
+	 * @return 指定活动信息
+	 */
+	public void modifyById() {
 		String activityId = getPara("activityId");
 		Activity activity = Activity.dao.findById(activityId);
 		setAttr("activity", activity);
