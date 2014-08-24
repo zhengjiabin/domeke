@@ -1,9 +1,12 @@
 package com.domeke.app.controller;
 
+import java.io.File;
 import java.util.List;
 
 import com.domeke.app.model.Goods;
+import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
+import com.jfinal.upload.UploadFile;
 
 /**
  * 商品model控制器
@@ -11,6 +14,7 @@ import com.jfinal.core.Controller;
  * @author chenhailin
  *
  */
+@ControllerBind(controllerKey = "/goods")
 public class GoodsController extends Controller {
 
 	/**
@@ -33,7 +37,25 @@ public class GoodsController extends Controller {
 	 */
 	public void save() {
 		try {
+			// 图片上传后，以会员的名字作为文件名
+			UploadFile uploadFile = getFile("picture", "chenhailin",
+					200 * 1024 * 1024, "utf-8");
+			File picture = uploadFile.getFile();
+			String fileName = picture.getName();
+			String type = "jpg";
+			if (fileName != null && fileName.indexOf('.') > 0) {
+				String[] temp = fileName.split("\\.");
+				type = temp[temp.length - 1];
+			}
+			File replace = new File(uploadFile.getSaveDirectory() + "\\"
+					+ System.currentTimeMillis() + "." + type);
+			picture.renameTo(replace);
+			String picturePath = replace.getAbsolutePath();
 			Goods goodsModel = getModel(Goods.class);
+			goodsModel.set("pic", picturePath);
+			// 可改为获取当前用户的名字或者ID
+			goodsModel.set("creater", 111111);
+			goodsModel.set("modifier", 111111);
 			goodsModel.saveGoodsInfo();
 			goGoodsMan();
 		} catch (Exception e) {
@@ -78,4 +100,5 @@ public class GoodsController extends Controller {
 		setAttr("goods", goods);
 		render("/demo/modifygoods.html");
 	}
+
 }

@@ -49,11 +49,12 @@
 				<option value="80">80</option>
 				<option value="100">100</option>
 			</select>条&nbsp;共${page.totalRow!}条&nbsp;第${page.pageNumber!}
-			/${page.totalPage!}页 <a href="./post/find?pageNumber=1">首页</a> <a
-				href="./post/find?pageNumber=${page.pageNumber!-1<1?1:page.pageNumber!-1}">上页</a>
+			/${page.totalPage!}页 <a href="./post/findByUserId?pageNumber=1">首页</a>
 			<a
-				href="./post/find?pageNumber=${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1}">下页</a>
-			<a href="./post/find?pageNumber=${page.totalPage!}">末页</a>
+				href="./post/findByUserId?pageNumber=${page.pageNumber!-1<1?1:page.pageNumber!-1}">上页</a>
+			<a
+				href="./post/findByUserId?pageNumber=${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1}">下页</a>
+			<a href="./post/findByUserId?pageNumber=${page.totalPage!}">末页</a>
 			<table>
 				<thead>
 					<tr>

@@ -1,6 +1,10 @@
 package com.domeke.app.controller;
 
+import javax.servlet.http.HttpSession;
+
+import com.domeke.app.model.Activity;
 import com.domeke.app.model.ActivityApply;
+import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
@@ -24,53 +28,54 @@ public class ActivityApplyController extends Controller {
 	}
 
 	/**
-	 * 查询指定活动申请信息
-	 * 
-	 * @return 指定活动申请信息
-	 */
-	public void findById() {
-		int activityapplyid = getParaToInt();
-		ActivityApply activityapply = ActivityApply.dao
-				.findById(activityapplyid);
-		setAttr("activityapply", activityapply);
-		render("/demo/modifyActivityapply.html");
-	}
-
-	/**
-	 * 修改活动信息
-	 */
-	public void modify() {
-		ActivityApply activityapply = getModel(ActivityApply.class);
-		activityapply.update();
-		find();
-	}
-
-	/**
-	 * 删除指定活动
-	 */
-	public void deleteById() {
-		int activityapplyid = getParaToInt();
-		ActivityApply.dao.deleteById(activityapplyid);
-		find();
-	}
-
-	/**
 	 * 跳转活动申请
 	 */
 	public void skipCreate() {
-		render("/demo/createActivityapply.html");
+		keepPara();
+		render("/demo/createActivityApply.html");
 	}
 
 	/**
 	 * 创建活动申请
 	 */
 	public void create() {
-		ActivityApply activityapply = getModel(ActivityApply.class);
-		activityapply.save();
-		find();
+		ActivityApply activityApply = getModel(ActivityApply.class);
+
+		User user = getUser();
+		Object userId = user.get("userid");
+		activityApply.set("userid", userId);
+
+		Object activtiyId = getPara("activityId");
+		activityApply.set("activityid", activtiyId);
+		activityApply.save();
+		
+		Activity activity = Activity.dao.findById(activtiyId);
+		int applyNumber = activity.getInt("applynumber");
+		activity.set("applynumber", ++applyNumber);
+		activity.update();
+		
+		renderHtml("<html><body onload=\"alert('提交成功!');window.opener.location.reload();window.close()\"></body></html>");
 	}
 
 	public void index() {
-		render("/demo/activityapply.html");
+		find();
+	}
+
+	/**
+	 * 获取登录User对象
+	 * 
+	 * @return user
+	 */
+	private User getUser() {
+		HttpSession session = getSession();
+		Object user = session.getAttribute("user");
+		if (user instanceof User) {
+			return (User) user;
+		}
+		User test = new User();
+		test.set("userid", 1);
+		test.set("username", "zheng");
+		session.setAttribute("user", test);
+		return null;
 	}
 }

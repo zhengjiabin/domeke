@@ -17,8 +17,8 @@
             <% for(v in ventWallList!){%>
                 <tr><td>${v.moodid!}</td><td>${v.message!}</td><td>${v.create_time!}</td>
                     <td class="span2">
-                        <a href="ventwall/selectById/${v.VentWallId}" class="icon-edit" title="编辑">编辑</a>
-                        <a href="ventwall/delete/${v.VentWallId}" class="icon-trash" title="删除" onclick="return confirm('确定删除？')">删除</a>
+                        <a href="ventwall/selectById/${v.ventwallid}" class="icon-edit" title="编辑">编辑</a>
+                        <a href="ventwall/delete/${v.ventwallid}" class="icon-trash" title="删除" onclick="return confirm('确定删除？')">删除</a>
                     </td>
                 </tr>
                 <%}%>

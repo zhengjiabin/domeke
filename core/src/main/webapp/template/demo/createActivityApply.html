@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>活动申请</title>
+<title>报名参与</title>
 <base href="${core}/" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- Bootstrap -->
@@ -10,70 +10,54 @@
 <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
 	media="screen">
 <link href="assets/styles.css" rel="stylesheet" media="screen">
-<script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
 </head>
 
 <body>
-	<form action="activityapply/create" id="activityapply_create"
-		class="form-horizontal" method="post">
-		
-		<div class="control-group">
+	<form action="activityApply/create?activityId=${activityId!}"
+		id="activityApply_create" class="form-horizontal" method="post"
+		method="post">
+
+		<div class="control-group" hidden="block">
 			<label class="control-label">申请ID<span class="required">*</span></label>
 			<div class="controls">
-				<input type="hidden" name="activityapply.activityapplyid" value="${activityapply.activityapplyid!}"
-					class="span6 m-wrap" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">用户名<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activityapply.username"
-					value="${activityapply.username!}" class="span6 m-wrap" />
+				<input type="hidden" name="activitApply.activityapplyid"
+					value="${activityApply.activityapplyid!}" class="span6 m-wrap" />
 			</div>
 		</div>
 
 		<div class="control-group">
 			<label class="control-label">消息、留言<span class="required">*</span></label>
 			<div class="controls">
-				<input type="text" name="activityapply.message"
-					value="${activityapply.message!}" class="span6 m-wrap" />
+				<input type="text" name="activityApply.message"
+					value="${activityApply.message!}" class="span6 m-wrap" />
 			</div>
 		</div>
 
 		<div class="control-group">
 			<label class="control-label">申请时间<span class="required">*</span></label>
 			<div class="controls">
-				<input type="datetime" name="activityapply.dateline"
-					value="${activityapply.dateline!}" class="span6 m-wrap" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">每人花销<span class="required">*</span></label>
-			<div class="controls">
-				<input type="number" name="activityapply.payment"
-					value="${activityapply.payment!}" class="span6 m-wrap" />
+				<input type="datetime" name="activityApply.dateline"
+					value="${activityApply.dateline!}" class="span6 m-wrap" />
 			</div>
 		</div>
 
 		<div class="control-group">
 			<label class="control-label">用户定制项目数据<span class="required">*</span></label>
 			<div class="controls">
-				<input type="text" name="activityapply.ufielddata"
-					value="${activityapply.ufielddata!}" class="span6 m-wrap" />
+				<input type="text" name="activityApply.ufielddata"
+					value="${activityApply.ufielddata!}" class="span6 m-wrap" />
 			</div>
 		</div>
 
 		<div class="control-group">
 			<label class="control-label">性别<span class="required">*</span></label>
 			<div class="controls">
-				<input type="radio" name="activityapply.gender" value="true"
+				<input type="radio" name="activityApply.gender" value="0"
 					class="span6 m-wrap" />Man
 			</div>
 			<div class="controls">
-				<input type="radio" name="activityapply.gender" value="false"
+				<input type="radio" name="activityApply.gender" value="1"
 					class="span6 m-wrap" />FeMan
 			</div>
 		</div>
@@ -81,11 +65,11 @@
 		<div class="control-group">
 			<label class="control-label">证件类型<span class="required">*</span></label>
 			<div class="controls">
-				<input type="radio" name="activityapply.papers" value="true"
+				<input type="radio" name="activityApply.papers" value="0"
 					class="span6 m-wrap" />身份证
 			</div>
 			<div class="controls">
-				<input type="radio" name="activityapply.papers" value="false"
+				<input type="radio" name="activityApply.papers" value="1"
 					class="span6 m-wrap" />学生证
 			</div>
 		</div>
@@ -93,14 +77,14 @@
 		<div class="control-group">
 			<label class="control-label">证件号码<span class="required">*</span></label>
 			<div class="controls">
-				<input type="text" name="activityapply.papersid"
-					value="${activityapply.papersid!}" class="span6 m-wrap" />
+				<input type="text" name="activityApply.papersid"
+					value="${activityApply.papersid!}" class="span6 m-wrap" />
 			</div>
 		</div>
 
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary">提交</button>
-			<button type="button" class="btn">取消</button>
+			<button type="button" class="btn" onClick='window.close()'>取消</button>
 		</div>
 	</form>
 </body>

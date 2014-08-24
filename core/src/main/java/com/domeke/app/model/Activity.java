@@ -2,6 +2,7 @@ package com.domeke.app.model;
 
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 
 /**
  * 
@@ -34,6 +35,38 @@ public class Activity extends Model<Activity> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
 	public static Activity dao = new Activity();
 
+	/**
+	 * 分页查询活动
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Activity> findPage(int pageNumber, int pageSize) {
+		Page<Activity> page = this.paginate(pageNumber, pageSize, "select *",
+				"from activity order by status,createtime");
+		return page;
+	}
+
+	/**
+	 * 分页查询指定发起人的活动
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Activity> findByUserId(Object userId, int pageNumber,
+			int pageSize) {
+		Page<Activity> page = this.paginate(pageNumber, pageSize, "select *",
+				"from activity where userid=? order by status,createtime",
+				userId);
+		return page;
+	}
 }

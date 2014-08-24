@@ -3,6 +3,7 @@ package com.domeke.app.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
@@ -11,6 +12,7 @@ import com.jfinal.plugin.activerecord.Model;
  * @author chenhailin
  *
  */
+@TableBind(tableName = "goods", pkName = "goodsid")
 public class Goods extends Model<Goods> {
 
 	/**
@@ -24,14 +26,12 @@ public class Goods extends Model<Goods> {
 	 * 保存数据信息到数据库
 	 */
 	public void saveGoodsInfo() {
-		// 可改为获取当前用户的名字或者ID
-		this.set("creater", "chenhailin");
-		this.set("modifier", "chenhailin");
 		this.save();
 	}
 
 	/**
 	 * 获取所有商品信息
+	 * 
 	 * @return 返回商品所有信息
 	 */
 	public List<Goods> queryAllGoodsInfo() {

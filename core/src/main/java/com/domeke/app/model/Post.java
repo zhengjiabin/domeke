@@ -61,7 +61,7 @@ public class Post extends Model<Post> {
 	 *            页数
 	 * @return
 	 */
-	public Page<Post> findByAuthorid(Object userId, int pageNumber, int pageSize) {
+	public Page<Post> findByUserId(Object userId, int pageNumber, int pageSize) {
 		Page<Post> page = this.paginate(pageNumber, pageSize, "select *",
 				"from post where userid=? order by status,createtime", userId);
 		return page;
