@@ -42,6 +42,7 @@ function openApprove(id)
 				<td>${goods.message!}</td>
 				<td>${goods.tamllurl!}</td>
 				<td>${goods.status!}</td>
+				
 				<td> 
                     <a href="approve/upGoods/${goods.goodsid}?type=Y">审核通过</a>
                     <a  onclick="openApprove('${goods.goodsid}');">审核不通过</a>

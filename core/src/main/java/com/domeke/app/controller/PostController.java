@@ -1,8 +1,11 @@
 package com.domeke.app.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.domeke.app.model.Comment;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
@@ -50,6 +53,29 @@ public class PostController extends Controller {
 	 * @return 指定帖子信息
 	 */
 	public void findById() {
+		Object postId = getPara("postId");
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+
+		Post post = Post.dao.findById(postId);
+		setAttr("post", post);
+
+		Page<Comment> page = Comment.dao.findPageByTargetId(postId, pageNumber,
+				pageSize);
+		setAttr("page", page);
+
+		List<Comment> followPage = Comment.dao.findFollowByTargetId(postId);
+		setAttr("followPage", followPage);
+
+		render("/demo/detailPost.html");
+	}
+
+	/**
+	 * 查询修改的帖子信息
+	 * 
+	 * @return 帖子信息
+	 */
+	public void modifyById() {
 		String postid = getPara("postId");
 		Post post = Post.dao.findById(postid);
 		setAttr("post", post);
@@ -62,7 +88,7 @@ public class PostController extends Controller {
 	public void modify() {
 		Post postid = getModel(Post.class);
 		postid.update();
-		
+
 		findByUserId();
 	}
 
@@ -99,6 +125,48 @@ public class PostController extends Controller {
 
 		findByUserId();
 	}
+	
+	/**
+	 * 添加回复信息
+	 */
+	public void replyComment() {
+		Comment comment = getModel(Comment.class);
+
+		Object targetId = getPara("targetId");
+		comment.set("targetid", targetId);
+
+		User user = getUser();
+		comment.set("userid", user.get("userid"));
+
+		comment.set("idtype", "10");
+		
+		HttpServletRequest request = getRequest();
+		String remoteIp = request.getRemoteAddr();
+		comment.set("userip", remoteIp);
+		
+		Object pId = getPara("pId");
+		if(pId != null){
+			comment.set("pid", pId);
+		}
+		
+		Object toUserId = getPara("toUserId");
+		if(toUserId != null){
+			comment.set("touserid", toUserId);
+		}
+
+		comment.save();
+		findById();
+	}
+
+	/**
+	 * 删除回复信息
+	 */
+	public void deleteComment() {
+		Object commentId = getPara("commentId");
+		Post post = Post.dao.findById(commentId);
+		setAttr("post", post);
+		render("/demo/modifyPost.html");
+	}
 
 	public void index() {
 		find();
@@ -106,6 +174,7 @@ public class PostController extends Controller {
 
 	/**
 	 * 获取登录User对象
+	 * 
 	 * @return user
 	 */
 	private User getUser() {
