@@ -13,22 +13,7 @@ import com.jfinal.plugin.activerecord.Page;
 public class ActivityApplyController extends Controller {
 
 	/**
-	 * 查询所有活动申请信息
-	 * 
-	 * @return 活动信息
-	 */
-	public void find() {
-		int pageNumber = getParaToInt("activityapplyPage_pageNumber", 1);
-		int pageSize = getParaToInt("activityapplyPage_pageSize", 2);
-		Page<ActivityApply> activityapplyPage = ActivityApply.dao.paginate(
-				pageNumber, pageSize, "select *",
-				"from activityapply order by create_time");
-		setAttr("activityapplyPage", activityapplyPage);
-		render("/demo/activityapply.html");
-	}
-
-	/**
-	 * 跳转活动申请
+	 * 跳转活动报名申请
 	 */
 	public void skipCreate() {
 		keepPara();
@@ -36,7 +21,7 @@ public class ActivityApplyController extends Controller {
 	}
 
 	/**
-	 * 创建活动申请
+	 * 创建活动报名申请
 	 */
 	public void create() {
 		ActivityApply activityApply = getModel(ActivityApply.class);
@@ -54,11 +39,23 @@ public class ActivityApplyController extends Controller {
 		activity.set("applynumber", ++applyNumber);
 		activity.update();
 		
-		renderHtml("<html><body onload=\"alert('提交成功!');window.opener.location.reload();window.close()\"></body></html>");
+		renderHtml("<html><body onload=\"alert('提交成功!');window.opener.location.reload();window.close();\"></body></html>");
 	}
+	
+	/**
+	 * 查询发起人活动的所有报名参与信息
+	 * 
+	 * @return 报名申请信息
+	 */
+	public void findByUserId() {
+		User user = getUser();
+		Object userId = user.get("userid");
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
 
-	public void index() {
-		find();
+		Page<ActivityApply> page =ActivityApply.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("page", page);
+		render("/demo/myActivity.html");
 	}
 
 	/**
@@ -76,6 +73,8 @@ public class ActivityApplyController extends Controller {
 		test.set("userid", 1);
 		test.set("username", "zheng");
 		session.setAttribute("user", test);
-		return null;
+		return test;
 	}
+	
+	
 }

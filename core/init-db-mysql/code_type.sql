@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50619
 File Encoding         : 65001
 
-Date: 2014-08-23 12:08:47
+Date: 2014-08-24 14:17:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,6 +27,7 @@ CREATE TABLE `code_type` (
   `createtime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `creater` varchar(32) DEFAULT NULL,
   `modifytime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `status` char(1) DEFAULT NULL,
   `modifier` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`codetypeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;

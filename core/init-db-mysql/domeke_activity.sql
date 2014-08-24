@@ -38,7 +38,7 @@ CREATE TABLE `activity` (
   `expiration` timestamp  NOT NULL ,
   `ufield` text NOT NULL,
   `credit` smallint(6) unsigned NOT NULL DEFAULT '0',
-  `status` tinyint(1) DEFAULT NULL,
+  `status` varchar(4) NOT NULL DEFAULT '10',
   `createtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) NULL,
   `modifier` bigint(20) NULL,

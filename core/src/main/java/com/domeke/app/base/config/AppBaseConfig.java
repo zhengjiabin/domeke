@@ -57,8 +57,6 @@ public class AppBaseConfig extends JFinalConfig {
 		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.DEFAULT);
 		plugins.add(atbp);
 		
-		
-		
 //		plugins.add(new SpringPlugin());
 	}
 

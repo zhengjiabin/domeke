@@ -12,17 +12,22 @@
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <body>
-	<a href="codetable/goCodeTable">基础码表</a>
+	<a href="codetable/goCodeTable">新增基础码表</a>
 	<div>
 	<table class="table table-striped">
 		<thead>
 			<tr>
-			基础码表${codeTableList.~size}
+			基础码表
 			</tr>
 			<tr>
 				<th>序号</th>
 				<th>码表主键</th>
+				<th>码表类型</th>
 				<th>码表名称</th>
+				<th>码表值</th>
+				<th>码表排序</th>
+				<th>状态</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -34,7 +39,11 @@
 			<tr>
 				<td>${index}</td>
 				<td>${c.codekey!}</td>
-				<td>${c.ccodevalue!}</td>
+				<td>${c.codetype!}</td>
+				<td>${c.codename!}</td>
+				<td>${c.codevalue!}</td>
+				<td>${c.sortnum!}</td>
+				<td>${c.status!}</td>
 				<td> 
                     <a href="codetable/selectCodeTableById/${c.codetableid}">修改</a>
 					<a href="codetable/deleteCodeTable/${c.codetableid}" onclick="return confirm('确定删除？')">删除</a>

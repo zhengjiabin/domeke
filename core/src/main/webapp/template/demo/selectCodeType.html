@@ -12,7 +12,7 @@
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 </head>
 <body>
-	<a href="codetype/goCodeType">码表列表</a>
+	<a href="codetype/goCodeType">新增码表</a>
 	<div>
 	<table class="table table-striped">
 		<thead>
@@ -21,8 +21,10 @@
 			</tr>
 			<tr>
 				<th>序号</th>
-				<th>码表名称</th>
-				<th>码表对应键</th>
+				<th>码表类型</th>
+				<th>码表对名称</th>
+				<th>排序</th>
+				<th>操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -34,7 +36,8 @@
 			<tr>
 				<td>${index}</td>
 				<td>${c.codetype!}</td>
-				<td>${c.ccodekey!}</td>
+				<td>${c.typename!}</td>
+				<td>${c.sortnum!}</td>
 				<td> 
                     <a href="codetype/selectCodeTypeById/${c.codetypeid}">修改</a>
 					<a href="codetype/deleteCodeType/${c.codetypeid}" onclick="return confirm('确定删除？')">删除</a>
