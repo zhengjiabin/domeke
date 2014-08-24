@@ -24,12 +24,11 @@ DROP TABLE IF EXISTS `treasure`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `treasure` (
   `treasureid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `author` varchar(15) NOT NULL,
-  `authorid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `userid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(80) NOT NULL,
-  `dateline` int(10) unsigned NOT NULL DEFAULT '0',
+  `dateline` TIMESTAMP  NOT NULL,
   `message` text NOT NULL,
-  `useip` varchar(15) NOT NULL,
+  `userip` varchar(15) NOT NULL,
   `invisible` tinyint(1) NOT NULL DEFAULT '0',
   `anonymous` tinyint(1) NOT NULL DEFAULT '0',
   `usesig` tinyint(1) NOT NULL DEFAULT '0',

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>修改宝贝信息</title>
+<title>宝贝信息</title>
 <base href="${core}/" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- Bootstrap -->
@@ -12,14 +12,36 @@
 	media="screen">
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+<script type="text/javascript" language="text/javascript">
+	function goToPageSize(pageSize,treasureId) {
+		location.href = "./treasure/findById?treasureId=" + treasureId + "&pageSize=" + pageSize
+				+ "&pageNumber=1";
+	};
+
+	function pageSize(pageSize) {
+		var obj = document.getElementById('pageSize');
+		for (var i = 0; i < obj.length; i++) {
+			if (pageSize == obj.options[i].value) {
+				obj.options[i].selected = true;
+			} else {
+				obj.options[i].selected = false;
+			}
+
+		}
+	}
+</script>
 </head>
 <body>
 	<form class="form-signin" action="treasure/modify" method="post">
+		<h1>
+			<a href="./treasure/find">宝贝信息 </a>
+		</h1>
 
 		<div class="control-group" hidden="block">
 			<label class="control-label">宝贝ID<span class="required">*</span></label>
 			<div class="controls">
-				<input name="treasure.treasureid" value="${treasure.treasureid!}"
+				<input type="hidden" name="treasure.treasureid" value="${treasure.treasureid!}"
 					class="span6 m-wrap" />
 			</div>
 		</div>
@@ -43,16 +65,16 @@
 		<div class="control-group">
 			<label class="control-label">内容<span class="required">*</span></label>
 			<div class="controls">
-				<input type="text" name="treasure.message"
-					value="${treasure.message!}" class="span6 m-wrap" />
+				<input type="text" name="treasure.message" value="${treasure.message!}"
+					class="span6 m-wrap" />
 			</div>
 		</div>
 
 		<div class="control-group">
 			<label class="control-label">是否匿名<span class="required">*</span></label>
 			<div class="controls">
-				<input type="text" name="treasure.anonymous"
-					value="${treasure.anonymous!}" class="span6 m-wrap" />
+				<input type="text" name="treasure.anonymous" value="${treasure.anonymous!}"
+					class="span6 m-wrap" />
 			</div>
 		</div>
 
@@ -64,10 +86,6 @@
 			</div>
 		</div>
 
-		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">提交</button>
-			<button type="button" class="btn">取消</button>
-		</div>
 	</form>
 </body>
 </html>
