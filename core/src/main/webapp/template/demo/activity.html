@@ -33,7 +33,8 @@
 	function openApply(activityId){
 		var url = "./activityApply/skipCreate?activityId="+activityId;
 		var attribute = "height=500, width=500, top=0,left=0,toolbar=no, menubar=no, scrollbars=no, resizable=yes, location=no,status=no";
-		window.open (url, "报名参与", attribute);
+		/* window.open (url, "报名参与", attribute);  */
+		window.showModalDialog(url,"",attribute);
 	}
 	
 </script>
