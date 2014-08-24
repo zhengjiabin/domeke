@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-<title>活动信息</title>
+<title>宝贝信息</title>
 <base href="${core}/" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- Bootstrap -->
@@ -13,13 +14,13 @@
 <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
 <script type="text/javascript" language="text/javascript">
-	function treasurePage_goToPageSize(pageSize) {
-		location.href = "./treasure/find?treasurePage_pageSize=" + pageSize
-				+ "&treasurePage_pageNumber=1";
+	function goToPageSize(pageSize) {
+		location.href = "./treasure/find?pageSize=" + pageSize
+				+ "&pageNumber=1";
 	};
 
-	function treasurePage_pageSize(pageSize) {
-		var obj = document.getElementById('treasurePage_pageSize');
+	function pageSize(pageSize) {
+		var obj = document.getElementById('pageSize');
 		for (var i = 0; i < obj.length; i++) {
 			if (pageSize == obj.options[i].value) {
 				obj.options[i].selected = true;
@@ -33,29 +34,33 @@
 
 </head>
 
-<body onload="treasurePage_pageSize(${treasurePage.pageSize!})">
-	<form action="treasureapply/save" id="treasureapply_save"
-		class="form-horizontal" method="post">
+<body onload="pageSize(${page.pageSize!})">
+	<form action="treasure/save" id="treasure_save" class="form-horizontal"
+		method="post">
 		<div class="control-group">
 			<h1>
-				<a href="./treasure/skipCreate">活动申请 </a>
+				<a href="./treasure/skipCreate">发表宝贝 </a>
+			</h1>
+			<h1>
+				<a href="./treasure/findByUserId">我的宝贝</a>
 			</h1>
 			<hr>
-			每页<select name="treasurePage_pageSize" id="treasurePage_pageSize"
-				onchange="treasurePage_goToPageSize(this.value)">
-				<option value="2" selected="true">2</option>
-				<option value="3">3</option>
-				<option value="5">5</option>
-				<option value="8">8</option>
-				<option value="10">10</option>
-			</select>条&nbsp;共${treasurePage.totalRow!}条&nbsp;第${treasurePage.pageNumber!}
-			/${treasurePage.totalPage!}页 <a
-				href="./treasure/find?treasurePage_pageNumber=1">首页</a> <a
-				href="./treasure/find?treasurePage_pageNumber=${treasurePage.pageNumber!-1<1?1:treasurePage.pageNumber!-1}">上页</a>
+			每页<select name="pageSize" id="pageSize"
+				onchange="goToPageSize(this.value)">
+				<option value="10" selected="true">10</option>
+				<option value="20">20</option>
+				<option value="30">30</option>
+				<option value="80">80</option>
+				<option value="100">100</option>
+			</select>条&nbsp;共${page.totalRow!}条&nbsp;第${page.pageNumber!}
+			/${page.totalPage!}页 <a
+				href="./treasure/find?pageNumber=1&pageSize=${page.pageSize!}">首页</a>
 			<a
-				href="./treasure/find?treasurePage_pageNumber=${treasurePage.pageNumber!+1>treasurePage.totalPage!?treasurePage.totalPage!:treasurePage.pageNumber!+1}">下页</a>
+				href="./treasure/find?pageNumber=${page.pageNumber!-1<1?1:page.pageNumber!-1}&pageSize=${page.pageSize!}">上页</a>
 			<a
-				href="./treasure/find?treasurePage_pageNumber=${treasurePage.totalPage!}">末页</a>
+				href="./treasure/find?pageNumber=${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1}&pageSize=${page.pageSize!}">下页</a>
+			<a
+				href="./treasure/find?pageNumber=${page.totalPage!}&pageSize=${page.pageSize!}">末页</a>
 			<table>
 				<thead>
 					<tr>
@@ -63,36 +68,20 @@
 						<td style="width: 250px">标题</td>
 						<td style="width: 250px">发表时间</td>
 						<td style="width: 250px">内容</td>
-						<td style="width: 250px">是否通过审核</td>
-						<td style="width: 250px">是否匿名</td>
-						<td style="width: 250px">是否启用签名</td>
-						<td style="width: 250px">是否有附件</td>
-						<td style="width: 250px">评分分数</td>
 						<td style="width: 250px">评分次数</td>
 						<td style="width: 250px">状态</td>
-						<td style="width: 250px">是否存在点评</td>
-						<td style="width: 250px">回复活动积分记录</td>
-						<td style="width: 250px">操作</td>
 					</tr>
 				</thead>
 				<tbody>
-					<% for (treasure in treasurePage.list){ %>
+					<% for (treasure in page.list){ %>
 					<tr>
 						<td>${treasure.author!}</td>
-						<td>${treasure.subject!}</td>
+						<td><a
+							href="./treasure/findById?treasureId=${treasure.treasureid!}">${treasure.subject!}</a></td>
 						<td>${treasure.dateline!}</td>
 						<td>${treasure.message!}</td>
-						<td>${treasure.invisible!}</td>
-						<td>${treasure.anonymous!}</td>
-						<td>${treasure.usesig!}</td>
-						<td>${treasure.attachment!}</td>
-						<td>${treasure.rate!}</td>
+						<td>${treasure.ratetimes!}</td>
 						<td>${treasure.status!}</td>
-						<td>${treasure.comment!}</td>
-						<td>${treasure.replycredit!}</td>
-						<td><a href="./treasure/findById/${treasure.treasureid}">修改</a>
-							<a href="./treasure/deleteById/${treasure.treasureid}"
-							onclick="return confirm('确定删除？')">删除</a></td>
 					</tr>
 					<% } %>
 				</tbody>
