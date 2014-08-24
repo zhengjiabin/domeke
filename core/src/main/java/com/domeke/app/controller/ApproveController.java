@@ -17,8 +17,6 @@ import com.jfinal.core.Controller;
 public class ApproveController extends Controller {
 	private static Goods goods = new Goods();
 	public void save(){
-		System.err.println("********************************************************");
-		System.out.println(getPara("status"));
 		Approve app = getModel(Approve.class);
 		app.saveApprove();
 		render("/demo/approve.html");
