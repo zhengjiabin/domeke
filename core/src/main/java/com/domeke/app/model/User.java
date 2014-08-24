@@ -4,7 +4,7 @@
 package com.domeke.app.model;
 
 import com.domeke.app.tablebind.TableBind;
-import com.domeke.app.utils.EncryptUtils;
+import com.domeke.app.utils.EncryptKit;
 import com.domeke.app.utils.HtmlTagKit;
 import com.jfinal.plugin.activerecord.Model;
 
@@ -39,7 +39,7 @@ public class User extends Model<User> {
 
 	public void saveUser() {
 		HtmlTagKit.processHtmlSpecialTag(this, "username", "email", "mobile");
-		String pasword = EncryptUtils.encryptMd5(this.getStr("password"));
+		String pasword = EncryptKit.encryptMd5(this.getStr("password"));
 		this.set("password", pasword);
 		this.save();
 	}

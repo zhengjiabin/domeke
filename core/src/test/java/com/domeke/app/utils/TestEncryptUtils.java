@@ -8,7 +8,7 @@ public class TestEncryptUtils {
 
 	@Test
 	public void testEncryptMd5() {
-		String params = EncryptUtils.encryptMd5("admin");
+		String params = EncryptKit.encryptMd5("admin");
 		assertEquals("ISMvKXpXpadDiUoOSoAfww==", params);
 	}
 

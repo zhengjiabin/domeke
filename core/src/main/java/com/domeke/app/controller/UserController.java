@@ -5,6 +5,7 @@ package com.domeke.app.controller;
 
 import com.domeke.app.interceptor.MailAuthInterceptor;
 import com.domeke.app.model.User;
+import com.domeke.app.route.ControllerBind;
 import com.domeke.app.validator.RegistValidator;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -13,6 +14,7 @@ import com.jfinal.core.Controller;
  * @author lijiasen@domeke.com
  *
  */
+@ControllerBind(controllerKey = "user")
 public class UserController extends Controller {
 
 	public void save() {
@@ -20,7 +22,7 @@ public class UserController extends Controller {
 		user.saveUser();
 	}
 
-	public void goRegist() {
+	public void index() {
 		render("/demo/regist.html");
 	}
 
@@ -30,5 +32,6 @@ public class UserController extends Controller {
 		user.saveUser();
 		render("/demo/login.html");
 	}
+
 
 }

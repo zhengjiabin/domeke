@@ -1,8 +1,7 @@
 package com.domeke.app.base.config;
 
-import org.beetl.ext.jfinal.BeetlRenderFactory;
-
 import com.alibaba.druid.wall.WallFilter;
+import com.domeke.app.beetl.DomekeBeetlRenderFactory;
 import com.domeke.app.route.AutoBindRoutes;
 import com.domeke.app.tablebind.AutoTableBindPlugin;
 import com.domeke.app.tablebind.SimpleNameStyles;
@@ -27,7 +26,7 @@ public class AppBaseConfig extends JFinalConfig {
 		// 设置编码格式统一为utf-8 解决乱码问题
 		constants.setEncoding(DomeKeConstants.ENCODE);
 		constants.setDevMode(false);
-		constants.setMainRenderFactory(new BeetlRenderFactory());
+		constants.setMainRenderFactory(new DomekeBeetlRenderFactory());
 		constants.setError404View("");
 		constants.setError500View("");
 	}
@@ -56,8 +55,6 @@ public class AppBaseConfig extends JFinalConfig {
 		
 		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.DEFAULT);
 		plugins.add(atbp);
-		
-		
 		
 //		plugins.add(new SpringPlugin());
 	}

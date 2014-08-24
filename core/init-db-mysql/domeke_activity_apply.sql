@@ -34,6 +34,7 @@ CREATE TABLE `activity_apply` (
   `gender` tinyint(1) NOT NULL DEFAULT '0',
   `papers` tinyint(1) DEFAULT '0',
   `papersid` bigint(20) DEFAULT '0',
+  `status` varchar(4) NOT NULL DEFAULT '10',
   `createtime` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) NULL,
   `modifier` bigint(20) NULL,

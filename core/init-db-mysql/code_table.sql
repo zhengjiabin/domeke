@@ -24,7 +24,7 @@ CREATE TABLE `code_table` (
   `codekey` varchar(32) DEFAULT NULL,
   `codetype` varchar(32) DEFAULT NULL,
   `codename` varchar(32) DEFAULT NULL,
-  `ccodevalue` varchar(256) DEFAULT NULL,
+  `codevalue` varchar(256) DEFAULT NULL,
   `sortnum` int(11) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `creater` varchar(32) DEFAULT NULL,

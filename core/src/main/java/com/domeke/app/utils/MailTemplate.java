@@ -1,27 +1,26 @@
 package com.domeke.app.utils;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
-import org.beetl.core.resource.FileResourceLoader;
+import org.beetl.core.resource.ClasspathResourceLoader;
 
 public class MailTemplate {
 	
-	public void getHtml(String tempalteKey){
-		String root = System.getProperty("user.dir")+File.separator+"s";
-		FileResourceLoader resourceLoader = new FileResourceLoader(root,"utf-8");
-		Configuration cfg = null ;
+	public String getHtml(String tempalteKey,Map<String,Object> params){
+		ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("/template");
+		Configuration cfg = null;
 		try {
 			cfg = Configuration.defaultConfiguration();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
-		Template t = gt.getTemplate("/mail/hello.txt");
-		String str = t.render();
-		System.out.println(str);
+		Template template = gt.getTemplate("/mail/"+tempalteKey+".html");
+		template.binding("mail",params);
+		return template.render();
 	}
 }

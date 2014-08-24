@@ -7,18 +7,21 @@ import org.apache.shiro.subject.Subject;
 
 import com.domeke.app.base.config.DomeKeConstants;
 import com.domeke.app.model.User;
-import com.domeke.app.utils.EncryptUtils;
+import com.domeke.app.route.ControllerBind;
+import com.domeke.app.utils.EncryptKit;
 import com.domeke.app.validator.login.LoginValidator;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 
+
+@ControllerBind(controllerKey = "login")
 public class LoginController extends Controller {
 
 	@Before(LoginValidator.class)
 	public void login() {
 		String username = getPara("username");
 		String password = getPara("password");
-		password = EncryptUtils.encryptMd5(password);
+		password = EncryptKit.encryptMd5(password);
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 		Subject currentUser = SecurityUtils.getSubject();
 		try {
