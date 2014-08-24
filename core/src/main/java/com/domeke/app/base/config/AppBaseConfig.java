@@ -17,7 +17,6 @@ import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.plugin.activerecord.tx.TxByActionMethods;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
-import com.jfinal.plugin.spring.SpringPlugin;
 
 public class AppBaseConfig extends JFinalConfig {
 
@@ -58,7 +57,7 @@ public class AppBaseConfig extends JFinalConfig {
 		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.DEFAULT);
 		plugins.add(atbp);
 		
-		plugins.add(new SpringPlugin());
+//		plugins.add(new SpringPlugin());
 	}
 
 	@Override
