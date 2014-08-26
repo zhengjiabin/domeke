@@ -4,7 +4,7 @@ import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
- * CREATE TABLE `treasureapprove` (
+ * CREATE TABLE `treasure_approve` (
  * `treasureapproveid` int(10) unsigned NOT NULL AUTO_INCREMENT,
  * `treasureid` int(10) unsigned NOT NULL,
  * `status` tinyint(3) NOT NULL DEFAULT '0',

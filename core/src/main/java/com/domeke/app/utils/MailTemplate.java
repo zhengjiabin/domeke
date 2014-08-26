@@ -9,8 +9,8 @@ import org.beetl.core.Template;
 import org.beetl.core.resource.ClasspathResourceLoader;
 
 public class MailTemplate {
-	
-	public String getHtml(String tempalteKey,Map<String,Object> params){
+
+	public static String getHtml(String tempalteKey, Map<String, Object> params) {
 		ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("/template");
 		Configuration cfg = null;
 		try {
@@ -19,8 +19,8 @@ public class MailTemplate {
 			e.printStackTrace();
 		}
 		GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
-		Template template = gt.getTemplate("/mail/"+tempalteKey+".html");
-		template.binding("mail",params);
+		Template template = gt.getTemplate("/mail/" + tempalteKey + ".html");
+		template.binding("mail", params);
 		return template.render();
 	}
 }

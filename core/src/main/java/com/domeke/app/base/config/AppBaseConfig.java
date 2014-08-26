@@ -3,6 +3,7 @@ package com.domeke.app.base.config;
 import com.alibaba.druid.wall.WallFilter;
 import com.domeke.app.beetl.DomekeBeetlRenderFactory;
 import com.domeke.app.route.AutoBindRoutes;
+import com.domeke.app.shiro.ShiroPlugin;
 import com.domeke.app.tablebind.AutoTableBindPlugin;
 import com.domeke.app.tablebind.SimpleNameStyles;
 import com.jfinal.config.Constants;
@@ -52,11 +53,13 @@ public class AppBaseConfig extends JFinalConfig {
 		WallFilter wallFilter = new WallFilter();
 		wallFilter.setDbType(DomeKeConstants.DB_TYPE);
 		druidPlugin.addFilter(wallFilter);
-		
+
 		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.DEFAULT);
 		plugins.add(atbp);
-		
-//		plugins.add(new SpringPlugin());
+
+		// plugins.add(new SpringPlugin());
+		plugins.add(new ShiroPlugin(routes));
+		plugins.add(new EhCachePlugin());
 	}
 
 	@Override

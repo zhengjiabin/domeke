@@ -4,7 +4,7 @@ import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
- * CREATE TABLE `postapprove` (
+ * CREATE TABLE `post_approve` (
  * `postapproveid` int(10) unsigned NOT NULL AUTO_INCREMENT ,
  * `postid` int(10) unsigned NOT NULL DEFAULT '0',
  * `status` tinyint(3) NOT NULL DEFAULT '0',

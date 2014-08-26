@@ -3,10 +3,14 @@
  */
 package com.domeke.app.model;
 
+import java.util.List;
+
 import com.domeke.app.tablebind.TableBind;
 import com.domeke.app.utils.EncryptKit;
 import com.domeke.app.utils.HtmlTagKit;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Record;
 
 /**
  * @author Administrator
@@ -58,11 +62,27 @@ public class User extends Model<User> {
 		User user = dao.findFirst(sql, paras);
 		return user != null;
 	}
-	
-	public User findUserIdByUsername(String username){
+
+	public User findUserIdByUsername(String username) {
 		String sql = "select userid from user where username = ? ";
-		User user = dao.findFirst(sql,username);
+		User user = dao.findFirst(sql, username);
 		return user;
 	}
 
+	public User findUserByUsername(String username) {
+		String sql = "select userid,username,nickname,email,mobile from user where username = ? ";
+		User user = dao.findFirst(sql, username);
+		return user;
+	}
+
+	public List<Record> getUserRoleByUsername(String username) {
+		List<Record> recordList = Db.find("select roleid,rolename from role r,user u,user_role ur "
+				+ "where u.userid=ur.userid and ur.roleid = r.roleid and u.username = ?", username);
+		return recordList;
+	}
+
+	public List<Record> getUserPermissionsByUsername(String username) {
+
+		return null;
+	}
 }

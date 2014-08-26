@@ -11,6 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.domeke.app.base.config.DruidDatasouceUtil;
 import com.domeke.app.model.CodeTable;
 import com.google.common.collect.Lists;
@@ -28,7 +31,9 @@ public class CodeKit extends HttpServlet {
 
 	private static Map<String, Map<String, String>> codeTypeMap;
 
-	private static String loadCodeTable = "SELECT T.CODETYPE,T.TYPENAME,C.CODEKEY,C.CODENAME,C.CODEVALUE FROM CODE_TYPE T,CODE_TABLE C WHERE T.CODETYPE=C.CODETYPE AND C.STATUS = '0'";
+	private Logger logger = LoggerFactory.getLogger(CodeKit.class);
+
+	private static String LOAD_CODE_TABLE = "SELECT T.CODETYPE,T.TYPENAME,C.CODEKEY,C.CODENAME,C.CODEVALUE FROM CODE_TYPE T,CODE_TABLE C WHERE T.CODETYPE=C.CODETYPE AND C.STATUS = '0'";
 
 	public void init() throws ServletException {
 		load();
@@ -36,7 +41,8 @@ public class CodeKit extends HttpServlet {
 
 	@SuppressWarnings("unchecked")
 	private void load() {
-		List<Record> codetableList = query(loadCodeTable);
+		List<Record> codetableList = query(LOAD_CODE_TABLE);
+		logger.info("======加载码表数量={}==========", codetableList.size());
 		codeTypeMap = Maps.newHashMap();
 		for (Record codeTable : codetableList) {
 			String codeType = codeTable.getStr("codetype");

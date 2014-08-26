@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.domeke.app.interceptor;
 
 import java.util.Map;
@@ -14,21 +11,22 @@ import com.jfinal.core.ActionInvocation;
 import com.jfinal.core.Controller;
 
 /**
- * @author lijiasen
+ @author lijiasen
  *
  */
 public class MailAuthInterceptor implements Interceptor {
-	
-	private JavaMailSender sender;
+
+	private JavaMailSender mailSender;
+
 	@Override
 	public void intercept(ActionInvocation ai) {
 		ai.invoke();
 	}
 
 	/**
-	 * 加密验证码
-	 * @param email
-	 * @return
+	 加密验证码
+	 @param email
+	 @return
 	 */
 	private String getValidateCode(String email) {
 		String validateCode = EncryptKit.encryptMd5(email);
