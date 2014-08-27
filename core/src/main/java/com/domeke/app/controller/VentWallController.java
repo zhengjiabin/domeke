@@ -3,7 +3,8 @@
  */
 package com.domeke.app.controller;
 
-import java.sql.Timestamp;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
@@ -21,14 +22,29 @@ public class VentWallController extends Controller {
 	 */
 	public void save(){
 		VentWall ventWall = getModel(VentWall.class);
+		String msg = ventWall.getStr("message");
+		msg = getImg(msg);
+		ventWall.set("message", msg);
 		ventWall.saveVentWall();
-		//render("/demo/selectventwall.html");
 		select();
+	}
+	/**
+	 * 正则表达式转换表情
+	 * @param msg
+	 * @return
+	 */
+	private String getImg(String msg) {
+		Pattern p=Pattern.compile("\\[em_(\\d+)\\]");
+		Matcher matcher=p.matcher(msg);
+		while(matcher.find()){
+			String imgNo=matcher.group(1);
+			msg = msg.replace("[em_"+imgNo+"]","<img src='template/demo/arclist/"+imgNo +".gif'/>");
+		}
+		return msg;
 	}
 	
 	public void index() {
-		//render("/demo/ventwall.html");
-		render("/demo/zointest.html");
+		render("/demo/insertVentWall.html.html");
 	}
 	/**
 	 * 查询留言

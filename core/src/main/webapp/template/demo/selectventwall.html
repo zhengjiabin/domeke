@@ -14,6 +14,7 @@
         <table class="table table-hover _module_list">
             <tr><th>留言内容</th></tr>            
             <tr><th>心情${ventWallList.~size}</th><th>留言</th><th>留言时间</th><th>操作</th></tr>
+            <div id="divID"></div>
             <% for(v in ventWallList!){%>
                 <tr><td>${v.moodid!}</td><td>${v.message!}</td><td>${v.create_time!}</td>
                     <td class="span2">
@@ -22,6 +23,7 @@
                     </td>
                 </tr>
                 <%}%>
+                <p><input type="button" class="sub_btn" value="提交"></p>
         </table>
     </div>
 </body>
