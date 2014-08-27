@@ -18,7 +18,12 @@ public class GoodsController extends FilesLoadController {
 	 * 跳转商品管理界面
 	 */
 	public void goGoodsMan() {
-		query();
+		String goodsType = getPara("type");
+		if (goodsType == null || goodsType.trim().length() == 0) {
+			queryAllGoodsInfo();
+		} else {
+			getGoodsInfoByType(goodsType);
+		}
 		render("/demo/goodsmanage.html");
 	}
 
@@ -51,15 +56,6 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 查询出所有商品
-	 */
-	public void query() {
-		Goods goodsModel = getModel(Goods.class);
-		List<Goods> goodsList = goodsModel.queryAllGoodsInfo();
-		this.setAttr("goodslist", goodsList);
-	}
-
-	/**
 	 * 更新已修的商品
 	 */
 	public void update() {
@@ -84,6 +80,15 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
+	 * 查询出所有商品
+	 */
+	public void queryAllGoodsInfo() {
+		Goods goodsModel = getModel(Goods.class);
+		List<Goods> goodsList = goodsModel.queryAllGoodsInfo();
+		this.setAttr("goodslist", goodsList);
+	}
+
+	/**
 	 * 根据商品ID获取某商品
 	 */
 	public void getGoodsById() {
@@ -96,11 +101,10 @@ public class GoodsController extends FilesLoadController {
 	/**
 	 * 根据商品类型获取商品信息
 	 */
-	public void getGoodsInfoByType() {
+	public void getGoodsInfoByType(String goodsType) {
 		Goods goodsModel = getModel(Goods.class);
-		List<Goods> goodsList = goodsModel.getGoodsInfoByType(getPara("type"));
+		List<Goods> goodsList = goodsModel.getGoodsInfoByType(goodsType);
 		this.setAttr("goodslist", goodsList);
-		render("/demo/goodsmanage.html");
 	}
 
 }
