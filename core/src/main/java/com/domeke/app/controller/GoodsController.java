@@ -93,4 +93,14 @@ public class GoodsController extends FilesLoadController {
 		render("/demo/modifygoods.html");
 	}
 
+	/**
+	 * 根据商品类型获取商品信息
+	 */
+	public void getGoodsInfoByType() {
+		Goods goodsModel = getModel(Goods.class);
+		List<Goods> goodsList = goodsModel.getGoodsInfoByType(getPara("type"));
+		this.setAttr("goodslist", goodsList);
+		render("/demo/goodsmanage.html");
+	}
+
 }

@@ -1,9 +1,9 @@
 package com.domeke.app.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
+import com.google.common.collect.Lists;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
@@ -39,11 +39,24 @@ public class Goods extends Model<Goods> {
 	/**
 	 * 获取所有商品信息
 	 * 
-	 * @return 返回商品所有信息
+	 * @return 返回所有商品信息
 	 */
 	public List<Goods> queryAllGoodsInfo() {
 		String querySql = "select * from goods";
 		List<Goods> goodsList = this.find(querySql);
-		return goodsList == null ? new ArrayList<Goods>() : goodsList;
+		return goodsList == null ? Lists.newArrayList() : goodsList;
+	}
+
+	/**
+	 * 根据商品类型返回商品信息
+	 * 
+	 * @param goodsType
+	 *            商品类型
+	 * @return 返回对应类型的商品信息
+	 */
+	public List<Goods> getGoodsInfoByType(String goodsType) {
+		String querySql = "select * from goods where goods=?";
+		List<Goods> goodsList = this.find(querySql, goodsType);
+		return goodsList == null ? Lists.newArrayList() : goodsList;
 	}
 }
