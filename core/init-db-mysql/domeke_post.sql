@@ -28,7 +28,7 @@ CREATE TABLE `post` (
   `subject` varchar(80) NOT NULL,
   `dateline` timestamp  NOT NULL ,
   `message` text NOT NULL,
-  `useip` varchar(15) NOT NULL,
+  `userip` varchar(15) NOT NULL,
   `anonymous` tinyint(1) NOT NULL DEFAULT '0',
   `usesig` tinyint(1) NOT NULL DEFAULT '0',
   `attachment` tinyint(1) NOT NULL DEFAULT '0',

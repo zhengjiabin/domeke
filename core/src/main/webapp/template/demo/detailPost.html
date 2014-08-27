@@ -13,6 +13,8 @@
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
+<script type="text/javascript" src="template/ckeditor/ckeditor.js"></script>
+
 <script type="text/javascript" language="text/javascript">
 	function goToPageSize(pageSize,postId) {
 		location.href = "./post/findById?postId=" + postId + "&pageSize=" + pageSize
@@ -29,69 +31,66 @@
 			}
 
 		}
+	};
+	
+	function replyComments(targetId,pId,toUserId) {
+		var url = "./post/replyComment?targetId="+targetId;
+		if (pId != null && pId !=""){
+			url = url + "&pId="+pId;
+		}
+		if (toUserId != null && toUserId !=""){
+			url = url + "&toUserId="+toUserId;
+		}
+		document.commentForm.action=url;
+		commentForm.submit();
+	};
+	
+	function showReplyComment(id) {
+		document.getElementById("reply").value="";
+		document.getElementById(id).style.display="block";
 	}
 </script>
 </head>
 <body>
-	<form class="form-signin" action="post/modify" method="post">
+	<form class="form-signin" action="#" method="post" id="commentForm"
+		name="commentForm">
 		<h1>
 			<a href="./post/find">帖子信息 </a>
 		</h1>
 
 		<div class="control-group" hidden="block">
-			<label class="control-label">帖子ID<span class="required">*</span></label>
-			<div class="controls">
-				<input type="hidden" name="post.postid" value="${post.cost!}"
-					class="span6 m-wrap" />
-			</div>
+			<label class="control-label">帖子ID:${post.postid!}<span
+				class="required">*</span></label>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">楼主<span class="required">*</span></label>
-			<div class="controls">
-				<input type="number" name="username" value="${username!}"
-					class="span6 m-wrap" />
-			</div>
+			<label class="control-label">楼主:${username!}<span
+				class="required">*</span></label>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">标题<span class="required">*</span></label>
-			<div class="controls">
-				<input type="number" name="post.subject" value="${post.subject!}"
-					class="span6 m-wrap" />
-			</div>
+			<label class="control-label">标题:${post.subject!}<span
+				class="required">*</span></label>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">发表时间<span class="required">*</span></label>
-			<div class="controls">
-				<input type="datetime" name="post.dateline"
-					value="${post.dateline!}" class="span6 m-wrap" />
-			</div>
+			<label class="control-label">发表时间:${post.dateline!}<span
+				class="required">*</span></label>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">帖子内容<span class="required">*</span></label>
-			<div class="controls">
-				<input type="datetime" name="post.message" value="${post.message!}"
-					class="span6 m-wrap" />
-			</div>
+			<label class="control-label">帖子内容:${post.message!}<span
+				class="required">*</span></label>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">是否匿名<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="post.anonymous" value="${post.anonymous!}"
-					class="span6 m-wrap" />
-			</div>
+			<label class="control-label">是否匿名:${post.anonymous!}<span
+				class="required">*</span></label>
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">是否启用签名<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="post.usesig" value="${post.usesig!}"
-					class="span6 m-wrap" />
-			</div>
+			<label class="control-label">是否启用签名:${post.usesig!}<span
+				class="required">*</span></label>
 		</div>
 
 		每页<select name="pageSize" id="pageSize"
@@ -112,79 +111,94 @@
 			href="./post/findById?postId=${post.postid!}&pageNumber=${page.totalPage!}&pageSize=${page.pageSize!}">末页</a>
 
 		<div class="control-group">
-			<a href="./post/replyComment?targetId=${post.postid!}">回复</a>
+			<input type="button" value="回复"
+				onclick="showReplyComment('showReplyComment')" />
+			<div id="showReplyComment" style="display: none">
+				<div>
+					<textarea rows="30" cols="50" name="reply" id="reply"></textarea>
+					<script type="text/javascript">CKEDITOR.replace('reply');</script>
+				</div>
+				<div>
+					<input type="button" name="replyComment" value="发表"
+						id="replyComment" onclick="replyComments(${post.postid!})" />
+				</div>
+			</div>
 		</div>
+		<h1>start</h1>
 		<% for (comment in page.list){ %>
 		<div class="control-group">
 			<div class="control-group">
 				<div class="control-group">
-					<label class="control-label">用户名<span class="required">*</span></label>
-					<div class="controls">
-						<input type="number" name="comment.userid"
-							value="${comment.userid!}" class="span6 m-wrap" />
-					</div>
+					<label class="control-label">用户名:${comment.userid!}<span
+						class="required">*</span></label>
 				</div>
 
 				<div class="control-group">
-					<label class="control-label">时间<span class="required">*</span></label>
-					<div class="controls">
-						<input type="number" name="comment.dateline"
-							value="${comment.dateline!}" class="span6 m-wrap" />
-					</div>
+					<label class="control-label">时间:${comment.dateline!}<span
+						class="required">*</span></label>
 				</div>
 
 				<div class="control-group">
-					<label class="control-label">内容<span class="required">*</span></label>
-					<div class="controls">
-						<input type="number" name="comment.message"
-							value="${comment.message!}" class="span6 m-wrap" />
-					</div>
+					<label class="control-label">内容:${comment.message!}<span
+						class="required">*</span></label>
 				</div>
 
 				<div class="control-group">
-					<a
-						href="./post/replyComment?targetId=${post.postid!}&pId=${comment.commentid!}">回复</a>
-					<a href="./post/deleteComment?commentId=${comment.commentid!}">删除</a>
+					<input type="button" value="回复"
+						onclick="showReplyComment('show_Comment'+${commentLP.index!})" />
+					<div id="show_Comment${commentLP.index!}" style="display: none">
+						<div>
+							<textarea rows="30" cols="50" name="reply" id="reply"></textarea>
+							<script type="text/javascript">CKEDITOR.replace('reply');</script>
+						</div>
+						<div>
+							<input type="button" name="replyComment" value="发表"
+								id="replyComment" onclick="replyComments(${post.postid!},${comment.commentid!})" />
+						</div>
+					</div>
+					<a href="./post/deleteComment?postId=${post.postid!}&commentId=${comment.commentid!}">删除</a>
 				</div>
 
 			</div>
+			<h4>start2</h4>
 			<div class="control-group">
 				<% for (follow in followPage){
 				if(follow.pid!=comment.commentid){continue;}%>
 				<div class="control-group">
-					<label class="control-label">用户名<span class="required">*</span></label>
-					<div class="controls">
-						<input type="number" name="follow.userid"
-							value="${follow.userid!}" class="span6 m-wrap" />
-					</div>
+					<label class="control-label">用户名:${follow.userid!}<span
+						class="required">*</span></label>
 				</div>
 
 				<div class="control-group">
-					<label class="control-label">回复对象<span class="required">*</span></label>
-					<div class="controls">
-						<input type="number" name="follow.touserid"
-							value="${follow.touserid!}" class="span6 m-wrap" />
-					</div>
+					<label class="control-label">回复对象:${follow.touserid!}<span
+						class="required">*</span></label>
 				</div>
 
 				<div class="control-group">
-					<label class="control-label">内容<span class="required">*</span></label>
-					<div class="controls">
-						<input type="number" name="follow.message"
-							value="${follow.message!}" class="span6 m-wrap" />
-					</div>
+					<label class="control-label">内容:${follow.message!}<span
+						class="required">*</span></label>
 				</div>
 
 				<div class="control-group">
-					<a
-						href="./post/replyComment?targetId=${post.postid!}&pId=${comment.userid!}&toUserId=${follow.userid!}">回复</a>
-					<a href="./post/deleteComment?commentId=${comment.commentid!}">删除</a>
+					<input type="button" value="回复"
+						onclick="showReplyComment('show_FollowComment'+${followLP.index!})" />
+					<div id="show_FollowComment${followLP.index!}" style="display: none">
+						<div>
+							<textarea rows="30" cols="50" name="reply" id="reply"></textarea>
+						</div>
+						<div>
+							<input type="button" name="replyComment" value="发表"
+								id="replyComment" onclick="replyComments(${post.postid!},${comment.commentid!},${follow.userid!})" />
+						</div>
+					</div>
+					<a href="./post/deleteComment?postId=${post.postid!}&commentId=${comment.commentid!}">删除</a>
 				</div>
 				<% } %>
 			</div>
+			<h4>end2</h4>
 		</div>
+		<h1>end</h1>
 		<% } %>
-
 	</form>
 </body>
 </html>

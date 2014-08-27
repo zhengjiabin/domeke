@@ -37,7 +37,7 @@ public class PostController extends Controller {
 	 */
 	public void findByUserId() {
 		User user = getUser();
-		String userId = user.getStr("userid");
+		Object userId = user.get("userid");
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 
@@ -118,20 +118,23 @@ public class PostController extends Controller {
 		String remoteIp = request.getRemoteAddr();
 
 		User user = getUser();
-		post.set("username", user.get("username"));
 		post.set("userid", user.get("userid"));
-		post.set("useip", remoteIp);
+		post.set("userip", remoteIp);
 		post.save();
 
 		findByUserId();
 	}
-	
+
 	/**
 	 * 添加回复信息
 	 */
 	public void replyComment() {
+		
 		Comment comment = getModel(Comment.class);
 
+		Object reply = getPara("reply");
+		comment.set("message", reply);
+		
 		Object targetId = getPara("targetId");
 		comment.set("targetid", targetId);
 
@@ -139,22 +142,23 @@ public class PostController extends Controller {
 		comment.set("userid", user.get("userid"));
 
 		comment.set("idtype", "10");
-		
+
 		HttpServletRequest request = getRequest();
 		String remoteIp = request.getRemoteAddr();
 		comment.set("userip", remoteIp);
-		
+
 		Object pId = getPara("pId");
-		if(pId != null){
+		if (pId != null) {
 			comment.set("pid", pId);
 		}
-		
+
 		Object toUserId = getPara("toUserId");
-		if(toUserId != null){
+		if (toUserId != null) {
 			comment.set("touserid", toUserId);
 		}
 
 		comment.save();
+		keepPara();
 		findById();
 	}
 
@@ -163,9 +167,9 @@ public class PostController extends Controller {
 	 */
 	public void deleteComment() {
 		Object commentId = getPara("commentId");
-		Post post = Post.dao.findById(commentId);
-		setAttr("post", post);
-		render("/demo/modifyPost.html");
+		Comment.dao.deleteReplyAll(commentId);
+		keepPara();
+		findById();
 	}
 
 	public void index() {
@@ -183,6 +187,9 @@ public class PostController extends Controller {
 		if (user instanceof User) {
 			return (User) user;
 		}
-		return null;
+		User test = new User();
+		test.set("userid", 1);
+		test.set("username", "zheng");
+		return test;
 	}
 }
