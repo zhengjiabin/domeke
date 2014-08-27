@@ -26,14 +26,14 @@ public class Goods extends Model<Goods> {
 	 * 保存数据信息到数据库
 	 */
 	public void saveGoodsInfo() {
-		dao.save();
+		this.save();
 	}
 
 	/**
 	 * 更新商品信息
 	 */
 	public void updateGoodsInfo() {
-		dao.update();
+		this.update();
 	}
 
 	/**
@@ -43,7 +43,7 @@ public class Goods extends Model<Goods> {
 	 */
 	public List<Goods> queryAllGoodsInfo() {
 		String querySql = "select * from goods";
-		List<Goods> goodsList = dao.find(querySql);
+		List<Goods> goodsList = this.find(querySql);
 		return goodsList == null ? new ArrayList<Goods>() : goodsList;
 	}
 }
