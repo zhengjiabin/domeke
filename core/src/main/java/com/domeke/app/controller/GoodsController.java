@@ -43,7 +43,7 @@ public class GoodsController extends FilesLoadController {
 			goodsModel.set("creater", 111111);
 			goodsModel.set("modifier", 111111);
 			goodsModel.saveGoodsInfo();
-			goGoodsMan();
+			redirect("/goods/goGoodsMan");
 		} catch (Exception e) {
 			e.printStackTrace();
 			render("/demo/addgoods.html");
@@ -71,7 +71,7 @@ public class GoodsController extends FilesLoadController {
 		goodsModel.set("creater", 111111);
 		goodsModel.set("modifier", 111111);
 		goodsModel.update();
-		goGoodsMan();
+		redirect("/goods/goGoodsMan");
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class GoodsController extends FilesLoadController {
 	public void delete() {
 		Goods goodsModel = getModel(Goods.class);
 		goodsModel.deleteById(getParaToInt("id"));
-		goGoodsMan();
+		redirect("/goods/goGoodsMan");
 	}
 
 	/**

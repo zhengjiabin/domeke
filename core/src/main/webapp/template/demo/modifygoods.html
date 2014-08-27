@@ -13,7 +13,7 @@
 	<div class="container">
       <form class="form-signin" action="goods/update" method="post" enctype="multipart/form-data">
         <h2 align="center" class="form-signin-heading">请修改商品信息</h2>
-        <input type="text" id="goodsid" name="goods.goodsid" value="${goods.goodsid!}" />
+        <input type="hidden" id="goodsid" name="goods.goodsid" value="${goods.goodsid!}" />
         <input type="text" id="goods" name="goods.goods" class="input-block-level" placeholder="商城类目" value="${goods.goods!}"/>
         <input type="text" id="goodsname" name="goods.goodsname" class="input-block-level" placeholder="商品名称" value="${goods.goodsname!}"/>
         <input type="text" id="price" name="goods.price" class="input-block-level" placeholder="价格" value="${goods.price!}"/>
