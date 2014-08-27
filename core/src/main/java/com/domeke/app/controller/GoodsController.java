@@ -79,7 +79,7 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public void delete() {
 		Goods goodsModel = getModel(Goods.class);
-		goodsModel.deleteById(getParaToInt());
+		goodsModel.deleteById(getParaToInt("id"));
 		goGoodsMan();
 	}
 
@@ -88,7 +88,7 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public void getGoodsById() {
 		Goods goodsModel = getModel(Goods.class);
-		Goods goods = goodsModel.findById(getParaToInt());
+		Goods goods = goodsModel.findById(getParaToInt("id"));
 		setAttr("goods", goods);
 		render("/demo/modifygoods.html");
 	}
