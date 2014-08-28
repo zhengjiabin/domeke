@@ -1,5 +1,6 @@
 package com.domeke.app.model;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
@@ -40,8 +41,30 @@ public class Menu extends Model<Menu> {
 	 * @return 查询列表
 	 */
 	public List<Menu> selectMenu(){
-		List<Menu> menuList = this.find("select * from menu");
+		List<Menu> menuList = this.find("select * from menu order by sortnum");
 		return menuList;
+	}
+	
+	/**
+	 * 获取菜单
+	 * @param paras 菜单级次
+	 * @return 返回该级次菜单
+	 */
+	public List<Menu> getOneMenu(String paras){
+		List<Menu> menuOneMenu = this.find("select * from menu where top = ? order by mid", paras);
+		return menuOneMenu;
+	}
+	
+	/**
+	 * 获取top级的菜单
+	 * @param top 级次
+	 * @param parentmenuid
+	 * @return
+	 */
+	public List<Menu> getTwoMenu(String top, String parentmenuid){
+		List<Menu> menuTwoMenu = this.find("select * from menu where top = ? and parentmenuid = ?", top, parentmenuid);
+		System.out.println("========="+menuTwoMenu);
+		return menuTwoMenu;
 	}
 	
 	/**

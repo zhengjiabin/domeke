@@ -18,10 +18,30 @@
 
       <form class="form-signin" action="menu/saveMenu" method="post">
         <h2 class="form-signin-heading">菜单</h2>
+        	<label class="control-label">菜单键：</label>
+        	<input id="menuname" name="menu.mid" value="${menu.mid!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">菜单名称：</label>
         	<input id="menuname" name="menu.menuname" value="${menu.menuname!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">actionkey：</label>
         	<input name="menu.actionkey" value="${menu.actionkey!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">级别菜单：</label>
+        	<input name="menu.top" value="${menu.top!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">排序：</label>
+        	<input name="menu.sortnum" value="${menu.sortnum!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">parentmenuid：</label>
+        	<input name="menu.parentmenuid" value="${menu.parentmenuid!}" type="text" class="span6 m-wrap" /><br>
+        	<!-- 
+        	<label class="control-label">modify_time：</label>
+        	<input name="menu.modify_time" value="${menu.modify_time!}" type="text" class="span6 m-wrap" /><br>
+        	-->
+        	<label class="control-label">creater：</label>
+        	<input name="menu.creater" value="${menu.creater!}" type="text" class="span6 m-wrap" /><br>
+        	<!-- 
+        	<label class="control-label">modify_time：</label>
+        	<input name="menu.modify_time" value="${menu.modify_time!}" type="text" class="span6 m-wrap" /><br>
+        	 -->
+        	<label class="control-label">modifier：</label>
+        	<input name="menu.modifier" value="${menu.modifier!}" type="text" class="span6 m-wrap" /><br>
         <button class="btn btn-large btn-primary" type="submit" >保存</button>
       </form>
 
