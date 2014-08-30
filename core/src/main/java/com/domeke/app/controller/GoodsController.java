@@ -62,9 +62,12 @@ public class GoodsController extends FilesLoadController {
 		String picturePath = upLoad("pictrue", "goodspic", 200 * 1024 * 1024,
 				"utf-8");
 		Goods goodsModel = getModel(Goods.class);
-		goodsModel.set("pic", picturePath);
+		if (picturePath != null) {
+			goodsModel.set("pic", picturePath);
+		} else {
+			goodsModel.remove("pic");
+		}
 		// 可改为获取当前用户的名字或者ID
-		goodsModel.set("creater", 111111);
 		goodsModel.set("modifier", 111111);
 		goodsModel.update();
 		redirect("/goods/goGoodsMan");

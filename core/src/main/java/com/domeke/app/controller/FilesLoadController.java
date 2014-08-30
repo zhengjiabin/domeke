@@ -18,7 +18,8 @@ import com.jfinal.upload.UploadFile;
 public class FilesLoadController extends Controller {
 
 	/**
-	 * 文件上传<br>
+	 * 文件上传，要求表单enctype="multipart/form-data"类型<br>
+	 * 假如未先处理文件类型的attribute，即调用该方法，是取不到其他参数<br>
 	 * 具体实现文件上传功能详看
 	 * <code>com.jfinal.core.Controller.getFile(String, String, Integer, String)</code>
 	 * 
@@ -30,7 +31,7 @@ public class FilesLoadController extends Controller {
 	 *            文件大小的最大值
 	 * @param encoding
 	 *            编码
-	 * @return
+	 * @return 如果没有上传文件，则返回的文件路径为null
 	 */
 	protected String upLoad(String parameterName, String saveFolderName,
 			Integer maxPostSize, String encoding) {
@@ -38,21 +39,24 @@ public class FilesLoadController extends Controller {
 		User user = getSessionAttr("user");
 		String userName = user == null || user.getStr("username") == null ? "admin"
 				: user.getStr("username");
-		UploadFile uploadFile = getFile("picture", saveFolderName + "\\"
+		UploadFile uploadFile = getFile(parameterName, saveFolderName + "\\"
 				+ userName, maxPostSize, encoding);
-		File picture = uploadFile.getFile();
-		File replaceFile = renameToFile(uploadFile, picture);
-		// 获取文件的绝对路径
-		String picturePath = replaceFile.getAbsolutePath();
-		// \project
-		String project = contextPath.replace('/', '\\');
-		// 截取出相对路径
-		String[] tempArray = picturePath.split("\\" + project);
-		if (tempArray != null && tempArray.length > 1) {
-			picturePath = tempArray[tempArray.length - 1];
-			picturePath = contextPath + picturePath.replaceAll("\\\\", "/");
+		String filePath = null;
+		if (uploadFile != null) {
+			File picture = uploadFile.getFile();
+			File replaceFile = renameToFile(uploadFile, picture);
+			// 获取文件的绝对路径
+			filePath = replaceFile.getAbsolutePath();
+			// \project
+			String project = contextPath.replace('/', '\\');
+			// 截取出相对路径
+			String[] tempArray = filePath.split("\\" + project);
+			if (tempArray != null && tempArray.length > 1) {
+				filePath = tempArray[tempArray.length - 1];
+				filePath = contextPath + filePath.replaceAll("\\\\", "/");
+			}
 		}
-		return picturePath;
+		return filePath;
 	}
 
 	protected File renameToFile(UploadFile uploadFile, File oldFile) {
