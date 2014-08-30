@@ -44,7 +44,7 @@ public class VentWallController extends Controller {
 	}
 	
 	public void index() {
-		render("/demo/insertVentWall.html.html");
+		render("/demo/insertVentWall.html");
 	}
 	/**
 	 * 查询留言
