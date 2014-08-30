@@ -11,7 +11,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
 import com.domeke.app.message.DomekeMailSender;
-import com.domeke.app.utils.MailTemplate;
 
 public class DomekeMaiSenderImpl implements DomekeMailSender {
 	
@@ -27,18 +26,29 @@ public class DomekeMaiSenderImpl implements DomekeMailSender {
 		try {
 			helper.setFrom(from);
 			helper.setTo(to);
-			helper.setCc(cc);
-			helper.setSubject("test");
-			for (Map<String, Object> map : params) {
-				
-				String text = MailTemplate.getHtml("mailValidate", map);
-				helper.setText(text);
-				javaMailSender.send(message);
+			if(cc != null && cc.length >0 ) {
+				helper.setCc(cc);
 			}
+			helper.setSubject("test");
+//			for (Map<String, Object> map : params) {
+//				String text = MailTemplate.getHtml("mailValidate", map);
+//				helper.setText(text);
+//			}
+			javaMailSender.send(message);
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
 		
+	}
+
+
+	public JavaMailSender getJavaMailSender() {
+		return javaMailSender;
+	}
+
+
+	public void setJavaMailSender(JavaMailSender javaMailSender) {
+		this.javaMailSender = javaMailSender;
 	}
 	
 }

@@ -85,4 +85,14 @@ public class User extends Model<User> {
 
 		return null;
 	}
+	public List<User> getUser(){
+		String sql = "select * from user";
+		List<User> list = dao.find(sql);
+		return list;
+	}
+	
+	public void updateReset(int userid,String pass){
+		String sql="update user set password='"+pass+"' where userid='"+userid+"'";
+		Db.update(sql);
+	}
 }
