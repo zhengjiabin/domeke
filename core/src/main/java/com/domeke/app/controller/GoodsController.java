@@ -107,4 +107,15 @@ public class GoodsController extends FilesLoadController {
 		this.setAttr("goodslist", goodsList);
 	}
 
+	/**
+	 * 通过商品名字模糊查询商品信息
+	 * 
+	 * @param goodsName
+	 * @return
+	 */
+	public void getGoodsInfoByName(String goodsName) {
+		Goods goodsModel = getModel(Goods.class);
+		List<Goods> goodsList = goodsModel.getGoodsInfoByName(goodsName);
+		this.setAttr("goodslist", goodsList);
+	}
 }

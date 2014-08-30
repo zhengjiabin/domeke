@@ -59,4 +59,18 @@ public class Goods extends Model<Goods> {
 		List<Goods> goodsList = this.find(querySql, goodsType);
 		return goodsList == null ? Lists.newArrayList() : goodsList;
 	}
+
+	/**
+	 * 通过商品名字模糊查询商品信息
+	 * 
+	 * @param goodsName
+	 *            商品名字
+	 * @return 符合商品名字的相关商品信息
+	 */
+	public List<Goods> getGoodsInfoByName(String goodsName) {
+		String querySql = "select * from goods where goodsname like '"
+				+ goodsName + "'";
+		List<Goods> goodsList = this.find(querySql);
+		return goodsList == null ? Lists.newArrayList() : goodsList;
+	}
 }
