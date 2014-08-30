@@ -18,7 +18,7 @@
         <input type="text" id="goodsname" name="goods.goodsname" class="input-block-level" placeholder="商品名称" value="${goods.goodsname!}"/>
         <input type="text" id="price" name="goods.price" class="input-block-level" placeholder="价格" value="${goods.price!}"/>
         <!-- <input type="text" id="amount" name="goods.amount" class="input-block-level" placeholder="商品数量" value="${goods.amount}"/> -->
-		选择要上传的图片：<input type="file" id="picture" name="picture" size="20" maxlength="255" value="${goods.pic!}"/>
+		选择要上传的图片：<input type="file" id="picture" name="picture" size="20" accept="image/*" maxlength="255" value="${goods.pic!}"/>
         <input type="text" id="message" name="goods.message" class="input-block-level" placeholder="商品描述" value="${goods.message!}"/>
         <input type="text" id="tamllurl" name="goods.tamllurl" class="input-block-level" placeholder="淘宝地址" value="${goods.tamllurl!}"/>
         <button class="btn btn-large btn-primary" type="submit" onsubmit="update();" >保存已修改商品信息</button>
