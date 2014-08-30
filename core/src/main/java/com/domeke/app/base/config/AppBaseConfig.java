@@ -61,7 +61,7 @@ public class AppBaseConfig extends JFinalConfig {
 		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.DEFAULT);
 		plugins.add(atbp);
 
-		ApplicationContext app =new ClassPathXmlApplicationContext("applicationContext-mail.com");
+		ApplicationContext app =new ClassPathXmlApplicationContext("applicationContext-mail.xml");
 		plugins.add(new SpringPlugin(app));
 		plugins.add(new ShiroPlugin(routes));
 		plugins.add(new EhCachePlugin());
