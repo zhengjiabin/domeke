@@ -1,5 +1,8 @@
 package com.domeke.app.base.config;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.alibaba.druid.wall.WallFilter;
 import com.domeke.app.beetl.DomekeBeetlRenderFactory;
 import com.domeke.app.route.AutoBindRoutes;
@@ -58,7 +61,8 @@ public class AppBaseConfig extends JFinalConfig {
 		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.DEFAULT);
 		plugins.add(atbp);
 
-		plugins.add(new SpringPlugin());
+		ApplicationContext app =new ClassPathXmlApplicationContext("applicationContext-mail.com");
+		plugins.add(new SpringPlugin(app));
 		plugins.add(new ShiroPlugin(routes));
 		plugins.add(new EhCachePlugin());
 	}
