@@ -11,7 +11,7 @@ import org.beetl.core.resource.ClasspathResourceLoader;
 public class MailTemplate {
 
 	public static String getHtml(String tempalteKey, Map<String, Object> params) {
-		ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("/template");
+		ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader();
 		Configuration cfg = null;
 		try {
 			cfg = Configuration.defaultConfiguration();
