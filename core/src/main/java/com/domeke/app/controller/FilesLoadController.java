@@ -2,6 +2,7 @@ package com.domeke.app.controller;
 
 import java.io.File;
 
+import com.domeke.app.cos.multipart.FilePart;
 import com.domeke.app.model.User;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
@@ -35,6 +36,7 @@ public class FilesLoadController extends Controller {
 	 */
 	protected String upLoad(String parameterName, String saveFolderName,
 			Integer maxPostSize, String encoding) {
+		initProgress();
 		String contextPath = JFinal.me().getContextPath();
 		User user = getSessionAttr("user");
 		String userName = user == null || user.getStr("username") == null ? "admin"
@@ -72,6 +74,28 @@ public class FilesLoadController extends Controller {
 				+ System.currentTimeMillis() + "." + fileType);
 		oldFile.renameTo(replaceFile);
 		return replaceFile;
+	}
+
+	protected void initProgress() {
+
+		FilePart.progresss.set(new FilePart.Progress() {
+			public void progress(long currentSize) {
+				int totalsize = FilesLoadController.this.getRequest()
+						.getContentLength();
+				double csize = (double) currentSize;
+				double s = csize / totalsize * 100;
+				System.out.println(String.format("%.2f", s));
+			}
+
+			public void start() {
+				System.out.println("Progress start");
+			}
+
+			public void end() {
+				System.out.println("Progress end");
+				FilePart.progresss.remove();
+			}
+		});
 	}
 
 }
