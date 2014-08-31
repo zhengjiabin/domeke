@@ -13,7 +13,7 @@
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
-<script type="text/javascript" src="template/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 
 <script type="text/javascript" language="text/javascript">
 	function goToPageSize(pageSize,postId) {
@@ -33,7 +33,34 @@
 		}
 	};
 	
-	function replyComments(targetId,pId,toUserId) {
+	function showReply(id) {
+		document.getElementById(id).style.display="block";
+	}
+	
+	function reply(targetId) {
+		var url = "./post/replyComment?targetId="+targetId;
+		document.commentForm.action=url;
+		commentForm.submit();
+	};
+	
+	function showReplyComment(id) {
+		document.getElementById(id).style.display="block";
+		
+		//初始化编辑窗口
+		(function() {
+			editPane = document.getElementById("editor").contentWindow;
+			editPane.document.designMode = 'on';
+			editPane.document.contentEditable = true;
+			editPane.document.open();
+			editPane.document.close();
+		})();
+	}
+	
+	function replyComment(id,targetId,pId,toUserId) {
+		var reply = document.getElementById(id);
+		var editor = document.getElementById("editor").contentWindow.document;
+		reply.innerHTML = editor.body.innerHTML;
+		
 		var url = "./post/replyComment?targetId="+targetId;
 		if (pId != null && pId !=""){
 			url = url + "&pId="+pId;
@@ -44,11 +71,32 @@
 		document.commentForm.action=url;
 		commentForm.submit();
 	};
-	
-	function showReplyComment(id) {
-		document.getElementById("reply").value="";
-		document.getElementById(id).style.display="block";
+</script>
+<script type="text/javascript">
+
+	//打开表情窗口
+	function showFace(img) {
+		var face = document.getElementById("face");
+		face.style.display = "block";
+		face.style.left = img.offsetLeft + img.offsetWidth - face.offsetWidth
+				+ 'px';
+		face.onclick = function() {
+			face.style.display = "none";
+		};
+		var editPane = document.getElementById("editor").contentWindow;
+		editPane.document.onclick = function() {
+			face.style.display = "none";
+		};
 	}
+
+	//插入图片
+	function insertFace(img) {
+		var image = "<img src='" + img.src + "' />";
+		var editPane = document.getElementById("editor").contentWindow;
+		editPane.focus()
+		editPane.document.execCommand('insertImage', false, img.src);
+	}
+
 </script>
 </head>
 <body>
@@ -60,7 +108,8 @@
 
 		<div class="control-group" hidden="block">
 			<label class="control-label">帖子ID:${post.postid!}<span
-				class="required">*</span></label>
+				class="required">*</span></label> <input id="postId" name="postId"
+				style="display: none" value="${post.postid!}">
 		</div>
 
 		<div class="control-group">
@@ -110,21 +159,21 @@
 		<a
 			href="./post/findById?postId=${post.postid!}&pageNumber=${page.totalPage!}&pageSize=${page.pageSize!}">末页</a>
 
-		<div class="control-group">
+		<div class="control-group" align="right">
 			<input type="button" value="回复"
-				onclick="showReplyComment('showReplyComment')" />
-			<div id="showReplyComment" style="display: none">
+				onclick="showReply('div'+${post.postid!})" style="color: yellow" />
+			<div id="div${post.postid!}" style="display: none">
 				<div>
-					<textarea rows="30" cols="50" name="reply" id="reply"></textarea>
-					<script type="text/javascript">CKEDITOR.replace('reply');</script>
+					<textarea rows="30" cols="50" name="textarea${post.postid!}"
+						id="textarea${post.postid!}"></textarea>
+					<script type="text/javascript">CKEDITOR.replace('textarea${post.postid!}');</script>
 				</div>
 				<div>
-					<input type="button" name="replyComment" value="发表"
-						id="replyComment" onclick="replyComments(${post.postid!})" />
+					<input type="button" value="发表" onclick="reply(${post.postid!})" />
 				</div>
 			</div>
 		</div>
-		<h1>start</h1>
+
 		<% for (comment in page.list){ %>
 		<div class="control-group">
 			<div class="control-group">
@@ -145,23 +194,127 @@
 
 				<div class="control-group">
 					<input type="button" value="回复"
-						onclick="showReplyComment('show_Comment'+${commentLP.index!})" />
-					<div id="show_Comment${commentLP.index!}" style="display: none">
+						onclick="showReplyComment('div'+${comment.commentid!})" />
+					<div id="div${comment.commentid!}" style="display: none">
+						<textarea name="textarea${comment.commentid!}"
+							id="textarea${comment.commentid!}" style="display: none"></textarea>
+						<iframe width='40%' height='122' src="" id="editor" name="editor">
+						</iframe>
 						<div>
-							<textarea rows="30" cols="50" name="reply" id="reply"></textarea>
-							<script type="text/javascript">CKEDITOR.replace('reply');</script>
-						</div>
-						<div>
-							<input type="button" name="replyComment" value="发表"
-								id="replyComment" onclick="replyComments(${post.postid!},${comment.commentid!})" />
+							<img
+								src='http://tb2.bdstatic.com/tb/editor/images/face/i_f02.png?t=20140803'
+								onclick='showFace(this)' />
+							<table id="face" hidden="block">
+								<tr>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f01.png?t=20140803"
+										onclick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f02.png?t=20140803"
+										onclick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f03.png?t=20140803"
+										onclick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f04.png?t=20140803"
+										onclick="insertFace(this)" /></td>
+								</tr>
+								<tr>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f05.png?t=20140803"
+										onclick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f06.png?t=20140803"
+										onclick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f07.png?t=20140803"
+										onclick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f08.png?t=20140803"
+										onclick="insertFace(this)" /></td>
+								</tr>
+								<tr>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f09.png?t=20140803"
+										onclick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f10.png?t=20140803"
+										onclick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f11.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f12.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+								</tr>
+								<tr>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f13.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f14.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f15.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f16.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+								</tr>
+								<tr>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f17.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f18.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f19.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f20.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+								</tr>
+								<tr>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f21.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f22.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f23.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f24.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+								</tr>
+								<tr>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f25.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f26.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f27.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+									<td><img
+										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f28.png?t=20140803"
+										onClick="insertFace(this)" /></td>
+								</tr>
+							</table>
+							<input type="button" value="发表"
+								onclick="replyComment('textarea'+${comment.commentid!},${post.postid!},${comment.commentid!})" />
 						</div>
 					</div>
-					<a href="./post/deleteComment?postId=${post.postid!}&commentId=${comment.commentid!}">删除</a>
+					<a
+						href="./post/deleteComment?postId=${post.postid!}&commentId=${comment.commentid!}">删除</a>
 				</div>
 
 			</div>
-			<h4>start2</h4>
-			<div class="control-group">
+
+			<div class="control-group" align="center" style="color: red">
 				<% for (follow in followPage){
 				if(follow.pid!=comment.commentid){continue;}%>
 				<div class="control-group">
@@ -181,23 +334,24 @@
 
 				<div class="control-group">
 					<input type="button" value="回复"
-						onclick="showReplyComment('show_FollowComment'+${followLP.index!})" />
-					<div id="show_FollowComment${followLP.index!}" style="display: none">
+						onclick="showReplyComment('div'+${follow.commentid!})" />
+					<div id="div${follow.commentid!}" style="display: none">
 						<div>
-							<textarea rows="30" cols="50" name="reply" id="reply"></textarea>
+							<textarea rows="30" cols="50"
+								name="textarea${comment.commentid!}"
+								id="textarea${comment.commentid!}"></textarea>
 						</div>
 						<div>
-							<input type="button" name="replyComment" value="发表"
-								id="replyComment" onclick="replyComments(${post.postid!},${comment.commentid!},${follow.userid!})" />
+							<input type="button" value="发表"
+								onclick="replyComment('textarea'+${follow.commentid!},${post.postid!},${comment.commentid!},${follow.userid!})" />
 						</div>
 					</div>
-					<a href="./post/deleteComment?postId=${post.postid!}&commentId=${comment.commentid!}">删除</a>
+					<a
+						href="./post/deleteComment?postId=${post.postid!}&commentId=${follow.commentid!}">删除</a>
 				</div>
 				<% } %>
 			</div>
-			<h4>end2</h4>
 		</div>
-		<h1>end</h1>
 		<% } %>
 	</form>
 </body>

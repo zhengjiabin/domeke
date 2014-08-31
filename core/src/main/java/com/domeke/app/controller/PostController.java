@@ -129,12 +129,9 @@ public class PostController extends Controller {
 	 * 添加回复信息
 	 */
 	public void replyComment() {
-		
+
 		Comment comment = getModel(Comment.class);
 
-		Object reply = getPara("reply");
-		comment.set("message", reply);
-		
 		Object targetId = getPara("targetId");
 		comment.set("targetid", targetId);
 
@@ -157,8 +154,11 @@ public class PostController extends Controller {
 			comment.set("touserid", toUserId);
 		}
 
+		Object message = pId == null ? getPara("textarea" + targetId)
+				: getPara("textarea" + pId);
+		comment.set("message", message);
 		comment.save();
-		keepPara();
+		
 		findById();
 	}
 
@@ -168,7 +168,7 @@ public class PostController extends Controller {
 	public void deleteComment() {
 		Object commentId = getPara("commentId");
 		Comment.dao.deleteReplyAll(commentId);
-		keepPara();
+		
 		findById();
 	}
 

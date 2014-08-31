@@ -1,0 +1,864 @@
+body{
+	margin: 0px;
+	padding: 0px;
+	background: #f1f2f6;
+	color: #333;	
+	word-break: break-all; 
+	word-wrap:break-word;
+	font-family:\5FAE\8F6F\96C5\9ED1;
+	font-size: 12px;
+	line-height: 20px;
+	margin-top: 38px;
+}
+p{
+	margin: 0px;
+	padding: 0px;
+	text-indent:20px;
+}
+form{
+	margin: 0px;
+	padding: 0px;
+}
+ul{
+	margin: 0px;
+	padding: 0px;
+}
+li{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+a{
+	text-decoration: none; 
+}
+a:link{
+	color: #333;
+}	
+a:visited { 
+	color: #333;
+}
+a:hover { 
+	color: #f30;
+}	
+a:active { 
+	color: #333;
+}
+div{
+	margin: 0px;
+	padding: 0px;
+}
+img{
+	border: none;
+}
+h1{
+	font-size: 16px;
+	font-weight: bold;
+}
+
+header{
+	border-bottom: 5px #c40001 solid;
+	margin-bottom: 20px;
+}
+section,footer,.HeadTop,nav,.TopFixZoom{
+	width: 1200px;
+	margin: 0px auto;
+}
+section{
+	margin-bottom: 30px;
+}
+article{
+	float: left;
+	width: 930px;
+	margin-right: 20px;
+}
+article section{
+	margin-bottom: 10px;
+}
+aside{
+	float: left;
+	width: 250px;
+}
+article > section,aside > section{
+	width: auto;
+}
+.TopFix{
+	position: fixed;
+	top: 0px;
+	width: 100%;
+	background: url(../images/bg_fixed.png) left top repeat-x;
+	height: 38px;
+	z-index: 100;
+}
+.TopFixZoom{
+	padding-top: 8px;
+}
+.TopFixZoom a{
+	margin: 0px 10px;
+}
+.FixLeft{
+	float: left;
+}
+.FixRight{
+	float: right;
+}
+aside .CartoonContent{
+	background: #fff;
+	padding: 5px;
+}
+
+
+
+.HeadTop{
+	padding: 25px 0px 15px 0px;
+	height: 95px;
+}
+.Logo{
+	float: left;
+	width: 700px;
+}
+.Search{
+	float: left;
+	width: 500px;
+	padding-top: 40px;
+}
+.SearchInput{
+	background: #fff;
+	border: 3px #c40001 solid;
+	width: 400px;
+	font-size: 14px;
+	padding: 5px;
+	height: 21px;
+	vertical-align: middle;
+}
+.SearchButton{
+	background: #c40001;
+	border: 0px;
+	font-size: 14px;
+	color: #fff;
+	padding:8px 15px;
+	height: 37px;
+	font-family:\5FAE\8F6F\96C5\9ED1;
+	vertical-align: middle;
+}
+.SearchKey{
+	padding-top: 10px;
+}
+.SearchKey span{
+	padding: 0px 10px;
+	font-size: 14px;
+}
+nav{
+	height: 45px;
+	padding-top: 10px;
+}
+.NavR{
+	float: right;
+}
+.NavL{
+	float: left;
+	border-left: 1px #bbb solid;
+}
+nav li{
+	float: left;
+	width: 100px;
+	text-align: center;
+	border-top: 1px #bbb solid;
+	border-right: 1px #bbb solid;
+	padding-top: 10px;
+	height: 34px;
+	font-size: 16px;
+	background: #fff;
+}
+.LiFuc{
+	border-top: 4px #c40001 solid;
+	height: 31px;
+	background: #c40000;
+}
+.LiFuc a{
+	color: #fff;
+}
+.NavR li{
+	border: 0px;
+	background: #ffdb3d;
+}
+.NavR li a img{
+	vertical-align: middle;
+	margin-right: 5px;
+}
+
+
+
+
+.AdSub{
+	float: left;
+	width: 300px;
+	border-bottom: 1px #bbb solid;
+}
+.Adpic{
+	padding-left: 300px;
+}
+.AdSub a{
+	display: block;
+	border-top: 1px #bbb solid;
+	border-left: 1px #bbb solid;
+	padding: 15px;
+	font-size: 16px;
+	background: #fff;
+}
+.AdSub li span{
+	display: block;
+	font-size: 12px;
+}
+.AdSub a:hover { 
+	background: #eaeaea;
+}
+.Adpic img{
+	width: 900px;
+	height: 356px;	
+}
+
+
+
+
+
+
+.CartoonTitle{
+	border-bottom: 1px #bbb solid;
+	font-size: 20px;
+	padding-bottom: 10px;
+}
+.CartoonContent{
+	padding: 10px 0px;
+}
+.CartoonTitle a:link{
+	color: #e83234;
+}	
+.CartoonTitle a:visited { 
+	color: #e83234;
+}
+.CartoonTitle a:hover { 
+	color: #06f;
+}	
+.CartoonTitle a:active { 
+	color: #e83234;
+}
+.Cartoon2{
+	float: left;
+	width: 370px;
+}
+.Cartoon3{
+	float: left;
+	width: 560px;
+}
+.CartoonSub{
+	width: 170px;
+	height: 150px;
+	display: inline-block;
+	margin: 0px 5px 15px 5px;
+	background: #fff;
+}
+
+.CartoonSubB{
+	width: 350px;
+	height: 315px;
+	display: inline-block;
+	margin: 0px 10px 20px 10px;
+	background: #fff;
+}
+.CartoonSubB img{
+	width: 350px;
+	height: 315px;
+}
+.CartoonSubBFootbar{
+	position: relative;
+	bottom: 56px;
+	/*
+	bottom: -259px\9;*/
+	height: 50px;
+	width: 350px;
+	background:  rgba(0,0,0,0.3);
+}
+.CartoonSubBFootbar a{
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	text-align: center;
+	background: #d42514;
+}
+.CartoonSubBFootbar a img{
+	width: 50px;
+	height: 50px;
+	vertical-align: middle;
+}
+.CartoonSubBFootbar span{
+	display: inline-block;
+	color: #fff;
+	font-size: 16px;
+	line-height: 15px;
+}
+.CartoonSubBFootbar span span{	
+	font-size: 12px;
+}
+.CartoonSub img{
+	width: 170px;
+	height: 100px;
+}
+
+.CartoonName{
+	font-family:\5FAE\8F6F\96C5\9ED1;
+	font-size: 14px;
+	padding-left: 5px;
+}
+.CartoonInfo{
+	color: #999;
+	padding-top: 5px;
+}
+.FloatL{
+	float: left;
+	background: url(../images/icon01.png) left top no-repeat;
+	padding-left: 20px;
+	margin-left: 5px;
+}
+.FloatR{
+	float: right;
+	background: url(../images/icon02.png) left top no-repeat;
+	padding-left: 20px;
+	margin-right: 5px;
+}
+.CartoonSubFootbar,.List .CartoonSubFootbar,.Love .CartoonSubFootbar{
+	position: relative;
+	bottom: 71px;
+	height: 20px;
+	width: 165px;
+	background:  rgba(0,0,0,0.3);
+	color: #fff;
+	padding-left: 5px;
+	text-align: left;
+	float: left;
+}
+.List .CartoonSub{
+	width: 158px;
+	height: 150px;
+	display: inline-block;
+	margin: 0px 5px 15px 5px;
+	background: #fff;
+}
+.List .CartoonSub img{
+	width: 158px;
+	height: 100px;
+}
+.List .CartoonSubFootbar{
+	width: 153px;
+}
+.Love .CartoonSub{
+	width: 140px;
+	height: 150px;
+	display: inline-block;
+	margin: 0px 5px 15px 5px;
+	background: #fff;
+}
+.Love .CartoonSub img{
+	width: 140px;
+	height: 100px;
+}
+.Love .CartoonSubFootbar{
+	width: 135px;
+}
+.borderL{
+	border-left: 1px #bbb solid;
+}
+
+.LiVline{
+	padding-left: 10px;
+}
+.LiVline li{
+	clear: both;
+	background: url(../images/bg_vline.png) left bottom repeat-x;
+	padding: 9px 0px;
+}
+.LiHeightA,.LiContentB{
+	height: 50px;
+}
+
+
+
+.LiPicA {
+	float: left;
+	width: 90px;
+}
+.LiPicA img{
+	width: 80px;
+	height: 50px;
+}
+.LiContentA{
+	padding-left: 90px;
+}
+.LiContentA a{
+	font-size: 14px;
+}
+.LiContentA span{
+	display: block;
+	color: #999;
+	line-height: 15px;
+}
+
+.LiPicB {
+	float: left;
+	width: 70px;
+}
+.LiPicB img{
+	width: 60px;
+	height: 40px;
+	padding: 2px;
+	border: 1px #ddd solid;
+}
+.LiContentB{
+	padding-left: 75px;
+}
+.LiContentB span{
+	display: block;
+	color: #999;
+	line-height: 15px;
+	padding-top: 13px;
+}
+.LiContentB span span{
+	display: inline-block;
+	margin: 0px 5px;
+	padding-left: 20px;
+	padding-top: 0px;
+}
+.Tip01{
+	background: url(../images/icon05.png) left center no-repeat;
+}
+.Tip02{
+	background: url(../images/icon06.png) left center no-repeat;
+}
+.LiC span{
+	display: inline-block;
+	float: right;
+	border-radius: 3px;
+	background: #ddd;
+	padding: 1px 5px;
+	color: #fff;
+}
+
+.Num1,.Num2,.Num3,.Num4,.Num5,.Num6,.Num7,.Num8,.Num9,.Num0{
+	display: inline-block;
+	position: relative;
+	top: -20px;
+	float: right;
+	width: 21px;
+	height: 17px;
+}
+.Num1{
+	background: url(../images/N1.png) right bottom no-repeat;
+}
+.Num2{
+	background: url(../images/N2.png) right bottom no-repeat;
+}
+.Num3{
+	background: url(../images/N3.png) right bottom no-repeat;
+}
+.Num4{
+	background: url(../images/N4.png) right bottom no-repeat;
+}
+.Num5{
+	background: url(../images/N5.png) right bottom no-repeat;
+}
+
+.Num6{
+	background: url(../images/N6.png) right bottom no-repeat;
+	
+}
+.Num7{
+	background: url(../images/N7.png) right bottom no-repeat;
+}
+.Num8{
+	background: url(../images/N8.png) right bottom no-repeat;
+}
+.Num9{
+	background: url(../images/N9.png) right bottom no-repeat;
+}
+.Num0{
+	background: url(../images/N0.png) right bottom no-repeat;
+}
+.Num6,.Num7,.Num8,.Num9,.Num0{
+	top: 0px;
+}
+.Weeked{
+	border-bottom: 2px #e7e7e7 solid;
+	padding-bottom: 5px;
+}
+.Weeked li{
+	display: inline-block;
+	width: 30px;
+	text-align: center;
+	border-radius: 3px;
+}
+.WeekedCurrent{
+	background: #00a1d7;
+}
+.WeekedCurrent a{
+	color: #cff;
+}
+.CartoonContent figure{
+	display: inline-block;
+	width: 285px;
+	height: 490px;
+	margin: 0px 5px;
+	border: 1px #bbb solid;
+	background: #fff;
+}
+.CartoonContent figure img{
+	width: 285px;
+	height: 250px;
+}
+.CartoonContent figure figcaption{
+	border-top: 1px #bbb solid;
+	padding: 20px;
+	margin-top: -5px;
+}
+.GoodsName{
+	font-size: 14px;
+	margin-bottom: 20px;
+}
+.GoodsAuthor{
+	margin-bottom: 10px;
+}
+.CartoonContent figure figcaption .GoodsAuthor img{
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
+	margin-right: 10px;
+	vertical-align: middle;
+} 
+.GoodsAuthor span{
+	margin-right: 10px;
+}
+.GoodsInfo{
+	height: 80px;
+	color: #999;
+}
+.GoodsItems span{
+	padding-right: 20px;
+	color: #999;
+}
+.GoodsPrice{
+	position: relative;
+	bottom: 70px;
+	right: -20px;
+	height: 20px;
+	float: right;
+	background:  rgba(0,0,0,0.2);
+	color: #fff;
+	padding: 5px 10px;
+}
+
+.Link,.SimilarCarton,.CartonDtl{
+	border: 1px #bbb solid;
+	padding: 20px;
+	border-radius: 5px;
+	margin-bottom: 20px;
+	background: #fff;
+}
+.FooterZoom{
+	border: 1px #bbb solid;
+	background: #fff;
+	margin-bottom: 30px;
+	font-size: 14px;
+}
+.FooterBorder{
+	margin: 5px;
+	padding: 20px 30px;
+	background: #eef1f6;
+	height: 70px;
+}
+.Link span{
+	display: block;
+	padding: 10px 0px;
+}
+.Link span a{
+	display: inline-block;
+	margin: 5px 10px;
+}
+.LinkPic img{
+	width: 110px;
+	height: 40px;
+}
+.FooterZoom img{
+	vertical-align: middle;
+	width: 223px;
+	height: 70px;
+}
+.FooterZoom a{
+	margin: 0px 10px;
+}
+.FooterLogo {
+	float: left;
+	width: 300px;
+}
+.FooterLink{
+	padding-left: 300px;
+	padding-top: 20px;
+}
+.PageMore{
+	text-align: center;
+	padding: 10px;
+}
+.PageMore a{
+	display: inline-block;
+	padding: 3px 10px;
+	margin: 0px 5px;
+	border: 1px #bbb solid;
+	background: #fff;
+}
+
+.PlayZoom{
+	background: #fff;
+	border: 1px #ddd solid;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	padding: 5px;
+	width: 800px;
+	height: 500px;
+	margin: 0px auto;
+}
+.PlayControl{
+	border-right: 1px #ddd solid;
+	border-bottom: 1px #ddd solid;
+	border-left: 1px #ddd solid;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	width: 810px;
+	height: 40px;
+	margin: 0px auto 20px auto;
+	background: #fff;
+}
+.PlayControl a{
+	display: inline-block;
+	padding: 10px 10px 5px 30px;
+	margin: 0px 15px;
+}
+.Good a{
+	background: url(../images/icon11_gry.png) left center no-repeat;
+}
+.Good a:hover{
+	background: url(../images/icon11.png) left center no-repeat;
+}
+.Argument a{
+	background: url(../images/icon12_gry.png) left center no-repeat;
+}
+.Argument a:hover{
+	background: url(../images/icon12.png) left center no-repeat;
+}
+.Share a{
+	background: url(../images/icon13_gry.png) left center no-repeat;
+}
+.Share a:hover{
+	background: url(../images/icon13.png) left center no-repeat;
+}
+.RoolLeft{
+	position: relative;
+	top: -50px;
+	width: 50px;
+	display: inline-block;
+}
+.RoolRight{
+	position: relative;
+	top: -50px;
+	width: 50px;
+	display: inline-block;
+	text-align: right;
+}
+.CartoonDtlInfo{
+	padding-top: 20px;
+}
+.CartoonPic{
+	float: left;
+	width: 200px;
+	text-align: center;
+	
+}
+.CartoonPic img{
+	width: 167px;
+	height: 215px;
+}
+.CartoonProperties{
+	padding-left: 220px;
+}
+.CartoonPropertiesR{
+	float: right;
+	width: 300px;
+}
+.CartoonPropertiesL{
+	padding-right: 330px;
+}
+.CartoonPropertiesL li{
+	padding: 5px 0px;
+}
+.CartoonPropertiesL div{
+	padding-top: 10px;
+}
+.CartoonIntroduction{
+	clear: both;
+	padding: 30px;
+	text-indent: 40px;
+	line-height: 30px;
+}
+.CartoonA{
+	clear: both;
+	padding-top: 120px;
+}
+.CartoonA a{
+	margin: 0px 10px;
+}
+.CartoonSet{
+	clear: both;
+	padding-top: 30px;
+	border-bottom: 1px #e5e5e5 solid;
+	margin-bottom: 30px;
+}
+.SetTitle{
+	background: url(../images/bg_tab.png) left top no-repeat;
+	padding: 5px 0px 0px 25px;
+	color: #2d7cc8;
+	height: 24px;
+}
+.SetContent{
+	clear: both;
+	padding: 30px 0px;
+}
+.SetContent a{
+	display: inline-block;
+	padding: 3px 10px;
+	background: #f0f8f5;
+	border: 1px #ddd solid;
+	border-radius:3px;
+	margin: 10px;
+	width: 50px;
+	text-align: center;
+}
+.LevelTitle{
+	font-family:\5FAE\8F6F\96C5\9ED1;
+	font-size: 16px;
+	padding-bottom: 20px;
+	color: #000;
+}
+.ArgumentSub{
+	clear: both;
+	border-top: 1px #e5e5e5 solid;
+	padding: 10px 0px;
+	margin-bottom: 10px;
+	min-height: 70px;
+}
+.MemberHead{
+	float: left;
+	width: 80px;
+}
+.MemberHead img{
+	width: 60px;
+	height: 60px;
+	padding: 1px;
+	border: 1px #ddd solid;
+}
+.ArgumentInfo{
+	padding-left: 80px;
+}
+.ArgumentContent{
+	color: #999;
+	padding: 10px 0px;
+}
+.ArgumentTime{
+	text-align: right;
+}
+.ArgumentTime a{
+	margin: 0px 10px;
+}
+.WArgument{
+	float: right;
+	padding: 5px 20px;
+	background: #def0fc;
+	border: 1px #99ccff solid;
+	border-radius: 3px;
+	color: #3184d4;
+	font-size: 12px;
+}
+
+
+
+
+
+
+
+
+
+.clear{
+	clear: both;
+	height: 1px;
+	line-height: 1px;
+}
+/*
+.font_r{
+	color: #e83234;
+}
+*/
+.font_r a:link{
+	color: #b81c22;
+}	
+.font_r a:visited { 
+	color: #b81c22;
+}
+.font_r a:hover { 
+	color: #06f;
+}	
+.font_r a:active { 
+	color: #b81c22;
+}
+.font_9 a:link{
+	color: #999;
+}	
+.font_9 a:visited { 
+	color: #999;
+}
+.font_9 a:hover { 
+	color: #f30;
+}	
+.font_9 a:active { 
+	color: #999;
+}	
+
+.font_ye a:link{
+	color: #ffc258;
+}	
+.font_ye a:visited { 
+	color: #ffc258;
+}
+.font_ye a:hover { 
+	color: #06f;
+}	
+.font_ye a:active { 
+	color: #ffc258;
+}
+.font_str{
+	font-weight: bold;
+	padding-right: 20px;
+}
+.font_b{
+	color: #06f;
+}
+.font_b a:link{
+	color: #06f;
+}	
+.font_b a:visited { 
+	color: #06f;
+}
+.font_b a:hover { 
+	color: #f30;
+}	
+.font_b a:active { 
+	color: #06f;
+}
+.Font_Score{
+	color: #f30;
+	font-size: 30px;
+}
