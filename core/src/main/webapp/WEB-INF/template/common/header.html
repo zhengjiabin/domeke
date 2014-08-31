@@ -20,8 +20,7 @@
     	<ul class="NavR">
         	<li><a href="#"><img src="images/icon07.png">购物车</a></li>
         </ul>
-        <ul id="index_menu" class="NavL">
-        	
+        <ul id="nav_menu" class="NavL">
           	<li class="LiFuc"><a href="">首页</a></li>
             <li><a href="cartoon">动漫</a></li>
             <li><a href="play" >无奇不有</a></li>
@@ -29,5 +28,13 @@
             <li><a href="#">HIGH豆社区</a></li>
             <li><a href="#">签到发泄墙</a></li>
         </ul>
-    </nav>
+        <script type="text/javascript">
+      //菜单导航 按钮事件 选中后高亮
+        $("document").ready(function(){ 
+         $(".NavL li").click(function(){
+         $(".NavL li").removeClass("LiFuc");//首先移除全部的active
+         $(this).addClass("LiFuc");//选中的添加acrive
+         });
+        });
+        </script>
 </header>
