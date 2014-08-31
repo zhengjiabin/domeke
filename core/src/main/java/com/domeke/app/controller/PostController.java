@@ -1,7 +1,6 @@
 package com.domeke.app.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -155,13 +154,11 @@ public class PostController extends Controller {
 			comment.set("touserid", toUserId);
 		}
 
-		Map<String, String[]> mess = getParaMap();
 		Object message = pId == null ? getPara("textarea" + targetId)
 				: getPara("textarea" + pId);
 		comment.set("message", message);
-
 		comment.save();
-		keepPara();
+		
 		findById();
 	}
 
@@ -171,7 +168,7 @@ public class PostController extends Controller {
 	public void deleteComment() {
 		Object commentId = getPara("commentId");
 		Comment.dao.deleteReplyAll(commentId);
-		keepPara();
+		
 		findById();
 	}
 
