@@ -6,6 +6,7 @@ package com.domeke.app.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import com.domeke.app.message.impl.DomekeMaiSenderImpl;
 import com.domeke.app.model.User;
@@ -81,11 +82,23 @@ public class UserController extends Controller {
 		goUserManage();
 	}
 	public void search(){
-		 List<Map<String,Object>> params = new ArrayList<Map<String,Object>>();
-		 String[] to = new String[]{"634775305@qq.com"};
-		 domekeMailSender.send("testerh@126.com", to, null, "", params);
+		 render("/demo/userEmail.html");	 
 	}
-
+	public void sendPassword(){
+		User user = getModel(User.class);
+		String email = getPara("email");
+		user = user.getCloumValue("email",email);
+		if(user!=null){
+			List<Map<String,Object>> params = new ArrayList<Map<String,Object>>();
+			String[] to = new String[]{email};
+			String password1  = getRandomString(6);
+			String password = EncryptKit.encryptMd5(password1);
+			user.updatePassword(user.get("userid"),password);
+			String msg = "新生成的密码为："+password1+"，请及时登录 系统修改";
+			domekeMailSender.send("testehr@126.com", to, null, msg, params);
+		}
+		
+	}
 	public DomekeMaiSenderImpl getDomekeMailSender() {
 		return domekeMailSender;
 	}
@@ -93,4 +106,16 @@ public class UserController extends Controller {
 	public void setDomekeMailSender(DomekeMaiSenderImpl domekeMailSender) {
 		this.domekeMailSender = domekeMailSender;
 	}
+	
+	public static String getRandomString(int length) { 
+		//length表示生成字符串的长度  
+	    String base = "abcdefghijklmnopqrstuvwxyz0123456789";     
+	    Random random = new Random();     
+	    StringBuffer sb = new StringBuffer();     
+	    for (int i = 0; i < length; i++) {     
+	        int number = random.nextInt(base.length());     
+	        sb.append(base.charAt(number));     
+	    }     
+	    return sb.toString();     
+	 } 
 }
