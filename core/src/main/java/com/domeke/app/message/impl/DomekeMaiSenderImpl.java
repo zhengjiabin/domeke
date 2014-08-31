@@ -29,7 +29,9 @@ public class DomekeMaiSenderImpl implements DomekeMailSender {
 			if(cc != null && cc.length >0 ) {
 				helper.setCc(cc);
 			}
-			helper.setSubject("test");
+			//helper.setSubject("测试邮件");
+			helper.setText(template);
+			helper.getMimeMessage().setSubject("注册验证邮箱");
 //			for (Map<String, Object> map : params) {
 //				String text = MailTemplate.getHtml("mailValidate", map);
 //				helper.setText(text);
