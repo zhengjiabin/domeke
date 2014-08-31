@@ -17,13 +17,16 @@
 package com.jfinal.core;
 
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.jfinal.config.Constants;
-import com.jfinal.config.JFinalConfig;
-import com.jfinal.config.Routes;
-import com.jfinal.config.Plugins;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
-import com.jfinal.log.Logger;
+import com.jfinal.config.JFinalConfig;
+import com.jfinal.config.Plugins;
+import com.jfinal.config.Routes;
 import com.jfinal.plugin.IPlugin;
 
 class Config {
@@ -33,7 +36,7 @@ class Config {
 	private static final Plugins plugins = new Plugins();
 	private static final Interceptors interceptors = new Interceptors();
 	private static final Handlers handlers = new Handlers();
-	private static Logger log;
+	private static Logger logger = LoggerFactory.getLogger(Config.class);
 	
 	// prevent new Config();
 	private Config() {
@@ -43,9 +46,10 @@ class Config {
 	 * Config order: constant, route, plugin, interceptor, handler
 	 */
 	static void configJFinal(JFinalConfig jfinalConfig) {
-		jfinalConfig.configConstant(constants);				initLoggerFactory();
+		jfinalConfig.configConstant(constants);				
 		jfinalConfig.configRoute(routes);
-		jfinalConfig.configPlugin(plugins);					startPlugins();	// very important!!!
+		jfinalConfig.configPlugin(plugins);					
+		startPlugins();	// very important!!!
 		jfinalConfig.configInterceptor(interceptors);
 		jfinalConfig.configHandler(handlers);
 	}
@@ -85,22 +89,16 @@ class Config {
 					boolean success = plugin.start();
 					if (!success) {
 						String message = "Plugin start error: " + plugin.getClass().getName();
-						log.error(message);
+						logger.error(message);
 						throw new RuntimeException(message);
 					}
 				}
 				catch (Exception e) {
 					String message = "Plugin start error: " + plugin.getClass().getName() + ". \n" + e.getMessage();
-					log.error(message, e);
+					logger.error(message, e);
 					throw new RuntimeException(message, e);
 				}
 			}
 		}
-	}
-	
-	private static void initLoggerFactory() {
-		Logger.init();
-		log = Logger.getLogger(Config.class);
-		JFinalFilter.initLogger();
 	}
 }

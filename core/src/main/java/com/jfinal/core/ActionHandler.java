@@ -18,9 +18,12 @@ package com.jfinal.core;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.jfinal.config.Constants;
 import com.jfinal.handler.Handler;
-import com.jfinal.log.Logger;
 import com.jfinal.render.Render;
 import com.jfinal.render.RenderException;
 import com.jfinal.render.RenderFactory;
@@ -33,7 +36,7 @@ final class ActionHandler extends Handler {
 	private final boolean devMode;
 	private final ActionMapping actionMapping;
 	private static final RenderFactory renderFactory = RenderFactory.me();
-	private static final Logger log = Logger.getLogger(ActionHandler.class);
+	private static final Logger log = LoggerFactory.getLogger(ActionHandler.class);
 	
 	public ActionHandler(ActionMapping actionMapping, Constants constants) {
 		this.actionMapping = actionMapping;

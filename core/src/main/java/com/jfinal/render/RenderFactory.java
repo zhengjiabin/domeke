@@ -16,12 +16,15 @@
 
 package com.jfinal.render;
 
+import static com.jfinal.core.Const.DEFAULT_FILE_RENDER_BASE_PATH;
+
 import java.io.File;
 import java.util.Locale;
+
 import javax.servlet.ServletContext;
+
 import com.jfinal.config.Constants;
 import com.jfinal.kit.PathKit;
-import static com.jfinal.core.Const.DEFAULT_FILE_RENDER_BASE_PATH;
 
 /**
  * RenderFactory.
@@ -64,7 +67,6 @@ public class RenderFactory {
 		// init Render
 		Render.init(constants.getEncoding(), constants.getDevMode());
 		initFreeMarkerRender(servletContext);
-		initVelocityRender(servletContext);
 		initFileRender(servletContext);
 		
 		// create mainRenderFactory
@@ -74,8 +76,6 @@ public class RenderFactory {
 				mainRenderFactory = new FreeMarkerRenderFactory();
 			else if (defaultViewType == ViewType.JSP)
 				mainRenderFactory = new JspRenderFactory();
-			else if (defaultViewType == ViewType.VELOCITY)
-				mainRenderFactory = new VelocityRenderFactory();
 			else
 				throw new RuntimeException("View Type can not be null.");
 		}
@@ -95,15 +95,7 @@ public class RenderFactory {
 		}
 	}
 	
-	private void initVelocityRender(ServletContext servletContext) {
-		try {
-			Class.forName("org.apache.velocity.VelocityContext");
-			VelocityRender.init(servletContext);
-		}
-		catch (ClassNotFoundException e) {
-			// System.out.println("Velocity can not be supported!");
-		}
-	}
+
 	
 	private void initFileRender(ServletContext servletContext) {
 		FileRender.init(getFileRenderPath(), servletContext);
@@ -135,9 +127,6 @@ public class RenderFactory {
 		return new JspRender(view);
 	}
 	
-	public Render getVelocityRender(String view) {
-		return new VelocityRender(view);
-	}
 	
 	public Render getJsonRender() {
 		return new JsonRender();
@@ -174,9 +163,6 @@ public class RenderFactory {
 		}
 		else if (viewType == ViewType.JSP) {
 			return new JspRender(view + constants.getJspViewExtension());
-		}
-		else if (viewType == ViewType.VELOCITY) {
-			return new VelocityRender(view + constants.getVelocityViewExtension());
 		}
 		else {
 			return mainRenderFactory.getRender(view + mainRenderFactory.getViewExtension());
@@ -246,14 +232,7 @@ public class RenderFactory {
 		}
 	}
 	
-	private static final class VelocityRenderFactory implements IMainRenderFactory {
-		public Render getRender(String view) {
-			return new VelocityRender(view);
-		}
-		public String getViewExtension() {
-			return ".html";
-		}
-	}
+	
 	
 	private static final class ErrorRenderFactory implements IErrorRenderFactory {
 		public Render getRender(int errorCode, String view) {

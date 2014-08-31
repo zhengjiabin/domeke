@@ -16,6 +16,8 @@
 
 package com.jfinal.core;
 
+import static com.jfinal.core.Const.I18N_LOCALE;
+
 import java.io.File;
 import java.text.ParseException;
 import java.util.Date;
@@ -24,11 +26,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import static com.jfinal.core.Const.I18N_LOCALE;
+
 import com.jfinal.i18n.I18N;
 import com.jfinal.kit.StrKit;
 import com.jfinal.render.Render;
@@ -906,12 +909,6 @@ public abstract class Controller {
 		render = renderFactory.getFreeMarkerRender(view);
 	}
 	
-	/**
-	 * Render with velocity view
-	 */
-	public void renderVelocity(String view) {
-		render = renderFactory.getVelocityRender(view);
-	}
 	
 	/**
 	 * Render with json

@@ -27,10 +27,12 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.jfinal.config.Constants;
 import com.jfinal.config.JFinalConfig;
 import com.jfinal.handler.Handler;
-import com.jfinal.log.Logger;
 
 /**
  * JFinal framework filter
@@ -42,7 +44,7 @@ public final class JFinalFilter implements Filter {
 	private JFinalConfig jfinalConfig;
 	private Constants constants;
 	private static final JFinal jfinal = JFinal.me();
-	private static Logger log;
+	private static Logger logger = LoggerFactory.getLogger(JFinalFilter.class);
 	private int contextPathLength;
 	
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -75,10 +77,7 @@ public final class JFinalFilter implements Filter {
 			handler.handle(target, request, response, isHandled);
 		}
 		catch (Exception e) {
-			if (log.isErrorEnabled()) {
-				String qs = request.getQueryString();
-				log.error(qs == null ? target : target + "?" + qs, e);
-			}
+			logger.error("过滤器质性错误",e);
 		}
 		
 		if (isHandled[0] == false)
@@ -109,7 +108,4 @@ public final class JFinalFilter implements Filter {
 		}
 	}
 	
-	static void initLogger() {
-		log = Logger.getLogger(JFinalFilter.class);
-	}
 }
