@@ -83,7 +83,7 @@ public class UserController extends Controller {
 	public void search(){
 		 List<Map<String,Object>> params = new ArrayList<Map<String,Object>>();
 		 String[] to = new String[]{"634775305@qq.com"};
-		 domekeMailSender.send("853188990@qq.com", to, null, "", params);
+		 domekeMailSender.send("testerh@126.com", to, null, "", params);
 	}
 
 	public DomekeMaiSenderImpl getDomekeMailSender() {
