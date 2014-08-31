@@ -33,22 +33,6 @@
 		}
 	};
 	
-	function replyComments(targetId,pId,toUserId) {
-		var reply = document.getElementById("reply");
-		var editor = document.getElementById("editor").contentWindow.document;
-		reply.innerHTML = editor.body.innerHTML;
-		
-		var url = "./post/replyComment?targetId="+targetId;
-		if (pId != null && pId !=""){
-			url = url + "&pId="+pId;
-		}
-		if (toUserId != null && toUserId !=""){
-			url = url + "&toUserId="+toUserId;
-		}
-		document.commentForm.action=url;
-		commentForm.submit();
-	};
-	
 	function showReply(id) {
 		document.getElementById(id).style.display="block";
 	}
@@ -124,7 +108,8 @@
 
 		<div class="control-group" hidden="block">
 			<label class="control-label">帖子ID:${post.postid!}<span
-				class="required">*</span></label>
+				class="required">*</span></label> <input id="postId" name="postId"
+				style="display: none" value="${post.postid!}">
 		</div>
 
 		<div class="control-group">
@@ -349,19 +334,20 @@
 
 				<div class="control-group">
 					<input type="button" value="回复"
-						onclick="showReplyComment(div${follow.commentid!})" />
+						onclick="showReplyComment('div'+${follow.commentid!})" />
 					<div id="div${follow.commentid!}" style="display: none">
 						<div>
-							<textarea rows="30" cols="50" name="reply" id="reply"></textarea>
+							<textarea rows="30" cols="50"
+								name="textarea${comment.commentid!}"
+								id="textarea${comment.commentid!}"></textarea>
 						</div>
 						<div>
-							<input type="button" name="replyComment" value="发表"
-								id="replyComment"
-								onclick="replyComment(textarea${follow.commentid!},${post.postid!},${comment.commentid!},${follow.userid!})" />
+							<input type="button" value="发表"
+								onclick="replyComment('textarea'+${follow.commentid!},${post.postid!},${comment.commentid!},${follow.userid!})" />
 						</div>
 					</div>
 					<a
-						href="./post/deleteComment?postId=${post.postid!}&commentId=${comment.commentid!}">删除</a>
+						href="./post/deleteComment?postId=${post.postid!}&commentId=${follow.commentid!}">删除</a>
 				</div>
 				<% } %>
 			</div>

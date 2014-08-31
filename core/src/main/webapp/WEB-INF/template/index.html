@@ -1,407 +1,467 @@
-<!DOCTYPE html>
-<html class="no-js">
-    
-    <head>
-        <title>Admin Home Page</title>
-        <base href="${core}/"/>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
-        <!-- Bootstrap -->
-        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-        <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-        <link href="vendors/easypiechart/jquery.easy-pie-chart.css" rel="stylesheet" media="screen">
-        <link href="assets/styles.css" rel="stylesheet" media="screen">
-        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-        <script src="${cxt!}/vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    </head>
-    
-    <body>
-        <div class="navbar navbar-fixed-top">
-            <div class="navbar-inner">
-                <div class="container-fluid">
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span>
-                     <span class="icon-bar"></span>
-                     <span class="icon-bar"></span>
-                    </a>
-                    <a class="brand" href="#">Admin Panel</a>
-                    <div class="nav-collapse collapse">
-                        <ul class="nav pull-right">
-                            <li class="dropdown">
-                                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-user"></i> ${username} <i class="caret"></i>
-
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a tabindex="-1" href="#">Profile</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <a tabindex="-1" href="login.html">Logout</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <ul class="nav">
-                            <li class="active">
-                                <a href="#">Dashboard</a>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Settings <b class="caret"></b>
-
-                                </a>
-                                <ul class="dropdown-menu" id="menu1">
-                                    <li>
-                                        <a href="#">Tools <i class="icon-arrow-right"></i>
-
-                                        </a>
-                                        <ul class="dropdown-menu sub-menu">
-                                            <li>
-                                                <a href="#">Reports</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Logs</a>
-                                            </li>
-                                            <li>
-                                                <a href="#">Errors</a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">SEO Settings</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Other Link</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <a href="#">Other Link</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Other Link</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Content <i class="caret"></i>
-
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a tabindex="-1" href="#">Blog</a>
-                                    </li>
-                                    <li>
-                                        <a tabindex="-1" href="#">News</a>
-                                    </li>
-                                    <li>
-                                        <a tabindex="-1" href="#">Custom Pages</a>
-                                    </li>
-                                    <li>
-                                        <a tabindex="-1" href="#">Calendar</a>
-                                    </li>
-                                    <li class="divider"></li>
-                                    <li>
-                                        <a tabindex="-1" href="#">FAQ</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Users <i class="caret"></i>
-
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a tabindex="-1" href="#">User List</a>
-                                    </li>
-                                    <li>
-                                        <a tabindex="-1" href="#">Search</a>
-                                    </li>
-                                    <li>
-                                        <a tabindex="-1" href="#">Permissions</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+<% layout("/common/layout.html"){ %>
+		<section>
+	<div class="AdSub">
+    <ul>
+    	<li><a href="#">万万没想到第二季<span>第二季：学霸的反击</span></a></li>
+        <li><a href="#">一夫当关，万夫莫开<span>世界杯门神点评</span></a></li>
+        <li class="LiAd"><a href="#">万万没想到第二季<span>第二季：学霸的反击</span></a></li>
+        <li><a href="#">一夫当关，万夫莫开<span>世界杯门神点评</span></a></li>
+        <li><a href="#">万万没想到第二季<span>第二季：学霸的反击</span></a></li>
+    </ul>
+    </div>
+    <div class="Adpic"><img src="images/ad.png"></div>
+    <div class="clear">&nbsp;</div>
+</section>
+<section>
+	<article>
+    	<section>
+        	<div class="CartoonTitle">原创动漫<a href="#">/更多</a></div>
+            <div class="CartoonContent">
+            	<div class="Cartoon2">
+                	<div class="CartoonSubB">
+                    	<img src="images/pic_CartoonB.png">
+                    	<div class="CartoonSubBFootbar">
+                        	<a href="#"><img src="images/icon_play.png"></a>
+                            <span>7月新番扫雷报告</span>
+                        </div>
                     </div>
-                    <!--/.nav-collapse -->
                 </div>
+                <div class="Cartoon3">
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon.png">
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon1.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon2.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon3.png">
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon1.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                </div>
+                <div class="clear">&nbsp;</div>
             </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row-fluid">
-                <div class="span3" id="sidebar">
-                    <ul class="nav nav-list bs-docs-sidenav nav-collapse collapse">
-                        <li class="active">
-                            <a href="home/index"><i class="icon-chevron-right"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="calendar.html"><i class="icon-chevron-right"></i> Calendar</a>
-                        </li>
-                        <li>
-                            <a href="stats.html"><i class="icon-chevron-right"></i> Statistics (Charts)</a>
-                        </li>
-                        <li>
-                            <a href="form.html"><i class="icon-chevron-right"></i> Forms</a>
-                        </li>
-                        <li>
-                            <a href="tables.html"><i class="icon-chevron-right"></i> Tables</a>
-                        </li>
-                        <li>
-                            <a href="buttons.html"><i class="icon-chevron-right"></i> Buttons & Icons</a>
-                        </li>
-                        <li>
-                            <a href="editors.html"><i class="icon-chevron-right"></i> WYSIWYG Editors</a>
-                        </li>
-                        <li>
-                            <a href="interface.html"><i class="icon-chevron-right"></i> UI & Interface</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="badge badge-success pull-right">731</span> Orders</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="badge badge-success pull-right">812</span> Invoices</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="badge badge-info pull-right">27</span> Clients</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="badge badge-info pull-right">1,234</span> Users</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="badge badge-info pull-right">2,221</span> Messages</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="badge badge-info pull-right">11</span> Reports</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="badge badge-important pull-right">83</span> Errors</a>
-                        </li>
-                        <li>
-                            <a href="#"><span class="badge badge-warning pull-right">4,231</span> Logs</a>
-                        </li>
+        </section>
+        <section>
+        	<div class="CartoonTitle">HIGH动漫<a href="#">/更多</a></div>
+            <div class="CartoonContent">
+            	<div class="CartoonSub">
+                        <img src="images/pic_Cartoon2.png">
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon3.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon1.png">
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon2.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                   
+            </div>
+        </section>
+        <section>
+        	<div class="CartoonTitle">亲子动漫<a href="#">/更多</a></div>
+            <div class="CartoonContent">
+            	<div class="CartoonSub">
+                        <img src="images/pic_Cartoon3.png">
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon1.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon2.png">
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon3.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    
+            </div>
+        </section>
+        <section>
+        	<div class="CartoonTitle">无奇不有<a href="#">/更多</a></div>
+            <div class="CartoonContent">
+            	<div class="Cartoon3">
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon.png">
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon1.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon2.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon3.png">
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                    <div class="CartoonSub">
+                        <img src="images/pic_Cartoon1.png">
+                        
+                        <div class="CartoonName"><a href="#">动画大电影</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">2931</span>
+                            <span class="FloatR">29</span>
+                        </div>
+                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                    </div>
+                </div>
+                <div class="Cartoon2">
+                	<div class="CartoonSubB borderL">
+                    <ul class="LiVline">
+                    	<li class="LiHeightA">
+                        	<div class="LiPicA"><img src="images/icon03.png"></div>
+                            <div class="LiContentA">
+                            	<a href="#">免费玩家和收费玩家的区别</a>
+                                <span>一张图比较现在的玩家、过去的玩家中免费玩家和收费玩家的区别</span>
+                            </div>
+                      	</li>
+                        <li class="LiHeightA">
+                        	<div class="LiPicA"><img src="images/icon03.png"></div>
+                            <div class="LiContentA">
+                            	<a href="#">免费玩家和收费玩家的区别</a>
+                                <span>一张图比较现在的玩家、过去的玩家中免费玩家和收费玩家的区别</span>
+                            </div>
+                      	</li>
+                        <li class="LiHeightA">
+                        	<div class="LiPicA"><img src="images/icon03.png"></div>
+                            <div class="LiContentA">
+                            	<a href="#">免费玩家和收费玩家的区别</a>
+                                <span>一张图比较现在的玩家、过去的玩家中免费玩家和收费玩家的区别</span>
+                            </div>
+                      	</li>
+                        <li class="font_9"><a href="#">魔兽6.0可得橙色戒指 传奇装备霸气新造型</a></li>
+                        <li class="font_9"><a href="#">王思聪湿身后捐100万 十大弱爆的游戏BOSS</a></li>
+                        <li class="font_9"><a href="#">LOL总决赛曝宣传片 6支出线战队暂无中国</a></li>
                     </ul>
-                </div>
-                
-                <!--/span-->
-                <div class="span9" id="content">
-                    <div class="row-fluid">
-                        <div class="alert alert-success">
-							<button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <h4>Success</h4>
-                        	${message!}</div>
-                        	<div class="navbar">
-                            	<div class="navbar-inner">
-	                                <ul class="breadcrumb">
-	                                    <i class="icon-chevron-left hide-sidebar"><a href='#' title="Hide Sidebar" rel='tooltip'>&nbsp;</a></i>
-	                                    <i class="icon-chevron-right show-sidebar" style="display:none;"><a href='#' title="Show Sidebar" rel='tooltip'>&nbsp;</a></i>
-	                                    <li>
-	                                        <a href="#">Dashboard</a> <span class="divider">/</span>	
-	                                    </li>
-	                                    <li>
-	                                        <a href="#">Settings</a> <span class="divider">/</span>	
-	                                    </li>
-	                                    <li class="active">Tools</li>
-	                                </ul>
-                            	</div>
-                        	</div>
-                    	</div>
-                    <div class="row-fluid">
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span6">
-                            <!-- block -->
-                            <div class="block">
-                                <div class="navbar navbar-inner block-header">
-                                    <div class="muted pull-left">Users</div>
-                                    <div class="pull-right"><span class="badge badge-info">1,234</span>
-
-                                    </div>
-                                </div>
-                                <div class="block-content collapse in">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Vincent</td>
-                                                <td>Gabriel</td>
-                                                <td>@gabrielva</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <!-- /block -->
-                        </div>
-                        <div class="span6">
-                            <!-- block -->
-                            <div class="block">
-                                <div class="navbar navbar-inner block-header">
-                                    <div class="muted pull-left">Orders</div>
-                                    <div class="pull-right"><span class="badge badge-info">752</span>
-
-                                    </div>
-                                </div>
-                                <div class="block-content collapse in">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Product</th>
-                                                <th>Date</th>
-                                                <th>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Coat</td>
-                                                <td>02/02/2013</td>
-                                                <td>$25.12</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Jacket</td>
-                                                <td>01/02/2013</td>
-                                                <td>$335.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Shoes</td>
-                                                <td>01/02/2013</td>
-                                                <td>$29.99</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <!-- /block -->
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="span6">
-                            <!-- block -->
-                            <div class="block">
-                                <div class="navbar navbar-inner block-header">
-                                    <div class="muted pull-left">Clients</div>
-                                    <div class="pull-right"><span class="badge badge-info">17</span>
-
-                                    </div>
-                                </div>
-                                <div class="block-content collapse in">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Username</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Mark</td>
-                                                <td>Otto</td>
-                                                <td>@mdo</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Jacob</td>
-                                                <td>Thornton</td>
-                                                <td>@fat</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Vincent</td>
-                                                <td>Gabriel</td>
-                                                <td>@gabrielva</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <!-- /block -->
-                        </div>
-                        <div class="span6">
-                            <!-- block -->
-                            <div class="block">
-                                <div class="navbar navbar-inner block-header">
-                                    <div class="muted pull-left">Invoices</div>
-                                    <div class="pull-right"><span class="badge badge-info">812</span>
-
-                                    </div>
-                                </div>
-                                <div class="block-content collapse in">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Date</th>
-                                                <th>Amount</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>02/02/2013</td>
-                                                <td>$25.12</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>01/02/2013</td>
-                                                <td>$335.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>01/02/2013</td>
-                                                <td>$29.99</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <!-- /block -->
-                        </div>
                     </div>
                 </div>
+                <div class="clear">&nbsp;</div>
             </div>
-            <hr>
-            <footer>
-                <p>&copy; Vincent Gabriel 2013</p>
-            </footer>
-        </div>
-        <!--/.fluid-container-->
-        <script src="vendors/jquery-1.9.1.min.js"></script>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
-        <script src="vendors/easypiechart/jquery.easy-pie-chart.js"></script>
-        <script src="assets/scripts.js"></script>
-        <script>
-        $(function() {
-            // Easy pie charts
-            $('.chart').easyPieChart({animate: 1000});
-        });
-        </script>
-    </body>
-
-</html>
+        </section>
+    </article>
+    <aside>
+    	<section>
+        	<div class="CartoonTitle">新番更新列表</div>
+            <div class="CartoonContent">
+            <ul class="LiVline">
+               <li class="LiHeightB">        		
+                    <div class="LiPicB"><img src="images/icon04.png"></div>
+                    <div class="LiContentB">
+                    	<a href="#">万万没想没想到二季</a>
+                        <span>
+                        	<span class="Tip01">209万</span>
+                            <span class="Tip02">1.9万</span>
+                        </span>
+                    </div>
+                    <span class="Num1"></span>
+               </li>
+               <li class="LiHeightB">
+                    <div class="LiPicB"><img src="images/icon04.png"></div>
+                    <div class="LiContentB">
+                    	<a href="#">万万没想到第二季</a>
+                        <span>
+                        	<span class="Tip01">209万</span>
+                            <span class="Tip02">1.9万</span>
+                        </span>
+                    </div>
+                    <span class="Num2"></span>
+               </li>
+               <li class="LiHeightB">
+               		<div class="LiPicB"><img src="images/icon04.png"></div>
+                    <div class="LiContentB">
+                    	<a href="#">万万没想到第二季</a>
+                        <span>
+                        	<span class="Tip01">209万</span>
+                            <span class="Tip02">1.9万</span>
+                        </span>
+                    </div>
+                    <span class="Num3"></span>
+               </li>
+               <li class="LiHeightB">
+               		<div class="LiPicB"><img src="images/icon04.png"></div>
+                    <div class="LiContentB">
+                    	<a href="#">万万没想到第二季</a>
+                        <span>
+                        	<span class="Tip01">209万</span>
+                            <span class="Tip02">1.9万</span>
+                        </span>
+                    </div>
+                    <span class="Num4"></span>
+               </li>
+               <li class="LiHeightB">
+               		<div class="LiPicB"><img src="images/icon04.png"></div>
+                    <div class="LiContentB">
+                    	<a href="#">万万没想到第二季</a>
+                        <span>
+                        	<span class="Tip01">209万</span>
+                            <span class="Tip02">1.9万</span>
+                        </span>
+                    </div>
+                    <span class="Num5"></span>
+               </li>
+               <li><a href="#">王思聪湿身后捐100万</a><span class="Num6"></span></li>
+               <li><a href="#">贵圈真乱：节操=头条</a><span class="Num7"></span></li>
+               <li><a href="#">官方授权MU奇迹网页版</a><span class="Num8"></span></li>
+               <li><a href="#">[动漫] 从前有座灵剑山</a><span class="Num9"></span></li>
+               <li><a href="#">腾讯首款DOTA网游内测</a><span class="Num0"></span></li>
+            </ul>
+            </div>
+        </section>
+        <section>
+        	<div class="CartoonTitle">新番更新列表</div>
+            <div class="CartoonContent">
+            <ul class="Weeked">
+            	<li class="WeekedCurrent"><a href="#">周日</a></li>
+                <li><a href="#">周一</a></li>
+                <li><a href="#">周二</a></li>
+                <li><a href="#">周三</a></li>
+                <li><a href="#">周四</a></li>
+                <li><a href="#">周五</a></li>
+                <li><a href="#">周六</a></li>
+            </ul>
+            <ul class="LiVline LiC">
+            	<li><span>5话</span><a href="#">美国队长</a></li>
+                <li><span>308话</span><a href="#">魔法科高校的劣等生</a></li>
+                <li><span>20话</span><a href="#">团地友夫</a></li>
+                <li><span>17话</span><a href="#">未来卡 搭档对战</a></li>
+                <li><span>5话</span><a href="#">美国队长</a></li>
+                <li><span>308话</span><a href="#">魔法科高校的劣等生</a></li>
+                <li><span>20话</span><a href="#">团地友夫</a></li>
+                <li><span>17话</span><a href="#">未来卡 搭档对战</a></li>
+                <li><span>5话</span><a href="#">美国队长</a></li>
+                <li><span>308话</span><a href="#">魔法科高校的劣等生</a></li>
+                <li><span>20话</span><a href="#">团地友夫</a></li>
+                <li><span>17话</span><a href="#">未来卡 搭档对战</a></li>
+                <li><span>5话</span><a href="#">美国队长</a></li>
+            </ul>
+            </div>
+        </section>
+        
+    </aside>
+    <div class="clear">&nbsp;</div>
+</section>
+<section>
+	<div class="CartoonTitle">新潮商品<a href="#">/更多</a></div>
+    <div class="CartoonContent">
+    	<figure>
+        	<div class="GoodsPic"><img src="images/pic_goods.png">            
+            </div>
+       	 	 <figcaption>
+            	
+                <div class="GoodsName font_r"><a href="#">尼康 Nikon MF 200/4 AUTO-Q 原厂改口AI 数码单反可以用 </a>
+                <span class="GoodsPrice">￥：9019.5</span>
+                </div>
+              	<div class="GoodsAuthor"><img src="images/qq4.jpg"><span class="font_ye"><a href="#">云知道-1</a></span>发布</div>
+                <div class="GoodsInfo">成色如图,正常使用痕迹,外观无磕碰划伤,镜片通透无伤无雾后组有轻微霉丝,阻尼顺畅,功能正常,</div>
+              <div class="GoodsItems">
+              	<span>加入收藏  20</span>
+                <span>喜欢  30</span>
+              </div>
+            </figcaption>
+        </figure>
+        
+        <figure>
+        	<div class="GoodsPic"><img src="images/pic_goods.png"></div>
+       	 	 <figcaption>
+            	
+                <div class="GoodsName font_r"><a href="#">尼康 Nikon MF 200/4 AUTO-Q 原厂改口AI 数码单反可以用 </a>
+                <span class="GoodsPrice">￥：128</span>
+                </div>
+              	<div class="GoodsAuthor"><img src="images/qq4.jpg"><span class="font_ye"><a href="#">云知道-1</a></span>发布</div>
+                <div class="GoodsInfo">成色如图,正常使用痕阻尼顺畅,功能正常,</div>
+              <div class="GoodsItems">
+              	<span>加入收藏  20</span>
+                <span>喜欢  30</span>
+              </div>
+            </figcaption>
+        </figure>
+        
+        <figure>
+        	<div class="GoodsPic"><img src="images/pic_goods.png"></div>
+       	 	 <figcaption>
+            	
+                <div class="GoodsName font_r"><a href="#">尼康 Nikon MF 200/4 AUTO-Q 原厂改口AI 数码单反可以用 </a>
+                <span class="GoodsPrice">￥：39</span>
+                </div>
+              	<div class="GoodsAuthor"><img src="images/qq4.jpg"><span class="font_ye"><a href="#">云知道-1</a></span>发布</div>
+                <div class="GoodsInfo"></div>
+              <div class="GoodsItems">
+              	<span>加入收藏  20</span>
+                <span>喜欢  30</span>
+              </div>
+            </figcaption>
+        </figure>
+        
+        <figure>
+        	<div class="GoodsPic"><img src="images/pic_goods.png"></div>
+       	 	 <figcaption>
+            	
+                <div class="GoodsName font_r"><a href="#">尼康 Nikon MF 200/4 AUTO-Q 原厂改口AI 数码单反可以用 </a>
+                <span class="GoodsPrice">￥：209</span></div>
+              	<div class="GoodsAuthor"><img src="images/qq4.jpg"><span class="font_ye"><a href="#">云知道-1</a></span>发布</div>
+                <div class="GoodsInfo">成色如图,正常使用痕迹,外观无磕碰划伤,镜片通透无伤无雾后组有轻微霉丝,阻尼顺畅,功能正常,</div>
+              <div class="GoodsItems">
+              	<span>加入收藏  20</span>
+                <span>喜欢  30</span>
+              </div>
+            </figcaption>
+        </figure>
+        
+    </div>
+</section> 
+<% } %> 

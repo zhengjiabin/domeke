@@ -95,4 +95,16 @@ public class User extends Model<User> {
 		String sql="update user set password='"+pass+"' where userid='"+userid+"'";
 		Db.update(sql);
 	}
+	
+	public User getCloumValue(String cloum,String param){
+		String sql = "select * from user where "+cloum+" = '"+param+"'";
+		User user = dao.findFirst(sql);
+		return user;
+	}
+	
+	public void updatePassword(Long userid,String pass){
+		String sql="update user set password='"+pass+"' where userid='"+userid+"'";
+		Db.update(sql);
+	}
+	
 }
