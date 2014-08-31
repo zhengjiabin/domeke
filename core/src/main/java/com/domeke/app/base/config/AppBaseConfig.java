@@ -30,7 +30,6 @@ public class AppBaseConfig extends JFinalConfig {
 	public void configConstant(Constants constants) {
 		// 设置编码格式统一为utf-8 解决乱码问题
 		constants.setEncoding(DomeKeConstants.ENCODE);
-		constants.setDevMode(false);
 		constants.setMainRenderFactory(new DomekeBeetlRenderFactory());
 		constants.setError404View("");
 		constants.setError500View("");
@@ -61,7 +60,7 @@ public class AppBaseConfig extends JFinalConfig {
 		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.DEFAULT);
 		plugins.add(atbp);
 
-		ApplicationContext app =new ClassPathXmlApplicationContext("applicationContext-mail.xml");
+		ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext-mail.xml");
 		plugins.add(new SpringPlugin(app));
 		plugins.add(new ShiroPlugin(routes));
 		plugins.add(new EhCachePlugin());

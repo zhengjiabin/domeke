@@ -6,6 +6,7 @@ package com.domeke.app.cos.multipart;
 
 import java.io.IOException;
 
+import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 
 /**
@@ -206,5 +207,19 @@ public class BufferedServletInputStream extends ServletInputStream {
 			total += copy;
 		}
 		return total;
+	}
+
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
+
+	@Override
+	public boolean isReady() {
+		return false;
+	}
+
+	@Override
+	public void setReadListener(ReadListener arg0) {
 	}
 }

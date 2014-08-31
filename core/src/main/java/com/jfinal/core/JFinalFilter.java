@@ -38,7 +38,7 @@ import com.jfinal.handler.Handler;
  * JFinal framework filter
  */
 public final class JFinalFilter implements Filter {
-	
+
 	private Handler handler;
 	private String encoding;
 	private JFinalConfig jfinalConfig;
@@ -46,59 +46,58 @@ public final class JFinalFilter implements Filter {
 	private static final JFinal jfinal = JFinal.me();
 	private static Logger logger = LoggerFactory.getLogger(JFinalFilter.class);
 	private int contextPathLength;
-	
+
 	public void init(FilterConfig filterConfig) throws ServletException {
 		createJFinalConfig(filterConfig.getInitParameter("configClass"));
-		
+
 		if (jfinal.init(jfinalConfig, filterConfig.getServletContext()) == false)
 			throw new RuntimeException("JFinal init error!");
-		
+
 		handler = jfinal.getHandler();
 		constants = Config.getConstants();
 		encoding = constants.getEncoding();
 		jfinalConfig.afterJFinalStart();
-		
-		String contextPath = ((HttpServletRequest) filterConfig
-				.getServletContext()).getContextPath();
+		String contextPath = filterConfig.getServletContext().getContextPath();
 		contextPathLength = (contextPath == null || "/".equals(contextPath) ? 0 : contextPath.length());
 	}
-	
-	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest request = (HttpServletRequest)req;
-		HttpServletResponse response = (HttpServletResponse)res;
+
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException,
+			ServletException {
+		HttpServletRequest request = (HttpServletRequest) req;
+		HttpServletResponse response = (HttpServletResponse) res;
 		request.setCharacterEncoding(encoding);
-		
+
 		String target = request.getRequestURI();
 		if (contextPathLength != 0)
 			target = target.substring(contextPathLength);
-		
-		boolean[] isHandled = {false};
+
+		boolean[] isHandled = { false };
 		try {
 			handler.handle(target, request, response, isHandled);
+		} catch (Exception e) {
+			logger.error("过滤器质性错误", e);
 		}
-		catch (Exception e) {
-			logger.error("过滤器质性错误",e);
-		}
-		
+
 		if (isHandled[0] == false)
 			chain.doFilter(request, response);
 	}
-	
+
 	public void destroy() {
 		jfinalConfig.beforeJFinalStop();
 		jfinal.stopPlugins();
 	}
-	
+
 	private void createJFinalConfig(String configClass) {
 		if (configClass == null)
 			throw new RuntimeException("Please set configClass parameter of JFinalFilter in web.xml");
-		
+
 		try {
 			Object temp = Class.forName(configClass).newInstance();
 			if (temp instanceof JFinalConfig)
-				jfinalConfig = (JFinalConfig)temp;
+				jfinalConfig = (JFinalConfig) temp;
 			else
-				throw new RuntimeException("Can not create instance of class: " + configClass + ". Please check the config in web.xml");
+				throw new RuntimeException("Can not create instance of class: " + configClass
+						+ ". Please check the config in web.xml");
 		} catch (InstantiationException e) {
 			throw new RuntimeException("Can not create instance of class: " + configClass, e);
 		} catch (IllegalAccessException e) {
@@ -107,5 +106,5 @@ public final class JFinalFilter implements Filter {
 			throw new RuntimeException("Class not found: " + configClass + ". Please config it in web.xml", e);
 		}
 	}
-	
+
 }

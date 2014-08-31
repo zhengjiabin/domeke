@@ -20,7 +20,7 @@ package com.jfinal.kit;
  * StrKit.
  */
 public class StrKit {
-	
+
 	/**
 	 * 首字母变小写
 	 */
@@ -30,7 +30,7 @@ public class StrKit {
 		str = Character.toLowerCase(firstChar) + tail;
 		return str;
 	}
-	
+
 	/**
 	 * 首字母变大写
 	 */
@@ -40,21 +40,21 @@ public class StrKit {
 		str = Character.toUpperCase(firstChar) + tail;
 		return str;
 	}
-	
+
 	/**
 	 * 字符串为 null 或者为  "" 时返回 true
 	 */
 	public static boolean isBlank(String str) {
 		return str == null || "".equals(str.trim()) ? true : false;
 	}
-	
+
 	/**
 	 * 字符串不为 null 而且不为  "" 时返回 true
 	 */
 	public static boolean notBlank(String str) {
 		return str == null || "".equals(str.trim()) ? false : true;
 	}
-	
+
 	public static boolean notBlank(String... strings) {
 		if (strings == null)
 			return false;
@@ -63,7 +63,7 @@ public class StrKit {
 				return false;
 		return true;
 	}
-	
+
 	public static boolean notNull(Object... paras) {
 		if (paras == null)
 			return false;
@@ -72,8 +72,25 @@ public class StrKit {
 				return false;
 		return true;
 	}
+
+	public static String replace(String s, String sub, String with) {
+		int c = 0;
+		int i = s.indexOf(sub, c);
+		if (i == -1)
+			return s;
+
+		StringBuilder buf = new StringBuilder(s.length() + with.length());
+
+		do {
+			buf.append(s.substring(c, i));
+			buf.append(with);
+			c = i + sub.length();
+		} while ((i = s.indexOf(sub, c)) != -1);
+
+		if (c < s.length())
+			buf.append(s.substring(c, s.length()));
+
+		return buf.toString();
+
+	}
 }
-
-
-
-

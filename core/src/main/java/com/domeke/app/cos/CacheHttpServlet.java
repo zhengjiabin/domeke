@@ -17,6 +17,7 @@ import java.util.Vector;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -68,8 +69,7 @@ public abstract class CacheHttpServlet extends HttpServlet {
 	String cacheServletPath = null;
 	Object lock = new Object();
 
-	protected void service(HttpServletRequest req, HttpServletResponse res)
-			throws ServletException, IOException {
+	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		// Only do caching for GET requests
 		String method = req.getMethod();
 		if (!method.equals("GET")) {
@@ -89,8 +89,7 @@ public abstract class CacheHttpServlet extends HttpServlet {
 		// If the client sent an If-Modified-Since header equal or after the
 		// servlet's last modified time, send a short "Not Modified" status code
 		// Round down to the nearest second since client headers are in seconds
-		if ((servletLastMod / 1000 * 1000) <= req
-				.getDateHeader("If-Modified-Since")) {
+		if ((servletLastMod / 1000 * 1000) <= req.getDateHeader("If-Modified-Since")) {
 			res.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
 			return;
 		}
@@ -99,8 +98,7 @@ public abstract class CacheHttpServlet extends HttpServlet {
 		CacheHttpServletResponse localResponseCopy = null;
 		synchronized (lock) {
 			if (servletLastMod <= cacheLastMod && cacheResponse.isValid()
-					&& equal(cacheQueryString, req.getQueryString())
-					&& equal(cachePathInfo, req.getPathInfo())
+					&& equal(cacheQueryString, req.getQueryString()) && equal(cachePathInfo, req.getPathInfo())
 					&& equal(cacheServletPath, req.getServletPath())) {
 				localResponseCopy = cacheResponse;
 			}
@@ -155,8 +153,7 @@ class CacheHttpServletResponse implements HttpServletResponse {
 		try {
 			out = new CacheServletOutputStream(res.getOutputStream());
 		} catch (IOException e) {
-			System.out.println("Got IOException constructing cached response: "
-					+ e.getMessage());
+			System.out.println("Got IOException constructing cached response: " + e.getMessage());
 		}
 		internalReset();
 	}
@@ -239,15 +236,13 @@ class CacheHttpServletResponse implements HttpServletResponse {
 		try {
 			out.getBuffer().writeTo(res.getOutputStream());
 		} catch (IOException e) {
-			System.out.println("Got IOException writing cached response: "
-					+ e.getMessage());
+			System.out.println("Got IOException writing cached response: " + e.getMessage());
 		}
 	}
 
 	public ServletOutputStream getOutputStream() throws IOException {
 		if (gotWriter) {
-			throw new IllegalStateException(
-					"Cannot get output stream after getting writer");
+			throw new IllegalStateException("Cannot get output stream after getting writer");
 		}
 		gotStream = true;
 		return out;
@@ -255,13 +250,11 @@ class CacheHttpServletResponse implements HttpServletResponse {
 
 	public PrintWriter getWriter() throws UnsupportedEncodingException {
 		if (gotStream) {
-			throw new IllegalStateException(
-					"Cannot get writer after getting output stream");
+			throw new IllegalStateException("Cannot get writer after getting output stream");
 		}
 		gotWriter = true;
 		if (writer == null) {
-			OutputStreamWriter w = new OutputStreamWriter(out,
-					getCharacterEncoding());
+			OutputStreamWriter w = new OutputStreamWriter(out, getCharacterEncoding());
 			writer = new PrintWriter(w, true); // autoflush is necessary
 		}
 		return writer;
@@ -428,6 +421,10 @@ class CacheHttpServletResponse implements HttpServletResponse {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public void setContentLengthLong(long arg0) {
+	}
 }
 
 class CacheServletOutputStream extends ServletOutputStream {
@@ -457,5 +454,14 @@ class CacheServletOutputStream extends ServletOutputStream {
 	public void write(byte buf[], int offset, int len) throws IOException {
 		delegate.write(buf, offset, len);
 		cache.write(buf, offset, len);
+	}
+
+	@Override
+	public boolean isReady() {
+		return false;
+	}
+
+	@Override
+	public void setWriteListener(WriteListener arg0) {
 	}
 }

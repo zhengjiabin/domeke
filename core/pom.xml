@@ -8,6 +8,24 @@
 	<name>core Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+					<verbal>true</verbal>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
@@ -22,33 +40,23 @@
 
 	<dependencies>
 		<!-- JFinal 依赖 START -->
-		<!-- <dependency>
-			<groupId>com.jfinal</groupId>
-			<artifactId>jfinal</artifactId>
-			<version>1.8</version>
-		</dependency> -->
-		
+		<!-- <dependency> <groupId>com.jfinal</groupId> <artifactId>jfinal</artifactId> 
+			<version>1.8</version> </dependency> -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+
+
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.jfinal</groupId>
-			<artifactId>jetty-server</artifactId>
-			<version>8.1.8</version>
-			<scope>provided</scope>
-		</dependency>
 
-		<!-- cos -->
-
-		<dependency>
-			<groupId>javax.servlet.jsp.jstl</groupId>
-			<artifactId>javax.servlet.jsp.jstl-api</artifactId>
-			<version>1.2.1</version>
-			<scope>provided</scope>
-		</dependency>
 		<!-- JFinal 依赖 END -->
 
 		<!-- DRUID 依赖 START -->
@@ -102,13 +110,6 @@
 		</dependency>
 		<!-- FREEMARKER 依赖 END -->
 
-		<!-- servlet 依赖 START -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.3</version>
-		</dependency>
-		<!-- servlet 依赖 END -->
 
 		<!-- mysql 依赖 START -->
 		<dependency>

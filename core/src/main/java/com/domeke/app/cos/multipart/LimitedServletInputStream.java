@@ -6,6 +6,7 @@ package com.domeke.app.cos.multipart;
 
 import java.io.IOException;
 
+import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 
 /**
@@ -60,8 +61,7 @@ public class LimitedServletInputStream extends ServletInputStream {
 		if (left <= 0) {
 			return -1;
 		} else {
-			result = ((ServletInputStream) in).readLine(b, off,
-					Math.min(left, len));
+			result = ((ServletInputStream) in).readLine(b, off, Math.min(left, len));
 		}
 		if (result > 0) {
 			totalRead += result;
@@ -116,5 +116,19 @@ public class LimitedServletInputStream extends ServletInputStream {
 			totalRead += result;
 		}
 		return result;
+	}
+
+	@Override
+	public boolean isFinished() {
+		return false;
+	}
+
+	@Override
+	public boolean isReady() {
+		return false;
+	}
+
+	@Override
+	public void setReadListener(ReadListener arg0) {
 	}
 }
