@@ -22,11 +22,11 @@
 
 	<dependencies>
 		<!-- JFinal 依赖 START -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.jfinal</groupId>
 			<artifactId>jfinal</artifactId>
 			<version>1.8</version>
-		</dependency>
+		</dependency> -->
 		
 		<dependency>
 			<groupId>junit</groupId>
