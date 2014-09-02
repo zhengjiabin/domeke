@@ -22,9 +22,10 @@ public class VentWallController extends Controller {
 	 */
 	public void save(){
 		VentWall ventWall = getModel(VentWall.class);
-		String msg = ventWall.getStr("message");
+		String msg = ventWall.getStr("moodid");
+		//String msg = ventWall.getStr("message");
 		msg = getImg(msg);
-		ventWall.set("message", msg);
+		ventWall.set("moodid", msg);
 		ventWall.saveVentWall();
 		select();
 	}
@@ -38,13 +39,14 @@ public class VentWallController extends Controller {
 		Matcher matcher=p.matcher(msg);
 		while(matcher.find()){
 			String imgNo=matcher.group(1);
-			msg = msg.replace("[em_"+imgNo+"]","<img src='template/demo/arclist/"+imgNo +".gif'/>");
+			msg = msg.replace("[em_"+imgNo+"]","<img src='images/face/"+imgNo +".jpg'/>");
 		}
 		return msg;
 	}
 	
 	public void index() {
-		render("/demo/insertVentWall.html");
+		//render("/demo/insertVentWall.html");
+		render("/demo/addVentWall.html");
 	}
 	/**
 	 * 查询留言
