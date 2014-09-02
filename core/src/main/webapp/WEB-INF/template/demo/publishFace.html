@@ -1,0 +1,158 @@
+<script src="${core}/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	function showReplyComment(node) {
+		var commentForm = $(node).closest("#commentForm");
+		var showEditor = commentForm.find("#showEditor").first();
+		showEditor.show();
+	}
+
+	//打开表情窗口
+	function showFace(img) {
+		var commentForm = $(img).closest("#commentForm");
+		var face = commentForm.find("#face").first();
+		face.show();
+
+		face.click(function() {
+			face.hide();
+		});
+		var editor = commentForm.find("#editor").first();
+		editor.click(function() {
+			face.hide();
+		});
+	}
+
+	//插入图片
+	function insertFace(img) {
+		var commentForm = $(img).closest("#commentForm");
+		var editor = commentForm.find("#editor").first();
+		var image = "<img src='" + img.src + "' />";
+		var val = editor.html() + image;
+		editor.html(val);
+	}
+
+	function setComment(node) {
+		var editor = $(node).find("#editor").first();
+		var message = $(node).find("#message").first();
+		var val = editor.html();
+		message.html(val);
+		return true;
+	}
+</script>
+<form id="commentForm" action="${action!}" method="post"
+	onsubmit="setComment(this);">
+	<div>
+		<input type="hidden" name="targetID" value="${targetID!}"><input
+			type="button" value="回复" onclick="showReplyComment(this)" />
+	</div>
+	<div id="showEditor" style="display: none;">
+		<div id="editor" contenteditable="true"
+			style="width: 497px; min-height: 40px; z-index: 0;"></div>
+		<textarea name="message" id="message" style="display: none;"></textarea>
+		<div>
+			<img
+				src='http://tb2.bdstatic.com/tb/editor/images/face/i_f02.png?t=20140803'
+				onclick='showFace(this)' />
+			<table id="face" style="display: none;">
+				<tr>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f01.png?t=20140803"
+						onclick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f02.png?t=20140803"
+						onclick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f03.png?t=20140803"
+						onclick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f04.png?t=20140803"
+						onclick="insertFace(this)" /></td>
+				</tr>
+				<tr>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f05.png?t=20140803"
+						onclick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f06.png?t=20140803"
+						onclick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f07.png?t=20140803"
+						onclick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f08.png?t=20140803"
+						onclick="insertFace(this)" /></td>
+				</tr>
+				<tr>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f09.png?t=20140803"
+						onclick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f10.png?t=20140803"
+						onclick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f11.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f12.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+				</tr>
+				<tr>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f13.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f14.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f15.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f16.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+				</tr>
+				<tr>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f17.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f18.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f19.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f20.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+				</tr>
+				<tr>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f21.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f22.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f23.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f24.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+				</tr>
+				<tr>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f25.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f26.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f27.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+					<td><img
+						src="http://tb2.bdstatic.com/tb/editor/images/face/i_f28.png?t=20140803"
+						onClick="insertFace(this)" /></td>
+				</tr>
+			</table>
+			<input type="submit" value="发表" />
+		</div>
+	</div>
+</form>

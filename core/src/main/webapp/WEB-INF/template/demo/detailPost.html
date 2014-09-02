@@ -13,9 +13,7 @@
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
-
-<script type="text/javascript" language="text/javascript">
+<script type="text/javascript">
 	function goToPageSize(pageSize,postId) {
 		location.href = "./post/findById?postId=" + postId + "&pageSize=" + pageSize
 				+ "&pageNumber=1";
@@ -32,327 +30,59 @@
 
 		}
 	};
-	
-	function showReply(id) {
-		document.getElementById(id).style.display="block";
-	}
-	
-	function reply(targetId) {
-		var url = "./post/replyComment?targetId="+targetId;
-		document.commentForm.action=url;
-		commentForm.submit();
-	};
-	
-	function showReplyComment(id) {
-		document.getElementById(id).style.display="block";
-		
-		//初始化编辑窗口
-		(function() {
-			editPane = document.getElementById("editor").contentWindow;
-			editPane.document.designMode = 'on';
-			editPane.document.contentEditable = true;
-			editPane.document.open();
-			editPane.document.close();
-		})();
-	}
-	
-	function replyComment(id,targetId,pId,toUserId) {
-		var reply = document.getElementById(id);
-		var editor = document.getElementById("editor").contentWindow.document;
-		reply.innerHTML = editor.body.innerHTML;
-		
-		var url = "./post/replyComment?targetId="+targetId;
-		if (pId != null && pId !=""){
-			url = url + "&pId="+pId;
-		}
-		if (toUserId != null && toUserId !=""){
-			url = url + "&toUserId="+toUserId;
-		}
-		document.commentForm.action=url;
-		commentForm.submit();
-	};
-</script>
-<script type="text/javascript">
-
-	//打开表情窗口
-	function showFace(img) {
-		var face = document.getElementById("face");
-		face.style.display = "block";
-		face.style.left = img.offsetLeft + img.offsetWidth - face.offsetWidth
-				+ 'px';
-		face.onclick = function() {
-			face.style.display = "none";
-		};
-		var editPane = document.getElementById("editor").contentWindow;
-		editPane.document.onclick = function() {
-			face.style.display = "none";
-		};
-	}
-
-	//插入图片
-	function insertFace(img) {
-		var image = "<img src='" + img.src + "' />";
-		var editPane = document.getElementById("editor").contentWindow;
-		editPane.focus()
-		editPane.document.execCommand('insertImage', false, img.src);
-	}
-
 </script>
 </head>
 <body>
-	<form class="form-signin" action="#" method="post" id="commentForm"
-		name="commentForm">
+	<div>
 		<h1>
 			<a href="./post/find">帖子信息 </a>
 		</h1>
-
-		<div class="control-group" hidden="block">
-			<label class="control-label">帖子ID:${post.postid!}<span
-				class="required">*</span></label> <input id="postId" name="postId"
-				style="display: none" value="${post.postid!}">
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">楼主:${username!}<span
-				class="required">*</span></label>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">标题:${post.subject!}<span
-				class="required">*</span></label>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">发表时间:${post.dateline!}<span
-				class="required">*</span></label>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">帖子内容:${post.message!}<span
-				class="required">*</span></label>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">是否匿名:${post.anonymous!}<span
-				class="required">*</span></label>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">是否启用签名:${post.usesig!}<span
-				class="required">*</span></label>
-		</div>
-
-		每页<select name="pageSize" id="pageSize"
-			onchange="goToPageSize(this.value,${post.postid!})">
-			<option value="20" selected="true">20</option>
-			<option value="30">30</option>
-			<option value="50">50</option>
-			<option value="80">80</option>
-			<option value="100">100</option>
-		</select>条&nbsp;共${page.totalRow!}条&nbsp;第${page.pageNumber!}
-		/${page.totalPage!}页 <a
-			href="./post/findById?postId=${post.postid!}&pageNumber=1&pageSize=${page.pageSize!}">首页</a>
-		<a
-			href="./post/findById?postId=${post.postid!}&pageNumber=${page.pageNumber!-1<1?1:page.pageNumber!-1}&pageSize=${page.pageSize!}">上页</a>
-		<a
-			href="./post/findById?postId=${post.postid!}&pageNumber=${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1}&pageSize=${page.pageSize!}">下页</a>
-		<a
-			href="./post/findById?postId=${post.postid!}&pageNumber=${page.totalPage!}&pageSize=${page.pageSize!}">末页</a>
-
-		<div class="control-group" align="right">
-			<input type="button" value="回复"
-				onclick="showReply('div'+${post.postid!})" style="color: yellow" />
-			<div id="div${post.postid!}" style="display: none">
-				<div>
-					<textarea rows="30" cols="50" name="textarea${post.postid!}"
-						id="textarea${post.postid!}"></textarea>
-					<script type="text/javascript">CKEDITOR.replace('textarea${post.postid!}');</script>
-				</div>
-				<div>
-					<input type="button" value="发表" onclick="reply(${post.postid!})" />
-				</div>
-			</div>
-		</div>
-
-		<% for (comment in page.list){ %>
-		<div class="control-group">
-			<div class="control-group">
-				<div class="control-group">
-					<label class="control-label">用户名:${comment.userid!}<span
-						class="required">*</span></label>
-				</div>
-
-				<div class="control-group">
-					<label class="control-label">时间:${comment.dateline!}<span
-						class="required">*</span></label>
-				</div>
-
-				<div class="control-group">
-					<label class="control-label">内容:${comment.message!}<span
-						class="required">*</span></label>
-				</div>
-
-				<div class="control-group">
-					<input type="button" value="回复"
-						onclick="showReplyComment('div'+${comment.commentid!})" />
-					<div id="div${comment.commentid!}" style="display: none">
-						<textarea name="textarea${comment.commentid!}"
-							id="textarea${comment.commentid!}" style="display: none"></textarea>
-						<iframe width='40%' height='122' src="" id="editor" name="editor">
-						</iframe>
-						<div>
-							<img
-								src='http://tb2.bdstatic.com/tb/editor/images/face/i_f02.png?t=20140803'
-								onclick='showFace(this)' />
-							<table id="face" hidden="block">
-								<tr>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f01.png?t=20140803"
-										onclick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f02.png?t=20140803"
-										onclick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f03.png?t=20140803"
-										onclick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f04.png?t=20140803"
-										onclick="insertFace(this)" /></td>
-								</tr>
-								<tr>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f05.png?t=20140803"
-										onclick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f06.png?t=20140803"
-										onclick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f07.png?t=20140803"
-										onclick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f08.png?t=20140803"
-										onclick="insertFace(this)" /></td>
-								</tr>
-								<tr>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f09.png?t=20140803"
-										onclick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f10.png?t=20140803"
-										onclick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f11.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f12.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-								</tr>
-								<tr>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f13.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f14.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f15.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f16.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-								</tr>
-								<tr>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f17.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f18.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f19.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f20.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-								</tr>
-								<tr>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f21.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f22.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f23.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f24.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-								</tr>
-								<tr>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f25.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f26.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f27.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-									<td><img
-										src="http://tb2.bdstatic.com/tb/editor/images/face/i_f28.png?t=20140803"
-										onClick="insertFace(this)" /></td>
-								</tr>
-							</table>
-							<input type="button" value="发表"
-								onclick="replyComment('textarea'+${comment.commentid!},${post.postid!},${comment.commentid!})" />
-						</div>
-					</div>
-					<a
-						href="./post/deleteComment?postId=${post.postid!}&commentId=${comment.commentid!}">删除</a>
-				</div>
-
+		<div>
+			<div class="control-group" hidden="block">
+				帖子ID:${post.postid!} <input name="postID" type="hidden"
+					value="${post.postid!}">
 			</div>
 
-			<div class="control-group" align="center" style="color: red">
-				<% for (follow in followPage){
-				if(follow.pid!=comment.commentid){continue;}%>
-				<div class="control-group">
-					<label class="control-label">用户名:${follow.userid!}<span
-						class="required">*</span></label>
-				</div>
+			<div class="control-group">楼主:${username!}</div>
 
-				<div class="control-group">
-					<label class="control-label">回复对象:${follow.touserid!}<span
-						class="required">*</span></label>
-				</div>
+			<div class="control-group">标题:${post.subject!}</div>
 
-				<div class="control-group">
-					<label class="control-label">内容:${follow.message!}<span
-						class="required">*</span></label>
-				</div>
+			<div class="control-group">发表时间:${post.dateline!}</div>
 
-				<div class="control-group">
-					<input type="button" value="回复"
-						onclick="showReplyComment('div'+${follow.commentid!})" />
-					<div id="div${follow.commentid!}" style="display: none">
-						<div>
-							<textarea rows="30" cols="50"
-								name="textarea${comment.commentid!}"
-								id="textarea${comment.commentid!}"></textarea>
-						</div>
-						<div>
-							<input type="button" value="发表"
-								onclick="replyComment('textarea'+${follow.commentid!},${post.postid!},${comment.commentid!},${follow.userid!})" />
-						</div>
-					</div>
-					<a
-						href="./post/deleteComment?postId=${post.postid!}&commentId=${follow.commentid!}">删除</a>
-				</div>
-				<% } %>
-			</div>
+			<div class="control-group">帖子内容:${post.message!}</div>
+
+			<div class="control-group">是否匿名:${post.anonymous!}</div>
+
+			<div class="control-group">是否启用签名:${post.usesig!}</div>
 		</div>
-		<% } %>
-	</form>
+
+		<div>
+			每页<select name="pageSize" id="pageSize"
+				onchange="goToPageSize(this.value,${post.postid!})">
+				<option value="20" selected="selected">20</option>
+				<option value="30">30</option>
+				<option value="50">50</option>
+				<option value="80">80</option>
+				<option value="100">100</option>
+			</select>条&nbsp;共${page.totalRow!}条&nbsp;第${page.pageNumber!}
+			/${page.totalPage!}页 <a
+				href="./post/findById?postId=${post.postid!}&pageNumber=1&pageSize=${page.pageSize!}">首页</a>
+			<a
+				href="./post/findById?postId=${post.postid!}&pageNumber=${page.pageNumber!-1<1?1:page.pageNumber!-1}&pageSize=${page.pageSize!}">上页</a>
+			<a
+				href="./post/findById?postId=${post.postid!}&pageNumber=${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1}&pageSize=${page.pageSize!}">下页</a>
+			<a
+				href="./post/findById?postId=${post.postid!}&pageNumber=${page.totalPage!}&pageSize=${page.pageSize!}">末页</a>
+		</div>
+
+		<div class="control-group" align="right"><% if(post.postid !=
+			null){ layout("./ckeditor.html",
+			{"targetID":post.postid,"action":"./post/replyComment?postID=" +
+			post.postid}){} }%></div>
+		<div class="control-group"><% if(page != null && post.postid !=
+			null){ layout("./comment.html",
+			{"page":page,"targetID":post.postid,"action":"./post/replyComment?postID="
+			+ post.postid} ){} }%></div>
+	</div>
 </body>
 </html>

@@ -52,19 +52,19 @@ public class PostController extends Controller {
 	 * 
 	 * @return 指定帖子信息
 	 */
-	public void findById() {
-		Object postId = getPara("postId");
+	public void findByID() {
+		Object postID = getPara("postID");
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 
-		Post post = Post.dao.findById(postId);
+		Post post = Post.dao.findById(postID);
 		setAttr("post", post);
 
-		Page<Comment> page = Comment.dao.findPageByTargetId(postId, pageNumber,
+		Page<Comment> page = Comment.dao.findPageByTargetId(postID, pageNumber,
 				pageSize);
 		setAttr("page", page);
 
-		List<Comment> followPage = Comment.dao.findFollowByTargetId(postId);
+		List<Comment> followPage = Comment.dao.findFollowByTargetId(postID);
 		setAttr("followPage", followPage);
 
 		render("/demo/detailPost.html");
@@ -132,8 +132,8 @@ public class PostController extends Controller {
 
 		Comment comment = getModel(Comment.class);
 
-		Object targetId = getPara("targetId");
-		comment.set("targetid", targetId);
+		Object targetID = getPara("targetID");
+		comment.set("targetid", targetID);
 
 		User user = getUser();
 		comment.set("userid", user.get("userid"));
@@ -144,22 +144,21 @@ public class PostController extends Controller {
 		String remoteIp = request.getRemoteAddr();
 		comment.set("userip", remoteIp);
 
-		Object pId = getPara("pId");
-		if (pId != null) {
-			comment.set("pid", pId);
+		Object pID = getPara("pID");
+		if (pID != null) {
+			comment.set("pid", pID);
 		}
 
-		Object toUserId = getPara("toUserId");
-		if (toUserId != null) {
-			comment.set("touserid", toUserId);
+		Object toUserID = getPara("toUserID");
+		if (toUserID != null) {
+			comment.set("touserid", toUserID);
 		}
 
-		Object message = pId == null ? getPara("textarea" + targetId)
-				: getPara("textarea" + pId);
+		Object message = getPara("message");
 		comment.set("message", message);
 		comment.save();
-		
-		findById();
+
+		findByID();
 	}
 
 	/**
@@ -168,8 +167,8 @@ public class PostController extends Controller {
 	public void deleteComment() {
 		Object commentId = getPara("commentId");
 		Comment.dao.deleteReplyAll(commentId);
-		
-		findById();
+
+		findByID();
 	}
 
 	public void index() {
