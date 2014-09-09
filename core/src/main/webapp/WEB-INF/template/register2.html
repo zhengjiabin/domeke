@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+ <% include("/common/head.html"){} %>
+</head>
+
+<body style="margin: 0px;background: #fff;background: url(images/bg_Me.png) left bottom no-repeat;">
+<header class="MeTop">
+	<div class="MeTopZoom"><img src="images/Melogo.png"></div>
+</header>
+<div class="LoginContent">
+	<div class="RegTop">
+    	<div class="RegTitle">注册账号</div>
+        <div class="RegInfo">动漫方舟账号能使用HIGH豆论坛等其他服务。如果您已拥有账号，则可以<span class="font_r"><a href="#">在此登录</a></span></div>
+    </div>
+    <div class="RegSwitch">
+    	<span><input name="" type="radio" value="">用手机号码注册</span>
+        <span><input name="" type="radio" value="" checked>用邮箱注册</span>
+        <span class="font_r"><a href="#">了解更多</a></span>
+    </div>
+    <form action="user/regist" id="user_regist" class="form-horizontal" method="post">
+    <table border="0" cellspacing="0" cellpadding="0" class="Table_reg">
+      <tr>
+        <th>邮箱：</th>
+        <td><input name="user.email" value="${user.email!}" type="text" class="InputUid"></td>
+      </tr>
+      
+      <tr>
+        <th>设置密码：</th>
+        <td><input name="user.password" value="${user.password!}" type="password" class="InputUid">密码长度8~16位，数字、字母、字符至少包含2种。</td>
+      </tr>
+      <tr>
+        <th>确认密码：</th>
+        <td><input name="repassword" value="${repassword!}" type="password" class="InputUid"></td>
+      </tr>
+      <tr>
+        <th>验证码：</th>
+        <td><input name="" type="text" class="InputPin"><img src="images/MePin.png">点击图片刷新验证码</td>
+      </tr>
+      <tr>
+        <th>&nbsp;</th>
+        <td><input  type="submit" class="BtReg" value="立即注册"></td>
+      </tr>
+      <tr>
+        <th>&nbsp;</th>
+        <td>点击“立即注册”，即表示您同意并愿意遵守动漫方舟<span class="font_r"><a href="#">用户协议</a></span>和<span class="font_r"><a href="#">隐私政策</a></span></td>
+      </tr>
+    </table>
+  </form>
+    <div class="clear"></div>
+</div>
+<footer class="footer font_9">
+	<a href="#">简体</a>|<a href="#">繁体</a>|<a href="#">English</a>|<a href="#">常见问题</a><br />
+    金樽公司版权所有-京ICP备3985758i3d-京公网安备8574766495858
+</footer>
+</body>
+</html>
