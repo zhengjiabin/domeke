@@ -1,19 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>新增留言</title>
-    <!-- Bootstrap -->
-    <!-- 设置默认的contextPath html无法使用宏变量-->
-	<base href="${core}/"/>
-     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body id="login">
+<% layout("/common/layout.html"){ %>
+<section>
     <div class="container">
-      <form class="form-signin" action="ventwall/save" method="post">
+      <form  id="ajaxFrm" class="form-signin" action="ventwall/save"  method="post">
 		<input id="rdo1" name="ventWall.moodid" type="radio" value="[em_1]" checked=true/><img src="images/face/1.jpg" />
 		<input id="rdo2" name="ventWall.moodid" type="radio" value="[em_2]" /><img src="images/face/2.jpg" />
 		<input id="rdo3" name="ventWall.moodid" type="radio" value="[em_3]" /><img src="images/face/3.jpg" />
@@ -23,9 +11,30 @@
 		<input id="rdo7" name="ventWall.moodid" type="radio" value="[em_7]" /><img src="images/face/7.jpg" />
 		<input id="rdo8" name="ventWall.moodid" type="radio" value="[em_8]" /><img src="images/face/8.jpg" /></br>
 		<textarea class="input" id="saytext" name="ventWall.message" value="${ventWall.message!}" width="700px"></textarea></br>
-        <button class="btn btn-large btn-primary" type="submit" >提交</button>
+        <button id="btn1" class="btn btn-large btn-primary" onClick="getOtherMessage();" type="submit" ">提交</button>
+        <button id="btn2" class="btn btn-large btn-primary" onClick="getOtherMessage();" type="button" ">提交</button>
       </form>
-
     </div> 
-  </body>
-</html>
+    <div id="view">
+    </div>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript">   
+        function getOtherMessage(){   
+			var rdo1 = $('#rdo1').val();
+            $.ajax({   
+                type:"post",    
+                dataType:"json",
+                url:"ventwall/select", 
+                success:function(data){
+                	console.log(data);
+                	alert("success"+data);
+					$('#table').append('<tr><td>'+data.message+'</td></tr>');
+                },   
+                error:function(){   
+                    alert("wrong");   
+                }   
+            });   
+       }   
+  </script>
+ </section> 
+<% } %> 
