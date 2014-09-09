@@ -5,7 +5,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
-import com.domeke.app.base.config.DomeKeConstants;
+import com.domeke.app.base.config.DomekeConstants;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.EncryptKit;
@@ -40,7 +40,7 @@ public class LoginController extends Controller {
 		User user = getModel(User.class).findUserIdByUsername(username);
 		user.set("username", username);
 		setSessionAttr("user",user );
-		if (DomeKeConstants.IS_ADMIN.equals(username)) {
+		if (DomekeConstants.IS_ADMIN.equals(username)) {
 			setSessionAttr("isAdmin", "true");
 		}
 	}

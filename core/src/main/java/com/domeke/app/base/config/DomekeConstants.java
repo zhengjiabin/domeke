@@ -1,6 +1,6 @@
 package com.domeke.app.base.config;
 
-public class DomeKeConstants {
+public class DomekeConstants {
 	/**
 	 * 是否系统管理员
 	 */

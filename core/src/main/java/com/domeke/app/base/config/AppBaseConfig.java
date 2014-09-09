@@ -29,7 +29,7 @@ public class AppBaseConfig extends JFinalConfig {
 	@Override
 	public void configConstant(Constants constants) {
 		// 设置编码格式统一为utf-8 解决乱码问题
-		constants.setEncoding(DomeKeConstants.ENCODE);
+		constants.setEncoding(DomekeConstants.ENCODE);
 		constants.setMainRenderFactory(new DomekeBeetlRenderFactory());
 		constants.setError404View("");
 		constants.setError500View("");
@@ -54,7 +54,7 @@ public class AppBaseConfig extends JFinalConfig {
 		plugins.add(druidPlugin);
 
 		WallFilter wallFilter = new WallFilter();
-		wallFilter.setDbType(DomeKeConstants.DB_TYPE);
+		wallFilter.setDbType(DomekeConstants.DB_TYPE);
 		druidPlugin.addFilter(wallFilter);
 
 		AutoTableBindPlugin atbp = new AutoTableBindPlugin(druidPlugin, SimpleNameStyles.DEFAULT);
