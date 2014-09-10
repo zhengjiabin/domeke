@@ -1,5 +1,5 @@
  <% for (comment in page.list){ %>
-<div class="control-group">
+<div class="control-group" id="commentContent">
 
 	<div class="control-group">用户名:${comment.userid!}</div>
 
@@ -10,7 +10,8 @@
 	<div><%
 		layout("./publishFace.html",{"targetID":targetID,"action":action +
 		"&pID=" + comment.commentid,"comment":comment}){}%></div>
-	<div class="control-group" align="center" style="color: red">
+	<div class="control-group" align="center" style="color: red"
+		id="commentContent">
 		<% for (follow in followPage){
 		if(follow.pid!=comment.commentid){continue;}%>
 		<div class="control-group">用户名:${follow.userid!}</div>

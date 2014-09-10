@@ -53,6 +53,14 @@ public class PostController extends Controller {
 	 * @return 指定帖子信息
 	 */
 	public void findByID() {
+		setDataByID();
+		render("/demo/detailPost.html");
+	}
+
+	/**
+	 * 设置值
+	 */
+	private void setDataByID() {
 		Object postID = getPara("postID");
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
@@ -66,8 +74,6 @@ public class PostController extends Controller {
 
 		List<Comment> followPage = Comment.dao.findFollowByTargetId(postID);
 		setAttr("followPage", followPage);
-
-		render("/demo/detailPost.html");
 	}
 
 	/**
@@ -129,7 +135,18 @@ public class PostController extends Controller {
 	 * 添加回复信息
 	 */
 	public void replyComment() {
+		addComment();
 
+		setDataByID();
+		setReplyCommentData();
+
+		render("/demo/comment.html");
+	}
+
+	/**
+	 * 保存回复信息
+	 */
+	private void addComment() {
 		Comment comment = getModel(Comment.class);
 
 		Object targetID = getPara("targetID");
@@ -157,8 +174,18 @@ public class PostController extends Controller {
 		Object message = getPara("message");
 		comment.set("message", message);
 		comment.save();
+	}
 
-		findByID();
+	/**
+	 * 添加额外的回复信息
+	 */
+	private void setReplyCommentData() {
+		Object targetID = getPara("targetID");
+		Object postID = getPara("postID");
+		Object action = "./post/replyComment?postID=" + postID;
+
+		setAttr("targetID", targetID);
+		setAttr("action", action);
 	}
 
 	/**

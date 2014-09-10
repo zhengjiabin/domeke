@@ -21,13 +21,14 @@
         	<li><a href="#"><img src="images/icon07.png">购物车</a></li>
         </ul>
         <ul id="nav_menu" class="NavL">
-    <% for(m in menuOneMenu){ 
-    	if (m.actionkey == "index"){
+    <% for(m in menuOneMenu){   
+    var menuid = parseInt(menuid);
+    	if (menuid == m.menuid){
     %>
     	<li class="LiFuc"><a href="">${m.menuname!}</a></li>
     <%	}else{
 	%>	
-	<li><a href="#">${m.menuname!}</a></li>
+	<li><a href="${m.actionkey!}?menuid=${m.menuid!}">${m.menuname!}</a></li>
 	<% } 
 	   } 
 	%>

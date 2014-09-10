@@ -12,7 +12,8 @@ public class IndexController extends Controller {
 	public void index(){	
 		Menu.menuDao.removeCache();
 		Menu menu = getModel(Menu.class);
-		List<Menu> menuOneMenu = menu.getOneMenu("1");
+		List<Menu> menuOneMenu = menu.getOneMenu();		
+		setAttr("menuid", "1");
 		setAttr("menuOneMenu", menuOneMenu);
 		render("index.html");
 	}

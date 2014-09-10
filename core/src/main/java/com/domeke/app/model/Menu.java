@@ -46,12 +46,11 @@ public class Menu extends Model<Menu> {
 	}
 	
 	/**
-	 * 获取菜单
-	 * @param paras 菜单级次
-	 * @return 返回该级次菜单
+	 * 获取一级菜单菜单
+	 * @return 返回一级次菜单
 	 */
-	public List<Menu> getOneMenu(String paras){
-		List<Menu> menuOneMenu = this.find("select * from menu where top = ? order by mid", paras);
+	public List<Menu> getOneMenu(){
+		List<Menu> menuOneMenu = this.find("select * from menu where top = '1' order by mid");
 		return menuOneMenu;
 	}
 	
@@ -61,8 +60,8 @@ public class Menu extends Model<Menu> {
 	 * @param parentmenuid
 	 * @return
 	 */
-	public List<Menu> getTwoMenu(String top, String parentmenuid){
-		List<Menu> menuTwoMenu = this.find("select * from menu where top = ? and parentmenuid = ?", top, parentmenuid);
+	public List<Menu> getTwoMenu(String parentmenuid){
+		List<Menu> menuTwoMenu = this.find("select * from menu where top = '2' and parentmenuid = ?", parentmenuid);
 		return menuTwoMenu;
 	}
 	
