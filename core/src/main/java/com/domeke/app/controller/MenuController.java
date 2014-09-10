@@ -27,7 +27,7 @@ public class MenuController extends Controller {
 	public List<Menu> menuOneMenu(){
 		Menu.menuDao.removeCache();
 		Menu menu = getModel(Menu.class);
-		List<Menu> menuOneMenu = menu.getOneMenu("1");
+		List<Menu> menuOneMenu = menu.getOneMenu();
 		return menuOneMenu;
 	}
 	
@@ -35,9 +35,8 @@ public class MenuController extends Controller {
 	 * 新增菜单入口
 	 */
 	public void goMenu(){
-		Menu.menuDao.removeCache();
-		Menu menu = getModel(Menu.class);
-		List<Menu> menuOneMenu = menu.getOneMenu("1");
+		List<Menu> menuOneMenu = menuOneMenu();
+		setAttr("menuid", "1");
 		setAttr("menuOneMenu", menuOneMenu);
 		render("/demo/addMenu.html");
 	}
@@ -60,10 +59,9 @@ public class MenuController extends Controller {
 		List<Menu> menuList = menu.selectMenu();
 		setAttr("menuList", menuList);
 		
-		Menu.menuDao.removeCache();
-		List<Menu> menuOneMenu = menu.getOneMenu("1");
+		List<Menu> menuOneMenu = menuOneMenu();
 		setAttr("menuOneMenu", menuOneMenu);
-		
+		setAttr("menuid", "1");
 		render("/demo/selectMenu.html");
 	}
 	
@@ -75,13 +73,14 @@ public class MenuController extends Controller {
 		menuid = getPara();		
 		Menu.menuDao.removeCache();
 		Menu menu = getModel(Menu.class);
-		List<Menu> menuOneMenu = menu.getOneMenu("1");
-		List<Menu> menuMenuList = menu.getTwoMenu("0", menuid);
+		List<Menu> menuOneMenu = menu.getOneMenu();
+		List<Menu> menuMenuList = menu.getTwoMenu(menuid);
 		if(menuid == "" || menuid == null || "14".equals(menuid)){
 			menuMenuList = menu.selectMenu();
 		}
 		setAttr("menuOneMenu", menuOneMenu);
 		setAttr("menuMenuList", menuMenuList);
+		setAttr("menuid", "1");
 		render("/demo/selectMainMenu.html");
 	}
 	
@@ -91,7 +90,7 @@ public class MenuController extends Controller {
 	public void getTwoMenu(){
 		String menuid = getPara();
 		Menu menu = getModel(Menu.class);
-		List<Menu> menuTwoMenu = menu.getTwoMenu("0",menuid);
+		List<Menu> menuTwoMenu = menu.getTwoMenu(menuid);
 		setAttr("menuTwoMenu", menuTwoMenu);
 		selectMenu();
 	}
@@ -104,8 +103,9 @@ public class MenuController extends Controller {
 		Menu menu = Menu.menuDao.selectMenuById(menuid);
 		setAttr("menu", menu);
 		Menu.menuDao.removeCache();
-		List<Menu> menuOneMenu = menu.getOneMenu("1");
+		List<Menu> menuOneMenu = menu.getOneMenu();
 		setAttr("menuOneMenu", menuOneMenu);
+		setAttr("menuid", "1");
 		render("/demo/updateMenu.html");
 	}
 	
