@@ -38,8 +38,7 @@
 		return true;
 	}
 </script>
-<form id="commentForm" action="${action!}" method="post"
-	onsubmit="setComment(this);">
+<form id="commentForm" action="${action!}" method="post" onsubmit=";">
 	<div>
 		<input type="hidden" name="targetID" value="${targetID!}"><input
 			type="button" value="回复" onclick="showReplyComment(this)" />
@@ -152,7 +151,10 @@
 						onClick="insertFace(this)" /></td>
 				</tr>
 			</table>
-			<input type="submit" value="发表" />
+			<div>
+				<input id="publish" type="button" value="发表"
+					onclick="setComment(this)">
+			</div>
 		</div>
 	</div>
 </form>

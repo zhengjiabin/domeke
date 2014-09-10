@@ -13,24 +13,6 @@
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
-<script type="text/javascript">
-	function goToPageSize(pageSize,postId) {
-		location.href = "./post/findById?postId=" + postId + "&pageSize=" + pageSize
-				+ "&pageNumber=1";
-	};
-
-	function pageSize(pageSize) {
-		var obj = document.getElementById('pageSize');
-		for (var i = 0; i < obj.length; i++) {
-			if (pageSize == obj.options[i].value) {
-				obj.options[i].selected = true;
-			} else {
-				obj.options[i].selected = false;
-			}
-
-		}
-	};
-</script>
 </head>
 <body>
 	<div>
@@ -56,33 +38,16 @@
 			<div class="control-group">是否启用签名:${post.usesig!}</div>
 		</div>
 
-		<div>
-			每页<select name="pageSize" id="pageSize"
-				onchange="goToPageSize(this.value,${post.postid!})">
-				<option value="20" selected="selected">20</option>
-				<option value="30">30</option>
-				<option value="50">50</option>
-				<option value="80">80</option>
-				<option value="100">100</option>
-			</select>条&nbsp;共${page.totalRow!}条&nbsp;第${page.pageNumber!}
-			/${page.totalPage!}页 <a
-				href="./post/findById?postId=${post.postid!}&pageNumber=1&pageSize=${page.pageSize!}">首页</a>
-			<a
-				href="./post/findById?postId=${post.postid!}&pageNumber=${page.pageNumber!-1<1?1:page.pageNumber!-1}&pageSize=${page.pageSize!}">上页</a>
-			<a
-				href="./post/findById?postId=${post.postid!}&pageNumber=${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1}&pageSize=${page.pageSize!}">下页</a>
-			<a
-				href="./post/findById?postId=${post.postid!}&pageNumber=${page.totalPage!}&pageSize=${page.pageSize!}">末页</a>
+		<div id="replyComments">
+			<div class="control-group" align="right"><% if(post.postid !=
+				null){ layout("./ckeditor.html",
+				{"targetID":post.postid,"action":"./post/replyComment?postID=" +
+				post.postid}){} }%></div>
+			<div class="control-group" id="commentContents"><% if(page !=
+				null && post.postid != null){ layout("./comment.html",
+				{"page":page,"targetID":post.postid,"action":"./post/replyComment?postID="
+				+ post.postid} ){} }%></div>
 		</div>
-
-		<div class="control-group" align="right"><% if(post.postid !=
-			null){ layout("./ckeditor.html",
-			{"targetID":post.postid,"action":"./post/replyComment?postID=" +
-			post.postid}){} }%></div>
-		<div class="control-group"><% if(page != null && post.postid !=
-			null){ layout("./comment.html",
-			{"page":page,"targetID":post.postid,"action":"./post/replyComment?postID="
-			+ post.postid} ){} }%></div>
 	</div>
 </body>
 </html>
