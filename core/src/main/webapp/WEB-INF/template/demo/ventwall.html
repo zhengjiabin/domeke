@@ -6,23 +6,57 @@
     <!-- Bootstrap -->
     <!-- 设置默认的contextPath html无法使用宏变量-->
 	<base href="${core}/"/>
-     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+     <!-- HTML5 shim, for IE6-8 support of HTML5 elements action="ventwall/save"-->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <![endif]  http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
+    //$('#table').append('<tr><td>'+data.message+'</td></tr>');
+    -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+    		$('#btn2').click(function(){
+    			var rdo1 = $('#rdo1').val();
+    			var saytext = $('#saytext').val();
+    			var obj = {"ventWall.message":saytext,"ventWall.moodid":rdo1};
+                $.ajax({   
+                    type:"post",    
+                    dataType:"json",
+                    url:"ventwall/save", 
+                    data:obj,
+                    success:function(data){
+                    	alert("success");
+                    	$('#view').html(data);
+                    	alert("success22");
+    					
+                    },   
+                    error:function(){   
+                        alert("wrong");   
+                    }   
+                });
+    		});
+    	});
+       
+  </script>
+
   </head>
   <body id="login">
     <div class="container">
-
-      <form class="form-signin" action="ventwall/save" method="post">
-        <h2 class="form-signin-heading">请留言</h2>
-        	<label class="control-label">心情：</label>
-        	<input name="ventWall.moodid" value="${ventWall.moodid!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">留言内容：</label>
-        	<input name="ventWall.message" value="${ventWall.message!}" type="text" class="span6 m-wrap" /><br>
-        <button class="btn btn-large btn-primary" type="submit" >保存</button>
+      <form  id="ajaxFrm" class="form-signin" action="ventwall/save"  method="post">
+		<input id="rdo1" name="ventWall.moodid" type="radio" value="[em_1]" checked=true/><img src="images/face/1.jpg" />
+		<input id="rdo2" name="ventWall.moodid" type="radio" value="[em_2]" /><img src="images/face/2.jpg" />
+		<input id="rdo3" name="ventWall.moodid" type="radio" value="[em_3]" /><img src="images/face/3.jpg" />
+		<input id="rdo4" name="ventWall.moodid" type="radio" value="[em_4]" /><img src="images/face/4.jpg" />
+		<input id="rdo5" name="ventWall.moodid" type="radio" value="[em_5]" /><img src="images/face/5.jpg" />
+		<input id="rdo6" name="ventWall.moodid" type="radio" value="[em_6]" /><img src="images/face/6.jpg" />
+		<input id="rdo7" name="ventWall.moodid" type="radio" value="[em_7]" /><img src="images/face/7.jpg" />
+		<input id="rdo8" name="ventWall.moodid" type="radio" value="[em_8]" /><img src="images/face/8.jpg" /></br>
+		<textarea id="saytext"  name="ventWall.message" value="${ventWall.message!}" width="700px"></textarea></br>
+        <button id="btn1" class="btn btn-large btn-primary"  type="submit" ">提交</button>
+          <button id="btn2" class="btn btn-large btn-primary"  type="button" ">提交</button>
       </form>
-
-    </div> <!-- /container -->
+    </div> 
+    <div id="view">
+    </div>
   </body>
 </html>
