@@ -1,17 +1,12 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>菜单</title>
-<base href="${core}/" />
+<% layout("../common/layout.html"){ %>
+<section>
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
 	media="screen">
 <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
 	media="screen">
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-</head>
-<body>
+
 	<a href="menu/goMenu">新增菜单</a><br>
 	<div>
 	<table class="table table-striped">
@@ -21,6 +16,7 @@
 			</tr>
 			<tr>
 				<th>序号</th>
+				<th>mid</th>
 				<th>菜单名称</th>
 				<th>actionkey</th>
 				<th>是否父级菜单</th>
@@ -39,6 +35,7 @@
 			%>
 			<tr>
 				<td>${index}</td>
+				<td>${m.mid!}</td>
 				<td>${m.menuname!}</td>
 				<td>${m.actionkey!}</td>
 				<td>${m.top!}</td>
@@ -55,5 +52,5 @@
 		</tbody>
 	</table>
 	</div>
-</body>
-</html>
+</section> 
+<% } %> 

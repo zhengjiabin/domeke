@@ -1,6 +1,6 @@
 <div class="TopFix">
 	<div class="TopFixZoom">
-    	<span class="FixLeft">欢迎来到动漫方舟！<a href="#">请登录</a><a href="#">免费注册</a></span>
+    	<span class="FixLeft">欢迎来到动漫方舟！<a href="user/goLogin">请登录</a><a href="user/goRegist">免费注册</a></span>
         <span class="FixRight">
         	<a href="#">我的方舟</a><a href="#">收藏夹</a><a href="#">商家支持</a><a href="#">网站导航</a>
         </span>
@@ -21,12 +21,16 @@
         	<li><a href="#"><img src="images/icon07.png">购物车</a></li>
         </ul>
         <ul id="nav_menu" class="NavL">
-          	<li class="LiFuc"><a href="">首页</a></li>
-            <li><a href="cartoon">动漫</a></li>
-            <li><a href="play" >无奇不有</a></li>
-            <li><a href="#">商城</a></li>
-            <li><a href="#">HIGH豆社区</a></li>
-            <li><a href="#">签到发泄墙</a></li>
+    <% for(m in menuOneMenu){ 
+    	if (m.actionkey == "index"){
+    %>
+    	<li class="LiFuc"><a href="">${m.menuname!}</a></li>
+    <%	}else{
+	%>	
+	<li><a href="#">${m.menuname!}</a></li>
+	<% } 
+	   } 
+	%>
         </ul>
         <script type="text/javascript">
       //菜单导航 按钮事件 选中后高亮

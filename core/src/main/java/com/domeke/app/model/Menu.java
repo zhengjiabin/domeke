@@ -63,7 +63,6 @@ public class Menu extends Model<Menu> {
 	 */
 	public List<Menu> getTwoMenu(String top, String parentmenuid){
 		List<Menu> menuTwoMenu = this.find("select * from menu where top = ? and parentmenuid = ?", top, parentmenuid);
-		System.out.println("========="+menuTwoMenu);
 		return menuTwoMenu;
 	}
 	

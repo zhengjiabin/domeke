@@ -16,13 +16,29 @@ public class MenuController extends Controller {
 		Menu menu = getModel(Menu.class);
 		List<Menu> menuOneMenu = menu.selectMenu();
 		setAttr("menuOneMenu", menuOneMenu);
-		render("/demo/test.html");
+		render("../index.html");
 		
 	}
+	
+	/**
+	 * 获取一级菜单
+	 * @return 
+	 */
+	public List<Menu> menuOneMenu(){
+		Menu.menuDao.removeCache();
+		Menu menu = getModel(Menu.class);
+		List<Menu> menuOneMenu = menu.getOneMenu("1");
+		return menuOneMenu;
+	}
+	
 	/**
 	 * 新增菜单入口
 	 */
 	public void goMenu(){
+		Menu.menuDao.removeCache();
+		Menu menu = getModel(Menu.class);
+		List<Menu> menuOneMenu = menu.getOneMenu("1");
+		setAttr("menuOneMenu", menuOneMenu);
 		render("/demo/addMenu.html");
 	}
 	
@@ -43,6 +59,11 @@ public class MenuController extends Controller {
 		Menu menu = getModel(Menu.class);
 		List<Menu> menuList = menu.selectMenu();
 		setAttr("menuList", menuList);
+		
+		Menu.menuDao.removeCache();
+		List<Menu> menuOneMenu = menu.getOneMenu("1");
+		setAttr("menuOneMenu", menuOneMenu);
+		
 		render("/demo/selectMenu.html");
 	}
 	
@@ -82,6 +103,9 @@ public class MenuController extends Controller {
 		int menuid = getParaToInt();
 		Menu menu = Menu.menuDao.selectMenuById(menuid);
 		setAttr("menu", menu);
+		Menu.menuDao.removeCache();
+		List<Menu> menuOneMenu = menu.getOneMenu("1");
+		setAttr("menuOneMenu", menuOneMenu);
 		render("/demo/updateMenu.html");
 	}
 	
@@ -100,7 +124,7 @@ public class MenuController extends Controller {
 	public void deleteMenu(){
 		Menu menu = getModel(Menu.class);
 		int menuid = getParaToInt();
-		menu.deleteMenu(menuid);
+		menu.deleteMenu(menuid);		
 		selectMenu();
 	}
 }
