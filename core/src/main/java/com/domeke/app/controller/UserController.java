@@ -32,17 +32,19 @@ public class UserController extends Controller {
 	}
 
 	public void goRegist() {
-		render("/demo/regist.html");
+		render("/register2.html");
 	}
 	
 	public void goLogin(){
-		render("/demo/login.html");
+		setAttr("msg", "");
+		render("/Login.html");
 	}
 	//@Before({RegistValidator.class,MailAuthInterceptor.class})
+	//@Before({RegistValidator.class})
 	public void regist() {
 		User user = getModel(User.class);
 		user.saveUser();
-		render("/demo/login.html");
+		render("/Login.html");
 	}
 	public void goUserManage(){
 		userManage();
