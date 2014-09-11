@@ -1,30 +1,15 @@
-<!DOCTYPE html>
-<html>
-  <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>查询留言</title>
-	<base href="${core}/"/>
-     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-<body>
-   <div>
-        <table class="table table-hover _module_list">
+<div id="selectDiv" >
+        <table class="">
             <tr><th>留言内容</th></tr>            
-            <tr><th>心情${ventWallList.~size}</th><th>留言</th><th>留言时间</th><th>操作</th></tr>
+            <tr><th>心情</th><th>留言</th><th>留言时间</th><th>操作</th></tr>
             <div id="divID"></div>
             <% for(v in ventWallList!){%>
                 <tr><td>${v.moodid!}</td><td>${v.message!}</td><td>${v.create_time!}</td>
                     <td class="span2">
-                        <a href="ventwall/selectById/${v.ventwallid}" class="icon-edit" title="编辑">编辑</a>
-                        <a href="ventwall/delete/${v.ventwallid}" class="icon-trash" title="删除" onclick="return confirm('确定删除？')">删除</a>
+                        <a href="ventwall/selectById/${v.ventwallid}" class="" title="编辑">编辑</a>
+                        <a href="ventwall/delete/${v.ventwallid}" class="" title="删除" onclick="return confirm('确定删除？')">删除</a>
                     </td>
                 </tr>
                 <%}%>
-                <p><input type="button" class="sub_btn" value="提交"></p>
-        </table>
-    </div>
-</body>
-</html>
+        </table>           	
+</div>

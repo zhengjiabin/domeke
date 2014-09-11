@@ -30,8 +30,6 @@ public class VentWallController extends Controller {
 		ventWall.set("moodid", msg);
 		ventWall.saveVentWall();
 		select();
-		//renderJson();
-		//index();
 	}
 	/**
 	 * 正则表达式转换表情
@@ -64,12 +62,11 @@ public class VentWallController extends Controller {
 	 */
 	public void select(){
 		VentWall.venWdao.removeCache();
-		setAttr("ventWallList", VentWall.venWdao.getVentWall());
-		//List<VentWall> ventWallList = VentWall.venWdao.getVentWall();
+		//setAttr("ventWallList", VentWall.venWdao.getVentWall());		
+		List<VentWall> ventWallList = VentWall.venWdao.getVentWall();
+		setAttr("ventWallList", ventWallList);		
 		//render("/demo/selectventwall.html");
-		
-		renderJson("/demo/selectventwall.html");
-		//renderJson("ventWallList",ventWallList);
+		render("/demo/ventwall.html");
 	}
 	/**
 	 * 通过ID查询留言
