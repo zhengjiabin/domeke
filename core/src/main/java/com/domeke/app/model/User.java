@@ -70,7 +70,7 @@ public class User extends Model<User> {
 	}
 
 	public User findUserByUsername(String username) {
-		String sql = "select userid,username,nickname,email,mobile from user where username = ? ";
+		String sql = "select userid,username,nickname,email,mobile,activation from user where username = ? ";
 		User user = dao.findFirst(sql, username);
 		return user;
 	}
@@ -93,6 +93,11 @@ public class User extends Model<User> {
 	
 	public void updateReset(int userid,String pass){
 		String sql="update user set password='"+pass+"' where userid='"+userid+"'";
+		Db.update(sql);
+	}
+	
+	public void updateUserMsg(String userid,String clom,String param){
+		String sql="update user set "+clom+"='"+param+"' where userid='"+userid+"'";
 		Db.update(sql);
 	}
 	
