@@ -12,30 +12,11 @@
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
-<script type="text/javascript" language="text/javascript">
-	function goToPageSize(pageSize) {
-		location.href = "./post/find?pageSize=" + pageSize
-				+ "&pageNumber=1";
-	};
-
-	function pageSize(pageSize) {
-		var obj = document.getElementById('pageSize');
-		for (var i = 0; i < obj.length; i++) {
-			if (pageSize == obj.options[i].value) {
-				obj.options[i].selected = true;
-			} else {
-				obj.options[i].selected = false;
-			}
-
-		}
-	}
-</script>
-
 </head>
 
-<body onload="pageSize(${page.pageSize!})">
-	<form action="post/find" id="post_find"
-		class="form-horizontal" method="post">
+<body>
+	<form action="post/find" id="post_find" class="form-horizontal"
+		method="post">
 		<div class="control-group">
 			<h1>
 				<a href="./post/skipCreate">发表帖子</a>
@@ -43,22 +24,8 @@
 			<h1>
 				<a href="./post/findByUserId">我的帖子</a>
 			</h1>
-			<hr>
-			每页<select name="pageSize" id="pageSize"
-				onchange="goToPageSize(this.value)">
-				<option value="10" selected="true">10</option>
-				<option value="20">20</option>
-				<option value="30">30</option>
-				<option value="80">80</option>
-				<option value="100">100</option>
-			</select>条&nbsp;共${page.totalRow!}条&nbsp;第${page.pageNumber!}
-			/${page.totalPage!}页 <a
-				href="./post/find?pageNumber=1">首页</a> <a
-				href="./post/find?pageNumber=${page.pageNumber!-1<1?1:page.pageNumber!-1}">上页</a>
-			<a
-				href="./post/find?pageNumber=${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1}">下页</a>
-			<a
-				href="./post/find?pageNumber=${page.totalPage!}">末页</a>
+			<div id="page"><% if(page != null){ layout("./page.html",
+				{"page":page,"action":"./post?1=1"} ){} }%></div>
 			<table>
 				<thead>
 					<tr>

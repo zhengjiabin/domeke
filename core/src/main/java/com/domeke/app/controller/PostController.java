@@ -22,7 +22,7 @@ public class PostController extends Controller {
 	 */
 	public void find() {
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
+		int pageSize = getParaToInt("pageSize", 2);
 
 		Post post = getModel(Post.class);
 		Page<Post> page = post.findPage(pageNumber, pageSize);
@@ -39,7 +39,7 @@ public class PostController extends Controller {
 		User user = getUser();
 		Object userId = user.get("userid");
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
+		int pageSize = getParaToInt("pageSize", 2);
 
 		Post post = getModel(Post.class);
 		Page<Post> page = post.findByUserId(userId, pageNumber, pageSize);
@@ -63,7 +63,7 @@ public class PostController extends Controller {
 	private void setDataByID() {
 		Object postID = getPara("postID");
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
+		int pageSize = getParaToInt("pageSize", 2);
 
 		Post post = Post.dao.findById(postID);
 		setAttr("post", post);
@@ -161,13 +161,13 @@ public class PostController extends Controller {
 		String remoteIp = request.getRemoteAddr();
 		comment.set("userip", remoteIp);
 
-		Object pID = getPara("pID");
-		if (pID != null) {
+		String pID = getPara("pID");
+		if (pID != null && pID.length()>0) {
 			comment.set("pid", pID);
 		}
 
-		Object toUserID = getPara("toUserID");
-		if (toUserID != null) {
+		String toUserID = getPara("toUserID");
+		if (toUserID != null && toUserID.length()>0) {
 			comment.set("touserid", toUserID);
 		}
 

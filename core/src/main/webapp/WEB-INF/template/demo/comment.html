@@ -8,8 +8,8 @@
 	<div class="control-group">内容:${comment.message!}</div>
 
 	<div><%
-		layout("./publishFace.html",{"targetID":targetID,"action":action +
-		"&pID=" + comment.commentid,"comment":comment}){}%></div>
+		layout("./publishFace.html",{"targetID":targetID,"action":action,
+		"pID":comment.commentid,"comment":comment}){}%></div>
 	<div class="control-group" align="center" style="color: red"
 		id="commentContent">
 		<% for (follow in followPage){
@@ -21,9 +21,8 @@
 		<div class="control-group">内容:${follow.message!}</div>
 
 		<div><%
-			layout("./publishFace.html",{"targetID":targetID,"action":action +
-			"&pID=" + comment.commentid + "&toUserID" +
-			comment.commentid,"comment":follow}){}%></div>
+			layout("./publishFace.html",{"targetID":targetID,"action":action,
+			"pID=":comment.commentid,"toUserID":comment.commentid,"comment":follow}){}%></div>
 		<% } %>
 	</div>
 </div>
