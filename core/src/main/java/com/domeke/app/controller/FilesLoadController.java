@@ -71,6 +71,7 @@ public class FilesLoadController extends Controller {
 	}
 
 	protected File renameToFile(UploadFile uploadFile, File oldFile) {
+
 		// 通过文件名截取出文件的类型
 		String fileName = oldFile.getName();
 		String fileType = "";
