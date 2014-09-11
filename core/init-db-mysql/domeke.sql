@@ -223,6 +223,7 @@ CREATE TABLE `goods` (
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
   `menuid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `mid` int(11) DEFAULT NULL,
   `menuname` varchar(64) DEFAULT NULL,
   `actionkey` varchar(256) DEFAULT NULL,
   `top` char(2) DEFAULT NULL,

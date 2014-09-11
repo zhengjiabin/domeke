@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.ActionInvocation;
 import com.jfinal.core.Controller;
@@ -119,7 +120,7 @@ public abstract class Validator implements Interceptor {
 	protected void validateRequired(String field, String errorKey, String errorMessage) {
 		String value = controller.getPara(field);
 		if (value == null || "".equals(value))	// 经测试,无输入时值为"",跳格键值为"\t",输入空格则为空格" "
-			addError(errorKey, errorMessage);
+			addError("msg", errorMessage);
 	}
 	
 	/**

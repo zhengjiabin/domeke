@@ -27,8 +27,18 @@ public class LoginController extends Controller {
 		try {
 			currentUser.login(token);
 		} catch (AuthenticationException e) {
-			setAttr("msg", "username or password is invalid!");
-			render("/login.html");
+			setAttr("msg", "用户名或密码错误!");
+			render("/Login.html");
+			return;
+		}
+		User user= getModel(User.class);
+		user = user.findUserByUsername(username);
+		//获取激活状态
+		String activation = user.getStr("activation");
+		if("N".equals(activation)){
+			setAttr("msg", "该用户还未认证，请先到邮箱认证!");
+			render("/Login.html");
+			return;
 		}
 		setCache(username, password, token, currentUser);
 		setAttr("username", username);
@@ -48,7 +58,7 @@ public class LoginController extends Controller {
 	public void logout() {
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
-		render("/demo/login.html");
+		render("/Login.html");
 	}
 
 }
