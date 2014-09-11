@@ -37,6 +37,10 @@ public class UserController extends Controller {
 		render("/register2.html");
 	}
 	
+	public void goRegistSucces() {
+		render("/registerSucces.html");
+	}
+	
 	public void goLogin(){
 		setAttr("msg", "");
 		render("/Login.html");
@@ -57,7 +61,7 @@ public class UserController extends Controller {
 		user.saveUser();
 		//发送邮箱验证
 		sendActivation(user);
-		render("/Login.html");
+		render("/registerSucces.html");
 	}
 	
 	/**
