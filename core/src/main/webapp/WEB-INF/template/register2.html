@@ -20,22 +20,55 @@
     </div>
     <form action="user/regist" id="user_regist" class="form-horizontal" method="post">
     <table border="0" cellspacing="0" cellpadding="0" class="Table_reg">
+    <tr>
+        <th>用户名：</th>
+        <td><input name="user.username" value="${user.username!}" type="text" class="InputUid">
+        <div>
+	        <a style="color:#F00">${usernameMsg!}</a>
+	    </div>
+        </td>
+      </tr>
+    <tr>
+        <th>昵称：</th>
+        <td><input name="user.nickname" value="${user.nickname!}" type="text" class="InputUid">
+        <div>
+	        <a style="color:#F00">${nicknameMsg!}</a>
+	        <a style="color:#F00">${nicknameMsg2!}</a>
+	    </div>
+        </td>
+      </tr>
       <tr>
         <th>邮箱：</th>
-        <td><input name="user.email" value="${user.email!}" type="text" class="InputUid"></td>
+        <td><input name="user.email" value="${user.email!}" type="text" class="InputUid">
+        <div>
+	        <a style="color:#F00">${emailMsg!}</a>
+	    </div>
+        </td>
       </tr>
       
       <tr>
         <th>设置密码：</th>
-        <td><input name="user.password" value="${user.password!}" type="password" class="InputUid">密码长度8~16位，数字、字母、字符至少包含2种。</td>
+        <td><input name="user.password" value="${user.password!}" type="password" class="InputUid">密码长度8~16位，数字、字母、字符至少包含2种。
+        <div>
+	        <a style="color:#F00">${passwordMsg!}</a>
+	    </div>
+        </td>
       </tr>
       <tr>
         <th>确认密码：</th>
-        <td><input name="repassword" value="${repassword!}" type="password" class="InputUid"></td>
+        <td><input name="repassword" value="${repassword!}" type="password" class="InputUid">
+        <div>
+	       <a style="color:#F00">${repasswordMsg!}</a>
+	    </div>
+        </td>
       </tr>
       <tr>
         <th>验证码：</th>
-        <td><input name="" type="text" class="InputPin"><img src="images/MePin.png">点击图片刷新验证码</td>
+        <td><img src="user/captcha">&nbsp;<input type="text" name="captcha" value=""/>
+         <div>
+	       <a style="color:#F00">${verification!}</a>
+	    </div>
+        </td>
       </tr>
       <tr>
         <th>&nbsp;</th>
