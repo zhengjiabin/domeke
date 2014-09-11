@@ -39,6 +39,8 @@
 		</div>
 
 		<div id="replyComments">
+			<div id="page"><% if(page != null){ layout("./page.html",
+				{"page":page,"action":"./post/findByID?postID="+post.postid} ){} }%></div>
 			<div class="control-group" align="right"><% if(post.postid !=
 				null){ layout("./ckeditor.html",
 				{"targetID":post.postid,"action":"./post/replyComment?postID=" +

@@ -223,6 +223,7 @@ CREATE TABLE `goods` (
 DROP TABLE IF EXISTS `menu`;
 CREATE TABLE `menu` (
   `menuid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `mid` int(11) DEFAULT NULL,
   `menuname` varchar(64) DEFAULT NULL,
   `actionkey` varchar(256) DEFAULT NULL,
   `top` char(2) DEFAULT NULL,
@@ -454,7 +455,7 @@ DROP TABLE IF EXISTS `vent_wall`;
 CREATE TABLE `vent_wall` (
   `ventwallid` bigint(20) NOT NULL AUTO_INCREMENT,
   `userid` bigint(20) DEFAULT NULL,
-  `moodid` bigint(20) DEFAULT NULL COMMENT '心情id',
+  `moodid` varchar(100) DEFAULT NULL COMMENT '心情id',
   `message` varchar(255) DEFAULT NULL COMMENT '留言',
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) DEFAULT NULL,

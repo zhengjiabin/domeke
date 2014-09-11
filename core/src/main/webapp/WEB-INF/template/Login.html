@@ -10,15 +10,23 @@
 </header>
 <div class="LoginContent">
 	<div class="LoginAD"><img src="images/LoginPic.png"></div>
-    <div class="LoginInput">
-    	<input name="" type="text" class="Uid" value="用户名">
-        <input name="" type="text" class="Pwd" value="密码">
-        <div class="LoginButton">
-        	<input name="" type="button" class="Button" value="立即登录"><br />
-            <input name="" type="checkbox" value="">下次自动登录  <a href="#">忘记密码</a><br />
-            您还没有账号？点击<a href="#">注册</a>
-        </div>
-    </div>
+	<form class="form-signin" action="login/login" method="post">
+	    <div class="LoginInput">
+	    	<input name="username"  name="username" type="text" class="Uid" value="用户名">
+	        <input name="password"   name="password" type="text" class="Pwd" value="密码">
+	    	
+	    	
+	        <div>
+	        	<a style="color:#F00">${msg!}</a>
+	        </div>
+	   	
+	        <div class="LoginButton">
+	        	<input name="" type="submit" class="Button" value="立即登录"><br />
+	            <input name="" type="checkbox" value="">下次自动登录  <a href="#">忘记密码</a><br />
+	            您还没有账号？点击<a href="user/goRegist">注册</a>
+	        </div>
+	    </div>
+    </form>
     <div class="clear"></div>
     <div class="Mepic"><img src="images/Mepic03.png"></div>
 </div>
