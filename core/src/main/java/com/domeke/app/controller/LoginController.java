@@ -31,6 +31,15 @@ public class LoginController extends Controller {
 			render("/Login.html");
 			return;
 		}
+		User user= getModel(User.class);
+		user = user.findUserByUsername(username);
+		//获取激活状态
+		String activation = user.getStr("activation");
+		if("N".equals(activation)){
+			setAttr("msg", "该用户还未认证，请先到邮箱认证!");
+			render("/Login.html");
+			return;
+		}
 		setCache(username, password, token, currentUser);
 		setAttr("username", username);
 		render("/index.html");
