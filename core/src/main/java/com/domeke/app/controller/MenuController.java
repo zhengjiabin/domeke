@@ -12,13 +12,33 @@ import com.jfinal.core.Controller;
  *
  */
 public class MenuController extends Controller {
-	public void goTest(){
-		Menu menu = getModel(Menu.class);
+	
+	public void ventwall(){
+		int menuid = getParaToInt("menuid");
+		String actionkey = getPara("actionkey");
+		Menu menu = Menu.menuDao.selectMenuById(menuid);
 		List<Menu> menuOneMenu = menu.selectMenu();
 		setAttr("menuOneMenu", menuOneMenu);
-		render("../index.html");
+		setAttr("menuid", menuid);
 		
+		//forwardAction("ventwall");
 	}
+	
+	/**
+	 * 查询菜单列表
+	 */
+	public void selectMenu(){
+		Menu.menuDao.removeCache();
+		Menu menu = getModel(Menu.class);
+		List<Menu> menuList = menu.selectMenu();
+		setAttr("menuList", menuList);
+		
+		List<Menu> menuOneMenu = menuOneMenu();
+		setAttr("menuOneMenu", menuOneMenu);
+		int menuid = getParaToInt("menuid");
+		setAttr("menuid", menuid);
+		render("/demo/selectMenu.html");
+	} 
 	
 	/**
 	 * 获取一级菜单
@@ -34,9 +54,9 @@ public class MenuController extends Controller {
 	/**
 	 * 新增菜单入口
 	 */
-	public void goMenu(){
+	public void addMenu(){
 		List<Menu> menuOneMenu = menuOneMenu();
-		setAttr("menuid", "1");
+		setAttr("menuid", "7");
 		setAttr("menuOneMenu", menuOneMenu);
 		render("/demo/addMenu.html");
 	}
@@ -50,24 +70,12 @@ public class MenuController extends Controller {
 		selectMenu();
 	}
 	
-	/**
-	 * 查询菜单列表
-	 */
-	public void selectMenu(){
-		Menu.menuDao.removeCache();
-		Menu menu = getModel(Menu.class);
-		List<Menu> menuList = menu.selectMenu();
-		setAttr("menuList", menuList);
-		
-		List<Menu> menuOneMenu = menuOneMenu();
-		setAttr("menuOneMenu", menuOneMenu);
-		setAttr("menuid", "1");
-		render("/demo/selectMenu.html");
-	}
+
 	
 	/**
 	 * 动态获取菜单
 	 */
+	/*
 	public void goMMenu(){
 		String menuid = "";
 		menuid = getPara();		
@@ -80,10 +88,9 @@ public class MenuController extends Controller {
 		}
 		setAttr("menuOneMenu", menuOneMenu);
 		setAttr("menuMenuList", menuMenuList);
-		setAttr("menuid", "1");
 		render("/demo/selectMainMenu.html");
 	}
-	
+	*/
 	/**
 	 * 获取子菜单
 	 */
