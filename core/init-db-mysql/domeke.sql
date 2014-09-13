@@ -526,3 +526,17 @@ CREATE TABLE `works` (
   `modifier` bigint(20) NOT NULL,
   PRIMARY KEY (`worksid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `search_key`
+-- ----------------------------
+DROP TABLE IF EXISTS `search_key`;
+CREATE TABLE `search_key` (
+  `keyid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `keyname` varchar(100) NOT NULL,
+  `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `userid` bigint(20) DEFAULT NULL,
+  `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`keyid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
