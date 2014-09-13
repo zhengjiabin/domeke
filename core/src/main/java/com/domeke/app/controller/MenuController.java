@@ -21,13 +21,13 @@ public class MenuController extends Controller {
 		redirect(actionkey + "?menuid=" + menuid, true);
 	}
 
-	public void member() {
+	public void cartoon() {
 		int menuid = getParaToInt("menuid");
 		setAttr("menuid", menuid);		
 		Menu menu = getModel(Menu.class);
-		List<Menu> menuListById = menu.getMenuByMenuId(menuid);
-		setAttr("menuListById", menuListById);
-		render("/demo/member.html");
+//		List<Menu> menuListById = menu.getMenuByMenuId(menuid);
+//		setAttr("menuListById", menuListById);
+		render("../cartoon.html");
 	}
 
 	/**
