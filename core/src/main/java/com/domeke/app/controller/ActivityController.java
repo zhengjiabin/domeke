@@ -62,7 +62,7 @@ public class ActivityController extends Controller {
 		setAttr("activity", activity);
 
 		Object userId = activity.get("userid");
-		Page<ActivityApply> activityApplyPage = ActivityApply.dao.findByUserID(
+		Page<ActivityApply> activityApplyPage = ActivityApply.dao.findByUserId(
 				userId, pageNumber, pageSize);
 		setAttr("activityApplyPage", activityApplyPage);
 
