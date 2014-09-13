@@ -5,6 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.alibaba.druid.wall.WallFilter;
 import com.domeke.app.beetl.DomekeBeetlRenderFactory;
+import com.domeke.app.interceptor.GlobalInterceptor;
 import com.domeke.app.route.AutoBindRoutes;
 import com.domeke.app.shiro.ShiroPlugin;
 import com.domeke.app.tablebind.AutoTableBindPlugin;
@@ -43,6 +44,7 @@ public class AppBaseConfig extends JFinalConfig {
 
 	@Override
 	public void configInterceptor(Interceptors interceptors) {
+		interceptors.add(new GlobalInterceptor());
 		interceptors.add(new SessionInViewInterceptor());
 		interceptors.add(new TxByActionMethods("save", "update", "delete", "regist"));
 	}

@@ -7,19 +7,36 @@
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
    <div>
-     <form class="form-signin" action="menu/updateMenu" method="post">
+     <form class="form-signin" action="menu/updateMenu?menuid=${menuid!}" method="post">
         <h2 class="form-signin-heading">编辑菜单</h2>
         	<input name="menu.menuid" value="${menu.menuid}" type="text" class="span6 m-wrap" style="display:none"/><br>
         	<label class="control-label">菜单名称：</label>
         	<input name="menu.menuname" value="${menu.menuname!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">section_name：</label>
+        	<label class="control-label">actionkey：</label>
         	<input name="menu.actionkey" value="${menu.actionkey!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">是否父级菜单：</label>
-        	<input name="menu.top" value="${menu.top!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">sortNum：</label>
+        	<label class="control-label">菜单级别：</label>
+        	<input name="menu.top" value="${menu.top!}" type="text" class="span6 m-wrap" /><br> 
+        	<label class="control-label">排序：</label>
         	<input name="menu.sortnum" value="${menu.sortnum!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">parentmenuid：</label>
-        	<input name="menu.parentmenuid" value="${menu.parentmenuid!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">父级ID：</label>
+        	<!-- <input name="menu.parentmenuid" value="${menu.parentmenuid!}" type="text" class="span6 m-wrap" /><br> -->
+        	<select name="menu.parentmenuid">         		
+        		<%
+        		var menuid = menu.parentmenuid;
+        		var count = 0;
+        		for(m in menuOneMenu){
+        		if (m.menuid == menuid){
+        		count = count + 1;
+        		%>
+        			<option value="${m.menuid!}" selected="selected">${m.menuname!}</option>
+        		<% } 
+        		if (count == 0){
+        		%>
+        			<option value="" selected="selected">主菜单</option>
+        		<% } %>
+    				<option value="${m.menuid!}">${m.menuname!}</option> 
+    			<% } %>
+   			</select> 
         	<!-- 
         	<label class="control-label">modify_time：</label>
         	<input name="menu.modify_time" value="${menu.modify_time!}" type="text" class="span6 m-wrap" /><br>

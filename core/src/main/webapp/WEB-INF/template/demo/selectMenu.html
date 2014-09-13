@@ -7,23 +7,23 @@
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
-	<a href="menu/goMenu">新增菜单</a><br>
+	<a href="menu/addMenu">新增菜单</a><br>
 	<div>
 	<table class="table table-striped">
 		<thead>
 			<tr>
-			菜单列表${menuList.~size}
+			菜单列表
 			</tr>
 			<tr>
-				<th>序号</th>
-				<th>mid</th>
+				<th>主ID</th>
+				<!-- <th>mid</th> -->
 				<th>菜单名称</th>
 				<th>actionkey</th>
-				<th>是否父级菜单</th>
-				<th>sortNum</th>
-				<th>parentmenuid</th>
-				<th>creater</th>
-				<th>modifier</th>
+				<th>菜单级别</th>
+				<th>排序</th>
+				<th>父级主ID</th>
+				<!-- <th>creater</th>
+				<th>modifier</th> -->
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -34,15 +34,15 @@
 				index = index + 1 ;				
 			%>
 			<tr>
-				<td>${index}</td>
-				<td>${m.mid!}</td>
+				<td>${m.menuid!}</td>
+				<!-- <td>${m.mid!}</td> -->
 				<td>${m.menuname!}</td>
 				<td>${m.actionkey!}</td>
 				<td>${m.top!}</td>
 				<td>${m.sortnum!}</td>
 				<td>${m.parentmenuid!}</td>
-				<td>${m.creater!}</td>
-				<td>${m.modifier!}</td>
+				<!-- <td>${m.creater!}</td>
+				<td>${m.modifier!}</td> -->
 				<td> 
                     <a href="menu/selectMenuById/${m.menuid}">修改</a>
 					<a href="menu/deleteMenu/${m.menuid}" onclick="return confirm('确定删除？')">删除</a>

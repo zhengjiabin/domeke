@@ -24,10 +24,9 @@ public class PostController extends Controller {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 2);
 
-		Post post = getModel(Post.class);
-		Page<Post> page = post.findPage(pageNumber, pageSize);
-		setAttr("page", page);
-		render("/demo/post.html");
+		Page<Post> postPage = Post.dao.findPage(pageNumber, pageSize);
+		setAttr("postPage", postPage);
+		render("/demo/postPage.html");
 	}
 
 	/**
@@ -52,28 +51,43 @@ public class PostController extends Controller {
 	 * 
 	 * @return 指定帖子信息
 	 */
-	public void findByID() {
-		setDataByID();
+	public void findById() {
+		setDataById();
 		render("/demo/detailPost.html");
+	}
+
+	/**
+	 * 查询帖子回复信息
+	 */
+	public void findCommentByPostId() {
+		setDataById();
+		keepPara("pageAction", "fatherNode");
+		render("/demo/comment.html");
 	}
 
 	/**
 	 * 设置值
 	 */
-	private void setDataByID() {
-		Object postID = getPara("postID");
+	private void setDataById() {
+		Object postId = getPara("postId");
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 2);
 
-		Post post = Post.dao.findById(postID);
+		Post post = Post.dao.findById(postId);
 		setAttr("post", post);
 
-		Page<Comment> page = Comment.dao.findPageByTargetId(postID, pageNumber,
-				pageSize);
-		setAttr("page", page);
+		Page<Comment> commentPage = Comment.dao.findPageByTargetId(postId,
+				pageNumber, pageSize);
+		setAttr("commentPage", commentPage);
 
-		List<Comment> followPage = Comment.dao.findFollowByTargetId(postID);
+		List<Comment> followPage = Comment.dao.findFollowByTargetId(postId);
 		setAttr("followPage", followPage);
+
+		String pId = getPara("pId");
+		if (pId != null && pId.length() > 0) {
+			Comment comment = Comment.dao.findById(pId);
+			setAttr("comment", comment);
+		}
 	}
 
 	/**
@@ -82,8 +96,8 @@ public class PostController extends Controller {
 	 * @return 帖子信息
 	 */
 	public void modifyById() {
-		String postid = getPara("postId");
-		Post post = Post.dao.findById(postid);
+		String postId = getPara("postId");
+		Post post = Post.dao.findById(postId);
 		setAttr("post", post);
 		render("/demo/modifyPost.html");
 	}
@@ -92,8 +106,8 @@ public class PostController extends Controller {
 	 * 修改帖子信息
 	 */
 	public void modify() {
-		Post postid = getModel(Post.class);
-		postid.update();
+		Post post = getModel(Post.class);
+		post.update();
 
 		findByUserId();
 	}
@@ -102,8 +116,8 @@ public class PostController extends Controller {
 	 * 删除指定帖子
 	 */
 	public void deleteById() {
-		String postid = getPara("postId");
-		Post.dao.deleteById(postid);
+		String post = getPara("postId");
+		Post.dao.deleteById(post);
 
 		findByUserId();
 	}
@@ -137,10 +151,11 @@ public class PostController extends Controller {
 	public void replyComment() {
 		addComment();
 
-		setDataByID();
+		setDataById();
 		setReplyCommentData();
 
-		render("/demo/comment.html");
+		String renderAction = getPara("renderAction");
+		render(renderAction);
 	}
 
 	/**
@@ -149,8 +164,8 @@ public class PostController extends Controller {
 	private void addComment() {
 		Comment comment = getModel(Comment.class);
 
-		Object targetID = getPara("targetID");
-		comment.set("targetid", targetID);
+		Object targetId = getPara("targetId");
+		comment.set("targetid", targetId);
 
 		User user = getUser();
 		comment.set("userid", user.get("userid"));
@@ -161,14 +176,14 @@ public class PostController extends Controller {
 		String remoteIp = request.getRemoteAddr();
 		comment.set("userip", remoteIp);
 
-		String pID = getPara("pID");
-		if (pID != null && pID.length()>0) {
-			comment.set("pid", pID);
+		String pId = getPara("pId");
+		if (pId != null && pId.length() > 0) {
+			comment.set("pid", pId);
 		}
 
-		String toUserID = getPara("toUserID");
-		if (toUserID != null && toUserID.length()>0) {
-			comment.set("touserid", toUserID);
+		String toUserId = getPara("toUserID");
+		if (toUserId != null && toUserId.length() > 0) {
+			comment.set("touserid", toUserId);
 		}
 
 		Object message = getPara("message");
@@ -180,12 +195,13 @@ public class PostController extends Controller {
 	 * 添加额外的回复信息
 	 */
 	private void setReplyCommentData() {
-		Object targetID = getPara("targetID");
-		Object postID = getPara("postID");
-		Object action = "./post/replyComment?postID=" + postID;
+		Object targetId = getPara("targetId");
+		Object postId = getPara("postId");
+		Object publishFaceAction = "./post/replyComment?postId=" + postId;
 
-		setAttr("targetID", targetID);
-		setAttr("action", action);
+		setAttr("targetId", targetId);
+		setAttr("publishFaceAction", publishFaceAction);
+		keepPara("pageAction", "fatherNode", "commentFatherNode");
 	}
 
 	/**
@@ -195,11 +211,16 @@ public class PostController extends Controller {
 		Object commentId = getPara("commentId");
 		Comment.dao.deleteReplyAll(commentId);
 
-		findByID();
+		findById();
 	}
 
 	public void index() {
-		find();
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 2);
+
+		Page<Post> postPage = Post.dao.findPage(pageNumber, pageSize);
+		setAttr("postPage", postPage);
+		render("/demo/post.html");
 	}
 
 	/**

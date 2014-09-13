@@ -15,6 +15,42 @@ Date: 2014-09-09 22:07:29
 
 SET FOREIGN_KEY_CHECKS=0;
 
+DROP TABLE IF EXISTS `action`;
+CREATE TABLE `action` (
+  `actionid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) COLLATE utf8_unicode_ci NOT NULL COMMENT '动作名称',
+  `des` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `limits` tinyint(5) NOT NULL DEFAULT '0' COMMENT '周期范围 单位天',
+  `maxnum` int(10) NOT NULL DEFAULT '0',
+  `peas` tinyint(3) NOT NULL DEFAULT '0' COMMENT '豆豆',
+  `point` tinyint(3) NOT NULL DEFAULT '0',
+  `creater` mediumint(8) NOT NULL,
+  `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `modifier` mediumint(8) DEFAULT NULL,
+  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`actionid`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Table structure for `user_action`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_action`;
+CREATE TABLE `user_action` (
+  `useractionid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` bigint(20) NOT NULL,
+  `username` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `actionid` bigint(20) NOT NULL,
+  `actionname` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `actiondes` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `times` tinyint(3) NOT NULL DEFAULT '0',
+  `create` mediumint(8) DEFAULT NULL,
+  `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `modifier` mediumint(8) DEFAULT NULL,
+  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`useractionid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 -- ----------------------------
 -- Table structure for activity
 -- ----------------------------
@@ -405,7 +441,9 @@ CREATE TABLE `user` (
   `username` varchar(16) NOT NULL,
   `password` varchar(32) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `moblie` varchar(32) DEFAULT NULL,
+  `mobile` varchar(32) DEFAULT NULL,
+  `peas` int(11) NOT NULL DEFAULT '0',
+  `point` int(11) NOT NULL DEFAULT '0',
   `create_time` timestamp NULL DEFAULT NULL,
   `creater` varchar(64) DEFAULT NULL,
   `modifier` varchar(64) DEFAULT NULL,
@@ -455,7 +493,7 @@ DROP TABLE IF EXISTS `vent_wall`;
 CREATE TABLE `vent_wall` (
   `ventwallid` bigint(20) NOT NULL AUTO_INCREMENT,
   `userid` bigint(20) DEFAULT NULL,
-  `moodid` bigint(20) DEFAULT NULL COMMENT '心情id',
+  `moodid` varchar(100) DEFAULT NULL COMMENT '心情id',
   `message` varchar(255) DEFAULT NULL COMMENT '留言',
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) DEFAULT NULL,

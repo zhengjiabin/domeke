@@ -2,6 +2,9 @@ package com.domeke.app.controller;
 
 import java.io.File;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.domeke.app.cos.multipart.FilePart;
 import com.domeke.app.model.User;
 import com.jfinal.core.Controller;
@@ -17,6 +20,8 @@ import com.jfinal.upload.UploadFile;
  *
  */
 public class FilesLoadController extends Controller {
+
+	private Logger logger = LoggerFactory.getLogger(FilesLoadController.class);
 
 	/**
 	 * 文件上传，要求表单enctype="multipart/form-data"类型<br>
@@ -34,28 +39,32 @@ public class FilesLoadController extends Controller {
 	 *            编码
 	 * @return 如果没有上传文件，则返回的文件路径为null
 	 */
-	protected String upLoad(String parameterName, String saveFolderName,
-			Integer maxPostSize, String encoding) {
+	protected String upLoad(String parameterName, String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
 		String contextPath = JFinal.me().getContextPath();
 		User user = getSessionAttr("user");
-		String userName = user == null || user.getStr("username") == null ? "admin"
-				: user.getStr("username");
-		UploadFile uploadFile = getFile(parameterName, saveFolderName + "\\"
-				+ userName, maxPostSize, encoding);
+		String userName = user == null || user.getStr("username") == null ? "admin" : user.getStr("username");
+		saveFolderName = saveFolderName + "\\" + userName;
+		boolean isRelativePath = true;
+		if (saveFolderName.startsWith("/") || saveFolderName.indexOf(":") == 1) {
+			isRelativePath = false;
+		}
+		UploadFile uploadFile = getFile(parameterName, saveFolderName, maxPostSize, encoding);
 		String filePath = null;
 		if (uploadFile != null) {
 			File picture = uploadFile.getFile();
 			File replaceFile = renameToFile(uploadFile, picture);
 			// 获取文件的绝对路径
 			filePath = replaceFile.getAbsolutePath();
-			// \project
-			String project = contextPath.replace('/', '\\');
-			// 截取出相对路径
-			String[] tempArray = filePath.split("\\" + project);
-			if (tempArray != null && tempArray.length > 1) {
-				filePath = tempArray[tempArray.length - 1];
-				filePath = contextPath + filePath.replaceAll("\\\\", "/");
+			if (isRelativePath) {
+				// \project
+				String project = contextPath.replace('/', '\\');
+				// 截取出相对路径
+				String[] tempArray = filePath.split("\\" + project);
+				if (tempArray != null && tempArray.length > 1) {
+					filePath = tempArray[tempArray.length - 1];
+					filePath = contextPath + filePath.replaceAll("\\\\", "/");
+				}
 			}
 		}
 		return filePath;
@@ -70,8 +79,7 @@ public class FilesLoadController extends Controller {
 			fileType = temp[temp.length - 1];
 		}
 		// 以当前时间的毫秒数重命名文件名
-		File replaceFile = new File(uploadFile.getSaveDirectory() + "\\"
-				+ System.currentTimeMillis() + "." + fileType);
+		File replaceFile = new File(uploadFile.getSaveDirectory() + "\\" + System.currentTimeMillis() + "." + fileType);
 		oldFile.renameTo(replaceFile);
 		return replaceFile;
 	}
@@ -80,19 +88,18 @@ public class FilesLoadController extends Controller {
 
 		FilePart.progresss.set(new FilePart.Progress() {
 			public void progress(long currentSize) {
-				int totalsize = FilesLoadController.this.getRequest()
-						.getContentLength();
+				int totalsize = FilesLoadController.this.getRequest().getContentLength();
 				double csize = (double) currentSize;
 				double s = csize / totalsize * 100;
-				System.out.println(String.format("%.2f", s));
+				logger.info("文件上传百分之{}", String.format("%.2f", s));
 			}
 
 			public void start() {
-				System.out.println("Progress start");
+				logger.info("文件上传开始~");
 			}
 
 			public void end() {
-				System.out.println("Progress end");
+				logger.info("文件上传结束~");
 				FilePart.progresss.remove();
 			}
 		});

@@ -1,0 +1,55 @@
+<script src="${core}/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	function showReply(node) {
+		var commentForm = $(node).closest("#commentForm");
+		var commentDiv = commentForm.find("#commentDiv").first();
+		commentDiv.show();
+	}
+
+	function publishMethod(node) {
+		var content = CKEDITOR.instances.ckeditor.getData();
+		$.post("${action!}", {
+			targetID : '${targetID!}',
+			message : content
+		}, function(data) {
+			var commentForm = $(node).closest("#commentForm");
+			var commentDiv = commentForm.find("#commentDiv").first();
+			commentDiv.hide();
+			CKEDITOR.instances.ckeditor.setData("");
+
+			var replyComments = $(node).closest("#replyComments");
+			var commentContents = replyComments.find("#commentContents")
+					.first();
+			commentContents.html(data);
+		});
+	}
+</script>
+<div>
+	<!-- <div id="page"><% if(page != null){ layout("/common/page.html",
+		{"page":page,"action":"./activity/findById?activityId="+activty.activtyid}
+		){} }%></div> -->
+	<table>
+		<thead>
+			<tr>
+				<td style="width: 250px">用户名</td>
+				<td style="width: 250px">消息</td>
+				<td style="width: 250px">申请时间</td>
+				<td style="width: 250px">用户定制项目数据</td>
+				<td style="width: 250px">性别</td>
+			</tr>
+		</thead>
+		<tbody>
+			<% for (activityApply in activityApplyPage.list){ %>
+			<tr>
+				<td>${username!}</td>
+				<td>${activityApply.message!}</td>
+				<td>${activityApply.dateline!}</td>
+				<td>${activityApply.ufielddata!}</td>
+				<td>${activityApply.gender!}</td>
+			</tr>
+			<% } %>
+		</tbody>
+	</table>
+</div>
+
+

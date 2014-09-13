@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.domeke.app.interceptor.ActionInterceptor;
 import com.domeke.app.message.impl.DomekeMaiSenderImpl;
 import com.domeke.app.model.User;
 import com.domeke.app.utils.EncryptKit;

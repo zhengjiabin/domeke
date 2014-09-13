@@ -15,43 +15,16 @@
 </head>
 
 <body>
-	<form action="post/find" id="post_find" class="form-horizontal"
-		method="post">
-		<div class="control-group">
-			<h1>
-				<a href="./post/skipCreate">发表帖子</a>
-			</h1>
-			<h1>
-				<a href="./post/findByUserId">我的帖子</a>
-			</h1>
-			<div id="page"><% if(page != null){ layout("./page.html",
-				{"page":page,"action":"./post?1=1"} ){} }%></div>
-			<table>
-				<thead>
-					<tr>
-						<td style="width: 250px">作者姓名</td>
-						<td style="width: 250px">标题</td>
-						<td style="width: 250px">发帖时间</td>
-						<td style="width: 250px">帖子内容</td>
-						<td style="width: 250px">评分次数</td>
-						<td style="width: 250px">帖子状态</td>
-					</tr>
-				</thead>
-				<tbody>
-					<% for (post in page.list){ %>
-					<tr>
-						<td>${post.username!}</td>
-						<td><a href="./post/findByID?postID=${post.postid!}">${post.subject!}</a></td>
-						<td>${post.dateline!}</td>
-						<td>${post.message!}</td>
-						<td>${post.ratetimes!}</td>
-						<td>${post.status!}</td>
-					</tr>
-					<% } %>
-				</tbody>
-			</table>
-		</div>
-	</form>
+	<div class="control-group">
+		<h1>
+			<a href="./post/skipCreate">发表帖子</a>
+		</h1>
+		<h1>
+			<a href="./post/findByUserId">我的帖子</a>
+		</h1>
+		<div id="page"><% if(postPage != null){
+			layout("./postPage.html", {"page":postPage} ){} }%></div>
+	</div>
 </body>
 
 </html>
