@@ -90,12 +90,17 @@ public class VentWall extends Model<VentWall>{
     	Object count = Db.queryLong("SELECT NUM  FROM(SELECT COUNT(VENTWALLID) AS NUM FROM VENT_WALL GROUP BY  DATE(CREATETIME))A ORDER BY A.NUM DESC LIMIT 1");
     	return count;
     }
+    /**
+     * 根据UserId查询是否签到
+     * @param userId 用户ID
+     * @return 是否签到：0  已签到，1  未签到
+     */
     public String isSignIn(int userId){
-    	String result = "0";
-    	Object userid = Db.queryLong("SELECT userid from vent_wall WHERE TO_DAYS(CREATETIME)=TO_DAYS(NOW()) and userid=1");
+    	String issignin = "0";
+    	Object userid = Db.queryLong("SELECT userid from vent_wall WHERE TO_DAYS(CREATETIME)=TO_DAYS(NOW()) and userid="+userId);
     	if (userid == null || "".equals(userid)){
-    		result = "1";
+    		issignin = "1";
     	}
-    	return result;
+    	return issignin;
     }
 }

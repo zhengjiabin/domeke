@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.domeke.app.model.Menu;
 import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
@@ -25,17 +24,15 @@ public class VentWallController extends Controller {
 	public void save(){
 		VentWall ventWall = getModel(VentWall.class);
 		String msg = ventWall.getStr("moodid");
-		//String msg = ventWall.getStr("message");
 		msg = getImg(msg);
-		ventWall.set("moodid", msg);
-		
+		ventWall.set("moodid", msg);	
 		ventWall.saveVentWall();
 		select();
 	}
 	/**
 	 * 正则表达式转换表情
 	 * @param msg
-	 * @return
+	 * @return 已转换格式
 	 */
 	private String getImg(String msg) {
 		Pattern p=Pattern.compile("\\[em_(\\d+)\\]");
@@ -47,9 +44,10 @@ public class VentWallController extends Controller {
 		return msg;
 	}
 	
-	public void index() {
-			
-		isSignIn();
+	public void index() {			
+		int menuid = getParaToInt("menuid");
+		setAttr("menuid", menuid);	
+		select();
 		render("/demo/addVentWall.html");
 	}
 	/**
@@ -101,6 +99,9 @@ public class VentWallController extends Controller {
 		setAttr("yesterdayCount", yesterdayCount);
 		setAttr("totalCount", totalCount);
 	}
+	/**
+	 * 是否签到
+	 */
 	public void isSignIn(){
 		String issignin = VentWall.venWdao.isSignIn(1);
 		setAttr("issignin", issignin);

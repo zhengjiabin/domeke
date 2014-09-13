@@ -17,7 +17,7 @@
     <script type="text/javascript">
     	$(document).ready(function(){
     		var url = "ventwall/select";
-    		$.showView(null,url);
+    		//$.showView(null,url);
     		$('#btn2').click(function(){
     			var rdo = $('input[name="ventWall.moodid"]:checked').val();
     			var saytext = $('#saytext').val();
@@ -50,12 +50,6 @@
                     $(this).next().children("span").text($(this).val().length+"/50");
             };
             $("#saytext").keyup(maxLimit);
-            $("#saytext").focus(function(){
-                    $(this).addClass("focus").next().show();
-                    if($(this).val() == $(this).attr("title")){
-                            $(this).val("");
-                    }
-            });
     });
   </script>
     <div class="container">
