@@ -441,17 +441,19 @@ CREATE TABLE `user` (
   `username` varchar(16) NOT NULL,
   `password` varchar(32) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
+  `nickname` varchar(16) DEFAULT NULL,
   `mobile` varchar(32) DEFAULT NULL,
-  `peas` int(11) NOT NULL DEFAULT '0',
-  `point` int(11) NOT NULL DEFAULT '0',
   `create_time` timestamp NULL DEFAULT NULL,
   `creater` varchar(64) DEFAULT NULL,
   `modifier` varchar(64) DEFAULT NULL,
   `modify_time` timestamp NULL DEFAULT NULL,
+  `activation` varchar(2) DEFAULT 'N',
+  `peas` bigint(20) DEFAULT NULL,
+  `point` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`userid`),
   UNIQUE KEY `username_idx` (`username`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for user_message
