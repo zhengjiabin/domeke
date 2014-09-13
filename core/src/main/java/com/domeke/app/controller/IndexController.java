@@ -32,5 +32,9 @@ public class IndexController extends Controller {
 		setAttr("menuOneMenu", menuOneMenu);
 		render("play.html");
 	}
+	
+	public void shop() {
+		render("shop.html");
+	}
 
 }

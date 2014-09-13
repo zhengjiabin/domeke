@@ -1,0 +1,141 @@
+header{
+	margin-bottom: 0px;
+}
+.ShopTopL{
+	float: left;
+	width: 238px;
+	border-left: 1px #bbb solid;
+	border-right: 1px #bbb solid;
+}
+.ShopTopR{
+	padding-left: 240px;
+	
+}
+.ShopTopLSub{
+	border-bottom: 1px #bbb solid;
+	padding: 15px;
+}
+.TopLSubName{
+	font-size: 14px;
+}
+.TopLSubDtl a{
+	margin: 5px;
+}
+.ShopRoll img{
+	width: 960px;
+	height: 400px;
+}
+.SmallADZoom{
+	width: 960px;
+	margin-top: -4px;
+}
+.SmallAD{
+	float: left;
+	width: 239px;
+	border-right: 1px #bbb solid;
+	border-bottom: 1px #bbb solid;
+	text-align: center;
+	height: 144px;
+}
+.SmallAD a{
+	display: block;
+}
+.SmallAD img{
+	width: 239px;
+	height: 144px;
+}
+.ProductContent{
+	border: 1px #ccc solid;
+	border-top: 0px #ccc solid;
+	background: #fff;
+}
+.ProductR{
+	float: right;
+	width: 300px;
+	border-left: 1px #ccc solid;
+}
+.ProductL{
+	padding-right: 300px;
+}
+.ProductAD1{
+	width: 897px;
+	height: 300px;
+	border-bottom: 1px #ccc solid;
+}
+.ProductAD1 img{
+	width: 897px;
+	height: 300px;
+}
+.ProductAD2{
+	width: 300px;
+	height: 300px;
+	border-bottom: 1px #ccc solid;
+}
+.ProductAD2 img{
+	width: 300px;
+	height: 300px;
+}
+.ProductAD3{
+	width: 300px;
+	height: 300px;
+	border-right: 1px #ccc solid;
+	float: left;
+}
+.ProductAD3 img{
+	width: 300px;
+	height: 300px;
+}
+.ProductAD4{
+	width: 596px;
+	height: 300px;
+	padding-left: 301px;
+}
+.ProductAD4 img{
+	width: 596px;
+	height: 300px;
+}
+.ProductAD5{
+	width: 300px;
+	height: 300px;
+}
+.ProductAD5 img{
+	width: 300px;
+	height: 300px;
+}
+.HotTitle,.HotSub{
+	
+	padding: 30px;
+}
+.HotTitle{
+	font-size: 24px;
+}
+.HotSub{
+	border-top: 1px #bbb solid;
+	clear: both;
+	height: 43px;
+}
+.HotNum{
+	float: left;
+	width: 40px;
+	font-size: 34px;
+	color: #b81c22;
+	padding-top: 10px;
+}
+.HotName{
+	float: left;
+	width: 150px;
+	color: #999;
+}
+.HotName a{
+	font-size: 16px;
+}
+.HotPic{
+	float: left;
+	width: 50px;
+	text-align: right;
+}
+.HotPic img{
+	width: 50px;
+	height: 50px;
+}
+
