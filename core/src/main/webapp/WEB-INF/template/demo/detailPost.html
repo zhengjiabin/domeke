@@ -21,7 +21,7 @@
 		</h1>
 		<div>
 			<div class="control-group" hidden="block">
-				帖子ID:${post.postid!} <input name="postID" type="hidden"
+				帖子ID:${post.postid!} <input name="postId" type="hidden"
 					value="${post.postid!}">
 			</div>
 
@@ -39,16 +39,16 @@
 		</div>
 
 		<div id="replyComments">
-			<div id="page"><% if(page != null){ layout("./page.html",
-				{"page":page,"action":"./post/findByID?postID="+post.postid} ){} }%></div>
 			<div class="control-group" align="right"><% if(post.postid !=
 				null){ layout("./ckeditor.html",
-				{"targetID":post.postid,"action":"./post/replyComment?postID=" +
-				post.postid}){} }%></div>
-			<div class="control-group" id="commentContents"><% if(page !=
-				null && post.postid != null){ layout("./comment.html",
-				{"page":page,"targetID":post.postid,"action":"./post/replyComment?postID="
-				+ post.postid} ){} }%></div>
+				{"targetId":post.postid,"ckeditorAction":"./post/replyComment?postId="+post.postid
+				,"renderAction":"/demo/comment.html","commentFatherNode":"#commentHtml","ckeditorNode":"#replyComments"}){}
+				}%></div>
+			<div class="control-group" id="commentHtml"><% if(commentPage
+				!= null && post.postid != null){ layout("./comment.html",
+				{"commentPage":commentPage,"targetId":post.postid,"publishFaceAction":"./post/replyComment?postId="+post.postid,
+				"pageAction":"./post/findCommentByPostId?postId="+post.postid,"fatherNode":"#commentContents","commentFatherNode":"#commentHtml"}){}
+				}%></div>
 		</div>
 	</div>
 </body>

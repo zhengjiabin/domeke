@@ -1,4 +1,7 @@
- <% for (comment in page.list){ %>
+<div><% if(commentPage != null){ layout("/common/page.html",
+	{"page":commentPage,"pageAction":pageAction,"fatherNode":fatherNode}
+	){} }%></div>
+<% for (comment in commentPage.list){ %>
 <div class="control-group" id="commentContent">
 
 	<div class="control-group">用户名:${comment.userid!}</div>
@@ -8,22 +11,11 @@
 	<div class="control-group">内容:${comment.message!}</div>
 
 	<div><%
-		layout("./publishFace.html",{"targetID":targetID,"action":action,
-		"pID":comment.commentid,"comment":comment}){}%></div>
+		layout("./publishFace.html",{"targetId":targetId,"publishFaceAction":publishFaceAction,
+		"pId":comment.commentid,"commentFatherNode":commentFatherNode,"renderAction":"/demo/comment.html"}){}%></div>
 	<div class="control-group" align="center" style="color: red"
-		id="commentContent">
-		<% for (follow in followPage){
-		if(follow.pid!=comment.commentid){continue;}%>
-		<div class="control-group">用户名:${follow.userid!}</div>
-
-		<div class="control-group">回复对象:${follow.touserid!}</div>
-
-		<div class="control-group">内容:${follow.message!}</div>
-
-		<div><%
-			layout("./publishFace.html",{"targetID":targetID,"action":action,
-			"pID=":comment.commentid,"toUserID":comment.commentid,"comment":follow}){}%></div>
-		<% } %>
-	</div>
+		id="commentContent"><%if(followPage != null){
+		layout("./followPage.html",{"followPage":followPage,"comment":comment,"commentFatherNode":"#commentContent"
+		,"publishFaceAction":publishFaceAction,"renderAction":"/demo/followPage.html"}){} }%></div>
 </div>
 <% } %>

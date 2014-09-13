@@ -1,0 +1,15 @@
+<div>
+	<% for (follow in followPage){
+	if(follow.pid!=comment.commentid){continue;}%>
+	<div class="control-group">用户名:${follow.userid!}</div>
+
+	<div class="control-group">回复对象:${follow.touserid!}</div>
+
+	<div class="control-group">内容:${follow.message!}</div>
+
+	<div><%
+		layout("./publishFace.html",{"targetId":targetId,"publishFaceAction":publishFaceAction,
+		"pId":comment.commentid,"toUserId":follow.commentid,"commentFatherNode":commentFatherNode}){}%></div>
+	<% } %>
+
+</div>
