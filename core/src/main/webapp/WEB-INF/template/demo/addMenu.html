@@ -7,7 +7,7 @@
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     <div class="container">
-      <form class="form-signin" action="menu/saveMenu" method="post" align="center">
+      <form class="form-signin" action="menu/saveMenu?menuid=${menuid!}" method="post" align="center">
         <h2 class="form-signin-heading">新增菜单</h2>
         	<label class="control-label">菜单键：</label>
         	<input id="menuname" name="menu.mid" value="${menu.mid!}" type="text" class="span6 m-wrap" /><br>
