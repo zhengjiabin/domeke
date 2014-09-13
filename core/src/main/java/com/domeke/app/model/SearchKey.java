@@ -41,4 +41,5 @@ public class SearchKey extends Model<SearchKey>{
 	public void updateSearchKey(int keyid){
 		//searchdao.findById(keyid).setAttrs();
 	}
+	
 }
