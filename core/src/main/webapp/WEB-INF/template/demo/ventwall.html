@@ -1,23 +1,30 @@
 <style type="text/css">
 #wish{width:970px;height:650px;margin:15px;position:relative;background:#F4F4F4;}
-.wish{width:100px;height:100px;background:url(bw/s1.png) no-repeat 0 0;color:black;padding:10px 20px 30px 20px;border:4px solid #333333;}
+.wish{width:130px;height:130px;background:url(bw/s1.png) no-repeat 0 0;color:black;padding:10px 20px 30px 20px;border:4px solid #333333;}
 .wish p{white-space:normal;}
 .wish .close{display:block;position:absolute;top:-5px;left:-5px;background:#f60;width:17px;height:17px;display:none;cursor:pointer}
 /*随机选择的便签背景*/
-.s1{background:#ffbbf5;}
-.s2{background:#c3bbff;}
-.s3{background:#cc9966;}
-.s4{background:#99cc66;}
-.s5{background:#cc33cc;} 
+	.s1{background:#FF7575;}
+	.s2{background:#c3bbff;}
+	.s3{background:#FFFF77;}
+	.s4{background:#99cc66;}
+	.s5{background:#FFAD86;}
 </style>
 <script type="text/javascript">
 $(document).ready(function(){
 	$('#wish').wish();
-
 });
 </script>
+<% if(issignin==0) { %>
+<h2><span>今日已签到</span></h2>
+<%}else{%>
+<h2><span>今日未签到</span></h2>
+<%}%>
+<h2><span>今日已签到 ${todayCount!}人</span></h2>
+<h2><span>昨日共签到 ${yesterdayCount!}人</span></h2>
+<h2><span>历史最高数 ${totalCount!}人</span></h2>
 <div id="wish">
             <% for(v in ventWallList!){%>
-                  <div>${v.moodid!}${v.message!}</div>
+                  <div><img src="images/face/${v.moodid!}"/>${v.message!}</div>
             <%}%>
 </div>

@@ -28,6 +28,7 @@ public class VentWallController extends Controller {
 		//String msg = ventWall.getStr("message");
 		msg = getImg(msg);
 		ventWall.set("moodid", msg);
+		
 		ventWall.saveVentWall();
 		select();
 	}
@@ -41,31 +42,25 @@ public class VentWallController extends Controller {
 		Matcher matcher=p.matcher(msg);
 		while(matcher.find()){
 			String imgNo=matcher.group(1);
-			msg = msg.replace("[em_"+imgNo+"]","<img src='images/face/"+imgNo +".jpg'/>");
+			msg = msg.replace("[em_"+imgNo+"]",imgNo +".jpg");
 		}
 		return msg;
 	}
 	
 	public void index() {
-		
-		//render("/demo/ventwall.html");
-		Menu.menuDao.removeCache();
-		Menu menu = getModel(Menu.class);
-		List<Menu> menuOneMenu = menu.getTopMenu();		
-		int menuid = getParaToInt("menuid");
-		setAttr("menuid", menuid);
-		setAttr("menuOneMenu", menuOneMenu);
+			
+		isSignIn();
 		render("/demo/addVentWall.html");
 	}
 	/**
 	 * 查询留言
 	 */
 	public void select(){
-		VentWall.venWdao.removeCache();
-		//setAttr("ventWallList", VentWall.venWdao.getVentWall());		
+		VentWall.venWdao.removeCache();		
 		List<VentWall> ventWallList = VentWall.venWdao.getVentWall();
 		setAttr("ventWallList", ventWallList);		
-		//render("/demo/selectventwall.html");
+		getCount();
+		isSignIn();
 		render("/demo/ventwall.html");
 	}
 	/**
@@ -93,5 +88,21 @@ public class VentWallController extends Controller {
 		int ventwallid = getParaToInt();
 		VentWall.venWdao.deleteVentWall(ventwallid);
 		select();
+	}
+	/**
+	 * 统计签到
+	 */
+	public void getCount(){
+		VentWall ventWall = getModel(VentWall.class);
+		Object todayCount = ventWall.getTodayCount();
+		Object yesterdayCount = ventWall.getYesterdayCount();
+		Object totalCount = ventWall.getTotalCount();
+		setAttr("todayCount", todayCount);
+		setAttr("yesterdayCount", yesterdayCount);
+		setAttr("totalCount", totalCount);
+	}
+	public void isSignIn(){
+		String issignin = VentWall.venWdao.isSignIn(1);
+		setAttr("issignin", issignin);
 	}
 }

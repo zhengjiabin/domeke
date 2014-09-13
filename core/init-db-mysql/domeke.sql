@@ -269,6 +269,7 @@ CREATE TABLE `menu` (
   `creater` varchar(32) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `modifier` varchar(32) DEFAULT NULL,
+  `menutype` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`menuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
