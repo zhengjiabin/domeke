@@ -8,9 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.domeke.app.interceptor.ActionInterceptor;
 import com.domeke.app.message.impl.DomekeMaiSenderImpl;
 import com.domeke.app.model.User;
 import com.domeke.app.utils.EncryptKit;
+import com.domeke.app.utils.MyCaptchaRender;
+import com.domeke.app.validator.RegistValidator;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.spring.Inject;
@@ -32,18 +35,43 @@ public class UserController extends Controller {
 	}
 
 	public void goRegist() {
-		render("/demo/regist.html");
+		render("/register2.html");
+	}
+	
+	public void goRegistSucces() {
+		render("/registerSucces.html");
 	}
 	
 	public void goLogin(){
-		render("/demo/login.html");
+		setAttr("msg", "");
+		render("/Login.html");
 	}
 	//@Before({RegistValidator.class,MailAuthInterceptor.class})
+	@Before({RegistValidator.class})
 	public void regist() {
 		User user = getModel(User.class);
+		//验证码
+		String inputRandomCode = getPara("captcha");
+        boolean validate = MyCaptchaRender.validate(this, inputRandomCode);
+        if(!validate){
+        	this.setAttr("user", user);
+        	setAttr("verification", "验证码错误!");
+			render("/register2.html");
+			return;
+        }
 		user.saveUser();
-		render("/demo/login.html");
+		//发送邮箱验证
+		sendActivation(user);
+		render("/registerSucces.html");
 	}
+	
+	/**
+	 * 验证码
+	 */
+	public void captcha()
+    {
+        render(new MyCaptchaRender(60,22,4,true));
+    }
 	public void goUserManage(){
 		userManage();
 		render("/demo/userManage.html");
@@ -99,6 +127,29 @@ public class UserController extends Controller {
 		}
 		
 	}
+	
+	public void sendActivation(User user){
+		
+		String email = user.getStr("email");
+		user = user.getCloumValue("email",email);
+		if(user!=null){
+			List<Map<String,Object>> params = new ArrayList<Map<String,Object>>();
+			String[] to = new String[]{email};
+			String nickname = user.getStr("nickname");
+			Long userid = user.getLong("userid");
+			String msg = "欢迎你："+nickname+":" + "\n" + "请点击以下的路径进行邮箱验证" + "\n" + "http://localhost:8080/core/user/activationUser?uid="+userid+"";
+			domekeMailSender.send("testehr@126.com", to, null, msg, params);
+		}
+		
+	}
+	
+	public void activationUser(){
+		String userid = getPara("uid");
+		User user = getModel(User.class);
+		user.updateUserMsg(userid,"activation","Y");
+		render("/Login.html");
+	}
+	
 	public DomekeMaiSenderImpl getDomekeMailSender() {
 		return domekeMailSender;
 	}
