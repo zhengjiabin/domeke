@@ -6,6 +6,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
 import com.domeke.app.base.config.DomekeConstants;
+import com.domeke.app.interceptor.ActionInterceptor;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.EncryptKit;
@@ -55,10 +56,11 @@ public class LoginController extends Controller {
 		}
 	}
 
+	@Before(ActionInterceptor.class)
 	public void logout() {
-		Subject currentUser = SecurityUtils.getSubject();
-		currentUser.logout();
-		render("/Login.html");
+//		Subject currentUser = SecurityUtils.getSubject();
+//		currentUser.logout();
+//		render("/Login.html");
 	}
 
 }
