@@ -15,11 +15,7 @@ CREATE TABLE `user_action` (
   `actionid` bigint(20) NOT NULL,
   `actionname` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `actiondes` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
-<<<<<<< HEAD
   `times` tinyint(3) NOT NULL DEFAULT '0',
-=======
-  `times` tinyint(5) NOT NULL DEFAULT '0',
->>>>>>> branch 'master' of https://git.oschina.net/lijiasen/domeke-app-core.git
   `create` mediumint(8) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `modifier` mediumint(8) DEFAULT NULL,
