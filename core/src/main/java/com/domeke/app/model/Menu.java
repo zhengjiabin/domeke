@@ -29,6 +29,11 @@ public class Menu extends Model<Menu> {
 	
 	public static Menu menuDao = new Menu();
 	
+	public List<Menu> getMenuByMenuId(int menuid){
+		List<Menu> menuList = this.find("select * from menu where parentmenuid in (select menuid from menu where parentmenuid = ?) or parentmenuid = ? order by sortnum", menuid, menuid);
+		return menuList;
+	}
+	
 	/**
 	 * 新增菜单
 	 */

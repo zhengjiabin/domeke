@@ -1,8 +1,10 @@
 package com.domeke.app.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import net.sf.ehcache.util.SetAsList;
 
 import com.domeke.app.model.Menu;
 import com.jfinal.core.Controller;
@@ -13,15 +15,22 @@ import com.jfinal.core.Controller;
  */
 public class MenuController extends Controller {
 	
-	public void ventwall(){
-		int menuid = getParaToInt("menuid");
+	public void redirect(){
 		String actionkey = getPara("actionkey");
-		Menu menu = Menu.menuDao.selectMenuById(menuid);
-		List<Menu> menuOneMenu = menu.selectMenu();
-		setAttr("menuOneMenu", menuOneMenu);
+		int menuid = getParaToInt("menuid");
+		List<Menu> menuOneMenu = menuOneMenu();
+		redirect(actionkey+"?menuid="+menuid, true);
+	} 
+	
+	public void member(){
+		int menuid = getParaToInt("menuid");
+		List<Menu> menuOneMenu = menuOneMenu();
 		setAttr("menuid", menuid);
-		
-		//forwardAction("ventwall");
+		setAttr("menuOneMenu", menuOneMenu);
+		Menu menu = getModel(Menu.class);
+		List<Menu> menuListById = menu.getMenuByMenuId(menuid);
+		setAttr("menuListById", menuListById);
+		render("/demo/member.html");
 	}
 	
 	/**
@@ -31,9 +40,8 @@ public class MenuController extends Controller {
 		Menu.menuDao.removeCache();
 		Menu menu = getModel(Menu.class);
 		List<Menu> menuList = menu.selectMenu();
-		setAttr("menuList", menuList);
-		
-		List<Menu> menuOneMenu = menuOneMenu();
+		setAttr("menuList", menuList);		
+		List<Menu> menuOneMenu = menuOneMenu();		
 		setAttr("menuOneMenu", menuOneMenu);
 		int menuid = getParaToInt("menuid");
 		setAttr("menuid", menuid);
@@ -58,6 +66,9 @@ public class MenuController extends Controller {
 		List<Menu> menuOneMenu = menuOneMenu();
 		setAttr("menuid", "7");
 		setAttr("menuOneMenu", menuOneMenu);
+		Menu menu = getModel(Menu.class);
+		List<Menu> menuList = menu.selectMenu();
+		setAttr("menuList", menuList);	
 		render("/demo/addMenu.html");
 	}
 	
@@ -112,7 +123,7 @@ public class MenuController extends Controller {
 		Menu.menuDao.removeCache();
 		List<Menu> menuOneMenu = menu.getOneMenu();
 		setAttr("menuOneMenu", menuOneMenu);
-		setAttr("menuid", "1");
+		setAttr("menuid", "7");
 		render("/demo/updateMenu.html");
 	}
 	
@@ -132,6 +143,7 @@ public class MenuController extends Controller {
 		Menu menu = getModel(Menu.class);
 		int menuid = getParaToInt();
 		menu.deleteMenu(menuid);		
-		selectMenu();
+		//selectMenu();
+		redirect("/menu/selectMenu?menuid="+menuid, true);
 	}
 }
