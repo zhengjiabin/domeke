@@ -1,0 +1,11 @@
+<% layout("/common/personalLayout.html"){ %>
+<div style="margin-left: 30px;">
+	<% if(menuId! == null) {%>
+		<% include("/myProduction.html"){} %>
+	<% } %>
+	
+	<% if(menuId! == '1') {%>
+		<% include("/test1.html"){} %>
+	<% } %>
+</div>
+<% } %> 
