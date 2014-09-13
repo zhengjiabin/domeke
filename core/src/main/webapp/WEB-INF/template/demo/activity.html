@@ -11,19 +11,9 @@
 	media="screen">
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-
-<script type="text/javascript">
-	function openApply(activityId){
-		var url = "./activityApply/skipCreate?activityId="+activityId;
-		var attribute = "height=500, width=500, top=0,left=0,toolbar=no, menubar=no, scrollbars=no, resizable=yes, location=no,status=no";
-		/* window.open (url, "报名参与", attribute);  */
-		window.showModalDialog(url,"",attribute);
-	}
-</script>
-
 </head>
 
-<body onload="pageSize(${page.pageSize!})">
+<body>
 	<div class="control-group">
 		<h1>
 			<a href="./activity/skipCreate">申请活动</a>
@@ -31,39 +21,8 @@
 		<h1>
 			<a href="./activity/findByUserId">我申请的活动 </a>
 		</h1>
-		<div id="page"><% if(page != null){ layout("/common/page.html",
-			{"page":page,"action":"./activity?1=1"} ){} }%></div>
-		<table>
-			<thead>
-				<tr>
-					<td style="width: 250px">发起人姓名</td>
-					<td style="width: 250px">标题</td>
-					<td style="width: 250px">开始时间</td>
-					<td style="width: 250px">结束时间</td>
-					<td style="width: 250px">地点</td>
-					<td style="width: 250px">类别、活动分类</td>
-					<td style="width: 250px">已参加人数</td>
-					<td style="width: 250px">报名截止日期</td>
-					<td style="width: 250px">操作</td>
-				</tr>
-			</thead>
-			<tbody>
-				<% for (activity in page.list){ %>
-				<tr>
-					<td>${username!}</td>
-					<td><a
-						href="./activity/findById?activityId=${activity.activityid!}">${activity.subject!}</a></td>
-					<td>${activity.starttimefrom!}</td>
-					<td>${activity.starttimeto!}</td>
-					<td>${activity.place!}</td>
-					<td>${activity.class!}</td>
-					<td>${activity.applynumber!}</td>
-					<td>${activity.expiration!}</td>
-					<td><a herf="#" onclick="openApply(${activity.activityid!})">报名参加</a></td>
-				</tr>
-				<% } %>
-			</tbody>
-		</table>
+		<div id="page"><% if(activityPage != null){
+			layout("./activityPage.html", {"activityPage":activityPage} ){} }%></div>
 	</div>
 </body>
 

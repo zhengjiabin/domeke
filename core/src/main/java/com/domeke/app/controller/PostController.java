@@ -76,11 +76,11 @@ public class PostController extends Controller {
 		Post post = Post.dao.findById(postId);
 		setAttr("post", post);
 
-		Page<Comment> commentPage = Comment.dao.findPageByTargetId(postId,
+		Page<Comment> commentPage = Comment.dao.findPageByTargetId(postId,"10",
 				pageNumber, pageSize);
 		setAttr("commentPage", commentPage);
 
-		List<Comment> followPage = Comment.dao.findFollowByTargetId(postId);
+		List<Comment> followPage = Comment.dao.findFollowByTargetId(postId,"10");
 		setAttr("followPage", followPage);
 
 		String pId = getPara("pId");

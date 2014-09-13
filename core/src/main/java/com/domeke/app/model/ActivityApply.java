@@ -31,11 +31,11 @@ public class ActivityApply extends Model<ActivityApply> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	public static ActivityApply dao = new ActivityApply();
-	
+
 	/**
-	 * 分页查询指定发起人活动的报名申请信息
+	 * 分页查询指定活动的参与者
 	 * 
 	 * @param pageNumber
 	 *            页号
@@ -43,11 +43,12 @@ public class ActivityApply extends Model<ActivityApply> {
 	 *            页数
 	 * @return
 	 */
-	public Page<ActivityApply> findByUserId(Object userID, int pageNumber,
-			int pageSize) {
-		Page<ActivityApply> page = this.paginate(pageNumber, pageSize, "select *",
-				"from activity_apply where userid=? order by createtime",
-				userID);
+	public Page<ActivityApply> findByActivityId(Object activityId,
+			int pageNumber, int pageSize) {
+		Page<ActivityApply> page = this.paginate(pageNumber, pageSize,
+				"select *",
+				"from activity_apply where activityid=? order by createtime",
+				activityId);
 		return page;
 	}
 }

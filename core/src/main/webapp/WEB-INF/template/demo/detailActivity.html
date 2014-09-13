@@ -43,5 +43,19 @@
 </div>
 <div id="page"><% if(activityApplyPage != null){
 	layout("./activityApplyPage.html",
-	{"activityApplyPage":activityApplyPage} ){} }%></div>
+	{"activityApplyPage":activityApplyPage,"pageAction":"./activityApply/findByActivityId?activityId="+activity.activityid
+	,"fatherNode":"#page"} ){} }%></div>
+	
+<div id="replyComments">
+			<div class="control-group" align="right"><% if(activity.activityid !=
+				null){ layout("./ckeditor.html",
+				{"targetId":activity.activityid,"ckeditorAction":"./activity/replyComment?activityId="+activity.activityid
+				,"renderAction":"/demo/comment.html","commentFatherNode":"#commentHtml","ckeditorNode":"#replyComments"}){}
+				}%></div>
+			<div class="control-group" id="commentHtml"><% if(commentPage
+				!= null && activity.activityid != null){ layout("./comment.html",
+				{"commentPage":commentPage,"targetId":activity.activityid,"publishFaceAction":"./activity/replyComment?activityId="+activity.activityid,
+				"pageAction":"./activity/findCommentByActivityId?activityId="+activity.activityid,"fatherNode":"#commentContents","commentFatherNode":"#commentHtml"}){}
+				}%></div>
+		</div>
 </html>

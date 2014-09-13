@@ -40,9 +40,9 @@ public class Comment extends Model<Comment> {
 	 * 
 	 * @return
 	 */
-	public List<Comment> findFollowByTargetId(Object targetId) {
-		String sql = "select * from comment where status='10' and pid is not null and targetid =? order by createtime";
-		List<Comment> list = this.find(sql, targetId);
+	public List<Comment> findFollowByTargetId(Object targetId,Object idtype) {
+		String sql = "select * from comment where status='10' and idtype=? and pid is not null and targetid =? order by createtime";
+		List<Comment> list = this.find(sql, idtype,targetId);
 		return list;
 	}
 
@@ -51,11 +51,11 @@ public class Comment extends Model<Comment> {
 	 * 
 	 * @return
 	 */
-	public Page<Comment> findPageByTargetId(Object targetId, int pageNumber,
+	public Page<Comment> findPageByTargetId(Object targetId,Object idtype, int pageNumber,
 			int pageSize) {
-		String sql = "from comment where status='10' and pid is null and targetid=? order by createtime";
+		String sql = "from comment where status='10' and idtype=? and pid is null and targetid=? order by createtime";
 		Page<Comment> page = this.paginate(pageNumber, pageSize, "select *",
-				sql, targetId);
+				sql, idtype,targetId);
 		return page;
 	}
 
