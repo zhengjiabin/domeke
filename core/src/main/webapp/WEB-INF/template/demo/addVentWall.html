@@ -3,6 +3,17 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script type="text/javascript" src="js/wish.js"></script>
+<style type="text/css">
+.btn2
+{
+	width:143px;
+	height:43px;
+	line-height:18px;
+	font-size:18px;
+	background:url("images/bg29.jpg") no-repeat left top;
+	color:#FFF;
+}
+</style>
     <script type="text/javascript">
     	$(document).ready(function(){
     		var url = "ventwall/select";
@@ -32,7 +43,20 @@
                 });
     		}
     	});
-    	
+        $(function(){
+            function maxLimit(){
+                    var num=$(this).val().substr(0,50);
+                    $(this).val(num);
+                    $(this).next().children("span").text($(this).val().length+"/50");
+            };
+            $("#saytext").keyup(maxLimit);
+            $("#saytext").focus(function(){
+                    $(this).addClass("focus").next().show();
+                    if($(this).val() == $(this).attr("title")){
+                            $(this).val("");
+                    }
+            });
+    });
   </script>
     <div class="container">
       <form  id="ajaxFrm" class="" action="ventwall/save"  method="post">
@@ -44,8 +68,11 @@
 		<input id="rdo6" name="ventWall.moodid" type="radio" value="[em_6]" /><img src="images/face/6.jpg" />
 		<input id="rdo7" name="ventWall.moodid" type="radio" value="[em_7]" /><img src="images/face/7.jpg" />
 		<input id="rdo8" name="ventWall.moodid" type="radio" value="[em_8]" /><img src="images/face/8.jpg" /></br>
-		<textarea class="input" id="saytext" name="ventWall.message" value="${ventWall.message!}" width="700px"></textarea></br>
-          <button id="btn2" class=""  type="button" ">提交</button>
+		<textarea name="textarea" class="textarea" id="saytext" name="ventWall.message" value="${ventWall.message!}" cols="50" rows="6" ></textarea>
+		<p>
+	         <span class="textCount">0/50</span>
+             <button id="btn2" class="btn2"  type="button" onmouseover="this.style.backgroundPosition='left -43px'" onmouseout="this.style.backgroundPosition='left top'">开始签到</button>
+         </p>	
       </form>
     </div> 
     <div id="view">

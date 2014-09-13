@@ -7,6 +7,7 @@ package com.domeke.app.model;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.ehcache.CacheKit;
 
@@ -16,7 +17,7 @@ import com.jfinal.plugin.ehcache.CacheKit;
  * CREATE TABLE `vent_wall` (
  * `ventwallid` bigint(20) NOT NULL AUTO_INCREMENT,
  * `userid` bigint(20) DEFAULT NULL,
- * `moodid` bigint(20) DEFAULT NULL COMMENT '心情id',
+ * `moodid` varchar(100) DEFAULT NULL COMMENT '心情id',
  * `message` varchar(255) DEFAULT NULL COMMENT '留言',
  * `createtime`  TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
  * `creater` bigint(20) NULL,
@@ -27,9 +28,6 @@ import com.jfinal.plugin.ehcache.CacheKit;
 @TableBind(tableName = "vent_wall", pkName = "ventwallid")
 public class VentWall extends Model<VentWall>{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1568398434037230642L;
 	public static VentWall venWdao =new VentWall();
 	
@@ -44,7 +42,7 @@ public class VentWall extends Model<VentWall>{
 	 * @return 所有留言
 	 */
 	public List<VentWall> getVentWall(){
-		List<VentWall> ventWallList = venWdao.findByCache("ventWallList", "key", "select * from vent_wall order by createtime");
+		List<VentWall> ventWallList = venWdao.findByCache("ventWallList", "key", "SELECT * FROM VENT_WALL ORDER BY CREATETIME");
 		return ventWallList;	
 	}
 	/**
@@ -67,5 +65,37 @@ public class VentWall extends Model<VentWall>{
     public void removeCache(){
         CacheKit.removeAll("VentWall");
         CacheKit.removeAll("ventWallList");
+    }
+    /**
+     * 当日签到汇总
+     * @return 汇总数
+     */
+    public Object getTodayCount(){
+    	Object count = Db.queryLong("SELECT COUNT(VENTWALLID) FROM VENT_WALL WHERE TO_DAYS(CREATETIME)=TO_DAYS(NOW())");
+    	return count;
+    }
+    /**
+     * 昨日汇总
+     * @return 汇总数
+     */
+    public Object getYesterdayCount(){
+    	Object count = Db.queryLong("SELECT COUNT(VENTWALLID) FROM VENT_WALL WHERE DATE(CREATETIME) = DATE_SUB(CURDATE(),INTERVAL 1 DAY)");
+    	return count;
+    }
+    /**
+     * 汇总历史最高
+     * @return 汇总数
+     */
+    public Object getTotalCount(){
+    	Object count = Db.queryLong("SELECT NUM  FROM(SELECT COUNT(VENTWALLID) AS NUM FROM VENT_WALL GROUP BY  DATE(CREATETIME))A ORDER BY A.NUM DESC LIMIT 1");
+    	return count;
+    }
+    public String isSignIn(int userId){
+    	String result = "0";
+    	Object userid = Db.queryLong("SELECT userid from vent_wall WHERE TO_DAYS(CREATETIME)=TO_DAYS(NOW()) and userid=1");
+    	if (userid == null || "".equals(userid)){
+    		result = "1";
+    	}
+    	return result;
     }
 }
