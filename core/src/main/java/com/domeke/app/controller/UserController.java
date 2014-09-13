@@ -34,6 +34,8 @@ public class UserController extends Controller {
 	}
 
 	public void goRegist() {
+		User user = getModel(User.class);
+		this.setAttr("user", user);
 		render("/register2.html");
 	}
 	
@@ -42,8 +44,12 @@ public class UserController extends Controller {
 	}
 	
 	public void goLogin(){
+		User user = getModel(User.class);
 		setAttr("msg", "");
 		render("/Login.html");
+	}
+	public void member(){
+		render("/Member.html");
 	}
 	//@Before({RegistValidator.class,MailAuthInterceptor.class})
 	@Before({RegistValidator.class})
@@ -61,6 +67,7 @@ public class UserController extends Controller {
 		user.saveUser();
 		//发送邮箱验证
 		sendActivation(user);
+		setAttr("succes", "帐号注册成功，请登录你的邮箱进行验证！");
 		render("/registerSucces.html");
 	}
 	
@@ -109,11 +116,17 @@ public class UserController extends Controller {
 		goUserManage();
 	}
 	public void search(){
-		 render("/demo/userEmail.html");	 
+		 render("/searchPassword.html");	 
 	}
 	public void sendPassword(){
 		User user = getModel(User.class);
-		String email = getPara("email");
+		String email = user.getStr("email");
+		boolean oneamail = user.containColumn("email", email);
+		if(!oneamail){
+			setAttr("emailMsg", "该邮箱地址不存在!");
+			 render("/searchPassword.html");
+			 return;
+		}
 		user = user.getCloumValue("email",email);
 		if(user!=null){
 			List<Map<String,Object>> params = new ArrayList<Map<String,Object>>();
@@ -121,8 +134,10 @@ public class UserController extends Controller {
 			String password1  = getRandomString(6);
 			String password = EncryptKit.encryptMd5(password1);
 			user.updatePassword(user.get("userid"),password);
-			String msg = "新生成的密码为："+password1+"，请及时登录 系统修改";
+			String msg = "你好你的密码已重置为："+password1+"，请及时登录 系统修改";
 			domekeMailSender.send("testehr@126.com", to, null, msg, params);
+			setAttr("succes", "新密码已发送到邮箱，请登录查看！");
+			render("/registerSucces.html");
 		}
 		
 	}
