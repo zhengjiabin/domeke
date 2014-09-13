@@ -27,7 +27,7 @@ public class MenuController extends Controller {
 		Menu menu = getModel(Menu.class);
 //		List<Menu> menuListById = menu.getMenuByMenuId(menuid);
 //		setAttr("menuListById", menuListById);
-		render("../cartoon.html");
+		render("/cartoon.html");
 	}
 
 	/**
