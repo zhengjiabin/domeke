@@ -441,7 +441,7 @@ CREATE TABLE `user` (
   `username` varchar(16) NOT NULL,
   `password` varchar(32) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `moblie` varchar(32) DEFAULT NULL,
+  `mobile` varchar(32) DEFAULT NULL,
   `peas` int(11) NOT NULL DEFAULT '0',
   `point` int(11) NOT NULL DEFAULT '0',
   `create_time` timestamp NULL DEFAULT NULL,
