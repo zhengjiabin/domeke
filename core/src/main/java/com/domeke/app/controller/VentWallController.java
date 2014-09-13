@@ -3,9 +3,11 @@
  */
 package com.domeke.app.controller;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.domeke.app.model.Menu;
 import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
@@ -45,7 +47,14 @@ public class VentWallController extends Controller {
 	}
 	
 	public void index() {
-		//render("/demo/insertVentWall.html");
+		
+		//render("/demo/ventwall.html");
+		Menu.menuDao.removeCache();
+		Menu menu = getModel(Menu.class);
+		List<Menu> menuOneMenu = menu.getOneMenu();		
+		int menuid = getParaToInt("menuid");
+		setAttr("menuid", menuid);
+		setAttr("menuOneMenu", menuOneMenu);
 		render("/demo/addVentWall.html");
 	}
 	/**
@@ -53,8 +62,11 @@ public class VentWallController extends Controller {
 	 */
 	public void select(){
 		VentWall.venWdao.removeCache();
-		setAttr("ventWallList", VentWall.venWdao.getVentWall());
-		render("/demo/selectventwall.html");
+		//setAttr("ventWallList", VentWall.venWdao.getVentWall());		
+		List<VentWall> ventWallList = VentWall.venWdao.getVentWall();
+		setAttr("ventWallList", ventWallList);		
+		//render("/demo/selectventwall.html");
+		render("/demo/ventwall.html");
 	}
 	/**
 	 * 通过ID查询留言

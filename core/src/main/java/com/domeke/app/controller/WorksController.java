@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
+import com.jfinal.plugin.ehcache.CacheKit;
 
 /**
  * 作品model控制器
@@ -13,6 +14,8 @@ import com.domeke.app.route.ControllerBind;
  */
 @ControllerBind(controllerKey = "/works")
 public class WorksController extends FilesLoadController {
+
+	private static final String PATH = "G:/workscomic";
 
 	/**
 	 * 跳转作品管理界面
@@ -40,10 +43,8 @@ public class WorksController extends FilesLoadController {
 	 */
 	public void save() {
 		try {
-			String coverPath = upLoad("cover", "workscover", 200 * 1024 * 1024,
-					"utf-8");
-			String comicPath = upLoad("comic", "workscomic", 200 * 1024 * 1024,
-					"utf-8");
+			String coverPath = upLoad("cover", PATH, 2000 * 1024 * 1024, "utf-8");
+			String comicPath = upLoad("comic", PATH, 5000 * 1024 * 1024, "utf-8");
 			Works worksModel = getModel(Works.class);
 			worksModel.set("cover", coverPath);
 			worksModel.set("comic", comicPath);
@@ -62,10 +63,8 @@ public class WorksController extends FilesLoadController {
 	 * 更新已修的作品
 	 */
 	public void update() {
-		String coverPath = upLoad("cover", "workscover", 200 * 1024 * 1024,
-				"utf-8");
-		String comicPath = upLoad("comic", "workscomic", 200 * 1024 * 1024,
-				"utf-8");
+		String coverPath = upLoad("cover", PATH, 2000 * 1024 * 1024, "utf-8");
+		String comicPath = upLoad("comic", PATH, 5000 * 1024 * 1024, "utf-8");
 		// 可改为获取当前用户的名字或者ID
 		Works worksModel = getModel(Works.class);
 		if (coverPath != null) {
@@ -98,6 +97,7 @@ public class WorksController extends FilesLoadController {
 	public void queryAllWorksInfo() {
 		Works worksModel = getModel(Works.class);
 		List<Works> workslist = worksModel.queryAllWorksInfo();
+		CacheKit.remove("workslist", workslist);
 		this.setAttr("workslist", workslist);
 	}
 
@@ -120,4 +120,10 @@ public class WorksController extends FilesLoadController {
 		this.setAttr("workslist", workslist);
 	}
 
+	public void playVideo() {
+		Works worksModel = getModel(Works.class);
+		Works works = worksModel.findById(getParaToInt("id"));
+		this.setAttr("works", works);
+		render("/play.html");
+	}
 }

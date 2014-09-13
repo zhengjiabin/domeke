@@ -14,14 +14,14 @@ public class LoginValidator extends Validator {
 
 	@Override
 	protected void validate(Controller c) {
-		validateRequired("username", "username-msg", "用户名必须输入！");
-		validateRequired("password", "password-msg", "密码必须输入！");
+		validateRequired("username", "username-msg", "用户名密码必须输入！");
+		validateRequired("password", "password-msg", "用户名密码必须输入！");
 	}
 
 	@Override
 	protected void handleError(Controller c) {
 		c.keepPara();
-		c.render("/login.html");
+		c.render("/Login.html");
 	}
 
 }

@@ -2,6 +2,9 @@
 <script type="text/javascript">
 	function showReplyComment(node) {
 		var commentForm = $(node).closest("#commentForm");
+		var editor = commentForm.find("#editor").first();
+		editor.attr("contenteditable","true");
+		
 		var showEditor = commentForm.find("#showEditor").first();
 		showEditor.show();
 	}
@@ -31,22 +34,36 @@
 	}
 
 	function setComment(node) {
-		var editor = $(node).find("#editor").first();
-		var message = $(node).find("#message").first();
+		var showEditor = $(node).closest("#showEditor");
+		var editor = showEditor.find("#editor").first();
+		var message = showEditor.find("#message").first();
 		var val = editor.html();
 		message.html(val);
-		return true;
+		
+		$.post(
+			"${action!}",
+			{targetID:'${targetID!}',pID:'${pID!}',toUserID:'${toUserID!}',message:message.text()},
+			function(data) {
+				var commentForm = $(node).closest("#commentForm");
+				var showEditor = commentForm.find("#showEditor").first();
+				showEditor.hide();
+				var editor = showEditor.find("#editor").first();
+				editor.html("");
+				var message = showEditor.find("#message").first();
+				message.html("");
+				
+				var commentContent = $(node).closest("#commentContent");
+				commentContent.html(data);
+			}
+		);
 	}
 </script>
-<form id="commentForm" action="${action!}" method="post"
-	onsubmit="setComment(this);">
+<div id="commentForm">
 	<div>
-		<input type="hidden" name="targetID" value="${targetID!}"><input
-			type="button" value="回复" onclick="showReplyComment(this)" />
+		<input type="button" value="回复" onclick="showReplyComment(this)" />
 	</div>
 	<div id="showEditor" style="display: none;">
-		<div id="editor" contenteditable="true"
-			style="width: 497px; min-height: 40px; z-index: 0;"></div>
+		<div id="editor" style="width: 497px; min-height: 40px; z-index: 0;"></div>
 		<textarea name="message" id="message" style="display: none;"></textarea>
 		<div>
 			<img
@@ -152,7 +169,10 @@
 						onClick="insertFace(this)" /></td>
 				</tr>
 			</table>
-			<input type="submit" value="发表" />
+			<div>
+				<input id="publish" type="button" value="发表"
+					onclick="setComment(this)">
+			</div>
 		</div>
 	</div>
-</form>
+</div>

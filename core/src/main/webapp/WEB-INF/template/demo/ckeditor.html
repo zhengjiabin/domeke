@@ -1,0 +1,43 @@
+<script src="${core}/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+	function showReply(node) {
+		var commentForm = $(node).closest("#commentForm");
+		var commentDiv = commentForm.find("#commentDiv").first();
+		commentDiv.show();
+	}
+
+	
+	function publishMethod(node) {
+		var content = CKEDITOR.instances.ckeditor.getData();
+		$.post(
+			"${action!}",
+			{targetID:'${targetID!}',message:content},
+			function(data) {
+				var commentForm = $(node).closest("#commentForm");
+				var commentDiv = commentForm.find("#commentDiv").first();
+				commentDiv.hide(); 
+				CKEDITOR.instances.ckeditor.setData("");
+				
+				var replyComments = $(node).closest("#replyComments");
+				var commentContents = replyComments.find("#commentContents").first();
+				commentContents.html(data);
+			}
+		);
+	}
+</script>
+<div id="commentForm">
+	<input type="button" value="回复" onclick="showReply(this)"
+		style="color: yellow" id="reply" />
+	<div id="commentDiv" style="display: none">
+		<div>
+			<textarea rows="30" cols="50" name="message" id="ckeditor" class="ckeditor"></textarea>
+		</div>
+		<div>
+			<input id="publish" type="button" value="发表"
+				onclick="publishMethod(this)">
+		</div>
+	</div>
+</div>
+
+

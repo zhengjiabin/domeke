@@ -1,7 +1,41 @@
 <% layout("/common/layout.html"){ %>
 <section>
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script type="text/javascript" src="js/wish.js"></script>
+    <script type="text/javascript">
+    	$(document).ready(function(){
+    		var url = "ventwall/select";
+    		$.showView(null,url);
+    		$('#btn2').click(function(){
+    			var rdo = $('input[name="ventWall.moodid"]:checked').val();
+    			var saytext = $('#saytext').val();
+    			var obj = {"ventWall.message":saytext,"ventWall.moodid":rdo};
+    			var url = "ventwall/save";
+    			$.showView(obj,url);
+    		});
+    	});       
+    	$.extend({
+    		showView:function(obj,url){
+    			$.ajax({   
+                    type:"post",    
+                    dataType:"html",
+                    url:url, 
+                    data:obj,
+                    success:function(data){
+                    	$('#view').html(data);                  	
+                    },   
+                    error:function(){ 
+                    	alert("error");
+                    	console.info(msg);
+                    }   
+                });
+    		}
+    	});
+    	
+  </script>
     <div class="container">
-      <form  id="ajaxFrm" class="form-signin" action="ventwall/save"  method="post">
+      <form  id="ajaxFrm" class="" action="ventwall/save"  method="post">
 		<input id="rdo1" name="ventWall.moodid" type="radio" value="[em_1]" checked=true/><img src="images/face/1.jpg" />
 		<input id="rdo2" name="ventWall.moodid" type="radio" value="[em_2]" /><img src="images/face/2.jpg" />
 		<input id="rdo3" name="ventWall.moodid" type="radio" value="[em_3]" /><img src="images/face/3.jpg" />
@@ -11,30 +45,12 @@
 		<input id="rdo7" name="ventWall.moodid" type="radio" value="[em_7]" /><img src="images/face/7.jpg" />
 		<input id="rdo8" name="ventWall.moodid" type="radio" value="[em_8]" /><img src="images/face/8.jpg" /></br>
 		<textarea class="input" id="saytext" name="ventWall.message" value="${ventWall.message!}" width="700px"></textarea></br>
-        <button id="btn1" class="btn btn-large btn-primary" onClick="getOtherMessage();" type="submit" ">提交</button>
-        <button id="btn2" class="btn btn-large btn-primary" onClick="getOtherMessage();" type="button" ">提交</button>
+          <button id="btn2" class=""  type="button" ">提交</button>
       </form>
     </div> 
     <div id="view">
+    	<!--     <% layout("/demo/selectventwall.html"){} %>	 -->
+    	<% layout("/demo/ventwall.html"){} %>
     </div>
-    <script type="text/javascript" src="jquery.min.js"></script>
-    <script type="text/javascript">   
-        function getOtherMessage(){   
-			var rdo1 = $('#rdo1').val();
-            $.ajax({   
-                type:"post",    
-                dataType:"json",
-                url:"ventwall/select", 
-                success:function(data){
-                	console.log(data);
-                	alert("success"+data);
-					$('#table').append('<tr><td>'+data.message+'</td></tr>');
-                },   
-                error:function(){   
-                    alert("wrong");   
-                }   
-            });   
-       }   
-  </script>
  </section> 
 <% } %> 
