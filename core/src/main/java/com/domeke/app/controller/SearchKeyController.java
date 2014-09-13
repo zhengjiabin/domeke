@@ -6,6 +6,7 @@ import com.domeke.app.model.SearchKey;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 
+
 @ControllerBind(controllerKey="searchkey")
 public class SearchKeyController extends Controller{
 	/**
