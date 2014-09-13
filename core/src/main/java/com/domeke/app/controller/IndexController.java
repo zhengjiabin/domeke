@@ -12,7 +12,7 @@ public class IndexController extends Controller {
 	public void index() {
 		Menu.menuDao.removeCache();
 		Menu menu = getModel(Menu.class);
-		List<Menu> menuOneMenu = menu.getOneMenu();
+		List<Menu> menuOneMenu = menu.getTopMenu();
 		setAttr("menuid", "1");
 		setAttr("menuOneMenu", menuOneMenu);
 		render("index.html");
@@ -26,7 +26,7 @@ public class IndexController extends Controller {
 	public void play() {
 		Menu.menuDao.removeCache();
 		Menu menu = getModel(Menu.class);
-		List<Menu> menuOneMenu = menu.getOneMenu();
+		List<Menu> menuOneMenu = menu.getTopMenu();
 		String menuid = getPara("menuid");
 		setAttr("menuid", menuid);
 		setAttr("menuOneMenu", menuOneMenu);

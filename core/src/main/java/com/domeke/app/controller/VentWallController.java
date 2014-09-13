@@ -51,7 +51,7 @@ public class VentWallController extends Controller {
 		//render("/demo/ventwall.html");
 		Menu.menuDao.removeCache();
 		Menu menu = getModel(Menu.class);
-		List<Menu> menuOneMenu = menu.getOneMenu();		
+		List<Menu> menuOneMenu = menu.getTopMenu();		
 		int menuid = getParaToInt("menuid");
 		setAttr("menuid", menuid);
 		setAttr("menuOneMenu", menuOneMenu);

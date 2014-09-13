@@ -54,7 +54,7 @@ public class Menu extends Model<Menu> {
 	 * 获取一级菜单菜单
 	 * @return 返回一级次菜单
 	 */
-	public List<Menu> getOneMenu(){
+	public List<Menu> getTopMenu(){
 		List<Menu> menuOneMenu = this.find("select * from menu where top = '1' order by mid");
 		return menuOneMenu;
 	}
