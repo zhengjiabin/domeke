@@ -1,9 +1,12 @@
 package com.domeke.app.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import com.domeke.app.model.Activity;
 import com.domeke.app.model.ActivityApply;
+import com.domeke.app.model.Comment;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
@@ -59,9 +62,16 @@ public class ActivityController extends Controller {
 		setAttr("activity", activity);
 
 		Object userId = activity.get("userid");
-		Page<ActivityApply> page = ActivityApply.dao
-				.findByUserId(userId, pageNumber, pageSize);
-		setAttr("page", page);
+		Page<ActivityApply> activityApplyPage = ActivityApply.dao.findByUserID(
+				userId, pageNumber, pageSize);
+		setAttr("activityApplyPage", activityApplyPage);
+
+		Page<Comment> commentPage = Comment.dao.findPageByTargetId(activityId,
+				pageNumber, pageSize);
+		setAttr("commentPage", commentPage);
+
+		List<Comment> followPage = Comment.dao.findFollowByTargetId(activityId);
+		setAttr("followPage", followPage);
 		render("/demo/detailActivity.html");
 	}
 
@@ -71,7 +81,7 @@ public class ActivityController extends Controller {
 	 * @return 指定活动信息
 	 */
 	public void modifyById() {
-		String activityId = getPara("activityId");
+		String activityId = getPara("activityID");
 		Activity activity = Activity.dao.findById(activityId);
 		setAttr("activity", activity);
 		render("/demo/modifyActivity.html");
@@ -91,7 +101,7 @@ public class ActivityController extends Controller {
 	 * 删除指定活动
 	 */
 	public void deleteById() {
-		String activityId = getPara("activityId");
+		String activityId = getPara("activityID");
 		Post.dao.deleteById(activityId);
 
 		findByUserId();

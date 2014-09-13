@@ -43,11 +43,11 @@ public class ActivityApply extends Model<ActivityApply> {
 	 *            页数
 	 * @return
 	 */
-	public Page<ActivityApply> findByUserId(Object userId, int pageNumber,
+	public Page<ActivityApply> findByUserID(Object userID, int pageNumber,
 			int pageSize) {
 		Page<ActivityApply> page = this.paginate(pageNumber, pageSize, "select *",
 				"from activity_apply where userid=? order by createtime",
-				userId);
+				userID);
 		return page;
 	}
 }
