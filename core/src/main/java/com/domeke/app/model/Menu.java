@@ -1,6 +1,5 @@
 package com.domeke.app.model;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
@@ -30,7 +29,7 @@ public class Menu extends Model<Menu> {
 	public static Menu menuDao = new Menu();
 	
 	public List<Menu> getMenuByMenuId(int menuid){
-		List<Menu> menuList = this.find("select * from menu where parentmenuid in (select menuid from menu where parentmenuid = ?) or parentmenuid = ? order by sortnum", menuid, menuid);
+		List<Menu> menuList = this.find("select * from menu where menutype = '1' and parentmenuid in (select menuid from menu where parentmenuid = ?) or parentmenuid = ? order by sortnum", menuid, menuid);
 		return menuList;
 	}
 	
@@ -55,7 +54,7 @@ public class Menu extends Model<Menu> {
 	 * @return 返回一级次菜单
 	 */
 	public List<Menu> getTopMenu(){
-		List<Menu> menuOneMenu = this.find("select * from menu where top = '1' order by mid");
+		List<Menu> menuOneMenu = this.find("select * from menu where menutype = '1' and top = '1' order by sortnum");
 		return menuOneMenu;
 	}
 	
@@ -66,7 +65,7 @@ public class Menu extends Model<Menu> {
 	 * @return
 	 */
 	public List<Menu> getTwoMenu(String parentmenuid){
-		List<Menu> menuTwoMenu = this.find("select * from menu where top = '2' and parentmenuid = ?", parentmenuid);
+		List<Menu> menuTwoMenu = this.find("select * from menu where menutype = '1' top = '2' and parentmenuid = ?", parentmenuid);
 		return menuTwoMenu;
 	}
 	

@@ -21,7 +21,17 @@
         	<li><a href="#"><img src="images/icon07.png">购物车</a></li>
         </ul>
         <ul id="nav_menu" class="NavL">
-
+	<% for(m in topMenuList){   
+    var menuid = parseInt(menuid);
+    	if (menuid == m.menuid){
+    %>
+    	<li class="LiFuc"><a href="">${m.menuname!}</a></li>
+    <%	}else{
+	%>	
+	<li><a href="${m.actionkey!}?menuid=${m.menuid!}">${m.menuname!}</a></li>
+	<% } 
+	   } 
+	%>
         </ul>
         <script type="text/javascript">
       //菜单导航 按钮事件 选中后高亮

@@ -11,7 +11,7 @@ import com.jfinal.core.Controller;
  * @author 陈智聪
  *
  */
-
+@Before(GlobalInterceptor.class)
 public class MenuController extends Controller {
 
 	public void redirect() {
@@ -24,9 +24,9 @@ public class MenuController extends Controller {
 	public void member() {
 		int menuid = getParaToInt("menuid");
 		setAttr("menuid", menuid);		
-//		Menu menu = getModel(Menu.class);
-//		List<Menu> menuListById = menu.getMenuByMenuId(menuid);
-//		setAttr("menuListById", menuListById);
+		Menu menu = getModel(Menu.class);
+		List<Menu> menuListById = menu.getMenuByMenuId(menuid);
+		setAttr("menuListById", menuListById);
 		render("/demo/member.html");
 	}
 
@@ -119,6 +119,8 @@ public class MenuController extends Controller {
 		List<Menu> menuOneMenu = menu.getTopMenu();
 		setAttr("menuOneMenu", menuOneMenu);
 		setAttr("menuid", "7");
+		List<Menu> menuList = menu.selectMenu();
+		setAttr("menuList", menuList);
 		render("/demo/updateMenu.html");
 	}
 

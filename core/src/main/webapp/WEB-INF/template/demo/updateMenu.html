@@ -24,18 +24,19 @@
         		<%
         		var menuid = menu.parentmenuid;
         		var count = 0;
-        		for(m in topMenuList){
+        		for(m in menuList){
         		if (m.menuid == menuid){
         		count = count + 1;
         		%>
         			<option value="${m.menuid!}" selected="selected">${m.menuname!}</option>
-        		<% } 
-        		if (count == 0){
+        		<% } %>
+        		
+    				<option value="${m.menuid!}">${m.menuname!}</option> 
+    			<% } %>
+    			<% if (count == 0){
         		%>
         			<option value="" selected="selected">主菜单</option>
         		<% } %>
-    				<option value="${m.menuid!}">${m.menuname!}</option> 
-    			<% } %>
    			</select> 
         	<!-- 
         	<label class="control-label">modify_time：</label>
