@@ -20,6 +20,7 @@ public class ActionInterceptor implements Interceptor{
 		Controller controller = ai.getController();
 		String methodName = ai.getMethod().getName();
 		//判断拦截到的方法是否指定的动作
+		
 		String actionName = CodeKit.getValue("actionMethod", methodName);
 		if(!StrKit.isBlank(actionName)){
 			//获取指定动作对象
