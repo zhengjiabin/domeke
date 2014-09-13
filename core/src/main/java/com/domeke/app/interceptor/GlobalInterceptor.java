@@ -12,7 +12,6 @@ import com.jfinal.core.Controller;
 public class GlobalInterceptor implements Interceptor {
 	public void intercept(ActionInvocation ai) {
 		Controller controller = ai.getController();
-
 		ai.invoke();
 	}
 

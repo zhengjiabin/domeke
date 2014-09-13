@@ -12,170 +12,36 @@
 	media="screen">
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-
-<script type="text/javascript" language="text/javascript">
-	function goToPageSize(pageSize,activityId) {
-		location.href = "./activity/findById?activityId=" + activityId + "&pageSize=" + pageSize
-				+ "&pageNumber=1";
-	};
-
-	function pageSize(pageSize) {
-		var obj = document.getElementById('pageSize');
-		for (var i = 0; i < obj.length; i++) {
-			if (pageSize == obj.options[i].value) {
-				obj.options[i].selected = true;
-			} else {
-				obj.options[i].selected = false;
-			}
-
-		}
-	}
-</script>
 </head>
-<body>
-	<form class="form-signin" action="activity/modify" method="post">
-		<h1>
-			<a href="./activity/find">活动信息 </a>
-		</h1>
+<h1>
+	<a href="./activity/find">活动信息 </a>
+</h1>
+<div>
+	<div class="control-group">活动ID：${activity.cost!}</div>
 
-		<div class="control-group">
-			<label class="control-label">活动ID<span class="required">*</span></label>
-			<div class="controls">
-				<input type="hidden" name="activity.activityid"
-					value="${activity.cost!}" class="span6 m-wrap" />
-			</div>
-		</div>
+	<div class="control-group">每人花销：${activity.cost!}</div>
 
-		<div class="control-group">
-			<label class="control-label">每人花销<span class="required">*</span></label>
-			<div class="controls">
-				<input type="number" name="activity.cost" value="${activity.cost!}"
-					class="span6 m-wrap" />
-			</div>
-		</div>
+	<div class="control-group">开始时间：${activity.starttimefrom!}</div>
 
-		<div class="control-group">
-			<label class="control-label">开始时间<span class="required">*</span></label>
-			<div class="controls">
-				<input type="datetime" name="activity.starttimefrom"
-					value="${activity.starttimefrom!}" class="span6 m-wrap" />
-			</div>
-		</div>
+	<div class="control-group">结束时间：${activity.starttimeto!}</div>
 
-		<div class="control-group">
-			<label class="control-label">结束时间<span class="required">*</span></label>
-			<div class="controls">
-				<input type="datetime" name="activity.starttimeto"
-					value="${activity.starttimeto!}" class="span6 m-wrap" />
-			</div>
-		</div>
+	<div class="control-group">地点：${activity.place!}</div>
 
-		<div class="control-group">
-			<label class="control-label">地点<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activity.place" value="${activity.place!}"
-					class="span6 m-wrap" />
-			</div>
-		</div>
+	<div class="control-group">类别、活动分类：${activity.class!}</div>
 
-		<div class="control-group">
-			<label class="control-label">类别、活动分类<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activity.class" value="${activity.class!}"
-					class="span6 m-wrap" />
-			</div>
-		</div>
+	<div class="control-group">性别：${activity.gender!}</div>
 
-		<div class="control-group">
-			<label class="control-label">性别<span class="required">*</span></label>
-			<div class="controls">
-				<input type="radio" name="activity.gender" value="0"
-					class="span6 m-wrap" />Man
-			</div>
-			<div class="controls">
-				<input type="radio" name="activity.gender" value="1"
-					class="span6 m-wrap" />FeMan
-			</div>
-		</div>
+	<div class="control-group">人数：${activity.number!}</div>
 
-		<div class="control-group">
-			<label class="control-label">人数<span class="required">*</span></label>
-			<div class="controls">
-				<input type="number" name="activity.number"
-					value="${activity.number!}" class="span6 m-wrap" />
-			</div>
-		</div>
+	<div class="control-group">已参加人数：${activity.applynumber!}</div>
 
-		<div class="control-group">
-			<label class="control-label">已参加人数<span class="required">*</span></label>
-			<div class="controls">
-				<input type="number" name="activity.applynumber"
-					value="${activity.applynumber!}" class="span6 m-wrap" />
-			</div>
-		</div>
+	<div class="control-group">报名截止时间：${activity.expiration!}</div>
 
-		<div class="control-group">
-			<label class="control-label">报名截止时间<span class="required">*</span></label>
-			<div class="controls">
-				<input type="datetime" name="activity.expiration"
-					value="${activity.expiration!}" class="span6 m-wrap" />
-			</div>
-		</div>
+	<div class="control-group">活动详细内容：${activity.ufield!}</div>
 
-		<div class="control-group">
-			<label class="control-label">活动详细内容<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activity.ufield"
-					value="${activity.ufield!}" class="span6 m-wrap" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">需消耗积分<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activity.credit"
-					value="${activity.credit!}" class="span6 m-wrap" />
-			</div>
-		</div>
-
-		每页<select name="pageSize" id="pageSize"
-			onchange="goToPageSize(this.value,${activity.activityid!})">
-			<option value="20" selected="true">20</option>
-			<option value="30">30</option>
-			<option value="50">50</option>
-			<option value="80">80</option>
-			<option value="100">100</option>
-		</select>条&nbsp;共${page.totalRow!}条&nbsp;第${page.pageNumber!}
-		/${page.totalPage!}页 <a
-			href="./activity/findById?activityId=${activity.activityid!}&pageNumber=1&pageSize=${page.pageSize!}">首页</a>
-		<a
-			href="./activity/findById?activityId=${activity.activityid!}&pageNumber=${page.pageNumber!-1<1?1:page.pageNumber!-1}&pageSize=${page.pageSize!}">上页</a>
-		<a
-			href="./activity/findById?activityId=${activity.activityid!}&pageNumber=${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1}&pageSize=${page.pageSize!}">下页</a>
-		<a
-			href="./activity/findById?activityId=${activity.activityid!}&pageNumber=${page.totalPage!}&pageSize=${page.pageSize!}">末页</a>
-		<table>
-			<thead>
-				<tr>
-					<td style="width: 250px">用户名</td>
-					<td style="width: 250px">消息</td>
-					<td style="width: 250px">申请时间</td>
-					<td style="width: 250px">用户定制项目数据</td>
-					<td style="width: 250px">性别</td>
-				</tr>
-			</thead>
-			<tbody>
-				<% for (activityApply in page.list){ %>
-				<tr>
-					<td>${username!}</td>
-					<td>${activityApply.message!}</td>
-					<td>${activityApply.dateline!}</td>
-					<td>${activityApply.ufielddata!}</td>
-					<td>${activityApply.gender!}</td>
-				</tr>
-				<% } %>
-			</tbody>
-		</table>
-	</form>
-</body>
+	<div class="control-group">需消耗积分：${activity.credit!}</div>
+</div>
+<div id="page"><% if(activityApplyPage != null){
+	layout("./activityApplyPage.html",
+	{"activityApplyPage":activityApplyPage} ){} }%></div>
 </html>

@@ -12,97 +12,59 @@
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
-<script type="text/javascript" language="text/javascript">
-	function goToPageSize(pageSize) {
-		location.href = "./activity/find?pageSize=" + pageSize
-				+ "&pageNumber=1";
-	};
-
-	function pageSize(pageSize) {
-		var obj = document.getElementById('pageSize');
-		for (var i = 0; i < obj.length; i++) {
-			if (pageSize == obj.options[i].value) {
-				obj.options[i].selected = true;
-			} else {
-				obj.options[i].selected = false;
-			}
-
-		}
-	}
-	
+<script type="text/javascript">
 	function openApply(activityId){
 		var url = "./activityApply/skipCreate?activityId="+activityId;
 		var attribute = "height=500, width=500, top=0,left=0,toolbar=no, menubar=no, scrollbars=no, resizable=yes, location=no,status=no";
 		/* window.open (url, "报名参与", attribute);  */
 		window.showModalDialog(url,"",attribute);
 	}
-	
 </script>
 
 </head>
 
 <body onload="pageSize(${page.pageSize!})">
-	<form action="activity/save" id="activity_save" class="form-horizontal"
-		method="post">
-		<div class="control-group">
-			<h1>
-				<a href="./activity/skipCreate">申请活动</a>
-			</h1>
-			<h1>
-				<a href="./activity/findByUserId">我申请的活动 </a>
-			</h1>
-			<hr>
-			每页<select name="pageSize" id="pageSize"
-				onchange="goToPageSize(this.value)">
-				<option value="20" selected="true">20</option>
-				<option value="30">30</option>
-				<option value="50">50</option>
-				<option value="80">80</option>
-				<option value="100">100</option>
-			</select>条&nbsp;共${page.totalRow!}条&nbsp;第${page.pageNumber!}
-			/${page.totalPage!}页 <a href="./activity/find?pageNumber=1">首页</a> <a
-				href="./activity/find?pageNumber=${page.pageNumber!-1<1?1:page.pageNumber!-1}">上页</a>
-			<a
-				href="./activity/find?pageNumber=${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1}">下页</a>
-			<a href="./activity/find?pageNumber=${page.totalPage!}">末页</a>
-			<table>
-				<thead>
-					<tr>
-						<td style="width: 250px">发起人姓名</td>
-						<td style="width: 250px">标题</td>
-						<td style="width: 250px">开始时间</td>
-						<td style="width: 250px">结束时间</td>
-						<td style="width: 250px">地点</td>
-						<td style="width: 250px">类别、活动分类</td>
-						<td style="width: 250px">已参加人数</td>
-						<td style="width: 250px">报名截止日期</td>
-						<td style="width: 250px">操作</td>
-					</tr>
-				</thead>
-				<tbody>
-					<% for (activity in page.list){ %>
-					<tr>
-						<td>${username!}</td>
-						<td><a href="./activity/findById?activityId=${activity.activityid!}">${activity.subject!}</a></td>
-						<td>${activity.starttimefrom!}</td>
-						<td>${activity.starttimeto!}</td>
-						<td>${activity.place!}</td>
-						<td>${activity.class!}</td>
-						<td>${activity.applynumber!}</td>
-						<td>${activity.expiration!}</td>
-						<td><a herf="#" onclick="openApply(${activity.activityid!})">报名参加</a></td>
-					</tr>
-					<% } %>
-				</tbody>
-			</table>
-		</div>
-
-
-		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">提交</button>
-			<button type="button" class="btn">取消</button>
-		</div>
-	</form>
+	<div class="control-group">
+		<h1>
+			<a href="./activity/skipCreate">申请活动</a>
+		</h1>
+		<h1>
+			<a href="./activity/findByUserId">我申请的活动 </a>
+		</h1>
+		<div id="page"><% if(page != null){ layout("/common/page.html",
+			{"page":page,"action":"./activity?1=1"} ){} }%></div>
+		<table>
+			<thead>
+				<tr>
+					<td style="width: 250px">发起人姓名</td>
+					<td style="width: 250px">标题</td>
+					<td style="width: 250px">开始时间</td>
+					<td style="width: 250px">结束时间</td>
+					<td style="width: 250px">地点</td>
+					<td style="width: 250px">类别、活动分类</td>
+					<td style="width: 250px">已参加人数</td>
+					<td style="width: 250px">报名截止日期</td>
+					<td style="width: 250px">操作</td>
+				</tr>
+			</thead>
+			<tbody>
+				<% for (activity in page.list){ %>
+				<tr>
+					<td>${username!}</td>
+					<td><a
+						href="./activity/findById?activityId=${activity.activityid!}">${activity.subject!}</a></td>
+					<td>${activity.starttimefrom!}</td>
+					<td>${activity.starttimeto!}</td>
+					<td>${activity.place!}</td>
+					<td>${activity.class!}</td>
+					<td>${activity.applynumber!}</td>
+					<td>${activity.expiration!}</td>
+					<td><a herf="#" onclick="openApply(${activity.activityid!})">报名参加</a></td>
+				</tr>
+				<% } %>
+			</tbody>
+		</table>
+	</div>
 </body>
 
 </html>
