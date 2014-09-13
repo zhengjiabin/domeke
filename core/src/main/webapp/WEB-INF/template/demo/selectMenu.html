@@ -24,6 +24,7 @@
 				<th>父级主ID</th>
 				<!-- <th>creater</th>
 				<th>modifier</th> -->
+				<th>菜单模块</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -43,6 +44,7 @@
 				<td>${m.parentmenuid!}</td>
 				<!-- <td>${m.creater!}</td>
 				<td>${m.modifier!}</td> -->
+				<td>${m.menutype!}</td>
 				<td> 
                     <a href="menu/selectMenuById/${m.menuid}">修改</a>
 					<a href="menu/deleteMenu/${m.menuid}" onclick="return confirm('确定删除？')">删除</a>
