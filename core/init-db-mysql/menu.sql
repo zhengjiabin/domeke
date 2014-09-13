@@ -39,10 +39,10 @@ CREATE TABLE `menu` (
 -- Records of menu
 -- ----------------------------
 INSERT INTO `menu` VALUES ('1', '10', '首页', 'index', '1', '100000000', null, '2014-09-13 19:13:02', null, '2014-09-13 19:13:02', null, '1');
-INSERT INTO `menu` VALUES ('2', '20', '动漫', '/core/menu/member', '1', '200000000', null, '2014-09-13 19:13:04', null, '2014-09-13 19:13:04', null, '1');
+INSERT INTO `menu` VALUES ('2', '20', '动漫', '/core/menu/cartoon', '1', '200000000', null, '2014-09-13 22:43:09', null, '2014-09-13 22:43:09', null, '1');
 INSERT INTO `menu` VALUES ('3', '30', '无奇不有', '#', '1', '300000000', null, '2014-09-13 19:13:06', null, '2014-09-13 19:13:06', null, '1');
-INSERT INTO `menu` VALUES ('4', '40', '商城', '#', '1', '400000000', null, '2014-09-13 19:13:07', null, '2014-09-13 19:13:07', null, '1');
-INSERT INTO `menu` VALUES ('5', '50', 'HIGH豆社区', '#', '1', '500000000', null, '2014-09-13 19:13:09', null, '2014-09-13 19:13:09', null, '1');
+INSERT INTO `menu` VALUES ('4', '40', '商城', 'shop', '1', '400000000', null, '2014-09-13 22:20:08', null, '2014-09-13 22:20:08', null, '1');
+INSERT INTO `menu` VALUES ('5', '50', 'HIGH豆社区', 'forum', '1', '500000000', null, '2014-09-13 22:20:13', null, '2014-09-13 22:20:13', null, '1');
 INSERT INTO `menu` VALUES ('6', '60', '签到发泄墙', 'ventwall', '1', '600000000', null, '2014-09-13 19:13:10', null, '2014-09-13 19:13:10', null, '1');
 INSERT INTO `menu` VALUES ('7', '70', '菜单管理', '/core/menu/selectMenu', '1', '700000000', null, '2014-09-13 19:13:12', null, '2014-09-13 19:13:12', null, '1');
 INSERT INTO `menu` VALUES ('8', '20020', '个人中心', '#', '1', '200010000', null, '2014-09-13 20:51:46', null, '2014-09-13 20:51:46', null, '2');
@@ -75,3 +75,11 @@ INSERT INTO `menu` VALUES ('38', null, '论坛', '#', '1', '200000000', null, '2
 INSERT INTO `menu` VALUES ('39', null, '同城会', '#', '1', '300000000', null, '2014-09-13 21:11:19', null, '2014-09-13 21:11:19', null, '3');
 INSERT INTO `menu` VALUES ('40', null, '客服', '#', '1', '400000000', null, '2014-09-13 21:11:24', null, '2014-09-13 21:11:24', null, '3');
 INSERT INTO `menu` VALUES ('41', null, '更多', '#', '1', '500000000', null, '2014-09-13 21:11:30', null, '2014-09-13 21:11:30', null, '3');
+INSERT INTO `menu` VALUES ('42', null, '全部商品分类', '#', '1', '100000000', null, null, null, null, null, '4');
+INSERT INTO `menu` VALUES ('43', null, '创意生活', '#', '1', '200000000', null, null, null, null, null, '4');
+INSERT INTO `menu` VALUES ('44', null, '无土栽培', '#', '1', '300000000', null, null, null, null, null, '4');
+INSERT INTO `menu` VALUES ('45', null, ' 进口食品', '#', '1', '400000000', null, null, null, null, null, '4');
+INSERT INTO `menu` VALUES ('46', null, '母婴用品', '#', '1', '500000000', null, null, null, null, null, '4');
+INSERT INTO `menu` VALUES ('47', null, '动漫周边', '#', '1', '600000000', null, null, null, null, null, '4');
+INSERT INTO `menu` VALUES ('48', null, '图书音像', '#', '1', '700000000', null, null, null, null, null, '4');
+INSERT INTO `menu` VALUES ('49', null, '跳蚤市场', '#', '1', '800000000', null, null, null, null, null, '4');
