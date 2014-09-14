@@ -38,10 +38,13 @@ public class Comment extends Model<Comment> {
 	/**
 	 * 根据targetId查询子回复信息
 	 * 
+	 * @param targetId 回复目标
+	 * @param idtype 10:帖子，20:活动
+	 * 
 	 * @return
 	 */
 	public List<Comment> findFollowByTargetId(Object targetId,Object idtype) {
-		String sql = "select * from comment where status='10' and idtype=? and pid is not null and targetid =? order by createtime";
+		String sql = "select * from comment where status='10' and idtype=? and level=2 and targetid =? order by createtime";
 		List<Comment> list = this.find(sql, idtype,targetId);
 		return list;
 	}
@@ -53,7 +56,7 @@ public class Comment extends Model<Comment> {
 	 */
 	public Page<Comment> findPageByTargetId(Object targetId,Object idtype, int pageNumber,
 			int pageSize) {
-		String sql = "from comment where status='10' and idtype=? and pid is null and targetid=? order by createtime";
+		String sql = "from comment where status='10' and idtype=? and level=1 and targetid=? order by createtime";
 		Page<Comment> page = this.paginate(pageNumber, pageSize, "select *",
 				sql, idtype,targetId);
 		return page;

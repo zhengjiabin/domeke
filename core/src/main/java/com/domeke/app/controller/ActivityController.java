@@ -5,33 +5,28 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Activity;
 import com.domeke.app.model.ActivityApply;
 import com.domeke.app.model.Comment;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
-import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "activity")
-@Before(LoginInterceptor.class)
+//@Before(LoginInterceptor.class)
 public class ActivityController extends Controller {
 
 	/**
-	 * 查询所有活动信息
+	 * 分页查询指定社区的活动
 	 * 
 	 * @return 活动信息
 	 */
 	public void find() {
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 20);
-
-		Page<Activity> activityPage = Activity.dao.findPage(pageNumber,
-				pageSize);
-		setAttr("activityPage", activityPage);
+		Object communityId = getPara("communityId");
+		setActivityPage(communityId);
+		
 		render("/community/activityPage.html");
 	}
 
@@ -59,25 +54,57 @@ public class ActivityController extends Controller {
 	 * @return 指定活动信息
 	 */
 	public void findById() {
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
 		String activityId = getPara("activityId");
+		
+		setActivity(activityId);
+		setActivityApplyPage(activityId);
+		setCommentPage(activityId);
+		setFollowList(activityId);
+		
+		keepPara("communityId");
+		render("/community/detailActivity.html");
+	}
+	
+	/**
+	 * 设置活动信息
+	 * @param activityId
+	 */
+	private void setActivity(Object activityId){
 		Activity activity = Activity.dao.findById(activityId);
 		setAttr("activity", activity);
-
+	}
+	
+	/**
+	 * 分页设置活动申请信息
+	 * 
+	 * @param activityId
+	 */
+	private void setActivityApplyPage(Object activityId) {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 2);
 		Page<ActivityApply> activityApplyPage = ActivityApply.dao
 				.findByActivityId(activityId, pageNumber, pageSize);
 		setAttr("activityApplyPage", activityApplyPage);
+	}
+	
+	/**
+	 * 分页设置父回复信息
+	 */
+	public void setCommentPage(Object activityId) {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 2);
+		Page<Comment> commentPage = Comment.dao.findPageByTargetId(activityId,
+				"20", pageNumber, pageSize);
+		setAttr("commentPage", commentPage);
+	}
 
-		 Page<Comment> commentPage =
-		 Comment.dao.findPageByTargetId(activityId,"20",
-		 pageNumber, pageSize);
-		 setAttr("commentPage", commentPage);
-		
-		 List<Comment> followPage =
-		 Comment.dao.findFollowByTargetId(activityId,"20");
-		 setAttr("followPage", followPage);
-		render("/community/detailActivity.html");
+	/**
+	 * 设置子回复信息
+	 */
+	public void setFollowList(Object activityId) {
+		List<Comment> followPage = Comment.dao.findFollowByTargetId(activityId,
+				"20");
+		setAttr("followPage", followPage);
 	}
 
 	/**
@@ -129,24 +156,33 @@ public class ActivityController extends Controller {
 		User user = getUser();
 		activity.set("userid", user.get("userid"));
 		
-		String communityId = getPara("communityId");
-		activity.set("communityid", communityId);
 		activity.save();
 
-		findByUserId();
+		Object communityId = activity.get("communityid");
+		setActivityPage(communityId);
+		
+		render("/community/activity.html");
 	}
 
 	public void index() {
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 20);
-		
 		String communityId = getPara("communityId");
-		setAttr("communityId", communityId);
+		setActivityPage(communityId);
+		
+		render("/community/activity.html");
+	}
+	
+	/**
+	 * 分页查询指定社区模块的活动
+	 * @param communityId
+	 */
+	public void setActivityPage(Object communityId){
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 2);
 
 		Page<Activity> activityPage = Activity.dao.findPage(pageNumber,
 				pageSize,communityId);
 		setAttr("activityPage", activityPage);
-		render("/community/activity.html");
+		setAttr("communityId", communityId);
 	}
 	
 	/**
@@ -155,11 +191,30 @@ public class ActivityController extends Controller {
 	public void replyComment() {
 		addComment();
 
-		setDataById();
+		Object activityId = getPara("activityId");
+		setActivity(activityId);
+		setCommentPage(activityId);
+		setFollowList(activityId);
+
+		String pId = getPara("pId");
+		if (pId != null && pId.length() > 0) {
+			setComment(pId);
+		}
 		setReplyCommentData();
 
 		String renderAction = getPara("renderAction");
 		render(renderAction);
+	}
+	
+	/**
+	 * 异步分页查询回复信息
+	 */
+	public void findCommentByActivityId(){
+		Object activityId = getPara("activityId");
+		setCommentPage(activityId);
+		setFollowList(activityId);
+		setReplyCommentData();
+		render("/comment/comment.html");
 	}
 	
 	/**
@@ -180,9 +235,13 @@ public class ActivityController extends Controller {
 		String remoteIp = request.getRemoteAddr();
 		comment.set("userip", remoteIp);
 
+		//默认回复楼层
+		comment.set("level", "1");
+		
 		String pId = getPara("pId");
 		if (pId != null && pId.length() > 0) {
 			comment.set("pid", pId);
+			comment.set("level", "2");
 		}
 
 		String toUserId = getPara("toUserID");
@@ -201,36 +260,22 @@ public class ActivityController extends Controller {
 	private void setReplyCommentData() {
 		Object targetId = getPara("targetId");
 		Object activityId = getPara("activityId");
-		Object publishFaceAction = "./activity/replyComment?activityId=" + activityId;
+		Object publishFaceAction = "./activity/replyComment?activityId="
+				+ activityId;
 
 		setAttr("targetId", targetId);
 		setAttr("publishFaceAction", publishFaceAction);
-		keepPara("pageAction", "fatherNode", "commentFatherNode");
+		keepPara("pageAction", "fatherNode");
 	}
 	
 	/**
-	 * 设置值
+	 * 设置回复信息
+	 * 
+	 * @param commentId
 	 */
-	private void setDataById() {
-		Object activityId = getPara("activityId");
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
-
-		Activity activity = Activity.dao.findById(activityId);
-		setAttr("activity", activity);
-
-		Page<Comment> commentPage = Comment.dao.findPageByTargetId(activityId,"20",
-				pageNumber, pageSize);
-		setAttr("commentPage", commentPage);
-
-		List<Comment> followPage = Comment.dao.findFollowByTargetId(activityId,"20");
-		setAttr("followPage", followPage);
-
-		String pId = getPara("pId");
-		if (pId != null && pId.length() > 0) {
-			Comment comment = Comment.dao.findById(pId);
-			setAttr("comment", comment);
-		}
+	private void setComment(Object commentId) {
+		Comment comment = Comment.dao.findById(commentId);
+		setAttr("comment", comment);
 	}
 
 	/**

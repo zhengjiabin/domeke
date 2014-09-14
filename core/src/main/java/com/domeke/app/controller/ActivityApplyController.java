@@ -42,17 +42,29 @@ public class ActivityApplyController extends Controller {
 		renderHtml("<html><body onload=\"alert('提交成功!');window.opener.location.reload();window.close();\"></body></html>");
 	}
 
+	/**
+	 * 异步分页查询活动申请信息
+	 */
 	public void findByActivityId() {
+		String activityId = getPara("activityId");
+		setActivityApplyPageByActivityId(activityId);
+
+		keepPara("pageAction", "fatherNode");
+		render("/community/activityApplyPage.html");
+	}
+
+	/**
+	 * 根据活动ID设置活动申请信息
+	 * 
+	 * @param activityId
+	 */
+	private void setActivityApplyPageByActivityId(Object activityId) {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 2);
 
-		String activityId = getPara("activityId");
 		Page<ActivityApply> activityApplyPage = ActivityApply.dao
 				.findByActivityId(activityId, pageNumber, pageSize);
-
 		setAttr("activityApplyPage", activityApplyPage);
-		keepPara("pageAction", "fatherNode");
-		render("/demo/activityApplyPage.html");
 	}
 
 	/**

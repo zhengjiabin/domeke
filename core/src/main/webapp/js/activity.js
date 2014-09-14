@@ -1,11 +1,11 @@
-function openApply(activityId) {
-	var url = "./activityApply/skipCreate?activityId=" + activityId;
+function openApply(activityId,communityId) {
+	var url = "./activityApply/skipCreate?communityId="+communityId+"&activityId=" + activityId;
 	var attribute = "height=500, width=500, top=0,left=0,toolbar=no, menubar=no, scrollbars=no, resizable=yes, location=no,status=no";
 	window.showModalDialog(url, "", attribute);
 }
 
-function findById(activityId) {
-	var url = "./activity/findById?activityId=" + activityId;
+function findById(activityId,communityId) {
+	var url = "./activity/findById?communityId="+communityId+"&activityId=" + activityId;
 	window.location.href = url;
 }
 

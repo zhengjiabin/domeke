@@ -11,11 +11,11 @@
 	<div class="control-group">内容:${comment.message!}</div>
 
 	<div><%
-		layout("./publishFace.html",{"targetId":targetId,"publishFaceAction":publishFaceAction,
-		"pId":comment.commentid,"commentFatherNode":commentFatherNode,"renderAction":"/demo/comment.html"}){}%></div>
+		layout("/common/publishFace.html",{"targetId":targetId,"publishFaceAction":publishFaceAction,
+		"pId":comment.commentid,"commentFatherNode":"#commentHtml","renderAction":"/comment/comment.html"}){}%></div>
 	<div class="control-group" align="center" style="color: red"
 		id="commentContent"><%if(followPage != null){
-		layout("./followPage.html",{"followPage":followPage,"comment":comment,"commentFatherNode":"#commentContent"
-		,"publishFaceAction":publishFaceAction,"renderAction":"/demo/followPage.html"}){} }%></div>
+		layout("/comment/followPage.html",{"followPage":followPage,"comment":comment,"commentFatherNode":"#commentContent"
+		,"publishFaceAction":publishFaceAction,"renderAction":"/comment/followPage.html"}){} }%></div>
 </div>
 <% } %>

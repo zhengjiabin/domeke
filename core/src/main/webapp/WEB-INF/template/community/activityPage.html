@@ -1,4 +1,4 @@
-<article>
+<article id="page">
     	<div class="ForumSubInfo">
         	<span>今日发帖数:124343</span>
             <span>昨日发帖数:6343324</span>
@@ -24,21 +24,21 @@
        	  <div class="ForumList">
             	<div class="ListPic"><img src="../images/bg_Me.png"></div>
                 <div class="ListDtl">
-                	<div class="${class!}"><a href="javascript:void(0)" onclick="findById('${activity.activityid!}')">${activity.subject!}</a></div>
+                	<div class="${class!}"><a href="javascript:void(0)" onclick="findById('${activity.activityid!}','${communityId!}')">${activity.subject!}</a></div>
                     <div>
                     	<span>发起人：${activity.userid!}  </span>
                     	<span>报名截止日期：${activity.expiration!}</span>
                     </div>
                 </div>
                 <div class="ListDate">
-                	<span class="TotleNum"><a href="javascript:void(0)" onclick="openApply('${activity.activityid!}')">报名参加</a></span>
+                	<span class="TotleNum"><a href="javascript:void(0)" onclick="openApply('${activity.activityid!}','${communityId}')">报名参加</a></span>
                     <span>已参加人数：${activity.applynumber!}</span>
                 </div>
             </div>
         <% } %>
 
-		<div id="page"><% if(activityPage != null){ layout("/common/page.html",
-			{"page":activityPage,"pageAction":"./activity/find","fatherNode":"#page"}
-			){} }%></div>
+		<% if(activityPage != null){ layout("/common/page.html",
+			{"page":activityPage,"pageAction":"./activity/find?communityId="+communityId,"fatherNode":"#page"}
+			){} }%>
 	</div>     
   </article>
