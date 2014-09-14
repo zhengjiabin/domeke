@@ -5,16 +5,19 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.domeke.app.interceptor.CommunityInterceptor;
 import com.domeke.app.model.Activity;
 import com.domeke.app.model.ActivityApply;
 import com.domeke.app.model.Comment;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "activity")
+@Before(CommunityInterceptor.class)
 public class ActivityController extends Controller {
 
 	/**
@@ -124,20 +127,23 @@ public class ActivityController extends Controller {
 
 		User user = getUser();
 		activity.set("userid", user.get("userid"));
+		
+		String communityId = getPara("communityId");
+		activity.set("communityid", communityId);
 		activity.save();
 
 		findByUserId();
 	}
 
 	public void index() {
-//		int pageNumber = getParaToInt("pageNumber", 1);
-//		int pageSize = getParaToInt("pageSize", 2);
-//
-//		Page<Activity> activityPage = Activity.dao.findPage(pageNumber,
-//				pageSize);
-//		setAttr("activityPage", activityPage);
-//		render("/demo/activity.html");
-		render("/admin/ventWall.html");
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 2);
+		String communityId = getPara("communityId");
+
+		Page<Activity> activityPage = Activity.dao.findPage(pageNumber,
+				pageSize,communityId);
+		setAttr("activityPage", activityPage);
+		render("/demo/activity.html");
 	}
 	
 	/**

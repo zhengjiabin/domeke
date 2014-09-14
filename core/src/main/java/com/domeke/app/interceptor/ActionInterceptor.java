@@ -71,7 +71,4 @@ public class ActionInterceptor implements Interceptor{
 		}
 		ai.invoke();
 	}
-	public static void main(String[] args) {
-		System.out.println(EncryptKit.encryptMd5("admin"));
-	}
 }

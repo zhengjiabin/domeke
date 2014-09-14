@@ -14,19 +14,17 @@ import com.jfinal.core.Controller;
 @Before(GlobalInterceptor.class)
 public class MenuController extends Controller {
 
-	public void redirect() {
-		String actionkey = getPara("actionkey");
-		int menuid = getParaToInt("menuid");
-		List<Menu> menuOneMenu = menuOneMenu();
-		redirect(actionkey + "?menuid=" + menuid, true);
+	public Menu getMenuById(int menuid){
+		Menu menu = Menu.menuDao.selectMenuById(menuid);
+		return menu;
 	}
 
+	/**
+	 * 动漫
+	 */
 	public void cartoon() {
 		int menuid = getParaToInt("menuid");
 		setAttr("menuid", menuid);		
-		Menu menu = getModel(Menu.class);
-//		List<Menu> menuListById = menu.getMenuByMenuId(menuid);
-//		setAttr("menuListById", menuListById);
 		render("/cartoon.html");
 	}
 
@@ -44,6 +42,8 @@ public class MenuController extends Controller {
 		setAttr("menuid", menuid);
 		render("/demo/selectMenu.html");
 	}
+	
+	
 
 	/**
 	 * 获取一级菜单

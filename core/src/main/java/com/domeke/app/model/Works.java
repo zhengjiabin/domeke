@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
 import com.google.common.collect.Lists;
+import com.jfinal.kit.StrKit;
+import com.jfinal.kit.StringKit;
 import com.jfinal.plugin.activerecord.Model;
 
 /**
@@ -58,6 +60,21 @@ public class Works extends Model<Works> {
 		return workslist == null ? Lists.newArrayList() : workslist;
 	}
 
+	/**
+	 * 根据商品类型返回商品信息
+	 * 
+	 * @param worksType
+	 *            商品类型
+	 * @return 返回对应类型的商品信息
+	 */
+	public List<Works> getWorksInfoByTypePage(String worksType,Integer pageIndex,Integer pageSize) {
+		List<Works> workslist = null;
+		if(!StrKit.isBlank(worksType)){
+			workslist = this.paginate(pageIndex, pageSize, "select *", "from works where workstype = ?",worksType).getList();
+		}
+		return workslist == null ? Lists.newArrayList() : workslist;
+	}
+	
 	/**
 	 * 
 	 * @param worksName

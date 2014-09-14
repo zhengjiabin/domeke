@@ -49,7 +49,24 @@ public class Activity extends Model<Activity> {
 	 */
 	public Page<Activity> findPage(int pageNumber, int pageSize) {
 		Page<Activity> page = this.paginate(pageNumber, pageSize, "select *",
-				"from activity order by status,createtime");
+				"from activity where order by status,createtime");
+		return page;
+	}
+
+	/**
+	 * 分页查询活动
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Activity> findPage(int pageNumber, int pageSize,
+			Object communityId) {
+		Page<Activity> page = this.paginate(pageNumber, pageSize, "select *",
+				"from activity where communityid=? order by status,createtime",
+				communityId);
 		return page;
 	}
 
