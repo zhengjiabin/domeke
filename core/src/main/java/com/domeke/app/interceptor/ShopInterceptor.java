@@ -21,6 +21,7 @@ public class ShopInterceptor implements Interceptor {
 		List<Menu> leftMenuList = null;
 		controller.setAttr("leftMenuList", leftMenuList);
 		ai.invoke();
+		
 	}
 
 }
