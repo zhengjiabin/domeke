@@ -1,6 +1,13 @@
 <div class="TopFix">
 	<div class="TopFixZoom">
-    	<span class="FixLeft">欢迎来到动漫方舟！<a href="user/goLogin">请登录</a><a href="user/goRegist">免费注册</a></span>
+    	<span class="FixLeft">欢迎来到动漫方舟！
+    	<% if(session.user.username! == null) {%>
+    		<a href="user/goLogin">请登录</a><a href="user/goRegist">免费注册</a></span>
+    	<% } else{%>
+    		<a style="color:#F00">${session.user.username!}</a>
+    		<a href="login/logout">退出</a>
+    	<%}%>
+    	</span>
         <span class="FixRight">
         	<a href="personal/forMyProduction">我的方舟</a><a href="#">收藏夹</a><a href="#">商家支持</a><a href="#">网站导航</a>
         </span>
@@ -21,8 +28,9 @@
         	<li><a href="#"><img src="images/icon07.png">购物车</a></li>
         </ul>
         <ul id="nav_menu" class="NavL">
-	<% for(m in topMenuList){   
-    var menuid = parseInt(menuid);
+	<%    
+    	var menuid = parseInt(menuid);
+    	for(m in topMenuList){
     	if (menuid == m.menuid){
     %>
     	<li class="LiFuc"><a href="">${m.menuname!}</a></li>
