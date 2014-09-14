@@ -21,8 +21,9 @@
         	<li><a href="#"><img src="images/icon07.png">购物车</a></li>
         </ul>
         <ul id="nav_menu" class="NavL">
-	<% for(m in topMenuList){   
-    var menuid = parseInt(menuid);
+	<%    
+    	var menuid = parseInt(menuid);
+    	for(m in topMenuList){
     	if (menuid == m.menuid){
     %>
     	<li class="LiFuc"><a href="">${m.menuname!}</a></li>

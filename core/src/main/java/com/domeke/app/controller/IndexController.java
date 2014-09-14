@@ -10,11 +10,7 @@ import com.jfinal.core.Controller;
 public class IndexController extends Controller {
 
 	public void index() {
-		Menu.menuDao.removeCache();
-		Menu menu = getModel(Menu.class);
-		List<Menu> menuOneMenu = menu.getTopMenu();
 		setAttr("menuid", "1");
-		setAttr("menuOneMenu", menuOneMenu);
 		render("index.html");
 	}
 
@@ -24,20 +20,18 @@ public class IndexController extends Controller {
 
 	// TODO 测试用 记得删除，播放的入口应为具体的controller
 	public void play() {
-		Menu.menuDao.removeCache();
-		Menu menu = getModel(Menu.class);
-		List<Menu> menuOneMenu = menu.getTopMenu();
 		String menuid = getPara("menuid");
 		setAttr("menuid", menuid);
-		setAttr("menuOneMenu", menuOneMenu);
 		render("play.html");
 	}
 	
 	public void shop() {
+		setAttr("menuid", "42");
 		render("shop.html");
 	}
 	
 	public void forum() {
+		setAttr("menuid", "37");
 		render("forum.html");
 	}
 

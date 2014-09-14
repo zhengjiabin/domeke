@@ -27,12 +27,24 @@ CREATE TABLE `menu` (
 public class Menu extends Model<Menu> {
 	
 	public static Menu menuDao = new Menu();
-	
-	public List<Menu> getMenuByMenuId(int menuid){
-		List<Menu> menuList = this.find("select * from menu where menutype = '1' and parentmenuid in (select menuid from menu where parentmenuid = ?) or parentmenuid = ? order by sortnum", menuid, menuid);
-		return menuList;
+	/**
+	 * 获取商城主菜单
+	 * @return
+	 */
+	public List<Menu> getMenuShop(){
+		List<Menu> menuShopmList = this.find("select * from menu where menutype = '4' and top = '1' order by sortnum");
+		return menuShopmList;
 	}
 	
+	/**
+	 * 获取社区主菜单
+	 * @return
+	 */
+	public List<Menu> getMenuForum(){
+		List<Menu> menuForumList = this.find("select * from menu where menutype = '3' and top = '1' order by sortnum");
+		return menuForumList;
+	}
+
 	/**
 	 * 新增菜单
 	 */
@@ -65,7 +77,7 @@ public class Menu extends Model<Menu> {
 	 * @return
 	 */
 	public List<Menu> getTwoMenu(String parentmenuid){
-		List<Menu> menuTwoMenu = this.find("select * from menu where menutype = '1' top = '2' and parentmenuid = ?", parentmenuid);
+		List<Menu> menuTwoMenu = this.find("select * from menu where menutype = '1' and top = '2' and parentmenuid = ?", parentmenuid);
 		return menuTwoMenu;
 	}
 	
