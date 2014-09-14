@@ -1,24 +1,5 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : domeke
-Source Server Version : 50619
-Source Host           : localhost:3306
-Source Database       : domeke
-
-Target Server Type    : MYSQL
-Target Server Version : 50619
-File Encoding         : 65001
-
-Date: 2014-09-13 19:49:08
-*/
-
-SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for `menu`
--- ----------------------------
 DROP TABLE IF EXISTS `menu`;
+
 CREATE TABLE `menu` (
   `menuid` bigint(20) NOT NULL AUTO_INCREMENT,
   `mid` int(11) DEFAULT NULL,
@@ -35,9 +16,7 @@ CREATE TABLE `menu` (
   PRIMARY KEY (`menuid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of menu
--- ----------------------------
+
 INSERT INTO `menu` VALUES ('1', '10', '首页', 'index', '1', '100000000', null, '2014-09-13 19:13:02', null, '2014-09-13 19:13:02', null, '1');
 INSERT INTO `menu` VALUES ('2', '20', '动漫', '/core/menu/cartoon', '1', '200000000', null, '2014-09-13 22:43:09', null, '2014-09-13 22:43:09', null, '1');
 INSERT INTO `menu` VALUES ('3', '30', '无奇不有', '#', '1', '300000000', null, '2014-09-13 19:13:06', null, '2014-09-13 19:13:06', null, '1');
