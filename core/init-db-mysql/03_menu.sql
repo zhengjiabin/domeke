@@ -57,7 +57,7 @@ INSERT INTO `menu` VALUES ('41', null, '更多', '#', '1', '500000000', null, '2
 INSERT INTO `menu` VALUES ('42', null, '全部商品分类', '#', '1', '100000000', null, null, null, null, null, '4');
 INSERT INTO `menu` VALUES ('43', null, '创意生活', '#', '1', '200000000', null, null, null, null, null, '4');
 INSERT INTO `menu` VALUES ('44', null, '无土栽培', '#', '1', '300000000', null, null, null, null, null, '4');
-INSERT INTO `menu` VALUES ('45', null, ' 进口食品', '#', '1', '400000000', null, null, null, null, null, '4');
+INSERT INTO `menu` VALUES ('45', null, '进口食品', '#', '1', '400000000', null, null, null, null, null, '4');
 INSERT INTO `menu` VALUES ('46', null, '母婴用品', '#', '1', '500000000', null, null, null, null, null, '4');
 INSERT INTO `menu` VALUES ('47', null, '动漫周边', '#', '1', '600000000', null, null, null, null, null, '4');
 INSERT INTO `menu` VALUES ('48', null, '图书音像', '#', '1', '700000000', null, null, null, null, null, '4');
