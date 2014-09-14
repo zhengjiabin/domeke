@@ -85,9 +85,9 @@ CREATE TABLE `community` (
   `level` int(11) NOT NULL DEFAULT '1',
   `position` int(11) DEFAULT '0',
   `status` tinyint(1) DEFAULT '10',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`communityid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
