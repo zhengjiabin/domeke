@@ -15,6 +15,27 @@ Date: 2014-09-09 22:07:29
 
 SET FOREIGN_KEY_CHECKS=0;
 
+-- ----------------------------
+-- Table structure for `work`
+-- ----------------------------
+DROP TABLE IF EXISTS `work`;
+CREATE TABLE `work` (
+  `workid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `worksid` bigint(20) NOT NULL COMMENT '父类ID',
+  `worknum` int(10) DEFAULT '1' COMMENT '第几集',
+  `workname` varchar(20) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '名称',
+  `workdes` varchar(255) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '简介',
+  `isvideo` tinyint(1) DEFAULT '0' COMMENT '0=文章 1=视频',
+  `pagenum` tinyint(3) DEFAULT '1' COMMENT '一章动漫有几张图片，如果是视频就是1个',
+  `url` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '资源地址',
+  `isdisable` tinyint(1) DEFAULT '0' COMMENT '是否禁用 0否1禁',
+  `createtime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `creater` bigint(20) NOT NULL,
+  `modifytime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `modifier` bigint(20) NOT NULL,
+  PRIMARY KEY (`workid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 DROP TABLE IF EXISTS `action`;
 CREATE TABLE `action` (
   `actionid` bigint(20) NOT NULL AUTO_INCREMENT,

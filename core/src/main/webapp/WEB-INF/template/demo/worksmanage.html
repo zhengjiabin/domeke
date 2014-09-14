@@ -4,47 +4,224 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>我的作品</title>
 <base href="${core}/" />
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
-	media="screen">
-<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
-	media="screen">
-<link href="assets/styles.css" rel="stylesheet" media="screen">
-<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="js/jquery-ui-1.8.2.custom.min.js"></script>
+<link href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/Member.css" rel="stylesheet">
+<link href="css/jquery-ui-1.8.16.custom.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" media="screen" href="http://silviomoreto.github.io/bootstrap-select/stylesheets/bootstrap-select.css">
 </head>
-<body>
+<script type="text/javascript">
+	var pageSize = 6;
+	var pageCount;
 
-	<div>
-		<a href="works/addWorks">上传我的作品</a>
+	$(document).ready(function(){
+		$("#addDialog").click(function(){
+	    	$.showDialog();
+	    });
+		//绑定父表格选择事件
+		$('#parentTable tr').click(function(){
+			$('#parentTable tr').removeClass('select');
+			$(this).addClass('select');
+			
+			//父表格点击 加载子表格
+			$(this).click(function(){
+				//
+				$.showTableChilrend(parentId);
+			});
+			
+		});
+		
+		//var data = [[{'id':'1','name':'2','value':'3'}],[{'id':'1','name':'2','value':'3'}],[{'id':'1','name':'2','value':'3'}]];
+	});
+	
+	//定义jQuery方法
+	$.extend({
+		showDialog : function(){
+			$("#dialog").dialog({
+	    		top:100,
+	    		autoOpen:true,
+	    		model:true,
+	    		position:'center',
+				width:500,
+				title:'添加',
+				buttons:{
+					' 确定 ':function(){
+						
+					},
+					' 取消 ':function(){
+						$(this).dialog("close");
+					}
+				}
+			}).dialog('open');
+		},
+		showTableChilrend : function(parentId){
+			$page = $('#pageChildren');
+			$pageIndex = $('li.active a',$page);
+			$self = $('#childrenTable');
+			$.ajax({
+				type:'post',
+				url: "works/getWorksInfoByType",
+				dataType:'json',
+				data:'&pageIndex="'+$pageIndex.html()+'"&pageSize='+pageSize,
+				success:function(data){
+					//构建分页
+					pageCount = parseInt(data.size + (pageSize -1)) / pageSize;
+					$page.find('li').remove();
+					$page.attr('pageCount',pageCount);
+					$page.append('<li><a href="#">&laquo;</a></li>');
+					for(var i=1; i<=pageCount && i <= 10; i++){
+						if(i == 1){
+							$page.append('<li class="active"><a>'+i+'</a></li>');
+						}else{
+							$page.append('<li><a>'+i+'</a></li>');
+						}
+					}
+					$page.append('<li><a href="#">&raquo;</a></li>');
+					
+					//构建表格
+					$parentTable = $('#parentTable');
+					$('tbody tr',$parentTable).remove();
+					$.each(data.list,function(i,rows){
+						$tbody = $('tbody',$parentTable).append('<tr></tr>');
+						$.each(rows,function(j,cols){
+							$tr = $('tr:eq('+i+')',$tbody);
+							$tr.append('<td>'+cols.id+'</td>');
+							$tr.append('<td>'+cols.name+'</td>');
+							$tr.append('<td>'+cols.value+'</td>');
+						});
+					});
+				}
+			});
+		},
+		showTableParent : function(){
+			$select = $('#typeSelect');
+			$page = $('#pageParent');
+			$pageIndex = $('li.active a',$page);
+			$self = $('#parentTable');
+			$.ajax({
+				type:'post',
+				url: "works/getWorksInfoByType",
+				dataType:'json',
+				data:'workstype="'+$select.val()+'"&pageIndex="'+$pageIndex.html()+'"&pageSize='+pageSize,
+				success:function(data){
+					//构建分页
+					pageCount = parseInt(data.size + (pageSize -1)) / pageSize;
+					$page.find('li').remove();
+					$page.attr('pageCount',pageCount);
+					$page.append('<li><a href="#">&laquo;</a></li>');
+					for(var i=1; i<=pageCount && i <= 10; i++){
+						if(i == 1){
+							$page.append('<li class="active"><a>'+i+'</a></li>');
+						}else{
+							$page.append('<li><a>'+i+'</a></li>');
+						}
+					}
+					$page.append('<li><a href="#">&raquo;</a></li>');
+					
+					//构建表格
+					$self = $('#parentTable');
+					$('tbody tr',$self).remove();
+					$.each(data.list,function(i,rows){
+						$tbody = $('tbody',$self).append('<tr></tr>');
+						$.each(rows,function(j,cols){
+							$tr = $('tr:eq('+i+')',$tbody);
+							$tr.append('<td>'+cols.id+'</td>');
+							$tr.append('<td>'+cols.name+'</td>');
+							$tr.append('<td>'+cols.value+'</td>');
+						});
+					});
+				}
+			});
+		}
+	});
+</script>
+<body>
+	<div class="panel panel-primary">
+		<div class="panel-heading">选择类型</div>
+		<div class="panel-body">
+			<label for="name">类型：</label>
+			<select class="btn btn-default" id="typeSelect">
+				<option value="">-请选择一个类型-</option>
+				<option value="10">搞笑</option>
+				<option value="20">恐怖</option>
+			</select>
+		</div>
 	</div>
-	<div class="block-content collapse in" >
-		<% 
-		var index = 0 ;
-		var column = 3 ;
-		for(works in workslist){ 
-			index = index + 1 ;
-			if(index % column == 1){ 
-		%>
-			<div class="row-fluid padd-bottom">
-		<% 
-			}
-		%>
-			<div class="span3">
-				<div>
-					<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${works.cover!}" title="${works.worksname!}"/>
-				</div>
-				<div>
-					<a href="works/getWorksById/?id=${works.worksid!}">修改</a> 
-					<a href="works/delete/?id=${works.worksid!}" onclick="return confirm('确定删除？')">删除</a>
-				</div>
-			</div>
-		<% 
-			if(index % column == 0){ 
-		%>
-			</div>
-		<% 
-			} 
-		} 
-		%>
+	<div class="panel panel-default">
+		<div class="panel-body" >
+			<button type="button" class="btn btn-success" id="addDialog"> 添加</button>
+			<button type="button" class="btn btn-warning" data-toggle="button"> 修改</button>
+			<button type="button" class="btn btn-danger" data-toggle="button"> 删除</button>
+		</div>
+		<div class="table-responsive">
+		   <table class="table" id="parentTable">
+		      <thead>
+		         <tr>
+		            <th>产品</th>
+		            <th>付款日期</th>
+		            <th>状态</th>
+		         </tr>
+		      </thead>
+		      <tbody>
+		         
+		      </tbody>
+		   </table>
+		</div>
+		<ul class="pagination" id="page">
+		  <li><a href="#">&laquo;</a></li>
+		  <li class="active"><a href="#">1</a></li>
+		  <li><a href="#">2</a></li>
+		  <li><a href="#">3</a></li>
+		  <li><a href="#">4</a></li>
+		  <li><a href="#">5</a></li>
+		  <li><a href="#">&raquo;</a></li>
+		</ul>
 	</div>
+	<div class="panel panel-default workContent">
+		<div class="panel-body">
+			<div class="panel-body" >
+				<button type="button" class="btn btn-success" data-toggle="button"> 添加</button>
+				<button type="button" class="btn btn-warning" data-toggle="button"> 修改</button>
+				<button type="button" class="btn btn-danger" data-toggle="button"> 删除</button>
+			</div>
+			<button class="btn btn-default">章节1</button>
+			<button class="btn btn-default">章节2</button>
+			<button class="btn btn-default">章节3</button>
+			<button class="btn btn-default">章节4</button>
+			<button class="btn btn-default">章节5</button>
+			<button class="btn btn-default"> + </button>
+		</div>
+	</div>
+	<!-- dialog -->
+	<!--对话框$("#dialog").dialog()他就是一个对话框，在页面中就会隐藏--> 
+	<div id="dialog" style="display: none;"> 
+		<form class="form-inline" role="form" action="works/save" method="post" enctype="multipart/form-data">
+        <label for="name">作品名称：</label>
+        <input type="text" id="worksname" name="works.worksname" class="form-control" placeholder="作品名称" required="required"/>
+        </br>
+        <label for="name">作品类别：</label>
+        <input type="text" id="workstype" name="works.workstype" class="form-control" placeholder="作品类别" required="required"/>
+        </br>
+        <label for="name">是否完结：</label>
+        <select id="creativeprocess" name="works.creativeprocess" class="btn btn-default" >
+	        <option value="10" selected="selected">创作中</option>
+	        <option value="20">已完结</option>
+	    </select>
+        </br>
+        <!--TODO 根据用户类型来显示上传图片还是直接贴文件路径-->
+		<label for="name">作品封面：</label>
+		<input class="form-control" type="file" id="cover" name="cover" accept="image/*" required="required" />
+		<br>
+		<!-- <label for="name">上传作品：</label>
+		<input class="form-control" type="file" id="comic" name="comic" accept="video/*" size="20" maxlength="255" required="required"/>
+		<br> -->
+		<label for="name">作品描述：</label>
+		<textarea rows="" cols="" class="" id="describle" name="works.describle">
+		</textarea>
+        <!-- <input type="text" id="creativeprocess" name="works.creativeprocess" class="input-block-level" placeholder="创作进程" required="required"/> -->
+      </form>
+	</div> 
 </body>
 </html>
