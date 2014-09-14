@@ -1,8 +1,5 @@
 package com.domeke.app.controller;
 
-import java.util.List;
-
-import com.domeke.app.model.Menu;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 
@@ -32,7 +29,9 @@ public class IndexController extends Controller {
 	
 	public void forum() {
 		setAttr("menuid", "37");
-		render("forum.html");
+//		keepPara();
+		redirect("/community");
+//		render("forum.html");
 	}
 
 }

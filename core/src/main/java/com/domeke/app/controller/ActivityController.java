@@ -5,7 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.domeke.app.interceptor.CommunityInterceptor;
+import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Activity;
 import com.domeke.app.model.ActivityApply;
 import com.domeke.app.model.Comment;
@@ -17,7 +17,7 @@ import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "activity")
-@Before(CommunityInterceptor.class)
+@Before(LoginInterceptor.class)
 public class ActivityController extends Controller {
 
 	/**
@@ -32,7 +32,7 @@ public class ActivityController extends Controller {
 		Page<Activity> activityPage = Activity.dao.findPage(pageNumber,
 				pageSize);
 		setAttr("activityPage", activityPage);
-		render("/demo/activityPage.html");
+		render("/community/activityPage.html");
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class ActivityController extends Controller {
 		Page<Activity> page = activity.findByUserId(userId, pageNumber,
 				pageSize);
 		setAttr("page", page);
-		render("/demo/myActivity.html");
+		render("/community/myActivity.html");
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class ActivityController extends Controller {
 		 List<Comment> followPage =
 		 Comment.dao.findFollowByTargetId(activityId,"20");
 		 setAttr("followPage", followPage);
-		render("/demo/detailActivity.html");
+		render("/community/detailActivity.html");
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class ActivityController extends Controller {
 		String activityId = getPara("activityID");
 		Activity activity = Activity.dao.findById(activityId);
 		setAttr("activity", activity);
-		render("/demo/modifyActivity.html");
+		render("/community/modifyActivity.html");
 	}
 
 	/**
@@ -116,7 +116,8 @@ public class ActivityController extends Controller {
 	 * 跳转活动申请
 	 */
 	public void skipCreate() {
-		render("/demo/createActivity.html");
+		keepPara("communityId");
+		render("/community/createActivity.html");
 	}
 
 	/**
@@ -137,13 +138,15 @@ public class ActivityController extends Controller {
 
 	public void index() {
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
+		int pageSize = getParaToInt("pageSize", 20);
+		
 		String communityId = getPara("communityId");
+		setAttr("communityId", communityId);
 
 		Page<Activity> activityPage = Activity.dao.findPage(pageNumber,
 				pageSize,communityId);
 		setAttr("activityPage", activityPage);
-		render("/demo/activity.html");
+		render("/community/activity.html");
 	}
 	
 	/**

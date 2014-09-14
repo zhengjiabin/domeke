@@ -1,5 +1,6 @@
 package com.domeke.app.controller;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.domeke.app.model.Community;
@@ -11,28 +12,33 @@ import com.jfinal.core.Controller;
 public class CommunityController extends Controller {
 
 	public void index() {
-		String sql = "select * from community where status='10' and level=1 order by position";
-		List<Community> communityFatList = Community.dao.findByCache(
-				"CommunityFatList", "key", sql);
+		List<Community> communityFatList = Community.dao.findFatList();
 		setAttr("communityFatList", communityFatList);
-		
-		sql = "select * from community where status='10' and level=2 order by position";
-		List<Community> communitySonList = Community.dao.findByCache(
-				"CommunitySonList", "key", sql);
+
+		List<Community> communitySonList = Community.dao.findSonList();
 		setAttr("communitySonList", communitySonList);
-		render("/demo/community.html");
+		
+		setPublishNumber();
+		render("/community/community.html");
 	}
 	
 	/**
+	 * 获取发帖数
+	 */
+	private void setPublishNumber(){
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+	}
+
+	/**
 	 * 跳转指定板块
 	 */
-	public void goToOrderCommunity(){
+	public void goToOrderCommunity() {
 		String actionKey = getPara("actionKey");
 		redirect(actionKey, true);
 	}
-	
+
 	@ClearInterceptor
-	public void goToManager(){
+	public void goToManager() {
 		render("/admin/community.html");
 	}
 }

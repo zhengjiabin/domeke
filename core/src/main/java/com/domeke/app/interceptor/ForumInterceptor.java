@@ -17,6 +17,7 @@ public class ForumInterceptor implements Interceptor {
 		List<Menu> topMenuForum = Menu.menuDao.getMenuForum();
 		Controller controller = ai.getController();
 		controller.setAttr("topMenuForum", topMenuForum);
+		controller.setAttr("menuid", "37");
 		List<Menu> leftMenuList = null;
 		controller.setAttr("leftMenuList", leftMenuList);
 		ai.invoke();

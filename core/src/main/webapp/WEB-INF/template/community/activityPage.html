@@ -1,0 +1,44 @@
+<article>
+    	<div class="ForumSubInfo">
+        	<span>今日发帖数:124343</span>
+            <span>昨日发帖数:6343324</span>
+            <span>总帖数:34545</span>
+            <span>会员总数:32454</span>
+        </div>
+        <div class="ArticleTitle"><img src="../images/FIcon03.png" >HIGH豆官方社区</div>
+        <div class="ArticleContent">
+        <% for (activity in activityPage.list){ %>
+        <% class = "";
+        	if(activityLP.index % 5 ==0){
+        		class = "ListName font_r";
+        	} else if (activityLP.index % 4 ==0){
+        		class = "ListName font_b";
+        	} else if (activityLP.index % 3 ==0){
+        		class = "ListName font_ye";
+        	} else if (activityLP.index % 2 ==0){
+        		class = "ListName font_gr";
+        	} else {
+        		class = "ListName font_Pur";
+        	}
+        %>
+       	  <div class="ForumList">
+            	<div class="ListPic"><img src="../images/bg_Me.png"></div>
+                <div class="ListDtl">
+                	<div class="${class!}"><a href="javascript:void(0)" onclick="findById('${activity.activityid!}')">${activity.subject!}</a></div>
+                    <div>
+                    	<span>发起人：${activity.userid!}  </span>
+                    	<span>报名截止日期：${activity.expiration!}</span>
+                    </div>
+                </div>
+                <div class="ListDate">
+                	<span class="TotleNum"><a href="javascript:void(0)" onclick="openApply('${activity.activityid!}')">报名参加</a></span>
+                    <span>已参加人数：${activity.applynumber!}</span>
+                </div>
+            </div>
+        <% } %>
+
+		<div id="page"><% if(activityPage != null){ layout("/common/page.html",
+			{"page":activityPage,"pageAction":"./activity/find","fatherNode":"#page"}
+			){} }%></div>
+	</div>     
+  </article>

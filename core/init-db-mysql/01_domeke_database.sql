@@ -76,9 +76,10 @@ CREATE TABLE `community` (
 -- ----------------------------
 DROP TABLE IF EXISTS `activity`;
 CREATE TABLE `activity` (
-  `activityid` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  `uid` mediumint(8) NOT NULL DEFAULT '0',
-  `aid` mediumint(8) NOT NULL DEFAULT '0',
+  `activityid` bigint(20) unsigned NOT NULL,
+  `subject` varchar(80) NOT NULL,
+  `userid` bigint(20) NOT NULL DEFAULT '0',
+  `aid` int(11) NOT NULL DEFAULT '0',
   `cost` mediumint(8) NOT NULL DEFAULT '0',
   `starttimefrom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `starttimeto` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -91,10 +92,11 @@ CREATE TABLE `activity` (
   `ufield` text NOT NULL,
   `credit` smallint(6) unsigned NOT NULL DEFAULT '0',
   `status` tinyint(1) DEFAULT NULL,
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) DEFAULT NULL,
+  `modifier` bigint(20) DEFAULT NULL,
+  `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `communityid` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`activityid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -339,28 +341,28 @@ CREATE TABLE `playcount` (
 -- ----------------------------
 DROP TABLE IF EXISTS `post`;
 CREATE TABLE `post` (
-  `postid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `author` varchar(15) NOT NULL,
-  `authorid` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `postid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(80) NOT NULL,
   `dateline` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `message` text NOT NULL,
-  `useip` varchar(15) NOT NULL,
-  `invisible` tinyint(1) NOT NULL DEFAULT '0',
+  `userip` varchar(15) NOT NULL,
   `anonymous` tinyint(1) NOT NULL DEFAULT '0',
   `usesig` tinyint(1) NOT NULL DEFAULT '0',
   `attachment` tinyint(1) NOT NULL DEFAULT '0',
   `rate` smallint(6) NOT NULL DEFAULT '0',
   `ratetimes` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `status` int(10) NOT NULL DEFAULT '0',
+  `status` varchar(4) NOT NULL DEFAULT '10',
+  `poststatus` varchar(4) NOT NULL DEFAULT '10',
   `comment` tinyint(1) NOT NULL DEFAULT '0',
   `replycredit` int(10) NOT NULL DEFAULT '0',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) DEFAULT NULL,
+  `modifier` bigint(20) DEFAULT NULL,
+  `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `communityid` bigint(20) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`postid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for post_approve

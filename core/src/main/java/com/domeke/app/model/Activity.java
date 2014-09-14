@@ -86,4 +86,5 @@ public class Activity extends Model<Activity> {
 				userId);
 		return page;
 	}
+	
 }

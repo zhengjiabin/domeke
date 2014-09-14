@@ -68,4 +68,5 @@ public class Comment extends Model<Comment> {
 		String sql = "delete from comment where commentid=? or pid=?";
 		Db.batch(sql, new Object[][] { { targetId, targetId } }, 1);
 	}
+	
 }
