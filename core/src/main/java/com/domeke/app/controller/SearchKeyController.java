@@ -3,12 +3,21 @@ package com.domeke.app.controller;
 import java.util.List;
 
 import com.domeke.app.model.SearchKey;
+import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 
 
 @ControllerBind(controllerKey="searchkey")
 public class SearchKeyController extends Controller{
+	/**
+	 * 新增关键字
+	 */
+	public void save(){
+		SearchKey searchKey = getModel(SearchKey.class);	
+		searchKey.saveSearchKey();
+		select();
+	}
 	/**
 	 * 查询关键字
 	 */

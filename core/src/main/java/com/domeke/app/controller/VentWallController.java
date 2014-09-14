@@ -77,7 +77,7 @@ public class VentWallController extends Controller {
 		VentWall ventWall = getModel(VentWall.class);
 		Long ventwallid = ventWall.get("ventwallid");
 		VentWall.venWdao.findById(ventwallid).setAttrs(ventWall).update();
-		select();
+		goToManager();
 	}
 	/**
 	 * 删除留言
@@ -85,7 +85,7 @@ public class VentWallController extends Controller {
 	public void delete(){
 		int ventwallid = getParaToInt();
 		VentWall.venWdao.deleteVentWall(ventwallid);
-		select();
+		goToManager();
 	}
 	/**
 	 * 统计签到
@@ -105,5 +105,17 @@ public class VentWallController extends Controller {
 	public void isSignIn(){
 		String issignin = VentWall.venWdao.isSignIn(1);
 		setAttr("issignin", issignin);
+	}
+	public void goToManager(){
+		VentWall.venWdao.removeCache();		
+		List<VentWall> ventWallList = VentWall.venWdao.getVentWall();
+		setAttr("ventWallList", ventWallList);		
+		render("/admin/ventWall.html");
+	}
+	public void test(){
+		VentWall.venWdao.removeCache();		
+		List<VentWall> ventWallList = VentWall.venWdao.getVentWall();
+		setAttr("ventWallList", ventWallList);		
+		renderJson();
 	}
 }

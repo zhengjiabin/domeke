@@ -13,14 +13,25 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
        <script type="text/javascript">
     	$(document).ready(function(){
-    		$('#btn').click(function(){
-    			var keyname = $('#keyname').val();
-    			var keyid = $('#keyid').val();
+    		$("button[lable='编辑']").click(function(){
+    			var $self = $(this);
+    			var $parent = $self.parent();
+    			$parent = $parent.parent();
+    			var keyname =$('td input',$parent).val();
+    			var keyid = $(this).attr("name");
+    			console.log(keyid);
     			var obj = {"searchKey.keyname":keyname,"searchKey.keyid":keyid};
     			var url = "searchkey/updateById/"+keyid;
     			console.log(obj);
-    			$.showView(obj,url);
+    			$.showView(obj,url); 
     		});
+     		$('#btn1').click(function(){
+    			var keyname = $('#keyname1').val();
+    			var obj = {"searchKey.keyname":keyname};
+    			var url = "searchkey/save";
+    			console.log(obj);
+    			$.showView(obj,url);
+    		}); 
     	});       
     	$.extend({
     		showView:function(obj,url){
@@ -38,20 +49,22 @@
                     }   
                 });
     		}
-    	});
-    	
+    	});  	
   </script>
     <div id="view">
+    	<% if (searchKeyList.~size < 6) {%>
+        	<input id="keyname1" name="searchkey.keyname" type="text" value="${searchkey.keyname!}" />
+        	<button id="btn1" class="btn1"  type="button">新增</button>
+        <%}%>
       <form  id="searchFrm" class="" action="searchkey/save"  method="post">
 		<table class="">          
             <tr><th>关键字</th><th>操作</th></tr>
             <div id="divID"></div>
             <% for(s in searchKeyList!){%>
-            <input id="keyid" name="searchkey.keyid" value="${s.keyid}" type="text" class="span6 m-wrap" style="display:none"/><br>
-              <tr><td><input id="keyname" name="searchkey.keyname" type="text" value="${s.keyname!}" /></td>
+            <!-- <input id="keyid" name="searchkey.keyid" value="${s.keyid}" type="text" class="span6 m-wrap" style="display:none"/><br> -->
+            <tr><td><input id="keyname" name="searchkey.keyname" type="text" value="${s.keyname!}" /></td>
                  <td class="span2">
-                 	<button id="btn" class="btn"  type="button">编辑</button>
-                    <!-- <a id="btn" href="searchkey/updateById/${s.keyid}" class="" title="编辑">编辑</a> -->
+                 	<button id="btn" name="${s.keyid}" class="btn"  type="button" lable="编辑">编辑</button>
                     <a href="searchkey/delete/${s.keyid}" class="" title="删除" onclick="return confirm('确定删除？')">删除</a>
                  </td>
               </tr>
