@@ -97,7 +97,7 @@ CREATE TABLE `community` (
 -- ----------------------------
 DROP TABLE IF EXISTS `activity`;
 CREATE TABLE `activity` (
-  `activityid` bigint(20) unsigned NOT NULL,
+  `activityid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `subject` varchar(80) NOT NULL,
   `userid` bigint(20) NOT NULL DEFAULT '0',
   `aid` int(11) NOT NULL DEFAULT '0',
@@ -231,9 +231,9 @@ CREATE TABLE `comment` (
   `dateline` int(14) unsigned NOT NULL DEFAULT '0',
   `message` text NOT NULL,
   `status` tinyint(1) NOT NULL DEFAULT '0',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`commentid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
