@@ -40,14 +40,24 @@
 
 		<div id="replyComments">
 			<div class="control-group" align="right"><% if(post.postid !=
-				null){ layout("./ckeditor.html",
-				{"targetId":post.postid,"ckeditorAction":"./post/replyComment?postId="+post.postid
-				,"renderAction":"/demo/comment.html","commentFatherNode":"#commentHtml","ckeditorNode":"#replyComments"}){}
+				null){ layout(
+				"/common/ckeditor.html",
+				{"targetId":post.postid,
+				"ckeditorAction":"./post/replyComment?postId="+post.postid,
+				"renderAction":"/comment/comment.html",
+				"commentFatherNode":"#commentHtml",
+				"ckeditorNode":"#replyComments"}
+				){}
 				}%></div>
 			<div class="control-group" id="commentHtml"><% if(commentPage
-				!= null && post.postid != null){ layout("./comment.html",
-				{"commentPage":commentPage,"targetId":post.postid,"publishFaceAction":"./post/replyComment?postId="+post.postid,
-				"pageAction":"./post/findCommentByPostId?postId="+post.postid,"fatherNode":"#commentContents","commentFatherNode":"#commentHtml"}){}
+				!= null && post.postid != null){ layout(
+				"/comment/comment.html",
+				{"commentPage":commentPage,
+				"targetId":post.postid,
+				"publishFaceAction":"./post/replyComment?postId="+post.postid,
+				"pageAction":"./post/findCommentByPostId?targetId="+post.postid+"&postId="+post.postid,
+				"fatherNode":"#commentHtml"}
+				){}
 				}%></div>
 		</div>
 	</div>

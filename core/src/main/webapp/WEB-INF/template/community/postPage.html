@@ -1,0 +1,44 @@
+<article id="page">
+    	<div class="ForumSubInfo">
+        	<span>今日发帖数:124343</span>
+            <span>昨日发帖数:6343324</span>
+            <span>总帖数:34545</span>
+            <span>会员总数:32454</span>
+        </div>
+        <div class="ArticleTitle"><img src="../images/FIcon03.png" >HIGH豆官方社区</div>
+        <div class="ArticleContent">
+        <% for (post in postPage.list){ %>
+        <% class = "";
+        	if(postLP.index % 5 ==0){
+        		class = "ListName font_r";
+        	} else if (postLP.index % 4 ==0){
+        		class = "ListName font_b";
+        	} else if (postLP.index % 3 ==0){
+        		class = "ListName font_ye";
+        	} else if (postLP.index % 2 ==0){
+        		class = "ListName font_gr";
+        	} else {
+        		class = "ListName font_Pur";
+        	}
+        %>
+       	  <div class="ForumList">
+            	<div class="ListPic"><img src="../images/bg_Me.png"></div>
+                <div class="ListDtl">
+                	<div class="${class!}"><a href="javascript:void(0)" onclick="findById('${post.postid!}','${communityId!}')">${post.subject!}</a></div>
+                    <div>
+                    	<span>发帖人姓名：${post.userid!}  </span>
+                    	<span>发帖时间：${post.dateline!}</span>
+                    </div>
+                </div>
+                <div class="ListDate">
+                	<span class="TotleNum">浏览次数</span>
+                    <span>评论次数</span>
+                </div>
+            </div>
+        <% } %>
+
+		<% if(postPage != null){ layout("/common/page.html",
+			{"page":postPage,"pageAction":"./post/find?communityId="+communityId,"fatherNode":"#page"}
+			){} }%>
+	</div>     
+  </article>

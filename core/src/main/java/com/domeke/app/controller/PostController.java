@@ -16,17 +16,15 @@ import com.jfinal.plugin.activerecord.Page;
 public class PostController extends Controller {
 
 	/**
-	 * 查询所有帖子信息
+	 * 查询指定社区的分页帖子信息
 	 * 
 	 * @return 帖子信息
 	 */
 	public void find() {
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
-
-		Page<Post> postPage = Post.dao.findPage(pageNumber, pageSize);
-		setAttr("postPage", postPage);
-		render("/demo/postPage.html");
+		String communityId = getPara("communityId");
+		setPostPage(communityId);
+		
+		render("/community/postPage.html");
 	}
 
 	/**
@@ -43,7 +41,7 @@ public class PostController extends Controller {
 		Post post = getModel(Post.class);
 		Page<Post> page = post.findByUserId(userId, pageNumber, pageSize);
 		setAttr("page", page);
-		render("/demo/myPost.html");
+		render("/community/myPost.html");
 	}
 
 	/**
@@ -52,42 +50,54 @@ public class PostController extends Controller {
 	 * @return 指定帖子信息
 	 */
 	public void findById() {
-		setDataById();
-		render("/demo/detailPost.html");
+		String postId = getPara("postId");
+		
+		setPost(postId);
+		setCommentPage(postId);
+		setFollowList(postId);
+		
+		keepPara("communityId");
+		render("/community/detailPost.html");
 	}
-
+	
 	/**
-	 * 查询帖子回复信息
+	 * 设置帖子信息
+	 * @param postId
 	 */
-	public void findCommentByPostId() {
-		setDataById();
-		keepPara("pageAction", "fatherNode");
-		render("/demo/comment.html");
-	}
-
-	/**
-	 * 设置值
-	 */
-	private void setDataById() {
-		Object postId = getPara("postId");
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
-
+	private void setPost(Object postId){
 		Post post = Post.dao.findById(postId);
 		setAttr("post", post);
-
-		Page<Comment> commentPage = Comment.dao.findPageByTargetId(postId,"10",
-				pageNumber, pageSize);
+	}
+	
+	/**
+	 * 分页设置父回复信息
+	 */
+	public void setCommentPage(Object postId) {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 2);
+		Page<Comment> commentPage = Comment.dao.findPageByTargetId(postId,
+				"10", pageNumber, pageSize);
 		setAttr("commentPage", commentPage);
-
-		List<Comment> followPage = Comment.dao.findFollowByTargetId(postId,"10");
+	}
+	
+	/**
+	 * 设置子回复信息
+	 */
+	public void setFollowList(Object postId) {
+		List<Comment> followPage = Comment.dao.findFollowByTargetId(postId,
+				"10");
 		setAttr("followPage", followPage);
+	}
 
-		String pId = getPara("pId");
-		if (pId != null && pId.length() > 0) {
-			Comment comment = Comment.dao.findById(pId);
-			setAttr("comment", comment);
-		}
+	/**
+	 * 异步分页查询回复信息
+	 */
+	public void findCommentByPostId() {
+		Object postId = getPara("postId");
+		setCommentPage(postId);
+		setFollowList(postId);
+		setReplyCommentData();
+		render("/comment/comment.html");
 	}
 
 	/**
@@ -99,7 +109,7 @@ public class PostController extends Controller {
 		String postId = getPara("postId");
 		Post post = Post.dao.findById(postId);
 		setAttr("post", post);
-		render("/demo/modifyPost.html");
+		render("/community/modifyPost.html");
 	}
 
 	/**
@@ -126,7 +136,8 @@ public class PostController extends Controller {
 	 * 跳转帖子申请
 	 */
 	public void skipCreate() {
-		render("/demo/createPost.html");
+		keepPara("communityId");
+		render("/community/createPost.html");
 	}
 
 	/**
@@ -142,7 +153,10 @@ public class PostController extends Controller {
 		post.set("userip", remoteIp);
 		post.save();
 
-		findByUserId();
+		Object communityId = post.get("communityid");
+		setPostPage(communityId);
+		
+		render("/community/post.html");
 	}
 
 	/**
@@ -151,11 +165,29 @@ public class PostController extends Controller {
 	public void replyComment() {
 		addComment();
 
-		setDataById();
+		String postId = getPara("postId");
+		setPost(postId);
+		setCommentPage(postId);
+		setFollowList(postId);
+		
+		String pId = getPara("pId");
+		if (pId != null && pId.length() > 0) {
+			setComment(pId);
+		}
 		setReplyCommentData();
 
 		String renderAction = getPara("renderAction");
 		render(renderAction);
+	}
+	
+	/**
+	 * 设置回复信息
+	 * 
+	 * @param commentId
+	 */
+	private void setComment(Object commentId) {
+		Comment comment = Comment.dao.findById(commentId);
+		setAttr("comment", comment);
 	}
 
 	/**
@@ -176,9 +208,13 @@ public class PostController extends Controller {
 		String remoteIp = request.getRemoteAddr();
 		comment.set("userip", remoteIp);
 
+		//默认回复楼层
+		comment.set("level", "1");
+		
 		String pId = getPara("pId");
 		if (pId != null && pId.length() > 0) {
 			comment.set("pid", pId);
+			comment.set("level", "2");
 		}
 
 		String toUserId = getPara("toUserID");
@@ -201,7 +237,7 @@ public class PostController extends Controller {
 
 		setAttr("targetId", targetId);
 		setAttr("publishFaceAction", publishFaceAction);
-		keepPara("pageAction", "fatherNode", "commentFatherNode");
+		keepPara("pageAction", "fatherNode");
 	}
 
 	/**
@@ -215,12 +251,22 @@ public class PostController extends Controller {
 	}
 
 	public void index() {
+		String communityId = getPara("communityId");
+		setPostPage(communityId);
+		
+		render("/community/post.html");
+	}
+
+	/**
+	 * 设置分页帖子
+	 */
+	private void setPostPage(Object communityId) {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 2);
-
-		Page<Post> postPage = Post.dao.findPage(pageNumber, pageSize);
+		Page<Post> postPage = Post.dao.findPageByCommunityId(pageNumber,
+				pageSize, communityId);
 		setAttr("postPage", postPage);
-		render("/demo/post.html");
+		setAttr("communityId", communityId);
 	}
 
 	/**

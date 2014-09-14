@@ -48,7 +48,21 @@ public class Post extends Model<Post> {
 	 */
 	public Page<Post> findPage(int pageNumber, int pageSize) {
 		Page<Post> page = this.paginate(pageNumber, pageSize, "select *",
-				"from post where status='10' order by status,createtime");
+				"from post where status='10' order by createtime");
+		return page;
+	}
+	/**
+	 * 分页查询帖子
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Post> findPageByCommunityId(int pageNumber, int pageSize,Object communityId) {
+		Page<Post> page = this.paginate(pageNumber, pageSize, "select *",
+				"from post where status='10' and communityId=? order by createtime",communityId);
 		return page;
 	}
 
