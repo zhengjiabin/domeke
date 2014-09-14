@@ -52,6 +52,26 @@ CREATE TABLE `user_action` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
+-- Table structure for community
+-- ----------------------------
+DROP TABLE IF EXISTS `community`;
+CREATE TABLE `community` (
+  `communityid` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `title`  varchar(64) NOT NULL,
+  `content`  varchar(255) DEFAULT NULL,
+  `action_key`  varchar(255) DEFAULT NULL,
+  `pid` mediumint(8) DEFAULT '0',
+  `level` int(11) NOT NULL DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `status` tinyint(1) DEFAULT '10',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`communityid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for activity
 -- ----------------------------
 DROP TABLE IF EXISTS `activity`;
