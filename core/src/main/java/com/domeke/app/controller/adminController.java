@@ -15,8 +15,8 @@ public class adminController extends Controller {
 	/**
 	 * 
 	 */
-	public void goToManage() {
+	public void goToManager() {
 		String render = getPara("render");
-		render(render);
+		redirect(render);
 	}
 }
