@@ -1,0 +1,21 @@
+<% layout("/common/layout.html"){ %>
+<section class="List" id="page">
+	<div class="CartoonTitle">原创动漫</div>
+    <div class="CartoonContent">
+    	<% for (list in pageList.list){ %>
+        <div class="CartoonSub">
+            <img src="../images/pic_Cartoon2.png">
+            <div class="CartoonName"><a href="#">动画大电影</a></div>
+            <div class="CartoonInfo">
+               <span class="FloatL">2931</span>
+               <span class="FloatR">29</span>
+            </div>
+            <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+        </div>
+        <% } %>
+     </div> 
+     <% if(pageList != null){ layout("/common/page.html",
+			{"page":pageList,"pageAction":"/cartoon","fatherNode":"#page"}
+			){} }%>
+</section>
+<% } %> 

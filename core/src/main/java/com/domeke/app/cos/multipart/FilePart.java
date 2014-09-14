@@ -13,6 +13,8 @@ import java.io.OutputStream;
 
 import javax.servlet.ServletInputStream;
 
+import org.apache.commons.net.ftp.FTPClient;
+
 /**
  * A <code>FilePart</code> is an upload part which represents a
  * <code>INPUT TYPE="file"</code> form parameter. Note that because file upload
@@ -62,8 +64,7 @@ public class FilePart extends Part {
 	 * @exception IOException
 	 *                if an input or output exception has occurred.
 	 */
-	FilePart(String name, ServletInputStream in, String boundary,
-			String contentType, String fileName, String filePath)
+	FilePart(String name, ServletInputStream in, String boundary, String contentType, String fileName, String filePath)
 			throws IOException {
 		super(name);
 		this.fileName = fileName;
@@ -203,18 +204,18 @@ public class FilePart extends Part {
 	 */
 	long write(OutputStream out) throws IOException {
 		// decode macbinary if this was sent
-//		if (contentType.equals("application/x-macbinary")) {
-//			out = new MacBinaryDecoderOutputStream(out);
-//		}
-//		long size = 0;
-//		int read;
-//		byte[] buf = new byte[8 * 1024];
-//		while ((read = partInput.read(buf)) != -1) {
-//			out.write(buf, 0, read);
-//			size += read;
-//		}
-//		return size;
-		// chenhailin add modify 
+		// if (contentType.equals("application/x-macbinary")) {
+		// out = new MacBinaryDecoderOutputStream(out);
+		// }
+		// long size = 0;
+		// int read;
+		// byte[] buf = new byte[8 * 1024];
+		// while ((read = partInput.read(buf)) != -1) {
+		// out.write(buf, 0, read);
+		// size += read;
+		// }
+		// return size;
+		// chenhailin add modify
 		if (contentType.equals("application/x-macbinary")) {
 			out = new MacBinaryDecoderOutputStream(out);
 		}
@@ -232,6 +233,36 @@ public class FilePart extends Part {
 		if (progresss.get() != null)
 			progresss.get().end();
 		return size;
+	}
+
+	/**
+	 * 上传至FTP服务器
+	 * @throws IOException
+	 */
+	void writeToFTP() throws IOException {
+		FTPClient ftpClient = new FTPClient();
+		try {
+			ftpClient.connect("192.168.14.117");
+			ftpClient.login("admin", "123");
+			// TODO 设置上传目录
+			ftpClient.changeWorkingDirectory("/admin/pic");
+			ftpClient.setBufferSize(1024);
+			ftpClient.setControlEncoding("UTF-8");
+			// 设置文件类型（二进制）
+			ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+			ftpClient.storeFile("XXX文件.png", partInput);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException("FTP客户端出错！", e);
+		} finally {
+			partInput.close();
+			try {
+				ftpClient.disconnect();
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new RuntimeException("关闭FTP连接发生异常！", e);
+			}
+		}
 	}
 
 	/**

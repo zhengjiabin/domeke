@@ -18,7 +18,7 @@ CREATE TABLE `menu` (
 
 
 INSERT INTO `menu` VALUES ('1', '10', '首页', 'index', '1', '100000000', null, '2014-09-13 19:13:02', null, '2014-09-13 19:13:02', null, '1');
-INSERT INTO `menu` VALUES ('2', '20', '动漫', '/core/menu/cartoon', '1', '200000000', null, '2014-09-13 22:43:09', null, '2014-09-13 22:43:09', null, '1');
+INSERT INTO `menu` VALUES ('2', '20', '动漫', 'cartoon', '1', '200000000', null, '2014-09-13 22:43:09', null, '2014-09-13 22:43:09', null, '1');
 INSERT INTO `menu` VALUES ('3', '30', '无奇不有', '#', '1', '300000000', null, '2014-09-13 19:13:06', null, '2014-09-13 19:13:06', null, '1');
 INSERT INTO `menu` VALUES ('4', '40', '商城', 'shop', '1', '400000000', null, '2014-09-13 22:20:08', null, '2014-09-13 22:20:08', null, '1');
 INSERT INTO `menu` VALUES ('5', '50', 'HIGH豆社区', 'forum', '1', '500000000', null, '2014-09-13 22:20:13', null, '2014-09-13 22:20:13', null, '1');

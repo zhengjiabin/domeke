@@ -8,6 +8,7 @@ import org.apache.shiro.subject.Subject;
 import com.domeke.app.base.config.DomekeConstants;
 import com.domeke.app.interceptor.ActionInterceptor;
 import com.domeke.app.model.User;
+import com.domeke.app.model.UserRole;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.EncryptKit;
 import com.domeke.app.validator.login.LoginValidator;
@@ -41,8 +42,19 @@ public class LoginController extends Controller {
 			render("/Login.html");
 			return;
 		}
+		UserRole userrole = getModel(UserRole.class);
+		userrole = userrole.getRolid(user.getLong("userid")); 
+		Long roleid = userrole.getLong("roleid");
+		if(roleid == 0){
+			setCache(username, password, token, currentUser);
+			setAttr("username", username);
+			setAttr("menuid", "1");
+			render("/admin/community.html");
+			return;
+		}
 		setCache(username, password, token, currentUser);
 		setAttr("username", username);
+		setAttr("menuid", "1");
 		render("/index.html");
 	}
 
@@ -58,9 +70,9 @@ public class LoginController extends Controller {
 
 	@Before(ActionInterceptor.class)
 	public void logout() {
-//		Subject currentUser = SecurityUtils.getSubject();
-//		currentUser.logout();
-//		render("/Login.html");
+		Subject currentUser = SecurityUtils.getSubject();
+		currentUser.logout();
+		render("/Login.html");
 	}
 
 }
