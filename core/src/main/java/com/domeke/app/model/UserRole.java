@@ -24,7 +24,7 @@ ENGINE = InnoDB
 @TableBind(tableName = "user_role", pkName = "userroleid")
 public class UserRole extends Model<UserRole> {
 
-	UserRole dao = new UserRole();
+	public static UserRole dao = new UserRole();
 
 	public void saveRoleByUserId(String rolename, String userid) {
 		String roleid = getRoleIdByRoleName(rolename);
@@ -40,5 +40,9 @@ public class UserRole extends Model<UserRole> {
 		UserRole userRole = cache.get(0);
 		return userRole.getStr("roleid");
 	}
-
+	public UserRole getRolid(Long id){
+		String sql="select roleid from user_role where userid="+id+"";
+		UserRole userrole = dao.findFirst(sql);
+		return userrole;
+	}
 }
