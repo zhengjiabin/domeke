@@ -15,7 +15,12 @@ import com.jfinal.plugin.ehcache.CacheKit;
 @ControllerBind(controllerKey = "/works")
 public class WorksController extends FilesLoadController {
 
-	private static final String PATH = "G:/workscomic";
+	/**
+	 * to管理界面
+	 */
+	public void goToManager() {
+		render("/admin/works.html");
+	}
 
 	/**
 	 * 跳转作品管理界面
@@ -43,8 +48,8 @@ public class WorksController extends FilesLoadController {
 	 */
 	public void save() {
 		try {
-			String coverPath = upLoad("cover", PATH, 2000 * 1024 * 1024, "utf-8");
-			String comicPath = upLoad("comic", PATH, 5000 * 1024 * 1024, "utf-8");
+			String coverPath = upLoadFile("cover", 2000 * 1024 * 1024, "utf-8");
+			String comicPath = upLoadVideo("comic", 5000 * 1024 * 1024, "utf-8");
 			Works worksModel = getModel(Works.class);
 			worksModel.set("cover", coverPath);
 			worksModel.set("comic", comicPath);
@@ -63,8 +68,8 @@ public class WorksController extends FilesLoadController {
 	 * 更新已修的作品
 	 */
 	public void update() {
-		String coverPath = upLoad("cover", PATH, 2000 * 1024 * 1024, "utf-8");
-		String comicPath = upLoad("comic", PATH, 5000 * 1024 * 1024, "utf-8");
+		String coverPath = upLoadFile("cover", 2000 * 1024 * 1024, "utf-8");
+		String comicPath = upLoadVideo("comic", 5000 * 1024 * 1024, "utf-8");
 		// 可改为获取当前用户的名字或者ID
 		Works worksModel = getModel(Works.class);
 		if (coverPath != null) {

@@ -15,6 +15,13 @@ import com.domeke.app.route.ControllerBind;
 public class GoodsController extends FilesLoadController {
 
 	/**
+	 * to管理界面
+	 */
+	public void goToManager() {
+		render("/admin/goods.html");
+	}
+
+	/**
 	 * 跳转商品管理界面
 	 */
 	public void goGoodsMan() {
@@ -40,8 +47,7 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public void save() {
 		try {
-			String picturePath = upLoad("pictrue", "goodspic",
-					200 * 1024 * 1024, "utf-8");
+			String picturePath = upLoadFile("pictrue", 200 * 1024 * 1024, "utf-8");
 			Goods goodsModel = getModel(Goods.class);
 			goodsModel.set("pic", picturePath);
 			// 可改为获取当前用户的名字或者ID
@@ -59,8 +65,7 @@ public class GoodsController extends FilesLoadController {
 	 * 更新已修的商品
 	 */
 	public void update() {
-		String picturePath = upLoad("pictrue", "goodspic", 200 * 1024 * 1024,
-				"utf-8");
+		String picturePath = upLoadFile("pictrue", 200 * 1024 * 1024, "utf-8");
 		Goods goodsModel = getModel(Goods.class);
 		if (picturePath != null) {
 			goodsModel.set("pic", picturePath);
@@ -121,4 +126,5 @@ public class GoodsController extends FilesLoadController {
 		List<Goods> goodsList = goodsModel.getGoodsInfoByName(goodsName);
 		this.setAttr("goodslist", goodsList);
 	}
+
 }

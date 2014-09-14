@@ -5,11 +5,13 @@ package com.domeke.app.utils;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * @author lijiasen@domeke.com
@@ -19,11 +21,13 @@ public class VideoKit {
 
 	private static Logger logger = LoggerFactory.getLogger(VideoKit.class);
 
-	private static String FFMEPG_PATH = VideoKit.class.getResource("") + "ffmpeg.exe";
+	private static String FFMEPG_PATH = "G:\\ffmepg\\bin\\ffmpeg.exe";
 
-	private static int COMMOND_VIDEO = 0;
+	public static int COMMOND_VIDEO = 0;
 
-	private static int COMMOND_IMAGE = 1;
+	public static int COMMOND_IMAGE = 1;
+
+	private static String toDirectory = "";
 
 	public static boolean checkVideoType(String filepath) {
 		int fileSuffixIndex = filepath.lastIndexOf(".");
@@ -61,27 +65,50 @@ public class VideoKit {
 
 	public static String getVideoPath(String filepath) {
 		int filePrefixIndex = filepath.lastIndexOf(".");
-		String filePathAndName = filepath.substring(0, filePrefixIndex + 1);
-		filePathAndName = filePathAndName + "flv";
+		String filePathAndName = "";
+		if (toDirectory == null || toDirectory.length() == 0) {
+			filePathAndName = filepath.substring(0, filePrefixIndex + 1);
+		} else {
+			File toCatalogueFile = new File(toDirectory);
+			if (!toCatalogueFile.exists()) {
+				toCatalogueFile.mkdirs();
+			}
+			int fileNameIndex = filepath.lastIndexOf("\\");
+			filePathAndName = filepath.substring(fileNameIndex + 1, filePrefixIndex + 1);
+		}
+		filePathAndName = toDirectory + filePathAndName + "flv";
 		return filePathAndName;
 	}
 
 	public static String getImagePath(String filepath) {
 		int filePrefixIndex = filepath.lastIndexOf(".");
-		String filePathAndName = filepath.substring(0, filePrefixIndex + 1);
-		filePathAndName = filePathAndName + "png";
+		String filePathAndName = "";
+		if (toDirectory == null || toDirectory.length() == 0) {
+			filePathAndName = filepath.substring(0, filePrefixIndex + 1);
+		} else {
+			File toCatalogueFile = new File(toDirectory);
+			if (!toCatalogueFile.exists()) {
+				toCatalogueFile.mkdir();
+			}
+			int fileNameIndex = filepath.lastIndexOf("\\");
+			filePathAndName = filepath.substring(fileNameIndex + 1, filePrefixIndex + 1);
+		}
+		filePathAndName = toDirectory + filePathAndName + "png";
 		return filePathAndName;
 	}
 
-	public static void compressVideo(String filepath) {
+	public static String compressVideo(String filepath, String toDirectory) {
 		if (!checkFile(filepath)) {
-			return;
+			return "";
 		}
-		process(filepath, COMMOND_VIDEO);
+		VideoKit.toDirectory = toDirectory;
+		String targePath = process(filepath, COMMOND_VIDEO);
 		process(filepath, COMMOND_IMAGE);
+		return targePath;
 	}
 
-	private static List<String> buildCompressCommond(String filepath) {
+	private static Map<String, Object> buildCompressCommand(String filepath) {
+		Map<String, Object> resultMap = Maps.newHashMap();
 		List<String> command = Lists.newArrayList();
 		String videoPath = getVideoPath(filepath);
 		command.add(FFMEPG_PATH);
@@ -112,10 +139,13 @@ public class VideoKit {
 		command.add("-y");
 		command.add(videoPath);
 		logger.info("视频转换==={}", videoPath);
-		return command;
+		resultMap.put("command", command);
+		resultMap.put("targetPath", videoPath);
+		return resultMap;
 	}
 
-	private static List<String> buildImageCommond(String filepath) {
+	private static Map<String, Object> buildImageCommond(String filepath) {
+		Map<String, Object> resultMap = Maps.newHashMap();
 		List<String> command = Lists.newArrayList();
 		String imagePath = getImagePath(filepath);
 		command.add(FFMEPG_PATH);
@@ -132,17 +162,21 @@ public class VideoKit {
 		command.add("350*240");
 		command.add(imagePath);
 		logger.info("视频截图==={}", imagePath);
-		return command;
+		resultMap.put("command", command);
+		resultMap.put("targetPath", imagePath);
+		return resultMap;
 	}
 
-	public static void process(String filepath, int commType) {
+	@SuppressWarnings("unchecked")
+	public static String process(String filepath, int commType) {
+		Map<String, Object> resultMap = Maps.newHashMap();
 		List<String> command = Lists.newArrayList();
 		if (COMMOND_IMAGE == commType) {
-			command = buildImageCommond(filepath);
+			resultMap = buildImageCommond(filepath);
 		} else {
-			command = buildCompressCommond(filepath);
+			resultMap = buildCompressCommand(filepath);
 		}
-
+		command = (List<String>) resultMap.get("command");
 		try {
 			ProcessBuilder builder = new ProcessBuilder();
 			builder.command(command);
@@ -151,9 +185,10 @@ public class VideoKit {
 		} catch (Exception e) {
 			logger.error("转换视频失败", e);
 		}
+		return (String) resultMap.get("targetPath");
 	}
 
 	public static void main(String[] args) {
-		VideoKit.compressVideo("G:\\1.mp4");
+		VideoKit.compressVideo("G:\\1.mp4", "G:\\upload\\");
 	}
 }
