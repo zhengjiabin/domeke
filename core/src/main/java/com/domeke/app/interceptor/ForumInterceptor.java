@@ -13,8 +13,7 @@ import com.jfinal.core.Controller;
  */
 public class ForumInterceptor implements Interceptor {
 	public void intercept(ActionInvocation ai) {
-		Menu.menuDao.removeCache();
-		
+		Menu.menuDao.removeCache();		
 		List<Menu> topMenuForum = Menu.menuDao.getMenuForum();
 		Controller controller = ai.getController();
 		controller.setAttr("topMenuForum", topMenuForum);

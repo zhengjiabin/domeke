@@ -28,12 +28,20 @@ public class Menu extends Model<Menu> {
 	
 	public static Menu menuDao = new Menu();
 	/**
+	 * 获取我的方舟主菜单
+	 * @return
+	 */
+	public List<Menu> getMenuMP(){
+		List<Menu> menuMPList = this.find("select * from menu where menutype = '2' order by sortnum");
+		return menuMPList;
+	}
+	/**
 	 * 获取商城主菜单
 	 * @return
 	 */
 	public List<Menu> getMenuShop(){
-		List<Menu> menuShopmList = this.find("select * from menu where menutype = '4' and top = '1' order by sortnum");
-		return menuShopmList;
+		List<Menu> menuShopList = this.find("select * from menu where menutype = '4' and top = '1' order by sortnum");
+		return menuShopList;
 	}
 	
 	/**
