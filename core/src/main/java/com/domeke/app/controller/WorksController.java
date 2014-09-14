@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
-import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.ehcache.CacheKit;
 
 /**
@@ -129,12 +128,12 @@ public class WorksController extends FilesLoadController {
 	/**
 	 * 根据作品类型分页获取作品信息
 	 */
-	public List<Works> getWorksInfoByTypePage(String workstype,Integer pageIndex,Integer pageSize) {
+	public List<Works> getWorksInfoByTypePage(String workstype, Integer pageIndex, Integer pageSize) {
 		Works worksModel = getModel(Works.class);
 		List<Works> workslist = worksModel.getWorksInfoByTypePage(workstype, pageIndex, pageSize);
 		return workslist;
 	}
-	
+
 	public void playVideo() {
 		Works worksModel = getModel(Works.class);
 		Works works = worksModel.findById(getParaToInt("id"));
