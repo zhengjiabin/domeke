@@ -19,7 +19,7 @@ public class VideoKit {
 
 	private static Logger logger = LoggerFactory.getLogger(VideoKit.class);
 
-	private static String FFMEPG_PATH = "G:\\ffmepg\\bin\\ffmpeg.exe";
+	private static String FFMEPG_PATH = VideoKit.class.getResource("") + "ffmpeg.exe";
 
 	private static int COMMOND_VIDEO = 0;
 
@@ -87,20 +87,28 @@ public class VideoKit {
 		command.add(FFMEPG_PATH);
 		command.add("-i");
 		command.add(filepath);
-		// 音频编码
+		// 音频码率 32 64 96 128
 		command.add("-ab");
 		command.add("64");
+		// 使用codec编解码
 		command.add("-acodec");
 		command.add("mp3");
+		// -ac channels 设置通道,缺省为1
 		command.add("-ac");
 		command.add("2");
-		// 音频采样
+		// -ar freq 设置音频采样率
 		command.add("-ar");
 		command.add("22050");
+		// -b bitrate 设置比特率,缺省200kb/s
 		command.add("-b");
-		command.add("230");
+		command.add("250");
+		// -r fps 设置帧频,缺省25
 		command.add("-r");
-		command.add("24");
+		command.add("30");
+		// -qscale 6或4 使用动态码率来设置
+		command.add("-qscale");
+		command.add("6");
+
 		command.add("-y");
 		command.add(videoPath);
 		logger.info("视频转换==={}", videoPath);
@@ -117,7 +125,7 @@ public class VideoKit {
 		command.add("-f");
 		command.add("image2");
 		command.add("-ss");
-		command.add("8");
+		command.add("30");
 		command.add("-t");
 		command.add("0.001");
 		command.add("-s");
@@ -138,6 +146,7 @@ public class VideoKit {
 		try {
 			ProcessBuilder builder = new ProcessBuilder();
 			builder.command(command);
+			builder.redirectErrorStream(true);
 			builder.start();
 		} catch (Exception e) {
 			logger.error("转换视频失败", e);

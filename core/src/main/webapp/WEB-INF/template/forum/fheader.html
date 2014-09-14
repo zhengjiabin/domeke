@@ -1,0 +1,42 @@
+<div class="TopFix">
+	<div class="TopFixZoom">
+    	<span class="FixLeft">欢迎来到动漫方舟！<a href="#">请登录</a><a href="#">免费注册</a></span>
+        <span class="FixRight">
+        	<a href="#">我的方舟</a><a href="#">收藏夹</a><a href="#">商家支持</a><a href="#">网站导航</a>
+        </span>
+    </div>
+</div>
+<header>
+	<div class="HeadTop">
+    	<div class="Logo"><img src="images/logo.png"></div>
+            <div class="ForumTop">
+            <span><a href="#">登录</a></span>|<span><a href="#">注册</a></span>|<span class="font_r"><a href="#">忘记密码</a></span>
+            </div>
+    </div>
+    <nav>
+    	<ul class="NavR">
+        	<li><a href="#"><img src="images/FIcon01.png"></a><a href="#"><img src="images/FIcon02.png"></a></li>
+        </ul>
+        <ul class="NavL font_w">       	
+          <li><a href="#">首页</a></li>
+            <li><a href="#">论坛</a></li>
+            <li class="LiFuc"><a href="#">版块</a></li>
+            <li><a href="#">同城会</a></li>
+            <li><a href="#">客服</a></li>
+            <li><a href="#">更多</a></li>
+        </ul>
+    </nav>
+    
+      <script type="text/javascript">
+      //菜单导航 按钮事件 选中后高亮
+		$(document).ready(function(){  
+		    $(".NavL li a").each(function(){  
+		        $this = $(this);  
+		        if($this[0].href==String(window.location)){  
+		        $(".NavL li").removeClass("LiFuc");  
+		            $this.parent().addClass("LiFuc");  
+		        }  
+		    });  
+		});  
+        </script>
+</header>

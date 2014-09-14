@@ -5,7 +5,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.alibaba.druid.wall.WallFilter;
 import com.domeke.app.beetl.DomekeBeetlRenderFactory;
+import com.domeke.app.interceptor.ForumInterceptor;
 import com.domeke.app.interceptor.GlobalInterceptor;
+import com.domeke.app.interceptor.ShopInterceptor;
 import com.domeke.app.route.AutoBindRoutes;
 import com.domeke.app.shiro.ShiroPlugin;
 import com.domeke.app.tablebind.AutoTableBindPlugin;
@@ -19,6 +21,7 @@ import com.jfinal.config.Routes;
 import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.plugin.activerecord.tx.TxByActionMethods;
+import com.jfinal.plugin.activerecord.tx.TxByRegex;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.plugin.spring.SpringPlugin;
@@ -44,9 +47,15 @@ public class AppBaseConfig extends JFinalConfig {
 
 	@Override
 	public void configInterceptor(Interceptors interceptors) {
+		interceptors.add(new ForumInterceptor());
+		interceptors.add(new ShopInterceptor());
 		interceptors.add(new GlobalInterceptor());
 		interceptors.add(new SessionInViewInterceptor());
 		interceptors.add(new TxByActionMethods("save", "update", "delete", "regist"));
+		interceptors.add(new TxByRegex(".*add*."));
+		interceptors.add(new TxByRegex(".*save*."));
+		interceptors.add(new TxByRegex(".*updte*."));
+		interceptors.add(new TxByRegex(".*delete*."));
 	}
 
 	@Override

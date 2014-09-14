@@ -59,7 +59,7 @@ header{
 	border-bottom: 5px #c40001 solid;
 	margin-bottom: 20px;
 }
-section,footer,.HeadTop,nav,.TopFixZoom{
+section,footer,.HeadTop,nav,.TopFixZoom,.WelcomInfo{
 	width: 1200px;
 	margin: 0px auto;
 }
@@ -173,6 +173,7 @@ nav li{
 	border-top: 4px #c40001 solid;
 	height: 31px;
 	background: #c40000;
+	color: #fff;
 }
 .LiFuc a{
 	color: #fff;
@@ -222,7 +223,7 @@ nav li{
 
 
 
-.CartoonTitle{
+.CartoonTitle,.CartoonTitleB,.CartoonTitleC{
 	border-bottom: 1px #bbb solid;
 	font-size: 20px;
 	padding-bottom: 10px;
@@ -242,6 +243,19 @@ nav li{
 .CartoonTitle a:active { 
 	color: #e83234;
 }
+.CartoonTitleB{
+	border-bottom: 0px;
+	background: url(../images/bg_title.png) left bottom no-repeat;
+	color: #666;
+}
+.CartoonTitleC{
+	color: #c40000;
+	border: 0px;
+}
+.CartoonTitleC a{
+	margin-left: 10px;
+	font-size: 14px;
+}
 .Cartoon2{
 	float: left;
 	width: 370px;
@@ -250,14 +264,47 @@ nav li{
 	float: left;
 	width: 560px;
 }
-.CartoonSub{
+.CartoonSub,.List .CartoonSub,.Love .CartoonSub,.Guess .CartoonSub{
 	width: 170px;
 	height: 150px;
 	display: inline-block;
 	margin: 0px 5px 15px 5px;
 	background: #fff;
 }
-
+.CartoonSub img{
+	width: 170px;
+	height: 100px;
+}
+.List .CartoonSub{
+	width: 158px;
+	height: 150px;
+}
+.List .CartoonSub img{
+	width: 158px;
+	height: 100px;
+}
+.List .CartoonSubFootbar{
+	width: 153px;
+}
+.Love .CartoonSub{
+	width: 140px;
+	height: 150px;
+}
+.Love .CartoonSub img{
+	width: 140px;
+	height: 100px;
+}
+.Love .CartoonSubFootbar{
+	width: 135px;
+}
+.Guess .CartoonSub{
+	width: 186px;
+	height: 120px;
+}
+.Guess .CartoonSub img{
+	width: 186px;
+	height: 100px;
+}
 .CartoonSubB{
 	width: 350px;
 	height: 315px;
@@ -269,7 +316,7 @@ nav li{
 	width: 350px;
 	height: 315px;
 }
-.CartoonSubBFootbar{
+.CartoonSubBFootbar,.SortADFootbar{
 	position: relative;
 	bottom: 56px;
 	/*
@@ -278,19 +325,22 @@ nav li{
 	width: 350px;
 	background:  rgba(0,0,0,0.3);
 }
-.CartoonSubBFootbar a{
+.SortADFootbar{
+	width: 	822px;
+}
+.CartoonSubBFootbar a,.SortADFootbar a{
 	display: inline-block;
 	width: 50px;
 	height: 50px;
 	text-align: center;
 	background: #d42514;
 }
-.CartoonSubBFootbar a img{
+.CartoonSubBFootbar a img,.SortADFootbar a img{
 	width: 50px;
 	height: 50px;
 	vertical-align: middle;
 }
-.CartoonSubBFootbar span{
+.CartoonSubBFootbar span,.SortADFootbar span{
 	display: inline-block;
 	color: #fff;
 	font-size: 16px;
@@ -299,10 +349,7 @@ nav li{
 .CartoonSubBFootbar span span{	
 	font-size: 12px;
 }
-.CartoonSub img{
-	width: 170px;
-	height: 100px;
-}
+
 
 .CartoonName{
 	font-family:\5FAE\8F6F\96C5\9ED1;
@@ -336,34 +383,18 @@ nav li{
 	text-align: left;
 	float: left;
 }
-.List .CartoonSub{
-	width: 158px;
-	height: 150px;
-	display: inline-block;
-	margin: 0px 5px 15px 5px;
-	background: #fff;
-}
-.List .CartoonSub img{
-	width: 158px;
-	height: 100px;
-}
-.List .CartoonSubFootbar{
-	width: 153px;
-}
-.Love .CartoonSub{
-	width: 140px;
-	height: 150px;
-	display: inline-block;
-	margin: 0px 5px 15px 5px;
-	background: #fff;
-}
-.Love .CartoonSub img{
-	width: 140px;
-	height: 100px;
-}
-.Love .CartoonSubFootbar{
-	width: 135px;
-}
+
+
+
+
+
+
+
+
+
+
+
+
 .borderL{
 	border-left: 1px #bbb solid;
 }
@@ -785,6 +816,150 @@ nav li{
 }
 
 
+.SortAD{
+	float: left;
+	width: 822px;
+	padding: 10px 5px 8px 10px;
+}
+.SortAD img{
+	width: 822px;
+	height: 405px;
+}
+.SortZoom{
+	padding-left: 838px;
+	padding-bottom: 5px;
+}
+.SortZoom a{
+	width: 165px;
+	height: 90px;
+	display: inline-block;
+	margin: 8px 3px 0px 3px;
+	border: 2px #fff solid;
+}
+.SortZoom a img{
+	width: 165px;
+	height: 90px;
+}
+.SortZoom a:hover{
+	border: 2px #c40000 solid;
+}
+.Wid3{
+	float: left;
+	width: 31%;
+	padding: 0px 13px 10px 13px;
+}
+.SortType{
+	padding-top: 10px;
+}
+.SortType a{
+	display: inline-block;
+	margin: 0px 10px;
+	font-size: 14px;
+}
+.Sort2{
+	float: left;
+	width: 380px;
+	padding: 0px 10px;
+}
+.Sort2 img{
+	width: 380px;
+	height: 235px;
+}
+.Sort3{
+	float: left;
+	width: 600px;
+}
+.Sort1{
+	float: right;
+	width: 185px;
+	padding-right: 10px;
+}
+.Sort1AD img{
+	width: 185px;
+	height: 70px;
+}
+.Sort1 li{
+	padding: 5px 0px 5px 5px;
+	border-bottom: 1px #bbb dotted;
+}
+.Partners{
+	float: left;
+	width: 910px;
+}
+.Partners a{
+	display: inline-block;
+	margin: 10px 15px 0px 5px;
+	width: 90px;
+	text-align: center;
+}
+.Partners a img{
+	width: 90px;
+	height: 90px;
+	margin-bottom: 5px;
+}
+.LinUs{
+	padding: 0px 10px 0px 920px;
+}
+.LinUs ul{
+	padding-top: 10px;
+}
+.LinUs li{
+	padding: 5px 0px;
+	color: #666;
+}
+
+.HILeft{
+	float: left;
+	width: 900px;
+	background: #fff;
+	border: 1px #bbb solid;
+	padding: 10px 5px;
+}
+.HIRight{
+	float: right;
+	width: 250px;
+	height: 280px;
+	background: #fff;
+	border: 1px #bbb solid;
+	padding: 10px;
+}
+.HISub{
+	display: inline-block;
+	width: 166px;
+	margin: 0px 5px;
+	
+}
+.HISub img{
+	width: 166px;
+	height: 250px;
+	margin-bottom: 5px;
+}
+.HIRight li{
+	padding: 5px 0px;
+}
+.HIRight a{
+	display: inline-block;
+
+}
+.HIRight span{
+	display: inline-block;
+	width: 20px;
+	heigth: 25px;
+	text-align: center;
+	color: #fff;
+	font-size: 14px;
+	background: #c40000;
+	margin-right: 10px;
+}
+.HIRightAD{
+	padding-top: 10px;
+	text-align: center;
+}
+.HIRightAD img{
+	width: 250px;
+	height: 80px;
+	margin-bottom: 5px;
+}
 
 
 
@@ -792,6 +967,14 @@ nav li{
 
 
 
+
+
+
+
+.WhiteBg{
+	background: #fff;
+	border: 1px #bbb solid;
+}
 .clear{
 	clear: both;
 	height: 1px;
@@ -802,6 +985,9 @@ nav li{
 	color: #e83234;
 }
 */
+.font_r{
+	color: #b81c22;
+}
 .font_r a:link{
 	color: #b81c22;
 }	
@@ -861,4 +1047,19 @@ nav li{
 .Font_Score{
 	color: #f30;
 	font-size: 30px;
+}
+.font_w{
+	color: #fff;
+}
+.font_w a:link{
+	color: #fff;
+}	
+.font_w a:visited { 
+	color: #fff;
+}
+.font_w a:hover { 
+	color: #ff0;
+}	
+.font_w a:active { 
+	color: #fff;
 }

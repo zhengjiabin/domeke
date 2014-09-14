@@ -33,29 +33,26 @@ public class ActivityApplyController extends Controller {
 		Object activtiyId = getPara("activityId");
 		activityApply.set("activityid", activtiyId);
 		activityApply.save();
-		
+
 		Activity activity = Activity.dao.findById(activtiyId);
 		int applyNumber = activity.getInt("applynumber");
 		activity.set("applynumber", ++applyNumber);
 		activity.update();
-		
+
 		renderHtml("<html><body onload=\"alert('提交成功!');window.opener.location.reload();window.close();\"></body></html>");
 	}
-	
-	/**
-	 * 查询发起人活动的所有报名参与信息
-	 * 
-	 * @return 报名申请信息
-	 */
-	public void findByUserId() {
-		User user = getUser();
-		Object userId = user.get("userid");
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
 
-		Page<ActivityApply> page =ActivityApply.dao.findByUserId(userId, pageNumber, pageSize);
-		setAttr("page", page);
-		render("/demo/myActivity.html");
+	public void findByActivityId() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 2);
+
+		String activityId = getPara("activityId");
+		Page<ActivityApply> activityApplyPage = ActivityApply.dao
+				.findByActivityId(activityId, pageNumber, pageSize);
+
+		setAttr("activityApplyPage", activityApplyPage);
+		keepPara("pageAction", "fatherNode");
+		render("/demo/activityApplyPage.html");
 	}
 
 	/**
@@ -75,6 +72,5 @@ public class ActivityApplyController extends Controller {
 		session.setAttribute("user", test);
 		return test;
 	}
-	
-	
+
 }

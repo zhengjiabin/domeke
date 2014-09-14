@@ -2,6 +2,7 @@ package com.domeke.app.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.domeke.app.model.Activity;
@@ -25,10 +26,10 @@ public class ActivityController extends Controller {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 20);
 
-		Activity activity = getModel(Activity.class);
-		Page<Activity> page = activity.findPage(pageNumber, pageSize);
-		setAttr("page", page);
-		render("/demo/activity.html");
+		Page<Activity> activityPage = Activity.dao.findPage(pageNumber,
+				pageSize);
+		setAttr("activityPage", activityPage);
+		render("/demo/activityPage.html");
 	}
 
 	/**
@@ -56,22 +57,23 @@ public class ActivityController extends Controller {
 	 */
 	public void findById() {
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 20);
+		int pageSize = getParaToInt("pageSize", 2);
 		String activityId = getPara("activityId");
 		Activity activity = Activity.dao.findById(activityId);
 		setAttr("activity", activity);
 
-		Object userId = activity.get("userid");
-		Page<ActivityApply> activityApplyPage = ActivityApply.dao.findByUserId(
-				userId, pageNumber, pageSize);
+		Page<ActivityApply> activityApplyPage = ActivityApply.dao
+				.findByActivityId(activityId, pageNumber, pageSize);
 		setAttr("activityApplyPage", activityApplyPage);
 
-		Page<Comment> commentPage = Comment.dao.findPageByTargetId(activityId,
-				pageNumber, pageSize);
-		setAttr("commentPage", commentPage);
-
-		List<Comment> followPage = Comment.dao.findFollowByTargetId(activityId);
-		setAttr("followPage", followPage);
+		 Page<Comment> commentPage =
+		 Comment.dao.findPageByTargetId(activityId,"20",
+		 pageNumber, pageSize);
+		 setAttr("commentPage", commentPage);
+		
+		 List<Comment> followPage =
+		 Comment.dao.findFollowByTargetId(activityId,"20");
+		 setAttr("followPage", followPage);
 		render("/demo/detailActivity.html");
 	}
 
@@ -128,7 +130,98 @@ public class ActivityController extends Controller {
 	}
 
 	public void index() {
-		find();
+//		int pageNumber = getParaToInt("pageNumber", 1);
+//		int pageSize = getParaToInt("pageSize", 2);
+//
+//		Page<Activity> activityPage = Activity.dao.findPage(pageNumber,
+//				pageSize);
+//		setAttr("activityPage", activityPage);
+//		render("/demo/activity.html");
+		render("/admin/ventWall.html");
+	}
+	
+	/**
+	 * 添加回复信息
+	 */
+	public void replyComment() {
+		addComment();
+
+		setDataById();
+		setReplyCommentData();
+
+		String renderAction = getPara("renderAction");
+		render(renderAction);
+	}
+	
+	/**
+	 * 保存回复信息
+	 */
+	private void addComment() {
+		Comment comment = getModel(Comment.class);
+
+		Object targetId = getPara("targetId");
+		comment.set("targetid", targetId);
+
+		User user = getUser();
+		comment.set("userid", user.get("userid"));
+
+		comment.set("idtype", "20");
+
+		HttpServletRequest request = getRequest();
+		String remoteIp = request.getRemoteAddr();
+		comment.set("userip", remoteIp);
+
+		String pId = getPara("pId");
+		if (pId != null && pId.length() > 0) {
+			comment.set("pid", pId);
+		}
+
+		String toUserId = getPara("toUserID");
+		if (toUserId != null && toUserId.length() > 0) {
+			comment.set("touserid", toUserId);
+		}
+
+		Object message = getPara("message");
+		comment.set("message", message);
+		comment.save();
+	}
+	
+	/**
+	 * 添加额外的回复信息
+	 */
+	private void setReplyCommentData() {
+		Object targetId = getPara("targetId");
+		Object activityId = getPara("activityId");
+		Object publishFaceAction = "./activity/replyComment?activityId=" + activityId;
+
+		setAttr("targetId", targetId);
+		setAttr("publishFaceAction", publishFaceAction);
+		keepPara("pageAction", "fatherNode", "commentFatherNode");
+	}
+	
+	/**
+	 * 设置值
+	 */
+	private void setDataById() {
+		Object activityId = getPara("activityId");
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 2);
+
+		Activity activity = Activity.dao.findById(activityId);
+		setAttr("activity", activity);
+
+		Page<Comment> commentPage = Comment.dao.findPageByTargetId(activityId,"20",
+				pageNumber, pageSize);
+		setAttr("commentPage", commentPage);
+
+		List<Comment> followPage = Comment.dao.findFollowByTargetId(activityId,"20");
+		setAttr("followPage", followPage);
+
+		String pId = getPara("pId");
+		if (pId != null && pId.length() > 0) {
+			Comment comment = Comment.dao.findById(pId);
+			setAttr("comment", comment);
+		}
 	}
 
 	/**

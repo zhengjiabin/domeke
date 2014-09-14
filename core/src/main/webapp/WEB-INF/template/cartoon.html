@@ -1,42 +1,231 @@
 <% layout("/common/layout.html"){ %>
-<section>
-	<article>
-<section class="List">
-	<div class="CartoonTitle">原创动漫<a href="#">/更多</a></div>
-    <div class="CartoonContent">
-    <%
-    	for(works in workslist){
-    	
-    %>
-        <div class="CartoonSub">
-            <!-- <img src="images/pic_Cartoon2.png"> -->
-            <img src="${works.cover!}">
-            <div class="CartoonName">
-            	<a href="works/playVideo/?id=${works.worksid!}">${works.worksname!}</a>
-            </div>
-            <div class="CartoonInfo">
-               <span class="FloatL">${works.collection!}</span>
-               <span class="FloatR">${works.praise!}</span>
-            </div>
-            <div class="CartoonSubFootbar">${works.worksname!}</div>
+<section class="WhiteBg">
+  <div class="SortAD"><img src="images/pic_Cartoon4.png">
+  		<div class="SortADFootbar">
+           <a href="#"><img src="images/icon_play.png"></a>
+           <span>7月新番扫雷报告</span>
         </div>
-     <%
-     }
-     %>
-        <div class="CartoonSub">
-            <img src="images/pic_Cartoon2.png">
-            <div class="CartoonName"><a href="#">动画大电影</a></div>
-            <div class="CartoonInfo">
-               <span class="FloatL">2931</span>
-               <span class="FloatR">29</span>
-            </div>
-            <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-        </div>
-     </div> 
-	 <% include("/common/page.html"){}%>
+  </div>
+    <div class="SortZoom">
+    	<a href="#"><img src="images/icon14.png"></a>
+        <a href="#"><img src="images/pic_Cartoon5.png"></a>
+        <a href="#"><img src="images/pic_Cartoon3.png"></a>
+        <a href="#"><img src="images/pic_Cartoon6.png"></a>
+        <a href="#"><img src="images/icon14.png"></a>
+        <a href="#"><img src="images/pic_Cartoon8.png"></a>
+        <a href="#"><img src="images/pic_Cartoon7.png"></a>
+        <a href="#"><img src="images/icon14.png"></a>
+    </div>
+    
 </section>
-    </article>
-     <% include("/common/index_aside.html"){} %>
-    <div class="clear">&nbsp;</div>
+<div class="clear"></div>
+<section>
+	<div class="Wid3">
+    	<div class="CartoonTitleB">地区分类</div>
+        <div class="SortType"><a href="#">日本动画</a><a href="#">欧动画美</a>
+        <a href="#">国产动画</a><a href="#">日本动画</a>
+        </div>
+    </div>
+    <div class="Wid3">
+    	<div class="CartoonTitleB">热门类型</div>
+        <div class="SortType"><a href="#">搞笑</a><a href="#">热血</a>
+        <a href="#">校园</a><a href="#">冒险</a><a href="#">搞笑</a><a href="#">热血</a>
+        <a href="#">校园</a>
+        </div>
+    </div>
+    <div class="Wid3">
+    	<div class="CartoonTitleB">精品原创</div>
+        <div class="SortType"><a href="#">十万个冷笑话</a><a href="#">暴走使者</a>
+        <a href="#">中国崛起先生</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+</section>
+<section>
+	<div class="CartoonTitleC">HI豆推荐<a href="#">更多 &gt;&gt;</a></div>
+    <div class="CartoonContent">
+   	  <div class="HILeft">
+        	<div class="HISub"><img src="images/pic_Cartoon5.png"><br /><a href="#">加菲猫</a></div>
+            <div class="HISub"><img src="images/pic_Cartoon6.png"><br /><a href="#">丁丁历险记</a></div>
+            <div class="HISub"><img src="images/pic_Cartoon5.png"><br /><a href="#">加菲猫</a></div>
+            <div class="HISub"><img src="images/pic_Cartoon6.png"><br /><a href="#">丁丁历险记</a></div>
+            <div class="HISub"><img src="images/pic_Cartoon5.png"><br /><a href="#">加菲猫</a></div>
+        </div>
+        <div class="HIRight">
+        	<div class="CartoonTitleC">大家爱看</div>
+            <ul>
+            	<li><span>1</span><a href="#">小马利亚</a></li>
+                <li><span>2</span><a href="#">喜羊羊与灰太狼</a></li>
+                <li><span>3</span><a href="#">巴拉拉小魔仙之奇迹舞步</a></li>
+                <li><span>5</span><a href="#">喜羊羊与灰太狼</a></li>
+            </ul>
+            <div class="HIRightAD"><a href="#"><img src="images/pic_Cartoon4.png"></a>
+            <a href="#">驯龙高手2最终预告</a>
+            </div>	
+        </div>
+        <div class="clear"></div>
+    </div>
+</section>
+<section>
+	<div class="CartoonTitleC">猜你喜欢<a href="#">更多 &gt;&gt;</a></div>
+    <div class="CartoonContent WhiteBg Guess">
+    	<div class="CartoonSub">
+        	<img src="images/pic_Cartoon2.png"><br />
+            <a href="#">迪迦奥特曼</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon4.png"><br />
+            <a href="#">小龙人</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon5.png"><br />
+            <a href="#">大头儿子小头爸爸</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon6.png"><br />
+            <a href="#">巧虎低幼版</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon1.png"><br />
+            <a href="#">功夫兔子</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon5.png"><br />
+            <a href="#">大头儿子小头爸爸</a>
+        </div>
+    </div>
+</section>
+<section>
+	<div class="CartoonTitleC">HI动漫<a href="#">更多 &gt;&gt;</a></div>
+    <div class="CartoonContent"><img src="images/roll.png" width="1200" height="227"></div>
+</section>
+<section>
+	<div class="CartoonTitleC">原创精选<a href="#">更多 &gt;&gt;</a></div>
+    <div class="CartoonContent WhiteBg Guess">
+    	<div class="CartoonSub">
+        	<img src="images/pic_Cartoon2.png"><br />
+            <a href="#">迪迦奥特曼</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon4.png"><br />
+            <a href="#">小龙人</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon5.png"><br />
+            <a href="#">大头儿子小头爸爸</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon6.png"><br />
+            <a href="#">巧虎低幼版</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon1.png"><br />
+            <a href="#">功夫兔子</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon5.png"><br />
+            <a href="#">大头儿子小头爸爸</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon2.png"><br />
+            <a href="#">迪迦奥特曼</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon4.png"><br />
+            <a href="#">小龙人</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon5.png"><br />
+            <a href="#">大头儿子小头爸爸</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon6.png"><br />
+            <a href="#">巧虎低幼版</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon1.png"><br />
+            <a href="#">功夫兔子</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon5.png"><br />
+            <a href="#">大头儿子小头爸爸</a>
+        </div>
+    </div>
+</section>
+<section>
+	<div class="CartoonTitleC">人气作品<a href="#">更多 &gt;&gt;</a></div>
+    <div class="CartoonContent WhiteBg">
+    	<div class="Sort2">
+        	<img src="images/pic_Cartoon7.png"><br />
+        	<a href="#">新海诚历险记</a>
+        </div>
+        <div class="Sort3 Guess">
+        	<div class="CartoonSub">
+                <img src="images/pic_Cartoon2.png"><br />
+                <a href="#">迪迦奥特曼</a>
+            </div>
+            <div class="CartoonSub">
+                <img src="images/pic_Cartoon4.png"><br />
+                <a href="#">小龙人</a>
+            </div>
+            <div class="CartoonSub">
+                <img src="images/pic_Cartoon5.png"><br />
+                <a href="#">大头儿子小头爸爸</a>
+            </div>
+            <div class="CartoonSub">
+                <img src="images/pic_Cartoon6.png"><br />
+                <a href="#">巧虎低幼版</a>
+            </div>
+            <div class="CartoonSub">
+                <img src="images/pic_Cartoon1.png"><br />
+                <a href="#">功夫兔子</a>
+            </div>
+            <div class="CartoonSub">
+                <img src="images/pic_Cartoon5.png"><br />
+                <a href="#">大头儿子小头爸爸</a>
+            </div>
+        </div>
+        <div class="Sort1">
+        	<div class="CartoonTitleC">独家报道</div>
+            <div class="Sort1AD"><a href="#"><img src="images/pic_Cartoon8.png"></a></div>
+            <ul>
+            	<li><a href="#">冰果正传 特辑预告</a></li>
+                <li><a href="#">【疯狂的兔子】 预告</a></li>
+                <li><a href="#">画江湖之不良人</a></li>
+                <li><a href="#">冰果正传 特辑预告</a></li>
+                <li><a href="#">画江湖之不良人</a></li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+</section>
+<section>
+	<div class="CartoonTitleC">新作预告<a href="#">更多 &gt;&gt;</a></div>
+    <div class="CartoonContent WhiteBg Guess">
+    	<div class="CartoonSub">
+        	<img src="images/pic_Cartoon2.png"><br />
+            <a href="#">迪迦奥特曼</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon4.png"><br />
+            <a href="#">小龙人</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon5.png"><br />
+            <a href="#">大头儿子小头爸爸</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon6.png"><br />
+            <a href="#">巧虎低幼版</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon1.png"><br />
+            <a href="#">功夫兔子</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon5.png"><br />
+            <a href="#">大头儿子小头爸爸</a>
+        </div>
+    </div>
 </section>
 <% } %> 

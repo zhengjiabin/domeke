@@ -36,5 +36,9 @@ public class IndexController extends Controller {
 	public void shop() {
 		render("shop.html");
 	}
+	
+	public void forum() {
+		render("forum.html");
+	}
 
 }

@@ -1,0 +1,37 @@
+<script src="${core}/js/activity.js" type="text/javascript"></script>
+<div><% if(activityPage != null){ layout("/common/page.html",
+	{"page":activityPage,"pageAction":"./activity/find","fatherNode":"#page"}
+	){} }%></div>
+<div>
+	<table>
+		<thead>
+			<tr>
+				<td style="width: 250px">发起人姓名</td>
+				<td style="width: 250px">标题</td>
+				<td style="width: 250px">开始时间</td>
+				<td style="width: 250px">结束时间</td>
+				<td style="width: 250px">地点</td>
+				<td style="width: 250px">类别、活动分类</td>
+				<td style="width: 250px">已参加人数</td>
+				<td style="width: 250px">报名截止日期</td>
+				<td style="width: 250px">操作</td>
+			</tr>
+		</thead>
+		<tbody>
+			<% for (activity in activityPage.list){ %>
+			<tr>
+				<td>${username!}</td>
+				<td><a
+					href="./activity/findById?activityId=${activity.activityid!}">${activity.subject!}</a></td>
+				<td>${activity.starttimefrom!}</td>
+				<td>${activity.starttimeto!}</td>
+				<td>${activity.place!}</td>
+				<td>${activity.class!}</td>
+				<td>${activity.applynumber!}</td>
+				<td>${activity.expiration!}</td>
+				<td><a herf="#" onclick="openApply(${activity.activityid!})">报名参加</a></td>
+			</tr>
+			<% } %>
+		</tbody>
+	</table>
+</div>
