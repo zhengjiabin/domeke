@@ -96,8 +96,8 @@ public class User extends Model<User> {
 		Db.update(sql);
 	}
 	
-	public void updateUserMsg(String userid,String clom,String param){
-		String sql="update user set "+clom+"='"+param+"' where userid='"+userid+"'";
+	public void updateUserMsg(String email,String clom,String param){
+		String sql="update user set "+clom+"='"+param+"' where email='"+email+"'";
 		Db.update(sql);
 	}
 	
@@ -111,5 +111,9 @@ public class User extends Model<User> {
 		String sql="update user set password='"+pass+"' where userid='"+userid+"'";
 		Db.update(sql);
 	}
-	
+	public User getUserForId(Long id){
+		String sql = "select * from user where userid = '"+id+"'";
+		User user = dao.findFirst(sql);
+		return user;
+	}
 }
