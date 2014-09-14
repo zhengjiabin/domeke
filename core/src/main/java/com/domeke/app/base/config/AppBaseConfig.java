@@ -19,6 +19,7 @@ import com.jfinal.config.Routes;
 import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.plugin.activerecord.tx.TxByActionMethods;
+import com.jfinal.plugin.activerecord.tx.TxByRegex;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.plugin.spring.SpringPlugin;
@@ -47,6 +48,10 @@ public class AppBaseConfig extends JFinalConfig {
 		interceptors.add(new GlobalInterceptor());
 		interceptors.add(new SessionInViewInterceptor());
 		interceptors.add(new TxByActionMethods("save", "update", "delete", "regist"));
+		interceptors.add(new TxByRegex(".*add*."));
+		interceptors.add(new TxByRegex(".*save*."));
+		interceptors.add(new TxByRegex(".*updte*."));
+		interceptors.add(new TxByRegex(".*delete*."));
 	}
 
 	@Override
