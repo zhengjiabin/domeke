@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,9 +28,9 @@ public class CodeKit extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 785539256371426468L;
 
-	private static Map<String, String> codeTableMap;
+	private static Map<String, Record> codeTableMap;
 
-	private static Map<String, Map<String, String>> codeTypeMap;
+	private static Map<String, Map<String, Record>> codeTypeMap;
 
 	private Logger logger = LoggerFactory.getLogger(CodeKit.class);
 
@@ -47,14 +48,13 @@ public class CodeKit extends HttpServlet {
 		for (Record codeTable : codetableList) {
 			String codeType = codeTable.getStr("codetype");
 			String codeKey = codeTable.getStr("codekey");
-			String codeValue = codeTable.getStr("codevalue");
 			if (!codeTypeMap.containsKey(codeType)) {
 				codeTableMap = Maps.newHashMap();
 				codeTypeMap.put(codeType, codeTableMap);
-				codeTableMap.put(codeKey, codeValue);
+				codeTableMap.put(codeKey, codeTable);
 			} else {
 				codeTableMap = codeTypeMap.get(codeType);
-				codeTableMap.put(codeKey, codeValue);
+				codeTableMap.put(codeKey, codeTable);
 			}
 		}
 	}
@@ -69,7 +69,7 @@ public class CodeKit extends HttpServlet {
 	 * @return
 	 */
 	public static String getValue(String codeType, String codeKey) {
-		Map<String, String> codeMap = Maps.newHashMap();
+		Map<String, Record> codeMap = Maps.newHashMap();
 		if (codeTypeMap != null) {
 			codeMap = codeTypeMap.get(codeType);
 		} else {
@@ -80,7 +80,7 @@ public class CodeKit extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		return codeMap != null && codeMap.get(codeKey) != null ? codeMap.get(codeKey) : "";
+		return codeMap != null && codeMap.get(codeKey) != null ? codeMap.get(codeKey).get("codevalue") : "";
 	}
 
 	/**
@@ -90,7 +90,20 @@ public class CodeKit extends HttpServlet {
 	 * @return
 	 */
 	public static List<CodeTable> getList(String codeType) {
-		return null;
+		codeTableMap = codeTypeMap.get(codeType);
+		Set<String> keySet = codeTableMap.keySet();
+		CodeTable codeTable = null;
+		List<CodeTable> list = Lists.newArrayList();
+		for (String key : keySet) {
+			codeTable = new CodeTable();
+			codeTable.set("codekey", codeTableMap.get(key).get("codekey"));
+			codeTable.set("codetype", codeTableMap.get(key).get("codetype"));
+			codeTable.set("codevalue", codeTableMap.get(key).get("codevalue"));
+			codeTable.set("codename", codeTableMap.get(key).get("codename"));
+			codeTable.set("sortnum", codeTableMap.get(key).get("sortnum"));
+			list.add(codeTable);
+		}
+		return list;
 	}
 
 	private List<Record> query(String sql) {
