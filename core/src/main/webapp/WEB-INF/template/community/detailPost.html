@@ -12,6 +12,7 @@
                 </div>
         </div>
 		<div class="clear"></div> 
+	<div id="replyComments">
 		<div class="ForumBody">
         	<div class="FBodyTop"><a href="#"><img src="../images/FIcon06.png"></a><a href="#"><img src="../images/FIcon05.png"></a></div>
             <div class="FBodyContent">${post.message!}</div>
@@ -32,8 +33,22 @@
 				}%>
             </div>
             <div class="clear"></div>
-            
       </div>
+      <div class="ForumInfoA">共3个关于厦门海沧镇拆迁办及城管纠集100人殴打 无辜群众及村民、老人的回复，最后回复于14分钟前</div>
+      <div id="commentHtml"><% if(commentPage != null && post.postid != null){ 
+					layout(
+					"/comment/comment.html",
+					{
+					"commentPage":commentPage,
+					"targetId":post.postid,
+					"commentAction":"./post/replyComment?postId="+post.postid,
+					"followAction":"./post/replyFollow?postId="+post.postid,
+					"pageAction":"./post/findCommentByPostId?targetId="+post.postid+"&postId="+post.postid,
+					"fatherNode":"#commentHtml"
+					}
+					){}
+				}%></div>
+   </div>
 		<!-- <div id="replyComments">
 			<div class="control-group" align="right"><% if(post.postid != null){ 
 					layout(

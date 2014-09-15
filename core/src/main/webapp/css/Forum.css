@@ -236,9 +236,87 @@ nav li{
 	border: 1px #ddd solid;
 	padding: 3px 8px;
 }
-
-
-
+.ForumPath{
+	padding-bottom: 10px;
+}
+.ForumPath a{
+	margin: 0px 5px;
+}
+.ForumTheme{
+	padding: 10px 0px;
+	height: 60px;
+}
+.ForumTheme .ListName{
+	font-size: 20px;
+}
+.ForumBody{
+	background: #fff;
+	padding: 10px;
+}
+.FBodyTop a{
+	float: right;
+	margin: 0px 10px;
+}
+.FBodyContent{
+	padding: 20px;
+	min-height: 200px;
+	font-size: 16px;
+}
+.FBodyBottom a,.ReplyBottom a{
+	margin: 0px 10px;
+}
+.FL{
+	float: left;
+}
+.FR{
+	float: right;
+}
+.ForumInfoA{
+	background: #f4f5f9;
+	padding:9px;
+}
+.ForumReply{
+	background: #fff;
+	border-bottom: 2px #ddd solid;
+}
+.ReplyHead{
+	float: left;
+	width: 100px;
+	text-align: center;
+	padding-top: 20px;
+}
+.ReplyHead img{
+	width: 70px;
+	height: 70px;
+	border-radius: 5px;
+}
+.ReplyBody{
+	padding: 10px 10px 10px 100px;
+}
+.ReplyTop{
+	color: #999;
+}
+.ReplyTop span{
+	padding: 0px  5px;
+}
+.ReplyID{
+	font-size: 18px;
+}
+.ReplyInfo{
+	font-size: 16px;
+	padding: 20px 20px 80px 20px;
+}
+.ReplyBottom{
+	padding-bottom: 10px;
+}
+.White{
+	background: #fff;
+}
+.PiecesText{
+	margin: 20px 0px;
+	background: #fff;
+	height: 250px;
+}
 .font_gr{
 	color: #2f9f39;
 }

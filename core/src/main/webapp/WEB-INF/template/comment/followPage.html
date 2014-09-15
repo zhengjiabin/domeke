@@ -1,26 +1,30 @@
-<div>
-	<% for (follow in followPage){
+<% for (follow in followPage){
 	if(follow.pid!=comment.commentid){continue;}%>
-	<div class="control-group">用户名:${follow.userid!}</div>
+<div class="ForumReply">
+      	<div class="ReplyHead"><img src="../images/qq4.jpg"></div>
+        <div class="ReplyBody">
+        	<div class="ReplyTop">
+            	<span class="ReplyID font_ye"><a href="#">用户：${follow.userid!}</a></span>
+            	<span >内容:${follow.message!}</span>
+                <span>发表时间：${follow.dateline!}</span>
+            </div>
+          	<div class="ReplyBottom font_9">
+            
+            <%
+				layout(
+				"/common/publishFace.html",
+				{
+					"targetId":targetId,
+					"publishFaceAction":followAction,
+					"pId":comment.commentid,
+					"toUserId":follow.commentid,
+					"commentFatherNode":"#commentContent"
+				}
+				){}
+			%>
+			</div>
+        </div>
+        <div class="clear"></div>
+</div> 
+<% } %>
 
-	<div class="control-group">回复对象:${follow.touserid!}</div>
-
-	<div class="control-group">内容:${follow.message!}</div>
-
-	<div>
-		<%
-		layout(
-			"/common/publishFace.html",
-			{
-				"targetId":targetId,
-				"publishFaceAction":followAction,
-				"pId":comment.commentid,
-				"toUserId":follow.commentid,
-				"commentFatherNode":"#commentContent"
-			}
-		){}
-		%>
-	</div>
-	<% } %>
-
-</div>

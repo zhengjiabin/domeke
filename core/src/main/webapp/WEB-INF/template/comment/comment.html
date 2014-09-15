@@ -1,3 +1,47 @@
+<% for (comment in commentPage.list){ %>
+<div class="ForumReply" id="commentContents">
+      	<div class="ReplyHead"><img src="../images/qq4.jpg"></div>
+        <div class="ReplyBody">
+        	<div class="ReplyTop">
+            	<span class="ReplyID font_ye"><a href="#">用户：${comment.userid!}</a></span>
+                <span>发表时间：${comment.dateline!}</span>
+                <span class="font_9"><a href="#">只看该作者</a></span>
+            </div>
+            <div class="ReplyInfo">内容:${comment.message!}
+            <div id="commentContent" >
+				<%
+					if(followPage != null){
+					layout(
+						"/comment/followPage.html",
+						{
+							"followPage":followPage,
+							"comment":comment,
+							"followAction":followAction
+						}
+					){} 
+				}
+				%>
+			</div>
+			</div>
+            
+            <div class="ReplyBottom font_9">
+            <%
+			layout(
+				"/common/publishFace.html",
+				{
+					"targetId":targetId,
+					"publishFaceAction":followAction,
+					"pId":comment.commentid,
+					"commentFatherNode":"#commentContents"
+				}
+			){}
+			%>
+            </div>
+        </div>
+        <div class="clear"></div>
+</div> 
+<% } %>
+
 <div>
 	<% if(commentPage != null){ 
 		layout(
@@ -10,41 +54,4 @@
 			}
 		){} 
 	}%>
-</div>
-<% for (comment in commentPage.list){ %>
-<div class="control-group" id="commentContents">
-
-	<div class="control-group">用户名:${comment.userid!}</div>
-
-	<div class="control-group">时间:${comment.dateline!}</div>
-
-	<div class="control-group">内容:${comment.message!}</div>
-	<%
-			layout(
-				"/common/publishFace.html",
-				{
-					"targetId":targetId,
-					"publishFaceAction":followAction,
-					"pId":comment.commentid,
-					"commentFatherNode":"#commentContents"
-				}
-			){}
-	%>
-	
-	<div class="control-group" align="center" style="color: red"
-		id="commentContent">
-		<%
-			if(followPage != null){
-				layout(
-					"/comment/followPage.html",
-					{
-						"followPage":followPage,
-						"comment":comment,
-						"followAction":followAction
-					}
-				){} 
-			}
-		%>
-	</div>
-</div>
-<% } %>
+</div> 
