@@ -36,8 +36,8 @@ public class AppBaseConfig extends JFinalConfig {
 		// 设置编码格式统一为utf-8 解决乱码问题
 		constants.setEncoding(DomekeConstants.ENCODE);
 		constants.setMainRenderFactory(new DomekeBeetlRenderFactory());
-		constants.setError404View("");
-		constants.setError500View("");
+		constants.setError404View("/common/404.html");
+		constants.setError500View("/common/500.html");
 	}
 
 	@Override
