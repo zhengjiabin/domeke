@@ -1,44 +1,32 @@
 <aside class="AsideBg">
-<div class="ZoomBlock">
-        	<div class="MeTitle">个人中心</div>
-            <ul>
-            	<li><a href="personal/forMyProduction?menuId=1">我的作品</a></li>
-                <li><a href="personal/forMyProduction?menuId=2">播放记录</a></li>
-                <li><a href="personal/forMyProduction?menuId=4">修改密码</a></li>
-                <li><a href="#">我的下载</a></li>
-                <li><a href="#">参与的活动</a></li>
-                <li><a href="personal/forMyProduction?menuId=3">会员等级</a></li>
-                <li><a href="personal/forMyProduction?menuId=3">会员积分</a></li>
-                <li><a href="#">动画收藏</a></li>
-            </ul>
-        </div>
-        <div class="ZoomBlock">
-        	<div class="MeTitle">个人账户</div>
-            <ul>
-            	<li><a href="#">我的订单</a></li>
-                <li><a href="#">我的付费服务</a></li>
-                <li><a href="#">我的现金账户</a></li>
-                <li><a href="#">商品评价</a></li>
-                <li><a href="#">商品收藏</a></li>
-                <li><a href="#">我的优惠券</a></li>
-            </ul>
-        </div>
-        <div class="ZoomBlock">
-        	<div class="MeTitle">售后服务</div>
-            <ul>
-            	<li><a href="#">换货单</a></li>
-                <li><a href="#">退货单</a></li>
-                <li><a href="#">维修单</a></li>
-                <li><a href="#">领取快递补偿</a></li>
-                <li><a href="#">预约亲临门店服务</a></li>
-            </ul>
-        </div>
-        <div class="ZoomBlock">
-        	<div class="MeTitle">账户管理</div>
-            <ul>
-            	<li><a href="#">收货地址管理</a></li>
-               
-                <li><a href="#">VIP认证</a></li>
-            </ul>
-  </div>
+		<%
+		var count = 0;
+		for(m in topMenuMP){
+		count = count + 1;		
+			if(mLP.first && m.top == "1"){
+		%>
+				<div class="ZoomBlock">
+        		<div class="MeTitle">${m.menuname!}</div>
+           		<ul>
+		<%
+			} else if(count > 1 && m.top == "1"){
+		%>
+			    </ul>
+        	</div>
+        		<div class="ZoomBlock">
+        		<div class="MeTitle">${m.menuname!}</div>
+           		<ul>
+		<%
+			} else if(mLP.last){			
+		%>
+				</ul>
+        	</div>
+		<%
+			} else if(m.top == "2"){
+		%>
+			<li><a href="${m.actionkey!}?menuId=1">${m.menuname!}</a></li>
+		<%
+			}
+		}
+		%>
   </aside>
