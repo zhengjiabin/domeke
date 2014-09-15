@@ -3,6 +3,7 @@
  */
 package com.domeke.app.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -93,7 +94,7 @@ public class UserController extends Controller {
     }
 	public void goUserManage(){
 		userManage();
-		render("/demo/userManage.html");
+		render("/admin/user.html");
 	}
 	
 	public void userManage(){
@@ -130,6 +131,20 @@ public class UserController extends Controller {
 	}
 	public void search(){
 		 render("/searchPassword.html");	 
+	}
+	
+	public void sechUserForName(){
+		try {
+			this.getRequest().setCharacterEncoding("utf-8");
+			String userSearch = this.getRequest().getParameter("userSearch");
+			userSearch =  new String(userSearch.getBytes("ISO-8859-1"),"UTF-8");
+			System.out.println(userSearch);
+		} catch (UnsupportedEncodingException e) {
+			
+			e.printStackTrace();
+		}
+	
+	
 	}
 	public void sendPassword(){
 		User user = getModel(User.class);
@@ -211,4 +226,6 @@ public class UserController extends Controller {
 	    }     
 	    return sb.toString();     
 	 } 
+	
+	
 }
