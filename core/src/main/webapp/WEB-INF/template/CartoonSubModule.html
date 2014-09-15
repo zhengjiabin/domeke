@@ -2,15 +2,15 @@
 <section class="List" id="page">
 	<div class="CartoonTitle">原创动漫</div>
     <div class="CartoonContent">
-    	<% for (list in pageList.list){ %>
+    	<% for (works in pageList.list){ %>
         <div class="CartoonSub">
-            <img src="../images/pic_Cartoon2.png">
-            <div class="CartoonName"><a href="#">动画大电影</a></div>
+            <img src="${works.cover!}">
+            <div class="CartoonName"><a href="#">${works.worksname!}</a></div>
             <div class="CartoonInfo">
-               <span class="FloatL">2931</span>
-               <span class="FloatR">29</span>
+               <span class="FloatL">${works.pageviews!}</span>
+               <span class="FloatR">${works.praise!}</span>
             </div>
-            <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+            <div class="CartoonSubFootbar">${works.worksname!}</div>
         </div>
         <% } %>
      </div> 

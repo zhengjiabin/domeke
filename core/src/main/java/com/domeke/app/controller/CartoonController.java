@@ -16,7 +16,7 @@ public class CartoonController extends Controller {
 	public void index() {
 		setAttr("menuid", "2");
 		Works works = getModel(Works.class);
-		Page<Works> list = works.getWorksInfoPage("1", 1, 20);
+		Page<Works> list = works.getWorksInfoPage("10", 1, 14);
 		setAttr("pageList", list);
 		render("/CartoonSubModule.html");
 	}
