@@ -143,6 +143,7 @@ public class UserController extends Controller {
 			userList = user.getUser("username", userSearch);
 			this.setAttr("userList", userList);
 			render("/admin/user.html");
+			
 		} catch (UnsupportedEncodingException e) {
 			
 			e.printStackTrace();
