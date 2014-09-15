@@ -13,6 +13,64 @@ import com.jfinal.core.Controller;
  */
 @Before(GlobalInterceptor.class)
 public class MenuController extends Controller {
+	
+	public void goToManager(){
+		Menu.menuDao.removeCache();
+		Menu menu = getModel(Menu.class);
+		List<Menu> menuList = menu.selectMenu();
+		setAttr("menuList", menuList);
+		render("/admin/menu.html");
+	}
+	
+	/**
+	 * 新增菜单入口
+	 */
+	public void addMenu() {		
+		Menu menu = getModel(Menu.class);
+		List<Menu> menuList = menu.selectMenu();
+		setAttr("menuList", menuList);
+		render("/admin/addMenu.html");
+	}
+	
+	/**
+	 * 新增菜单
+	 */
+	public void saveMenu() {
+		Menu menu = getModel(Menu.class);
+		menu.saveMenu();
+		goToManager();
+	}
+	
+	/**
+	 * 删除菜单
+	 */
+	public void deleteMenu() {
+		Menu menu = getModel(Menu.class);
+		int menuid = getParaToInt();
+		menu.deleteMenu(menuid);
+		goToManager();
+	}
+	
+	/**
+	 * 根据menuid查询菜单
+	 */
+	public void selectMenuById() {
+		int menuid = getParaToInt();
+		Menu menu = Menu.menuDao.selectMenuById(menuid);
+		setAttr("menu", menu);
+		List<Menu> menuList = menu.selectMenu();
+		setAttr("menuList", menuList);
+		render("/admin/updateMenu.html");
+	}
+	
+	/**
+	 * 更新菜单
+	 */
+	public void updateMenu() {
+		Menu menu = getModel(Menu.class);
+		menu.updateMenu();
+		goToManager();
+	}
 
 	public Menu getMenuById(int menuid){
 		Menu menu = Menu.menuDao.selectMenuById(menuid);
@@ -42,8 +100,6 @@ public class MenuController extends Controller {
 		setAttr("menuid", menuid);
 		render("/demo/selectMenu.html");
 	}
-	
-	
 
 	/**
 	 * 获取一级菜单
@@ -56,91 +112,4 @@ public class MenuController extends Controller {
 		return menuOneMenu;
 	}
 
-	/**
-	 * 新增菜单入口
-	 */
-	public void addMenu() {
-		List<Menu> menuOneMenu = menuOneMenu();
-		setAttr("menuid", "7");
-		setAttr("menuOneMenu", menuOneMenu);
-		Menu menu = getModel(Menu.class);
-		List<Menu> menuList = menu.selectMenu();
-		setAttr("menuList", menuList);
-		render("/demo/addMenu.html");
-	}
-
-	/**
-	 * 新增菜单
-	 */
-	public void saveMenu() {
-		Menu menu = getModel(Menu.class);
-		menu.saveMenu();
-		selectMenu();
-	}
-
-	/**
-	 * 动态获取菜单
-	 */
-	/*
-	public void goMMenu(){
-		String menuid = "";
-		menuid = getPara();		
-		Menu.menuDao.removeCache();
-		Menu menu = getModel(Menu.class);
-		List<Menu> menuOneMenu = menu.getOneMenu();
-		List<Menu> menuMenuList = menu.getTwoMenu(menuid);
-		if(menuid == "" || menuid == null || "14".equals(menuid)){
-			menuMenuList = menu.selectMenu();
-		}
-		setAttr("menuOneMenu", menuOneMenu);
-		setAttr("menuMenuList", menuMenuList);
-		render("/demo/selectMainMenu.html");
-	}
-	*/
-	/**
-	 * 获取子菜单
-	 */
-	public void getTwoMenu() {
-		String menuid = getPara();
-		Menu menu = getModel(Menu.class);
-		List<Menu> menuTwoMenu = menu.getTwoMenu(menuid);
-		setAttr("menuTwoMenu", menuTwoMenu);
-		selectMenu();
-	}
-
-	/**
-	 * 根据menuid查询菜单
-	 */
-	public void selectMenuById() {
-		int menuid = getParaToInt();
-		Menu menu = Menu.menuDao.selectMenuById(menuid);
-		setAttr("menu", menu);
-		Menu.menuDao.removeCache();
-		List<Menu> menuOneMenu = menu.getTopMenu();
-		setAttr("menuOneMenu", menuOneMenu);
-		setAttr("menuid", "7");
-		List<Menu> menuList = menu.selectMenu();
-		setAttr("menuList", menuList);
-		render("/demo/updateMenu.html");
-	}
-
-	/**
-	 * 更新菜单
-	 */
-	public void updateMenu() {
-		Menu menu = getModel(Menu.class);
-		menu.updateMenu();
-		selectMenu();
-	}
-
-	/**
-	 * 删除菜单
-	 */
-	public void deleteMenu() {
-		Menu menu = getModel(Menu.class);
-		int menuid = getParaToInt();
-		menu.deleteMenu(menuid);
-		// selectMenu();
-		redirect("/menu/selectMenu?menuid=" + menuid, true);
-	}
 }
