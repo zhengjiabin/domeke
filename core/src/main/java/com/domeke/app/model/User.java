@@ -85,8 +85,14 @@ public class User extends Model<User> {
 
 		return null;
 	}
-	public List<User> getUser(){
-		String sql = "select * from user";
+	public List<User> getUser(String colm,String param){
+		String sql="";
+		if(colm == null || param == null){
+			 sql = "select * from user";
+		}else {
+			 sql = "select * from user where "+colm+" LIKE '%"+param+"%'";
+		}
+		
 		List<User> list = dao.find(sql);
 		return list;
 	}
