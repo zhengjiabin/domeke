@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ous <!DOCTYPE html>
 <html>
 
 <head>
@@ -23,6 +23,10 @@
 <script type="text/javascript">
 	function goToManage(render) {
 		window.location.href = "./admin/goToManager?render=" + render;
+	}
+	function search() {
+		var userSearch = encodeURIComponent(document.getElementById('userSearch').value);
+		window.location.href = "user/sechUserForName?userSearch="+userSearch;
 	}
 </script>
 </head>
