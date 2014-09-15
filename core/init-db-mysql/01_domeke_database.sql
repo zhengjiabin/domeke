@@ -463,7 +463,7 @@ CREATE TABLE `treasure_approve` (
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `userid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `username` varchar(16) NOT NULL,
+  `username` varchar(64) NOT NULL,
   `password` varchar(32) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `nickname` varchar(16) DEFAULT NULL,
