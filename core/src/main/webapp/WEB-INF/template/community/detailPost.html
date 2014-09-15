@@ -1,44 +1,40 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>帖子信息</title>
-<base href="${core}/" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- Bootstrap -->
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
-	media="screen">
-<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
-	media="screen">
-<link href="assets/styles.css" rel="stylesheet" media="screen">
-<script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-
-</head>
-<body>
-	<div>
-		<h1>
-			<a href="./post/find">帖子信息 </a>
-		</h1>
-		<div>
-			<div class="control-group" hidden="block">
-				帖子ID:${post.postid!} <input name="postId" type="hidden"
-					value="${post.postid!}">
-			</div>
-
-			<div class="control-group">楼主:${username!}</div>
-
-			<div class="control-group">标题:${post.subject!}</div>
-
-			<div class="control-group">发表时间:${post.dateline!}</div>
-
-			<div class="control-group">帖子内容:${post.message!}</div>
-
-			<div class="control-group">是否匿名:${post.anonymous!}</div>
-
-			<div class="control-group">是否启用签名:${post.usesig!}</div>
-		</div>
-
-		<div id="replyComments">
+<% layout("/community/community_layout.html"){ %>
+<script src="${core}/js/post.js" type="text/javascript"></script>
+<article>
+		<div class="ForumTheme">
+        	<div class="ListPic"><img src="../images/qq4.jpg"></div>
+                <div class="ListDtl">
+                	<div class="ListName"><a href="#">${post.subject!}</a></div>
+                     <div class="font_9">
+                    	<span><a href="#">楼主：${post.postid!}</a></span>
+                        <span>发表时间：${post.dateline!}</span>
+                    </div>
+                </div>
+        </div>
+		<div class="clear"></div> 
+		<div class="ForumBody">
+        	<div class="FBodyTop"><a href="#"><img src="../images/FIcon06.png"></a><a href="#"><img src="../images/FIcon05.png"></a></div>
+            <div class="FBodyContent">${post.message!}</div>
+            <div class="FBodyBottom font_9">
+            	<% if(post.postid != null){ 
+					layout(
+					"/common/ckeditor.html",
+					{
+					"targetId":post.postid,
+					"ckeditorAction":"./post/replyComment?postId="+post.postid,
+					"ckeditorNode":"#replyComments",
+					"commentAction":"./post/replyComment?postId="+post.postid,
+					"followAction":"./post/replyFollow?postId="+post.postid,
+					"pageAction":"./post/findCommentByPostId?targetId="+post.postid+"&postId="+post.postid,
+					"fatherNode":"#commentHtml"
+					}
+					){}
+				}%>
+            </div>
+            <div class="clear"></div>
+            
+      </div>
+		<!-- <div id="replyComments">
 			<div class="control-group" align="right"><% if(post.postid != null){ 
 					layout(
 					"/common/ckeditor.html",
@@ -66,7 +62,10 @@
 					}
 					){}
 				}%></div>
-		</div>
-	</div>
-</body>
-</html>
+		</div> -->
+</article>
+<aside>
+<div class="AsideBTitle font_w"><a href="javascript:void(0);" onclick="skipCreate('${communityId!}')">发布主题</a></div>
+</aside>
+<% } %>
+		

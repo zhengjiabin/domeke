@@ -4,7 +4,10 @@
 </head>
 <body>
 	<% include("/community/community_header.html"){} %>
-	<div class="container clearfix">${layoutContent}</div>
+	<section>
+		${layoutContent}
+ 		<% layout("/community/community_aside.html"){} %>
+	</section>
 	<% include("/community/community_footer.html"){} %>
 </body>
 </html>

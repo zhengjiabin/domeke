@@ -10,7 +10,8 @@
 	<input value="${followAction!}" id="followAction" style="display: none;">
 	<input value="${ckeditorNode!}" id="ckeditorNode" style="display: none;"> 
 	
-	<input type="button" value="回复" onclick="showCkeditor(this)" style="color: yellow" id="reply" />
+	<span class="FL"><a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a></span>
+	<span class="FR"><a href="#">举报</a><a href="#">使用道具</a></span>
 	<div id="commentDiv" style="display: none">
 		<div>
 			<textarea rows="30" cols="50" name="message" id="ckeditor"
