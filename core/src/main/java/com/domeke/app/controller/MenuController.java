@@ -71,12 +71,7 @@ public class MenuController extends Controller {
 		menu.updateMenu();
 		goToManager();
 	}
-
-	public Menu getMenuById(int menuid){
-		Menu menu = Menu.menuDao.selectMenuById(menuid);
-		return menu;
-	}
-
+	
 	/**
 	 * 动漫
 	 */
@@ -85,31 +80,4 @@ public class MenuController extends Controller {
 		setAttr("menuid", menuid);		
 		render("/cartoon.html");
 	}
-
-	/**
-	 * 查询菜单列表
-	 */
-	public void selectMenu() {
-		Menu.menuDao.removeCache();
-		Menu menu = getModel(Menu.class);
-		List<Menu> menuList = menu.selectMenu();
-		setAttr("menuList", menuList);
-		List<Menu> menuOneMenu = menuOneMenu();
-		setAttr("menuOneMenu", menuOneMenu);
-		int menuid = getParaToInt("menuid");
-		setAttr("menuid", menuid);
-		render("/demo/selectMenu.html");
-	}
-
-	/**
-	 * 获取一级菜单
-	 * @return 
-	 */
-	public List<Menu> menuOneMenu() {
-		Menu.menuDao.removeCache();
-		Menu menu = getModel(Menu.class);
-		List<Menu> menuOneMenu = menu.getTopMenu();
-		return menuOneMenu;
-	}
-
 }

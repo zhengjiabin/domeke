@@ -23,7 +23,7 @@
 								<th>actionkey</th>
 								<th>菜单级别</th>
 								<th>排序</th>
-								<th>父级主ID</th>
+								<th>父级菜单</th>
 								<th>菜单模块</th>
 								<th>操作</th>
 							</tr>
@@ -40,7 +40,17 @@
 									<td>${m.actionkey!}</td>
 									<td>${m.top!}</td>
 									<td>${m.sortnum!}</td>
-									<td>${m.parentmenuid!}</td>
+									<td>      		
+        											<%
+        											var menuid = m.parentmenuid;
+        											var count = 0;
+        											for(menu in menuList){
+        											if (menu.menuid == menuid){
+        											%>
+        												<label>${menu.menuname!}</label>
+        											<% } 
+        											 } %>
+									</td>
 									<td>${m.menutype!}</td>
 									<td width="100">
 									<a href="menu/selectMenuById/${m.menuid}"><button class="btn btn-warning btn-mini" lable="修改">修改</button></a>
