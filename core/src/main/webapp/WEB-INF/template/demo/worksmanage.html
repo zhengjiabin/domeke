@@ -17,8 +17,14 @@
 	var pageCount;
 
 	$(document).ready(function(){
-		$("#addDialog").click(function(){
-	    	$.showDialog();
+		////////////////////////////////////////////////////////////////////////////父表
+		$('#parentAdd').click(function(){
+			$.showParentDialog('添加');
+		});
+		$("#parentUpdate").click(function(){
+	    	$.showParentDialog('修改');
+	    });
+		$("#parentDelete").click(function(){
 	    });
 		//绑定父表格选择事件
 		$('#parentTable tr').click(function(){
@@ -30,7 +36,13 @@
 				//
 				$.showTableChilrend(parentId);
 			});
-			
+		});
+		
+		///////////////////////////////////////////////////////////////////////////子表
+		//绑定子表格选择事件
+		$('#childrenTable tr').click(function(){
+			$('#childrenTable tr').removeClass('select');
+			$(this).addClass('select');
 		});
 		
 		//var data = [[{'id':'1','name':'2','value':'3'}],[{'id':'1','name':'2','value':'3'}],[{'id':'1','name':'2','value':'3'}]];
@@ -38,20 +50,29 @@
 	
 	//定义jQuery方法
 	$.extend({
-		showDialog : function(){
-			$("#dialog").dialog({
-	    		top:100,
+		//显示对话框
+		showParentDialog : function(type){
+			$("#dialogParent").attr('type',type);
+			$("#dialogParent").dialog({
 	    		autoOpen:true,
 	    		model:true,
 	    		position:'center',
 				width:500,
-				title:'添加',
+				title:type,
 				buttons:{
 					' 确定 ':function(){
-						
 					},
 					' 取消 ':function(){
 						$(this).dialog("close");
+					}
+				},
+				open:function(){
+					var type = $(this).attr('type');
+					if(type == '添加'){
+						
+					}
+					if(type == '修改'){
+						
 					}
 				}
 			}).dialog('open');
@@ -134,6 +155,17 @@
 					});
 				}
 			});
+		},
+		loadParentDialog : function($self){
+			$.ajax({
+				type:'post',
+				url: "works/getWorks",
+				dataType:'json',
+				data:'worksId='+,
+				success:function(data){
+					
+				}
+			});
 		}
 	});
 </script>
@@ -151,9 +183,9 @@
 	</div>
 	<div class="panel panel-default">
 		<div class="panel-body" >
-			<button type="button" class="btn btn-success" id="addDialog"> 添加</button>
-			<button type="button" class="btn btn-warning" data-toggle="button"> 修改</button>
-			<button type="button" class="btn btn-danger" data-toggle="button"> 删除</button>
+			<button type="button" class="btn btn-success" id="parentAdd"> 添加</button>
+			<button type="button" class="btn btn-warning"  id="parentUpdate"> 修改</button>
+			<button type="button" class="btn btn-danger" id="parentDelete"> 删除</button>
 		</div>
 		<div class="table-responsive">
 		   <table class="table" id="parentTable">
@@ -169,7 +201,7 @@
 		      </tbody>
 		   </table>
 		</div>
-		<ul class="pagination" id="page">
+		<ul class="pagination" id="pageParent">
 		  <li><a href="#">&laquo;</a></li>
 		  <li class="active"><a href="#">1</a></li>
 		  <li><a href="#">2</a></li>
@@ -182,46 +214,69 @@
 	<div class="panel panel-default workContent">
 		<div class="panel-body">
 			<div class="panel-body" >
-				<button type="button" class="btn btn-success" data-toggle="button"> 添加</button>
-				<button type="button" class="btn btn-warning" data-toggle="button"> 修改</button>
-				<button type="button" class="btn btn-danger" data-toggle="button"> 删除</button>
+				<button type="button" class="btn btn-success" id="childrenAdd"> 添加</button>
+				<button type="button" class="btn btn-warning" id="childrenUpdate"> 修改</button>
+				<button type="button" class="btn btn-danger" id="childrenDelete"> 删除</button>
 			</div>
-			<button class="btn btn-default">章节1</button>
-			<button class="btn btn-default">章节2</button>
-			<button class="btn btn-default">章节3</button>
-			<button class="btn btn-default">章节4</button>
-			<button class="btn btn-default">章节5</button>
-			<button class="btn btn-default"> + </button>
+			<div class="table-responsive">
+		   <table class="table" id="parentTable">
+		      <thead>
+		         <tr>
+		            <th>产品</th>
+		            <th>付款日期</th>
+		            <th>状态</th>
+		         </tr>
+		      </thead>
+		      <tbody>
+		         <tr>
+		            <th>1</th>
+		            <th>2</th>
+		            <th>3</th>
+		         </tr>
+		         <tr>
+		            <th>1</th>
+		            <th>2</th>
+		            <th>3</th>
+		         </tr>
+		         <tr>
+		            <th>1</th>
+		            <th>2</th>
+		            <th>3</th>
+		         </tr>
+		      </tbody>
+		   </table>
+		</div>
 		</div>
 	</div>
+	
 	<!-- dialog -->
 	<!--对话框$("#dialog").dialog()他就是一个对话框，在页面中就会隐藏--> 
-	<div id="dialog" style="display: none;"> 
+	<div id="dialogParent" style="display: none;"> 
 		<form class="form-inline" role="form" action="works/save" method="post" enctype="multipart/form-data">
-        <label for="name">作品名称：</label>
-        <input type="text" id="worksname" name="works.worksname" class="form-control" placeholder="作品名称" required="required"/>
-        </br>
-        <label for="name">作品类别：</label>
-        <input type="text" id="workstype" name="works.workstype" class="form-control" placeholder="作品类别" required="required"/>
-        </br>
-        <label for="name">是否完结：</label>
-        <select id="creativeprocess" name="works.creativeprocess" class="btn btn-default" >
-	        <option value="10" selected="selected">创作中</option>
-	        <option value="20">已完结</option>
-	    </select>
-        </br>
-        <!--TODO 根据用户类型来显示上传图片还是直接贴文件路径-->
-		<label for="name">作品封面：</label>
-		<input class="form-control" type="file" id="cover" name="cover" accept="image/*" required="required" />
-		<br>
-		<!-- <label for="name">上传作品：</label>
-		<input class="form-control" type="file" id="comic" name="comic" accept="video/*" size="20" maxlength="255" required="required"/>
-		<br> -->
-		<label for="name">作品描述：</label>
-		<textarea rows="" cols="" class="" id="describle" name="works.describle">
-		</textarea>
-        <!-- <input type="text" id="creativeprocess" name="works.creativeprocess" class="input-block-level" placeholder="创作进程" required="required"/> -->
-      </form>
+	        <label for="name">作品名称：</label>
+	        <input type="text" id="worksname" name="works.worksname" class="form-control" placeholder="作品名称" required="required"/>
+	        </br>
+	        <label for="name">作品类别：</label>
+	        <input type="text" id="workstype" name="works.workstype" class="form-control" placeholder="作品类别" required="required"/>
+	        </br>
+	        <label for="name">是否完结：</label>
+	        <select id="creativeprocess" name="works.creativeprocess" class="btn btn-default" >
+		        <option value="10" selected="selected">创作中</option>
+		        <option value="20">已完结</option>
+		    </select>
+	        </br>
+	        <!--TODO 根据用户类型来显示上传图片还是直接贴文件路径-->
+			<label for="name">作品封面：</label>
+			<input class="form-control" type="file" id="cover" name="cover" accept="image/*" required="required" />
+			<br>
+			<!-- <label for="name">上传作品：</label>
+			<input class="form-control" type="file" id="comic" name="comic" accept="video/*" size="20" maxlength="255" required="required"/>
+			<br> -->
+			<label for="name">作品描述：</label>
+			<textarea rows="5" cols="20" id="describle" name="works.describle">
+			</textarea>
+	        <!-- <input type="text" id="creativeprocess" name="works.creativeprocess" class="input-block-level" placeholder="创作进程" required="required"/> -->
+      	</form>
 	</div> 
 </body>
 </html>

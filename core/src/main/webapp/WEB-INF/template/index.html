@@ -14,9 +14,17 @@
 </section>
 <section>
 	<article>
-    	<section>
-        	<div class="CartoonTitle">原创动漫<a href="#">/更多</a></div>
-            <div class="CartoonContent">
+		<% for(list in lists){
+			var index = 0;
+		%>
+		<section>
+		<div class="CartoonTitle">原创动漫<a href="#">/更多</a></div>
+		<div class="CartoonContent">
+    	<% for(works in list){
+    		
+    		if(list.size() > 6){
+    			index = index + 1;
+  				if(index == 1) {%>
             	<div class="Cartoon2">
                 	<div class="CartoonSubB">
                     	<img src="images/pic_CartoonB.png">
@@ -26,58 +34,27 @@
                         </div>
                     </div>
                 </div>
+               <%}%>
+               <%if(i != 1) {%>
                 <div class="Cartoon3">
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon.png">
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon1.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
+                   <div class="CartoonSub">
+                       <img src="images/pic_Cartoon.png">
+                       <div class="CartoonName"><a href="#">动画大电影</a></div>
+                       <div class="CartoonInfo">
+                       	<span class="FloatL">2931</span>
+                           <span class="FloatR">29</span>
+                       </div>
+                       <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                   </div>
+                </div>
+	    		<%}%>
+    		<%}%>
+   		<%
+   			if(list.size() < 6){
+   		%>	
+	   			<div class="CartoonContent">
+	            	<div class="CartoonSub">
                         <img src="images/pic_Cartoon2.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon3.png">
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon1.png">
-                        
                         <div class="CartoonName"><a href="#">动画大电影</a></div>
                         <div class="CartoonInfo">
                         	<span class="FloatL">2931</span>
@@ -86,213 +63,13 @@
                         <div class="CartoonSubFootbar">人气爆棚剧场版</div>
                     </div>
                 </div>
-                <div class="clear">&nbsp;</div>
-            </div>
-        </section>
-        <section>
-        	<div class="CartoonTitle">HIGH动漫<a href="#">/更多</a></div>
-            <div class="CartoonContent">
-            	<div class="CartoonSub">
-                        <img src="images/pic_Cartoon2.png">
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon3.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon1.png">
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon2.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                   
-            </div>
-        </section>
-        <section>
-        	<div class="CartoonTitle">亲子动漫<a href="#">/更多</a></div>
-            <div class="CartoonContent">
-            	<div class="CartoonSub">
-                        <img src="images/pic_Cartoon3.png">
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon1.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon2.png">
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon3.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    
-            </div>
-        </section>
-        <section>
-        	<div class="CartoonTitle">无奇不有<a href="#">/更多</a></div>
-            <div class="CartoonContent">
-            	<div class="Cartoon3">
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon.png">
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon1.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon2.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon3.png">
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                    <div class="CartoonSub">
-                        <img src="images/pic_Cartoon1.png">
-                        
-                        <div class="CartoonName"><a href="#">动画大电影</a></div>
-                        <div class="CartoonInfo">
-                        	<span class="FloatL">2931</span>
-                            <span class="FloatR">29</span>
-                        </div>
-                        <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-                    </div>
-                </div>
-                <div class="Cartoon2">
-                	<div class="CartoonSubB borderL">
-                    <ul class="LiVline">
-                    	<li class="LiHeightA">
-                        	<div class="LiPicA"><img src="images/icon03.png"></div>
-                            <div class="LiContentA">
-                            	<a href="#">免费玩家和收费玩家的区别</a>
-                                <span>一张图比较现在的玩家、过去的玩家中免费玩家和收费玩家的区别</span>
-                            </div>
-                      	</li>
-                        <li class="LiHeightA">
-                        	<div class="LiPicA"><img src="images/icon03.png"></div>
-                            <div class="LiContentA">
-                            	<a href="#">免费玩家和收费玩家的区别</a>
-                                <span>一张图比较现在的玩家、过去的玩家中免费玩家和收费玩家的区别</span>
-                            </div>
-                      	</li>
-                        <li class="LiHeightA">
-                        	<div class="LiPicA"><img src="images/icon03.png"></div>
-                            <div class="LiContentA">
-                            	<a href="#">免费玩家和收费玩家的区别</a>
-                                <span>一张图比较现在的玩家、过去的玩家中免费玩家和收费玩家的区别</span>
-                            </div>
-                      	</li>
-                        <li class="font_9"><a href="#">魔兽6.0可得橙色戒指 传奇装备霸气新造型</a></li>
-                        <li class="font_9"><a href="#">王思聪湿身后捐100万 十大弱爆的游戏BOSS</a></li>
-                        <li class="font_9"><a href="#">LOL总决赛曝宣传片 6支出线战队暂无中国</a></li>
-                    </ul>
-                    </div>
-                </div>
-                <div class="clear">&nbsp;</div>
-            </div>
-        </section>
+   		<%
+   			}
+   		%>
+   		</div>
+   		</section>
+   		<%}%>
+   		<%}%>
     </article>
     <aside>
     	<section>
@@ -398,6 +175,7 @@
 <section>
 	<div class="CartoonTitle">新潮商品<a href="#">/更多</a></div>
     <div class="CartoonContent">
+    <% for(goods in goodss){%>
     	<figure>
         	<div class="GoodsPic"><img src="images/pic_goods.png">            
             </div>
@@ -414,54 +192,7 @@
               </div>
             </figcaption>
         </figure>
-        
-        <figure>
-        	<div class="GoodsPic"><img src="images/pic_goods.png"></div>
-       	 	 <figcaption>
-            	
-                <div class="GoodsName font_r"><a href="#">尼康 Nikon MF 200/4 AUTO-Q 原厂改口AI 数码单反可以用 </a>
-                <span class="GoodsPrice">￥：128</span>
-                </div>
-              	<div class="GoodsAuthor"><img src="images/qq4.jpg"><span class="font_ye"><a href="#">云知道-1</a></span>发布</div>
-                <div class="GoodsInfo">成色如图,正常使用痕阻尼顺畅,功能正常,</div>
-              <div class="GoodsItems">
-              	<span>加入收藏  20</span>
-                <span>喜欢  30</span>
-              </div>
-            </figcaption>
-        </figure>
-        
-        <figure>
-        	<div class="GoodsPic"><img src="images/pic_goods.png"></div>
-       	 	 <figcaption>
-            	
-                <div class="GoodsName font_r"><a href="#">尼康 Nikon MF 200/4 AUTO-Q 原厂改口AI 数码单反可以用 </a>
-                <span class="GoodsPrice">￥：39</span>
-                </div>
-              	<div class="GoodsAuthor"><img src="images/qq4.jpg"><span class="font_ye"><a href="#">云知道-1</a></span>发布</div>
-                <div class="GoodsInfo"></div>
-              <div class="GoodsItems">
-              	<span>加入收藏  20</span>
-                <span>喜欢  30</span>
-              </div>
-            </figcaption>
-        </figure>
-        
-        <figure>
-        	<div class="GoodsPic"><img src="images/pic_goods.png"></div>
-       	 	 <figcaption>
-            	
-                <div class="GoodsName font_r"><a href="#">尼康 Nikon MF 200/4 AUTO-Q 原厂改口AI 数码单反可以用 </a>
-                <span class="GoodsPrice">￥：209</span></div>
-              	<div class="GoodsAuthor"><img src="images/qq4.jpg"><span class="font_ye"><a href="#">云知道-1</a></span>发布</div>
-                <div class="GoodsInfo">成色如图,正常使用痕迹,外观无磕碰划伤,镜片通透无伤无雾后组有轻微霉丝,阻尼顺畅,功能正常,</div>
-              <div class="GoodsItems">
-              	<span>加入收藏  20</span>
-                <span>喜欢  30</span>
-              </div>
-            </figcaption>
-        </figure>
-        
+    <%}%>
     </div>
 </section> 
 <% } %> 
