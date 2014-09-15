@@ -99,7 +99,7 @@ public class UserController extends Controller {
 	
 	public void userManage(){
 		User user = getModel(User.class);
-		List<User> userList = user.getUser();
+		List<User> userList = user.getUser(null,null);
 		this.setAttr("userList", userList);
 	}
 	public void goUserUpdate(){
@@ -134,11 +134,15 @@ public class UserController extends Controller {
 	}
 	
 	public void sechUserForName(){
+		User user = getModel(User.class);
+		List<User> userList = new ArrayList<User>();
 		try {
 			this.getRequest().setCharacterEncoding("utf-8");
 			String userSearch = this.getRequest().getParameter("userSearch");
 			userSearch =  new String(userSearch.getBytes("ISO-8859-1"),"UTF-8");
-			System.out.println(userSearch);
+			userList = user.getUser("username", userSearch);
+			this.setAttr("userList", userList);
+			render("/admin/user.html");
 		} catch (UnsupportedEncodingException e) {
 			
 			e.printStackTrace();
