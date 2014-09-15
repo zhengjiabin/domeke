@@ -12,25 +12,24 @@ function publishCkeditor(node) {
 	var targetIdVal = commentForm.find("#targetId").first().val();
 	var pageActionVal = commentForm.find("#pageAction").first().val();
 	var fatherNodeVal = commentForm.find("#fatherNode").first().val();
-	var commentFatherNodeVal = commentForm.find("#commentFatherNode").first()
-			.val();
-	var renderActionVal = commentForm.find("#renderAction").first().val();
+	var commentActionVal = commentForm.find("#commentAction").first().val();
+	var followActionVal = commentForm.find("#followAction").first().val();
 	var ckeditorNodeVal = commentForm.find("#ckeditorNode").first().val();
+	
 	$.post(ckeditorActionVal, {
 		targetId : targetIdVal,
 		message : content,
 		pageAction : pageActionVal,
 		fatherNode : fatherNodeVal,
-		commentFatherNode : commentFatherNodeVal,
-		renderAction : renderActionVal
+		followAction : followActionVal,
+		commentAction : commentActionVal
 	}, function(data) {
-
 		var commentDiv = commentForm.find("#commentDiv").first();
 		commentDiv.hide();
 		CKEDITOR.instances.ckeditor.setData("");
 
 		var replyComments = $(node).closest(ckeditorNodeVal);
-		var commentContents = replyComments.find(commentFatherNodeVal).first();
+		var commentContents = replyComments.find("#commentHtml").first();
 		commentContents.html(data);
 	});
 }
@@ -76,16 +75,22 @@ function publishFace(node) {
 	message.html(val);
 
 	var commentForm = $(node).closest("#commentForm");
-	var publishFaceActionVal = commentForm.find("#publishFaceAction").first()
-			.val();
+	var publishFaceActionVal = commentForm.find("#publishFaceAction").first().val();
 	var targetIdVal = commentForm.find("#targetId").first().val();
 	var pIdVal = commentForm.find("#pId").first().val();
 	var toUserIdVal = commentForm.find("#toUserId").first().val();
 	var pageActionVal = commentForm.find("#pageAction").first().val();
 	var fatherNodeVal = commentForm.find("#fatherNode").first().val();
-	var commentFatherNodeVal = commentForm.find("#commentFatherNode").first()
-			.val();
-	var renderActionVal = commentForm.find("#renderAction").first().val();
+	
+	
+	var commentFatherNodeVal = commentForm.find("#commentFatherNode").first().val();
+	var targetNodeVal = "";
+	if(commentFatherNodeVal != "#commentContent"){
+		targetNodeVal = "#commentContent";
+	}
+	
+	var commentActionVal = commentForm.find("#commentAction").first().val();
+	var followActionVal = commentForm.find("#followAction").first().val();
 
 	$.post(publishFaceActionVal, {
 		targetId : targetIdVal,
@@ -94,8 +99,8 @@ function publishFace(node) {
 		message : message.text(),
 		pageAction : pageActionVal,
 		fatherNode : fatherNodeVal,
-		commentFatherNode : commentFatherNodeVal,
-		renderAction : renderActionVal
+		commentAction : commentActionVal,
+		followAction : followActionVal
 	}, function(data) {
 		var commentForm = $(node).closest("#commentForm");
 		var showEditor = commentForm.find("#showEditor").first();
@@ -106,6 +111,9 @@ function publishFace(node) {
 		message.html("");
 
 		var commentContent = $(node).closest(commentFatherNodeVal);
+		if(targetNodeVal != ""){
+			commentContent =  commentContent.find(targetNodeVal).first();
+		}
 		commentContent.html(data);
 	});
 }

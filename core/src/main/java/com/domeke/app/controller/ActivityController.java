@@ -191,19 +191,33 @@ public class ActivityController extends Controller {
 	public void replyComment() {
 		addComment();
 
-		Object activityId = getPara("activityId");
+		String activityId = getPara("activityId");
 		setActivity(activityId);
 		setCommentPage(activityId);
 		setFollowList(activityId);
+		
+		setReplyCommentData();
 
+		render("/comment/comment.html");
+	}
+	
+	/**
+	 * 添加回复信息
+	 */
+	public void replyFollow() {
+		addComment();
+
+		String activityId = getPara("activityId");
+		setActivity(activityId);
+		setFollowList(activityId);
+		
 		String pId = getPara("pId");
 		if (pId != null && pId.length() > 0) {
 			setComment(pId);
 		}
 		setReplyCommentData();
 
-		String renderAction = getPara("renderAction");
-		render(renderAction);
+		render("/comment/followPage.html");
 	}
 	
 	/**
@@ -259,13 +273,8 @@ public class ActivityController extends Controller {
 	 */
 	private void setReplyCommentData() {
 		Object targetId = getPara("targetId");
-		Object activityId = getPara("activityId");
-		Object publishFaceAction = "./activity/replyComment?activityId="
-				+ activityId;
-
 		setAttr("targetId", targetId);
-		setAttr("publishFaceAction", publishFaceAction);
-		keepPara("pageAction", "fatherNode");
+		keepPara("pageAction", "fatherNode","commentAction","followAction");
 	}
 	
 	/**
