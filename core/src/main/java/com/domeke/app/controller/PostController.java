@@ -170,14 +170,28 @@ public class PostController extends Controller {
 		setCommentPage(postId);
 		setFollowList(postId);
 		
+		setReplyCommentData();
+
+		render("/comment/comment.html");
+	}
+	
+	/**
+	 * 添加回复信息
+	 */
+	public void replyFollow() {
+		addComment();
+
+		String postId = getPara("postId");
+		setPost(postId);
+		setFollowList(postId);
+		
 		String pId = getPara("pId");
 		if (pId != null && pId.length() > 0) {
 			setComment(pId);
 		}
 		setReplyCommentData();
 
-		String renderAction = getPara("renderAction");
-		render(renderAction);
+		render("/comment/followPage.html");
 	}
 	
 	/**
@@ -232,12 +246,8 @@ public class PostController extends Controller {
 	 */
 	private void setReplyCommentData() {
 		Object targetId = getPara("targetId");
-		Object postId = getPara("postId");
-		Object publishFaceAction = "./post/replyComment?postId=" + postId;
-
 		setAttr("targetId", targetId);
-		setAttr("publishFaceAction", publishFaceAction);
-		keepPara("pageAction", "fatherNode");
+		keepPara("pageAction", "fatherNode","commentAction","followAction");
 	}
 
 	/**

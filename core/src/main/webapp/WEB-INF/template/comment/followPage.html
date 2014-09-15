@@ -7,9 +7,20 @@
 
 	<div class="control-group">内容:${follow.message!}</div>
 
-	<div><%
-		layout("/common/publishFace.html",{"targetId":targetId,"publishFaceAction":publishFaceAction,
-		"pId":comment.commentid,"toUserId":follow.commentid,"commentFatherNode":"#commentContent"}){}%></div>
+	<div>
+		<%
+		layout(
+			"/common/publishFace.html",
+			{
+				"targetId":targetId,
+				"publishFaceAction":followAction,
+				"pId":comment.commentid,
+				"toUserId":follow.commentid,
+				"commentFatherNode":"#commentContent"
+			}
+		){}
+		%>
+	</div>
 	<% } %>
 
 </div>

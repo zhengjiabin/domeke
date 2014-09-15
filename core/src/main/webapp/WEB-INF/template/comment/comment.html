@@ -1,21 +1,50 @@
-<div><% if(commentPage != null){ layout("/common/page.html",
-	{"page":commentPage,"pageAction":pageAction,"fatherNode":fatherNode}
-	){} }%></div>
+<div>
+	<% if(commentPage != null){ 
+		layout(
+			"/common/page.html",
+			{
+				"page":commentPage,
+				"pageAction":pageAction,
+				"fatherNode":fatherNode,
+				"targetId":targetId
+			}
+		){} 
+	}%>
+</div>
 <% for (comment in commentPage.list){ %>
-<div class="control-group" id="commentContent">
+<div class="control-group" id="commentContents">
 
 	<div class="control-group">用户名:${comment.userid!}</div>
 
 	<div class="control-group">时间:${comment.dateline!}</div>
 
 	<div class="control-group">内容:${comment.message!}</div>
-
-	<div><%
-		layout("/common/publishFace.html",{"targetId":targetId,"publishFaceAction":publishFaceAction,
-		"pId":comment.commentid,"commentFatherNode":"#commentHtml","renderAction":"/comment/comment.html"}){}%></div>
+	<%
+			layout(
+				"/common/publishFace.html",
+				{
+					"targetId":targetId,
+					"publishFaceAction":followAction,
+					"pId":comment.commentid,
+					"commentFatherNode":"#commentContents"
+				}
+			){}
+	%>
+	
 	<div class="control-group" align="center" style="color: red"
-		id="commentContent"><%if(followPage != null){
-		layout("/comment/followPage.html",{"followPage":followPage,"comment":comment,"commentFatherNode":"#commentContent"
-		,"publishFaceAction":publishFaceAction,"renderAction":"/comment/followPage.html"}){} }%></div>
+		id="commentContent">
+		<%
+			if(followPage != null){
+				layout(
+					"/comment/followPage.html",
+					{
+						"followPage":followPage,
+						"comment":comment,
+						"followAction":followAction
+					}
+				){} 
+			}
+		%>
+	</div>
 </div>
 <% } %>

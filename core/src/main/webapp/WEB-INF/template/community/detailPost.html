@@ -39,25 +39,32 @@
 		</div>
 
 		<div id="replyComments">
-			<div class="control-group" align="right"><% if(post.postid !=
-				null){ layout(
-				"/common/ckeditor.html",
-				{"targetId":post.postid,
-				"ckeditorAction":"./post/replyComment?postId="+post.postid,
-				"renderAction":"/comment/comment.html",
-				"commentFatherNode":"#commentHtml",
-				"ckeditorNode":"#replyComments"}
-				){}
+			<div class="control-group" align="right"><% if(post.postid != null){ 
+					layout(
+					"/common/ckeditor.html",
+					{
+					"targetId":post.postid,
+					"ckeditorAction":"./post/replyComment?postId="+post.postid,
+					"ckeditorNode":"#replyComments",
+					"commentAction":"./post/replyComment?postId="+post.postid,
+					"followAction":"./post/replyFollow?postId="+post.postid,
+					"pageAction":"./post/findCommentByPostId?targetId="+post.postid+"&postId="+post.postid,
+					"fatherNode":"#commentHtml"
+					}
+					){}
 				}%></div>
-			<div class="control-group" id="commentHtml"><% if(commentPage
-				!= null && post.postid != null){ layout(
-				"/comment/comment.html",
-				{"commentPage":commentPage,
-				"targetId":post.postid,
-				"publishFaceAction":"./post/replyComment?postId="+post.postid,
-				"pageAction":"./post/findCommentByPostId?targetId="+post.postid+"&postId="+post.postid,
-				"fatherNode":"#commentHtml"}
-				){}
+			<div class="control-group" id="commentHtml"><% if(commentPage != null && post.postid != null){ 
+					layout(
+					"/comment/comment.html",
+					{
+					"commentPage":commentPage,
+					"targetId":post.postid,
+					"commentAction":"./post/replyComment?postId="+post.postid,
+					"followAction":"./post/replyFollow?postId="+post.postid,
+					"pageAction":"./post/findCommentByPostId?targetId="+post.postid+"&postId="+post.postid,
+					"fatherNode":"#commentHtml"
+					}
+					){}
 				}%></div>
 		</div>
 	</div>
