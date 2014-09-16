@@ -16,10 +16,7 @@ public class LoginInterceptor implements Interceptor {
 			controller.render("/Login.html");
 			return;
 		}
-		boolean isAdmin = controller.getSessionAttr("isAdmin");
-		if (isAdmin) {
-			controller.render("/admin/admin_goods.html");
-		}
+
 		ai.invoke();
 	}
 }
