@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50619
 File Encoding         : 65001
 
-Date: 2014-09-16 21:27:16
+Date: 2014-09-16 22:04:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,7 +33,7 @@ CREATE TABLE `menu` (
   `modifier` varchar(32) DEFAULT NULL,
   `menutype` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`menuid`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of menu
@@ -52,7 +52,6 @@ INSERT INTO `menu` VALUES ('18', null, '参与的活动', '#', '2', '200010040',
 INSERT INTO `menu` VALUES ('19', null, '会员等级', 'personal/forMyProduction?menuId=3', '2', '200010050', '8', '2014-09-16 21:23:58', null, '2014-09-16 21:23:58', null, '2');
 INSERT INTO `menu` VALUES ('20', null, '会员积分', 'personal/forMyProduction?menuId=3', '2', '200010060', '8', '2014-09-16 21:24:02', null, '2014-09-16 21:24:02', null, '2');
 INSERT INTO `menu` VALUES ('21', null, '动画收藏', '#', '2', '200010070', '8', '2014-09-13 20:52:09', null, '2014-09-13 20:52:09', null, '2');
-INSERT INTO `menu` VALUES ('35', null, '修改密码', 'personal/forMyProduction?menuId=4', '2', '200040020', '8', '2014-09-16 21:24:06', null, '2014-09-16 21:24:06', null, '2');
 INSERT INTO `menu` VALUES ('37', null, '首页', '#', '1', '100000000', null, '2014-09-13 21:11:11', null, '2014-09-13 21:11:11', null, '3');
 INSERT INTO `menu` VALUES ('38', null, '论坛', '#', '1', '200000000', null, '2014-09-13 21:11:15', null, '2014-09-13 21:11:15', null, '3');
 INSERT INTO `menu` VALUES ('39', null, '同城会', '#', '1', '300000000', null, '2014-09-13 21:11:19', null, '2014-09-13 21:11:19', null, '3');
@@ -66,3 +65,5 @@ INSERT INTO `menu` VALUES ('46', null, '母婴用品', '#', '1', '500000000', nu
 INSERT INTO `menu` VALUES ('47', null, '动漫周边', '#', '1', '600000000', null, null, null, null, null, '4');
 INSERT INTO `menu` VALUES ('48', null, '图书音像', '#', '1', '700000000', null, null, null, null, null, '4');
 INSERT INTO `menu` VALUES ('49', null, '跳蚤市场', '#', '1', '800000000', null, null, null, null, null, '4');
+INSERT INTO `menu` VALUES ('50', null, '修改密码', 'personal/forMyProduction?menuId=4', '2', '200010080', '8', null, null, null, null, '2');
+INSERT INTO `menu` VALUES ('51', null, '站内留言', 'personal/forMyProduction?menuId=5', '2', '200010005', '8', null, null, null, null, '2');
