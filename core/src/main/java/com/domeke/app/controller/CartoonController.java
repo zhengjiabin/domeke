@@ -3,6 +3,9 @@
  */
 package com.domeke.app.controller;
 
+import java.util.List;
+
+import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
@@ -28,6 +31,9 @@ public class CartoonController extends Controller {
 		Works worksModel = getModel(Works.class);
 		Works works = worksModel.findById(getParaToInt("id"));
 		this.setAttr("works", works);
+		Work workModel = getModel(Work.class);
+		List<Work> workList = workModel.getWorkByWorksID(getParaToInt("id"));
+		this.setAttr("workList", workList);
 		render("/CartoonDtl.html");
 	}
 
@@ -37,8 +43,11 @@ public class CartoonController extends Controller {
 	 */
 	public void playVideo() {
 		Works worksModel = getModel(Works.class);
-		Works works = worksModel.findById(getParaToInt("id"));
-		this.setAttr("works", works);
+		Works worksData = worksModel.findById(getParaToInt("id"));
+		this.setAttr("works", worksData);
+		Work workModel = getModel(Work.class);
+		Work workData = workModel.findById(getParaToInt("gid"));
+		this.setAttr("work", workData);
 		render("/CartoonPlay.html");
 	}
 
