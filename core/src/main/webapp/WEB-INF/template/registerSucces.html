@@ -14,15 +14,13 @@ window.setTimeout('doUpdate(' + i + ')', (secs-i) * 1000);
 }    
 function doUpdate(num)    
 {    
-document.getElementById('ShowDiv').innerHTML = '将在'+num+'秒后自动跳转到登录页面' ;    
+document.getElementById('ShowDiv').innerHTML = '<a href="index">将在'+num+'秒后自动跳转到登录页面</a>' ;    
 if(num == 0) { window.location=URL; }    
 }    
 </script>    
 </head>
 <body style="margin: 0px;background: #fff;background: url(images/bg_Me.png) left bottom no-repeat;">
-<header class="MeTop">
-	<div class="MeTopZoom"><img src="images/Melogo.png"></div>
-</header>
+<% include("/common/user_header.html"){} %>
 <div class="LoginContent">
 	<div align="center" style="color: red;"><h2>${succes!}</h2></div>
 	<div align="center" id="ShowDiv" style="color: blue;"></div>  
@@ -31,9 +29,6 @@ if(num == 0) { window.location=URL; }
 <script language="javascript">    
 Load("user/goLogin");     
 </script>    
-<footer class="footer font_9">
-	<a href="#">简体</a>|<a href="#">繁体</a>|<a href="#">English</a>|<a href="#">常见问题</a><br />
-    金樽公司版权所有-京ICP备3985758i3d-京公网安备8574766495858
-</footer>
+<% include("/common/user_footer.html"){} %>
 </body>
 </html>
