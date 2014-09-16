@@ -51,7 +51,7 @@ public class LoginController extends Controller {
 			setCache(username, password, token, currentUser);
 			setAttr("username", username);
 			setAttr("menuid", "1");
-			render("/admin/community.html");
+			render("/admin/admin_community.html");
 			return;
 		}
 		setCache(username, password, token, currentUser);
