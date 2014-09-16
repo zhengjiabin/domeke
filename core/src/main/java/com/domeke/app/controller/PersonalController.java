@@ -13,11 +13,9 @@ public class PersonalController extends Controller{
 	@Before(LoginInterceptor.class)
 	public void forMyProduction(){
 		String mid = getPara("menuId");
-		if(mid!=null && mid.equals("4")){
-			User user = getSessionAttr("user");
-			Long userId = user.getLong("userid");
-			setAttr("userId", userId);
-		}
+		User user = getSessionAttr("user");
+		Long userId = user.getLong("userid");
+		setAttr("userId", userId);
 		setAttr("menuId", mid);
 		setAttr("menuid", "1");
 		render("/personalCenter.html");
