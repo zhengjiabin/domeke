@@ -27,6 +27,18 @@ CREATE TABLE `menu` (
 public class Menu extends Model<Menu> {
 	
 	public static Menu menuDao = new Menu();
+	
+	public List<Menu> getMenuList(String colm,String param){
+		String sql="";
+		if(colm == null || param == null){
+			 sql = "select * from menu";
+		}else {
+			 sql = "select * from menu where "+colm+" = '"+param+"'";
+		}		
+		List<Menu> list = menuDao.find(sql);
+		return list;
+	}
+	
 	/**
 	 * 获取我的方舟主菜单
 	 * @return
