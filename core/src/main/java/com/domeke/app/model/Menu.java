@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
 
 /**
@@ -27,7 +28,13 @@ CREATE TABLE `menu` (
 public class Menu extends Model<Menu> {
 	
 	public static Menu menuDao = new Menu();
-	
+		
+	/**
+	 * 获取colm=param的数据
+	 * @param colm 列名
+	 * @param param 参赛
+	 * @return
+	 */
 	public List<Menu> getMenuList(String colm,String param){
 		String sql="";
 		if(colm == null || param == null){

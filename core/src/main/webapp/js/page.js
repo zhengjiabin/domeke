@@ -13,7 +13,7 @@ function goToPageSize(node, size, number) {
 		fatherNode : fatherNodeVal,
 		commentAction : commentActionVal,
 		followAction : followActionVal,
-		targetId : targetIdVal,
+		targetId : targetIdVal
 	}, function(data) {
 		var fatherNode = $(node).closest(fatherNodeVal);
 		fatherNode.html(data);

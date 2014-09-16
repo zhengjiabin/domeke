@@ -1,60 +1,43 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>修改活动信息</title>
-<base href="${core}/" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- Bootstrap -->
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
-	media="screen">
-<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
-	media="screen">
-<link href="assets/styles.css" rel="stylesheet" media="screen">
-<script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-</head>
-<h1>
-	<a href="./activity/find">活动信息 </a>
-</h1>
+<% layout("/community/community_layout.html"){ %>
+<script src="${core}/js/activity.js" type="text/javascript"></script>
+<article>
 <div>
-	<div class="control-group">活动ID：${activity.cost!}</div>
-
-	<div class="control-group">每人花销：${activity.cost!}</div>
-
-	<div class="control-group">开始时间：${activity.starttimefrom!}</div>
-
-	<div class="control-group">结束时间：${activity.starttimeto!}</div>
-
-	<div class="control-group">地点：${activity.place!}</div>
-
-	<div class="control-group">类别、活动分类：${activity.class!}</div>
-
-	<div class="control-group">性别：${activity.gender!}</div>
-
-	<div class="control-group">人数：${activity.number!}</div>
-
-	<div class="control-group">已参加人数：${activity.applynumber!}</div>
-
-	<div class="control-group">报名截止时间：${activity.expiration!}</div>
-
-	<div class="control-group">活动详细内容：${activity.ufield!}</div>
-
-	<div class="control-group">需消耗积分：${activity.credit!}</div>
-</div>
-<div id="page">
-	<% if(activityApplyPage != null){
-		layout(
-			"/community/activityApplyPage.html",
-			{
-				"activityApplyPage":activityApplyPage,
-				"pageAction":"./activityApply/findByActivityId?activityId="+activity.activityid,
-				"fatherNode":"#page"
-			} 
-		){} 
-	}%></div>
+	<div class="ForumTheme">
+        	<div class="ListPic"><img src="../images/qq4.jpg"></div>
+                <div class="ListDtl">
+                	<div class="ListName"><a href="#">${activity.subject!}</a></div>
+                     <div class="font_9">
+                    	<span><a href="#">楼主：${activity.userid!}</a></span>
+                        <span>开始时间：${activity.starttimefrom!}</span>
+                        <span>结束时间：${activity.starttimeto!}</span>
+                    </div>
+                </div>
+    </div>
+	<div class="clear"></div> 
 	
-<div id="replyComments">
-			<div class="control-group" align="right"><% if(activity.activityid != null){ 
+	<div id="replyComments">
+		<div class="ForumBody">
+        	<div class="FBodyTop"><a href="#"><img src="../images/FIcon06.png"></a><a href="#"><img src="../images/FIcon05.png"></a></div>
+            <div class="FBodyContent">
+            	<span>活动地点：${activity.place!}</span>
+            	<span>活动类别：${activity.clasee!}</span>
+            	<span>报名截止日期：${activity.expiration!}</span>
+            	<span>开始时间：${activity.ufield!}</span>
+            	${activity.message!}
+            </div>
+            <div id="page">
+			<% if(activityApplyPage != null){
+			layout(
+				"/community/activityApplyPage.html",
+				{
+					"activityApplyPage":activityApplyPage,
+					"pageAction":"./activityApply/findByActivityId?activityId="+activity.activityid,
+					"fatherNode":"#page"
+				} 
+			){} 
+			}%></div>
+            <div class="FBodyBottom font_9">
+            	<% if(activity.activityid != null){ 
 					layout(
 					"/common/ckeditor.html",
 					{
@@ -67,8 +50,13 @@
 					"fatherNode":"#commentHtml"
 					}
 				){}
-				}%></div>
-			<div class="control-group" id="commentHtml"><% if(commentPage != null && activity.activityid != null){ 
+				}%>
+            </div>
+            <div class="clear"></div>
+      </div>
+      <div class="ForumInfoA">共3个关于厦门海沧镇拆迁办及城管纠集100人殴打 无辜群众及村民、老人的回复，最后回复于14分钟前</div>
+      <div id="commentHtml">
+      		<% if(commentPage != null && activity.activityid != null){ 
 				layout(
 				"/comment/comment.html",
 				{
@@ -80,6 +68,12 @@
 				"fatherNode":"#commentHtml"
 				}
 				){}
-			}%></div>
-		</div>
-</html>
+			}%>
+	</div>
+   </div>
+</div>
+</article>
+<aside>
+<div class="AsideBTitle font_w"><a href="javascript:void(0);" onclick="skipCreate('${communityId!}')">发布主题</a></div>
+</aside>
+<% } %>
