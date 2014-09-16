@@ -49,35 +49,6 @@
 					){}
 				}%></div>
    </div>
-		<!-- <div id="replyComments">
-			<div class="control-group" align="right"><% if(post.postid != null){ 
-					layout(
-					"/common/ckeditor.html",
-					{
-					"targetId":post.postid,
-					"ckeditorAction":"./post/replyComment?postId="+post.postid,
-					"ckeditorNode":"#replyComments",
-					"commentAction":"./post/replyComment?postId="+post.postid,
-					"followAction":"./post/replyFollow?postId="+post.postid,
-					"pageAction":"./post/findCommentByPostId?targetId="+post.postid+"&postId="+post.postid,
-					"fatherNode":"#commentHtml"
-					}
-					){}
-				}%></div>
-			<div class="control-group" id="commentHtml"><% if(commentPage != null && post.postid != null){ 
-					layout(
-					"/comment/comment.html",
-					{
-					"commentPage":commentPage,
-					"targetId":post.postid,
-					"commentAction":"./post/replyComment?postId="+post.postid,
-					"followAction":"./post/replyFollow?postId="+post.postid,
-					"pageAction":"./post/findCommentByPostId?targetId="+post.postid+"&postId="+post.postid,
-					"fatherNode":"#commentHtml"
-					}
-					){}
-				}%></div>
-		</div> -->
 </article>
 <aside>
 <div class="AsideBTitle font_w"><a href="javascript:void(0);" onclick="skipCreate('${communityId!}')">发布主题</a></div>
