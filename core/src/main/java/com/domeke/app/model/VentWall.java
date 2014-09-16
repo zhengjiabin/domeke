@@ -9,6 +9,7 @@ import java.util.List;
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
 
 /**
@@ -103,4 +104,14 @@ public class VentWall extends Model<VentWall>{
     	}
     	return issignin;
     }
+	/**
+	 * 分页查询发泄墙
+	 * @param pageNumber  页号
+	 * @param pageSize    页数
+	 * @return
+	 */
+	public Page<VentWall> findPage(int pageNumber, int pageSize) {
+		Page<VentWall> page = this.paginate(pageNumber, pageSize, "select *","from vent_wall order by createtime");
+		return page;
+	}
 }

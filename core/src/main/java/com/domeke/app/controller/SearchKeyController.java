@@ -17,15 +17,19 @@ public class SearchKeyController extends Controller{
 		SearchKey searchKey = getModel(SearchKey.class);	
 		searchKey.saveSearchKey();
 		select();
+		render("/admin/admin_keywordsManage.html");
 	}
 	/**
 	 * 查询关键字
 	 */
 	public void select(){
+		selectUtil();		
+		render("/demo/addSearch.html");
+	}
+	private void selectUtil() {
 		SearchKey.searchdao.removeCache();		
 		List<SearchKey> searchKeyList = SearchKey.searchdao.getVentWall();
-		setAttr("searchKeyList", searchKeyList);		
-		render("/demo/addSearch.html");
+		setAttr("searchKeyList", searchKeyList);
 	}
 	public void index(){
 		select();
@@ -38,6 +42,7 @@ public class SearchKeyController extends Controller{
 		Long keyid = searchKey.get("keyid");
 		SearchKey.searchdao.findById(keyid).setAttrs(searchKey).update();
 		select();
+		render("/admin/admin_keywordsManage.html");
 	}
 	/**
 	 * 删除关键字
@@ -46,5 +51,10 @@ public class SearchKeyController extends Controller{
 		int keyid = getParaToInt();
 		SearchKey.searchdao.deleteSearchKey(keyid);
 		select();
+		render("/admin/admin_keywordsManage.html");
+	}
+	public void goToManager(){
+		selectUtil();
+		render("/admin/admin_keywords.html");
 	}
 }
