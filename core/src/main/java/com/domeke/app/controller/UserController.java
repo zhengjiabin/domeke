@@ -76,9 +76,9 @@ public class UserController extends Controller {
         }
 		user.saveUser();
 		UserRole userrole = getModel(UserRole.class);
-		userrole.set("roleid", 1);
+		userrole.set("roleid", 0);
 		userrole.set("userid", user.getLong("userid"));
-		UserRole.dao.save();
+		userrole.save();
 		//发送邮箱验证
 		sendActivation(user);
 		setAttr("succes", "帐号注册成功，请登录你的邮箱进行验证！");
