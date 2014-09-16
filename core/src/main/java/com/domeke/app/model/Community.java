@@ -46,4 +46,15 @@ public class Community extends Model<Community> {
 		return communitySonList;
 	}
 
+	/**
+	 * 根据父模块查询子模块
+	 * 
+	 * @return
+	 */
+	public List<Community> findSonListByPid(Object pId) {
+		String sql = "select * from community where status='10' and level=2 and pid=? order by position";
+		List<Community> communitySonList = Community.dao.findByCache(
+				"CommunitySonList", "key", sql,pId);
+		return communitySonList;
+	}
 }

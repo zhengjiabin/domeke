@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Page;
 
 /**
  * @author zhouying
@@ -54,9 +55,7 @@ public class VentWallController extends Controller {
 	 * 查询留言
 	 */
 	public void select(){
-		VentWall.venWdao.removeCache();		
-		List<VentWall> ventWallList = VentWall.venWdao.getVentWall();
-		setAttr("ventWallList", ventWallList);		
+		selectUtil();		
 		getCount();
 		isSignIn();
 		render("/demo/ventwall.html");
@@ -77,7 +76,8 @@ public class VentWallController extends Controller {
 		VentWall ventWall = getModel(VentWall.class);
 		Long ventwallid = ventWall.get("ventwallid");
 		VentWall.venWdao.findById(ventwallid).setAttrs(ventWall).update();
-		goToManager();
+		selectUtil();
+		render("/admin/admin_ventWallManage.html");
 	}
 	/**
 	 * 删除留言
@@ -85,7 +85,8 @@ public class VentWallController extends Controller {
 	public void delete(){
 		int ventwallid = getParaToInt();
 		VentWall.venWdao.deleteVentWall(ventwallid);
-		goToManager();
+		selectUtil();
+		render("/admin/admin_ventWallManage.html");
 	}
 	/**
 	 * 统计签到
@@ -107,15 +108,32 @@ public class VentWallController extends Controller {
 		setAttr("issignin", issignin);
 	}
 	public void goToManager(){
-		VentWall.venWdao.removeCache();		
-		List<VentWall> ventWallList = VentWall.venWdao.getVentWall();
-		setAttr("ventWallList", ventWallList);		
-		render("/admin/ventWall.html");
+		selectUtil();		
+		render("/admin/admin_ventWall.html");
 	}
-	public void test(){
+	private void selectUtil() {
 		VentWall.venWdao.removeCache();		
 		List<VentWall> ventWallList = VentWall.venWdao.getVentWall();
-		setAttr("ventWallList", ventWallList);		
-		renderJson();
+		setAttr("ventWallList", ventWallList);
+	}
+	/**
+	 * 分页查询指定社区的活动
+	 * 
+	 * @return 活动信息
+	 */
+	public void find() {
+		//Object ventwallid = getPara("ventwallid");
+		setActivityPage();	
+		render("/admin/admin_ventWallManage.html");
+	}
+	/**
+	 * 分页查询指定社区模块的活动
+	 * @param communityId
+	 */
+	public void setActivityPage(){
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 2);
+		Page<VentWall> activityPage = VentWall.venWdao.findPage(pageNumber,pageSize);
+		setAttr("activityPage", activityPage);
 	}
 }
