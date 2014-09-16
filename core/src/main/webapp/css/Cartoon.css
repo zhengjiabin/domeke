@@ -1000,6 +1000,9 @@ nav li{
 .font_r a:active { 
 	color: #b81c22;
 }
+.font_9{
+	color: #999;
+}
 .font_9 a:link{
 	color: #999;
 }	

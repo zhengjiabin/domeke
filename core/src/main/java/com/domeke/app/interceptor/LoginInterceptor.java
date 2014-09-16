@@ -9,11 +9,16 @@ public class LoginInterceptor implements Interceptor {
 		Controller controller = ai.getController();
 		String username = controller.getCookie("username");
 		String password = controller.getCookie("password");
-//		if (controller.getSessionAttr("user") == null && StrKit.notBlank(username, password)) {
+		// if (controller.getSessionAttr("user") == null &&
+		// StrKit.notBlank(username, password)) {
 		if (controller.getSessionAttr("user") == null) {
 			controller.setAttr("msg", "需要登录才可以进行该操作！");
 			controller.render("/Login.html");
 			return;
+		}
+		boolean isAdmin = controller.getSessionAttr("isAdmin");
+		if (isAdmin) {
+			controller.render("/admin/admin_goods.html");
 		}
 		ai.invoke();
 	}
