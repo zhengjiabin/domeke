@@ -1,4 +1,5 @@
 <aside class="AsideBg">
+
 		<%
 		var count = 0;
 		for(m in topMenuMP){
@@ -19,6 +20,7 @@
 		<%
 			} else if(mLP.last){			
 		%>
+			<li><a href="${m.actionkey!}">${m.menuname!}</a></li>
 				</ul>
         	</div>
 		<%
@@ -29,4 +31,5 @@
 			}
 		}
 		%>
+    
   </aside>
