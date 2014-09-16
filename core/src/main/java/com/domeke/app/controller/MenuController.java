@@ -1,5 +1,7 @@
 package com.domeke.app.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.domeke.app.interceptor.GlobalInterceptor;
@@ -79,5 +81,22 @@ public class MenuController extends Controller {
 		int menuid = getParaToInt("menuid");
 		setAttr("menuid", menuid);		
 		render("/cartoon.html");
+	}
+	
+	
+	public void menuTypeForName(){
+		Menu menu = getModel(Menu.class);
+		List<Menu> menuList = new ArrayList<Menu>();
+		try {
+			this.getRequest().setCharacterEncoding("utf-8");
+			String menuSearch = this.getRequest().getParameter("menuType");
+			menuSearch =  new String(menuSearch.getBytes("ISO-8859-1"),"UTF-8");
+			menuList = menu.getMenuList("menutype", menuSearch);
+			this.setAttr("menuList", menuList);
+			render("/admin/menu.html");			
+		} catch (UnsupportedEncodingException e) {
+			
+			e.printStackTrace();
+		}
 	}
 }
