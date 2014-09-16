@@ -1,11 +1,12 @@
 <% layout("/common/layout.html"){ %>
 <section class="List" id="page">
+	<!--TODO 根据workstype取workstype码表的的名 -->
 	<div class="CartoonTitle">原创动漫</div>
     <div class="CartoonContent">
     	<% for (works in pageList.list){ %>
         <div class="CartoonSub">
-            <img src="${works.cover!}">
-            <div class="CartoonName"><a href="#">${works.worksname!}</a></div>
+            <a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"></a>
+            <div class="CartoonName">${works.worksname!}</div>
             <div class="CartoonInfo">
                <span class="FloatL">${works.pageviews!}</span>
                <span class="FloatR">${works.praise!}</span>

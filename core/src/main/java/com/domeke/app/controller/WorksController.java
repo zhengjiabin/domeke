@@ -134,10 +134,4 @@ public class WorksController extends FilesLoadController {
 		return workslist;
 	}
 
-	public void playVideo() {
-		Works worksModel = getModel(Works.class);
-		Works works = worksModel.findById(getParaToInt("id"));
-		this.setAttr("works", works);
-		render("/play.html");
-	}
 }
