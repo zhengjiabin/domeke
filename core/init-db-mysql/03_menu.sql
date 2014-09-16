@@ -36,7 +36,7 @@ CREATE TABLE `menu` (
 ) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of menu
+-- Records of menu 
 -- ----------------------------
 INSERT INTO `menu` VALUES ('1', '10', '首页', 'index', '1', '100000000', null, '2014-09-13 19:13:02', null, '2014-09-13 19:13:02', null, '1');
 INSERT INTO `menu` VALUES ('2', '20', '动漫', '/core/menu/cartoon', '1', '200000000', null, '2014-09-13 22:43:09', null, '2014-09-13 22:43:09', null, '1');
