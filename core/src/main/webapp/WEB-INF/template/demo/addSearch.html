@@ -10,6 +10,25 @@
     <![endif]-->
   </head>
 <body>
+<style type="text/css">
+.close {
+/* still bad on picking color */
+background: orange;
+color: red;
+/* make a round button */
+border-radius: 12px;
+/* center text */
+line-height: 20px;
+text-align: center;
+height: 20px;
+width: 20px;
+font-size: 18px;
+padding: 1px;
+}
+/* use cross as close button */
+.close::before {
+content: "\2716";
+</style>
     <script type="text/javascript" src="js/jquery.min.js"></script>
        <script type="text/javascript">
     	$(document).ready(function(){
@@ -56,6 +75,13 @@
         	<input id="keyname1" name="searchkey.keyname" type="text" value="${searchkey.keyname!}" />
         	<button id="btn1" class="btn1"  type="button">新增</button>
         <%}%>
+        <div id="divID"></div>
+        <p>
+            <% for(s in searchKeyList!){%>
+            ${s.keyname!}
+            <button class="close" >&times;</button>
+       		<%}%>
+        </p>
       <form  id="searchFrm" class="" action="searchkey/save"  method="post">
 		<table class="">          
             <tr><th>关键字</th><th>操作</th></tr>

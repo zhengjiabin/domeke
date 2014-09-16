@@ -2,7 +2,7 @@ package com.domeke.app.controller;
 
 import com.jfinal.core.Controller;
 
-public class adminController extends Controller {
+public class AdminController extends Controller {
 
 	/**
 	 * 
