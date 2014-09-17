@@ -314,16 +314,16 @@ CREATE TABLE `goods` (
   `message` varchar(255) NOT NULL,
   `tamllurl` varchar(255) NOT NULL,
   `submitdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `istop` int(11) DEFAULT '0' COMMENT '是否置顶0否 大于1置顶并降序排列',
   `status` varchar(4) NOT NULL DEFAULT '10',
-  `username` varchar(64) COMMENT '创建者名称',
-  `headimg` varchar(64) COMMENT '创建者头像地址',
+  `username` varchar(64) DEFAULT NULL,
+  `headimg` varchar(64) DEFAULT NULL,
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) NOT NULL,
   `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modifier` bigint(20) NOT NULL,
   PRIMARY KEY (`goodsid`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for message_queue
