@@ -134,4 +134,18 @@ public class Works extends Model<Works> {
 		workss = this.find("select * from works order by updatetime desc limit ?", limit);
 		return workss;
 	}
+
+	/**
+	 * 根据点赞、收藏、浏览次数、评论次数优先级顺序排序
+	 * 
+	 * @param limit
+	 *            限制前几个
+	 * @return 返回精彩推荐的动漫作品
+	 */
+	public List<Works> getWorksByStatistics(Integer limit) {
+		List<Works> workss = null;
+		String querySql = "select * from works order by parise, collection, pageviews, comment desc limit ?";
+		workss = this.find(querySql, limit);
+		return workss;
+	}
 }

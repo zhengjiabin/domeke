@@ -25,15 +25,20 @@ public class CartoonController extends Controller {
 	}
 
 	/**
-	 * 显示动漫的明细
+	 * 显示动漫的明细CartoonDetail
 	 */
 	public void showDetail() {
 		Works worksModel = getModel(Works.class);
-		Works works = worksModel.findById(getParaToInt("id"));
-		this.setAttr("works", works);
 		Work workModel = getModel(Work.class);
+		// 取某一部动漫
+		Works works = worksModel.findById(getParaToInt("id"));
+		// 取该动漫的集数
 		List<Work> workList = workModel.getWorkByWorksID(getParaToInt("id"));
+		// 取精彩推荐的动漫作品
+		List<Works> wonderfulWorksList = worksModel.getWorksByStatistics(10);
+		this.setAttr("works", works);
 		this.setAttr("workList", workList);
+		this.setAttr("wonderfulWorksList", wonderfulWorksList);
 		render("/CartoonDtl.html");
 	}
 
