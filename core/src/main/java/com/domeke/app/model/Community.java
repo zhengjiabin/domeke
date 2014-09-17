@@ -3,6 +3,7 @@ package com.domeke.app.model;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 
 @TableBind(tableName = "community", pkName = "communityid")
@@ -13,6 +14,11 @@ public class Community extends Model<Community> {
 	private static final long serialVersionUID = 1L;
 
 	public static Community dao = new Community();
+	
+	public void deleteFatAndSonByCommunityId(Object communityId){
+		String sql = "delete from community where communityid=? or pid=?";
+		Db.batch(sql, new Object[][] { { communityId, communityId } }, 1);
+	}
 
 	/**
 	 * 查询父模块
@@ -25,8 +31,7 @@ public class Community extends Model<Community> {
 	 */
 	public List<Community> findFatList() {
 		String sql = "select * from community where status='10' and level=1 order by position";
-		List<Community> communityFatList = Community.dao.findByCache(
-				"CommunityFatList", "key", sql);
+		List<Community> communityFatList = this.find(sql);
 		return communityFatList;
 	}
 
@@ -41,8 +46,7 @@ public class Community extends Model<Community> {
 	 */
 	public List<Community> findSonList() {
 		String sql = "select * from community where status='10' and level=2 order by position";
-		List<Community> communitySonList = Community.dao.findByCache(
-				"CommunitySonList", "key", sql);
+		List<Community> communitySonList = this.find(sql);
 		return communitySonList;
 	}
 
@@ -53,8 +57,7 @@ public class Community extends Model<Community> {
 	 */
 	public List<Community> findSonListByPid(Object pId) {
 		String sql = "select * from community where status='10' and level=2 and pid=? order by position";
-		List<Community> communitySonList = Community.dao.findByCache(
-				"CommunitySonList", "key", sql,pId);
+		List<Community> communitySonList = this.find(sql, pId);
 		return communitySonList;
 	}
 }

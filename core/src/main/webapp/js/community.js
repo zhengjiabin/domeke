@@ -4,34 +4,30 @@ function goToOrderCommunity(actionKey, communityId) {
 	window.location.href = url
 }
 
-function addCommunityFat(actionKey, communityId) {
-	var detailCommunityHtml = $(node).closest("#detailCommunityHtml");
-	var activonVal = "/community/addCommunityFat";
-	
-	$.post(pageActionVal, {
-		communityId : communityId
-	}, function(data) {
-		var fatherNode = $(node).closest(fatherNodeVal);
-		fatherNode.html(data);
+function addCommunityFat(node) {
+	var fatherNode = $(node).closest("#admin_Community");
+	var targetNode = fatherNode.find("#detail_CommunityHtml").first();
+	$.post("./community/addCommunityFat", function(data) {
+		targetNode.html(data);
 		
-		var pageSize = fatherNode.find("#pageSize").first();
-		var option = pageSize.find("option[value=" + size + "]");
-		option.attr("selected", true);
+		var tableNode = targetNode.find("#table").first();
+		var trNode = tableNode.find("#fat").first();
+		trNode.attr("contenteditable",true);
+		trNode.focus();
 	});
 }
 
 function saveSon(node,communityId,pId){
-	var pId = communityId
 	
 	$(node).attr("contenteditable",false);
 	var tr = $(node).closest("#son");
-	var title = tr.find("#title").first();
-	var content = tr.find("#content").first();
-	var actionkey = tr.find("#actionkey").first();
-	var level = tr.find("#level").first();
-	var position = tr.find("#position").first();
+	var title = tr.find("#title").first().html();
+	var content = tr.find("#content").first().html();
+	var actionkey = tr.find("#actionkey").first().html();
+	var level = tr.find("#level").first().html();
+	var position = tr.find("#position").first().html();
 	
-	$.post("/community/saveSon", {
+	$.post("./community/saveSon", {
 		title : title,
 		content : content,
 		actionkey : actionkey,
@@ -47,21 +43,51 @@ function saveSon(node,communityId,pId){
 
 
 //添加版块
-function addCommunitySon(node,communityId) {
-	var detailCommunity = $(node).closest("#detailCommunity");
-	var table = detailCommunity.find("#table").first();
-	
-	var newRow = "<tr class='odd gradeX' id='son' contenteditable='true'>";
-	newRow = newRow + "<td></td>";
-	newRow = newRow + "<td></td>";
-	newRow = newRow + "<td></td>";
-	newRow = newRow + "<td></td>";
-	newRow = newRow + "<td></td>";
-	newRow = newRow + "<td>";
-	newRow = newRow + "<button class='btn btn-mini' onclick='saveSon(this,'',"+communityId+")'>保存</button> ";
-	newRow = newRow + "<button class='btn btn-warning btn-mini'>修改</button> ";
-	newRow = newRow + "<button class='btn btn-danger btn-mini'>删除</button> ";
-	newRow = newRow + "</td>";
-	newRow = newRow + "</tr>";
-	table.append(newRow);
+function addCommunitySon(node,pId) {
+	$.post("./community/addCommunitySon", {
+		pId : pId
+	}, function(data) {
+		var fatherNode = $(node).closest("#detailCommunity");
+		fatherNode.html(data);
+		
+		var tableNode = fatherNode.find("#table").first();
+		var trNode = tableNode.find("#son").first();
+		trNode.attr("contenteditable",true);
+		trNode.focus();
+	});
+}
+
+function modifyFat(node){
+	var tr = $(node).closest("#fat");
+	tr.attr("contenteditable",true);
+}
+
+function modifySon(node){
+	var tr = $(node).closest("#son");
+	tr.attr("contenteditable",true);
+}
+
+function deleteSon(node,communityId,pId){
+	var result = confirm("确定删除？");
+	if(result){
+		$.post("./community/deleteSon", {
+			communityId : communityId,
+			pId : pId
+		}, function(data) {
+			var fatherNode = $(node).closest("#detailCommunity");
+			fatherNode.html(data);
+		});
+	}
+}
+
+function deleteFat(node,communityId){
+	var result = confirm("确定删除？");
+	if(result){
+		$.post("./community/deleteFat", {
+			communityId : communityId
+		}, function(data) {
+			var fatherNode = $(node).closest("#detail_CommunityHtml");
+			fatherNode.html(data);
+		});
+	}
 }
