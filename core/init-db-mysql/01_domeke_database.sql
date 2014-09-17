@@ -50,7 +50,7 @@ CREATE TABLE `works` (
   `pageviews` bigint(20) DEFAULT '0',
   `collection` bigint(20) DEFAULT '0',
   `praise` bigint(20) DEFAULT '0',
-  `maxnum` bigint(20) DEFAULT '0',
+  `maxnum` bigint(20) DEFAULT '0', 
   `updatetime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) NOT NULL,
