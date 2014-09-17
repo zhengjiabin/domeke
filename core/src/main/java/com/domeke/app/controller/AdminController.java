@@ -8,8 +8,7 @@ public class AdminController extends Controller {
 	 * 
 	 */
 	public void index() {
-		setAttr("layoutContent", "");
-		render("/admin/admin_layout.html");
+		redirect("/community/goToManager");
 	}
 
 	/**

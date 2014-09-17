@@ -43,7 +43,7 @@ public class VentWall extends Model<VentWall>{
 	 * @return 所有留言
 	 */
 	public List<VentWall> getVentWall(){
-		List<VentWall> ventWallList = venWdao.findByCache("ventWallList", "key", "SELECT * FROM VENT_WALL ORDER BY CREATETIME");
+		List<VentWall> ventWallList = venWdao.findByCache("ventWallList", "key", "SELECT * FROM VENT_WALL WHERE CREATER=1  ORDER BY CREATETIME");
 		return ventWallList;	
 	}
 	/**
@@ -58,7 +58,7 @@ public class VentWall extends Model<VentWall>{
 	 * @param 留言表ID
 	 */
 	public void updateVentWall(int ventwallid){
-		//venWdao.findById(ventwallid).setAttrs();
+		
 	}
 	/**
 	 * 
@@ -98,7 +98,7 @@ public class VentWall extends Model<VentWall>{
      */
     public String isSignIn(int userId){
     	String issignin = "0";
-    	Object userid = Db.queryLong("SELECT userid from vent_wall WHERE TO_DAYS(CREATETIME)=TO_DAYS(NOW()) and userid="+userId);
+    	Object userid = Db.queryLong("SELECT USERID FROM VENT_WALL WHERE TO_DAYS(CREATETIME)=TO_DAYS(NOW()) AND USERID="+userId);
     	if (userid == null || "".equals(userid)){
     		issignin = "1";
     	}
@@ -111,7 +111,7 @@ public class VentWall extends Model<VentWall>{
 	 * @return
 	 */
 	public Page<VentWall> findPage(int pageNumber, int pageSize) {
-		Page<VentWall> page = this.paginate(pageNumber, pageSize, "select *","from vent_wall order by createtime");
+		Page<VentWall> page = this.paginate(pageNumber, pageSize, "SELECT *","FROM VENT_WALL ORDER BY CREATETIME");
 		return page;
 	}
 }

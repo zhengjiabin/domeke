@@ -39,25 +39,84 @@ public class CommunityController extends Controller {
 	public void goToManager() {
 		setCommunityFatList();
 		setCommunitySonList();
-		render("/admin/community.html");
+		render("/admin/admin_community.html");
 	}
 	
 	/**
 	 * 
 	 */
 	public void saveSon(){
-		setCommunity(null);
+		Object communityId = getPara("communityId");
+		setCommunityFat(communityId);
 		
 		Object pId = getPara("pId");
+		Community community = Community.dao.findById(pId);
+		setAttr("communityFat", community);
 		setCommunitySonListByPid(pId);
-		render("/admin/communityFat.html");
+		render("/admin/admin_communityFat.html");
+	}
+	
+	/**
+	 * 
+	 */
+	public void deleteSon(){
+		String communityId = getPara("communityId");
+		if(communityId != null && communityId.length() > 0){
+			Community.dao.deleteById(communityId);
+		}
+		
+		Object pId = getPara("pId");
+		Community community = Community.dao.findById(pId);
+		setAttr("communityFat", community);
+		setCommunitySonListByPid(pId);
+		render("/admin/admin_communityFat.html");
+	}
+	
+	/**
+	 * 
+	 */
+	public void deleteFat(){
+		String communityId = getPara("communityId");
+		if(communityId != null && communityId.length() > 0){
+			Community.dao.deleteFatAndSonByCommunityId(communityId);
+		}
+		
+		setCommunityFatList();
+		setCommunitySonList();
+		render("/admin/admin_detailCommunity.html");
+	}
+	
+	public void addCommunitySon(){
+		Object pId = getPara("pId");
+		Community community = getModel(Community.class);
+		community.set("pid", pId);
+		community.set("level", 2);
+		community.set("title", "请填写标题");
+		community.save();
+		
+		Community communityFat = Community.dao.findById(pId);
+		setAttr("communityFat", communityFat);
+		
+		setCommunitySonListByPid(pId);
+		render("/admin/admin_communityFat.html");
+	}
+	
+	public void addCommunityFat(){
+		Community community = getModel(Community.class);
+		community.set("level", 1);
+		community.set("title", "请填写标题");
+		community.save();
+		
+		setCommunityFatList();
+		setCommunitySonList();
+		render("/admin/admin_detailCommunity.html");
 	}
 	
 	/**
 	 * 设置版块
 	 * @param communityId
 	 */
-	private void setCommunity(Object communityId){
+	private void setCommunityFat(Object communityId){
 		Object title = getPara("title");
 		Object content = getPara("content");
 		Object actionkey = getPara("actionkey");

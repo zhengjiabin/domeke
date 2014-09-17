@@ -49,6 +49,7 @@ public class VentWallController extends Controller {
 		int menuid = getParaToInt("menuid");
 		setAttr("menuid", menuid);	
 		select();
+		isSignIn();
 		render("/demo/addVentWall.html");
 	}
 	/**
@@ -76,7 +77,8 @@ public class VentWallController extends Controller {
 		VentWall ventWall = getModel(VentWall.class);
 		Long ventwallid = ventWall.get("ventwallid");
 		VentWall.venWdao.findById(ventwallid).setAttrs(ventWall).update();
-		selectUtil();
+		//selectUtil();
+		setActivityPage();
 		render("/admin/admin_ventWallManage.html");
 	}
 	/**
@@ -85,7 +87,8 @@ public class VentWallController extends Controller {
 	public void delete(){
 		int ventwallid = getParaToInt();
 		VentWall.venWdao.deleteVentWall(ventwallid);
-		selectUtil();
+		//selectUtil();
+		setActivityPage();
 		render("/admin/admin_ventWallManage.html");
 	}
 	/**
@@ -108,7 +111,8 @@ public class VentWallController extends Controller {
 		setAttr("issignin", issignin);
 	}
 	public void goToManager(){
-		selectUtil();		
+		//selectUtil();
+		setActivityPage();
 		render("/admin/admin_ventWall.html");
 	}
 	private void selectUtil() {
@@ -122,7 +126,6 @@ public class VentWallController extends Controller {
 	 * @return 活动信息
 	 */
 	public void find() {
-		//Object ventwallid = getPara("ventwallid");
 		setActivityPage();	
 		render("/admin/admin_ventWallManage.html");
 	}
@@ -133,7 +136,7 @@ public class VentWallController extends Controller {
 	public void setActivityPage(){
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 2);
-		Page<VentWall> activityPage = VentWall.venWdao.findPage(pageNumber,pageSize);
-		setAttr("activityPage", activityPage);
+		Page<VentWall> ventWallList = VentWall.venWdao.findPage(pageNumber,pageSize);
+		setAttr("ventWallList", ventWallList);
 	}
 }

@@ -17,7 +17,6 @@
     <script type="text/javascript">
     	$(document).ready(function(){
     		var url = "ventwall/select";
-    		//$.showView(null,url);
     		$('#btn2').click(function(){
     			var rdo = $('input[name="ventWall.moodid"]:checked').val();
     			var saytext = $('#saytext').val();
@@ -65,12 +64,13 @@
 		<textarea name="textarea" class="textarea" id="saytext" name="ventWall.message" value="${ventWall.message!}" cols="50" rows="6" ></textarea>
 		<p>
 	         <span class="textCount">0/50</span>
-             <button id="btn2" class="btn2"  type="button" onmouseover="this.style.backgroundPosition='left -43px'" onmouseout="this.style.backgroundPosition='left top'">开始签到</button>
+	         <% if(issignin=="1") { %>
+             	<button id="btn2" class="btn2"  type="button" onmouseover="this.style.backgroundPosition='left -43px'" onmouseout="this.style.backgroundPosition='left top'">开始签到</button>
+        	 <%}%>
          </p>	
       </form>
     </div> 
     <div id="view">
-    	<!--     <% layout("/demo/selectventwall.html"){} %>	 -->
     	<% layout("/demo/ventwall.html"){} %>
     </div>
  </section> 

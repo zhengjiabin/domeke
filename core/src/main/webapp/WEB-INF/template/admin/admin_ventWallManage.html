@@ -24,10 +24,10 @@
       console.log(obj);
       $.showView(obj,url); 
   });
-});       
-      $.extend({
+    
+    $.extend({
        	showView:function(obj,url){
-    	$.ajax({   
+       		$.ajax({   
                 type:"post",    
                 dataType:"html",
                 url:url, 
@@ -40,8 +40,9 @@
                     console.info(msg);
                 }   
             });
-    	}
-   });  	
+       	}
+  	}); 
+});       
 </script>
 <div class="row-fluid">
 		<!-- block -->
@@ -62,7 +63,7 @@
 							</tr>
 						</thead>
 						<tbody>
-						<% for(v in ventWallList!){%>
+						<% for(v in ventWallList.list){%>
 							<tr class="odd gradeX">
 								<td width="80"><img src="images/face/${v.moodid!}"/></td>
 								<td width="600">${v.message!}</td>
@@ -80,4 +81,7 @@
 				</div>
 			</div>
 		</div>
+		<% if(ventWallList != null){ layout("/common/page.html",
+			{"page":ventWallList,"fatherNode":"#content"}
+		){} }%>
 </div>
