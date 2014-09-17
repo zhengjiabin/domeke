@@ -44,7 +44,7 @@ CREATE TABLE `works` (
   `workstype` varchar(32) DEFAULT '10',
   `creativeprocess` varchar(32) DEFAULT '10',
   `cover` varchar(255) NOT NULL,
-  `describle` varchar(255) DEFAULT NULL,
+  `describle` varchar(1024) DEFAULT NULL,
   `pageviews` bigint(20) DEFAULT '0',
   `collection` bigint(20) DEFAULT '0',
   `praise` bigint(20) DEFAULT '0',
