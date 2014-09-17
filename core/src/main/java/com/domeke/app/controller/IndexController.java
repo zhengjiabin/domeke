@@ -1,7 +1,9 @@
 package com.domeke.app.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.Goods;
@@ -14,18 +16,38 @@ import com.jfinal.core.Controller;
 public class IndexController extends Controller {
 
 	public void index() {
-//		List<List<Works>> lists = new ArrayList<List<Works>>();
-//		List<CodeTable> codetables = CodeKit.getList("workstype");
-//		Works worksDao = getModel(Works.class);
-//		for (CodeTable codeTable : codetables) {
-//			String codeValue = codeTable.getStr("codevalue");
-//			List<Works> workss = worksDao.getWorksInfoByType(codeValue);
-//			lists.add(workss);
-//		}
-//		Goods goods = getModel(Goods.class);
-//		List<Goods> goodss = goods.getGoodsByNewLimit(4);
-//		setAttr("lists", lists);
-//		setAttr("goodss", goodss);
+		List<List<Works>> lists = new ArrayList<List<Works>>();
+		List<CodeTable> codetables = CodeKit.getList("workstype");
+		Works worksDao = getModel(Works.class);
+		Map<String, Object> map = new HashMap<String, Object>();
+		for (CodeTable codeTable : codetables) {
+			map.put(codeTable.getStr("codevalue"), codeTable.getStr("codename"));
+		}
+		
+		//加载中间数据
+		List<Works> workss1 = worksDao.getWorksInfoByType("10",7);
+		List<Works> workss2 = worksDao.getWorksInfoByType("20",5);
+		List<Works> workss3 = worksDao.getWorksInfoByType("30",5);
+		List<Works> workss4 = worksDao.getWorksInfoByType("40",10);
+		
+		//加载右边列表
+		List<Works> worksClickList = worksDao.getWorksInfoByPageViewsLimit(9);
+		List<Works> worksUpdateList = worksDao.getWorksInfoByUpdateLimit(10);
+		
+		
+		//加载底部商品信息
+		Goods goods = getModel(Goods.class);
+		List<Goods> goodss = goods.getGoodsByNewLimit(4);
+		
+		//返回数据
+		setAttr("workstype", map);
+		setAttr("workss1", workss1);
+		setAttr("workss2", workss2);
+		setAttr("workss3", workss3);
+		setAttr("workss4", workss4);
+		setAttr("worksClickList", worksClickList);
+		setAttr("worksUpdateList", worksUpdateList);
+		setAttr("goodss", goodss);
 		render("index.html");
 	}
 

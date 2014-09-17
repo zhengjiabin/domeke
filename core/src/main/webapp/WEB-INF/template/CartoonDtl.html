@@ -31,7 +31,7 @@
                 </div>
               </div>
             </div>
-            <div class="CartoonIntroduction">电影《兰辉》九月亮剑上映，很多人在了解《兰辉》这部影片时，不自觉的就将该类影片纳入了政治影片，应该是学校政府机关单位组织观影的影片。就好像当年我们只要看到抗战题材影片就会马上想到内容的套路一般。在电影《兰辉》开机拍摄之初，导演组就已经有了准备，绝不把《兰辉》拍成高大上的政治电影，而要紧接地气的拍出一部感人肺腑的正能量大片。</div>
+            <div class="CartoonIntroduction">${works.describle!}</div>
             <div class="CartoonSet">
             	<div class="SetTitle">剧集列表</div>
                 <div class="SetContent">
@@ -40,13 +40,12 @@
                 	for(work in workList){
                 		index = index + 1; 
                 %>
-                	<a href="cartoon/playVideo?id=${works.worksid!}&gid=${work.workid!}">index</a>
+                	<a href="cartoon/playVideo?id=${works.worksid!}&gid=${work.workid!}">${index!}</a>
                 <% } %>
                 </div>
             </div>
-            
             <div class="CartoonLove">
-            	<div class="LevelTitle">喜欢“骄傲的兔子” 的人也喜欢：</div>
+            	<div class="LevelTitle">喜欢“${works.worksname!}” 的人也喜欢：</div>
                 <div class="CartoonContent Love">
                     <div class="RoolLeft"><a href="#"><img src="images/icon_addL.png"></a></div>
                     <div class="CartoonSub">

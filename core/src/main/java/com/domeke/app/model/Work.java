@@ -21,14 +21,29 @@ public class Work extends Model<Work> {
 	private static final long serialVersionUID = -7086461795232488629L;
 
 	/**
-	 * 获取一部动漫的集数
+	 * 获取某一部动漫的集数
 	 * 
-	 * @return
+	 * @param worksid
+	 *            动漫作品的主键值
+	 * @return 某一部动漫的集数
 	 */
 	public List<Work> getWorkByWorksID(Object worksid) {
 		String querySql = "select * from work where worksid=? order by worknum asc";
 		List<Work> worklist = this.find(querySql, worksid);
 		return worklist == null ? Lists.newArrayList() : worklist;
+	}
+
+	/**
+	 * 获取某一部动漫作品的第一集
+	 * 
+	 * @param worksid
+	 *            动漫作品的主键值
+	 * @return 某一部动漫的第一集
+	 */
+	public Work getFirstWork(Object worksid) {
+		String querySql = "select * from work where worksid=? and worknum=1";
+		List<Work> worklist = this.find(querySql, worksid);
+		return worklist == null ? this : worklist.get(0);
 	}
 
 }

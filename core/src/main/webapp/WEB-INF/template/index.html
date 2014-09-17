@@ -13,6 +13,146 @@
     <div class="clear">&nbsp;</div>
 </section>
 <section>
-	
+	<article>
+		<section>
+        	<div class="CartoonTitle">${workstype[workss1[0].workstype]}<a href="#">/更多</a></div>
+            <div class="CartoonContent">
+            	<div class="Cartoon2">
+                	<div class="CartoonSubB">
+                    	<img src="${workss1[0].cover}">
+                    	<div class="CartoonSubBFootbar">
+                        	<a href="#"><img src="images/icon_play.png"></a>
+                            <span>${workss1[0].worksname}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="Cartoon3">
+                	<% for(var i=0; i<workss1.~size; i++){
+                		if(i != 0){
+                	 %>
+                    <div class="CartoonSub">
+                        <img src="${workss1[i].cover}">
+                        <div class="CartoonName"><a href="#">${workss1[i].worksname}</a></div>
+                        <div class="CartoonInfo">
+                        	<span class="FloatL">${workss1[i].pageviews}</span>
+                            <span class="FloatR">${workss1[i].comment}</span>
+                        </div>
+                        <div class="CartoonSubFootbar">${workss1[i].describle}</div>
+                    </div>
+                    <%}%>
+                    <%}%>
+                </div>
+            </div>
+        </section>
+        
+        <section>
+        	<div class="CartoonTitle">${workstype[workss2[0].workstype]}<a href="#">/更多</a></div>
+            <div class="CartoonContent">
+            	<%for(works in workss2){%>
+	            <div class="CartoonSub">
+	                <img src="${works.cover}">
+	                <div class="CartoonName"><a href="#">${works.worksname}</a></div>
+	                <div class="CartoonInfo">
+	                	<span class="FloatL">${works.pageviews}</span>
+	                    <span class="FloatR">${works.comment}</span>
+	                </div>
+	                <div class="CartoonSubFootbar">${works.describle}</div>
+	            </div>
+	            <%}%>
+            </div>
+        </section>
+        
+         <section>
+        	<div class="CartoonTitle">${workstype[workss3[0].workstype]}<a href="#">/更多</a></div>
+            <div class="CartoonContent">
+            	<%for(works in workss3){%>
+	            <div class="CartoonSub">
+	                <img src="${works.cover}">
+	                <div class="CartoonName"><a href="#">${works.worksname}</a></div>
+	                <div class="CartoonInfo">
+	                	<span class="FloatL">${works.pageviews}</span>
+	                    <span class="FloatR">${works.comment}</span>
+	                </div>
+	                <div class="CartoonSubFootbar">${works.describle}</div>
+	            </div>
+	            <%}%>
+            </div>
+        </section>
+        
+        
+         <section>
+        	<div class="CartoonTitle">${workstype[workss4[0].workstype]}<a href="#">/更多</a></div>
+            <div class="CartoonContent">
+            	<%for(works in workss4){%>
+	            <div class="CartoonSub">
+	                <img src="${works.cover}">
+	                <div class="CartoonName"><a href="#">${works.worksname}</a></div>
+	                <div class="CartoonInfo">
+	                	<span class="FloatL">${works.pageviews}</span>
+	                    <span class="FloatR">${works.collection}</span>
+	                </div>
+	                <div class="CartoonSubFootbar">${works.describle}</div>
+	            </div>
+	            <%}%>
+            </div>
+        </section>
+    </article>
+    <aside>
+    	<section>
+        	<div class="CartoonTitle">上周点击排行榜</div>
+            <div class="CartoonContent">
+            <% for(var i=0; i<worksClickList.~size; i++) {%>
+            <ul class="LiVline">
+               <li class="LiHeightB">        		
+                    <div class="LiPicB"><img src="${worksClickList[i].cover}"></div>
+                    <div class="LiContentB">
+                    	<a href="#">${worksClickList[i].worksname}</a>
+                        <span>
+                        	<span class="Tip01">${worksClickList[i].pageviews}</span>
+                            <span class="Tip02">${worksClickList[i].comment}</span>
+                        </span>
+                    </div>
+                    <span class="Num${i+1}"></span>
+               </li>
+            </ul>
+            <% } %>
+            </div>
+        </section>
+        <section>
+        	<div class="CartoonTitle">本周跟新列表</div>
+            <div class="CartoonContent">
+            <ul class="LiVline LiC">
+            	<% for(works in worksUpdateList) {%>
+            	<li><span>${works.maxnum}话</span><a href="#">${works.worksname}</a></li>
+                <% } %>
+            </ul>
+            </div>
+        </section>
+        
+    </aside>
+    <div class="clear">&nbsp;</div>
+</section>
+<section>
+
+
+	<div class="CartoonTitle">新潮商品<a href="#">/更多</a></div>
+    <div class="CartoonContent">
+    <% for(goods in goodss){%>
+        <figure>
+        	<div class="GoodsPic"><img src="${goods.pic}"></div>
+       	 	 <figcaption>
+                <div class="GoodsName font_r"><a href="#">xx </a>
+                <span class="GoodsPrice">￥：${goods.price}</span>
+                </div>
+              	<div class="GoodsAuthor"><img src="${goods.headimg}"><span class="font_ye"><a href="#">${goods.username}</a></span>发布</div>
+                <div class="GoodsInfo">xx</div>
+              <div class="GoodsItems">
+              	<span>加入收藏  20</span>
+                <span>喜欢  30</span>
+              </div>
+            </figcaption>
+        </figure>
+    <%}%>
+    </div>
 </section> 
 <% } %> 

@@ -61,7 +61,7 @@ public class Goods extends Model<Goods> {
 	}
 	
 	public List<Goods> getGoodsByNewLimit(Integer limit) {
-		String querySql = "select * from goods where goods=? limit "+limit;
+		String querySql = "select * from goods order by istop limit "+limit;
 		List<Goods> goodsList = this.find(querySql);
 		return goodsList == null ? Lists.newArrayList() : goodsList;
 	}

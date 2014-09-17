@@ -59,6 +59,19 @@ public class Works extends Model<Works> {
 		List<Works> workslist = this.find(querySql, worksType);
 		return workslist == null ? Lists.newArrayList() : workslist;
 	}
+	
+	/**
+	 * 根据动漫作品类型返信息 限制条数
+	 * 
+	 * @param worksType
+	 *            作品类型
+	 * @return 返回对应类型的作品信息
+	 */
+	public List<Works> getWorksInfoByType(String worksType,Integer limit) {
+		String querySql = "select * from works where workstype=? order by istop limit "+limit;
+		List<Works> workslist = this.find(querySql, worksType);
+		return workslist == null ? Lists.newArrayList() : workslist;
+	}
 
 	/**
 	 * 根据商品类型返回商品信息
@@ -101,5 +114,24 @@ public class Works extends Model<Works> {
 		}
 		return workslist;
 	}
-
+	
+	/**
+	 * 按点击排名
+	 * @param limit
+	 * @return
+	 */
+	public List<Works> getWorksInfoByPageViewsLimit(Integer limit){
+		List<Works> workss = null;
+		workss = this.find("select * from works order by pageviews desc limit ?", limit);
+		return workss;
+	}
+	/**
+	 * 最近更新
+	 * @return
+	 */
+	public List<Works> getWorksInfoByUpdateLimit(Integer limit){
+		List<Works> workss = null;
+		workss = this.find("select * from works order by updatetime desc limit ?", limit);
+		return workss;
+	}
 }

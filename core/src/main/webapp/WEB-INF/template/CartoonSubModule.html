@@ -9,14 +9,16 @@
             <div class="CartoonName">${works.worksname!}</div>
             <div class="CartoonInfo">
                <span class="FloatL">${works.pageviews!}</span>
-               <span class="FloatR">${works.praise!}</span>
+               <span class="FloatR">${works.comment!}</span>
             </div>
             <div class="CartoonSubFootbar">${works.worksname!}</div>
         </div>
         <% } %>
      </div> 
-     <% if(pageList != null){ layout("/common/page.html",
-			{"page":pageList,"pageAction":"/cartoon","fatherNode":"#page"}
-			){} }%>
+     <% 
+     	if(pageList != null){ 
+     		layout("/common/page.html", 
+     				{"page":pageList,"pageAction":"/cartoon","fatherNode":"#page"}){} 
+		}%>
 </section>
 <% } %> 
