@@ -140,4 +140,34 @@ public class Menu extends Model<Menu> {
 		CacheKit.removeAll("Menu");
 		CacheKit.removeAll("menuList");
 	}	
+	
+	/**
+	 * 分页查询活动
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Menu> findPage(int pageNumber, int pageSize) {
+		Page<Menu> page = this.paginate(pageNumber, pageSize, "select *",
+				"from menu group by menuid");
+		return page;
+	}
+
+	/**
+	 * 分页查询活动
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Menu> findPage(int pageNumber, int pageSize, String menuType) {
+		Page<Menu> page = this.paginate(pageNumber, pageSize, "select *",
+				"from menu where menutype=? group by menuid", menuType);
+		return page;
+	}
 }
