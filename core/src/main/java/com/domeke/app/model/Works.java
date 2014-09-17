@@ -9,7 +9,7 @@ import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 
 /**
- * 我的作品model
+ * 动漫作品主表
  * 
  * @author chenhailin
  *
@@ -101,4 +101,5 @@ public class Works extends Model<Works> {
 		}
 		return workslist;
 	}
+
 }

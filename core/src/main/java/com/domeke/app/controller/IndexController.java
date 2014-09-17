@@ -14,18 +14,18 @@ import com.jfinal.core.Controller;
 public class IndexController extends Controller {
 
 	public void index() {
-		List<List<Works>> lists = new ArrayList<List<Works>>();
-		List<CodeTable> codetables = CodeKit.getList("workstype");
-		Works worksDao = getModel(Works.class);
-		for (CodeTable codeTable : codetables) {
-			String codeValue = codeTable.getStr("codevalue");
-			List<Works> workss = worksDao.getWorksInfoByType(codeValue);
-			lists.add(workss);
-		}
-		Goods goods = getModel(Goods.class);
-		List<Goods> goodss = goods.getGoodsByNewLimit(4);
-		setAttr("lists", lists);
-		setAttr("goodss", goodss);
+//		List<List<Works>> lists = new ArrayList<List<Works>>();
+//		List<CodeTable> codetables = CodeKit.getList("workstype");
+//		Works worksDao = getModel(Works.class);
+//		for (CodeTable codeTable : codetables) {
+//			String codeValue = codeTable.getStr("codevalue");
+//			List<Works> workss = worksDao.getWorksInfoByType(codeValue);
+//			lists.add(workss);
+//		}
+//		Goods goods = getModel(Goods.class);
+//		List<Goods> goodss = goods.getGoodsByNewLimit(4);
+//		setAttr("lists", lists);
+//		setAttr("goodss", goodss);
 		render("index.html");
 	}
 

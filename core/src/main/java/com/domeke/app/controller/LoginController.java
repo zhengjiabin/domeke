@@ -29,7 +29,9 @@ public class LoginController extends Controller {
 		try {
 			currentUser.login(token);
 		} catch (AuthenticationException e) {
+			
 			setAttr("msg", "用户名或密码错误!");
+			setAttr("username",username);
 			render("/Login.html");
 			return;
 		}
@@ -45,11 +47,12 @@ public class LoginController extends Controller {
 		UserRole userrole = getModel(UserRole.class);
 		userrole = userrole.getRolid(user.getLong("userid")); 
 		Long roleid = userrole.getLong("roleid");
-		if(roleid == 0){
+		if(roleid == 1){
 			setCache(username, password, token, currentUser);
 			setAttr("username", username);
 			setAttr("menuid", "1");
-			render("/admin/community.html");
+			
+			render("/admin/admin_community.html");
 			return;
 		}
 		setCache(username, password, token, currentUser);

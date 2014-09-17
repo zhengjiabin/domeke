@@ -25,9 +25,7 @@ CREATE TABLE `work` (
   `worknum` int(10) DEFAULT '1' COMMENT '第几集',
   `workname` varchar(20) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '名称',
   `workdes` varchar(255) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '简介',
-  `isvideo` tinyint(1) DEFAULT '0' COMMENT '0=文章 1=视频',
-  `pagenum` tinyint(3) DEFAULT '1' COMMENT '一章动漫有几张图片，如果是视频就是1个',
-  `url` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '资源地址',
+  `comic` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '资源地址',
   `isdisable` tinyint(1) DEFAULT '0' COMMENT '是否禁用 0否1禁',
   `createtime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `creater` bigint(20) NOT NULL,
@@ -35,6 +33,28 @@ CREATE TABLE `work` (
   `modifier` bigint(20) NOT NULL,
   PRIMARY KEY (`workid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Table structure for works
+-- ----------------------------
+DROP TABLE IF EXISTS `works`;
+CREATE TABLE `works` (
+  `worksid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `worksname` varchar(255) NOT NULL,
+  `workstype` varchar(32) DEFAULT '10',
+  `creativeprocess` varchar(32) DEFAULT '10',
+  `cover` varchar(255) NOT NULL,
+  `describle` varchar(255) DEFAULT NULL,
+  `pageviews` bigint(20) DEFAULT '0',
+  `collection` bigint(20) DEFAULT '0',
+  `praise` bigint(20) DEFAULT '0',
+  `maxnum` bigint(20) DEFAULT '0',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) NOT NULL,
+  `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` bigint(20) NOT NULL,
+  PRIMARY KEY (`worksid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `action`;
 CREATE TABLE `action` (
@@ -527,28 +547,6 @@ CREATE TABLE `vent_wall` (
   `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `modifier` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ventwallid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for works
--- ----------------------------
-DROP TABLE IF EXISTS `works`;
-CREATE TABLE `works` (
-  `worksid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `worksname` varchar(255) NOT NULL,
-  `workstype` varchar(32) DEFAULT '10',
-  `creativeprocess` varchar(32) DEFAULT '10',
-  `cover` varchar(255) NOT NULL,
-  `describle` varchar(255) DEFAULT NULL,
-  `comic` varchar(255) NOT NULL,
-  `pageviews` bigint(20) DEFAULT '0',
-  `collection` bigint(20) DEFAULT '0',
-  `praise` bigint(20) DEFAULT '0',
-  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` bigint(20) NOT NULL,
-  `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` bigint(20) NOT NULL,
-  PRIMARY KEY (`worksid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

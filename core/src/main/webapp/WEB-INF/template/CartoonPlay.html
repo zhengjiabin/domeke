@@ -1,0 +1,18 @@
+<% layout("/common/layout.html"){ %>
+<section>
+	<div class="PlayZoom">
+	  <video id="example_video_1" controls preload="none" width="810" height="500"
+	   poster="${works.cover!}" data-setup="{}">
+  			<source src="${work.comic!}" type='video/mp4' />
+  			<!-- <track kind="captions" src="demo.captions.vtt" srclang="en" label="English"></track> Tracks need an ending tag thanks to IE9 -->
+  			<!-- <track kind="subtitles" src="demo.captions.vtt" srclang="en" label="English"></track> Tracks need an ending tag thanks to IE9 -->
+	  </video>
+	</div>
+      <div class="PlayControl"> 
+        <span class="Good"><a href="#">点赞</a></span>
+        <span class="Argument"><a href="#">评论</a></span>
+        <span class="Share"><a href="#">分享</a></span>
+      </div>
+    <% include("/common/youlike.html"){} %>
+</section>
+<% } %>

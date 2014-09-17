@@ -1,0 +1,140 @@
+<% layout("/common/layout.html"){ %>
+<section>
+	<article>
+        <section class="CartonDtl">
+            <div class="CartoonTitle">${works.worksname!}</div>
+            <div class="CartoonDtlInfo">
+            	<div class="CartoonPic"><img src="${works.cover!}"></div>
+              <div class="CartoonProperties"> 
+              	<div class="CartoonPropertiesR">
+                	<div class="CartoonScore">
+                	<span class="Font_Score">7.1</span>分&nbsp;&nbsp;&nbsp;&nbsp;评分：<img src="images/icon_star.png"></div>
+                  <div class="CartoonInfo">
+                       <span class="FloatL">${works.pageviews!}</span>
+                       <span class="FloatR">${works.praise!}</span>
+                  </div>
+                  <div class="CartoonA font_b">
+                    	<a href="#">订阅收藏</a>|
+                        <a href="#">写评论</a>|
+                        <a href="#">分享</a>
+                    </div>
+                </div>
+                <div class="CartoonPropertiesL">
+                <ul>
+                	<li>主角：</li>
+                    <li>上映日期：</li>
+                    <li>地区：</li>
+                    <li>年龄：</li>
+                    <li>剧集：</li>
+                </ul>
+                <div><a href="cartoon/playVideo?id=${works.worksid!}"><img src="images/icon09.png"></a></div>
+                </div>
+              </div>
+            </div>
+            <div class="CartoonIntroduction">电影《兰辉》九月亮剑上映，很多人在了解《兰辉》这部影片时，不自觉的就将该类影片纳入了政治影片，应该是学校政府机关单位组织观影的影片。就好像当年我们只要看到抗战题材影片就会马上想到内容的套路一般。在电影《兰辉》开机拍摄之初，导演组就已经有了准备，绝不把《兰辉》拍成高大上的政治电影，而要紧接地气的拍出一部感人肺腑的正能量大片。</div>
+            <div class="CartoonSet">
+            	<div class="SetTitle">剧集列表</div>
+                <div class="SetContent">
+                <% 
+                	var index = 0;
+                	for(work in workList){
+                		index = index + 1; 
+                %>
+                	<a href="cartoon/playVideo?id=${works.worksid!}&gid=${work.workid!}">index</a>
+                <% } %>
+                </div>
+            </div>
+            
+            <div class="CartoonLove">
+            	<div class="LevelTitle">喜欢“骄傲的兔子” 的人也喜欢：</div>
+                <div class="CartoonContent Love">
+                    <div class="RoolLeft"><a href="#"><img src="images/icon_addL.png"></a></div>
+                    <div class="CartoonSub">
+                     <img src="images/pic_Cartoon1.png">           
+                     <div class="CartoonName"><a href="#">动画大电影</a></div>
+                     <div class="CartoonInfo">
+                         <span class="FloatL">2931</span>
+                         <span class="FloatR">29</span>
+                      </div>
+                      <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                   </div>
+                   <div class="CartoonSub">
+                     <img src="images/pic_Cartoon1.png">           
+                     <div class="CartoonName"><a href="#">动画大电影</a></div>
+                     <div class="CartoonInfo">
+                         <span class="FloatL">2931</span>
+                         <span class="FloatR">29</span>
+                      </div>
+                      <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                   </div>
+                   <div class="CartoonSub">
+                     <img src="images/pic_Cartoon1.png">           
+                     <div class="CartoonName"><a href="#">动画大电影</a></div>
+                     <div class="CartoonInfo">
+                         <span class="FloatL">2931</span>
+                         <span class="FloatR">29</span>
+                      </div>
+                      <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                   </div>
+                   <div class="CartoonSub">
+                     <img src="images/pic_Cartoon1.png">           
+                     <div class="CartoonName"><a href="#">动画大电影</a></div>
+                     <div class="CartoonInfo">
+                         <span class="FloatL">2931</span>
+                         <span class="FloatR">29</span>
+                      </div>
+                      <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                   </div>
+                   <div class="CartoonSub">
+                     <img src="images/pic_Cartoon1.png">           
+                     <div class="CartoonName"><a href="#">动画大电影</a></div>
+                     <div class="CartoonInfo">
+                         <span class="FloatL">2931</span>
+                         <span class="FloatR">29</span>
+                      </div>
+                      <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+                   </div>
+                   <div class="RoolRight"><a href="#"><img src="images/icon_addR.png"></a></div>
+                 </div>
+            </div>
+            <div class="ArgumentZoom">
+            	<div class="LevelTitle"><a href="#" class="WArgument">我来说两句</a>骄傲的兔子评论：</div>
+                <div class="ArgumentSub">
+                	<div class="MemberHead"><img src="images/qq4.jpg"></div>
+                    <div class="ArgumentInfo">
+                    	<div class="MemberNick font_b">世嘉硬件女孩</div>
+                        <div class="ArgumentContent">我也希望有一个像小丸子一样的妹妹{:11:}望有一个像小丸子一样的妹妹{:11:}，不过不望有一个像小丸子一样的妹妹{:11:}，不过不需要因为本人也像小丸子一样，不讲道理，有仇必报，有吃必抢{:11:} </div>
+                        <div class="ArgumentTime font_b">
+                        	<a href="#">30有用</a><a href="#">回复</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="ArgumentSub">
+                	<div class="MemberHead"><img src="images/qq4.jpg"></div>
+                    <div class="ArgumentInfo">
+                    	<div class="MemberNick font_b">世嘉硬件女孩</div>
+                        <div class="ArgumentContent">我也希望有一个像小丸子一样的妹妹{:11:}望有一个像小丸子一样的妹妹{:11:}，不过不望有一个像小丸子一样的妹妹{:11:}，不过不需要因为本人也像小丸子一样，不讲道理，有仇必报，有吃必抢{:11:} </div>
+                        <div class="ArgumentTime font_b">
+                        	<a href="#">30有用</a><a href="#">回复</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="ArgumentSub">
+                	<div class="MemberHead"><img src="images/qq4.jpg"></div>
+                    <div class="ArgumentInfo">
+                    	<div class="MemberNick font_b">世嘉硬件女孩</div>
+                        <div class="ArgumentContent">我也希望有一个像小丸子一样的妹妹{:11:}望有一个像小丸子一样的妹妹{:11:}，不过不望有一个像小丸子一样的妹妹{:11:}，不过不需要因为本人也像小丸子一样，不讲道理，有仇必报，有吃必抢{:11:} </div>
+                        <div class="ArgumentTime font_b">
+                        	<a href="#">30有用</a><a href="#">回复</a>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </section>
+    </article>
+    <% include("/common/wonderful.html"){} %>
+    <div class="clear">&nbsp;</div>
+</section>
+<% } %>
