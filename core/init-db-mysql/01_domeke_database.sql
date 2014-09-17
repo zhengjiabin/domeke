@@ -45,10 +45,13 @@ CREATE TABLE `works` (
   `creativeprocess` varchar(32) DEFAULT '10',
   `cover` varchar(255) NOT NULL,
   `describle` varchar(1024) DEFAULT NULL,
+  `istop` int(11) DEFAULT '0',
+  `comment` bigint(20) DEFAULT '0',
   `pageviews` bigint(20) DEFAULT '0',
   `collection` bigint(20) DEFAULT '0',
   `praise` bigint(20) DEFAULT '0',
-  `maxnum` bigint(20) DEFAULT '0',
+  `maxnum` bigint(20) DEFAULT '0', 
+  `updatetime` timestamp DEFAULT CURRENT_TIMESTAMP,
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) NOT NULL,
   `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -82,8 +85,11 @@ CREATE TABLE `user_action` (
   `userid` bigint(20) NOT NULL,
   `username` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `actionid` bigint(20) NOT NULL,
+  `peas` bigint(20) DEFAULT '0',
+  `point` bigint(20) DEFAULT '0',
   `actionname` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `actiondes` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `headimg` varchar(255) DEFAULT NULL,
   `times` tinyint(3) NOT NULL DEFAULT '0',
   `create` mediumint(8) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
@@ -309,6 +315,8 @@ CREATE TABLE `goods` (
   `tamllurl` varchar(255) NOT NULL,
   `submitdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` varchar(4) NOT NULL DEFAULT '10',
+  `username` varchar(64) COMMENT '创建者名称',
+  `headimg` varchar(64) COMMENT '创建者头像地址',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) NOT NULL,
   `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -357,7 +365,7 @@ CREATE TABLE `orders` (
   `modifier` bigint(20) NOT NULL,
   PRIMARY KEY (`orderid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
+ 
 -- ----------------------------
 -- Table structure for playcount
 -- ----------------------------
