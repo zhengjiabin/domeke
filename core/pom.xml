@@ -180,6 +180,7 @@
 		</dependency>
 
 
+
 		<!-- APACHE 依赖 END -->
 
 		<dependency>
@@ -204,5 +205,11 @@
 			<artifactId>commons-net</artifactId>
 			<version>1.4.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+			<version>4.10.0</version>
+		</dependency>
+
 	</dependencies>
 </project>
