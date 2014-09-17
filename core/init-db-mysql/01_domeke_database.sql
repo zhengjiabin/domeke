@@ -324,7 +324,6 @@ CREATE TABLE `goods` (
   `modifier` bigint(20) NOT NULL,
   PRIMARY KEY (`goodsid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
 -- ----------------------------
 -- Table structure for message_queue
 -- ----------------------------
