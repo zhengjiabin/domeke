@@ -38,15 +38,22 @@ public class CartoonController extends Controller {
 	}
 
 	/**
-	 * <a href="cartoon/playVideo?id=${works.worksid!}"><br>
 	 * 明细页面点击动漫，转播放
 	 */
 	public void playVideo() {
 		Works worksModel = getModel(Works.class);
-		Works worksData = worksModel.findById(getParaToInt("id"));
+		Integer worksid = getParaToInt("id");
+		Works worksData = worksModel.findById(worksid);
 		this.setAttr("works", worksData);
 		Work workModel = getModel(Work.class);
-		Work workData = workModel.findById(getParaToInt("gid"));
+		Integer workid = getParaToInt("gid");
+		Work workData = null;
+		// 如果没有传动漫作品集数的ID则取第一集播放
+		if (workid == null) {
+			workData = workModel.getFirstWork(worksid);
+		} else {
+			workData = workModel.findById(workid);
+		}
 		this.setAttr("work", workData);
 		render("/CartoonPlay.html");
 	}
