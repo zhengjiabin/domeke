@@ -126,5 +126,11 @@ public class GoodsController extends FilesLoadController {
 		List<Goods> goodsList = goodsModel.getGoodsInfoByName(goodsName);
 		this.setAttr("goodslist", goodsList);
 	}
-
+	public void getGoodsDetail(){
+		Goods goodsModel = getModel(Goods.class);
+		//Goods goods = goodsModel.findById(getParaToInt("id"));
+		Goods goods = goodsModel.findById(4);
+		setAttr("goods", goods);
+		render("/ShopDtl.html");
+	}
 }

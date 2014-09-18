@@ -27,6 +27,7 @@ public class VentWallController extends Controller {
 		String msg = ventWall.getStr("moodid");
 		msg = getImg(msg);
 		ventWall.set("moodid", msg);	
+		ventWall.set("creater", 1);
 		ventWall.saveVentWall();
 		select();
 	}
@@ -77,7 +78,6 @@ public class VentWallController extends Controller {
 		VentWall ventWall = getModel(VentWall.class);
 		Long ventwallid = ventWall.get("ventwallid");
 		VentWall.venWdao.findById(ventwallid).setAttrs(ventWall).update();
-		//selectUtil();
 		setActivityPage();
 		render("/admin/admin_ventWallManage.html");
 	}
@@ -87,7 +87,6 @@ public class VentWallController extends Controller {
 	public void delete(){
 		int ventwallid = getParaToInt();
 		VentWall.venWdao.deleteVentWall(ventwallid);
-		//selectUtil();
 		setActivityPage();
 		render("/admin/admin_ventWallManage.html");
 	}
@@ -110,28 +109,30 @@ public class VentWallController extends Controller {
 		String issignin = VentWall.venWdao.isSignIn(1);
 		setAttr("issignin", issignin);
 	}
+	/**
+	 * 签到墙管理
+	 */
 	public void goToManager(){
-		//selectUtil();
 		setActivityPage();
 		render("/admin/admin_ventWall.html");
 	}
+	/**
+	 * 查询所以签到墙工具方法
+	 */
 	private void selectUtil() {
 		VentWall.venWdao.removeCache();		
 		List<VentWall> ventWallList = VentWall.venWdao.getVentWall();
 		setAttr("ventWallList", ventWallList);
 	}
 	/**
-	 * 分页查询指定社区的活动
-	 * 
-	 * @return 活动信息
+	 * 分页查询签到墙
 	 */
 	public void find() {
 		setActivityPage();	
 		render("/admin/admin_ventWallManage.html");
 	}
 	/**
-	 * 分页查询指定社区模块的活动
-	 * @param communityId
+	 * 分页查询
 	 */
 	public void setActivityPage(){
 		int pageNumber = getParaToInt("pageNumber", 1);

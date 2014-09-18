@@ -61,7 +61,7 @@ public class VentWall extends Model<VentWall>{
 		
 	}
 	/**
-	 * 
+	 * 删除缓存
 	 */
     public void removeCache(){
         CacheKit.removeAll("VentWall");

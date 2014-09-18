@@ -23,8 +23,7 @@
       var url = "ventwall/delete/"+ventwallid;
       console.log(obj);
       $.showView(obj,url); 
-  });
-    
+  });    
     $.extend({
        	showView:function(obj,url){
        		$.ajax({   
@@ -82,6 +81,6 @@
 			</div>
 		</div>
 		<% if(ventWallList != null){ layout("/common/page.html",
-			{"page":ventWallList,"fatherNode":"#content"}
+			{"page":ventWallList,"pageAction":"./ventwall/find","fatherNode":"#content"}
 		){} }%>
 </div>
