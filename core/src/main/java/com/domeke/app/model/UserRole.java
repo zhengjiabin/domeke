@@ -41,7 +41,7 @@ public class UserRole extends Model<UserRole> {
 		return userRole.getStr("roleid");
 	}
 	public UserRole getRolid(Long id){
-		String sql="select roleid from user_role where userid="+id+"";
+		String sql="select * from user_role where userid="+id+"";
 		UserRole userrole = dao.findFirst(sql);
 		return userrole;
 	}

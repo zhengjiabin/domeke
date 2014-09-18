@@ -129,6 +129,8 @@ public class UserController extends Controller {
 		user.updateReset(userid, password);
 		goUserManage();
 	}
+	
+	
 	public void search(){
 		 render("/searchPassword.html");	 
 	}

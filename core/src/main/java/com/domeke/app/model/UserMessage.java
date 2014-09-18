@@ -54,4 +54,24 @@ public class UserMessage extends Model<UserMessage> {
 		CacheKit.removeAll("UserMessage");
 		CacheKit.removeAll("userMessageList");
 	}
+	/**
+	 * @param colm 检索的列名
+	 * @param param 列名参数
+	 * @param status 消息状态（为null时不检索该字段）
+	 * @param sendtype 发送类型（用户：0/系统：1）
+	 * @param sendParam 发送类型参数
+	 * @return
+	 */
+	public List<UserMessage> getLeaveMsg(String colm,String param,String status,String sendtype,String sendParam){
+		String sql = "";
+		if(status != null){
+			sql = "select count(1) from user_message where "+colm+" = "+param+" and status = "+status+" ORDER BY create_time desc";
+		}else if(sendtype != null){
+			sql = "select * from user_message where "+colm+" = '"+param+"' and "+sendtype+" = '"+sendParam+"' ORDER BY create_time desc";
+		}else {
+			sql = "select * from user_message where "+colm+" = '"+param+"' ORDER BY create_time desc";
+		}
+		List<UserMessage> userMessageList = this.find(sql);
+		return userMessageList;
+	}
 }
