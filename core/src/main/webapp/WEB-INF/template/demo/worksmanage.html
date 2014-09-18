@@ -149,8 +149,17 @@
 						$.each(rows,function(j,cols){
 							$tr = $('tr:eq('+i+')',$tbody);
 							$tr.append('<td>'+cols.id+'</td>');
-							$tr.append('<td>'+cols.name+'</td>');
-							$tr.append('<td>'+cols.value+'</td>');
+							$tr.append('<td>'+cols.worksname+'</td>');
+							$tr.append('<td>'+cols.workstype+'</td>');
+							$tr.append('<td>'+cols.creativeprocess+'</td>');
+							$tr.append('<td>'+cols.describle+'</td>');
+							$tr.append('<td>'+cols.istop+'</td>');
+							$tr.append('<td>'+cols.comment+'</td>');
+							$tr.append('<td>'+cols.pageviews+'</td>');
+							$tr.append('<td>'+cols.collection+'</td>');
+							$tr.append('<td>'+cols.praise+'</td>');
+							$tr.append('<td>'+cols.maxnum+'</td>');
+							$tr.append('<td>'+cols.updatetime+'</td>');
 						});
 					});
 				}
@@ -191,9 +200,18 @@
 		   <table class="table" id="parentTable">
 		      <thead>
 		         <tr>
-		            <th>产品</th>
-		            <th>付款日期</th>
-		            <th>状态</th>
+		            <th>编号</th>
+		            <th>名称</th>
+		            <th>类型</th>
+		            <th>是否完结</th>
+		            <th>描述</th>
+		            <th>置顶</th>
+		            <th>评论数</th>
+		            <th>浏览量</th>
+		            <th>收藏数</th>
+		            <th>点赞数</th>
+		            <th>最新一集</th>
+		            <th>最后更新时间</th>
 		         </tr>
 		      </thead>
 		      <tbody>
