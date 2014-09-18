@@ -26,6 +26,17 @@ public class PostController extends Controller {
 		
 		render("/community/postPage.html");
 	}
+	
+	/**
+	 * 分页查询帖子
+	 */
+	public void findPage(){
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 2);
+		Page<Post> postPage = Post.dao.findPage(pageNumber, pageSize);
+		setAttr("postPage", postPage);
+		render("/admin/admin_detailPost.html");
+	}
 
 	/**
 	 * 查询发帖人所有帖子信息

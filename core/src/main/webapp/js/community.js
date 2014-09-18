@@ -1,7 +1,29 @@
-function goToOrderCommunity(actionKey, communityId) {
-	var url = "community/goToOrderCommunity?communityId=" + communityId
+function goToVentWall(){
+	window.location.href="./ventwall?menuid=6";
+}
+
+function showMoreCommunity(node,communityList){
+	var asideHtml = $(node).closest("#asideHtml");
+	var showMore = asideHtml.find("#showMore").first();
+	showMore.attr("hidden","block");
+	
+	$.post("./community/showMoreCommunity", function(data) {
+		var showMoreHtml = asideHtml.find("#showMoreHtml").first();
+		showMoreHtml.html(data);
+	});
+
+}
+
+function goToOrderCommunity(node,actionKey, communityId) {
+	var url = "./community/goToOrderCommunity?communityId=" + communityId
 			+ "&actionKey=" + actionKey;
-	window.location.href = url
+	$.post(url, {
+		communityId : communityId,
+		actionKey : actionKey
+	}, function(data) {
+		var baseCommunity = $(node).closest("#baseCommunity");
+		baseCommunity.html(data);
+	});
 }
 
 function addCommunityFat(node) {
@@ -11,15 +33,13 @@ function addCommunityFat(node) {
 		targetNode.html(data);
 		
 		var tableNode = targetNode.find("#table").first();
-		var trNode = tableNode.find("#fat").first();
+		var trNode = tableNode.find("#communityTr").first();
 		trNode.attr("contenteditable",true);
 		trNode.focus();
 	});
 }
 
 function saveSon(node,communityId,pId){
-	
-	$(node).attr("contenteditable",false);
 	var tr = $(node).closest("#son");
 	var title = tr.find("#title").first().html();
 	var content = tr.find("#content").first().html();
@@ -41,6 +61,26 @@ function saveSon(node,communityId,pId){
 	});
 }
 
+function saveFat(node,communityId){
+	var tr = $(node).closest("#fat");
+	var title = tr.find("#title").first().html();
+	var content = tr.find("#content").first().html();
+	var actionkey = tr.find("#actionkey").first().html();
+	var level = tr.find("#level").first().html();
+	var position = tr.find("#position").first().html();
+	
+	$.post("./community/saveFat", {
+		title : title,
+		content : content,
+		actionkey : actionkey,
+		level : level,
+		position : position,
+		communityId :communityId
+	}, function(data) {
+		var fatherNode = $(node).closest("#detailCommunity");
+		fatherNode.html(data);
+	});
+}
 
 //添加版块
 function addCommunitySon(node,pId) {
@@ -57,13 +97,8 @@ function addCommunitySon(node,pId) {
 	});
 }
 
-function modifyFat(node){
-	var tr = $(node).closest("#fat");
-	tr.attr("contenteditable",true);
-}
-
-function modifySon(node){
-	var tr = $(node).closest("#son");
+function modify(node,fatherNode){
+	var tr = $(node).closest(fatherNode);
 	tr.attr("contenteditable",true);
 }
 

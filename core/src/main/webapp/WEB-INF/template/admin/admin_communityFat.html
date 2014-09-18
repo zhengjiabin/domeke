@@ -20,8 +20,8 @@
 								<td id="level">${communityFat.level!}</td>
 								<td id="position">${communityFat.position!}</td>
 								<td>
-									<button class="btn btn-mini" onclick="saveSon(this,${communitySon.communityid!},${communityFat.communityid!})">保存</button>
-									<button class="btn btn-warning btn-mini" onclick="modifyFat(this)">修改</button>
+									<button class="btn btn-mini" onclick="saveFat(this,'${communityFat.communityid!}')">保存</button>
+									<button class="btn btn-warning btn-mini" onclick="modify(this,'#fat')">修改</button>
 								</td>
 							</tr>
 							
@@ -33,8 +33,8 @@
 								<td id="level">${communitySon.level!}</td>
 								<td id="position">${communitySon.position!}</td>
 								<td>
-									<button class="btn btn-mini" onclick="saveSon(this,${communitySon.communityid!},${communityFat.communityid!})">保存</button>
-									<button class="btn btn-warning btn-mini" onclick="modifySon(this)">修改</button>
+									<button class="btn btn-mini" onclick="saveSon(this,'${communitySon.communityid!}','${communityFat.communityid!}')">保存</button>
+									<button class="btn btn-warning btn-mini" onclick="modify(this,'#son')">修改</button>
 									<button class="btn btn-danger btn-mini" onclick="deleteSon(this,'${communitySon.communityid!}',${communityFat.communityid!})">刪除</button>
 								</td>
 							</tr>

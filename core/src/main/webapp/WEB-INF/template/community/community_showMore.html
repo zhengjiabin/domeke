@@ -1,0 +1,7 @@
+<% for(community in communitySonList){ 
+      if(communityLP.index == communitySize){
+        	break;
+      }
+%>
+	<a href="javascript:void(0)" class="AL" onclick="goToOrderCommunity('${community.actionkey!}','${community.communityid!}')">${community.title!}</a>
+<% } %>

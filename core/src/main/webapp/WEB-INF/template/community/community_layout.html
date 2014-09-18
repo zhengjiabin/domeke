@@ -5,7 +5,9 @@
 <body>
 	<% include("/community/community_header.html"){} %>
 	<section>
-		${layoutContent}
+		<div id="baseCommunity">
+			${layoutContent}
+		</div>
  		<% layout("/community/community_aside.html"){} %>
 	</section>
 	<% include("/community/community_footer.html"){} %>
