@@ -76,12 +76,31 @@
                         </div>
                     </div>
                 </div>
-                
-                
             </div>
         </section>
     </article>
-    <% include("/common/wonderful.html"){} %>
+    <aside>
+    <section>
+    	<div class="CartoonTitle">精彩推荐</div>
+        <div class="CartoonContent">
+        	<%
+        		for(wonderfulWorks in wonderfulWorksList){
+        	%>
+	   		<div class="CartoonSub"> 
+               <img src="${works.cover!}">
+               <div class="CartoonName">
+               		<a href="cartoon/showDetail?id=${works.worksid!}"></a>
+               </div>
+               <div class="CartoonInfo">
+                      <span class="FloatL">${wonderfulWorks.pageviews!}</span>
+                      <span class="FloatR">${wonderfulWorks.praise!}</span>
+               </div>
+               <div class="CartoonSubFootbar">${wonderfulWorks.worksname!}</div>
+	        </div>
+	        <% } %>
+        </div>
+    </section>
+	</aside>
     <div class="clear">&nbsp;</div>
 </section>
 <% } %>

@@ -1,4 +1,4 @@
-package com.domeke.app.controller;
+ipackage com.domeke.app.controller;
 
 import java.util.List;
 

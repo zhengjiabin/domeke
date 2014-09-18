@@ -20,11 +20,17 @@
         	<label class="control-label">actionkey：</label>
         	<input name="menu.actionkey" value="${menu.actionkey!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">级别菜单：</label>
-        	<input name="menu.top" value="${menu.top!}" type="text" class="span6 m-wrap" /><br>
+        	<select name="menu.top" class="span6 m-wrap" > 
+        		<option value="" selected="selected"></option>
+        		<option value="1">一级菜单</option>
+        		<option value="2">二级菜单</option>
+        		<option value="3">三级菜单</option>
+        	</select>
+        	<!--  <input name="menu.top" value="${menu.top!}" type="text" class="span6 m-wrap" /><br>-->
         	<label class="control-label">排序：</label>
         	<input name="menu.sortnum" value="${menu.sortnum!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">父级菜单：</label>
-        	<select name="menu.parentmenuid"> 
+        	<select name="menu.parentmenuid" class="span6 m-wrap" > 
         		<option value="" selected="selected">主菜单</option>        		
         		<%
         		for(m in menuList){        		
@@ -33,7 +39,14 @@
     			<% } %>
    			</select> 
    			<label class="control-label">菜单模块：</label>
-        	<input name="menu.menutype" value="${menu.menutype!}" type="text" class="span6 m-wrap" /><br>   		
+   			<select name="menu.menutype" class="span6 m-wrap" > 
+        		<option value="" selected="selected"></option>
+        		<option value="1">首页</option>
+        		<option value="2">个人中心</option>
+        		<option value="3">社区</option>
+        		<option value="4">商城</option>
+        	</select><br>
+        	<!--<input name="menu.menutype" value="${menu.menutype!}" type="text" class="span6 m-wrap" /><br>   -->  		
         <button class="btn btn-large btn-primary" type="submit" >保存</button>
       </form>
 				</div>
