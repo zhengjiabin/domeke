@@ -25,7 +25,8 @@ public class CartoonController extends Controller {
 	}
 
 	/**
-	 * 显示动漫的明细CartoonDetail
+	 * 显示动漫的明细CartoonDetail<br>
+	 * <a href="cartoon/showDetail?id=${works.worksid!}">
 	 */
 	public void showDetail() {
 		Works worksModel = getModel(Works.class);
@@ -43,7 +44,8 @@ public class CartoonController extends Controller {
 	}
 
 	/**
-	 * 明细页面点击动漫，转播放
+	 * 明细页面点击动漫，转播放<br>
+	 * cartoon/playVideo?id=${works.worksid!}
 	 */
 	public void playVideo() {
 		Works worksModel = getModel(Works.class);

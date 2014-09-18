@@ -87,13 +87,15 @@
         		for(wonderfulWorks in wonderfulWorksList){
         	%>
 	   		<div class="CartoonSub"> 
-	               <img src="images/pic_Cartoon1.png">
-	               <div class="CartoonName"><a href="#">动画大电影</a></div>
-	               <div class="CartoonInfo">
-                       <span class="FloatL">${wonderfulWorks.pageviews!}</span>
-                       <span class="FloatR">${wonderfulWorks.praise!}</span>
-	               </div>
-	               <div class="CartoonSubFootbar">人气爆棚剧场版</div>
+               <img src="${works.cover!}">
+               <div class="CartoonName">
+               		<a href="cartoon/showDetail?id=${works.worksid!}"></a>
+               </div>
+               <div class="CartoonInfo">
+                      <span class="FloatL">${wonderfulWorks.pageviews!}</span>
+                      <span class="FloatR">${wonderfulWorks.praise!}</span>
+               </div>
+               <div class="CartoonSubFootbar">${wonderfulWorks.worksname!}</div>
 	        </div>
 	        <% } %>
         </div>
