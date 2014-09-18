@@ -6,12 +6,12 @@
     	<% for (works in pageList.list){ %>
         <div class="CartoonSub"> 
             <a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"></a>
-            <div class="CartoonName"></div>
+            <div class="CartoonName">${works.worksname!}</div>
             <div class="CartoonInfo">
                <span class="FloatL">${works.pageviews!}</span>
                <span class="FloatR">${works.comment!}</span>
             </div>
-            <div class="CartoonSubFootbar">${works.worksname!}</div>
+           <!--  <div class="CartoonSubFootbar">${works.worksname!}</div> -->
         </div>
         <% } %>
      </div> 

@@ -5,6 +5,7 @@ import java.util.List;
 import com.domeke.app.tablebind.TableBind;
 import com.google.common.collect.Lists;
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -144,10 +145,21 @@ public class Works extends Model<Works> {
 	 *            限制前几个
 	 * @return 返回精彩推荐的动漫作品
 	 */
-	public List<Works> getWorksByStatistics(Integer limit) {
+	public List<Works> getWorksByStatistics(Object worksid, Integer limit) {
 		List<Works> workss = null;
-		String querySql = "select * from works order by parise, collection, pageviews, comment desc limit ?";
-		workss = this.find(querySql, limit);
+		String querySql = "select * from works where worksid <> ? order by (praise + collection) desc limit ?";
+		workss = this.find(querySql, worksid, limit);
 		return workss;
+	}
+
+	/**
+	 * 根据动漫作品的ID，更新该作品的点赞数<br>
+	 * 
+	 * @param worksid
+	 *            动漫作品的ID
+	 */
+	public void addPraise(Object worksid) {
+		String updatePariseSql = "update works set praise = praise + 1 where worksid = ?";
+		Db.update(updatePariseSql, worksid);
 	}
 }

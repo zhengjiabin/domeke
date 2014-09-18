@@ -5,8 +5,10 @@ package com.domeke.app.controller;
 
 import java.util.List;
 
+import com.domeke.app.interceptor.ActionInterceptor;
 import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -26,7 +28,7 @@ public class CartoonController extends Controller {
 
 	/**
 	 * 显示动漫的明细CartoonDetail<br>
-	 * <a href="cartoon/showDetail?id=${works.worksid!}">
+	 * cartoon/showDetail?id=${works.worksid!}
 	 */
 	public void showDetail() {
 		Works worksModel = getModel(Works.class);
@@ -36,7 +38,8 @@ public class CartoonController extends Controller {
 		// 取该动漫的集数
 		List<Work> workList = workModel.getWorkByWorksID(getParaToInt("id"));
 		// 取精彩推荐的动漫作品
-		List<Works> wonderfulWorksList = worksModel.getWorksByStatistics(10);
+		List<Works> wonderfulWorksList = worksModel.getWorksByStatistics(
+				getParaToInt("id"), 5);
 		this.setAttr("works", works);
 		this.setAttr("workList", workList);
 		this.setAttr("wonderfulWorksList", wonderfulWorksList);
@@ -45,8 +48,10 @@ public class CartoonController extends Controller {
 
 	/**
 	 * 明细页面点击动漫，转播放<br>
-	 * cartoon/playVideo?id=${works.worksid!}
+	 * cartoon/playVideo?id=${works.worksid!} or
+	 * cartoon/playVideo?id=${works.worksid!}&gid=${work.workid!}
 	 */
+	@Before(ActionInterceptor.class)
 	public void playVideo() {
 		Works worksModel = getModel(Works.class);
 		Integer worksid = getParaToInt("id");
@@ -65,4 +70,12 @@ public class CartoonController extends Controller {
 		render("/CartoonPlay.html");
 	}
 
+	/**
+	 * 点赞
+	 */
+	public void pointPraise() {
+		Works worksModel = getModel(Works.class);
+		Integer worksid = getParaToInt("id");
+		worksModel.addPraise(worksid);
+	}
 }

@@ -11,7 +11,7 @@
                 	<span class="Font_Score">7.1</span>分&nbsp;&nbsp;&nbsp;&nbsp;评分：<img src="images/icon_star.png"></div>
                   <div class="CartoonInfo">
                        <span class="FloatL">${works.pageviews!}</span>
-                       <span class="FloatR">${works.praise!}</span>
+                       <span class="FloatR">${works.comment!}</span>
                   </div>
                   <div class="CartoonA font_b">
                     	<a href="#">订阅收藏</a>|
@@ -89,13 +89,13 @@
 	   		<div class="CartoonSub"> 
                <img src="${works.cover!}">
                <div class="CartoonName">
-               		<a href="cartoon/showDetail?id=${works.worksid!}"></a>
+               		<a href="cartoon/showDetail?id=${wonderfulWorks.worksid!}">${wonderfulWorks.worksname!}</a>
                </div>
                <div class="CartoonInfo">
                       <span class="FloatL">${wonderfulWorks.pageviews!}</span>
-                      <span class="FloatR">${wonderfulWorks.praise!}</span>
+                      <span class="FloatR">${wonderfulWorks.comment!}</span>
                </div>
-               <div class="CartoonSubFootbar">${wonderfulWorks.worksname!}</div>
+               <!-- <div class="CartoonSubFootbar">${wonderfulWorks.worksname!}</div> -->
 	        </div>
 	        <% } %>
         </div>
