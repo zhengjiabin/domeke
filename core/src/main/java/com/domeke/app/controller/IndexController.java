@@ -11,6 +11,7 @@ import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "/")
 public class IndexController extends Controller {
@@ -21,8 +22,10 @@ public class IndexController extends Controller {
 		Works worksDao = getModel(Works.class);
 		Map<String, Object> map = new HashMap<String, Object>();
 		for (CodeTable codeTable : codetables) {
-			map.put(codeTable.getStr("codevalue"), codeTable.getStr("codename"));
+			map.put(codeTable.getStr("codekey"), codeTable.getStr("codevalue"));
 		}
+		//加载头部5个循环显示
+		List<Works> workss0 = worksDao.getWorksInfoByType("1000",5);
 		
 		//加载中间数据
 		List<Works> workss1 = worksDao.getWorksInfoByType("10",7);
@@ -40,6 +43,7 @@ public class IndexController extends Controller {
 		List<Goods> goodss = goods.getGoodsByNewLimit(4);
 		
 		//返回数据
+		setAttr("workss0", workss0);
 		setAttr("workstype", map);
 		setAttr("workss1", workss1);
 		setAttr("workss2", workss2);
@@ -63,8 +67,29 @@ public class IndexController extends Controller {
 	}
 	
 	public void shop() {
-		setAttr("menuid", "42");
-		render("shop.html");
+		String goodstype = getPara("goodstype");
+		Integer pageNumber = getParaToInt("pageNumber");
+		Integer pageSize = getParaToInt("pageSize");
+		
+		if(pageNumber == null){
+			pageNumber = 1;
+		}
+		if(pageSize == null){
+			pageSize = 25;
+		}
+		
+		//获取类型集合
+		Map<String,Object> typeMap = new HashMap<String, Object>();
+		List<CodeTable> codeTables = CodeKit.getList("goodstype");
+//		for (CodeTable codeTable : codeTables) {
+//			typeMap.put(codeTable.getStr("codekey"), codeTable.getStr("codevalue"));
+//		}
+		//按类型获取商品分类
+		Page<Goods> goodss = getModel(Goods.class).getGoodsPageByType(goodstype, pageNumber, pageSize);
+		
+		setAttr("goodss",goodss);
+		setAttr("codeTables",codeTables);
+		render("shopCategory.html");
 	}
 	
 	public void forum() {

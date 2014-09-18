@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
 import com.google.common.collect.Lists;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 
 /**
  * 商品model对象类<br>
@@ -79,5 +81,17 @@ public class Goods extends Model<Goods> {
 				+ goodsName + "'";
 		List<Goods> goodsList = this.find(querySql);
 		return goodsList == null ? Lists.newArrayList() : goodsList;
+	}
+	public Page<Goods> getGoodsPageByType(String goodstype,Integer pageNumber,Integer pageSize){
+		String querySql = "";
+		Page<Goods> goodss;
+		if(StrKit.isBlank(goodstype)){
+			querySql = "from goods order by istop desc";
+			goodss = this.paginate(pageNumber, pageSize, "select *", querySql);
+		}else {
+			querySql = "from goods where goods=? order by istop desc";
+			goodss = this.paginate(pageNumber, pageSize, "select *", querySql,goodstype);
+		}
+		return goodss;
 	}
 }

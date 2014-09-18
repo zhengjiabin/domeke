@@ -73,6 +73,8 @@ public class Works extends Model<Works> {
 		return workslist == null ? Lists.newArrayList() : workslist;
 	}
 
+	
+	
 	/**
 	 * 根据商品类型返回商品信息
 	 * 
@@ -134,4 +136,6 @@ public class Works extends Model<Works> {
 		workss = this.find("select * from works order by updatetime desc limit ?", limit);
 		return workss;
 	}
+	
+	
 }
