@@ -3,13 +3,15 @@
 	$(document).ready(function(){
 		$('span.Good').click(function(){
 			var pid = $(this).attr('pid');
+			if ($(this).css('color')=='red'){ return false }
 			$.ajax({
 				url:'cartoon/pointPraise',
 				data:'id=' + pid,
 				success:function(){
-					
 				}
 			});
+			$(this).css({'color':'red'});
+			$('a',this).css({'background':'url(images/icon11.png) left center no-repeat'});
 		});
 	});
 </script>
