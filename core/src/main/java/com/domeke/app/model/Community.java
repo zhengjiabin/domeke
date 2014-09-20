@@ -60,4 +60,12 @@ public class Community extends Model<Community> {
 		List<Community> communitySonList = this.find(sql, pId);
 		return communitySonList;
 	}
+	
+	/**
+	 * 浏览次数+1
+	 */
+	public void updateTimes(Object communityId) {
+		String sql = "update community set times = times +1 where communityid=?";
+		Db.update(sql, communityId);
+	}
 }

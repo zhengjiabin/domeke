@@ -42,6 +42,9 @@ public class CommunityController extends Controller {
 	 * 跳转指定版块
 	 */
 	public void goToOrderCommunity() {
+		String communityId = getPara("communityId");
+		Community.dao.updateTimes(communityId);
+		
 		String actionKey = getPara("actionKey");
 		redirect(actionKey, true);
 	}
