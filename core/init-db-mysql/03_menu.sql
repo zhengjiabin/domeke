@@ -66,4 +66,4 @@ INSERT INTO `menu` VALUES ('47', null, '动漫周边', '#', '1', '600000000', nu
 INSERT INTO `menu` VALUES ('48', null, '图书音像', '#', '1', '700000000', null, null, null, null, null, '4');
 INSERT INTO `menu` VALUES ('49', null, '跳蚤市场', '#', '1', '800000000', null, null, null, null, null, '4');
 INSERT INTO `menu` VALUES ('50', null, '修改密码', 'personal/forMyProduction?menuId=4', '2', '200010080', '8', null, null, null, null, '2');
-INSERT INTO `menu` VALUES ('51', null, '站内留言', 'personal/forMyProduction?menuId=5', '2', '200010005', '8', null, null, null, null, '2');
+INSERT INTO `menu` VALUES ('51', null, '站内留言', 'um/forLeaveMsg?menuId=5', '2', '200010005', '8', null, null, null, null, '2');

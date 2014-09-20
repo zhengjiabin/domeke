@@ -517,11 +517,12 @@ CREATE TABLE `user_message` (
   `title` varchar(512) DEFAULT NULL,
   `content` varchar(4000) DEFAULT NULL,
   `from` varchar(32) DEFAULT NULL,
-  `to` varchar(32) DEFAULT NULL,
+  `touser` varchar(32) DEFAULT NULL,
+  `sendtype` varchar(2) DEFAULT NULL,
   `creater` varchar(32) DEFAULT NULL,
-  `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `modifier` varchar(32) DEFAULT NULL,
-  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`messageid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
