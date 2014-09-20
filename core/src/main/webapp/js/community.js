@@ -22,7 +22,8 @@ function goToOrderCommunity(node,actionKey, communityId) {
 		actionKey : actionKey
 	}, function(data) {
 		var baseCommunity = $(node).closest("#baseCommunity");
-		baseCommunity.html(data);
+		var communityLayout = baseCommunity.find("#communityLayout").first();
+		communityLayout.html(data);
 	});
 }
 
