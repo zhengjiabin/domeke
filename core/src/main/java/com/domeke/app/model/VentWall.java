@@ -84,6 +84,22 @@ public class VentWall extends Model<VentWall>{
     	return count;
     }
     /**
+     * 用户签到汇总
+     * @return 汇总数
+     */
+    public Object getUserIdCount(int userId){
+    	Object count = Db.queryLong("SELECT COUNT(VENTWALLID) FROM VENT_WALL WHERE USERID="+userId);
+    	return count;
+    }
+    /**
+     * 本月当前用户汇总
+     * @return 汇总数
+     */
+    public Object getMonthCount(int userId){
+    	Object count = Db.queryLong("SELECT COUNT(VENTWALLID) FROM VENT_WALL WHERE DATE_FORMAT(CREATETIME,'%Y-%m')=DATE_FORMAT(NOW(),'%Y-%m') AND USERID="+userId);
+    	return count;
+    }
+    /**
      * 汇总历史最高
      * @return 汇总数
      */
