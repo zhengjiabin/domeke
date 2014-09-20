@@ -503,6 +503,7 @@ CREATE TABLE `user` (
   `activation` varchar(2) DEFAULT 'N',
   `peas` bigint(20) DEFAULT NULL,
   `point` bigint(20) DEFAULT NULL,
+  `imgurl` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`userid`),
   UNIQUE KEY `username_idx` (`username`),
   UNIQUE KEY `email` (`email`)
