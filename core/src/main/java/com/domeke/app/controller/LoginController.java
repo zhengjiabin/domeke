@@ -21,6 +21,7 @@ import com.jfinal.core.Controller;
 
 @ControllerBind(controllerKey = "login")
 public class LoginController extends Controller {
+	
 	@Before(LoginValidator.class)
 	public void forIndex() {
 		String username = getPara("username");
