@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.domeke.app.controller;
 
 import java.sql.Timestamp;
@@ -27,7 +24,7 @@ import com.jfinal.plugin.activerecord.Page;
 @ControllerBind(controllerKey="ventwall")
 @Before(LoginInterceptor.class)
 public class VentWallController extends Controller {
-
+	public static int pageTest=0;
 	/**
 	 * 新增留言记录
 	 */
@@ -87,17 +84,20 @@ public class VentWallController extends Controller {
 	public void updateById(){
 		VentWall ventWall = getModel(VentWall.class);
 		Long ventwallid = ventWall.get("ventwallid");
+		int num = getParaToInt();
 		VentWall.venWdao.findById(ventwallid).setAttrs(ventWall).update();
-		setActivityPage();
+		setActivityPage(num);
 		render("/admin/admin_ventWallManage.html");
 	}
 	/**
 	 * 删除留言
 	 */
 	public void delete(){
-		int ventwallid = getParaToInt();
+		VentWall ventWall = getModel(VentWall.class);
+		Long ventwallid = ventWall.get("ventwallid");
 		VentWall.venWdao.deleteVentWall(ventwallid);
-		setActivityPage();
+		int num = getParaToInt();
+		setActivityPage(num);
 		render("/admin/admin_ventWallManage.html");
 	}
 	/**
@@ -143,7 +143,7 @@ public class VentWallController extends Controller {
 	 * 签到墙管理
 	 */
 	public void goToManager(){
-		setActivityPage();
+		setActivityPage(0);
 		render("/admin/admin_ventWall.html");
 	}
 	/**
@@ -158,16 +158,20 @@ public class VentWallController extends Controller {
 	 * 分页查询签到墙
 	 */
 	public void find() {
-		setActivityPage();	
+		setActivityPage(0);	
 		render("/admin/admin_ventWallManage.html");
 	}
 	/**
 	 * 分页查询
 	 */
-	public void setActivityPage(){
+	public void setActivityPage(int num){
 		int pageNumber = getParaToInt("pageNumber", 1);
+		if (num != 0){
+			pageNumber = num;
+		}
 		int pageSize = getParaToInt("pageSize", 5);
 		Page<VentWall> ventWallList = VentWall.venWdao.findPage(pageNumber,pageSize);
+		setAttr("pageNumber", pageNumber);
 		setAttr("ventWallList", ventWallList);
 	}
 }

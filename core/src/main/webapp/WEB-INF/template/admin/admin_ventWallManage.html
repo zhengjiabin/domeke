@@ -7,10 +7,9 @@
       $parent = $parent.parent();
       var selectnum =$('td select',$parent).val();
       var ventwallid = $(this).attr("name");
-      console.log(selectnum+"Gogo"+ventwallid);
+      var num = $('span').text();
       var obj = {"ventWall.creater":selectnum,"ventWall.ventwallid":ventwallid};
-      var url = "ventwall/updateById/"+ventwallid;
-      console.log(obj);
+      var url = "ventwall/updateById/"+num;
       $.showView(obj,url); 
   });
     $("button[lable='删除']").click(function(){
@@ -18,10 +17,9 @@
       var $parent = $self.parent();
       $parent = $parent.parent();
       var ventwallid = $(this).attr("name");
-      console.log(ventwallid);
+      var num = $('span').text();
       var obj = {"ventWall.ventwallid":ventwallid};
-      var url = "ventwall/delete/"+ventwallid;
-      console.log(obj);
+      var url = "ventwall/delete/"+num;
       $.showView(obj,url); 
   });    
     $.extend({
@@ -36,7 +34,6 @@
                 },   
                 error:function(){ 
                     alert("error");
-                    console.info(msg);
                 }   
             });
        	}
@@ -55,7 +52,7 @@
 						class="table table-striped table-bordered" id="example2">
 						<thead>
 							<tr>
-								<th>表情${page.pageSize!}</th>
+								<th>表情</th>
 								<th>留言内容</th>
 								<th>是否可见</th>
 								<th>操作</th>
@@ -77,6 +74,7 @@
 						<%}%>
 						</tbody>
 					</table>
+					<span id=x2 style=display:none>${pageNumber!}</span>
 				</div>
 			</div>
 		</div>
