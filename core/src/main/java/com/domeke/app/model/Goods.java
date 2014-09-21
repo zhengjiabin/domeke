@@ -94,4 +94,19 @@ public class Goods extends Model<Goods> {
 		}
 		return goodss;
 	}
+	
+	/**
+	 * 分页查询活动
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Goods> findPage(int pageNumber, int pageSize) {
+		Page<Goods> goodsPage = this.paginate(pageNumber, pageSize, "select *",
+				"from goods group by goodsid");
+		return goodsPage;
+	}
 }

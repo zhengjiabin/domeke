@@ -36,7 +36,17 @@
         											<% } 
         											 } %>
 									</td>
-									<td>${m.menutype!}</td>
+									<td>
+									<% if (m.menutype == "1"){ %>
+										<label>首页</label>
+									<% } else if (m.menutype == "2"){ %>
+										<label>个人中心</label>
+									<% } else if (m.menutype == "3"){ %>
+										<label>社区</label>
+									<% } else if (m.menutype == "4"){ %>
+										<label>商城</label>
+									<% } %>
+									</td>
 									<td width="100">
 									<a href="menu/selectMenuById/${m.menuid}"><button class="btn btn-warning btn-mini" lable="修改">修改</button></a>
 									<a href="menu/deleteMenu/${m.menuid}" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">刪除</button></a>

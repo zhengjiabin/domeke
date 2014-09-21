@@ -1,0 +1,59 @@
+<article>
+					<table cellpadding="0" cellspacing="0" border="0"
+						class="table table-striped table-bordered" id="example2">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>商品类型</th>
+								<th>商品名称</th>
+								<th>价格</th>
+								<th>历史价格</th>
+								<th>数量</th>
+								<th>图片</th>
+								<!-- <th>商品信息</th>
+								<th>tamllurl</th>
+								<th>istop</th>
+								<th>状态</th>
+								<th>用户名</th>
+								<th>headimg</th> -->
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+								<% 
+									var index = 0 ;
+									for(g in goodsList.list){
+									index = index + 1 ;				
+								%>
+							<tr class="odd gradeX">
+									<td>${index!}</td>
+									<td>${g.goods!}</td>
+									<td>${g.goodsname!}</td>
+									<td>${g.price!}</td>
+									<td>${g.oldprice!}</td>
+									<td>${g.amount!}</td>
+									<!-- ${g.pic!} -->
+									<td><div style="width:60px; height:60px;">
+										<img src="${g.pic!}" alt="" ref1="${g.pic!}" ref2="${g.pic!}" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/>
+									</div></td>
+									<!-- <td>${g.message!}</td>
+									<td>${g.tamllurl!}</td>
+									<td>${g.istop!}</td>
+									<td>${g.status!}</td>
+									<td>${g.username!}</td>
+									<td>${g.headimg!}</td> -->
+									<td width="120">
+									<!-- <a href="goods/goodsMessage?goodsId=${g.goodsid!}"><button class="btn btn-warning btn-mini" lable="详情">详情</button></a> -->
+									<a href="goods/goodsMessage?goodsId=${g.goodsid!}"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>
+									<a href="goods/deleteGoods?goodsId=${g.goodsid!}" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">刪除</button></a>
+									</td>
+							</tr>
+								<% } %>		
+						</tbody>
+					</table>
+			<% 
+			var goods = goods;
+			if(goodsList != null){ layout("/common/page.html",
+			{"page":goodsList,"pageAction":"./goods/find?goods="+goods,"fatherNode":"#goodspage"}
+			){} }%>
+</article>

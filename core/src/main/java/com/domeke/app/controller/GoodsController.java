@@ -18,7 +18,89 @@ import com.jfinal.plugin.activerecord.Page;
  */
 @ControllerBind(controllerKey = "/goods")
 public class GoodsController extends FilesLoadController {
+	
+	/**
+	 * to管理界面
+	 */
+	public void goToManager() {
+		setGoodsPage(null);
+		render("/admin/admin_goods.html");
+	}
+	
+	/**
+	 * 分页查询
+	 */
+	public void setGoodsPage(String goods){
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Goods> goodsList = null;
+		//if ("".equals(menuType) || "0".equals(menuType) || menuType == null){
+			goodsList = Goods.dao.findPage(pageNumber, pageSize);
+			goods = "0";
+		//}else {
+			//goodsList = Goods.dao.findPage(pageNumber, pageSize, menuType);
+		//}
+		setAttr("goods", goods);
+		setAttr("goodsList", goodsList);
+	}
+	
+	public void find(){
+		goToManager();
+	}
+	
+	/**
+	 * 新增商品
+	 */
+	public void saveGoods(){
+		try {
+			String picturePath = upLoadFile("pic", "1\\", 200 * 1024 * 1024, "utf-8");
+			Goods goods = getModel(Goods.class);
+			goods.set("pic", picturePath);
+			// 可改为获取当前用户的名字或者ID
+			goods.set("creater", 111111);
+			goods.set("modifier", 111111);
+			goods.saveGoodsInfo();
+			goToManager();
+		} catch (Exception e) {
+			e.printStackTrace();
+			render("/admin/admin_addGoods.html");
+		}
+	}
+	
+	public void addGoods(){
+		render("/admin/admin_addGoods.html");
+	}
+	
+	/**
+	 * 商品详情
+	 */
+	public void goodsMessage(){
+		Goods goodsModel = getModel(Goods.class);
+		Goods goods = goodsModel.findById(getParaToInt("goodsId"));
+		setAttr("goods", goods);
+		render("/admin/admin_goodsMsg.html");
+	}
 
+	/**
+	 * 删除商品
+	 */
+	public void deleteGoods() {
+		Goods goods = getModel(Goods.class);
+		goods.deleteById(getParaToInt("goodsId"));
+		goToManager();
+	}
+	
+	/**
+	 * 编辑商品
+	 */
+	public void updateGoods(){
+		Goods goods = getModel(Goods.class);
+		goods.updateGoodsInfo();
+		goToManager();
+	}
+	
+	
+	
 	public void shop() {
 		String goodstype = getPara("goodstype");
 		Integer pageNumber = getParaToInt("pageNumber");
@@ -42,13 +124,6 @@ public class GoodsController extends FilesLoadController {
 		render("../ShopCategory.html");
 	}
 	
-	/**
-	 * to管理界面
-	 */
-	public void goToManager() {
-		render("/admin/goods.html");
-	}
-
 	/**
 	 * 跳转商品管理界面
 	 */
