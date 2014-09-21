@@ -15,25 +15,6 @@ function findById(node,activityId) {
 	});
 }
 
-function skipCreate(node,communityId) {
-	var url = "./activity/skipCreate?communityId=" + communityId;
-	$.post(url, function(data) {
-		var baseCommunity = $(node).closest("#baseCommunity");
-		var activityHtml = baseCommunity.find("#activityHtml").first();
-		activityHtml.html(data);
-	});
-}
-
-function submitPost(node) {
-	var url = "./activity/create";
-	$.post(url, 
-		$(node).closest("#createActivityHtml").serialiyze(), 
-		function(data) {
-			var activityHtml = node.colsest("#activityHtml");
-			activityHtml.html(data);
-	});
-}
-
 function submitApp(node,activityId) {
 	var url = "./activityApply/create?activityId=" + activityId;
 	$.post(url, 
