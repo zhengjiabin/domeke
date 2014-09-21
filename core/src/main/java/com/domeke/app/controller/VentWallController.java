@@ -51,7 +51,7 @@ public class VentWallController extends Controller {
 		setAttr("menuid", menuid);	
 		select();
 		isSignIn();
-		render("/demo/addVentWall.html");
+		render("/VentWall.html");
 	}
 	/**
 	 * 查询留言
@@ -60,7 +60,7 @@ public class VentWallController extends Controller {
 		selectUtil();		
 		getCount();
 		isSignIn();
-		render("/demo/ventwall.html");
+		render("/VentWallDtl.html");
 	}
 	/**
 	 * 通过ID查询留言
@@ -98,9 +98,13 @@ public class VentWallController extends Controller {
 		Object todayCount = ventWall.getTodayCount();
 		Object yesterdayCount = ventWall.getYesterdayCount();
 		Object totalCount = ventWall.getTotalCount();
+		Object userIdCount = ventWall.getUserIdCount(1);
+		Object monthCount = ventWall.getMonthCount(1);
 		setAttr("todayCount", todayCount);
 		setAttr("yesterdayCount", yesterdayCount);
 		setAttr("totalCount", totalCount);
+		setAttr("userIdCount", userIdCount);
+		setAttr("monthCount", monthCount);
 	}
 	/**
 	 * 是否签到

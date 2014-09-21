@@ -1,6 +1,7 @@
 package com.domeke.app.model;
 
 import com.domeke.app.tablebind.TableBind;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -61,8 +62,10 @@ public class Post extends Model<Post> {
 	 * @return
 	 */
 	public Page<Post> findPageByCommunityId(int pageNumber, int pageSize,Object communityId) {
-		Page<Post> page = this.paginate(pageNumber, pageSize, "select *",
-				"from post where status='10' and communityId=? order by createtime",communityId);
+		StringBuffer sqlExceptSelect = new StringBuffer();
+		sqlExceptSelect.append("from post p left join (select count(1) as number,targetid from comment group by targetid) c on p.postid=c.targetid ");
+		sqlExceptSelect.append(" where p.status='10' and p.communityId=? order by createtime");
+		Page<Post> page = this.paginate(pageNumber, pageSize, "select p.*,c.number as viewcount",sqlExceptSelect.toString(),communityId);
 		return page;
 	}
 
@@ -79,5 +82,13 @@ public class Post extends Model<Post> {
 		Page<Post> page = this.paginate(pageNumber, pageSize, "select *",
 				"from post where userid=? order by status,createtime", userId);
 		return page;
+	}
+
+	/**
+	 * 浏览次数+1
+	 */
+	public void updateTimes(Object postId) {
+		String sql = "update post set times = times +1 where postid=?";
+		Db.update(sql, postId);
 	}
 }

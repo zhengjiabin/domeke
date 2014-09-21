@@ -17,7 +17,7 @@ public class ActivityApplyController extends Controller {
 	 */
 	public void skipCreate() {
 		keepPara();
-		render("/demo/createActivityApply.html");
+		render("/community/createActivityApply.html");
 	}
 
 	/**
@@ -38,8 +38,7 @@ public class ActivityApplyController extends Controller {
 		int applyNumber = activity.getInt("applynumber");
 		activity.set("applynumber", ++applyNumber);
 		activity.update();
-
-		renderHtml("<html><body onload=\"alert('提交成功!');window.opener.location.reload();window.close();\"></body></html>");
+		renderJson(applyNumber);
 	}
 
 	/**

@@ -1,18 +1,54 @@
-function openApply(activityId,communityId) {
-	var url = "./activityApply/skipCreate?communityId="+communityId+"&activityId=" + activityId;
+function openApply(activityId) {
+	var url = "./activityApply/skipCreate?activityId=" + activityId;
 	var attribute = "height=500, width=500, top=0,left=0,toolbar=no, menubar=no, scrollbars=no, resizable=yes, location=no,status=no";
-	window.showModalDialog(url, "", attribute);
+	window.open(url, '', attribute);
 }
 
-function findById(activityId,communityId) {
-	var url = "./activity/findById?communityId="+communityId+"&activityId=" + activityId;
-	window.location.href = url;
+function findById(node,activityId) {
+	var url = "./activity/findById";
+	$.post(url,{
+		activityId : activityId
+	}, function(data) {
+		var baseCommunity = $(node).closest("#baseCommunity");
+		var activityHtml = baseCommunity.find("#activityHtml").first();
+		activityHtml.html(data);
+	});
 }
 
-function skipCreate(communityId) {
+function skipCreate(node,communityId) {
 	var url = "./activity/skipCreate?communityId=" + communityId;
-	window.location.href = url;
+	$.post(url, function(data) {
+		var baseCommunity = $(node).closest("#baseCommunity");
+		var activityHtml = baseCommunity.find("#activityHtml").first();
+		activityHtml.html(data);
+	});
 }
+
+function submitPost(node) {
+	var url = "./activity/create";
+	$.post(url, 
+		$(node).closest("#createActivityHtml").serialiyze(), 
+		function(data) {
+			var activityHtml = node.colsest("#activityHtml");
+			activityHtml.html(data);
+	});
+}
+
+function submitApp(node,activityId) {
+	var url = "./activityApply/create?activityId=" + activityId;
+	$.post(url, 
+		$(node).closest("#createActivityApplyHtml").serialize(), 
+		function(data) {
+			alert('提交成功!');
+			var applyNumber = "applyNumber-"+activityId;
+			var applyNumberNode = window.opener.document.getElementById(applyNumber);
+			applyNumberNode.innerText="已参加人数："+data;
+			window.close();
+	});
+}
+
+
+
 
 
 

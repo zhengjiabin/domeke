@@ -62,6 +62,7 @@ public class PostController extends Controller {
 	 */
 	public void findById() {
 		String postId = getPara("postId");
+		Post.dao.updateTimes(postId);
 		
 		setPost(postId);
 		setCommentPage(postId);
