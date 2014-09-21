@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.domeke.app.model.Comment;
+import com.domeke.app.model.Community;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
@@ -278,6 +279,13 @@ public class PostController extends Controller {
 		
 		render("/community/post.html");
 	}
+	
+	public void home(){
+		setPostPage(null);
+		List<Community> communitySonList = Community.dao.findSonList();
+		setAttr("communitySonList", communitySonList);
+		render("/community/postAll.html");
+	}
 
 	/**
 	 * 设置分页帖子
@@ -285,8 +293,12 @@ public class PostController extends Controller {
 	private void setPostPage(Object communityId) {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 2);
-		Page<Post> postPage = Post.dao.findPageByCommunityId(pageNumber,
-				pageSize, communityId);
+		Page<Post> postPage = null;
+		if(communityId == null){
+			postPage =Post.dao.findPage(pageNumber, pageSize);
+		}else{
+			postPage = Post.dao.findPageByCommunityId(pageNumber,pageSize, communityId);
+		}
 		setAttr("postPage", postPage);
 		setAttr("communityId", communityId);
 	}
