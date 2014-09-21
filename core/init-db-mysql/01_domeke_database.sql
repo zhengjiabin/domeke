@@ -525,8 +525,7 @@ CREATE TABLE `user_message` (
   `status` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`messageid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-INSERT INTO `user` VALUES ('1', 'admin', 'lueSGJZetyySpUndWjMBEg==', '634775305@qq.com', 'admin', null, null, null, null, null, 'Y', null, null, null);
-
+`
 -- ----------------------------
 -- Table structure for user_role
 -- ----------------------------
@@ -541,7 +540,6 @@ CREATE TABLE `user_role` (
   `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`userroleid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-INSERT INTO `user_role` VALUES ('1', '1', '11', '2014-09-20 10:52:14', null, null, '2014-09-21 10:32:54');
 -- ----------------------------
 -- Table structure for vent_wall
 -- ----------------------------
