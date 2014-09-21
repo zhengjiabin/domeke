@@ -8,99 +8,12 @@
 <link href="../css/Shop.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="../css/style.css" />
 <link rel="stylesheet" type="text/css" href="../css/jqzoom.css" />
-<script src="../js/jquery.min.js" language="javascript" type="text/javascript"></script>
+<script type="text/javascript" src="../js/jquery.min.js"></script>
 <script src="../js/newegg.jqzoom.js" language="javascript" type="text/javascript"></script>
 <script src="../js/WebApplication.js" language="javascript" type="text/javascript"></script>
 <script src="../js/BizProduct090713.js" language="javascript" type="text/javascript"></script>
 <script src="../js/BizCommon090801.js" language="javascript" type="text/javascript"></script>
-<script type="text/javascript" language="jscript">
-jQuery(function($) {
-    Biz.Product.Product.turn();
-    Biz.Product.Product.turn2();
-    Biz.Common.TabCtrl.tabs("tab");
-	Biz.Common.TabCtrl.tabs("tempTab");
-	Biz.Common.MoveCtrl.iniUnit('scroll', 'thumList', 4, 1);
-	Biz.Common.MoveCtrl.iniUnit('gift', 'gift_1', 3, 1);
-    Biz.Common.MoveCtrl.iniUnit('congener', 'congener_1', 3, 1);
-    Biz.Common.TableCtrl.odd();	
-    Biz.Product.Product.InitSpecialTable();
-    Biz.Product.Product.InitAlsoBuy();
-
-	//Click out event!
-	$("#backgroundPopup").click(function(){
-		Biz.Common.PopCtrl.disablePopup();
-		});
-		
-	//Press Escape event!
-	$(document).keypress(function(e){
-		if(e.keyCode==27 && popupStatus==1){
-			Biz.Common.PopCtrl.disablePopup();
-		}
-	});
-	
-    var options = {
-    zoomWidth: 300,
-    zoomHeight: 250,
-        xOffset: 20,
-        yOffset: -15,
-        title : false,
-		showEffect:"fadein",
-		hideEffect:"fadeout",
-        position: "right" 
-	}
-	$(".jqzoom").jqzoom(options);
-	
-	Biz.Product.ProductDetail.Delay('44891','源码爱好者');
-}); 
-</script>
-<div class="TopFix">
-	<div class="TopFixZoom">
-    	<span class="FixLeft">欢迎来到动漫方舟！<a href="#">请登录</a><a href="#">免费注册</a></span>
-        <span class="FixRight">
-        	<a href="#">我的方舟</a><a href="#">收藏夹</a><a href="#">商家支持</a><a href="#">网站导航</a>
-        </span>
-    </div>
-</div>
-<header>
-	<div class="HeadTop">
-    	<div class="Logo"><img src="../images/logo.png"></div>
-        <div class="Search">
-        	<input name="" type="text" class="SearchInput"><input name="" type="button" class="SearchButton" value="搜索">
-            <div class="SearchKey">
-            <span class="font_r"><a href="#">盆栽</a></span>|<span><a href="#">创意家居</a></span>|<span class="font_r"><a href="#">动漫</a></span>|<span><a href="#">盆栽</a></span>|<span class="font_r"><a href="#">动漫</a></span>|<span><a href="#">原创</a></span>
-            </div>
-        </div>
-    </div>
-    <nav>
-    	<ul class="NavR">
-        	<li><a href="#"><img src="../images/icon07.png">购物车</a></li>
-        </ul>
-        <ul class="NavL">       	
-          <li class="LiFuc" style="width: 238px;">全部商品分类</li>
-            <li><a href="#">创意生活</a></li>
-            <li><a href="#">无土栽培</a></li>
-            <li><a href="#">进口食品</a></li>
-            <li><a href="#">母婴用品</a></li>
-            <li><a href="#">动漫周边</a></li>
-            <li><a href="#">图书音像</a></li>
-            <li><a href="#">跳蚤市场</a></li>
-        </ul>
-    </nav>
-</header>
-<section class="White">
-    <div class="ShopPath">
-        <a href="#">首页</a>/<a href="#">配件</a>/<a href="#">米兔玩偶</a>/<a href="#">米兔纪念版钥匙扣</a>
-    </div>
-    <div class="Goods">
-		<div class="introShow">
-  <div class="mainShow"><a id="bigImg" href="../images/zixingche.jpg" class="jqzoom" onclick="Biz.Common.OpenWindow.ShowPicture2('http://www.jb51.net')"><img id="midImg" src="../images/zixingche.jpg" class="Picture220"/></a></div>
-  <div class="scroll" id="scroll">
-    <ul id="thumList">
-      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="../images/zixingche.jpg" alt="" ref1="../images/zixingche.jpg" ref2="../images/zixingche.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
-      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="../images/xiezi.jpg" alt="" ref1="../images/xiezi.jpg" ref2="../images/xiezi.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture42"/></a></li>
-    </ul>
-    <a href="#next" class="nextView nextStop" ><span>显示下一幅图片</span></a></div>
-</div>
+</head>
 	<script type="text/javascript" language="jscript">
 	var productUrl='http://www.jb51.net/index.html';
 
@@ -143,13 +56,63 @@ jQuery(function($) {
 		Biz.Product.ProductDetail.Delay('44891','源码爱好者');
 	}); 
 	</script>
+<body>
+<div class="TopFix">
+	<div class="TopFixZoom">
+    	<span class="FixLeft">欢迎来到动漫方舟！<a href="#">请登录</a><a href="#">免费注册</a></span>
+        <span class="FixRight">
+        	<a href="#">我的方舟</a><a href="#">收藏夹</a><a href="#">商家支持</a><a href="#">网站导航</a>
+        </span>
+    </div>
 </div>
-	</div>
+<header>
+	<div class="HeadTop">
+    	<div class="Logo"><img src="../images/logo.png"></div>
+        <div class="Search">
+        	<input name="" type="text" class="SearchInput"><input name="" type="button" class="SearchButton" value="搜索">
+            <div class="SearchKey">
+            <span class="font_r"><a href="#">盆栽</a></span>|<span><a href="#">创意家居</a></span>|<span class="font_r"><a href="#">动漫</a></span>|<span><a href="#">盆栽</a></span>|<span class="font_r"><a href="#">动漫</a></span>|<span><a href="#">原创</a></span>
+            </div>
+        </div>
+    </div>
+    <nav>
+    	<ul class="NavR">
+        	<li><a href="#"><img src="../images/icon07.png">购物车</a></li>
+        </ul>
+        <ul class="NavL">       	
+          <li class="LiFuc" style="width: 238px;">全部商品分类</li>
+            <li><a href="#">创意生活</a></li>
+            <li><a href="#">无土栽培</a></li>
+            <li><a href="#">进口食品</a></li>
+            <li><a href="#">母婴用品</a></li>
+            <li><a href="#">动漫周边</a></li>
+            <li><a href="#">图书音像</a></li>
+            <li><a href="#">跳蚤市场</a></li>
+        </ul>
+    </nav>
+</header>
+<section class="White">
+    <div class="ShopPath">
+        <a href="#">首页</a>/<a href="#">配件</a>/<a href="#">米兔玩偶</a>/<a href="#">米兔纪念版钥匙扣</a>
+    </div>
+    <div class="Goods">
+    	<div class="GoodsPicRoll">
+    	<div class="introShow">
+  <div class="mainShow"><img id="midImg" src="../images/zixingche.jpg" class="Picture220"/></div>
+  <div class="scroll" id="scroll"><a href="#prev" class="prevView prevStop" ><span>显示上一幅图片</span></a>
+    <ul id="thumList">
+      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="../images/zixingche.jpg" alt="" ref1="../images/zixingche.jpg" ref2="../images/zixingche.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
+      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="../images/bao.jpg" alt="" ref1="../images/bao.jpg" ref2="../images/bao.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture42"/></a></li>
+      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="../images/Mepic01.png" alt="" ref1="../images/Mepic01.png" ref2="../images/Mepic01.png" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
+    </ul>
+</div>
+</div>
+</div>
       <div class="GoodsInfos">
         	<div class="GName">${goods.goodsname!}</div>
         	<div class="GPrice">${goods.price!}</div>
             <div class="GButton font_w">
-            	<a href="http://www.163css.com/search.html" class="BuyNow">去 购 买</a>
+            	<a href="http://detail.tmall.com/item.htm?spm=a230r.1.14.1.8jNRgD&id=37652444734&ad_id=&am_id=&cm_id=140105335569ed55e27b&pm_id=" class="BuyNow">去 购 买</a>
                 <span class="Loves"><img src="../images/icon11.png">喜 欢（26）</span>
           </div>
             <ul class="GProperties">
@@ -160,18 +123,8 @@ jQuery(function($) {
         </div>
     </div>
     <div class="GoodsIntroduction">
-    	详细介绍<br /><br /><br />
-    	${goods.message!}
-    	上述产品图片展示/切换部分，我这边没相关的脚本。开发无论是使用现有的模块还是自己开发相应的功能，我这边都会做后续的美化支持。<br /><br /><br />
-        这里应该是产品的详细图文介绍<br />
-        这里应该是产品的详细图文介绍<br />
-        这里应该是产品的详细图文介绍<br />
-        这里应该是产品的详细图文介绍<br />
-        这里应该是产品的详细图文介绍<br />
-        这里应该是产品的详细图文介绍<br />
-        这里应该是产品的详细图文介绍<br />
-        这里应该是产品的详细图文介绍<br />
-        这里应该是产品的详细图文介绍<br />
+    	商品详细介绍<br /><br /><br />
+		${goods.message!}
     </div>
     
 </section>
