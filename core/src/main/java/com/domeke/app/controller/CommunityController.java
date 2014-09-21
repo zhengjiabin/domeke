@@ -1,9 +1,10 @@
 package com.domeke.app.controller;
 
-import java.sql.Timestamp;
 import java.util.List;
 
+import com.domeke.app.model.Activity;
 import com.domeke.app.model.Community;
+import com.domeke.app.model.Post;
 import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
@@ -15,8 +16,8 @@ public class CommunityController extends Controller {
 		setCommunityFatList();
 		setCommunitySonList();
 		setVentWall();
-		
 		setPublishNumber();
+		
 		render("/community/community.html");
 	}
 	
@@ -84,10 +85,26 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
-	 * 获取发帖数
+	 * 设置发帖数
 	 */
 	private void setPublishNumber(){
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		//今日发帖数
+		Long postTodayCount = Post.dao.getTodayCount();
+		Long activityTodayCount = Activity.dao.getTodayCount();
+		Long todayCount = postTodayCount + activityTodayCount;
+		setAttr("todayCount", todayCount);
+		//昨日发帖数
+		Long postYesCount = Post.dao.getYesterdayCount();
+		Long activityYesCount = Activity.dao.getYesterdayCount();
+		Long yesCount = postYesCount + activityYesCount;
+		setAttr("yesCount", yesCount);
+		//总发帖数
+		Long postCount = Post.dao.getCount();
+		Long activityCount = Activity.dao.getCount();
+		Long count = postCount + activityCount;
+		setAttr("count", count);
+		
+		
 	}
 
 	/**

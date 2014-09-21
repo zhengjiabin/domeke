@@ -56,6 +56,7 @@ public class ActivityController extends Controller {
 	 */
 	public void findById() {
 		String activityId = getPara("activityId");
+		Activity.dao.updateTimes(activityId);
 		
 		setActivity(activityId);
 		setActivityApplyPage(activityId);

@@ -1,6 +1,7 @@
 package com.domeke.app.model;
 
 import com.domeke.app.tablebind.TableBind;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -87,4 +88,38 @@ public class Activity extends Model<Activity> {
 		return page;
 	}
 	
+	/**
+	 * 浏览次数+1
+	 */
+	public void updateTimes(Object activityId) {
+		String sql = "update activity set times = times +1 where activityid=?";
+		Db.update(sql, activityId);
+	}
+	
+	/**
+     * 今日发表活动数
+     * @return 汇总数
+     */
+    public Long getTodayCount(){
+    	Long count = Db.queryLong("select count(1) from activity where status='10' and to_days(createtime)=to_days(now())");
+    	return count;
+    }
+    
+    /**
+     * 昨日发表活动数
+     * @return 汇总数
+     */
+    public Long getYesterdayCount(){
+    	Long count = Db.queryLong("select count(1) from activity where status='10' and date(createtime) = date_sub(curdate(),interval 1 day)");
+    	return count;
+    }
+    
+    /**
+     * 总活动数
+     * @return 汇总数
+     */
+    public Long getCount(){
+    	Long count = Db.queryLong("select count(1) from activity where status='10'");
+    	return count;
+    }
 }

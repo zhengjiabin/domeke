@@ -91,4 +91,31 @@ public class Post extends Model<Post> {
 		String sql = "update post set times = times +1 where postid=?";
 		Db.update(sql, postId);
 	}
+	
+	/**
+     * 今日发帖数
+     * @return 汇总数
+     */
+    public Long getTodayCount(){
+    	Long count = Db.queryLong("select count(1) from post where status='10' and to_days(createtime)=to_days(now())");
+    	return count;
+    }
+    
+    /**
+     * 昨日发帖数
+     * @return 汇总数
+     */
+    public Long getYesterdayCount(){
+    	Long count = Db.queryLong("select count(1) from post where status='10' and date(createtime) = date_sub(curdate(),interval 1 day)");
+    	return count;
+    }
+    
+    /**
+     * 总发帖数
+     * @return 汇总数
+     */
+    public Long getCount(){
+    	Long count = Db.queryLong("select count(1) from post where status='10'");
+    	return count;
+    }
 }
