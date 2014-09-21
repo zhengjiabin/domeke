@@ -1,22 +1,13 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>动漫方舟</title>
-<link href="../css/Cartoon.css" rel="stylesheet" type="text/css">
-<link href="../css/Member.css" rel="stylesheet" type="text/css">
-<link href="../css/Shop.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="../css/style.css" />
-<link rel="stylesheet" type="text/css" href="../css/jqzoom.css" />
-<script type="text/javascript" src="../js/jquery.min.js"></script>
-<script src="../js/newegg.jqzoom.js" language="javascript" type="text/javascript"></script>
-<script src="../js/WebApplication.js" language="javascript" type="text/javascript"></script>
-<script src="../js/BizProduct090713.js" language="javascript" type="text/javascript"></script>
-<script src="../js/BizCommon090801.js" language="javascript" type="text/javascript"></script>
-</head>
-	<script type="text/javascript" language="jscript">
-	var productUrl='http://www.jb51.net/index.html';
-
+<% layout("/shop/slayout.html"){ %>
+<section class="White">
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/jqzoom.css" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="js/newegg.jqzoom.js" language="javascript" type="text/javascript"></script>
+<script src="js/WebApplication.js" language="javascript" type="text/javascript"></script>
+<script src="js/BizProduct090713.js" language="javascript" type="text/javascript"></script>
+<script src="js/BizCommon090801.js" language="javascript" type="text/javascript"></script>
+<script type="text/javascript" language="jscript">
 	jQuery(function($) {
 		Biz.Product.Product.turn();
 		Biz.Product.Product.turn2();
@@ -52,58 +43,20 @@
 			position: "right" 
 		}
 		$(".jqzoom").jqzoom(options);
-		
-		Biz.Product.ProductDetail.Delay('44891','源码爱好者');
 	}); 
 	</script>
-<body>
-<div class="TopFix">
-	<div class="TopFixZoom">
-    	<span class="FixLeft">欢迎来到动漫方舟！<a href="#">请登录</a><a href="#">免费注册</a></span>
-        <span class="FixRight">
-        	<a href="#">我的方舟</a><a href="#">收藏夹</a><a href="#">商家支持</a><a href="#">网站导航</a>
-        </span>
-    </div>
-</div>
-<header>
-	<div class="HeadTop">
-    	<div class="Logo"><img src="../images/logo.png"></div>
-        <div class="Search">
-        	<input name="" type="text" class="SearchInput"><input name="" type="button" class="SearchButton" value="搜索">
-            <div class="SearchKey">
-            <span class="font_r"><a href="#">盆栽</a></span>|<span><a href="#">创意家居</a></span>|<span class="font_r"><a href="#">动漫</a></span>|<span><a href="#">盆栽</a></span>|<span class="font_r"><a href="#">动漫</a></span>|<span><a href="#">原创</a></span>
-            </div>
-        </div>
-    </div>
-    <nav>
-    	<ul class="NavR">
-        	<li><a href="#"><img src="../images/icon07.png">购物车</a></li>
-        </ul>
-        <ul class="NavL">       	
-          <li class="LiFuc" style="width: 238px;">全部商品分类</li>
-            <li><a href="#">创意生活</a></li>
-            <li><a href="#">无土栽培</a></li>
-            <li><a href="#">进口食品</a></li>
-            <li><a href="#">母婴用品</a></li>
-            <li><a href="#">动漫周边</a></li>
-            <li><a href="#">图书音像</a></li>
-            <li><a href="#">跳蚤市场</a></li>
-        </ul>
-    </nav>
-</header>
-<section class="White">
     <div class="ShopPath">
         <a href="#">首页</a>/<a href="#">配件</a>/<a href="#">米兔玩偶</a>/<a href="#">米兔纪念版钥匙扣</a>
     </div>
     <div class="Goods">
     	<div class="GoodsPicRoll">
     	<div class="introShow">
-  <div class="mainShow"><img id="midImg" src="../images/zixingche.jpg" class="Picture220"/></div>
+  <div class="mainShow"><img id="midImg" src="images/zixingche.jpg" class="Picture220"/></div>
   <div class="scroll" id="scroll"><a href="#prev" class="prevView prevStop" ><span>显示上一幅图片</span></a>
     <ul id="thumList">
-      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="../images/zixingche.jpg" alt="" ref1="../images/zixingche.jpg" ref2="../images/zixingche.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
-      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="../images/bao.jpg" alt="" ref1="../images/bao.jpg" ref2="../images/bao.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture42"/></a></li>
-      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="../images/Mepic01.png" alt="" ref1="../images/Mepic01.png" ref2="../images/Mepic01.png" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
+      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="images/zixingche.jpg" alt="" ref1="images/zixingche.jpg" ref2="images/zixingche.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
+      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="images/bao.jpg" alt="" ref1="images/bao.jpg" ref2="images/bao.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture42"/></a></li>
+      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="images/Mepic01.png" alt="" ref1="images/Mepic01.png" ref2="images/Mepic01.png" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
     </ul>
 </div>
 </div>
@@ -113,7 +66,7 @@
         	<div class="GPrice">${goods.price!}</div>
             <div class="GButton font_w">
             	<a href="http://detail.tmall.com/item.htm?spm=a230r.1.14.1.8jNRgD&id=37652444734&ad_id=&am_id=&cm_id=140105335569ed55e27b&pm_id=" class="BuyNow">去 购 买</a>
-                <span class="Loves"><img src="../images/icon11.png">喜 欢（26）</span>
+                <span class="Loves"><img src="images/icon11.png">喜 欢（26）</span>
           </div>
             <ul class="GProperties">
             	<li>数量：${goods.amount!}</li>
@@ -132,42 +85,42 @@
 <section>
 	<div class="MePrivilege">
     	<div class="PrivilegeSub">
-        	<img src="../images/Meicon01.png"> 
+        	<img src="images/Meicon01.png"> 
             <span class="MePfont1">中国领先</span>
             <span class="MePfont2">私人定制商城</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="../images/Meicon02.png"> 
+        	<img src="images/Meicon02.png"> 
             <span class="MePfont1">100%专属定制</span>
             <span class="MePfont2">独一无二为您定制</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="../images/Meicon03.png"> 
+        	<img src="images/Meicon03.png"> 
             <span class="MePfont1">100%</span>
             <span class="MePfont2">正品保证</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="../images/Meicon04.png"> 
+        	<img src="images/Meicon04.png"> 
             <span class="MePfont1">30天</span>
             <span class="MePfont2">退货保证</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="../images/Meicon05.png"> 
+        	<img src="images/Meicon05.png"> 
             <span class="MePfont1">24小时</span>
             <span class="MePfont2">30%商品闪电发货</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="../images/Meicon06.png"> 
+        	<img src="images/Meicon06.png"> 
             <span class="MePfont1">精美包装</span>
             <span class="MePfont2">提供礼品级包装</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="../images/Meicon07.png"> 
+        	<img src="images/Meicon07.png"> 
             <span class="MePfont1">180用户</span>
             <span class="MePfont2">口碑信赖</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="../images/Meicon08.png"> 
+        	<img src="images/Meicon08.png"> 
             <span class="MePfont1">1250城市</span>
             <span class="MePfont2">货到付款</span>
         </div>
@@ -220,19 +173,4 @@
         <span><a href="#">24小时在线客服</a></span>
     </div>
 </section>
-<footer>
-  
-    <div class="FooterZoom">
-    	<div class="FooterBorder">
-            <div class="FooterLogo">
-            	<a href="#"><img src="../images/logoBottom.png"></a>
-            </div>
-            <div class="FooterLink">
-                <span class="font_str">旗下网站</span><a href="#">动漫方舟</a>|<a href="#">金樽动漫</a>|<a href="#">动漫方舟</a>|
-                <a href="#">金樽动漫</a>
-            </div>
-        </div>
-    </div>
-</footer>
-</body>
-</html>
+<%}%>
