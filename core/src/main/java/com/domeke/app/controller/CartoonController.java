@@ -29,35 +29,16 @@ public class CartoonController extends Controller {
 		Map<String, Object> wtypeCodeTable = getWtypeCodeTable();
 		setAttr("wtypeCodeTable", wtypeCodeTable);
 		List<Works> worksList = Lists.newArrayList();
-		// 40:HIGH动漫; 1000:首页推荐; 50:HI豆推荐; 60:原创精选; 70:人气作品; 80:新作预告
-
-		// 用于显示“首页推荐”列表
-		worksList = worksModel.getWorksInfoByType("1000", 8);
-		setAttr("indexRecommendList", worksList);
-
-		// 用于显示“HI豆推荐”列表
-		worksList = worksModel.getWorksInfoByType("50", 5);
-		setAttr("hidoRecommendList", worksList);
-
 		// 用于显示“大家都爱看”列表
 		worksList = worksModel.getWorksInfoByPageViewsLimit(5);
 		setAttr("olikeWorksList", worksList);
+		// 查出每一种类型的动漫作品
 
-		// 用于显示“HIGH动漫”列表
-		worksList = worksModel.getWorksInfoByType("40", 8);
-		setAttr("highWorksList", worksList);
+		for (String workstype : wtypeCodeTable.keySet()) {
+			worksList = worksModel.getWorksInfoByType(workstype, 10);
+			setAttr(workstype, worksList);
 
-		// 用于显示“原创精选”列表
-		worksList = worksModel.getWorksInfoByType("60", 12);
-		setAttr("originalList", worksList);
-
-		// 用于显示“人气作品”列表
-		worksList = worksModel.getWorksInfoByType("70", 7);
-		setAttr("popularityList", worksList);
-
-		// 用于显示“新作预告”列表
-		worksList = worksModel.getWorksInfoByType("80", 6);
-		setAttr("newWorksTrailer", worksList);
+		}
 		render("/CartoonCategory.html");
 	}
 
