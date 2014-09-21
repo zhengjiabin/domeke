@@ -7,6 +7,8 @@ INSERT INTO domeke.role(roleid,rolename) VALUES('1','user');
 INSERT INTO domeke.role(roleid,rolename) VALUES('2','admin');
 INSERT INTO domeke.role(roleid,rolename) VALUES('3','guest');
 
+INSERT INTO domeke.user_role(useroleid,roleid,userid) VALUES('1','2','1');
+
 INSERT INTO `code_type` VALUES ('1', 'workstype', '作品类型', null, '2014-09-15 22:47:48', '1', '2014-09-15 22:47:52', '1');
 INSERT INTO `code_type` VALUES ('2', 'idtype', '回复类型', null, '2014-09-16 21:40:13', '1', '2014-09-16 21:40:17', '1');
 INSERT INTO `code_type` VALUES ('3', 'goodstype', '商品类型', null, '2014-09-18 20:06:49', '1', '2014-09-18 20:06:49', '1');
