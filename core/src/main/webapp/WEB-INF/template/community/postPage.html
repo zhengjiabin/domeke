@@ -37,7 +37,20 @@
             </div>
         <% } %>
 
-		<% if(postPage != null){ layout("/common/page.html",
-			{"page":postPage,"pageAction":"./post/find?communityId="+communityId,"fatherNode":"#postHtml"}
-			){} }%>
+		<% if(has(postPage)){
+				var pageAction = "";
+				if(has(communityId)){
+					pageAction = "./post/find?communityId="+communityId;
+				}else{
+					pageAction = "./post/find";
+				} 
+				layout(
+					"/common/page.html",
+					{
+						"page":postPage,
+						"pageAction":pageAction,
+						"fatherNode":"#postHtml"
+					}
+			){} 
+		}%>
 	</div>     

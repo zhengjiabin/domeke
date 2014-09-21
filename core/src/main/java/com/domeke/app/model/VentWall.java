@@ -51,7 +51,7 @@ public class VentWall extends Model<VentWall>{
 	 * 删除留言
 	 * @param 留言表ID
 	 */
-	public void deleteVentWall(int ventwallid){
+	public void deleteVentWall(Long ventwallid){
 		venWdao.deleteById(ventwallid);
 	}
 	/**

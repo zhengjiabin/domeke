@@ -4,7 +4,6 @@
 package com.domeke.app.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import com.domeke.app.interceptor.ActionInterceptor;
 import com.domeke.app.model.CodeTable;
@@ -12,7 +11,6 @@ import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.utils.CodeKit;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
@@ -26,55 +24,19 @@ public class CartoonController extends Controller {
 	public void index() {
 		setAttr("menuid", "2");
 		Works worksModel = getModel(Works.class);
-		Map<String, Object> wtypeCodeTable = getWtypeCodeTable();
-		setAttr("wtypeCodeTable", wtypeCodeTable);
+		List<CodeTable> wtypeCTList = CodeKit.getList("workstype");
+		setAttr("wtypeCTList", wtypeCTList);
 		List<Works> worksList = Lists.newArrayList();
-		// 40:HIGH动漫; 1000:首页推荐; 50:HI豆推荐; 60:原创精选; 70:人气作品; 80:新作预告
-
-		// 用于显示“首页推荐”列表
-		worksList = worksModel.getWorksInfoByType("1000", 8);
-		setAttr("indexRecommendList", worksList);
-
-		// 用于显示“HI豆推荐”列表
-		worksList = worksModel.getWorksInfoByType("50", 5);
-		setAttr("hidoRecommendList", worksList);
-
 		// 用于显示“大家都爱看”列表
 		worksList = worksModel.getWorksInfoByPageViewsLimit(5);
 		setAttr("olikeWorksList", worksList);
-
-		// 用于显示“HIGH动漫”列表
-		worksList = worksModel.getWorksInfoByType("40", 8);
-		setAttr("highWorksList", worksList);
-
-		// 用于显示“原创精选”列表
-		worksList = worksModel.getWorksInfoByType("60", 12);
-		setAttr("originalList", worksList);
-
-		// 用于显示“人气作品”列表
-		worksList = worksModel.getWorksInfoByType("70", 7);
-		setAttr("popularityList", worksList);
-
-		// 用于显示“新作预告”列表
-		worksList = worksModel.getWorksInfoByType("80", 6);
-		setAttr("newWorksTrailer", worksList);
-		render("/CartoonCategory.html");
-	}
-
-	/**
-	 * 获取动漫作品类型（workstype）的码表
-	 * 
-	 * @return 动漫作品类型的码表
-	 */
-	private Map<String, Object> getWtypeCodeTable() {
-		// 获取动漫作品类型的码表
-		List<CodeTable> codetables = CodeKit.getList("workstype");
-		Map<String, Object> wtypeCodeTable = Maps.newHashMap();
-		for (CodeTable codeTable : codetables) {
-			wtypeCodeTable.put(codeTable.getStr("codekey"),
-					codeTable.getStr("codevalue"));
+		// 查出每一种类型的动漫作品
+		for (CodeTable wtypeCT : wtypeCTList) {
+			String workstype = wtypeCT.get("codekey");
+			worksList = worksModel.getWorksInfoByType(workstype, 10);
+			setAttr("worksList" + workstype, worksList);
 		}
-		return wtypeCodeTable;
+		render("/CartoonCategory.html");
 	}
 
 	/**

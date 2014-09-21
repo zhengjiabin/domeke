@@ -36,7 +36,20 @@
           </div>
         <% } %>
 
-		<% if(activityPage != null){ layout("/common/page.html",
-			{"page":activityPage,"pageAction":"./activity/find?communityId="+communityId,"fatherNode":"#activityHtml"}
-			){} }%>
+		<% if(has(activityPage)){ 
+			var pageAction = "";
+			if(has(communityId)){
+				pageAction = "./activity/find?communityId="+communityId;
+			}else{
+				pageAction = "./activity/find";
+			} 
+			layout(
+				"/common/page.html",
+				{
+					"page":activityPage,
+					"pageAction":pageAction,
+					"fatherNode":"#activityHtml"
+				}
+			){} 
+		}%>
 	</div>     

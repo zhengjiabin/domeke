@@ -1,0 +1,8 @@
+<% layout("/community/community_layout.html"){ %>
+<script src="${core}/js/post.js" type="text/javascript"></script>
+<article id="postHtml">
+<% if(postPage != null){
+			layout("/community/postPage.html", {"postPage":postPage} ){} 
+		}%>
+</article>
+<% } %>

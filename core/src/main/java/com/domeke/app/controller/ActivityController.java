@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import com.domeke.app.model.Activity;
 import com.domeke.app.model.ActivityApply;
 import com.domeke.app.model.Comment;
+import com.domeke.app.model.Community;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
@@ -171,6 +172,13 @@ public class ActivityController extends Controller {
 		render("/community/activity.html");
 	}
 	
+	public void home(){
+		setActivityPage(null);
+		List<Community> communitySonList = Community.dao.findSonList();
+		setAttr("communitySonList", communitySonList);
+		render("/community/activityAll.html");
+	}
+	
 	/**
 	 * 分页查询指定社区模块的活动
 	 * @param communityId
@@ -178,9 +186,13 @@ public class ActivityController extends Controller {
 	public void setActivityPage(Object communityId){
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 2);
-
-		Page<Activity> activityPage = Activity.dao.findPage(pageNumber,
-				pageSize,communityId);
+		
+		Page<Activity> activityPage = null;
+		if(communityId == null){
+			activityPage = Activity.dao.findPage(pageNumber, pageSize);
+		}else{
+			activityPage = Activity.dao.findPage(pageNumber,pageSize,communityId);
+		}
 		setAttr("activityPage", activityPage);
 		setAttr("communityId", communityId);
 	}

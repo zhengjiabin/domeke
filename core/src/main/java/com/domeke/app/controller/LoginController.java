@@ -21,7 +21,6 @@ import com.jfinal.core.Controller;
 
 @ControllerBind(controllerKey = "login")
 public class LoginController extends Controller {
-	
 	@Before(LoginValidator.class)
 	public void forIndex() {
 		String username = getPara("username");
@@ -61,7 +60,7 @@ public class LoginController extends Controller {
 		setCache(username, password, token, currentUser);
 		setAttr("username", username);
 		setAttr("menuid", "1");
-		render("/index.html");
+		redirect("/index"); 
 	}
 
 	private void setCache(String username, String password, UsernamePasswordToken token, Subject currentUser) {

@@ -1,0 +1,7 @@
+<% layout("/community/community_layout.html"){ %>
+<script src="${core}/js/activity.js" type="text/javascript"></script>
+<article id="activityHtml">
+	<% if(activityPage != null){
+	layout("/community/activityPage.html", {"activityPage":activityPage} ){} }%>
+</article>
+<% } %>
