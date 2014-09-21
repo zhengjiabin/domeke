@@ -4,6 +4,7 @@
 package com.domeke.app.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.domeke.app.interceptor.ActionInterceptor;
 import com.domeke.app.model.CodeTable;
@@ -11,6 +12,7 @@ import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.utils.CodeKit;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
@@ -31,11 +33,13 @@ public class CartoonController extends Controller {
 		worksList = worksModel.getWorksInfoByPageViewsLimit(5);
 		setAttr("olikeWorksList", worksList);
 		// 查出每一种类型的动漫作品
+		Map<String, List<Works>> allWorksMap = Maps.newHashMap();
 		for (CodeTable wtypeCT : wtypeCTList) {
 			String workstype = wtypeCT.get("codekey");
 			worksList = worksModel.getWorksInfoByType(workstype, 10);
-			setAttr("worksList" + workstype, worksList);
+			allWorksMap.put(workstype, worksList);
 		}
+		setAttr("allWorksMap", allWorksMap);
 		render("/CartoonCategory.html");
 	}
 
