@@ -1,5 +1,8 @@
 package com.domeke.app.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -62,7 +65,13 @@ public class LoginController extends Controller {
 	}
 
 	private void setCache(String username, String password, UsernamePasswordToken token, Subject currentUser) {
-		setCookie("username", username, 3600 * 24 * 30);
+		String uname = "";
+		try {
+			 uname=URLEncoder.encode(username,"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		setCookie("username", uname, 3600 * 24 * 30);
 		User user = getModel(User.class).findUserIdByUsername(username);
 		user.set("username", username);
 		setSessionAttr("user",user );
