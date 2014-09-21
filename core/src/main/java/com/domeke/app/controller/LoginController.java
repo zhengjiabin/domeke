@@ -61,7 +61,7 @@ public class LoginController extends Controller {
 		setCache(username, password, token, currentUser);
 		setAttr("username", username);
 		setAttr("menuid", "1");
-		render("/index.html");
+		redirect("/index"); 
 	}
 
 	private void setCache(String username, String password, UsernamePasswordToken token, Subject currentUser) {
