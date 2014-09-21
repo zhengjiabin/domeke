@@ -1,4 +1,5 @@
-	<form action="activity/create" method="post" id="createActivityHtml">
+<article>
+	<form action="#" method="post" id="createHtml">
 
 		<div class="control-group" hidden="block">
 			<label class="control-label">社区ID<span class="required">*</span></label>
@@ -81,7 +82,8 @@
 		</div>
 
 		<div class="form-actions">
-			<button type="button" class="btn btn-primary" onclick="submitPost(this)">提交</button>
+			<button type="button" class="btn btn-primary" onclick="submitCreate(this,'${communityId!}')">提交</button>
 			<button type="button" class="btn">取消</button>
 		</div>
 	</form>
+</article>

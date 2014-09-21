@@ -1,0 +1,24 @@
+<article id="selectCommuntiyHtml" >
+	<table id="table">
+		<tr>
+			<td>
+				版块：
+			</td>
+			<td>
+				<select name="" id="first" onchange="selectFirst(this)">
+				<option value="">
+				<% for( communityFat in communityFatList) { %>
+					<option value="${communityFat.communityid!}">${communityFat.title!}
+				<% } %>
+				</select>
+			</td>
+		</tr>
+		<tr id="son" >
+			<% if(has(communitySonList)){
+				layout("/community/selectCommunitySon.html", {"communitySonList":communitySonList} ){} 
+			}%>
+		</tr>
+	</table>
+	<div id="showCommunity">
+	</div>
+</article>

@@ -23,30 +23,12 @@
 	</div>
 	<div class="clear"></div>
 	<article>
-		<% for(communityFat in communityFatList){ %>
-		<div class="ArticleTitle">
-			<img src="images/FIcon03.png">${communityFat.title}
-		</div>
-		<div class="ArticleContent">
-			<% for(communitySon in communitySonList){ if(communitySon.pid !=
-			communityFat.communityid){continue;}%>
-			<div class="ForumSubL">
-				<div class="ForumPic">
-					<img src="images/FIcon04.png">
-				</div>
-				<div class="ForumDtl">
-					<span class="ForumName"><a href="javascript:void(0)"
-						onclick="goToOrderCommunity(this,'${communitySon.actionkey!}','${communitySon.communityid!}')">${communitySon.title!}</a></span>
-					<span class="ForumIntro">${communitySon.content!}<br />
-					<span>主题：235</span><span> 帖数：2948万</span></span>
-				</div>
-			</div>
-			<% } %>
-			<div class="clear"></div>
-		</div>
-		<% } %>
+		<% layout(
+			"/community/detailCommunity.html", 
+			{
+				"communityFatList":communityFatList,
+				"communitySonList":communitySonList
+			} 
+		){} %>
 	</article>
-		<aside>
-   	<div class="AsideBTitle font_w"><a href="javascript:void(0);" onclick="skipCreate('${communityId!}')">发布主题</a></div>
-   </aside>
 <% } %>
