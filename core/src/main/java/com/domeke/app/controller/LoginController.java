@@ -23,7 +23,7 @@ import com.jfinal.core.Controller;
 public class LoginController extends Controller {
 
 	@Before(LoginValidator.class)
-	public void login() {
+	public void forIndex() {
 		String username = getPara("username");
 		String password = getPara("password");
 		password = EncryptKit.encryptMd5(password);
