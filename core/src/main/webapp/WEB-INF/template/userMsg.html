@@ -9,13 +9,14 @@
                 	<div class="MemberHead"><img src="images/qq4.jpg"></div>
                     <div class="ArgumentInfo">
                     	<input type="hidden" name="messageid" value="${msg.messageid!}"/>
+                    	<input type="hidden" name="menuId" value="${menuId!}"/>
                     	<div class="MemberNick font_b">
-                    	<div>${msg.from!}<div style="float: right;">${msg.create_time!}</div>
+                    	<div>${msg.fromuser!}<div style="float: right;">${msg.create_time!}</div>
                     	</div>
                     	</div>
                         <div class="ArgumentContent">${msg.content!}</div>
                         <div class="ArgumentTime font_b">
-                        	<a href="#">回复</a><a href="#">共有1条留言</a><a href="#">删除</a>
+                        	<a href="um/forReplyMsg?msgid=${msg.messageid!}&mid=${menuId!}">回复</a><a href="um/countLeave?msgid=${msg.messageid!}">共有${msg.count!}条留言</a><a href="um/delMsg?messageid=${msg.messageid!}" onclick="return confirm('确定删除？')">删除</a>
                         </div>
                     </div>
                 </div>

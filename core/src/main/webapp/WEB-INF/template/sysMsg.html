@@ -15,7 +15,7 @@
                     	</div>
                         <div class="ArgumentContent">${msg.content!}</div>
                         <div class="ArgumentTime font_b">
-                        	<a href="#">回复</a><a href="#">共有1条留言</a><a href="#">删除</a>
+                        	<a href="um/forReplyMsg?msgid=${msg.messageid!}">回复</a><a href="um/countLeave?msgid=${msg.messageid!}">共有${msg.count!}条留言</a><a href="um/delMsg?messageid=${msg.messageid!}" onclick="return confirm('确定删除？')">删除</a>
                         </div>
                     </div>
                 </div>
