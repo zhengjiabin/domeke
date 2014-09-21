@@ -25,7 +25,7 @@ public class IndexController extends Controller {
 			map.put(codeTable.getStr("codekey"), codeTable.getStr("codevalue"));
 		}
 		//加载头部5个循环显示
-		List<Works> workss0 = worksDao.getWorksInfoByType("1000",5);
+		List<Works> workss0 = worksDao.getWorksInfoByType("00",5);
 		
 		//加载中间数据
 		List<Works> workss1 = worksDao.getWorksInfoByType("10",7);

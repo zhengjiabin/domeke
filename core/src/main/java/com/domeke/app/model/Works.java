@@ -112,6 +112,8 @@ public class Works extends Model<Works> {
 		Page<Works> workslist = null;
 		if (!StrKit.isBlank(worksType)) {
 			workslist = this.paginate(pageNum, pageSize, "select *", "from works where workstype = ?", worksType);
+		}else {
+			workslist = this.paginate(pageNum, pageSize, "select *", "from works");
 		}
 		return workslist;
 	}

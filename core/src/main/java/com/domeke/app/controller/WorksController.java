@@ -1,9 +1,12 @@
 package com.domeke.app.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
 
@@ -27,7 +30,7 @@ public class WorksController extends FilesLoadController {
 	 * 跳转作品管理界面
 	 */
 	public void goWorksMan() {
-		render("/demo/worksmanage.html");
+		render("/admin/admin_works.html");
 	}
 
 	/**
@@ -92,6 +95,24 @@ public class WorksController extends FilesLoadController {
 		worksModel.deleteById(getParaToInt("id"));
 		redirect("/works/goWorksMan");
 	}
+	
+	public void getSubWork(){
+		String worksId = getPara("worksId");
+		String pageIndex = getPara("pageIndex");
+		String pageSize = getPara("pageSize");
+		if(StrKit.isBlank(worksId)){
+			worksId = "0";
+		}
+		if(StrKit.isBlank(pageIndex)){
+			pageIndex = "1";
+		}
+		if(StrKit.isBlank(pageSize)){
+			pageSize = "5";
+		}
+		Work work = getModel(Work.class);
+		Page<Work> pageWorkk = work.getWorkByWorksID(Integer.parseInt(worksId), Integer.parseInt(pageIndex), Integer.parseInt(pageSize));
+		renderJson(pageWorkk);
+	}
 
 	/**
 	 * 查询出所有作品
@@ -116,14 +137,19 @@ public class WorksController extends FilesLoadController {
 	/**
 	 * 根据作品类型获取作品信息
 	 */
-	public Page<Works> getWorksInfoByType() {
+	public void getWorksInfoByType() {
 		String workstype = getPara("workstype");
 		String pageIndex = getPara("pageIndex");
 		String pageSize = getPara("pageSize");
-		
+		if(StrKit.isBlank(pageIndex)){
+			pageIndex = "1";
+		}
+		if(StrKit.isBlank(pageSize)){
+			pageSize = "5";
+		}
 		Works worksModel = getModel(Works.class);
 		Page<Works> workslist = worksModel.getWorksInfoPage(workstype,Integer.parseInt(pageIndex),Integer.parseInt(pageSize));
-		return workslist;
+		renderJson(workslist);
 	}
 
 	/**
