@@ -121,14 +121,16 @@ public class FilesLoadController extends Controller {
 	 * @return
 	 */
 	private String getDirectory(String fixDirectory, String userDefinedDirectory) {
-		User user = getSessionAttr("user");
-		String userName = user == null || user.getStr("username") == null ? "admin"
-				: user.getStr("username");
+		if (fixDirectory.indexOf("<username>") >= 0) {
+			User user = getSessionAttr("user");
+			String userName = user == null || user.getStr("username") == null ? "admin"
+					: user.getStr("username");
+			fixDirectory = fixDirectory.replaceAll("<username>", userName);
+		}
 		if (userDefinedDirectory != null
 				&& userDefinedDirectory.trim().length() != 0) {
 			fixDirectory = fixDirectory + userDefinedDirectory;
 		}
-		fixDirectory = fixDirectory.replaceAll("<username>", userName);
 		return fixDirectory;
 	}
 
