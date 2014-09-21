@@ -105,7 +105,7 @@ public class VentWall extends Model<VentWall>{
      * @return 签到时间
      */
     public Timestamp getCreatetime(Long userId){
-    	Timestamp createtime = Db.queryTimestamp("select CREATETIME from vent_wall where userid="+userId+" ORDER BY CREATETIME LIMIT 1");
+    	Timestamp createtime = Db.queryTimestamp("SELECT CREATETIME FROM VENT_WALL WHERE USERID="+userId+" ORDER BY CREATETIME LIMIT 1");
     	return createtime;
     }
     /**

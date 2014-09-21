@@ -19,7 +19,6 @@ import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
-import freemarker.template.SimpleDate;
 
 /**
  * @author zhouying
@@ -167,7 +166,7 @@ public class VentWallController extends Controller {
 	 */
 	public void setActivityPage(){
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
+		int pageSize = getParaToInt("pageSize", 5);
 		Page<VentWall> ventWallList = VentWall.venWdao.findPage(pageNumber,pageSize);
 		setAttr("ventWallList", ventWallList);
 	}

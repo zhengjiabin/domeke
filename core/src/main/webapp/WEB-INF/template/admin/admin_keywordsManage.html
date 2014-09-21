@@ -10,7 +10,6 @@
       console.log(keyname+"Gogo"+keyid);
       var obj = {"searchKey.keyid":keyid,"searchKey.keyname":keyname};
       var url = "searchkey/updateById/"+keyid;
-      console.log(obj);
       $.showView(obj,url); 
   });
     $("button[lable='删除']").click(function(){
@@ -21,7 +20,6 @@
       console.log(keyid);
       var obj = {"searchKey.keyid":keyid};
       var url = "searchkey/delete/"+keyid;
-      console.log(obj);
       $.showView(obj,url); 
   });
     $("button[lable='新增']").click(function(){
@@ -29,7 +27,6 @@
         console.log(keyname);
         var obj = {"searchKey.keyname":keyname};
         var url = "searchkey/save";
-        console.log(obj);
         $.showView(obj,url); 
     });
 });       
@@ -45,7 +42,6 @@
                 },   
                 error:function(){ 
                     alert("error");
-                    console.info(msg);
                 }   
             });
     	}
@@ -80,9 +76,10 @@ content: "\2716";}
 					<div class="table-toolbar">
 						<div class="btn-group">
 						 <% if (searchKeyList.~size < 6) {%>
+						 	<h5 style="color:#F00">${searchKeyMsg!}</h5>
         					<input id="keyname1" name="searchkey.keyname" type="text" value="${searchkey.keyname!}" />
        					 	<button class="btn btn-success" lable="新增">
-									Add New <i class="icon-plus icon-white"></i>
+									新增 <i class="icon-plus icon-white"></i>
 						    </button>
        					 <%}%>
 						</div>
