@@ -74,8 +74,6 @@ public class Works extends Model<Works> {
 		return workslist == null ? Lists.newArrayList() : workslist;
 	}
 
-	
-	
 	/**
 	 * 根据商品类型返回商品信息
 	 * 
@@ -139,13 +137,13 @@ public class Works extends Model<Works> {
 	}
 
 	/**
-	 * 根据点赞、收藏、浏览次数、评论次数优先级顺序排序
+	 * 根据点赞、收藏优先级顺序排序，可用于“精彩推荐”
 	 * 
 	 * @param limit
 	 *            限制前几个
 	 * @return 返回精彩推荐的动漫作品
 	 */
-	public List<Works> getWorksByStatistics(Object worksid, Integer limit) {
+	public List<Works> getWonderfulRecommend(Object worksid, Integer limit) {
 		List<Works> workss = null;
 		String querySql = "select * from works where worksid <> ? order by (praise + collection) desc limit ?";
 		workss = this.find(querySql, worksid, limit);
@@ -162,4 +160,5 @@ public class Works extends Model<Works> {
 		String updatePariseSql = "update works set praise = praise + 1 where worksid = ?";
 		Db.update(updatePariseSql, worksid);
 	}
+
 }

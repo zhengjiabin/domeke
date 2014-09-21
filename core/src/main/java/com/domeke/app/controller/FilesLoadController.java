@@ -27,9 +27,9 @@ public class FilesLoadController extends Controller {
 
 	private Logger logger = LoggerFactory.getLogger(FilesLoadController.class);
 
-	private static String tempDirectory = "G:\\<username>\\tempFile\\";
-	private static String imageDirectory = "G:\\upload\\<username>\\image\\";
-	private static String videoDirectory = "G:\\upload\\<username>\\video\\";
+	private static String tempDirectory = "D:\\<username>\\tempFile\\";
+	private static String imageDirectory = "D:\\upload\\<username>\\image\\";
+	private static String videoDirectory = "D:\\upload\\<username>\\video\\";
 
 	/**
 	 * 文件上传，要求表单enctype="multipart/form-data"类型<br>
@@ -47,16 +47,15 @@ public class FilesLoadController extends Controller {
 	 *            编码
 	 * @return 如果没有上传文件，则返回的文件路径为null
 	 */
-	protected String upLoadFile(String parameterName, Integer maxPostSize, String encoding) {
+	protected String upLoadFile(String parameterName, String saveFolderName,
+			Integer maxPostSize, String encoding) {
 		initProgress();
-		User user = getSessionAttr("user");
-		String userName = user == null || user.getStr("username") == null ? "admin" : user.getStr("username");
-		tempDirectory = tempDirectory.replaceAll("<username>", userName);
+		tempDirectory = getDirectory(tempDirectory, saveFolderName);
 		UploadFile uploadFile = getFile(parameterName, tempDirectory, maxPostSize, encoding);
 		String filePath = null;
 		if (uploadFile != null) {
 			File replaceFile = renameToFile(uploadFile.getSaveDirectory(), uploadFile.getFile());
-			imageDirectory = imageDirectory.replaceAll("<username>", userName);
+			imageDirectory = getDirectory(imageDirectory, saveFolderName);
 			File imgDirectory = new File(imageDirectory);
 			if (!imgDirectory.exists()) {
 				imgDirectory.mkdirs();
@@ -71,27 +70,35 @@ public class FilesLoadController extends Controller {
 
 	/**
 	 * 上传视频
+	 * 
 	 * @param parameterName
+	 * @param saveFolderName
 	 * @param maxPostSize
 	 * @param encoding
 	 * @return
 	 */
-	protected String upLoadVideo(String parameterName, Integer maxPostSize, String encoding) {
+	protected String upLoadVideo(String parameterName, String saveFolderName,
+			Integer maxPostSize, String encoding) {
 		initProgress();
 		String filename = "";
-		User user = getSessionAttr("user");
-		String userName = user == null || user.getStr("username") == null ? "admin" : user.getStr("username");
-		tempDirectory = tempDirectory.replaceAll("<username>", userName);
+		tempDirectory = getDirectory(tempDirectory, saveFolderName);
 		UploadFile uploadFile = getFile(parameterName, tempDirectory, maxPostSize, encoding);
 		getPara("worksname");
 		if (uploadFile != null) {
 			File tagVideo = renameToFile(uploadFile.getSaveDirectory(), uploadFile.getFile());
-			videoDirectory = videoDirectory.replaceAll("<username>", userName);
+			videoDirectory = getDirectory(videoDirectory, saveFolderName);
 			filename = VideoKit.compressVideo(tagVideo.getAbsolutePath(), videoDirectory);
 		}
 		return filename;
 	}
 
+	/**
+	 * 重命名文件
+	 * 
+	 * @param saveDirectory
+	 * @param oldFile
+	 * @return
+	 */
 	protected File renameToFile(String saveDirectory, File oldFile) {
 		// 通过文件名截取出文件的类型
 		String fileName = oldFile.getName();
@@ -104,6 +111,25 @@ public class FilesLoadController extends Controller {
 		File replaceFile = new File(saveDirectory + "\\" + System.currentTimeMillis() + "." + fileType);
 		oldFile.renameTo(replaceFile);
 		return replaceFile;
+	}
+
+	/**
+	 * 获取文件目录
+	 * 
+	 * @param fixDirectory
+	 * @param userDefinedDirectory
+	 * @return
+	 */
+	private String getDirectory(String fixDirectory, String userDefinedDirectory) {
+		User user = getSessionAttr("user");
+		String userName = user == null || user.getStr("username") == null ? "admin"
+				: user.getStr("username");
+		if (userDefinedDirectory != null
+				&& userDefinedDirectory.trim().length() != 0) {
+			fixDirectory = fixDirectory + userDefinedDirectory;
+		}
+		fixDirectory = fixDirectory.replaceAll("<username>", userName);
+		return fixDirectory;
 	}
 
 	/**
