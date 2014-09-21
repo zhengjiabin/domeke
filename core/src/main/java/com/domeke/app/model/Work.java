@@ -5,6 +5,7 @@ import java.util.List;
 import com.domeke.app.tablebind.TableBind;
 import com.google.common.collect.Lists;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 
 /**
  * 动漫作品的子表
@@ -33,6 +34,18 @@ public class Work extends Model<Work> {
 		return worklist == null ? Lists.newArrayList() : worklist;
 	}
 
+	/**
+	 * 获取某一部动漫的集数
+	 * 
+	 * @param worksid
+	 *            动漫作品的主键值
+	 * @return 某一部动漫的集数
+	 */
+	public Page<Work> getWorkByWorksID(Integer worksid,Integer pageNumber,Integer pageSize) {
+		Page<Work> pageWorks = this.paginate(pageNumber, pageSize, "select * ", "from work where worksid=? order by worknum asc", worksid);
+		return pageWorks;
+	}
+	
 	/**
 	 * 获取某一部动漫作品的第一集
 	 * 

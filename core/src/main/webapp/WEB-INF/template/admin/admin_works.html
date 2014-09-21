@@ -1,0 +1,271 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>我的作品</title>
+<base href="${core}/" />
+<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="js/jquery-ui-1.8.2.custom.min.js"></script>
+<link href="css/Cartoon.css" rel="stylesheet">
+<link href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="css/Member.css" rel="stylesheet">
+<link href="css/jquery-ui-1.8.16.custom.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" media="screen" href="http://silviomoreto.github.io/bootstrap-select/stylesheets/bootstrap-select.css">
+</head>
+<script type="text/javascript">
+	var pageSize = 6;
+	var pageCount;
+	function selectClick(self){
+		$('tr',$(self).parent()).removeClass('select');
+		$(self).addClass('select');
+		//父表格点击 加载子表格
+		$(this).click(function(){
+			var parentId = $('td:eq(0)',self).html();
+ 			$.showTableChilrend(parentId);
+		});
+	}
+	$(document).ready(function(){
+		////////////////////////////////////////////////////////////////////////////父表
+		//加载表格数据
+		$.showTableParent();
+		
+		//选择类型 初始化父表格
+		$('#typeSelect').change(function(){
+			$.showTableParent();
+		});
+		
+		$('#parentAdd').click(function(){
+			$.showParentDialog('添加');
+		});
+		$("#parentUpdate").click(function(){
+	    	$.showParentDialog('修改');
+	    });
+		$("#parentDelete").click(function(){
+	    });
+		
+		///////////////////////////////////////////////////////////////////////////子表
+		//绑定子表格选择事件
+		//$('#childrenTable tr').click(function(){
+		//	$('#childrenTable tr').removeClass('select');
+		//	$(this).addClass('select');
+		//});
+		
+		//var data = [[{'id':'1','name':'2','value':'3'}],[{'id':'1','name':'2','value':'3'}],[{'id':'1','name':'2','value':'3'}]];
+	});
+	
+	//定义jQuery方法
+	$.extend({
+		//显示对话框
+		showParentDialog : function(type){
+			$("#dialogParent").attr('type',type);
+			$("#dialogParent").dialog({
+	    		autoOpen:true,
+	    		model:true,
+	    		position:'center',
+				width:500,
+				title:type,
+				buttons:{
+					' 确定 ':function(){
+					},
+					' 取消 ':function(){
+						$(this).dialog("close");
+					}
+				},
+				open:function(){
+					var type = $(this).attr('type');
+					if(type == '添加'){
+						
+					}
+					if(type == '修改'){
+						
+					}
+				}
+			}).dialog('open');
+		},
+		showTableChilrend : function(parentId){
+			var $page = $('#pageChildren');
+			var pageIndex = $('li.active a',$page).html();
+			var $self = $('#childrenTable');
+			$.ajax({
+				type:'post',
+				url: 'works/getSubWork',
+				dataType:'json',
+				data:'worksId='+parentId+'&pageIndex='+pageIndex+'&pageSize=5',
+				success:function(data){
+					//构建分页
+					//构建表格
+					$('tbody tr',$self).remove();
+					$.each(data.list,function(i,rows){
+						$tbody = $('tbody',$self).append('<tr></tr>');
+						$tr = $('tr:eq('+i+')',$tbody);
+						$tr.append('<td>'+rows.workid+'</td>');
+						$tr.append('<td>'+rows.worknum+'</td>');
+						$tr.append('<td>'+rows.workname+'</td>');
+						$tr.append('<td>'+rows.workdes+'</td>');
+						$tr.append('<td>'+rows.isdisable+'</td>');
+					});
+				}
+			});
+		},
+		showTableParent : function(){
+			var select = $('#typeSelect').val();
+			var $pageIndex = $('#pageParent li.active a');
+			$self = $('#parentTable');
+			$.ajax({
+				type:'post',
+				url: "works/getWorksInfoByType",
+				dataType:'json',
+				data:'workstype='+select+'&pageIndex='+$pageIndex.html(),
+				success:function(data){
+					//构建表格
+					$self = $('#parentTable');
+					$('tbody tr',$self).remove();
+					$.each(data.list,function(i,rows){
+						$tbody = $('tbody',$self).append('<tr class="dataRow" onclick="selectClick(this)"></tr>');
+						$tr = $('tr:eq('+i+')',$tbody);
+						$tr.append('<td >'+rows.worksid+'</td>');
+						$tr.append('<td>'+rows.worksname+'</td>');
+						$tr.append('<td>'+rows.workstype+'</td>');
+						$tr.append('<td>'+rows.creativeprocess+'</td>');
+						$tr.append('<td>'+rows.describle+'</td>');
+						$tr.append('<td>'+rows.istop+'</td>');
+						$tr.append('<td>'+rows.comment+'</td>');
+						$tr.append('<td>'+rows.pageviews+'</td>');
+						$tr.append('<td>'+rows.collection+'</td>');
+						$tr.append('<td>'+rows.praise+'</td>');
+						$tr.append('<td>'+rows.maxnum+'</td>');
+						$tr.append('<td>'+rows.updatetime+'</td>');
+					});
+				}
+			});
+		},
+		loadParentDialog : function($self){
+			var parid = $self.attr('parid');
+			$.ajax({
+				type:'post',
+				url: "works/getWorks",
+				dataType:'json',
+				data:'worksId='+parid,
+				success:function(data){
+					
+				}
+			});
+		}
+	});
+</script>
+<body>
+	<div class="panel panel-primary">
+		<div class="panel-heading">选择类型</div>
+		<div class="panel-body">
+			<label for="name">类型：</label>
+			<select class="btn btn-default" id="typeSelect">
+				<option value="">-请选择一个类型-</option>
+				<option value="10">搞笑</option>
+				<option value="20">恐怖</option>
+			</select>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-body" >
+			<button type="button" class="btn btn-success" id="parentAdd"> 添加</button>
+			<button type="button" class="btn btn-warning"  id="parentUpdate"> 修改</button>
+			<button type="button" class="btn btn-danger" id="parentDelete"> 删除</button>
+		</div>
+		<div class="table-responsive">
+		   <table class="table" id="parentTable">
+		      <thead>
+		         <tr>
+		            <th>编号</th>
+		            <th>名称</th>
+		            <th>类型</th>
+		            <th>是否完结</th>
+		            <th>描述</th>
+		            <th>置顶</th>
+		            <th>评论数</th>
+		            <th>浏览量</th>
+		            <th>收藏数</th>
+		            <th>点赞数</th>
+		            <th>最新一集</th>
+		            <th>最后更新时间</th>
+		         </tr>
+		      </thead>
+		      <tbody>
+		         
+		      </tbody>
+		   </table>
+		</div>
+		<ul class="pagination" id="pageParent">
+		  <li><a href="#">&laquo;</a></li>
+		  <li class="active"><a href="#">1</a></li>
+		  <li><a href="#">2</a></li>
+		  <li><a href="#">3</a></li>
+		  <li><a href="#">4</a></li>
+		  <li><a href="#">5</a></li>
+		  <li><a href="#">&raquo;</a></li>
+		</ul>
+	</div>
+	<div class="panel panel-default workContent">
+		<div class="panel-body">
+			<button type="button" class="btn btn-success" id="childrenAdd"> 添加</button>
+			<button type="button" class="btn btn-warning" id="childrenUpdate"> 修改</button>
+			<button type="button" class="btn btn-danger" id="childrenDelete"> 删除</button>
+			<div class="table-responsive">
+			   <table class="table" id="childrenTable">
+			      <thead>
+			         <tr>
+			            <th>编号</th>
+			            <th>第几集</th>
+			            <th>该集名称</th>
+			            <th>简介</th>
+			            <th>是否显示</th>
+			         </tr>
+			      </thead>
+			      <tbody>
+			      	
+			      </tbody>
+			   </table>
+			</div>
+			<ul class="pagination" id="pageChildren">
+			  <li><a href="#">&laquo;</a></li>
+			  <li class="active"><a href="#">1</a></li>
+			  <li><a href="#">2</a></li>
+			  <li><a href="#">3</a></li>
+			  <li><a href="#">4</a></li>
+			  <li><a href="#">5</a></li>
+			  <li><a href="#">&raquo;</a></li>
+			</ul>
+		</div>
+	</div>
+	
+	<!-- dialog -->
+	<!--对话框$("#dialog").dialog()他就是一个对话框，在页面中就会隐藏--> 
+	<div id="dialogParent" style="display: none;"> 
+		<form class="form-inline" role="form" action="works/save" method="post" enctype="multipart/form-data">
+	        <label for="name">作品名称：</label>
+	        <input type="text" id="worksname" name="works.worksname" class="form-control" placeholder="作品名称" required="required"/>
+	        </br>
+	        <label for="name">作品类别：</label>
+	        <input type="text" id="workstype" name="works.workstype" class="form-control" placeholder="作品类别" required="required"/>
+	        </br>
+	        <label for="name">是否完结：</label>
+	        <select id="creativeprocess" name="works.creativeprocess" class="btn btn-default" >
+		        <option value="10" selected="selected">创作中</option>
+		        <option value="20">已完结</option>
+		    </select>
+	        </br>
+	        <!--TODO 根据用户类型来显示上传图片还是直接贴文件路径-->
+			<label for="name">作品封面：</label>
+			<input class="form-control" type="file" id="cover" name="cover" accept="image/*" required="required" />
+			<br>
+			<!-- <label for="name">上传作品：</label>
+			<input class="form-control" type="file" id="comic" name="comic" accept="video/*" size="20" maxlength="255" required="required"/>
+			<br> -->
+			<label for="name">作品描述：</label>
+			<textarea rows="5" cols="20" id="describle" name="works.describle">
+			</textarea>
+	        <!-- <input type="text" id="creativeprocess" name="works.creativeprocess" class="input-block-level" placeholder="创作进程" required="required"/> -->
+      	</form>
+	</div> 
+</body>
+</html>
