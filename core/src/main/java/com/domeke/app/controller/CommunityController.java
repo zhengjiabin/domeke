@@ -20,10 +20,62 @@ public class CommunityController extends Controller {
 		render("/community/community.html");
 	}
 	
+	/**
+	 * 创建主题
+	 */
+	public void create() {
+		String communityId = getPara("communityId");
+		if(communityId == null || communityId.length()<=0){
+			renderNull();
+			return;
+		}
+		Community community = Community.dao.findById(communityId);
+		String actionKey = community.getStr("actionkey");
+		actionKey = actionKey + "/create";
+		forwardAction(actionKey);
+	}
+	
+	/**
+	 * 跳转到选择主题页面
+	 */
+	public void skipCommunity(){
+		setCommunityFatList();
+		render("/community/selectCommunity.html");
+	}
+	
+	/**
+	 * 下拉选择发布的主题
+	 */
+	public void selectSon(){
+		String pId = getPara("pId");
+		if(pId != null && pId.length()>0){
+			setCommunitySonListByPid(pId);
+		}
+		render("/community/selectCommunitySon.html");
+	}
+	
+	/**
+	 * 显示更多的版块
+	 */
 	public void showMoreCommunity(){
 		setCommunitySonList();
 		setAttr("communitySize", 81);
 		render("/community/community_showMore.html");
+	}
+	
+	/**
+	 * 跳转到指定主题
+	 */
+	public void goToCommunity(){
+		String communityId = getPara("communityId");
+		if(communityId == null || communityId.length()<=0){
+			renderNull();
+			return;
+		}
+		Community community = Community.dao.findById(communityId);
+		String actionKey = community.getStr("actionkey");
+		actionKey = actionKey + "/skipCreate";
+		forwardAction(actionKey);
 	}
 	
 	private void setVentWall(){

@@ -127,3 +127,54 @@ function deleteFat(node,communityId){
 		});
 	}
 }
+
+function skipCommunity(node) {
+	var communityLayout = $(node).closest("#communityLayout");
+	var baseCommunity = communityLayout.find("#baseCommunity").first();
+	var communityId = baseCommunity.find("#communityId").first().val();
+	var url = "./community/skipCommunity";
+	if(communityId != null && communityId != ''){
+		url = "./community/goToCommunity";
+	}
+	$.post(url, {
+		communityId :communityId
+	}, function(data) {
+		baseCommunity.html(data);
+	});
+}
+
+function selectFirst(node){
+	var firstVal = $(node).val();
+	var selectCommuntiyHtml = $(node).closest("#selectCommuntiyHtml");
+	var showCommunity = selectCommuntiyHtml.find("#showCommunity").first();
+	showCommunity.html("");
+	
+	$.post("./community/selectSon", {
+		pId :firstVal
+	}, function(data) {
+		var fatherNode = $(node).closest("#table");
+		var sonNode = fatherNode.find("#son").first();
+		sonNode.html(data);
+	});
+} 
+function showCommunity(node){
+	var firstVal = $(node).val();
+	$.post("./community/goToCommunity", {
+		communityId :firstVal
+	}, function(data) {
+		var detailCommuntiyHtml = $(node).closest("#selectCommuntiyHtml");
+		var showCommunity = detailCommuntiyHtml.find("#showCommunity").first();
+		showCommunity.html(data);
+	});
+}
+
+function submitCreate(node,communityId) {
+	var url = "./community/create?communityId="+communityId;
+	$.post(url, 
+		$(node).closest("#createHtml").serialize(), 
+		function(data) {
+		var communityHtml = $(node).closest("#communityLayout");
+		var baseCommunity = communityHtml.find("#baseCommunity").first();
+		baseCommunity.html(data);
+	});
+}
