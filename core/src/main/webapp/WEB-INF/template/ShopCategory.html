@@ -4,12 +4,12 @@
 <link href="css/Shop.css" rel="stylesheet" type="text/css">
 <section class="White">
     <div class="ShopPath">
-        <a href="#">首页</a>/<a href="shop">全部</a>
+        <a href="index">首页</a>/<a href="goods/shop">全部</a>
     </div>
     <div class="CategorySub">
     	<span>分类：</span><a href="shop">全部</a>
     	<% for(codeTable in codeTables){%>
-    	|<a href="shop?goodstype=${codeTable.codekey}" >${codeTable.codevalue}</a>
+    	|<a href="goods/shop?goodstype=${codeTable.codekey!}" >${codeTable.codevalue!}</a>
     	<% } %>
     </div>
 </section>
@@ -26,9 +26,9 @@
     <section class="White" style="overflow: hidden;">
     <% for(goods in goodss.list) {%>
     <div class="GoodsSub">
-    	<div class="GoodsPic"><img src="${goods.pic}"></div> 
-        <div class="GoodsId"><a href="#">${goods.goodsname}</a></div>
-        <div class="GoodsProperties font_9"><span class="CurrentPrice">${goods.price}元</span><span class="OriginalPrice">${goods.oldprice}元</span></div>
+    	<div class="GoodsPic"><img src="${goods.pic!}"></div> 
+        <div class="GoodsId"><a href="#">${goods.goodsname!}</a></div>
+        <div class="GoodsProperties font_9"><span class="CurrentPrice">${goods.price!}元</span><span class="OriginalPrice">${goods.oldprice!}元</span></div>
         <div class="GoodsLove font_9"><span><img src="images/ShopIcon02.png"></span><span>12345人评价</span></div>
     </div>
     <% } %>
@@ -37,7 +37,7 @@
 	<div class="PageMore">
           <a href="#">上一页</a>
           <% for(var i=0; i < goodss.totalPage; i++){%>
-          <a href="#">${i+1}</a>
+          <a href="goods/shop?goodstype=${goodstype!}&pageNumber=${i+1}">${i+1}</a>
           <% } %>
           <a href="#">下一页</a>
       </div>

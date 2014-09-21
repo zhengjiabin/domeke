@@ -1,17 +1,4 @@
 <% layout("/common/layout.html"){ %>
-<section>
-	<div class="AdSub">
-    <ul>
-    	<li src="${workss0[0].cover}"><a href="#">${workss0[0].worksname}<span>${workss0[0].worksname}</span></a></li>
-        <li src="${workss0[1].cover}"><a href="#">${workss0[1].worksname}<span>${workss0[1].worksname}</span></a></li>
-        <li src="${workss0[2].cover}" class="LiAd"><a href="#">${workss0[2].worksname}<span>${workss0[2].worksname}</span></a></li>
-        <li src="${workss0[3].cover}"><a href="#">${workss0[3].worksname}<span>${workss0[3].worksname}</span></a></li>
-        <li src="${workss0[4].cover}"><a href="#">${workss0[4].worksname}<span>${workss0[4].worksname}</span></a></li>
-    </ul>
-    </div>
-    <div class="Adpic"><img src="images/ad.png"></div>
-    <div class="clear">&nbsp;</div>
-</section>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$.extend({
@@ -45,21 +32,39 @@
 			timer = window.setInterval($.loopplay,3000);
 		});
 		
-		
 	});
 </script>
 <section>
+	<div class="AdSub">
+    <ul>
+    	<li src="${workss0[0].cover}"><a href="#">${workss0[0].worksname!}<span>${workss0[0].worksname!}</span></a></li>
+        <li src="${workss0[1].cover}"><a href="#">${workss0[1].worksname!}<span>${workss0[1].worksname!}</span></a></li>
+        <li src="${workss0[2].cover}" class="LiAd"><a href="#">${workss0[2].worksname!}<span>${workss0[2].worksname!}</span></a></li>
+        <li src="${workss0[3].cover}"><a href="#">${workss0[3].worksname!}<span>${workss0[3].worksname!}</span></a></li>
+        <li src="${workss0[4].cover}"><a href="#">${workss0[4].worksname!}<span>${workss0[4].worksname!}</span></a></li>
+    </ul>
+    </div>
+    <div class="Adpic"><img src="${workss0[0].cover}"></div>
+    <div class="clear">&nbsp;</div>
+</section>
+<section>
 	<article>
 		<section>
-        	<div class="CartoonTitle">${workstype[workss1[0].workstype]}<a href="#">/更多</a></div>
+        	<div class="CartoonTitle">${workstype[workss1[0].workstype!]!}<a href="cartoon/showWorksList?wtype=${workss1[0].workstype!}">/更多</a></div>
             <div class="CartoonContent">
-            	<div class="Cartoon2">
+            	<div class="Cartoon2" style="overflow: hidden; height:315px;">
                 	<div class="CartoonSubB">
-                    	<img src="${workss1[0].cover}">
-                    	<div class="CartoonSubBFootbar">
-                        	<a href="#"><img src="images/icon_play.png"></a>
-                            <span>${workss1[0].worksname}</span>
-                        </div>
+                			<a href="cartoon/showDetail?id=${workss1[0].worksid!}" style="display: block;">
+	                    		<img src="${workss1[0].cover!}">
+	                    	</a>
+	                    	<div class="CartoonSubBFootbar">
+	                        	<a class="icon" href="cartoon/playVideo?id=${workss1[0].worksid!}">
+	                        		<img id="icon"  src="images/icon_play.png">
+	                        	</a>
+	                        	<a href="cartoon/showDetail?id=${workss1[0].worksid!}">
+	                            	<span>${workss1[0].worksname!}</span>
+	                            </a>
+	                        </div>
                     </div>
                 </div>
                 <div class="Cartoon3">
@@ -67,49 +72,55 @@
                 		if(i != 0){
                 	 %>
                     <div class="CartoonSub">
-                        <img src="${workss1[i].cover}">
-                        <div class="CartoonName"><a href="#">${workss1[i].worksname}</a></div>
+                   		<a href="cartoon/showDetail?id=${workss1[i].worksid!}" style="display: block;">
+                        	<img src="${workss1[i].cover!}">
+                        	<div class="CartoonName"><a href="cartoon/showDetail?id=${workss1[i].worksid!}">${workss1[i].worksname!}</a></div>
+                        </a>
                         <div class="CartoonInfo">
-                        	<span class="FloatL">${workss1[i].pageviews}</span>
-                            <span class="FloatR">${workss1[i].comment}</span>
+                        	<span class="FloatL">${workss1[i].pageviews!}</span>
+                            <span class="FloatR">${workss1[i].comment!}</span>
                         </div>
-                        <div class="CartoonSubFootbar">${workss1[i].describle}</div>
+                        <div class="CartoonSubFootbar">${workss1[i].describle!}</div>
                     </div>
-                    <%}%>
-                    <%}%>
+                    <% } %>
+                    <% } %>
                 </div>
             </div>
         </section>
         
         <section>
-        	<div class="CartoonTitle">${workstype[workss2[0].workstype]}<a href="#">/更多</a></div>
+        	<div class="CartoonTitle">${workstype[workss2[0].workstype!]!}<a href="cartoon/showWorksList?wtype=${workss2[0].workstype!}">/更多</a></div>
             <div class="CartoonContent">
             	<%for(works in workss2){%>
 	            <div class="CartoonSub">
-	                <img src="${works.cover}">
-	                <div class="CartoonName"><a href="#">${works.worksname}</a></div>
+	            	<a href="cartoon/showDetail?id=${works.worksid!}" style="display: block;">
+	                <img src="${works.cover!}">
+	                <div class="CartoonName"><a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a></div>
+	                </a>
 	                <div class="CartoonInfo">
-	                	<span class="FloatL">${works.pageviews}</span>
-	                    <span class="FloatR">${works.comment}</span>
+	                	<span class="FloatL">${works.pageviews!}</span>
+	                    <span class="FloatR">${works.comment!}</span>
 	                </div>
-	                <div class="CartoonSubFootbar">${works.describle}</div>
+	                <div class="CartoonSubFootbar">${works.describle!}</div>
 	            </div>
 	            <%}%>
             </div>
         </section>
         
          <section>
-        	<div class="CartoonTitle">${workstype[workss3[0].workstype]}<a href="#">/更多</a></div>
+        	<div class="CartoonTitle">${workstype[workss3[0].workstype!]!}<a href="cartoon/showWorksList?wtype=${workss3[0].workstype!}">/更多</a></div>
             <div class="CartoonContent">
             	<%for(works in workss3){%>
 	            <div class="CartoonSub">
-	                <img src="${works.cover}">
-	                <div class="CartoonName"><a href="#">${works.worksname}</a></div>
+	            	<a href="cartoon/showDetail?id=${works.worksid!}" style="display: block;">
+		                <img src="${works.cover!}">
+		                <div class="CartoonName"><a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a></div>
+	                </a>
 	                <div class="CartoonInfo">
-	                	<span class="FloatL">${works.pageviews}</span>
-	                    <span class="FloatR">${works.comment}</span>
+	                	<span class="FloatL">${works.pageviews!}</span>
+	                    <span class="FloatR">${works.comment!}</span>
 	                </div>
-	                <div class="CartoonSubFootbar">${works.describle}</div>
+	                <div class="CartoonSubFootbar">${works.describle!}</div>
 	            </div>
 	            <%}%>
             </div>
@@ -117,17 +128,19 @@
         
         
          <section>
-        	<div class="CartoonTitle">${workstype[workss4[0].workstype]}<a href="#">/更多</a></div>
+        	<div class="CartoonTitle">${workstype[workss4[0].workstype!]!}<a href="cartoon/showWorksList?wtype=${workss4[0].workstype!}">/更多</a></div>
             <div class="CartoonContent">
             	<%for(works in workss4){%>
 	            <div class="CartoonSub">
-	                <img src="${works.cover}">
-	                <div class="CartoonName"><a href="#">${works.worksname}</a></div>
+	            	<a href="cartoon/showDetail?id=${works.worksid!}" style="display: block;">
+		                <img src="${works.cover}">
+		                <div class="CartoonName"><a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a></div>
+	                </a>
 	                <div class="CartoonInfo">
-	                	<span class="FloatL">${works.pageviews}</span>
-	                    <span class="FloatR">${works.collection}</span>
+	                	<span class="FloatL">${works.pageviews!}</span>
+	                    <span class="FloatR">${works.collection!}</span>
 	                </div>
-	                <div class="CartoonSubFootbar">${works.describle}</div>
+	                <div class="CartoonSubFootbar">${works.describle!}</div>
 	            </div>
 	            <%}%>
             </div>
@@ -139,13 +152,15 @@
             <div class="CartoonContent">
             <% for(var i=0; i<worksClickList.~size; i++) {%>
             <ul class="LiVline">
-               <li class="LiHeightB">        		
-                    <div class="LiPicB"><img src="${worksClickList[i].cover}"></div>
+               <li class="LiHeightB">
+               		<a href="cartoon/showDetail?id=${worksClickList[i].worksid!}">  		
+                    	<div class="LiPicB"><img src="${worksClickList[i].cover!}"></div>
+                    </a>
                     <div class="LiContentB">
-                    	<a href="#">${worksClickList[i].worksname}</a>
+                    	<a href="cartoon/showDetail?id=${worksClickList[i].worksid!}">${worksClickList[i].worksname!}</a>
                         <span>
-                        	<span class="Tip01">${worksClickList[i].pageviews}</span>
-                            <span class="Tip02">${worksClickList[i].comment}</span>
+                        	<span class="Tip01">${worksClickList[i].pageviews!}</span>
+                            <span class="Tip02">${worksClickList[i].comment!}</span>
                         </span>
                     </div>
                     <span class="Num${i+1}"></span>
@@ -159,7 +174,7 @@
             <div class="CartoonContent">
             <ul class="LiVline LiC">
             	<% for(works in worksUpdateList) {%>
-            	<li><span>${works.maxnum}话</span><a href="#">${works.worksname}</a></li>
+            	<li><span>${works.maxnum!}话</span><a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a></li>
                 <% } %>
             </ul>
             </div>
@@ -171,18 +186,18 @@
 <section>
 
 
-	<div class="CartoonTitle">新潮商品<a href="#">/更多</a></div>
+	<div class="CartoonTitle">新潮商品<a href="goods/shop">/更多</a></div>
     <div class="CartoonContent">
     <% for(goods in goodss){%>
         <figure>
-        	<div class="GoodsPic"><img src="${goods.pic}"></div>
+        	<div class="GoodsPic"><img src="${goods.pic!}"></div>
        	 	 <figcaption>
                 <div class="GoodsName font_r"><a href="#">xx </a>
-                <span class="GoodsPrice">￥：${goods.price}</span>
+                <span class="GoodsPrice">￥：${goods.price!}</span>
                 </div>
-              	<div class="GoodsAuthor"><img src="${goods.headimg}"><span class="font_ye"><a href="#">${goods.username}</a></span>发布</div>
+              	<div class="GoodsAuthor"><img src="${goods.headimg!}"><span class="font_ye"><a href="#">${goods.username!}</a></span>发布</div>
                 <div class="GoodsInfo">xx</div>
-              <div class="GoodsItems">
+                <div class="GoodsItems">
               	<span>加入收藏  20</span>
                 <span>喜欢  30</span>
               </div>

@@ -18,6 +18,11 @@
 
 	$(document).ready(function(){
 		////////////////////////////////////////////////////////////////////////////父表
+		//选择类型 初始化父表格
+		$('#typeSelect').change(function(){
+			$.showTableParent();
+		});
+		
 		$('#parentAdd').click(function(){
 			$.showParentDialog('添加');
 		});

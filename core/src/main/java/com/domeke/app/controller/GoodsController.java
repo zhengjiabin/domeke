@@ -1,9 +1,14 @@
 package com.domeke.app.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.Goods;
 import com.domeke.app.route.ControllerBind;
+import com.domeke.app.utils.CodeKit;
+import com.jfinal.plugin.activerecord.Page;
 
 /**
  * 商品model控制器
@@ -14,6 +19,29 @@ import com.domeke.app.route.ControllerBind;
 @ControllerBind(controllerKey = "/goods")
 public class GoodsController extends FilesLoadController {
 
+	public void shop() {
+		String goodstype = getPara("goodstype");
+		Integer pageNumber = getParaToInt("pageNumber");
+		Integer pageSize = getParaToInt("pageSize");
+		
+		if(pageNumber == null){
+			pageNumber = 1;
+		}
+		if(pageSize == null){
+			pageSize = 25;
+		}
+		
+		//获取类型集合
+		Map<String,Object> typeMap = new HashMap<String, Object>();
+		List<CodeTable> codeTables = CodeKit.getList("goodstype");
+		//按类型获取商品分类
+		Page<Goods> goodss = getModel(Goods.class).getGoodsPageByType(goodstype, pageNumber, pageSize);
+		setAttr("goodstype",goodstype);
+		setAttr("goodss",goodss);
+		setAttr("codeTables",codeTables);
+		render("../ShopCategory.html");
+	}
+	
 	/**
 	 * to管理界面
 	 */

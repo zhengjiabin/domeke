@@ -1,9 +1,12 @@
 package com.domeke.app.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
+import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
 
 /**
@@ -26,12 +29,6 @@ public class WorksController extends FilesLoadController {
 	 * 跳转作品管理界面
 	 */
 	public void goWorksMan() {
-		String worksType = getPara("type");
-		if (worksType == null || worksType.trim().length() == 0) {
-			queryAllWorksInfo();
-		} else {
-			getWorksInfoByType(worksType);
-		}
 		render("/demo/worksmanage.html");
 	}
 
@@ -119,10 +116,14 @@ public class WorksController extends FilesLoadController {
 	/**
 	 * 根据作品类型获取作品信息
 	 */
-	public void getWorksInfoByType(String workstype) {
+	public Page<Works> getWorksInfoByType() {
+		String workstype = getPara("workstype");
+		String pageIndex = getPara("pageIndex");
+		String pageSize = getPara("pageSize");
+		
 		Works worksModel = getModel(Works.class);
-		List<Works> workslist = worksModel.getWorksInfoByType(workstype);
-		this.setAttr("workslist", workslist);
+		Page<Works> workslist = worksModel.getWorksInfoPage(workstype,Integer.parseInt(pageIndex),Integer.parseInt(pageSize));
+		return workslist;
 	}
 
 	/**
