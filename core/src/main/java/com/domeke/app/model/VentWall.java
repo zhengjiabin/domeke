@@ -4,6 +4,7 @@
 package com.domeke.app.model;
 
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
@@ -87,7 +88,7 @@ public class VentWall extends Model<VentWall>{
      * 用户签到汇总
      * @return 汇总数
      */
-    public Object getUserIdCount(int userId){
+    public Object getUserIdCount(Long userId){
     	Object count = Db.queryLong("SELECT COUNT(VENTWALLID) FROM VENT_WALL WHERE USERID="+userId);
     	return count;
     }
@@ -95,9 +96,17 @@ public class VentWall extends Model<VentWall>{
      * 本月当前用户汇总
      * @return 汇总数
      */
-    public Object getMonthCount(int userId){
+    public Object getMonthCount(Long userId){
     	Object count = Db.queryLong("SELECT COUNT(VENTWALLID) FROM VENT_WALL WHERE DATE_FORMAT(CREATETIME,'%Y-%m')=DATE_FORMAT(NOW(),'%Y-%m') AND USERID="+userId);
     	return count;
+    }
+    /**
+     * 当前用户上次签到时间
+     * @return 签到时间
+     */
+    public Timestamp getCreatetime(Long userId){
+    	Timestamp createtime = Db.queryTimestamp("select CREATETIME from vent_wall where userid="+userId+" ORDER BY CREATETIME LIMIT 1");
+    	return createtime;
     }
     /**
      * 汇总历史最高
@@ -112,7 +121,7 @@ public class VentWall extends Model<VentWall>{
      * @param userId 用户ID
      * @return 是否签到：0  已签到，1  未签到
      */
-    public String isSignIn(int userId){
+    public String isSignIn(Long userId){
     	String issignin = "0";
     	Object userid = Db.queryLong("SELECT USERID FROM VENT_WALL WHERE TO_DAYS(CREATETIME)=TO_DAYS(NOW()) AND USERID="+userId);
     	if (userid == null || "".equals(userid)){

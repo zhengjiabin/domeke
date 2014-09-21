@@ -3,22 +3,30 @@
  */
 package com.domeke.app.controller;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.shiro.authz.annotation.RequiresRoles;
-
+import com.domeke.app.interceptor.LoginInterceptor;
+import com.domeke.app.model.User;
 import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
+
+import freemarker.template.SimpleDate;
 
 /**
  * @author zhouying
  *
  */
 @ControllerBind(controllerKey="ventwall")
+@Before(LoginInterceptor.class)
 public class VentWallController extends Controller {
 
 	/**
@@ -30,6 +38,8 @@ public class VentWallController extends Controller {
 		msg = getImg(msg);
 		ventWall.set("moodid", msg);	
 		ventWall.set("creater", 1);
+		Long userId = getUser();
+		ventWall.set("userid", userId);
 		ventWall.saveVentWall();
 		select();
 	}
@@ -52,7 +62,6 @@ public class VentWallController extends Controller {
 		int menuid = getParaToInt("menuid");
 		setAttr("menuid", menuid);	
 		select();
-		isSignIn();
 		render("/VentWall.html");
 	}
 	/**
@@ -96,24 +105,40 @@ public class VentWallController extends Controller {
 	 * 统计签到
 	 */
 	public void getCount(){
+		Long userId = getUser();;
 		VentWall ventWall = getModel(VentWall.class);
 		Object todayCount = ventWall.getTodayCount();
 		Object yesterdayCount = ventWall.getYesterdayCount();
 		Object totalCount = ventWall.getTotalCount();
-		Object userIdCount = ventWall.getUserIdCount(1);
-		Object monthCount = ventWall.getMonthCount(1);
+		Object userIdCount = ventWall.getUserIdCount(userId);
+		Object monthCount = ventWall.getMonthCount(userId);
+		Timestamp createtime = ventWall.getCreatetime(userId);
+		Date date =new Date();
+		date = createtime;
+		DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"); 
+		String time = sdf.format(date);
 		setAttr("todayCount", todayCount);
 		setAttr("yesterdayCount", yesterdayCount);
 		setAttr("totalCount", totalCount);
 		setAttr("userIdCount", userIdCount);
 		setAttr("monthCount", monthCount);
+		setAttr("createtime", time);
 	}
 	/**
 	 * 是否签到
 	 */
 	public void isSignIn(){
-		String issignin = VentWall.venWdao.isSignIn(1);
+		User user = getSessionAttr("user");
+		Long userId = user.get("userid");
+		String userName = user.getStr("username");
+		String issignin = VentWall.venWdao.isSignIn(userId);
 		setAttr("issignin", issignin);
+		setAttr("userName", userName);
+	}
+	private Long getUser() {
+		User user = getSessionAttr("user");
+		Long userId = user.get("userid");
+		return userId;
 	}
 	/**
 	 * 签到墙管理
