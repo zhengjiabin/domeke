@@ -75,7 +75,8 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public void save() {
 		try {
-			String picturePath = upLoadFile("pictrue", 200 * 1024 * 1024, "utf-8");
+			String picturePath = upLoadFile("pictrue", "", 200 * 1024 * 1024,
+					"utf-8");
 			Goods goodsModel = getModel(Goods.class);
 			goodsModel.set("pic", picturePath);
 			// 可改为获取当前用户的名字或者ID
@@ -93,7 +94,8 @@ public class GoodsController extends FilesLoadController {
 	 * 更新已修的商品
 	 */
 	public void update() {
-		String picturePath = upLoadFile("pictrue", 200 * 1024 * 1024, "utf-8");
+		String picturePath = upLoadFile("pictrue", "", 200 * 1024 * 1024,
+				"utf-8");
 		Goods goodsModel = getModel(Goods.class);
 		if (picturePath != null) {
 			goodsModel.set("pic", picturePath);

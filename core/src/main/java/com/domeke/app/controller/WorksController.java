@@ -1,11 +1,9 @@
 package com.domeke.app.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
-import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
 
@@ -45,8 +43,10 @@ public class WorksController extends FilesLoadController {
 	 */
 	public void save() {
 		try {
-			String coverPath = upLoadFile("cover", 2000 * 1024 * 1024, "utf-8");
-			String comicPath = upLoadVideo("comic", 5000 * 1024 * 1024, "utf-8");
+			String coverPath = upLoadFile("cover", "", 2000 * 1024 * 1024,
+					"utf-8");
+			String comicPath = upLoadVideo("comic", "", 5000 * 1024 * 1024,
+					"utf-8");
 			Works worksModel = getModel(Works.class);
 			worksModel.set("cover", coverPath);
 			worksModel.set("comic", comicPath);
@@ -65,8 +65,8 @@ public class WorksController extends FilesLoadController {
 	 * 更新已修的作品
 	 */
 	public void update() {
-		String coverPath = upLoadFile("cover", 2000 * 1024 * 1024, "utf-8");
-		String comicPath = upLoadVideo("comic", 5000 * 1024 * 1024, "utf-8");
+		String coverPath = upLoadFile("cover", "", 2000 * 1024 * 1024, "utf-8");
+		String comicPath = upLoadVideo("comic", "", 5000 * 1024 * 1024, "utf-8");
 		// 可改为获取当前用户的名字或者ID
 		Works worksModel = getModel(Works.class);
 		if (coverPath != null) {
