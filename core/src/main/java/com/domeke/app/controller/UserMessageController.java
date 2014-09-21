@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.domeke.app.model.User;
 import com.domeke.app.model.UserMessage;
+import com.domeke.app.model.UserReplyMsg;
 import com.domeke.app.model.UserRole;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
@@ -67,7 +68,7 @@ public class UserMessageController extends Controller {
 		}else{
 			msg.set("sendtype", "0");
 		}
-		msg.set("from", user.getStr("username"));
+		msg.set("fromuser", user.getStr("username"));
 		msg.set("touser", touser);
 		msg.set("title", title);
 		msg.set("content", content);
@@ -107,6 +108,9 @@ public class UserMessageController extends Controller {
 		}else if("7".equals(msgType)){
 			//系统留言
 			msgList = msg.getLeaveMsg("touser", user.getStr("username"), null,"sendtype","1");
+		}else if("11".equals(msgType)){
+			//我发的留言
+			msgList = msg.getLeaveMsg("fromuser", user.getStr("username"), null,null,null);
 		}
 		setAttr("msgList", msgList);
 	}
@@ -114,5 +118,51 @@ public class UserMessageController extends Controller {
 		UserMessage msg = getModel(UserMessage.class);
 		String messageid = getPara("messageid");
 		msg.deleteById(messageid);
+		forLeaveMsg();
+	}
+	
+	public void forReplyMsg(){
+		String msgid = getPara("msgid");
+		UserMessage msg = getModel(UserMessage.class);
+		msg = msg.findById(msgid);
+		String mid = getPara("mid");
+		setAttr("menuId", "9");
+		setAttr("mid", mid);
+		setAttr("msg", msg);
+		setAttr("msgid", msgid);
+		render("/personalCenter.html");
+	}
+	public void replayMsg(){
+		UserReplyMsg reply = getModel(UserReplyMsg.class);
+		UserMessage usermsg = getModel(UserMessage.class);
+		User user = getSessionAttr("user");
+		String msgid = getPara("msgid");
+		String msgvalue = getPara("msgvalue");
+		String mid = getPara("mid");
+		usermsg = usermsg.findById(msgid);
+		reply.set("msgid", msgid);
+		reply.set("msgvalue", msgvalue);
+		reply.set("fromuser", user.getStr("username"));
+		reply.save();
+		Long count = usermsg.getLong("count");
+		count = count+1;
+		usermsg.set("count", count);
+		usermsg.update();
+		setAttr("menuid", "1");
+		getLeaveMsg(mid);
+		setAttr("menuId", mid);
+		render("/personalCenter.html");
+	}
+	public void countLeave(){
+		String msgid = getPara("msgid");
+		UserMessage msg = getModel(UserMessage.class);
+		msg = msg.findById(msgid);
+		UserReplyMsg reply = getModel(UserReplyMsg.class);
+		List<UserReplyMsg> replyList = reply.getList(msgid);
+		setAttr("menuid", "1");
+		setAttr("msg", msg);
+		setAttr("menuId", "10");
+		setAttr("replyList", replyList);
+		render("/personalCenter.html");
 	}
 }
