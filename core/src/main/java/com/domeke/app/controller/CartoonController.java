@@ -4,7 +4,6 @@
 package com.domeke.app.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import com.domeke.app.interceptor.ActionInterceptor;
 import com.domeke.app.model.CodeTable;
@@ -12,7 +11,6 @@ import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.utils.CodeKit;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
@@ -26,36 +24,19 @@ public class CartoonController extends Controller {
 	public void index() {
 		setAttr("menuid", "2");
 		Works worksModel = getModel(Works.class);
-		Map<String, Object> wtypeCodeTable = getWtypeCodeTable();
-		setAttr("wtypeCodeTable", wtypeCodeTable);
+		List<CodeTable> wtypeCTList = CodeKit.getList("workstype");
+		setAttr("wtypeCTList", wtypeCTList);
 		List<Works> worksList = Lists.newArrayList();
 		// 用于显示“大家都爱看”列表
 		worksList = worksModel.getWorksInfoByPageViewsLimit(5);
 		setAttr("olikeWorksList", worksList);
 		// 查出每一种类型的动漫作品
-
-		for (String workstype : wtypeCodeTable.keySet()) {
+		for (CodeTable wtypeCT : wtypeCTList) {
+			String workstype = wtypeCT.get("codekey");
 			worksList = worksModel.getWorksInfoByType(workstype, 10);
-			setAttr(workstype, worksList);
-
+			setAttr("worksList" + workstype, worksList);
 		}
 		render("/CartoonCategory.html");
-	}
-
-	/**
-	 * 获取动漫作品类型（workstype）的码表
-	 * 
-	 * @return 动漫作品类型的码表
-	 */
-	private Map<String, Object> getWtypeCodeTable() {
-		// 获取动漫作品类型的码表
-		List<CodeTable> codetables = CodeKit.getList("workstype");
-		Map<String, Object> wtypeCodeTable = Maps.newHashMap();
-		for (CodeTable codeTable : codetables) {
-			wtypeCodeTable.put(codeTable.getStr("codekey"),
-					codeTable.getStr("codevalue"));
-		}
-		return wtypeCodeTable;
 	}
 
 	/**
