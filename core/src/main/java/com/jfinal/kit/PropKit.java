@@ -65,7 +65,6 @@ public class PropKit extends PropertyPlaceholderConfigurer {
 	}
 
 	private boolean isPropertiesFile(String filename) {
-
 		return false;
 	}
 
@@ -84,7 +83,6 @@ public class PropKit extends PropertyPlaceholderConfigurer {
 
 	private static String getString(String key, String defaultValue) {
 		Object value = resolveContainerStore(key);
-
 		if (value instanceof String) {
 			return value.toString();
 		} else if (value == null) {
