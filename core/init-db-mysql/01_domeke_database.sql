@@ -515,8 +515,9 @@ CREATE TABLE `user_message` (
   `messageid` bigint(20) NOT NULL AUTO_INCREMENT,
   `title` varchar(512) DEFAULT NULL,
   `content` varchar(4000) DEFAULT NULL,
-  `from` varchar(32) DEFAULT NULL,
+  `fromuser` varchar(32) DEFAULT NULL,
   `touser` varchar(32) DEFAULT NULL,
+  `count` bigint(32) DEFAULT '0',
   `sendtype` varchar(2) DEFAULT NULL,
   `creater` varchar(32) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -524,8 +525,23 @@ CREATE TABLE `user_message` (
   `modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `status` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`messageid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-`
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for `user_replymsg`
+-- ----------------------------
+DROP TABLE IF EXISTS `user_replymsg`;
+CREATE TABLE `user_replymsg` (
+  `replyid` bigint(30) NOT NULL AUTO_INCREMENT,
+  `msgid` bigint(30) DEFAULT NULL,
+  `fromuser` varchar(30) DEFAULT NULL,
+  `msgvalue` varchar(30) DEFAULT NULL,
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `creater` varchar(50) DEFAULT NULL,
+  `modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `modifier` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`replyid`)
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 -- ----------------------------
 -- Table structure for user_role
 -- ----------------------------
