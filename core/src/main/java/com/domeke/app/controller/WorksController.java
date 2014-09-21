@@ -133,7 +133,16 @@ public class WorksController extends FilesLoadController {
 		setAttr("works", works);
 		render("/demo/modifyworks.html");
 	}
-
+	/**
+	 * 根据作品ID获取某作品
+	 */
+	public void getWorksJsonById() {
+		Works worksModel = getModel(Works.class);
+		Works works = worksModel.findById(getParaToInt("id"));
+		renderJson(works);
+	}
+	
+	
 	/**
 	 * 根据作品类型获取作品信息
 	 */

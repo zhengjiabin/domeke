@@ -16,16 +16,13 @@
 <script type="text/javascript">
 	var pageSize = 6;
 	var pageCount;
-	function selectClick(self){
-		$('tr',$(self).parent()).removeClass('select');
-		$(self).addClass('select');
-		//父表格点击 加载子表格
-		$(this).click(function(){
-			var parentId = $('td:eq(0)',self).html();
- 			$.showTableChilrend(parentId);
-		});
-	}
+		
+		
+		
+		
 	$(document).ready(function(){
+		var $parentDialog = $('#parentDialog');
+		var $parentTable = $('#parentTable');
 		////////////////////////////////////////////////////////////////////////////父表
 		//加载表格数据
 		$.showTableParent();
@@ -34,14 +31,36 @@
 		$('#typeSelect').change(function(){
 			$.showTableParent();
 		});
-		
+		//添加
 		$('#parentAdd').click(function(){
-			$.showParentDialog('添加');
+			//$.showParentDialog('添加');
+			$.digcenter($parentDialog,'添加');
+			$parentDialog.show();
 		});
-		$("#parentUpdate").click(function(){
-	    	$.showParentDialog('修改');
+		
+		//取消按钮
+		$parentDialog.click(function(){
+			$parentDialog.hide();
+		});
+		//修改
+		$('#parentUpdate').click(function(){
+			//获取选择的表格
+			var $selectTr = $('tr.select',$parentTable);
+			var parId = '';
+			if($selectTr.length >= 1){
+				parId = $('td:eq(0)',$selectTr).html();
+			}else{
+				alert("请选中一条记录修改");
+			}
+			
+			//ajax提交选中的Id，查询并初始化值。然后显示dig
+			$.initDialog(parId);
+			
+			
+			
 	    });
 		$("#parentDelete").click(function(){
+			
 	    });
 		
 		///////////////////////////////////////////////////////////////////////////子表
@@ -56,32 +75,33 @@
 	
 	//定义jQuery方法
 	$.extend({
-		//显示对话框
-		showParentDialog : function(type){
-			$("#dialogParent").attr('type',type);
-			$("#dialogParent").dialog({
-	    		autoOpen:true,
-	    		model:true,
-	    		position:'center',
-				width:500,
-				title:type,
-				buttons:{
-					' 确定 ':function(){
-					},
-					' 取消 ':function(){
-						$(this).dialog("close");
-					}
-				},
-				open:function(){
-					var type = $(this).attr('type');
-					if(type == '添加'){
-						
-					}
-					if(type == '修改'){
-						
-					}
+		initDialog:function(parId){
+			$.ajax({
+				type: 'post',
+				url: 'works/getWorksJsonById?id='+parId,
+				dataType: 'json',
+				success:function(data){
+					$.each(data,function(key,value){
+						var $input = $('#'+key);
+						if($input.length >= 1){
+							$input.val(value);
+						}
+					});
+					var $parentDialog = $('#parentDialog');
+					$.digcenter($parentDialog,'修改');
+					$parentDialog.show();
 				}
-			}).dialog('open');
+			});
+		},
+		digcenter:function($dialog,title){
+			$('div.panel-heading',$dialog).html(title);
+			var widthWin = $(window.document.body).width();
+			var heightWin = $(window.document.body).height();
+			var widthDig = $dialog.width();
+			var heightDig = $dialog.height();
+			var left = (widthWin - widthDig) / 2;
+			var top = (heightWin - heightDig) / 4;
+			$dialog.css({'left':left,'top':top});
 		},
 		showTableChilrend : function(parentId){
 			var $page = $('#pageChildren');
@@ -89,6 +109,7 @@
 			var $self = $('#childrenTable');
 			$.ajax({
 				type:'post',
+				async:false,
 				url: 'works/getSubWork',
 				dataType:'json',
 				data:'worksId='+parentId+'&pageIndex='+pageIndex+'&pageSize=5',
@@ -114,6 +135,7 @@
 			$self = $('#parentTable');
 			$.ajax({
 				type:'post',
+				async:false,
 				url: "works/getWorksInfoByType",
 				dataType:'json',
 				data:'workstype='+select+'&pageIndex='+$pageIndex.html(),
@@ -122,7 +144,7 @@
 					$self = $('#parentTable');
 					$('tbody tr',$self).remove();
 					$.each(data.list,function(i,rows){
-						$tbody = $('tbody',$self).append('<tr class="dataRow" onclick="selectClick(this)"></tr>');
+						$tbody = $('tbody',$self).append('<tr class="dataRow"></tr>');
 						$tr = $('tr:eq('+i+')',$tbody);
 						$tr.append('<td >'+rows.worksid+'</td>');
 						$tr.append('<td>'+rows.worksname+'</td>');
@@ -137,18 +159,14 @@
 						$tr.append('<td>'+rows.maxnum+'</td>');
 						$tr.append('<td>'+rows.updatetime+'</td>');
 					});
-				}
-			});
-		},
-		loadParentDialog : function($self){
-			var parid = $self.attr('parid');
-			$.ajax({
-				type:'post',
-				url: "works/getWorks",
-				dataType:'json',
-				data:'worksId='+parid,
-				success:function(data){
-					
+					$('tbody tr',$self).unbind('click');
+					$('tbody tr',$self).bind('click',function(){
+						$('tbody tr',$self).removeClass('select');
+						$(this).addClass('select');
+						//父表格点击 加载子表格
+						var parentId = $('td:eq(0)',this).html();
+			 			$.showTableChilrend(parentId);
+					});
 				}
 			});
 		}
@@ -238,34 +256,40 @@
 		</div>
 	</div>
 	
-	<!-- dialog -->
-	<!--对话框$("#dialog").dialog()他就是一个对话框，在页面中就会隐藏--> 
-	<div id="dialogParent" style="display: none;"> 
+	<div id="parentDialog" class="panel panel-primary" style="position:absolute; z-index:9999; width: 300px;height:400px; display: none;">
+		<div class="panel-heading"></div>
+		<div class="panel-body">
 		<form class="form-inline" role="form" action="works/save" method="post" enctype="multipart/form-data">
-	        <label for="name">作品名称：</label>
+			<label for="name" class="">作品名称：</label>
 	        <input type="text" id="worksname" name="works.worksname" class="form-control" placeholder="作品名称" required="required"/>
 	        </br>
 	        <label for="name">作品类别：</label>
 	        <input type="text" id="workstype" name="works.workstype" class="form-control" placeholder="作品类别" required="required"/>
 	        </br>
 	        <label for="name">是否完结：</label>
-	        <select id="creativeprocess" name="works.creativeprocess" class="btn btn-default" >
+	        <select id="creativeprocess" name="works.creativeprocess" class="btn btn-default" required="required">
 		        <option value="10" selected="selected">创作中</option>
 		        <option value="20">已完结</option>
 		    </select>
 	        </br>
 	        <!--TODO 根据用户类型来显示上传图片还是直接贴文件路径-->
 			<label for="name">作品封面：</label>
-			<input class="form-control" type="file" id="cover" name="cover" accept="image/*" required="required" />
+			<input type="file" class="form-control" name="cover" accept="image/*" style="width:180px;" />
 			<br>
 			<!-- <label for="name">上传作品：</label>
 			<input class="form-control" type="file" id="comic" name="comic" accept="video/*" size="20" maxlength="255" required="required"/>
 			<br> -->
 			<label for="name">作品描述：</label>
-			<textarea rows="5" cols="20" id="describle" name="works.describle">
-			</textarea>
-	        <!-- <input type="text" id="creativeprocess" name="works.creativeprocess" class="input-block-level" placeholder="创作进程" required="required"/> -->
-      	</form>
-	</div> 
+			</br>
+			<textarea class="form-control" rows="5" cols="35" id="describle" name="works.describle"></textarea>
+			<div class="btn btn-body" style="width: 100%;">
+			<button id="parentDigSubmit" class="btn btn-success">提交</button>
+			&nbsp;&nbsp;&nbsp;
+			<btn id="parentDigCancel" class="btn btn-cancel">取消</btn>
+			</div>
+        </form>
+		</div>
+	</div>
+	
 </body>
 </html>
