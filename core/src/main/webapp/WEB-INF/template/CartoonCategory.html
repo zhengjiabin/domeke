@@ -1,48 +1,52 @@
-<% layout("/cartoon/cartoon_layout.html"){ %>
-<!-- TODO 动漫首页 -->
-<%
+<% layout("/cartoon/cartoon_layout.html"){
 for(wtypeCT in wtypeCTList){
-	if(${wtypeCT.codekey!}=="00"){
+	var workstype = wtypeCT.codekey;
+	if("00"==workstype){
 %>
 <section class="WhiteBg">
-  <div class="SortAD"><img src="images/pic_Cartoon4.png">
-  		<div class="SortADFootbar">
-           <a href="#"><img src="images/icon_play.png"></a>
-           <span>7月新番扫雷报告</span>
-        </div>
-  </div>
-    <div class="SortZoom">
-    <%
-    	for(works in worksList00){
-    %>
-    	<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"></a>
-	<% } %>
-    </div>
+	<div class="SortAD">
+		<img src="images/pic_Cartoon4.png">
+		<div class="SortADFootbar">
+			<!-- <a href="#"><img src="images/icon_play.png"></a>  --><span>7月新番扫雷报告</span>
+		</div>
+	</div>
+	<div class="SortZoom">
+		<% for(works in allWorksMap[workstype]){ %> <a
+			href="cartoon/showDetail?id=${works.worksid!}"><img
+			src="${works.cover!}"></a> 
+		<% } %>
+	</div>
 </section>
 <div class="clear"></div>
-<%	}else if(${wtypeCT.codekey!}=="10"){	%>
+<%	}else if("10"==workstype && allWorksMap[workstype].~size >0 ){	%>
 <section>
-	<div class="CartoonTitleC">${wtypeCodeTable[1]}<a href="cartoon/showWorksList?wtype=10">更多 &gt;&gt;</a></div>
+	<div class="CartoonTitleC">${wtypeCT.codevalue!}<a href="cartoon/showWorksList?wtype=${workstype!}">更多 &gt;&gt;</a></div>
     <div class="CartoonContent">
    	  <div class="HILeft">
-   	  	<%
-   	  		for(works in hidoRecommendList){
-   	  	%>
+   	  		<!-- 循环5个 -->
+        	<%	
+        	var index = 1;
+   	  		for(works in allWorksMap[workstype]){
+   	  			if(index <= 5){
+   	  		%>
         	<div class="HISub">
         		<img src="${works.cover!}"><br /><a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
         	</div>
-        <% } %>
+        	<% }} %>
         </div>
         <div class="HIRight">
         	<div class="CartoonTitleC">大家爱看</div>
+            <ul>
+            <!-- 循环4个 -->
             <%
-            	var index = 0;
-            	for(works in olikeWorksList){
+            var index = 0;
+            for(works in olikeWorksList){
             	index = index + 1;
-            	if(index<=4){
+            	if(index <= 4){
             %>
-            	<span>index</span><a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+            	<li><span>${index!}</span><a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a></li>
             <% }} %>
+            </ul>
             <div class="HIRightAD"><a href="#"><img src="images/pic_Cartoon4.png"></a>
             <a href="#">驯龙高手2最终预告</a>
             </div>	
@@ -50,17 +54,18 @@ for(wtypeCT in wtypeCTList){
         <div class="clear"></div>
     </div>
 </section>
-<%	}else if(${wtypeCT.codekey!}=="20"){	%>
+<%	}else if("20"==workstype && allWorksMap[workstype].~size >0 ){	%>
 <section>
-	<div class="CartoonTitleC">HI动漫<a href="#">更多 &gt;&gt;</a></div>
+	<div class="CartoonTitleC">${wtypeCT.codevalue!}<a href="#">更多 &gt;&gt;</a></div>
     <div class="CartoonContent"><img src="images/roll.png" width="1200" height="227"></div>
 </section>
-<%	}else if(index==3){	%>
+<%	}else if("30"==workstype && allWorksMap[workstype].~size >0 ){	%>
 <section>
 	<div class="CartoonTitleC">原创精选<a href="#">更多 &gt;&gt;</a></div>
     <div class="CartoonContent WhiteBg Guess">
+    <!-- 循环8个 -->
     <%
-    	for(works in highWorksList){
+    	for(works in allWorksMap[workstype]){
     %>
     	<div class="CartoonSub">
         	<img src="${works.cover!}"><br />
@@ -69,46 +74,82 @@ for(wtypeCT in wtypeCTList){
     <% } %>
     </div>
 </section>
-<%	}else if(${wtypeCT.codekey!}=="30"){	%>
+<%	}else if("40"==workstype && allWorksMap[workstype].~size >0 ){	%>
 <section>
 	<div class="CartoonTitleC">人气作品<a href="#">更多 &gt;&gt;</a></div>
     <div class="CartoonContent WhiteBg">
-        <%
-        	var index = 0 ;
-        	for(works in popularityList){
-        	index = index + 1;
-        	if(index == 0){
-        %>
-	    	<div class="Sort2">
-	        	<img src="${works.cover!}"><br />
-	        	<a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
-	        </div>
-	        <div class="Sor t3 Guess">
-	        <% } else { %>
-	        	<div class="CartoonSub">
-	                <img src="${works.cover!}"><br />
-	                <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
-	            </div>
-        <% 
-        	}
-        }
-         %>
+    	<div class="Sort2">
+        	<img src="images/pic_Cartoon7.png"><br />
+        	<a href="#">新海诚历险记</a>
+        </div>
+        <div class="Sort3 Guess">
+        	<div class="CartoonSub">
+                <img src="images/pic_Cartoon2.png"><br />
+                <a href="#">迪迦奥特曼</a>
+            </div>
+            <div class="CartoonSub">
+                <img src="images/pic_Cartoon4.png"><br />
+                <a href="#">小龙人</a>
+            </div>
+            <div class="CartoonSub">
+                <img src="images/pic_Cartoon5.png"><br />
+                <a href="#">大头儿子小头爸爸</a>
+            </div>
+            <div class="CartoonSub">
+                <img src="images/pic_Cartoon6.png"><br />
+                <a href="#">巧虎低幼版</a>
+            </div>
+            <div class="CartoonSub">
+                <img src="images/pic_Cartoon1.png"><br />
+                <a href="#">功夫兔子</a>
+            </div>
+            <div class="CartoonSub">
+                <img src="images/pic_Cartoon5.png"><br />
+                <a href="#">大头儿子小头爸爸</a>
+            </div>
+        </div>
+        <div class="Sort1">
+        	<div class="CartoonTitleC">独家报道</div>
+            <div class="Sort1AD"><a href="#"><img src="images/pic_Cartoon8.png"></a></div>
+            <ul>
+            	<li><a href="#">冰果正传 特辑预告</a></li>
+                <li><a href="#">【疯狂的兔子】 预告</a></li>
+                <li><a href="#">画江湖之不良人</a></li>
+                <li><a href="#">冰果正传 特辑预告</a></li>
+                <li><a href="#">画江湖之不良人</a></li>
+            </ul>
         </div>
         <div class="clear"></div>
     </div>
 </section>
-<%	}else{	%>
+<%	}else if(allWorksMap[workstype].~size >0){	%>
 <section>
 	<div class="CartoonTitleC">新作预告<a href="#">更多 &gt;&gt;</a></div>
     <div class="CartoonContent WhiteBg Guess">
-    <%
-    	for(works in newWorksTrailer){
-    %>
     	<div class="CartoonSub">
-        	<img src="${works.cover!}"><br />
-            <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+        	<img src="images/pic_Cartoon2.png"><br />
+            <a href="#">迪迦奥特曼</a>
         </div>
-    <% } %>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon4.png"><br />
+            <a href="#">小龙人</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon5.png"><br />
+            <a href="#">大头儿子小头爸爸</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon6.png"><br />
+            <a href="#">巧虎低幼版</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon1.png"><br />
+            <a href="#">功夫兔子</a>
+        </div>
+        <div class="CartoonSub">
+        	<img src="images/pic_Cartoon5.png"><br />
+            <a href="#">大头儿子小头爸爸</a>
+        </div>
     </div>
 </section>
 <% }}} %>
