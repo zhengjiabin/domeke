@@ -53,8 +53,7 @@ public class LoginController extends Controller {
 			setAttr("menuid", "1");
 			
 			redirect("/admin");
-//			render("/admin/admin_community.html");
-//			return;
+			return;
 		}
 		setCache(username, password, token, currentUser);
 		setAttr("username", username);
