@@ -34,26 +34,39 @@ public class PropKit extends PropertyPlaceholderConfigurer {
 	public static void init() {
 		String resource = PropKit.class.getResource("/").getPath();
 		File files = new File(resource);
-		if (files.isDirectory()) {
-			File[] listFiles = files.listFiles();
-			Configuration config = null;
-			for (File file : listFiles) {
-				String name = file.getName();
-				if (name.indexOf(".properties") > 0) {
-					try {
-						config = new PropertiesConfiguration(name);
-						for (Iterator<String> keys = config.getKeys(); keys.hasNext();) {
-							String key = (String) keys.next();
-							propertiesMap.put(key, config.getProperty(key));
-						}
-					} catch (ConfigurationException e) {
-						e.printStackTrace();
-					}
-				}
+		File[] listFiles = files.listFiles();
+		for (File file : listFiles) {
+			String name = file.getName();
+			if (name.indexOf(".properties") > 0) {
+				setProperties(name);
 			}
-
 		}
 
+	}
+
+	/**
+	 * 设置properteis文件中的属性到map对象当中
+	 * 这里暂时没有考虑属性文件中键重复的情况
+	 * 一般也不建议在属性文件中存在重复的属性
+	 * 如有重复请在属性文件中删除或重命名
+	 * @param name
+	 */
+	private static void setProperties(String name) {
+		Configuration config = null;
+		try {
+			config = new PropertiesConfiguration(name);
+			for (Iterator<String> keys = config.getKeys(); keys.hasNext();) {
+				String key = (String) keys.next();
+				propertiesMap.put(key, config.getProperty(key));
+			}
+		} catch (ConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private boolean isPropertiesFile(String filename) {
+
+		return false;
 	}
 
 	private static Object getProperty(String key) {
