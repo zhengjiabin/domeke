@@ -526,6 +526,7 @@ CREATE TABLE `user_message` (
   PRIMARY KEY (`messageid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 INSERT INTO `user` VALUES ('1', 'admin', 'lueSGJZetyySpUndWjMBEg==', '634775305@qq.com', 'admin', null, null, null, null, null, 'Y', null, null, null);
+
 -- ----------------------------
 -- Table structure for user_role
 -- ----------------------------
