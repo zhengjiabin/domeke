@@ -1,0 +1,23 @@
+ <section>
+	<article>
+        <section class="CartonDtl">
+ 
+ <div class="ArgumentZoom">
+        <div class="LevelTitle" style="height: 30px;">
+		     <div style="width: 100px;height: 32px;float: left;margin-left: 30px"><a href="personal/forMyProduction?menuId=5"><h3>回复：</h3></a></div>
+		</div>
+          		<div class="ArgumentSub" style="height: 300px;margin-left: 30px">
+          			<form action="um/replayMsg" class="form-horizontal" method="post">
+          				<input type="hidden" name="msgid" value="${msgid!}" />
+          				<input type="hidden" name="mid" value="${mid!}" />
+          				<h1>${mid!}</h1>
+	                	标&nbsp;&nbsp;&nbsp;题：${msg.title!}<br>
+	                	内&nbsp;&nbsp;&nbsp;容：${msg.content!}<br>
+	                	回&nbsp;&nbsp;&nbsp;复：<textarea name="msgvalue" rows="8" value="" cols="40"></textarea><br>
+	                	<input type="submit" value="提交回复"/>
+                	</form>
+                </div>
+    	</div>
+ </section>
+ </article>
+ </section>
