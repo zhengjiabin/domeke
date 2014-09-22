@@ -63,15 +63,16 @@
 </div>
       <div class="GoodsInfos">
         	<div class="GName">${goods.goodsname!}</div>
-        	<div class="GPrice">${goods.price!}</div>
+        	<div class="GPrice">原&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：￥${goods.oldprice!}</div><br>
+        	<div class="GPrice">折&nbsp;后&nbsp;价：￥${goods.price!}</div>
             <div class="GButton font_w">
             	<a href="http://detail.tmall.com/item.htm?spm=a230r.1.14.1.8jNRgD&id=37652444734&ad_id=&am_id=&cm_id=140105335569ed55e27b&pm_id=" class="BuyNow">去 购 买</a>
                 <span class="Loves"><img src="images/icon11.png">喜 欢（26）</span>
           </div>
             <ul class="GProperties">
             	<li>数量：${goods.amount!}</li>
-            	<li>颜色：</li>
-                <li>包装：</li>
+            	<li>颜色：白色</li>
+                <li>包装：无</li>
             </ul>
         </div>
     </div>
