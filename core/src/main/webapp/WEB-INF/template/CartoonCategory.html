@@ -1,9 +1,4 @@
-<% layout("/cartoon/cartoon_layout.html"){
-
-for(wtypeCT in wtypeCTList){
-	var workstype = wtypeCT.codekey;
-	if("00"==workstype){
-%>
+<% layout("/cartoon/cartoon_layout.html"){	%>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$.extend({
@@ -37,6 +32,11 @@ for(wtypeCT in wtypeCTList){
 		});
 	});
 </script>
+<%
+for(wtypeCT in wtypeCTList){
+	var workstype = wtypeCT.codekey;
+	if("00"==workstype){
+%>
 <section class="WhiteBg">
 	<div class="SortAD">
 		<img src="${allWorksMap[workstype][0].cover!}">
