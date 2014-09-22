@@ -3,6 +3,7 @@ package com.domeke.app.controller;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -38,6 +39,7 @@ public class VentWallController extends Controller {
 		ventWall.set("userid", userId);
 		ventWall.saveVentWall();
 		select();
+		render("/VentWallDtl.html");
 	}
 	/**
 	 * 正则表达式转换表情
@@ -67,7 +69,7 @@ public class VentWallController extends Controller {
 		selectUtil();		
 		getCount();
 		isSignIn();
-		render("/VentWallDtl.html");
+		getNowTime();
 	}
 	/**
 	 * 通过ID查询留言
@@ -173,5 +175,23 @@ public class VentWallController extends Controller {
 		Page<VentWall> ventWallList = VentWall.venWdao.findPage(pageNumber,pageSize);
 		setAttr("pageNumber", pageNumber);
 		setAttr("ventWallList", ventWallList);
+	}
+	/**
+	 * 获得日期与星期数
+	 */
+	public void getNowTime(){
+		Calendar date = Calendar.getInstance();
+		int month = date.get(Calendar.MONTH)+1;
+		int day = date.get(Calendar.DAY_OF_MONTH);
+		String[] weekDays ={"星期日","星期一","星期二","星期三","星期四","星期五","星期六"};
+		int week = date.get(Calendar.DAY_OF_WEEK)-1;
+		String weekDay ="";
+		if (week < 0){
+			week = 0;		
+		}
+		weekDay = weekDays[week];
+		setAttr("month", month);
+		setAttr("day", day);
+		setAttr("weekDay", weekDay);
 	}
 }
