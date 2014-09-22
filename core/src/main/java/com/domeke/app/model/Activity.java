@@ -49,8 +49,11 @@ public class Activity extends Model<Activity> {
 	 * @return
 	 */
 	public Page<Activity> findPage(int pageNumber, int pageSize) {
-		Page<Activity> page = this.paginate(pageNumber, pageSize, "select *",
-				"from activity where order by status,createtime");
+		StringBuffer sqlExceptSelect = new StringBuffer();
+		sqlExceptSelect.append("from activity aty left join (select count(1) as number,app.activityid from activity_apply app where app.status='10' ");
+		sqlExceptSelect.append(" group by app.activityid) app on aty.activityid=app.activityid where aty.status='10'");
+		sqlExceptSelect.append(" order by aty.createtime");
+		Page<Activity> page = this.paginate(pageNumber, pageSize, "select aty.*,app.number",sqlExceptSelect.toString());
 		return page;
 	}
 
@@ -65,9 +68,11 @@ public class Activity extends Model<Activity> {
 	 */
 	public Page<Activity> findPage(int pageNumber, int pageSize,
 			Object communityId) {
-		Page<Activity> page = this.paginate(pageNumber, pageSize, "select *",
-				"from activity where communityid=? order by status,createtime",
-				communityId);
+		StringBuffer sqlExceptSelect = new StringBuffer();
+		sqlExceptSelect.append("from activity aty left join (select count(1) as number,app.activityid from activity_apply app where app.status='10' ");
+		sqlExceptSelect.append(" group by app.activityid) app on aty.activityid=app.activityid where aty.status='10' and aty.communityid=? ");
+		sqlExceptSelect.append("order by aty.createtime");
+		Page<Activity> page = this.paginate(pageNumber, pageSize, "select aty.*,app.number as applynumber",sqlExceptSelect.toString(),communityId);
 		return page;
 	}
 

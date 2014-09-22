@@ -169,8 +169,24 @@ public class ActivityController extends Controller {
 	public void index() {
 		String communityId = getPara("communityId");
 		setActivityPage(communityId);
+		setPublishNumber();
 		
 		render("/community/activity.html");
+	}
+	
+	/**
+	 * 设置发帖数
+	 */
+	private void setPublishNumber(){
+		//今日发帖数
+		Long activityTodayCount = Activity.dao.getTodayCount();
+		setAttr("todayCount", activityTodayCount);
+		//昨日发帖数
+		Long activityYesCount = Activity.dao.getYesterdayCount();
+		setAttr("yesCount", activityYesCount);
+		//总发帖数
+		Long activityCount = Activity.dao.getCount();
+		setAttr("count", activityCount);
 	}
 	
 	public void home(){

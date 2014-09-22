@@ -2,7 +2,6 @@ package com.domeke.app.controller;
 
 import javax.servlet.http.HttpSession;
 
-import com.domeke.app.model.Activity;
 import com.domeke.app.model.ActivityApply;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
@@ -30,15 +29,12 @@ public class ActivityApplyController extends Controller {
 		Object userId = user.get("userid");
 		activityApply.set("userid", userId);
 
-		Object activtiyId = getPara("activityId");
-		activityApply.set("activityid", activtiyId);
+		Object activityId = getPara("activityId");
+		activityApply.set("activityid", activityId);
 		activityApply.save();
 
-		Activity activity = Activity.dao.findById(activtiyId);
-		int applyNumber = activity.getInt("applynumber");
-		activity.set("applynumber", ++applyNumber);
-		activity.update();
-		renderJson(applyNumber);
+		Long count = ActivityApply.dao.getCount(activityId);
+		renderJson(count);
 	}
 
 	/**

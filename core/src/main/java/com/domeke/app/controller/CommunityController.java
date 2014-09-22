@@ -103,8 +103,6 @@ public class CommunityController extends Controller {
 		Long activityCount = Activity.dao.getCount();
 		Long count = postCount + activityCount;
 		setAttr("count", count);
-		
-		
 	}
 
 	/**

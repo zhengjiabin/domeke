@@ -1,6 +1,7 @@
 package com.domeke.app.model;
 
 import com.domeke.app.tablebind.TableBind;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -51,4 +52,13 @@ public class ActivityApply extends Model<ActivityApply> {
 				activityId);
 		return page;
 	}
+	
+    /**
+     * 总活动数
+     * @return 汇总数
+     */
+    public Long getCount(Object activityId){
+    	Long count = Db.queryLong("select count(1) from activity_apply where status='10' and activityid=?",activityId);
+    	return count;
+    }
 }
