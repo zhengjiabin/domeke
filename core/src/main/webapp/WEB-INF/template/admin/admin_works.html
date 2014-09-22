@@ -17,9 +17,6 @@
 	var pageSize = 6;
 	var pageCount;
 		
-		
-		
-		
 	$(document).ready(function(){
 		var $parentDialog = $('#parentDialog');
 		var $parentTable = $('#parentTable');
@@ -39,9 +36,10 @@
 		});
 		
 		//取消按钮
-		$parentDialog.click(function(){
+		$('#parentDigCancel',$parentDialog).click(function(){
 			$parentDialog.hide();
 		});
+		
 		//修改
 		$('#parentUpdate').click(function(){
 			//获取选择的表格
@@ -51,45 +49,76 @@
 				parId = $('td:eq(0)',$selectTr).html();
 			}else{
 				alert("请选中一条记录修改");
+				return;
 			}
-			
 			//ajax提交选中的Id，查询并初始化值。然后显示dig
-			$.initDialog(parId);
-			
-			
-			
+			$.initDialog($parentDialog,'works/getWorksJsonById','id='+parId,'修改');
 	    });
+		
 		$("#parentDelete").click(function(){
-			
+			childrenTable
 	    });
 		
 		///////////////////////////////////////////////////////////////////////////子表
-		//绑定子表格选择事件
-		//$('#childrenTable tr').click(function(){
-		//	$('#childrenTable tr').removeClass('select');
-		//	$(this).addClass('select');
-		//});
+		var $childrenDialog = $('#childrenDialog');
+		var $childrenTable = $('#childrenTable');
 		
-		//var data = [[{'id':'1','name':'2','value':'3'}],[{'id':'1','name':'2','value':'3'}],[{'id':'1','name':'2','value':'3'}]];
+		//点击添加子表
+		$('#childrenAdd').click(function(){
+			//保证父表已经选中行
+			var $selectTr = $('tr.select',$parentTable);
+			var parId = '';
+			if($selectTr.length >= 1){
+				parId = $('td:eq(0)',$selectTr).html();
+			}else{
+				alert("请选择一条父表记录");
+				return;
+			}
+			$.digcenter($childrenDialog,'添加');
+			$('#parId').val(parId);
+			$childrenDialog.show();
+		});
+		
+		//点击修改子表
+		$('#childrenUpdate').click(function(){
+			//获取选择的表格
+			var $selectTr = $('tr.select',$childrenTable);
+			var parId = '';
+			if($selectTr.length >= 1){
+				parId = $('td:eq(0)',$selectTr).html();
+			}else{
+				alert("请选中一条记录修改");
+				return;
+			}
+			//ajax提交选中的Id，查询并初始化值。然后显示dig
+			$.initDialog($childrenDialog,'works/getWorkJsonById','id='+parId,'修改');
+		});
+		
+		//取消按钮
+		$('#childrenDigCancel',$childrenDialog).click(function(){
+			$childrenDialog.hide();
+		});
+		
+		
 	});
 	
 	//定义jQuery方法
 	$.extend({
-		initDialog:function(parId){
+		initDialog:function($dialog,url,data,title){
 			$.ajax({
 				type: 'post',
-				url: 'works/getWorksJsonById?id='+parId,
+				url: url,
+				data:data,
 				dataType: 'json',
 				success:function(data){
 					$.each(data,function(key,value){
-						var $input = $('#'+key);
+						var $input = $('[flag='+key+']',$dialog);
 						if($input.length >= 1){
 							$input.val(value);
 						}
 					});
-					var $parentDialog = $('#parentDialog');
-					$.digcenter($parentDialog,'修改');
-					$parentDialog.show();
+					$.digcenter($dialog,title);
+					$dialog.show();
 				}
 			});
 		},
@@ -112,7 +141,7 @@
 				async:false,
 				url: 'works/getSubWork',
 				dataType:'json',
-				data:'worksId='+parentId+'&pageIndex='+pageIndex+'&pageSize=5',
+				data:'worksId='+parentId+'&pageIndex='+pageIndex+'&pageSize='+pageSize,
 				success:function(data){
 					//构建分页
 					//构建表格
@@ -126,6 +155,12 @@
 						$tr.append('<td>'+rows.workdes+'</td>');
 						$tr.append('<td>'+rows.isdisable+'</td>');
 					});
+					
+					$('tbody tr',$self).unbind('click');
+					$('tbody tr',$self).bind('click',function(){
+						$('tbody tr',$self).removeClass('select');
+						$(this).addClass('select');
+					});
 				}
 			});
 		},
@@ -138,7 +173,7 @@
 				async:false,
 				url: "works/getWorksInfoByType",
 				dataType:'json',
-				data:'workstype='+select+'&pageIndex='+$pageIndex.html(),
+				data:'workstype='+select+'&pageIndex='+$pageIndex.html()+'&pageSize'+pageSize,
 				success:function(data){
 					//构建表格
 					$self = $('#parentTable');
@@ -256,18 +291,18 @@
 		</div>
 	</div>
 	
-	<div id="parentDialog" class="panel panel-primary" style="position:absolute; z-index:9999; width: 300px;height:400px; display: none;">
+	<div id="parentDialog" class="panel panel-primary" style="position:fixed; z-index:9999; width: 300px;height:400px; display: none;">
 		<div class="panel-heading"></div>
 		<div class="panel-body">
 		<form class="form-inline" role="form" action="works/save" method="post" enctype="multipart/form-data">
-			<label for="name" class="">作品名称：</label>
-	        <input type="text" id="worksname" name="works.worksname" class="form-control" placeholder="作品名称" required="required"/>
+			<label for="name">作品名称：</label>
+	        <input type="text" flag="worksname" name="works.worksname" class="form-control" placeholder="作品名称" required="required"/>
 	        </br>
 	        <label for="name">作品类别：</label>
-	        <input type="text" id="workstype" name="works.workstype" class="form-control" placeholder="作品类别" required="required"/>
+	        <input type="text" flag="workstype" name="works.workstype" class="form-control" placeholder="作品类别" required="required"/>
 	        </br>
 	        <label for="name">是否完结：</label>
-	        <select id="creativeprocess" name="works.creativeprocess" class="btn btn-default" required="required">
+	        <select flag="creativeprocess" name="works.creativeprocess" class="btn btn-default" required="required">
 		        <option value="10" selected="selected">创作中</option>
 		        <option value="20">已完结</option>
 		    </select>
@@ -281,15 +316,47 @@
 			<br> -->
 			<label for="name">作品描述：</label>
 			</br>
-			<textarea class="form-control" rows="5" cols="35" id="describle" name="works.describle"></textarea>
+			<textarea class="form-control" rows="5" cols="35" flag="describle" name="works.describle"></textarea>
 			<div class="btn btn-body" style="width: 100%;">
-			<button id="parentDigSubmit" class="btn btn-success">提交</button>
+			<button id="parentDigSubmit"  class="btn btn-success" type="submit">提交</button>
 			&nbsp;&nbsp;&nbsp;
-			<btn id="parentDigCancel" class="btn btn-cancel">取消</btn>
+			<button id="parentDigCancel" class="btn btn-cancel"  type="reset">取消</button>
 			</div>
         </form>
 		</div>
 	</div>
 	
+	<div id="childrenDialog" class="panel panel-primary" style="position:fixed; z-index:9999; width: 300px;height:400px; display: none;">
+		<div class="panel-heading"></div>
+		<div class="panel-body">
+		<form class="form-inline" role="form" action="works/saveWork" method="post" enctype="multipart/form-data">
+			<input type="hidden"  flag="worksid" name="work.worksid" id="parId" />
+			<label for="name" class="">名称：</label>
+	        <input type="text" flag="workname" name="work.workname" class="form-control" placeholder="名称" required="required"/>
+	        </br>
+	        <label for="name" class="">集数：</label>
+	        <input type="text" flag="worknum" name="work.worknum" class="form-control" placeholder="集数" required="required"/>
+	        </br>
+	        <label for="name">是否显示：</label>
+	        <select flag="isdisable" name="work.isdisable" class="btn btn-default" required="required">
+		        <option value="1" selected="selected">显示</option>
+		        <option value="0">隐藏</option>
+		    </select>
+	        </br>
+	        <!--TODO 根据用户类型来显示上传图片还是直接贴文件路径-->
+			<label for="name">资源：</label>
+			<input type="file" class="form-control" name="comic" style="width:180px;" />
+			<br>
+			<label for="name">本集描述：</label>
+			</br>
+			<textarea class="form-control" rows="5" cols="35" flag="workdes" name="work.workdes"></textarea>
+			<div class="btn btn-body" style="width: 100%;">
+			<button id="childrenDigSubmit" class="btn btn-success" type="submit">提交</button>
+			&nbsp;&nbsp;&nbsp;
+			<button id="childrenDigCancel" class="btn btn-cancel" type="reset">取消</button>
+			</div>
+        </form>
+		</div>
+	</div>
 </body>
 </html>
