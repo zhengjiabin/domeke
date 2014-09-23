@@ -34,7 +34,7 @@ public class CodeKit extends HttpServlet {
 
 	private Logger logger = LoggerFactory.getLogger(CodeKit.class);
 
-	private static String LOAD_CODE_TABLE = "SELECT T.CODETYPE,T.TYPENAME,C.CODEKEY,C.CODENAME,C.CODEVALUE FROM CODE_TYPE T,CODE_TABLE C WHERE T.CODETYPE=C.CODETYPE AND C.STATUS = '0'";
+	private static String LOAD_CODE_TABLE = "SELECT T.CODETYPE,T.TYPENAME,C.CODEKEY,C.CODENAME,C.CODEVALUE FROM CODE_TYPE T,CODE_TABLE C WHERE T.CODETYPE=C.CODETYPE AND C.STATUS = '0' order by c.sortnum";
 
 	public void init() throws ServletException {
 		load();
