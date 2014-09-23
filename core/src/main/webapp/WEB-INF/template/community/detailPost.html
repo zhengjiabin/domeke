@@ -13,20 +13,7 @@
 		<div class="ForumBody">
             <div class="FBodyContent">${post.message!}</div>
             <div class="FBodyBottom font_9">
-            	<% if(post.postid != null){ 
-					layout(
-					"/common/ckeditor.html",
-					{
-					"targetId":post.postid,
-					"ckeditorAction":"./post/replyComment?postId="+post.postid,
-					"ckeditorNode":"#replyComments",
-					"commentAction":"./post/replyComment?postId="+post.postid,
-					"followAction":"./post/replyFollow?postId="+post.postid,
-					"pageAction":"./post/findCommentByPostId?targetId="+post.postid+"&postId="+post.postid,
-					"fatherNode":"#commentHtml"
-					}
-					){}
-				}%>
+            	<span class="FL"><a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a></span>
             </div>
             <div class="clear"></div>
       </div>
@@ -45,4 +32,20 @@
 					){}
 				}%></div>
    </div>
+   <div class="PiecesText" id="commentForm">
+   <% if(post.postid != null){ 
+					layout(
+					"/common/ckeditor.html",
+					{
+					"targetId":post.postid,
+					"ckeditorAction":"./post/replyComment?postId="+post.postid,
+					"ckeditorNode":"#replyComments",
+					"commentAction":"./post/replyComment?postId="+post.postid,
+					"followAction":"./post/replyFollow?postId="+post.postid,
+					"pageAction":"./post/findCommentByPostId?targetId="+post.postid+"&postId="+post.postid,
+					"fatherNode":"#commentHtml"
+					}
+					){}
+				}%>
+	</div>
 		

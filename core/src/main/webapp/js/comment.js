@@ -1,7 +1,5 @@
 function showCkeditor(node) {
-	var commentForm = $(node).closest("#commentForm");
-	var commentDiv = commentForm.find("#commentDiv").first();
-	commentDiv.show();
+	CKEDITOR.instances.ckeditor.focus();
 }
 
 function publishCkeditor(node) {
@@ -24,8 +22,6 @@ function publishCkeditor(node) {
 		followAction : followActionVal,
 		commentAction : commentActionVal
 	}, function(data) {
-		var commentDiv = commentForm.find("#commentDiv").first();
-		commentDiv.hide();
 		CKEDITOR.instances.ckeditor.setData("");
 
 		var replyComments = $(node).closest(ckeditorNodeVal);

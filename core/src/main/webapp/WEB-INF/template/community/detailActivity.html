@@ -11,7 +11,7 @@
     </div>
 	<div class="clear"></div> 
 	
-	<div id="replyComments">
+<div id="replyComments">
 		<div class="ForumBody">
         	<div class="FBodyTop"></div>
             <div class="FBodyContent">
@@ -31,22 +31,7 @@
 				} 
 			){} 
 			}%></div>
-            <div class="FBodyBottom font_9">
-            	<% if(activity.activityid != null){ 
-					layout(
-					"/common/ckeditor.html",
-					{
-					"targetId":activity.activityid,
-					"ckeditorAction":"./activity/replyComment?activityId="+activity.activityid,
-					"ckeditorNode":"#replyComments",
-					"commentAction":"./activity/replyComment?activityId="+activity.activityid,
-					"followAction":"./activity/replyFollow?activityId="+activity.activityid,
-					"pageAction":"./activity/findCommentByActivityId?targetId="+activity.activityid+"&activityId="+activity.activityid,
-					"fatherNode":"#commentHtml"
-					}
-				){}
-				}%>
-            </div>
+			<span class="FL"><a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a></span>
             <div class="clear"></div>
       </div>
       <div class="ForumInfoA">共3个关于厦门海沧镇拆迁办及城管纠集100人殴打 无辜群众及村民、老人的回复，最后回复于14分钟前</div>
@@ -65,4 +50,20 @@
 				){}
 			}%>
 	</div>
-   </div>
+	<div class="PiecesText" id="commentForm">
+   				<% if(activity.activityid != null){ 
+					layout(
+					"/common/ckeditor.html",
+					{
+					"targetId":activity.activityid,
+					"ckeditorAction":"./activity/replyComment?activityId="+activity.activityid,
+					"ckeditorNode":"#replyComments",
+					"commentAction":"./activity/replyComment?activityId="+activity.activityid,
+					"followAction":"./activity/replyFollow?activityId="+activity.activityid,
+					"pageAction":"./activity/findCommentByActivityId?targetId="+activity.activityid+"&activityId="+activity.activityid,
+					"fatherNode":"#commentHtml"
+					}
+				){}
+				}%>
+	</div>
+</div>
