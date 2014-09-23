@@ -169,6 +169,11 @@ function showCommunity(node){
 }
 
 function submitCreate(node,communityId) {
+	var content = CKEDITOR.instances.ckeditor.getData();
+	var createHtml = $(node).closest("#createHtml");
+	var message = createHtml.find("#message").first();
+	message.val(content);
+	
 	var url = "./community/create?communityId="+communityId;
 	$.post(url, 
 		$(node).closest("#createHtml").serialize(), 

@@ -1,88 +1,62 @@
+<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 <article>
 	<form action="#" method="post" id="createHtml">
 
 		<div class="control-group" hidden="block">
-			<label class="control-label">社区ID<span class="required">*</span></label>
-			<div class="controls">
-				<input type="hidden" name="activity.communityid" value="${communityId!}"
-					class="span6 m-wrap" />
-			</div>
+			社区ID <input type="hidden" name="activity.communityid"
+				value="${communityId!}" class="span6 m-wrap" />
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">标题<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activity.subject" value="${activity.subject!}"
-					class="span6 m-wrap" />
-			</div>
+			标题 <input type="text" name="activity.subject"
+				value="${activity.subject!}" class="span6 m-wrap" />
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">开始时间<span class="required">*</span></label>
-			<div class="controls">
-				<input type="datetime" name="activity.starttimefrom"
-					value="${activity.starttimefrom!}" class="span6 m-wrap" />
-			</div>
-		</div>
-		
-		<div class="control-group">
-			<label class="control-label">结束时间<span class="required">*</span></label>
-			<div class="controls">
-				<input type="datetime" name="activity.starttimeto"
-					value="${activity.starttimeto!}" class="span6 m-wrap" />
-			</div>
+			开始时间 <input type="datetime" name="activity.starttimefrom"
+				value="${activity.starttimefrom!}" class="span6 m-wrap" />
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">地点<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activity.place" value="${activity.place!}"
-					class="span6 m-wrap" />
-			</div>
-		</div>
-		
-		<div class="control-group">
-			<label class="control-label">类别<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activity.class" value="${activity.class!}"
-					class="span6 m-wrap" />
-			</div>
-		</div>
-		
-		<div class="control-group">
-			<label class="control-label">性别<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activity.gender" value="${activity.gender!}"
-					class="span6 m-wrap" />
-			</div>
-		</div>
-		
-		<div class="control-group">
-			<label class="control-label">人数<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activity.number" value="${activity.number!}"
-					class="span6 m-wrap" />
-			</div>
+			结束时间 <input type="datetime" name="activity.starttimeto"
+				value="${activity.starttimeto!}" class="span6 m-wrap" />
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">报名截止日期<span class="required">*</span></label>
-			<div class="controls">
-				<input type="datetime" name="activity.expiration" value="${activity.expiration!}"
-					class="span6 m-wrap" />
-			</div>
+			地点 <input type="text" name="activity.place"
+				value="${activity.place!}" class="span6 m-wrap" />
 		</div>
 
 		<div class="control-group">
-			<label class="control-label">活动详细内容<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activity.ufield" value="${activity.ufield!}"
-					class="span6 m-wrap" />
-			</div>
+			类别 <input type="text" name="activity.class"
+				value="${activity.class!}" class="span6 m-wrap" />
+		</div>
+
+		<div class="control-group">
+			性别 <input type="text" name="activity.gender"
+				value="${activity.gender!}" class="span6 m-wrap" />
+		</div>
+
+		<div class="control-group">
+			人数 <input type="text" name="activity.number"
+				value="${activity.number!}" class="span6 m-wrap" />
+		</div>
+
+		<div class="control-group">
+			报名截止日期 <input type="datetime" name="activity.expiration"
+				value="${activity.expiration!}" class="span6 m-wrap" />
+		</div>
+
+		<div class="control-group">
+			活动详细内容<textarea name="ckeditor" id="ckeditor"></textarea>
+			<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
+			 <input type="text" name="activity.ufield" id="message"
+				value="${activity.ufield!}" hidden="block"/>
 		</div>
 
 		<div class="form-actions">
-			<button type="button" class="btn btn-primary" onclick="submitCreate(this,'${communityId!}')">提交</button>
+			<button type="button" class="btn btn-primary"
+				onclick="submitCreate(this,'${communityId!}')">提交</button>
 			<button type="button" class="btn">取消</button>
 		</div>
 	</form>

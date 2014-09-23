@@ -1,32 +1,26 @@
+<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 <article>
 	<form action="#" method="post" id="createHtml">
 
 		<div class="control-group" hidden="block">
-			<label class="control-label">社区ID<span class="required">*</span></label>
-			<div class="controls">
-				<input type="hidden" name="post.communityid" value="${communityId!}"
-					class="span6 m-wrap" />
-			</div>
+			社区ID <input type="hidden" name="post.communityid"
+				value="${communityId!}" class="span6 m-wrap" />
 		</div>
 
-		<div class="control-group">
-			<label class="control-label">标题<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="post.subject" value="${post.subject!}"
-					class="span6 m-wrap" />
-			</div>
+		<div>
+			标题 <input type="text" name="post.subject" value="${post.subject!}"
+				class="span6 m-wrap" />
 		</div>
 
-		<div class="control-group">
-			<label class="control-label">帖子内容<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="post.message" value="${post.message!}"
-					class="span6 m-wrap" />
-			</div>
+		<div>
+			<textarea name="ckeditor" id="ckeditor"></textarea>
+			<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
+			<input type="text" id="message" name="post.message" value="${post.message!}" hidden="block"/>
 		</div>
 
 		<div class="form-actions">
-			<button type="button" class="btn btn-primary" onclick="submitCreate(this,'${communityId!}')">提交</button>
+			<button type="button" class="btn btn-primary"
+				onclick="submitCreate(this,'${communityId!}')">提交</button>
 			<button type="button" class="btn">取消</button>
 		</div>
 	</form>
