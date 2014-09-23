@@ -1,5 +1,10 @@
 package com.domeke.app.model.vo;
 
+/**
+ * 
+ * @author
+ *
+ */
 public class WorksVO extends BaseVO {
 
 	/**
@@ -10,6 +15,8 @@ public class WorksVO extends BaseVO {
 	private String worksname;
 
 	private String describle;
+
+	private String cover;
 
 	public String getWorksname() {
 		return worksname;
@@ -25,6 +32,14 @@ public class WorksVO extends BaseVO {
 
 	public void setDescrible(String describle) {
 		this.describle = describle;
+	}
+
+	public String getCover() {
+		return cover;
+	}
+
+	public void setCover(String cover) {
+		this.cover = cover;
 	}
 
 }

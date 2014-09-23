@@ -1,0 +1,15 @@
+<% layout("/common/layout.html"){ %>
+<section class="List" id="page">
+    <div class="CartoonContent">
+    	<% 
+    		for (works in pageList.list){ 
+    	%>
+        <div class="CartoonSub"> 
+            <a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"></a>
+            <div class="CartoonName">${works.worksname!}</div>
+        </div>
+        <% } %>
+     </div> 
+	<!-- 分页 -->
+</section>
+<% } %> 
