@@ -23,7 +23,7 @@ public class WorksController extends FilesLoadController {
 	 * to管理界面
 	 */
 	public void goToManager() {
-		render("/admin/works.html");
+		render("/admin/admin_works.html");
 	}
 
 	/**
@@ -64,6 +64,14 @@ public class WorksController extends FilesLoadController {
 		}
 	}
 
+	public void saveWork(){
+		
+	}
+	public void saveUpdate(){
+		
+	}
+	
+	
 	/**
 	 * 更新已修的作品
 	 */
@@ -141,7 +149,11 @@ public class WorksController extends FilesLoadController {
 		Works works = worksModel.findById(getParaToInt("id"));
 		renderJson(works);
 	}
-	
+	public void getWorkJsonById(){
+		Work worksModel = getModel(Work.class);
+		Work work = worksModel.findById(getParaToInt("id"));
+		renderJson(work);
+	}
 	
 	/**
 	 * 根据作品类型获取作品信息

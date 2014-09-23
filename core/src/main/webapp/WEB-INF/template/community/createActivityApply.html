@@ -18,48 +18,21 @@
 	<form action="#"
 		id="createActivityApplyHtml" method="post" >
 
-		<div class="control-group" hidden="block">
-			<label class="control-label">申请ID<span class="required">*</span></label>
-			<div class="controls">
-				<input type="hidden" name="activitApply.activityapplyid"
-					value="${activityApply.activityapplyid!}" class="span6 m-wrap" />
-			</div>
+		<div class="control-group">真实姓名
+				 <input type="text" name="activityApply.realname"
+					value="${activityApply.realname!}" class="span6 m-wrap" />
 		</div>
 
-		<div class="control-group">
-			<label class="control-label">消息、留言<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activityApply.message"
-					value="${activityApply.message!}" class="span6 m-wrap" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">申请时间<span class="required">*</span></label>
-			<div class="controls">
-				<input type="datetime" name="activityApply.dateline"
-					value="${activityApply.dateline!}" class="span6 m-wrap" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">用户定制项目数据<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="activityApply.ufielddata"
-					value="${activityApply.ufielddata!}" class="span6 m-wrap" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">性别<span class="required">*</span></label>
-			<div class="controls">
+		<div class="control-group">性别
 				<input type="radio" name="activityApply.gender" value="0"
 					class="span6 m-wrap" />Man
-			</div>
-			<div class="controls">
 				<input type="radio" name="activityApply.gender" value="1"
 					class="span6 m-wrap" />FeMan
-			</div>
+		</div>
+		
+		<div class="control-group">手机号码
+				 <input type="text" name="activityApply.mobile"
+					value="${activityApply.mobile!}" class="span6 m-wrap" />
 		</div>
 
 		<div class="control-group">
@@ -80,6 +53,11 @@
 				<input type="text" name="activityApply.papersid"
 					value="${activityApply.papersid!}" class="span6 m-wrap" />
 			</div>
+		</div>
+		
+		<div class="control-group">留言
+				 <input type="text" name="activityApply.message"
+					value="${activityApply.message!}" class="span6 m-wrap" />
 		</div>
 
 		<div class="form-actions">
