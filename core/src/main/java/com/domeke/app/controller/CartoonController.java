@@ -53,7 +53,7 @@ public class CartoonController extends Controller {
 		String workstype = getPara("wtype", "10");
 		Integer pageNum = getParaToInt("pnum", 1);
 		Page<Works> list = works.getWorksInfoPage(workstype, pageNum, 14);
-		setAttr("wtypeCodeTable", getWtypeCodeTable());
+		setAttr("workstypevalue", getWtypeCodeTable().get(workstype));
 		setAttr("pageList", list);
 		render("/CartoonSubModule.html");
 	}
