@@ -55,6 +55,7 @@ public class GoodsController extends FilesLoadController {
 		try {
 			String picturePath = upLoadFile("pic", "1\\", 200 * 1024 * 1024, "utf-8");
 			Goods goods = getModel(Goods.class);
+			String ss = goods.getStr("pic");
 			goods.set("pic", picturePath);
 			// 可改为获取当前用户的名字或者ID
 			goods.set("creater", 111111);
