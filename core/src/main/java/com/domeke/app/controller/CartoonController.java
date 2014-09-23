@@ -53,6 +53,7 @@ public class CartoonController extends Controller {
 		String workstype = getPara("wtype", "10");
 		Integer pageNum = getParaToInt("pnum", 1);
 		Page<Works> list = works.getWorksInfoPage(workstype, pageNum, 14);
+		setAttr("wtypeCodeTable", getWtypeCodeTable());
 		setAttr("pageList", list);
 		render("/CartoonSubModule.html");
 	}
@@ -108,5 +109,20 @@ public class CartoonController extends Controller {
 		Works worksModel = getModel(Works.class);
 		Integer worksid = getParaToInt("id");
 		worksModel.addPraise(worksid);
+	}
+
+	/**
+	 * 获取动漫作品类型的码表
+	 * 
+	 * @return
+	 */
+	private Map<String, Object> getWtypeCodeTable() {
+		List<CodeTable> wtypeCTList = CodeKit.getList("workstype");
+		Map<String, Object> wtypeCTMap = Maps.newHashMap();
+		for (CodeTable codeTable : wtypeCTList) {
+			wtypeCTMap
+					.put(codeTable.get("codekey"), codeTable.get("codecalue"));
+		}
+		return wtypeCTMap;
 	}
 }

@@ -3,10 +3,12 @@
 	$(document).ready(function(){
 		$.extend({
 			loopplay:function(){
-				$('.SortZoom').removeClass('select');
-				$curs = $('.SortZoom:eq('+i+')').addClass('select');
-				var src = $curs.attr('src');
+				$('.SortZoom a').removeClass('select');
+				$curs = $('.SortZoom a:eq('+i+')').addClass('select');
+				var src = $('img',$curs).attr('src');
+				var name = $($curs).attr('wname');
 				$('.SortAD img').attr('src',src);
+				$('.SortAD .SortADFootbar span').html(name);
 				i++;
 				if(i > 8){
 					i=0;
@@ -20,16 +22,26 @@
 		var timer;
 		$.startTimer();
 		//鼠标移入事件
-		$('.SortZoom').mouseover(function(){
+		$('.SortZoom a').mouseover(function(){
 			//停止定时器
 			window.clearInterval(timer);
-			var src = $(this).attr('src');
+			var src = $('img',this).attr('src');
+			var name = $(this).attr('wname');
 			$('.SortAD img').attr('src',src);
+			$('.SortAD .SortADFootbar span').html(name);
 		});
 		//鼠标移出事件
-		$('.SortZoom').mouseout(function(){
+		$('.SortZoom a').mouseout(function(){
 			timer = window.setInterval($.loopplay,3000);
 		});
+		$('.SortAD img').mourseover(function(){
+			//停止定时器
+			window.clearInterval(timer);
+		});
+		$('.SortAD img').mouseout(function(){
+			timer = window.setInterval($.loopplay,3000);
+		});
+		
 	});
 </script>
 <%
@@ -41,7 +53,8 @@ for(wtypeCT in wtypeCTList){
 	<div class="SortAD">
 		<img src="${allWorksMap[workstype][0].cover!}">
 		<div class="SortADFootbar">
-			<!-- <a href="#"><img src="images/icon_play.png"></a>  --><span>${allWorksMap[workstype][0].worksname!}</span>
+			<!-- <a href="#"><img src="images/icon_play.png"></a>  -->
+			<span>${allWorksMap[workstype][0].worksname!}</span>
 		</div>
 	</div>
 	<div class="SortZoom">
@@ -52,7 +65,7 @@ for(wtypeCT in wtypeCTList){
 			index = index + 1;
 			if(index <= 8){
 		%> 
-			<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"></a> 
+			<a href="cartoon/showDetail?id=${works.worksid!}" wname="${works.worksname!}"><img src="${works.cover!}"></a> 
 		<% }
 		} %>
 	</div>
