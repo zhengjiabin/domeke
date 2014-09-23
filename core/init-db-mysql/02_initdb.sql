@@ -12,6 +12,7 @@ INSERT INTO domeke.user_role(userroleid,roleid,userid) VALUES('1','2','1');
 INSERT INTO `code_type` VALUES ('1', 'workstype', '作品类型', null, '2014-09-15 22:47:48', '1', '2014-09-15 22:47:52', '1');
 INSERT INTO `code_type` VALUES ('2', 'idtype', '回复类型', null, '2014-09-16 21:40:13', '1', '2014-09-16 21:40:17', '1');
 INSERT INTO `code_type` VALUES ('3', 'goodstype', '商品类型', null, '2014-09-18 20:06:49', '1', '2014-09-18 20:06:49', '1');
+INSERT INTO `code_type` VALUES ('4', 'grade', '等级', null, '2014-09-23 21:38:44', null, '2014-09-23 21:38:48', '1');
 
 INSERT INTO `code_table` VALUES ('1', '00', 'workstype', '首页推荐', '首页推荐', '1', '2014-09-18 19:28:54', null, '2014-09-18 19:28:54', null, '0');
 INSERT INTO `code_table` VALUES ('2', '10', 'workstype', '原创动漫', '原创动漫', '2', '2014-09-18 19:28:31', null, '2014-09-18 19:28:31', null, '0');

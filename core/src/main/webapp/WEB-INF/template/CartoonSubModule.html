@@ -1,7 +1,7 @@
 <% layout("/common/layout.html"){ %>
 <section class="List" id="page">
 	<!--TODO 根据workstype取workstype码表的的名 -->
-	<div class="CartoonTitle">原创动漫</div>
+	<div class="CartoonTitle">${workstypevalue!}</div>
     <div class="CartoonContent">
     	<% for (works in pageList.list){ %>
         <div class="CartoonSub"> 
