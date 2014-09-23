@@ -28,13 +28,13 @@ INSERT INTO `code_table` VALUES ('11', '100102', 'goodstype', '小米路由', '�
 INSERT INTO `code_table` VALUES ('12', '100103', 'goodstype', '小米手机', '小米手机', null, '2014-09-18 19:29:41', null, '2014-09-18 19:29:43', null, '0');
 INSERT INTO `code_table` VALUES ('13', '100104', 'goodstype', '路由器', '路由器', null, '2014-09-18 19:30:37', null, '2014-09-18 19:30:40', null, '0');
 INSERT INTO `code_table` VALUES ('14', '100105', 'goodstype', '自行车', '自行车', null, '2014-09-18 19:31:27', null, '2014-09-18 19:31:27', null, '0');
-INSERT INTO `code_table` VALUES ('11', '10000', 'grade', '豆米粒', '豆米粒', null, '2014-09-23 21:12:21', null, '2014-09-23 21:12:21', null, '0');
-INSERT INTO `code_table` VALUES ('12', '10010', 'grade', '豆芽棒', '豆芽棒', null, '2014-09-23 21:12:25', null, '2014-09-23 21:12:25', null, '0');
-INSERT INTO `code_table` VALUES ('13', '10020', 'grade', '豆瓣花', '豆瓣花', null, '2014-09-23 21:12:31', null, '2014-09-23 21:12:31', null, '0');
-INSERT INTO `code_table` VALUES ('14', '10030', 'grade', '小弯豆', '小弯豆', null, '2014-09-23 21:12:41', null, '2014-09-23 21:12:41', null, '0');
-INSERT INTO `code_table` VALUES ('15', '10040', 'grade', '豆青', '豆青', null, '2014-09-23 21:12:47', null, '2014-09-23 21:12:47', null, '0');
-INSERT INTO `code_table` VALUES ('16', '10050', 'grade', '豆爷', '豆爷', null, '2014-09-23 21:12:51', null, '2014-09-23 21:12:51', null, '0');
-INSERT INTO `code_table` VALUES ('17', '10060', 'grade', '豆黄', '豆黄', null, '2014-09-23 21:12:54', null, '2014-09-23 21:12:54', null, '0');
+INSERT INTO `code_table` VALUES ('15', '0', 'grade', '豆米粒', '豆米粒', null, '2014-09-23 21:56:31', null, '2014-09-23 21:56:31', null, '0');
+INSERT INTO `code_table` VALUES ('16', '100', 'grade', '豆芽棒', '豆芽棒', null, '2014-09-23 21:56:56', null, '2014-09-23 21:56:56', null, '0');
+INSERT INTO `code_table` VALUES ('17', '500', 'grade', '豆瓣花', '豆瓣花', null, '2014-09-23 21:57:13', null, '2014-09-23 21:57:13', null, '0');
+INSERT INTO `code_table` VALUES ('18', '1500', 'grade', '小弯豆', '小弯豆', null, '2014-09-23 21:57:49', null, '2014-09-23 21:57:51', null, '0');
+INSERT INTO `code_table` VALUES ('19', '4000', 'grade', '豆青', '豆青', null, '2014-09-23 21:58:28', null, '2014-09-23 21:58:30', null, '0');
+INSERT INTO `code_table` VALUES ('20', '20000', 'grade', '豆爷', '豆爷', null, '2014-09-23 21:59:47', null, '2014-09-23 21:59:47', null, '0');
+INSERT INTO `code_table` VALUES ('21', '50000', 'grade', '豆皇', '豆皇', null, '2014-09-23 21:59:48', null, '2014-09-23 21:59:48', null, '0');
 
 
 
