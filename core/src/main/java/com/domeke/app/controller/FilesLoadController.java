@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,6 +67,36 @@ public class FilesLoadController extends Controller {
 			filePath = targetFile.getAbsolutePath();
 		}
 		return filePath;
+	}
+
+	/**
+	 * 一次请求提交上传多个同一字段类型的文件
+	 * 
+	 * @param saveFolderName
+	 * @param maxPostSize
+	 * @param encoding
+	 * @return
+	 */
+	protected String upLoadFile(String saveFolderName, Integer maxPostSize, String encoding) {
+		initProgress();
+		tempDirectory = getDirectory(tempDirectory, saveFolderName);
+		List<UploadFile> uploadFileList = getFiles(tempDirectory, maxPostSize, encoding);
+		String directoryPath = null;
+		if (uploadFileList != null && uploadFileList.size() != 0) {
+			for (UploadFile uploadFile : uploadFileList) {
+				File replaceFile = renameToFile(uploadFile.getSaveDirectory(),uploadFile.getFile());
+				imageDirectory = getDirectory(imageDirectory, saveFolderName);
+				File imgDirectory = new File(imageDirectory);
+				if (!imgDirectory.exists()) {
+					imgDirectory.mkdirs();
+				}
+				File targetFile = new File(imageDirectory + replaceFile.getName());
+				fileCopyByChannel(replaceFile, targetFile);
+				// 获取文件的绝对路径
+				directoryPath = imgDirectory.getAbsolutePath();
+			}
+		}
+		return directoryPath;
 	}
 
 	/**
