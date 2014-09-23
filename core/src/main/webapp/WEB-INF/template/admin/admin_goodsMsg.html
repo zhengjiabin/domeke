@@ -14,7 +14,8 @@
 			</div>
 			<div class="block-content collapse in">
 				<div class="span12">
-     <form class="form-signin" action="goods/goToManager" method="post">
+     <form class="form-signin" action="goods/updateGoods" method="post">
+     		<input name="goods.goodsid" value="${goods.goodsid!}" type="text" class="span6 m-wrap" style="display:none"/><br>
         	<label class="control-label">商品类型：</label>
         	<input name="goods.goods" value="${goods.goods!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">商品名称：</label>
@@ -23,8 +24,10 @@
         	<input name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" /><br>
 			<label class="control-label">历史价格：</label>
         	<input name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
+        	<!-- 
         	<input name="goods.pic" value="${goods.pic!}" type="text" class="span6 m-wrap" style="display:none;" /><br>
         	<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${goods.pic!}"/><br>
+        	 -->
         	<label class="control-label">商品信息：</label>
         	<input name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">商城链接：</label>
@@ -34,10 +37,10 @@
         	<label class="control-label">状态：</label>
         	<input name="goods.status" value="${goods.status!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">上传用户：</label>
-        	<input name="goods.usersname" value="${goods.usersname!}" type="text" class="span6 m-wrap" /><br>
-        	
-        	<a href="goods/updateGoods"><button class="btn btn-large btn-primary" lable="编辑">编辑</button></a>
-			<button class="btn btn-large btn-primary" type="submit" >返回</button>
+        	<input name="goods.username" value="${goods.username!}" type="text" class="span6 m-wrap" /><br>
+        	        	
+			<button class="btn btn-large btn-primary" type="submit" >编辑</button>
+			<a href="goods/goToManager" class="btn btn-large btn-primary" >返回</a>
       </form>
 				</div>
 			</div>

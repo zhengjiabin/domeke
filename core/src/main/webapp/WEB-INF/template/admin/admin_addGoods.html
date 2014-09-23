@@ -24,29 +24,17 @@
         	<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">历史价格：</label>
         	<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
-        	 <!-- <label class="control-label">选择要上传的图片：</label><input type="file" id="pic" name="pic" accept="image/*" size="20" maxlength="255" /><br>  -->
-        	<input id="fileImage" type="file" size="30" name="pic" multiple /><br>
+        	<label class="control-label">主图：</label><input id="fileImage" type="file" size="30" name="pic" /><br>
         	<label class="control-label">商品描述：</label>
         	<input id="message" name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">淘宝地址：</label>
         	<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" /><br>        			
-       		
-       		
-        	 
-        	 
-       		<!-- 
-       		<h2 align="center" class="form-signin-heading">请录入商品信息</h2>
-        <input type="text" id="goods" name="goods.goods" class="input-block-level" placeholder="商城类目" />
-       	<select id="goods" name="goods.goods" class="input-block-level" >
-	        <option value="10" selected="selected">创意生活</option>
-	        <option value="20">进口商品</option>
-	    </select>
-        <input type="text" id="goodsname" name="goods.goodsname" class="input-block-level" placeholder="商品名称" />
-        <input type="text" id="price" name="goods.price" class="input-block-level" placeholder="价格" />
-		选择要上传的图片：<input type="file" id="pictrue" name="pictrue" accept="image/*" size="20" maxlength="255" />
-        <input type="text" id="message" name="goods.message" class="input-block-level" placeholder="商品描述" />
-        <input type="text" id="tamllurl" name="goods.tamllurl" class="input-block-level" placeholder="淘宝地址" />
-         -->
+       		<label class="control-label">是否放首页：</label>
+        	<input id="istop" name="goods.istop" value="${goods.istop!}" type="text" class="span6 m-wrap" /><br> 
+        	<label class="control-label">状态：</label>
+        	<input id="status" name="goods.status" value="${goods.status!}" type="text" class="span6 m-wrap" /><br>  
+        	<label class="control-label">商品子图</label><input id="fileImage" type="file" size="30" name="headimg" multiple /><br>
+        	
         <button class="btn btn-large btn-primary" type="submit" >保存</button>
       </form>
 				</div>

@@ -1,5 +1,6 @@
 package com.domeke.app.controller;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,10 +54,15 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public void saveGoods(){
 		try {
-			String picturePath = upLoadFile("pic", "1\\", 200 * 1024 * 1024, "utf-8");
+			long timeMillis = System.currentTimeMillis();
+			String fileNmae = Long.toString(timeMillis);
+			String picturePath = upLoadFile("pic", fileNmae + "\\", 200 * 1024 * 1024, "utf-8");
+			String[] strs = picturePath.split("\\\\");
+			int leng = strs.length;
+			String headimg = upLoadFile("headimg", fileNmae + "\\", 200 * 1024 * 1024, "utf-8");
 			Goods goods = getModel(Goods.class);
-			String ss = goods.getStr("pic");
-			goods.set("pic", picturePath);
+			goods.set("pic", strs[leng - 1]);
+			goods.set("headimg", headimg);
 			// 可改为获取当前用户的名字或者ID
 			goods.set("creater", 111111);
 			goods.set("modifier", 111111);
@@ -65,6 +71,23 @@ public class GoodsController extends FilesLoadController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			render("/admin/admin_addGoods.html");
+		}
+	}
+	
+	/**
+	 * 遍历文件夹下的图片
+	 */
+	final static void showAllFiles(File dir) {
+		File[] fs = dir.listFiles();
+		for(int i=0; i<fs.length; i++){
+			System.out.println("======="+fs[i].getAbsolutePath());
+			if(fs[i].isDirectory()){
+				try{
+					showAllFiles(fs[i]);
+				}catch(Exception e){
+					System.out.println(e);
+				}
+			}
 		}
 	}
 	
