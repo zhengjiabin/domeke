@@ -1,0 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>用户管理</title>
+<base href="${core}/" />
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+<body>
+	<div>
+	<form action="user/sendPassword" id="user_regist" class="form-horizontal" method="post">
+		<div class="control-group"><label class="control-label">注册邮箱</label>
+			<div class="controls">
+				<input name="email" type="text" class="span6 m-wrap" />
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary">找回密码</button>
+	</form>
+	</div>
+</body>
+</html>

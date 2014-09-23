@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>宝贝审核信息</title>
+<base href="${core}/" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Bootstrap -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+
+<script type="text/javascript" language="text/javascript">
+	function treasureApprovePage_goToPageSize(pageSize) {
+		location.href = "./treasureApprove/find?treasureApprovePage_pageSize=" + pageSize
+				+ "&treasureApprovePage_pageNumber=1";
+	};
+
+	function treasureApprovePage_pageSize(pageSize) {
+		var obj = document.getElementById('treasureApprovePage_pageSize');
+		for (var i = 0; i < obj.length; i++) {
+			if (pageSize == obj.options[i].value) {
+				obj.options[i].selected = true;
+			} else {
+				obj.options[i].selected = false;
+			}
+
+		}
+	}
+</script>
+
+</head>
+
+<body onload="treasureApprovePage_pageSize(${treasureApprovePage.pageSize!})">
+	<form action="treasureApproveapply/save" id="treasureApproveapply_save"
+		class="form-horizontal" method="post">
+		<div class="control-group">
+			<h1>
+				<a href="./treasureApprove/skipCreate">活动申请 </a>
+			</h1>
+			<hr>
+			每页<select name="treasureApprovePage_pageSize" id="treasureApprovePage_pageSize"
+				onchange="treasureApprovePage_goToPageSize(this.value)">
+				<option value="2" selected="true">2</option>
+				<option value="3">3</option>
+				<option value="5">5</option>
+				<option value="8">8</option>
+				<option value="10">10</option>
+			</select>条&nbsp;共${treasureApprovePage.totalRow!}条&nbsp;第${treasureApprovePage.pageNumber!}
+			/${treasureApprovePage.totalPage!}页 <a
+				href="./treasureApprove/find?treasureApprovePage_pageNumber=1">首页</a> <a
+				href="./treasureApprove/find?treasureApprovePage_pageNumber=${treasureApprovePage.pageNumber!-1<1?1:treasureApprovePage.pageNumber!-1}">上页</a>
+			<a
+				href="./treasureApprove/find?treasureApprovePage_pageNumber=${treasureApprovePage.pageNumber!+1>treasureApprovePage.totalPage!?treasureApprovePage.totalPage!:treasureApprovePage.pageNumber!+1}">下页</a>
+			<a
+				href="./treasureApprove/find?treasureApprovePage_pageNumber=${treasureApprovePage.totalPage!}">末页</a>
+			<table>
+				<thead>
+					<tr>
+						<td style="width: 250px">状态</td>
+						<td style="width: 250px">操作</td>
+					</tr>
+				</thead>
+				<tbody>
+					<% for (treasureApprove in treasureApprovePage.list){ %>
+					<tr>
+						<td>${treasureApprove.status!}</td>
+						<td><a href="./treasureApprove/findById/${treasureApprove.treasureApproveid}">修改</a>
+							<a href="./treasureApprove/deleteById/${treasureApprove.treasureApproveid}"
+							onclick="return confirm('确定删除？')">删除</a></td>
+					</tr>
+					<% } %>
+				</tbody>
+			</table>
+		</div>
+
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">提交</button>
+			<button type="button" class="btn">取消</button>
+		</div>
+	</form>
+</body>
+
+</html>
