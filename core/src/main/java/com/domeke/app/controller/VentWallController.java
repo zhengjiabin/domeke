@@ -114,10 +114,13 @@ public class VentWallController extends Controller {
 		Object userIdCount = ventWall.getUserIdCount(userId);
 		Object monthCount = ventWall.getMonthCount(userId);
 		Timestamp createtime = ventWall.getCreatetime(userId);
-		Date date =new Date();
-		date = createtime;
-		DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"); 
-		String time = sdf.format(date);
+		String time = "";
+		if (createtime != null){
+			Date date =new Date();
+			date = createtime;
+			DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"); 
+			time = sdf.format(date);
+		}
 		setAttr("todayCount", todayCount);
 		setAttr("yesterdayCount", yesterdayCount);
 		setAttr("totalCount", totalCount);
