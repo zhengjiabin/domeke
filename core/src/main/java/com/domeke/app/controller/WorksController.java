@@ -45,7 +45,7 @@ public class WorksController extends FilesLoadController {
 	 * 保存作品信息<br>
 	 * 
 	 */
-	@ActionKey("upload")
+	@ActionKey("/upload")
 	public void save() {
 		try {
 			String coverPath = upLoadFile("cover", "", 2000 * 1024 * 1024,
