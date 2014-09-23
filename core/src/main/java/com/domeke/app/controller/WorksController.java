@@ -6,6 +6,7 @@ import java.util.Map;
 import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
+import com.jfinal.core.ActionKey;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -44,6 +45,7 @@ public class WorksController extends FilesLoadController {
 	 * 保存作品信息<br>
 	 * 
 	 */
+	@ActionKey("upload")
 	public void save() {
 		try {
 			String coverPath = upLoadFile("cover", "", 2000 * 1024 * 1024,
