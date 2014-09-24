@@ -77,10 +77,11 @@ public class GoodsController extends FilesLoadController {
 	/**
 	 * 遍历文件夹下的图片
 	 */
-	final static void showAllFiles(File dir) {
+	final static String[] showAllFiles(File dir) {
 		File[] fs = dir.listFiles();
+		String[] files = null;
 		for(int i=0; i<fs.length; i++){
-			System.out.println("======="+fs[i].getAbsolutePath());
+			files[i] = fs[i].getAbsolutePath();
 			if(fs[i].isDirectory()){
 				try{
 					showAllFiles(fs[i]);
@@ -89,6 +90,7 @@ public class GoodsController extends FilesLoadController {
 				}
 			}
 		}
+		return files;
 	}
 	
 	public void addGoods(){
