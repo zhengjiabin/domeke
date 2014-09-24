@@ -28,8 +28,8 @@
 									<td>${g.parenttypeid!}</td>
 									<td>${g.goodstype!}</td>
 									<td width="120">
-									<a href="#"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>
-									<a href="#" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">刪除</button></a>
+									<a href="goodstype/upGoodsType?goodsTypeId=${g.goodstypeid!}"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>
+									<a href="goodstype/deleteGoodsType?goodsTypeId=${g.goodstypeid!}" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">刪除</button></a>
 									</td>
 							</tr>
 								<% } %>		

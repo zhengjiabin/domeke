@@ -69,4 +69,22 @@ public class GoodsType extends Model<GoodsType> {
 	public void saveGoodsType(){
 		this.save();
 	}
+	
+	/**
+	 * 根据id查询类型
+	 * @param goodsTypeId
+	 * @return
+	 */
+	public GoodsType getGoodsTypeById(int goodsTypeId) {
+		GoodsType goodsType = this.findById(goodsTypeId);
+		return goodsType;
+	}
+	
+	/**
+	 * 根据id删除类型
+	 * @param goodsTypeId
+	 */
+	public void deleteGoodsType(int goodsTypeId) {
+		this.deleteById(goodsTypeId);
+	}
 }

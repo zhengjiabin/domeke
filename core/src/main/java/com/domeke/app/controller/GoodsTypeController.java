@@ -60,4 +60,32 @@ public class GoodsTypeController extends Controller {
 		goodsType.saveGoodsType();
 		goToManager();
 	}
+	
+	/**
+	 * 跳转修改界面
+	 */
+	public void upGoodsType(){
+		int goodsTypeId = getParaToInt("goodsTypeId");
+		GoodsType goodsType = GoodsType.gtDao.getGoodsTypeById(goodsTypeId);
+		setAttr("goodsType", goodsType);
+		render("/admin/admin_upgoodstype.html");
+	}
+	
+	/**
+	 * 更新类型
+	 */
+	public void updateGoodsType(){
+		GoodsType goodsType = getModel(GoodsType.class);
+		goodsType.updateGoodsType();
+		goToManager();
+	}
+	
+	/**
+	 * 删除类型
+	 */
+	public void deleteGoodsTypeById() {
+		int goodsTypeId = getParaToInt("goodsTypeId");
+		GoodsType.gtDao.deleteGoodsType(goodsTypeId);
+		goToManager();
+	}
 }
