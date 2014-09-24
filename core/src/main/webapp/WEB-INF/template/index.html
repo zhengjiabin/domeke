@@ -7,6 +7,8 @@
 				$curs = $('.AdSub ul li:eq('+i+')').addClass('select');
 				var src = $curs.attr('src');
 				$('.Adpic img').attr('src',src);
+				var href = $('a',$curs).attr('href');
+				$('.Adpic a').attr('href',href);
 				i++;
 				if(i > 5){
 					i=0;
@@ -26,25 +28,32 @@
 			window.clearInterval(timer);
 			var src = $(this).attr('src');
 			$('.Adpic img').attr('src',src);
+			var href = $('a',this).attr('href');
+			$('.Adpic a').attr('href',href);
 		});
 		//鼠标移出事件
 		$('.AdSub ul li').mouseout(function(){
 			timer = window.setInterval($.loopplay,3000);
 		});
-		
+		$('.Adpic img').mouseover(function(){
+			window.clearInterval(timer);
+		});
+		$('.Adpic img').mouseout(function(){
+			timer = window.setInterval($.loopplay,3000);
+		});
 	});
 </script>
 <section>
 	<div class="AdSub">
     <ul>
-    	<li src="${workss0[0].cover!}"><a href="#">${workss0[0].worksname!}<span>${workss0[0].worksname!}</span></a></li>
-        <li src="${workss0[1].cover!}"><a href="#">${workss0[1].worksname!}<span>${workss0[1].worksname!}</span></a></li>
-        <li src="${workss0[2].cover!}" class="LiAd"><a href="#">${workss0[2].worksname!}<span>${workss0[2].worksname!}</span></a></li>
-        <li src="${workss0[3].cover!}"><a href="#">${workss0[3].worksname!}<span>${workss0[3].worksname!}</span></a></li>
-        <li src="${workss0[4].cover!}"><a href="#">${workss0[4].worksname!}<span>${workss0[4].worksname!}</span></a></li>
+    	<li src="${workss0[0].cover!}"><a href="cartoon/showDetail?id=${workss0[0].worksid!}">${workss0[0].worksname!}<span>${workss0[0].worksname!}</span></a></li>
+        <li src="${workss0[1].cover!}"><a href="cartoon/showDetail?id=${workss0[1].worksid!}">${workss0[1].worksname!}<span>${workss0[1].worksname!}</span></a></li>
+        <li src="${workss0[2].cover!}" class="LiAd"><a href="cartoon/showDetail?id=${workss0[2].worksid!}">${workss0[2].worksname!}<span>${workss0[2].worksname!}</span></a></li>
+        <li src="${workss0[3].cover!}"><a href="cartoon/showDetail?id=${workss0[3].worksid!}">${workss0[3].worksname!}<span>${workss0[3].worksname!}</span></a></li>
+        <li src="${workss0[4].cover!}"><a href="cartoon/showDetail?id=${workss0[4].worksid!}">${workss0[4].worksname!}<span>${workss0[4].worksname!}</span></a></li>
     </ul>
     </div>
-    <div class="Adpic"><img src="${workss0[0].cover!}"></div>
+    <div class="Adpic"><a href="cartoon/showDetail?id=${workss0[0].worksid!}"><img src="${workss0[0].cover!}"></a></div>
     <div class="clear">&nbsp;</div>
 </section>
 <section>

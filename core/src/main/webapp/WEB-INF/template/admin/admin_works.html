@@ -31,7 +31,7 @@
 		//添加
 		$('#parentAdd').click(function(){
 			//$.showParentDialog('添加');
-			$.digcenter($parentDialog,'添加');
+			$.digcenter($parentDialog,'添加','works/save');
 			$parentDialog.show();
 		});
 		
@@ -52,7 +52,7 @@
 				return;
 			}
 			//ajax提交选中的Id，查询并初始化值。然后显示dig
-			$.initDialog($parentDialog,'works/getWorksJsonById','id='+parId,'修改');
+			$.initDialog($parentDialog,'works/getWorksJsonById','id='+parId,'修改','works/updateWorks');
 	    });
 		
 		$("#parentDelete").click(function(){
@@ -74,7 +74,7 @@
 				alert("请选择一条父表记录");
 				return;
 			}
-			$.digcenter($childrenDialog,'添加');
+			$.digcenter($childrenDialog,'添加','works/saveWork');
 			$('#parId').val(parId);
 			$childrenDialog.show();
 		});
@@ -91,7 +91,7 @@
 				return;
 			}
 			//ajax提交选中的Id，查询并初始化值。然后显示dig
-			$.initDialog($childrenDialog,'works/getWorkJsonById','id='+parId,'修改');
+			$.initDialog($childrenDialog,'works/getWorkJsonById','id='+parId,'修改','works/updateWork');
 		});
 		
 		//取消按钮
@@ -104,7 +104,7 @@
 	
 	//定义jQuery方法
 	$.extend({
-		initDialog:function($dialog,url,data,title){
+		initDialog:function($dialog,url,data,title,action){
 			$.ajax({
 				type: 'post',
 				url: url,
@@ -117,19 +117,25 @@
 							$input.val(value);
 						}
 					});
-					$.digcenter($dialog,title);
+					$.digcenter($dialog,title,action);
 					$dialog.show();
 				}
 			});
 		},
-		digcenter:function($dialog,title){
+		digcenter:function($dialog,title,action){
+			if(title == '修改'){
+				$('[type=file]',$dialog).hide();
+			}else{
+				$('[type=file]',$dialog).show();
+			}
+			$('form',$dialog).attr('action',action);
 			$('div.panel-heading',$dialog).html(title);
 			var widthWin = $(window.document.body).width();
 			var heightWin = $(window.document.body).height();
 			var widthDig = $dialog.width();
 			var heightDig = $dialog.height();
 			var left = (widthWin - widthDig) / 2;
-			var top = (heightWin - heightDig) / 4;
+			var top = (heightWin - heightDig) / 6;
 			$dialog.css({'left':left,'top':top});
 		},
 		showTableChilrend : function(parentId){
@@ -291,15 +297,31 @@
 		</div>
 	</div>
 	
-	<div id="parentDialog" class="panel panel-primary" style="position:fixed; z-index:9999; width: 300px;height:400px; display: none;">
+	<div id="parentDialog" class="panel panel-primary" style="position:fixed; z-index:9999; width: 300px;height:600px; display: none;">
 		<div class="panel-heading"></div>
 		<div class="panel-body">
-		<form class="form-inline" role="form" action="works/save" method="post" enctype="multipart/form-data">
+		<form class="form-inline" role="form" method="post" enctype="multipart/form-data">
+			<input type="hidden" flag="worksid" name="works.worksid" class="form-control" required="required"/>
 			<label for="name">作品名称：</label>
 	        <input type="text" flag="worksname" name="works.worksname" class="form-control" placeholder="作品名称" required="required"/>
 	        </br>
 	        <label for="name">作品类别：</label>
 	        <input type="text" flag="workstype" name="works.workstype" class="form-control" placeholder="作品类别" required="required"/>
+	        </br>
+	        <label for="name">评论数：</label>
+	        <input type="text" flag="comment" name="works.comment" class="form-control" placeholder="评论数" required="required"/>
+	        </br>
+	        <label for="name">浏览量：</label>
+	        <input type="text" flag="pageviews" name="works.pageviews" class="form-control" placeholder="浏览量" required="required"/>
+	        </br>
+	        <label for="name">收藏数：</label>
+	        <input type="text" flag="collection" name="works.collection" class="form-control" placeholder="收藏数" required="required"/>
+	        </br>
+	        <label for="name">点赞数：</label>
+	        <input type="text" flag="praise" name="works.praise" class="form-control" placeholder="点赞数" required="required"/>
+	        </br>
+	        <label for="name">最新集数：</label>
+	        <input type="text" flag="maxnum" name="works.maxnum" class="form-control" placeholder="最新集数" required="required"/>
 	        </br>
 	        <label for="name">是否完结：</label>
 	        <select flag="creativeprocess" name="works.creativeprocess" class="btn btn-default" required="required">
@@ -308,7 +330,7 @@
 		    </select>
 	        </br>
 	        <!--TODO 根据用户类型来显示上传图片还是直接贴文件路径-->
-			<label for="name">作品封面：</label>
+			<label type="file" for="name">作品封面：</label>
 			<input type="file" class="form-control" name="cover" accept="image/*" style="width:180px;" />
 			<br>
 			<!-- <label for="name">上传作品：</label>
@@ -329,13 +351,14 @@
 	<div id="childrenDialog" class="panel panel-primary" style="position:fixed; z-index:9999; width: 300px;height:400px; display: none;">
 		<div class="panel-heading"></div>
 		<div class="panel-body">
-		<form class="form-inline" role="form" action="works/saveWork" method="post" enctype="multipart/form-data">
+		<form class="form-inline" role="form" method="post" enctype="multipart/form-data">
+			<input type="hidden"  flag="workid" name="work.workid"/>
 			<input type="hidden"  flag="worksid" name="work.worksid" id="parId" />
 			<label for="name" class="">名称：</label>
 	        <input type="text" flag="workname" name="work.workname" class="form-control" placeholder="名称" required="required"/>
 	        </br>
-	        <label for="name" class="">集数：</label>
-	        <input type="text" flag="worknum" name="work.worknum" class="form-control" placeholder="集数" required="required"/>
+	        <label for="name" class="">第几集：</label>
+	        <input type="text" flag="worknum" name="work.worknum" class="form-control" placeholder="第几集" required="required"/>
 	        </br>
 	        <label for="name">是否显示：</label>
 	        <select flag="isdisable" name="work.isdisable" class="btn btn-default" required="required">
@@ -344,7 +367,7 @@
 		    </select>
 	        </br>
 	        <!--TODO 根据用户类型来显示上传图片还是直接贴文件路径-->
-			<label for="name">资源：</label>
+			<label  type="file" for="name">资源：</label>
 			<input type="file" class="form-control" name="comic" style="width:180px;" />
 			<br>
 			<label for="name">本集描述：</label>

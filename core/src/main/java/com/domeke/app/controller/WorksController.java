@@ -1,8 +1,6 @@
 package com.domeke.app.controller;
 
 import java.util.List;
-import java.util.Map;
-
 import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
@@ -28,20 +26,6 @@ public class WorksController extends FilesLoadController {
 	}
 
 	/**
-	 * 跳转作品管理界面
-	 */
-	public void goWorksMan() {
-		render("/admin/admin_works.html");
-	}
-
-	/**
-	 * 跳转添加
-	 */
-	public void addWorks() {
-		render("/demo/addworks.html");
-	}
-
-	/**
 	 * 保存作品信息<br>
 	 * 
 	 */
@@ -50,53 +34,45 @@ public class WorksController extends FilesLoadController {
 		try {
 			String coverPath = upLoadFile("cover", "", 2000 * 1024 * 1024,
 					"utf-8");
-			String comicPath = upLoadVideo("comic", "", 5000 * 1024 * 1024,
-					"utf-8");
 			Works worksModel = getModel(Works.class);
 			worksModel.set("cover", coverPath);
-			worksModel.set("comic", comicPath);
 			// 可改为获取当前用户的名字或者ID
 			worksModel.set("creater", 111111);
 			worksModel.set("modifier", 111111);
 			worksModel.saveWorksInfo();
-			redirect("/works/goWorksMan");
+			redirect("/works/goToManager");
 		} catch (Exception e) {
 			e.printStackTrace();
-			render("/demo/addworks.html");
+			render("/works/goToManager");
 		}
 	}
 
 	public void saveWork(){
-		
+		this.getFiles();
+		Work workModel = getModel(Work.class);
+		workModel.set("modifier", 111111);
+		workModel.update();
+		redirect("/works/goToManager");
 	}
-	public void saveUpdate(){
-		
-	}
-	
-	
 	/**
 	 * 更新已修的作品
 	 */
-	public void update() {
-		String coverPath = upLoadFile("cover", "", 2000 * 1024 * 1024, "utf-8");
-		String comicPath = upLoadVideo("comic", "", 5000 * 1024 * 1024, "utf-8");
-		// 可改为获取当前用户的名字或者ID
+	public void updateWorks() {
+		this.getFiles();
 		Works worksModel = getModel(Works.class);
-		if (coverPath != null) {
-			worksModel.set("cover", coverPath);
-		} else {
-			worksModel.remove("cover");
-		}
-		if (comicPath != null) {
-			worksModel.set("comic", comicPath);
-		} else {
-			worksModel.remove("comic");
-		}
 		worksModel.set("modifier", 111111);
 		worksModel.update();
-		redirect("/works/goWorksMan");
+		redirect("/works/goToManager");
 	}
-
+	
+	public void updateWork(){
+		this.getFiles();
+		Work workModel = getModel(Work.class);
+		workModel.set("modifier", 111111);
+		workModel.update();
+		redirect("/works/goToManager");
+	}
+	
 	/**
 	 * 删除作品信息
 	 */
