@@ -10,9 +10,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.domeke.app.interceptor.LoginInterceptor;
+import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.User;
 import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
+import com.domeke.app.utils.CodeKit;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
@@ -118,9 +120,11 @@ public class VentWallController extends Controller {
 		if (createtime != null){
 			Date date =new Date();
 			date = createtime;
+		
 			DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"); 
 			time = sdf.format(date);
 		}
+		getGrade(userId);
 		setAttr("todayCount", todayCount);
 		setAttr("yesterdayCount", yesterdayCount);
 		setAttr("totalCount", totalCount);
@@ -196,5 +200,33 @@ public class VentWallController extends Controller {
 		setAttr("month", month);
 		setAttr("day", day);
 		setAttr("weekDay", weekDay);
+	}
+	/**
+	 * 获得等级
+	 * @param userId 
+	 */
+	public void getGrade(Long userId){
+		List<CodeTable> codetables = CodeKit.getList("grade");
+		User user = getModel(User.class);
+		user = user.findById(userId);
+		//豆子
+		Long peas = 0L;
+		if (user.get("peas") != null){
+			peas = user.get("peas");			
+		}
+		//等级
+		Long point = user.get("point");
+		//豆子名
+		String peasName = "";
+		for (int i = 1; i <= codetables.size(); i++){
+			int codekey = Integer.parseInt(codetables.get(i).get("codekey"));
+			if (peas <= codekey){
+				peasName = codetables.get(i-1).getStr("codename");
+				setAttr("peasName", peasName);
+				setAttr("poin", point);
+				setAttr("peas", peas);
+				return;
+			}			
+		}
 	}
 }

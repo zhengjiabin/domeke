@@ -7,60 +7,22 @@
 <script src="js/WebApplication.js" language="javascript" type="text/javascript"></script>
 <script src="js/BizProduct090713.js" language="javascript" type="text/javascript"></script>
 <script src="js/BizCommon090801.js" language="javascript" type="text/javascript"></script>
-<script type="text/javascript" language="jscript">
-	jQuery(function($) {
-		Biz.Product.Product.turn();
-		Biz.Product.Product.turn2();
-		Biz.Common.TabCtrl.tabs("tab");
-		Biz.Common.TabCtrl.tabs("tempTab");
-		Biz.Common.MoveCtrl.iniUnit('scroll', 'thumList', 4, 1);
-		Biz.Common.MoveCtrl.iniUnit('gift', 'gift_1', 3, 1);
-		Biz.Common.MoveCtrl.iniUnit('congener', 'congener_1', 3, 1);
-		Biz.Common.TableCtrl.odd();	
-		Biz.Product.Product.InitSpecialTable();
-		Biz.Product.Product.InitAlsoBuy();
-
-		//Click out event!
-		$("#backgroundPopup").click(function(){
-			Biz.Common.PopCtrl.disablePopup();
-			});
-			
-		//Press Escape event!
-		$(document).keypress(function(e){
-			if(e.keyCode==27 && popupStatus==1){
-				Biz.Common.PopCtrl.disablePopup();
-			}
-		});
-		
-		var options = {
-		zoomWidth: 300,
-		zoomHeight: 250,
-			xOffset: 20,
-			yOffset: -15,
-			title : false,
-			showEffect:"fadein",
-			hideEffect:"fadeout",
-			position: "right" 
-		}
-		$(".jqzoom").jqzoom(options);
-	}); 
-	</script>
     <div class="ShopPath">
         <a href="#">首页</a>/<a href="#">配件</a>/<a href="#">米兔玩偶</a>/<a href="#">米兔纪念版钥匙扣</a>
     </div>
     <div class="Goods">
     	<div class="GoodsPicRoll">
-    	<div class="introShow">
-  <div class="mainShow"><img id="midImg" src="images/zixingche.jpg" class="Picture220"/></div>
-  <div class="scroll" id="scroll"><a href="#prev" class="prevView prevStop" ><span>显示上一幅图片</span></a>
-    <ul id="thumList">
-      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="images/zixingche.jpg" alt="" ref1="images/zixingche.jpg" ref2="images/zixingche.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
-      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="images/bao.jpg" alt="" ref1="images/bao.jpg" ref2="images/bao.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture42"/></a></li>
-      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="images/Mepic01.png" alt="" ref1="images/Mepic01.png" ref2="images/Mepic01.png" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
-    </ul>
-</div>
-</div>
-</div>
+    		<div class="introShow">
+  			<div class="mainShow"><img id="midImg" src="images/zixingche.jpg" class="Picture220"/></div>
+  				<div class="scroll" id="scroll"><a href="#prev" class="prevView prevStop" ><span>显示上一幅图片</span></a>
+    				<ul id="thumList">
+      					<li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="images/zixingche.jpg" alt="" ref1="images/zixingche.jpg" ref2="images/zixingche.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
+      					<li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="images/bao.jpg" alt="" ref1="images/bao.jpg" ref2="images/bao.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture42"/></a></li>
+      					<li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="images/Mepic01.png" alt="" ref1="images/Mepic01.png" ref2="images/Mepic01.png" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
+    				</ul>
+				</div>
+			</div>
+		</div>
       <div class="GoodsInfos">
         	<div class="GName">${goods.goodsname!}</div>
         	<div class="GPrice">原&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：￥${goods.oldprice!}</div><br>

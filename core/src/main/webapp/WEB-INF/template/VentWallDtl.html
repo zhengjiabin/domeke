@@ -48,10 +48,10 @@
             <span class="font_r">${userName!}</span>
             <span class="borderR">累计签到：<span class="font_r">${userIdCount!}天</span></span>
             <span>本月已累计签到：<span class="font_r">${monthCount!}天</span></span><br />
-            <span class="borderR">您目前获得的总奖励：<span class="font_r">87</span></span>
+            <span class="borderR">您目前获得的总奖励：<span class="font_r">${peas!}</span></span>
             <span>上次签到时间：<span class="font_r">${createtime!}</span></span><br />
-            <span class="borderR">您目前的等级：<span class="font_r">【LV.4】偶尔看看</span></span>
-            <span>只需要再签到<span class="font_r">13</span>天就可以提升到下一等级：<span class="font_r">【LV.5】常驻居民</span></span>
+            <span class="borderR">您目前的等级：<span class="font_r">${peasName!}</span></span>
+            <!-- <span>只需要再签到<span class="font_r">13</span>天就可以提升到下一等级：<span class="font_r">【LV.5】常驻居民</span></span> -->
         </div>
         <div class="clear"></div>
     </div>
@@ -67,11 +67,7 @@
         <img src="images/VentTip09.png" /><input id="rdo7" name="ventWall.moodid" type="radio" value="[em_7]" />
         <textarea cols="" rows="" class="VentTxt" id="saytext" name="ventWall.message" value="${ventWall.message!}"></textarea>       
         <span class="textCount">0/50</span>
-        <% if(issignin=="1") { %>
-           <button id="btn2" class="btn2"  type="button" />
-        <%}else {%>
-           <button id="btn3" class="btn3"  type="button" disabled="disabled"/>
-        <%}%>
+           <button id="btn2" name="${issignin}" class="btn2"  type="button" />
     </div>
 </article>
 <aside>

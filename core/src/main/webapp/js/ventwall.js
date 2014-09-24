@@ -3,6 +3,12 @@ $(function() {
 		$('#wish').wish();
 		var url = "ventwall/select";
 		$('#btn2').click(function(){
+			var issignin = $(this).attr("name");
+			console.log("您今天已经签到！"+issignin);
+			if (issignin=="0"){
+				alert("您今天已经签到！");
+				return;
+			}
 			var rdo = $('input[name="ventWall.moodid"]:checked').val();
 			var saytext = $('#saytext').val();
 			var obj = {"ventWall.message":saytext,"ventWall.moodid":rdo};

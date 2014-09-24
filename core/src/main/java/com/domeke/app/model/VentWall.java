@@ -114,6 +114,9 @@ public class VentWall extends Model<VentWall>{
      */
     public Object getTotalCount(){
     	Object count = Db.queryLong("SELECT NUM  FROM(SELECT COUNT(VENTWALLID) AS NUM FROM VENT_WALL GROUP BY  DATE(CREATETIME))A ORDER BY A.NUM DESC LIMIT 1");
+    	if (count == null){
+    		count = 0;
+    	}
     	return count;
     }
     /**
