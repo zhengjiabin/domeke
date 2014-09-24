@@ -1,5 +1,5 @@
 	<div class="ForumTheme">
-        	<div class="ListPic"><img src="../images/qq4.jpg"></div>
+        	<div class="ListPic"><img src="images/qq4.jpg"></div>
                 <div class="ListDtl">
                 	<div class="ListName"><a href="#">${activity.subject!}</a></div>
                      <div class="font_9">
@@ -19,8 +19,9 @@
             	<span>活动类别：${activity.clasee!}</span>
             	<span>报名截止日期：${activity.expiration!}</span>
             	${activity.ufield!}
+            	
             </div>
-            <div id="page">
+             <div id="page">
 			<% if(activityApplyPage != null){
 			layout(
 				"/community/activityApplyPage.html",
@@ -31,7 +32,9 @@
 				} 
 			){} 
 			}%></div>
+            <div class="FBodyBottom font_9">
 			<span class="FL"><a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a></span>
+			</div>
             <div class="clear"></div>
       </div>
       <div class="ForumInfoA">共3个关于厦门海沧镇拆迁办及城管纠集100人殴打 无辜群众及村民、老人的回复，最后回复于14分钟前</div>
