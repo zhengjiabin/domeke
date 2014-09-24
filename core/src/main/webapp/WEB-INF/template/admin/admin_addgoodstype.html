@@ -1,0 +1,41 @@
+<% layout("/admin/admin_layout.html"){ %>
+<section>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<div class="span9" id="content">
+	<div class="row-fluid">
+		<div class="block">
+			<div class="navbar navbar-inner block-header">
+				<div class="muted pull-left">商品分类管理</div>
+			</div>
+			<div class="block-content collapse in">
+				<div class="span12">
+     <form class="form-signin" action="goodstype/saveGoodsType" method="post">
+     
+     		<label class="control-label">类型名称：</label>
+        	<input name="goodsType.typename" value="${goodsType.typename!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">actionkey：</label>
+        	<input name="goodsType.actionkey" value="${goodsType.actionkey!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">级别：</label>
+        	<input name="goodsType.level" value="${goodsType.level!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">排序：</label>
+        	<input name="goodsType.sortnum" value="${goodsType.sortnum!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">父级类型：</label>
+        	<input name="goodsType.parenttypeid" value="${goodsType.parenttypeid!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">类型模块：</label>
+        	<input name="goodsType.goodstype" value="${goodsType.goodstype!}" type="text" class="span6 m-wrap" /><br>
+        	
+			<button class="btn btn-large btn-primary" type="submit" >保存</button>
+			<a href="goodstype/goToManager" class="btn btn-large btn-primary" >返回</a>
+      </form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section> 
+<% } %> 

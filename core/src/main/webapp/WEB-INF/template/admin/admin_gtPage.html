@@ -1,0 +1,43 @@
+<article>
+					<table cellpadding="0" cellspacing="0" border="0"
+						class="table table-striped table-bordered" id="example2">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>类型名称</th>
+								<th>actionkey</th>
+								<th>级别</th>
+								<th>排序</th>
+								<th>父级类型</th>
+								<th>类型模块</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+								<% 
+									var index = 0 ;
+									for(g in gtList.list){
+									index = index + 1 ;				
+								%>
+							<tr class="odd gradeX">
+									<td>${index!}</td>
+									<td>${g.typename!}</td>
+									<td>${g.actionkey!}</td>
+									<td>${g.level!}</td>
+									<td>${g.sortnum!}</td>
+									<td>${g.parenttypeid!}</td>
+									<td>${g.goodstype!}</td>
+									<td width="120">
+									<a href="#"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>
+									<a href="#" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">刪除</button></a>
+									</td>
+							</tr>
+								<% } %>		
+						</tbody>
+					</table>
+			<% 
+			var goodstype = goodstype;
+			if(gtList != null){ layout("/common/page.html",
+			{"page":gtList,"pageAction":"./goodstype/find?goodstype="+goodstype,"fatherNode":"#goodspage"}
+			){} }%>
+</article>

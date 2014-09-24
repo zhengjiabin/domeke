@@ -157,7 +157,7 @@ public class Menu extends Model<Menu> {
 	}
 
 	/**
-	 * 分页查询活动
+	 * 分页查询
 	 * 
 	 * @param pageNumber
 	 *            页号

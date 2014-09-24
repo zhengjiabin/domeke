@@ -586,11 +586,11 @@ CREATE TABLE `search_key` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for `goods_type`
+-- Table structure for `goodstype`
 -- ----------------------------
-DROP TABLE IF EXISTS `goods_type`;
-CREATE TABLE `goods_type` (
-  `goodstypeid` bigint(11) NOT NULL,
+DROP TABLE IF EXISTS `goodstype`;
+CREATE TABLE `goodstype` (
+  `goodstypeid` bigint(11) NOT NULL AUTO_INCREMENT,
   `typename` varchar(64) NOT NULL,
   `actionkey` varchar(64) NOT NULL,
   `level` int(2) NOT NULL,
@@ -598,6 +598,4 @@ CREATE TABLE `goods_type` (
   `parenttypeid` int(11) DEFAULT NULL,
   `goodstype` int(2) NOT NULL,
   PRIMARY KEY (`goodstypeid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
