@@ -585,3 +585,19 @@ CREATE TABLE `search_key` (
   PRIMARY KEY (`keyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- ----------------------------
+-- Table structure for `goods_type`
+-- ----------------------------
+DROP TABLE IF EXISTS `goods_type`;
+CREATE TABLE `goods_type` (
+  `goodstypeid` bigint(11) NOT NULL,
+  `typename` varchar(64) NOT NULL,
+  `actionkey` varchar(64) NOT NULL,
+  `level` int(2) NOT NULL,
+  `sortnum` int(11) NOT NULL,
+  `parenttypeid` int(11) DEFAULT NULL,
+  `goodstype` int(2) NOT NULL,
+  PRIMARY KEY (`goodstypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
