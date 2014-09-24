@@ -1,21 +1,14 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>我的作品</title>
-
+<% layout("/admin/admin_layout.html"){ %>
 <base href="${core}/" />
 <script src="js/jquery-2.1.1.min.js"></script>
 <script src="bootstrap/js/bootstrap-3.2.0.min.js"></script>
 <link href="css/Cartoon.css" rel="stylesheet">
 <link href="bootstrap/css/bootstrap-3.2.0.min.css" rel="stylesheet">
 <link href="css/Member.css" rel="stylesheet">
-
-</head>
 <script type="text/javascript">
 	var pageSize = 6;
 	var pageCount;
-		
+	
 	$(document).ready(function(){
 		var $parentDialog = $('#parentDialog');
 		var $parentTable = $('#parentTable');
@@ -27,18 +20,35 @@
 		$('#typeSelect').change(function(){
 			$.showTableParent();
 		});
+		
 		//添加
 		$('#parentAdd').click(function(){
-			//$.showParentDialog('添加');
 			$.digcenter($parentDialog,'添加','works/save');
 			$parentDialog.show();
 		});
-		
-		//取消按钮
-		$('#parentDigCancel',$parentDialog).click(function(){
-			$parentDialog.hide();
+		$('#pageParent button').click(function(){
+			var $parentPageNumber = $('#parentPageNumber');
+			var $parentTotalPage = $('#parentTotalPage');
+			
+			if($(this).attr('flag') == 'up'){
+				if($parentPageNumber.html() != '1'){
+					var num = $parentPageNumber.html();
+					num = (parseInt(num) - 1);
+					$parentPageNumber.html(num);
+				}
+			}else if($(this).attr('flag') == 'down'){
+				if($parentPageNumber.html() != $parentTotalPage.html()){
+					var num = $parentPageNumber.html();
+					num = (parseInt(num) + 1);
+					$parentPageNumber.html(num);
+				}
+			}else if($(this).attr('flag') == 'start'){
+				$parentPageNumber.html(1);
+			}else if($(this).attr('flag') == 'end'){
+				$parentPageNumber.html($parentTotalPage.html());
+			}
+			$.showTableParent();
 		});
-		
 		//修改
 		$('#parentUpdate').click(function(){
 			//获取选择的表格
@@ -54,8 +64,12 @@
 			$.initDialog($parentDialog,'works/getWorksJsonById','id='+parId,'修改','works/updateWorks');
 	    });
 		
+		//取消按钮
+		$('#parentDigCancel',$parentDialog).click(function(){
+			$parentDialog.hide();
+		});
+		
 		$("#parentDelete").click(function(){
-			childrenTable
 	    });
 		
 		///////////////////////////////////////////////////////////////////////////子表
@@ -76,6 +90,31 @@
 			$.digcenter($childrenDialog,'添加','works/saveWork');
 			$('#parId').val(parId);
 			$childrenDialog.show();
+			$('[flag=workid]',$childrenDialog).removeAttr('value');
+		});
+		
+		$('#pageChildren button').click(function(){
+			var $parentPageNumber = $('#childrenPageNumber');
+			var $parentTotalPage = $('#childrenTotalPage');
+			
+			if($(this).attr('flag') == 'up'){
+				if($parentPageNumber.html() != '1'){
+					var num = $parentPageNumber.html();
+					num = (parseInt(num) - 1);
+					$parentPageNumber.html(num);
+				}
+			}else if($(this).attr('flag') == 'down'){
+				if($parentPageNumber.html() != $parentTotalPage.html()){
+					var num = $parentPageNumber.html();
+					num = (parseInt(num) + 1);
+					$parentPageNumber.html(num);
+				}
+			}else if($(this).attr('flag') == 'start'){
+				$parentPageNumber.html(1);
+			}else if($(this).attr('flag') == 'end'){
+				$parentPageNumber.html($parentTotalPage.html());
+			}
+			$.showTableParent();
 		});
 		
 		//点击修改子表
@@ -139,7 +178,7 @@
 		},
 		showTableChilrend : function(parentId){
 			var $page = $('#pageChildren');
-			var pageIndex = $('li.active a',$page).html();
+			var pageIndex = $('#parentPageNumber').html();
 			var $self = $('#childrenTable');
 			$.ajax({
 				type:'post',
@@ -149,6 +188,7 @@
 				data:'worksId='+parentId+'&pageIndex='+pageIndex+'&pageSize='+pageSize,
 				success:function(data){
 					//构建分页
+					
 					//构建表格
 					$('tbody tr',$self).remove();
 					$.each(data.list,function(i,rows){
@@ -171,15 +211,19 @@
 		},
 		showTableParent : function(){
 			var select = $('#typeSelect').val();
-			var $pageIndex = $('#pageParent li.active a');
+			var pageIndex = $('#parentPageNumber').html();
 			$self = $('#parentTable');
 			$.ajax({
 				type:'post',
 				async:false,
 				url: "works/getWorksInfoByType",
 				dataType:'json',
-				data:'workstype='+select+'&pageIndex='+$pageIndex.html()+'&pageSize'+pageSize,
+				data:'workstype='+select+'&pageIndex='+pageIndex+'&pageSize'+pageSize,
 				success:function(data){
+					//分页
+					$('#parentPageNumber').html(data.pageNumber);
+					$('#parentTotalPage').html(data.totalPage);
+					
 					//构建表格
 					$self = $('#parentTable');
 					$('tbody tr',$self).remove();
@@ -212,7 +256,7 @@
 		}
 	});
 </script>
-<body>
+</div>
 	<div class="panel panel-primary">
 		<div class="panel-heading">选择类型</div>
 		<div class="panel-body">
@@ -253,15 +297,17 @@
 		      </tbody>
 		   </table>
 		</div>
-		<ul class="pagination" id="pageParent">
-		  <li><a href="#">&laquo;</a></li>
-		  <li class="active"><a href="#">1</a></li>
-		  <li><a href="#">2</a></li>
-		  <li><a href="#">3</a></li>
-		  <li><a href="#">4</a></li>
-		  <li><a href="#">5</a></li>
-		  <li><a href="#">&raquo;</a></li>
-		</ul>
+		<div class="pagination" id="pageParent">
+		当前第&nbsp;<span id="parentPageNumber">1</span>&nbsp;页
+		  <button class="btn btn-default" flag="up"> 上一页 </button>&nbsp;&nbsp;
+		  <button class="btn btn-default" flag="down"> 下一页</button>
+		 共&nbsp;<span id="parentTotalPage">1</span>&nbsp;页&nbsp;&nbsp;
+		 &nbsp;&nbsp;
+		&nbsp;&nbsp;
+		&nbsp;&nbsp;
+		<button class="btn btn-default" flag="start"> 首页 </button>&nbsp;&nbsp;
+		<button class="btn btn-default" flag="end"> 尾页 </button>
+		</div>
 	</div>
 	<div class="panel panel-default workContent">
 		<div class="panel-body">
@@ -284,15 +330,18 @@
 			      </tbody>
 			   </table>
 			</div>
-			<ul class="pagination" id="pageChildren">
-			  <li><a href="#">&laquo;</a></li>
-			  <li class="active"><a href="#">1</a></li>
-			  <li><a href="#">2</a></li>
-			  <li><a href="#">3</a></li>
-			  <li><a href="#">4</a></li>
-			  <li><a href="#">5</a></li>
-			  <li><a href="#">&raquo;</a></li>
-			</ul>
+			<div class="pagination" id="pageChildren">
+		当前第&nbsp;<span id="childrenPageNumber">1</span>&nbsp;页
+		  <button class="btn btn-default" flag="up"> 上一页 </button>&nbsp;&nbsp;
+		  <button class="btn btn-default" flag="down"> 下一页</button>
+		 共&nbsp;<span id="childrenTotalPage">1</span>&nbsp;页&nbsp;&nbsp;
+		 &nbsp;&nbsp;
+		&nbsp;&nbsp;
+		&nbsp;&nbsp;
+		<button class="btn btn-default" flag="start"> 首页 </button>&nbsp;&nbsp;
+		<button class="btn btn-default" flag="end"> 尾页 </button>
+		</div>
+		</div>
 		</div>
 	</div>
 	
@@ -380,5 +429,4 @@
         </form>
 		</div>
 	</div>
-</body>
-</html>
+<%}%>

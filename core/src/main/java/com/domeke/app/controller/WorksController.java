@@ -1,6 +1,8 @@
 package com.domeke.app.controller;
 
+import java.sql.Timestamp;
 import java.util.List;
+
 import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
@@ -29,7 +31,6 @@ public class WorksController extends FilesLoadController {
 	 * 保存作品信息<br>
 	 * 
 	 */
-	@ActionKey("/upload")
 	public void save() {
 		try {
 			String coverPath = upLoadFile("cover", "", 2000 * 1024 * 1024,
@@ -49,9 +50,13 @@ public class WorksController extends FilesLoadController {
 
 	public void saveWork(){
 		this.getFiles();
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		Work workModel = getModel(Work.class);
 		workModel.set("modifier", 111111);
-		workModel.update();
+		workModel.set("modifytime", timestamp);
+		workModel.set("createtime", timestamp);
+		workModel.set("creater", 111111);
+		workModel.save();
 		redirect("/works/goToManager");
 	}
 	/**
