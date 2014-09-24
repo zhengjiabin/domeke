@@ -18,11 +18,6 @@ import com.jfinal.plugin.activerecord.Page;
 public class MenuController extends Controller {
 	
 	public void goToManager(){
-		/*Menu.menuDao.removeCache();
-		Menu menu = getModel(Menu.class);
-		List<Menu> menuList = menu.selectMenu();
-		setAttr("menuList", menuList);
-		*/
 		setMenuPage(null);
 		render("/admin/admin_menu.html");
 	}

@@ -23,7 +23,7 @@ public class Goods extends Model<Goods> {
 	private static final long serialVersionUID = -4324755844654141029L;
 
 	public static Goods dao = new Goods();
-
+	
 	/**
 	 * 保存数据信息到数据库
 	 */
