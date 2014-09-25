@@ -12,20 +12,11 @@
 	.s5{background:#FFAD86;}
 .btn2
 {
-	width:156px;
-	height:60px;
+	width:143px;
+	height:43px;
 	line-height:18px;
 	font-size:18px;
-	background:url("http://www.dongmark.com/images/VentTip10.png") no-repeat left top;
-	color:#FFF;
-}
-.btn3
-{
-	width:156px;
-	height:60px;
-	line-height:18px;
-	font-size:18px;
-	background:url("http://www.dongmark.com/images/VentTip11.png") no-repeat left top;
+	background:url("images/bg29.jpg") no-repeat left top;
 	color:#FFF;
 }
 </style>
@@ -34,6 +25,19 @@
 <script type="text/javascript" src="js/jquery-ui.js"></script>
 <script type="text/javascript" src="js/wish.js"></script>
 <script type="text/javascript" src="js/ventwall.js"></script>
+<script src="js/jquery.ui.draggable.js" type="text/javascript"></script>
+<script src="js/jquery.alerts.js" type="text/javascript"></script>
+<link href="css/jquery.alerts.css" rel="stylesheet" type="text/css" media="screen" />
+<script>
+$(function(){
+    function maxLimit(){
+            var num=$(this).val().substr(0,50);
+            $(this).val(num);
+            $(this).next().text($(this).val().length+"/50");
+    };
+    $("#saytext").keyup(maxLimit);
+});
+</script>
 <article>
 	<div class="VentLa">
 		<div class="VentTip">
@@ -50,24 +54,24 @@
             <span>本月已累计签到：<span class="font_r">${monthCount!}天</span></span><br />
             <span class="borderR">您目前获得的总奖励：<span class="font_r">${peas!}</span></span>
             <span>上次签到时间：<span class="font_r">${createtime!}</span></span><br />
-            <span class="borderR">您目前的等级：<span class="font_r">${peasName!}</span></span>
+            <span class="borderR">您目前的等级：<span class="font_r">${pointName!}</span></span>
             <!-- <span>只需要再签到<span class="font_r">13</span>天就可以提升到下一等级：<span class="font_r">【LV.5】常驻居民</span></span> -->
         </div>
         <div class="clear"></div>
     </div>
     <div class="VentLb">
        	<div class="VentWel">嗨仔每天都很开心，今天的你呢？快快选一个和嗨仔一样的标签签到吧~！</div>
-        <img src="http://www.dongmark.com/images/VentTip02.png" /><input id="rdo1" name="ventWall.moodid" type="radio" value="[em_1]" checked=true/>
-        <img src="http://www.dongmark.com/images/VentTip03.png" /><input id="rdo2" name="ventWall.moodid" type="radio" value="[em_2]" />
-        <img src="http://www.dongmark.com/images/VentTip04.png" /><input id="rdo3" name="ventWall.moodid" type="radio" value="[em_3]" />
-        <img src="http://www.dongmark.com/images/VentTip05.png" /><input id="rdo4" name="ventWall.moodid" type="radio" value="[em_4]" />
-        <img src="http://www.dongmark.com/images/VentTip06.png" /><input id="rdo5" name="ventWall.moodid" type="radio" value="[em_5]" />
-        <img src="http://www.dongmark.com/images/VentTip07.png" /><input id="rdo6" name="ventWall.moodid" type="radio" value="[em_6]" />
-        <img src="http://www.dongmark.com/images/VentTip08.png" /><input id="rdo7" name="ventWall.moodid" type="radio" value="[em_7]" />
-        <img src="http://www.dongmark.com/images/VentTip09.png" /><input id="rdo7" name="ventWall.moodid" type="radio" value="[em_7]" />
+        <img src="images/VentTip02.png" /><input id="rdo1" name="ventWall.moodid" type="radio" value="[em_1]" checked=true/>
+        <img src="images/VentTip03.png" /><input id="rdo2" name="ventWall.moodid" type="radio" value="[em_2]" />
+        <img src="images/VentTip04.png" /><input id="rdo3" name="ventWall.moodid" type="radio" value="[em_3]" />
+        <img src="images/VentTip05.png" /><input id="rdo4" name="ventWall.moodid" type="radio" value="[em_4]" />
+        <img src="images/VentTip06.png" /><input id="rdo5" name="ventWall.moodid" type="radio" value="[em_5]" />
+        <img src="images/VentTip07.png" /><input id="rdo6" name="ventWall.moodid" type="radio" value="[em_6]" />
+        <img src="images/VentTip08.png" /><input id="rdo7" name="ventWall.moodid" type="radio" value="[em_7]" />
+        <img src="images/VentTip09.png" /><input id="rdo7" name="ventWall.moodid" type="radio" value="[em_7]" />
         <textarea cols="" rows="" class="VentTxt" id="saytext" name="ventWall.message" value="${ventWall.message!}"></textarea>       
-        <span class="textCount">0/50</span>
-           <button id="btn2" name="${issignin}" class="btn2"  type="button" />
+	    <span class="textCount">0/50</span>
+        <button id="btn2" name="${issignin}" class="btn2"  type="button" onmouseover="this.style.backgroundPosition='left -43px'" onmouseout="this.style.backgroundPosition='left top'">开始签到</button>
     </div>
 </article>
 <aside>
@@ -87,7 +91,7 @@
 <section class="White" style="padding: 5px;">
     <div id="wish">
         <% for(v in ventWallList!){%>
-            <div><img src="http://www.dongmark.com/images/face/${v.moodid!}"/>${v.message!}</div>
+            <div><img src="images/face/${v.moodid!}"/>${v.message!}</div>
         <%}%>
 	</div>
 </section>
