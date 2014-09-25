@@ -73,6 +73,10 @@
 	<logger name="ch.qos.logback" additivity="false">
 		<level value="INFO" />
 	</logger>
+	
+	<logger name="org.apache.shiro" additivity="false">
+		<level value="INFO" />
+	</logger>
 
 
 	<root>
