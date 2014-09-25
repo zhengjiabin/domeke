@@ -6,6 +6,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 
 import com.domeke.app.model.vo.BaseVO;
 import com.domeke.app.model.vo.WorksVO;
+import com.domeke.app.route.ControllerBind;
 import com.domeke.app.solr.utils.SolrKit;
 import com.jfinal.core.Controller;
 
@@ -15,8 +16,8 @@ import com.jfinal.core.Controller;
  * @author chenhailin
  *
  */
+@ControllerBind(controllerKey = "/search")
 public class SearchController extends Controller {
-
 
 	/**
 	 * 站内搜索功能
