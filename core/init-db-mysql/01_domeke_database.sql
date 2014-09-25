@@ -511,6 +511,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
+
 -- ----------------------------
 -- Table structure for user_message
 -- ----------------------------
