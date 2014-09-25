@@ -70,6 +70,30 @@
 		});
 		
 		$("#parentDelete").click(function(){
+			if (!window.confirm("确认删除该记录吗?")){
+				return;
+			}
+			//获取选择的表格
+			var $selectTr = $('tr.select',$parentTable);
+			var parId = '';
+			if($selectTr.length >= 1){
+				parId = $('td:eq(0)',$selectTr).html();
+			}else{
+				alert("请选中一条记录删除");
+				return;
+			}
+			$.ajax({
+				url:'works/delete',
+				data:'id='+parId,
+				success:function(data){
+					if(data.success == '1'){
+						alert('删除成功');
+					}else{
+						alert('删除失败');
+					}
+				$.showTableParent();
+				}
+			});
 	    });
 		
 		///////////////////////////////////////////////////////////////////////////子表
@@ -136,7 +160,32 @@
 		$('#childrenDigCancel',$childrenDialog).click(function(){
 			$childrenDialog.hide();
 		});
-		
+		$("#childrenDelete").click(function(){
+			if (!window.confirm("确认删除该记录吗?")){
+				return;
+			}
+			//获取选择的表格
+			var $selectTr = $('tr.select',$childrenTable);
+			var parId = '';
+			if($selectTr.length >= 1){
+				parId = $('td:eq(0)',$selectTr).html();
+			}else{
+				alert("请选中一条记录删除");
+				return;
+			}
+			$.ajax({
+				url:'works/deleteWork',
+				data:'id='+parId,
+				success:function(data){
+					if(data.success == '1'){
+						alert('删除成功');
+					}else{
+						alert('删除失败');
+					}
+				$.showTableChilrend();
+				}
+			});
+	    });
 		
 	});
 	
@@ -349,27 +398,30 @@
 		<div class="panel-heading"></div>
 		<div class="panel-body">
 		<form class="form-inline" role="form" method="post" enctype="multipart/form-data">
-			<input type="hidden" flag="worksid" name="works.worksid" class="form-control" required="required"/>
+			<input type="hidden" flag="worksid" name="works.worksid" class="form-control" required="required" autocomplete="off"/>
 			<label for="name">作品名称：</label>
-	        <input type="text" flag="worksname" name="works.worksname" class="form-control" placeholder="作品名称" required="required"/>
+	        <input type="text" flag="worksname" name="works.worksname" class="form-control" placeholder="作品名称" required="required" autocomplete="off"/>
 	        </br>
 	        <label for="name">作品类别：</label>
-	        <input type="text" flag="workstype" name="works.workstype" class="form-control" placeholder="作品类别" required="required"/>
+	        <input type="text" flag="workstype" name="works.workstype" class="form-control" placeholder="作品类别" required="required" autocomplete="off"/>
+	        </br>
+	        <label for="name">置顶值：</label>
+	        <input type="text" flag="istop" name="works.istop" class="form-control" placeholder="置顶值 越大越前" required="required" autocomplete="off"/>
 	        </br>
 	        <label for="name">评论数：</label>
-	        <input type="text" flag="comment" name="works.comment" class="form-control" placeholder="评论数" required="required"/>
+	        <input type="text" flag="comment" name="works.comment" class="form-control" placeholder="评论数" required="required" autocomplete="off"/>
 	        </br>
 	        <label for="name">浏览量：</label>
-	        <input type="text" flag="pageviews" name="works.pageviews" class="form-control" placeholder="浏览量" required="required"/>
+	        <input type="text" flag="pageviews" name="works.pageviews" class="form-control" placeholder="浏览量" required="required" autocomplete="off"/>
 	        </br>
 	        <label for="name">收藏数：</label>
-	        <input type="text" flag="collection" name="works.collection" class="form-control" placeholder="收藏数" required="required"/>
+	        <input type="text" flag="collection" name="works.collection" class="form-control" placeholder="收藏数" required="required" autocomplete="off"/>
 	        </br>
 	        <label for="name">点赞数：</label>
-	        <input type="text" flag="praise" name="works.praise" class="form-control" placeholder="点赞数" required="required"/>
+	        <input type="text" flag="praise" name="works.praise" class="form-control" placeholder="点赞数" required="required" autocomplete="off"/>
 	        </br>
 	        <label for="name">最新集数：</label>
-	        <input type="text" flag="maxnum" name="works.maxnum" class="form-control" placeholder="最新集数" required="required"/>
+	        <input type="text" flag="maxnum" name="works.maxnum" class="form-control" placeholder="最新集数" required="required" autocomplete="off"/>
 	        </br>
 	        <label for="name">是否完结：</label>
 	        <select flag="creativeprocess" name="works.creativeprocess" class="btn btn-default" required="required">
@@ -379,14 +431,14 @@
 	        </br>
 	        <!--TODO 根据用户类型来显示上传图片还是直接贴文件路径-->
 			<label type="file" for="name">作品封面：</label>
-			<input type="file" class="form-control" name="cover" accept="image/*" style="width:180px;" />
+			<input type="file" class="form-control" name="cover" accept="image/*" style="width:180px;"  autocomplete="off"/>
 			<br>
 			<!-- <label for="name">上传作品：</label>
 			<input class="form-control" type="file" id="comic" name="comic" accept="video/*" size="20" maxlength="255" required="required"/>
 			<br> -->
 			<label for="name">作品描述：</label>
 			</br>
-			<textarea class="form-control" rows="5" cols="35" flag="describle" name="works.describle"></textarea>
+			<textarea class="form-control" rows="5" cols="35" flag="describle" name="works.describle" autocomplete="off"></textarea>
 			<div class="btn btn-body" style="width: 100%;">
 			<button id="parentDigSubmit"  class="btn btn-success" type="submit">提交</button>
 			&nbsp;&nbsp;&nbsp;
@@ -403,13 +455,13 @@
 			<input type="hidden"  flag="workid" name="work.workid"/>
 			<input type="hidden"  flag="worksid" name="work.worksid" id="parId" />
 			<label for="name" class="">名称：</label>
-	        <input type="text" flag="workname" name="work.workname" class="form-control" placeholder="名称" required="required"/>
+	        <input type="text" flag="workname" name="work.workname" class="form-control" placeholder="名称" required="required" autocomplete="off"/>
 	        </br>
 	        <label for="name" class="">第几集：</label>
-	        <input type="text" flag="worknum" name="work.worknum" class="form-control" placeholder="第几集" required="required"/>
+	        <input type="text" flag="worknum" name="work.worknum" class="form-control" placeholder="第几集" required="required" autocomplete="off"/>
 	        </br>
 	        <label for="name">是否显示：</label>
-	        <select flag="isdisable" name="work.isdisable" class="btn btn-default" required="required">
+	        <select flag="isdisable" name="work.isdisable" class="btn btn-default" required="required" autocomplete="off">
 		        <option value="1" selected="selected">显示</option>
 		        <option value="0">隐藏</option>
 		    </select>
@@ -420,7 +472,7 @@
 			<br>
 			<label for="name">本集描述：</label>
 			</br>
-			<textarea class="form-control" rows="5" cols="35" flag="workdes" name="work.workdes"></textarea>
+			<textarea class="form-control" rows="5" cols="35" flag="workdes" name="work.workdes"  autocomplete="off"></textarea>
 			<div class="btn btn-body" style="width: 100%;">
 			<button id="childrenDigSubmit" class="btn btn-success" type="submit">提交</button>
 			&nbsp;&nbsp;&nbsp;

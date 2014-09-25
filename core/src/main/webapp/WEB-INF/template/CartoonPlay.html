@@ -11,14 +11,14 @@
 				}
 			});
 			$(this).css({'color':'red'});
-			$('a',this).css({'background':'url(images/icon11.png) left center no-repeat'});
+			$('a',this).css({'background':'url(http://www.dongmark.com/images/icon11.png) left center no-repeat'});
 		});
 	});
 </script>
 <section>
 	<div class="CartoonTitle">${works.worksname!}-${work.workname!}</div>
 	<div class="PlayZoom">
-	  <video id="example_video_1" controls preload="none" width="800" height="500"
+	  <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="800" height="500"
 	   poster="${works.cover!}" data-setup="{}">
   			<source src="${work.comic!}" type='video/mp4' />
   			<!-- <track kind="captions" src="demo.captions.vtt" srclang="en" label="English"></track> Tracks need an ending tag thanks to IE9 -->

@@ -72,7 +72,7 @@
  * Changes in 1.1.1
  * - Fixed CSS styling bug for ie6 caused by a mispelling
  * - Changes height restriction on default notifications to min-height
- * - Added skinned examples using a variety of images
+ * - Added skinned examples using a variety of http://www.dongmark.com/images/images
  * - Added the ability to customize the content of the [close all] box
  * - Added jTweet, an example of using jGrowl + Twitter
  *

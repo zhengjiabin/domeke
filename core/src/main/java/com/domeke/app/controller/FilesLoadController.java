@@ -14,6 +14,7 @@ import com.domeke.app.cos.multipart.FilePart;
 import com.domeke.app.model.User;
 import com.domeke.app.utils.VideoKit;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.PropKit;
 import com.jfinal.upload.UploadFile;
 
 /**
@@ -28,9 +29,15 @@ public class FilesLoadController extends Controller {
 
 	private Logger logger = LoggerFactory.getLogger(FilesLoadController.class);
 
-	private static String tempDirectory = "D:\\<username>\\tempFile\\";
-	private static String imageDirectory = "D:\\upload\\<username>\\image\\";
-	private static String videoDirectory = "D:\\upload\\<username>\\video\\";
+	private static String tempDirectory = "";
+	private static String imageDirectory = "";
+	private static String videoDirectory = "";
+
+	static {
+		tempDirectory = PropKit.getString("tempDirectory");
+		imageDirectory = PropKit.getString("imageDirectory");
+		videoDirectory = PropKit.getString("videoDirectory");
+	}
 
 	/**
 	 * 文件上传，要求表单enctype="multipart/form-data"类型<br>
@@ -48,8 +55,7 @@ public class FilesLoadController extends Controller {
 	 *            编码
 	 * @return 如果没有上传文件，则返回的文件路径为null
 	 */
-	protected String upLoadFile(String parameterName, String saveFolderName,
-			Integer maxPostSize, String encoding) {
+	protected String upLoadFile(String parameterName, String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
 		tempDirectory = getDirectory(tempDirectory, saveFolderName);
 		UploadFile uploadFile = getFile(parameterName, tempDirectory, maxPostSize, encoding);
@@ -84,7 +90,7 @@ public class FilesLoadController extends Controller {
 		String directoryPath = null;
 		if (uploadFileList != null && uploadFileList.size() != 0) {
 			for (UploadFile uploadFile : uploadFileList) {
-				File replaceFile = renameToFile(uploadFile.getSaveDirectory(),uploadFile.getFile());
+				File replaceFile = renameToFile(uploadFile.getSaveDirectory(), uploadFile.getFile());
 				imageDirectory = getDirectory(imageDirectory, saveFolderName);
 				File imgDirectory = new File(imageDirectory);
 				if (!imgDirectory.exists()) {
@@ -108,8 +114,7 @@ public class FilesLoadController extends Controller {
 	 * @param encoding
 	 * @return
 	 */
-	protected String upLoadVideo(String parameterName, String saveFolderName,
-			Integer maxPostSize, String encoding) {
+	protected String upLoadVideo(String parameterName, String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
 		String filename = "";
 		tempDirectory = getDirectory(tempDirectory, saveFolderName);
@@ -154,12 +159,10 @@ public class FilesLoadController extends Controller {
 	private String getDirectory(String fixDirectory, String userDefinedDirectory) {
 		if (fixDirectory.indexOf("<username>") >= 0) {
 			User user = getSessionAttr("user");
-			String userName = user == null || user.getStr("username") == null ? "admin"
-					: user.getStr("username");
+			String userName = user == null || user.getStr("username") == null ? "admin" : user.getStr("username");
 			fixDirectory = fixDirectory.replaceAll("<username>", userName);
 		}
-		if (userDefinedDirectory != null
-				&& userDefinedDirectory.trim().length() != 0) {
+		if (userDefinedDirectory != null && userDefinedDirectory.trim().length() != 0) {
 			fixDirectory = fixDirectory + userDefinedDirectory;
 		}
 		return fixDirectory;

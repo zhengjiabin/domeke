@@ -12,7 +12,7 @@ width and height set as explained in the README (go read that now if
 you haven't, it's short). The plot will modify some properties of the
 placeholder so it's recommended you simply pass in a div that you
 don't use for anything else. Make sure you check any fancy styling
-you apply to the div, e.g. background images have been reported to be a
+you apply to the div, e.g. background http://www.dongmark.com/images/images have been reported to be a
 problem on IE 7.
 
 The plot function can also be used as a jQuery chainable property.  This form

@@ -570,7 +570,7 @@ in event handling speed.
  - Crosshairs plugin: trace the mouse position on the axes, enable with
    crosshair: { mode: "x"} (see the new tracking example for a use).
 
- - Image plugin: plot prerendered images.
+ - Image plugin: plot prerendered http://www.dongmark.com/images/images.
 
  - Navigation plugin for panning and zooming a plot.
 

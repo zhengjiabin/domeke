@@ -26,7 +26,7 @@ import com.jfinal.kit.StrKit;
  * <br>
  * Example:<br>
  * In JFinalFilter: handlers.add(new ContextPathHandler("CONTEXT_PATH"));<br>
- * in freemarker: <img src="${BASE_PATH}/images/logo.png" />
+ * in freemarker: <img src="${BASE_PATH}/http://www.dongmark.com/images/logo.png" />
  */
 public class ContextPathHandler extends Handler {
 	

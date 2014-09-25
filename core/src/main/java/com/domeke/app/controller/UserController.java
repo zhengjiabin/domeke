@@ -189,7 +189,7 @@ public class UserController extends Controller {
 				Long userid = user.getLong("userid");
 				//加密邮箱
 				email = ency.encrypt(email); 
-				String msg = "欢迎你："+nickname+":" + "\n" + "请点击以下的路径进行邮箱验证" + "\n" + "http://localhost:8080/core/user/activationUser?uid="+email+"";
+				String msg = "欢迎你："+nickname+":" + "\n" + "请点击以下的路径进行邮箱验证" + "\n" + "http://218.85.136.199/core/user/activationUser?uid="+email+"";
 				domekeMailSender.send("testehr@126.com", to, null, msg, params);
 			}
 		} catch (Exception e) {

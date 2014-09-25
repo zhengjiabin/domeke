@@ -22,8 +22,8 @@
  *     no conflict between the two pagination types. If you want to use full_numbers pagination
  *     ensure that you either have "example_alt_pagination" as a body class name, or better yet,
  *     modify that selector.
- *   Note that the path used for Images is relative. All images are by default located in
- *     ../images/ - relative to this CSS file.
+ *   Note that the path used for http://www.dongmark.com/images/images is relative. All http://www.dongmark.com/images/images are by default located in
+ *     ../http://www.dongmark.com/images/ - relative to this CSS file.
  */
 
 
@@ -183,23 +183,23 @@ table.display td.center {
  */
 
 .sorting_asc {
-	background: url('../images/sort_asc.png') no-repeat center right;
+	background: url('../http://www.dongmark.com/images/sort_asc.png') no-repeat center right;
 }
 
 .sorting_desc {
-	background: url('../images/sort_desc.png') no-repeat center right;
+	background: url('../http://www.dongmark.com/images/sort_desc.png') no-repeat center right;
 }
 
 .sorting {
-	background: url('../images/sort_both.png') no-repeat center right;
+	background: url('../http://www.dongmark.com/images/sort_both.png') no-repeat center right;
 }
 
 .sorting_asc_disabled {
-	background: url('../images/sort_asc_disabled.png') no-repeat center right;
+	background: url('../http://www.dongmark.com/images/sort_asc_disabled.png') no-repeat center right;
 }
 
 .sorting_desc_disabled {
-	background: url('../images/sort_desc_disabled.png') no-repeat center right;
+	background: url('../http://www.dongmark.com/images/sort_desc_disabled.png') no-repeat center right;
 }
 
 

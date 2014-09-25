@@ -1937,7 +1937,7 @@ rangy.createModule("DomUtil", function(api, module) {
     // Gets the boundary of a TextRange expressed as a node and an offset within that node. This function started out as
     // an improved version of code found in Tim Cameron Ryan's IERange (http://code.google.com/p/ierange/) but has
     // grown, fixing problems with line breaks in preformatted text, adding workaround for IE TextRange bugs, handling
-    // for inputs and images, plus optimizations.
+    // for inputs and http://www.dongmark.com/images/images, plus optimizations.
     function getTextRangeBoundaryPosition(textRange, wholeRangeContainerElement, isStart, isCollapsed) {
         var workingRange = textRange.duplicate();
 
@@ -1954,7 +1954,7 @@ rangy.createModule("DomUtil", function(api, module) {
 
 
 
-        // Deal with nodes that cannot "contain rich HTML markup". In practice, this means form inputs, images and
+        // Deal with nodes that cannot "contain rich HTML markup". In practice, this means form inputs, http://www.dongmark.com/images/images and
         // similar. See http://msdn.microsoft.com/en-us/library/aa703950%28VS.85%29.aspx
         if (!containerElement.canHaveHTML) {
             return new DomPosition(containerElement.parentNode, dom.getNodeIndex(containerElement));
@@ -3623,10 +3623,10 @@ wysihtml5.browser = (function() {
     },
 
     /**
-     * When clicking on images in IE, Opera and Firefox, they are selected, which makes it easy to interact with them.
+     * When clicking on http://www.dongmark.com/images/images in IE, Opera and Firefox, they are selected, which makes it easy to interact with them.
      * Chrome and Safari both don't support this
      */
-    canSelectImagesInContentEditable: function() {
+    canSelecthttp://www.dongmark.com/images/imagesInContentEditable: function() {
       return isGecko || isIE || isOpera;
     },
 
@@ -5014,7 +5014,7 @@ wysihtml5.dom.parse = (function() {
     if (nodeName == "IMG" && attributeName == "src" && _isLoadedImage(node) === true) {
       // Get 'src' attribute value via object property since this will always contain the
       // full absolute url (http://...)
-      // this fixes a very annoying bug in firefox (ver 3.6 & 4) and IE 8 where images copied from the same host
+      // this fixes a very annoying bug in firefox (ver 3.6 & 4) and IE 8 where http://www.dongmark.com/images/images copied from the same host
       // will have relative paths, which the sanitizer strips out (see attributeCheckMethods.url)
       return node.src;
     } else if (HAS_GET_ATTRIBUTE_BUG && "outerHTML" in node) {
@@ -6777,7 +6777,7 @@ wysihtml5.Commands = Base.extend(
    * @param {String} command The command string which to execute (eg. "bold", "italic", "insertUnorderedList")
    * @param {String} [value] The command value parameter, needed for some commands ("createLink", "insertImage", ...), optional for commands that don't require one ("bold", "underline", ...)
    * @example
-   *    commands.exec("insertImage", "http://a1.twimg.com/profile_images/113868655/schrei_twitter_reasonably_small.jpg");
+   *    commands.exec("insertImage", "http://a1.twimg.com/profile_http://www.dongmark.com/images/113868655/schrei_twitter_reasonably_small.jpg");
    */
   exec: function(command, value) {
     var obj     = wysihtml5.commands[command],
@@ -7424,7 +7424,7 @@ wysihtml5.Commands = Base.extend(
       var doc = composer.doc,
           selectedNode,
           text,
-          imagesInSelection;
+          http://www.dongmark.com/images/imagesInSelection;
 
       if (!wysihtml5.dom.hasElementWithTagName(doc, NODE_NAME)) {
         return false;
@@ -7450,15 +7450,15 @@ wysihtml5.Commands = Base.extend(
         return false;
       }
 
-      imagesInSelection = composer.selection.getNodes(wysihtml5.ELEMENT_NODE, function(node) {
+      http://www.dongmark.com/images/imagesInSelection = composer.selection.getNodes(wysihtml5.ELEMENT_NODE, function(node) {
         return node.nodeName === "IMG";
       });
 
-      if (imagesInSelection.length !== 1) {
+      if (http://www.dongmark.com/images/imagesInSelection.length !== 1) {
         return false;
       }
 
-      return imagesInSelection[0];
+      return http://www.dongmark.com/images/imagesInSelection[0];
     },
 
     value: function(composer) {
@@ -8286,7 +8286,7 @@ wysihtml5.views.View = Base.extend(
           "body.placeholder { color: graytext !important; }" : 
           "body.placeholder { color: #a9a9a9 !important; }",
         "body[disabled]   { background-color: #eee !important; color: #999 !important; cursor: default !important; }",
-        // Ensure that user see's broken images and can delete them
+        // Ensure that user see's broken http://www.dongmark.com/images/images and can delete them
         "img:-moz-broken  { -moz-force-broken-image-icon: 1; height: 24px; width: 24px; }"
       ];
   
@@ -8546,8 +8546,8 @@ wysihtml5.views.View = Base.extend(
       setTimeout(function() { that.parent.fire("newword:composer"); }, 0);
     });
 
-    // --------- Make sure that images are selected when clicking on them ---------
-    if (!browser.canSelectImagesInContentEditable()) {
+    // --------- Make sure that http://www.dongmark.com/images/images are selected when clicking on them ---------
+    if (!browser.canSelecthttp://www.dongmark.com/images/imagesInContentEditable()) {
       dom.observe(element, "mousedown", function(event) {
         var target = event.target;
         if (target.nodeName === "IMG") {
@@ -8567,7 +8567,7 @@ wysihtml5.views.View = Base.extend(
       }
     });
 
-    // --------- Make sure that when pressing backspace/delete on selected images deletes the image and it's anchor ---------
+    // --------- Make sure that when pressing backspace/delete on selected http://www.dongmark.com/images/images deletes the image and it's anchor ---------
     dom.observe(element, "keydown", function(event) {
       var target  = that.selection.getSelectedNode(true),
           keyCode = event.keyCode,
@@ -8586,7 +8586,7 @@ wysihtml5.views.View = Base.extend(
       }
     });
 
-    // --------- Show url in tooltip when hovering links or images ---------
+    // --------- Show url in tooltip when hovering links or http://www.dongmark.com/images/images ---------
     var titlePrefixes = {
       IMG: "Image: ",
       A:   "Link: "
@@ -9396,7 +9396,7 @@ wysihtml5.views.Textarea = wysihtml5.views.View.extend(
     stylesheets:          [],
     // Placeholder text to use, defaults to the placeholder attribute on the textarea element
     placeholderText:      undef,
-    // Whether the composer should allow the user to manually resize images, tables etc.
+    // Whether the composer should allow the user to manually resize http://www.dongmark.com/images/images, tables etc.
     allowObjectResizing:  true,
     // Whether the rich text editor should be rendered on touch devices (wysihtml5 >= 0.3.0 comes with basic support for iOS 5)
     supportTouchDevices:  true

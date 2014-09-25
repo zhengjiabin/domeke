@@ -2,11 +2,11 @@
 <section class="List" id="page">
     <div class="CartoonContent">
     	<% 
-    		for (works in pageList.list){ 
+    		for (worksvo in worksVOList){ 
     	%>
         <div class="CartoonSub"> 
-            <a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"></a>
-            <div class="CartoonName">${works.worksname!}</div>
+            <a href="cartoon/showDetail?id=${worksvo.id!}"><img src="${worksvo.cover!}"></a>
+            <div class="CartoonName">${worksvo.worksname!}</div>
         </div>
         <% } %>
      </div> 

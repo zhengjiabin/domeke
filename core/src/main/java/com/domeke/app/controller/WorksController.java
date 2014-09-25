@@ -1,12 +1,15 @@
 package com.domeke.app.controller;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.ActionKey;
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -49,13 +52,15 @@ public class WorksController extends FilesLoadController {
 	}
 
 	public void saveWork(){
-		this.getFiles();
+		String comicPath = upLoadFile("comic", "", 2000 * 1024 * 1024,
+				"utf-8");
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		Work workModel = getModel(Work.class);
-		workModel.set("modifier", 111111);
+		workModel.set("comic", comicPath);
+		workModel.set("modifier", 1);
 		workModel.set("modifytime", timestamp);
 		workModel.set("createtime", timestamp);
-		workModel.set("creater", 111111);
+		workModel.set("creater", 1);
 		workModel.save();
 		redirect("/works/goToManager");
 	}
@@ -82,9 +87,38 @@ public class WorksController extends FilesLoadController {
 	 * 删除作品信息
 	 */
 	public void delete() {
+		int id = getParaToInt("id");
 		Works worksModel = getModel(Works.class);
-		worksModel.deleteById(getParaToInt("id"));
-		redirect("/works/goWorksMan");
+		boolean bool = worksModel.deleteById(id);
+		Work workModel = getModel(Work.class);
+		List<Work> workList = workModel.getWorkByWorksID(id);
+		for (Work work : workList) {
+			work.delete();
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(bool){
+			map.put("success", "1");
+		}else{
+			map.put("success", "0");
+		}
+		renderJson(map);
+	}
+	
+	public void deleteWork() {
+		int id = getParaToInt("id");
+		Work workModel = getModel(Work.class);
+		Work work = workModel.findById(id);
+		boolean bool = false;
+		if(work != null){
+			bool = work.delete();
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(bool){
+			map.put("success", "1");
+		}else{
+			map.put("success", "0");
+		}
+		renderJson(map);
 	}
 	
 	public void getSubWork(){

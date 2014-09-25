@@ -6715,7 +6715,7 @@ vjs.Flash.prototype.poster = function(){
   this.el_.vjs_getProperty('poster');
 };
 vjs.Flash.prototype['setPoster'] = function(){
-  // poster images are not handled by the Flash tech so make this a no-op
+  // poster http://www.dongmark.com/images/images are not handled by the Flash tech so make this a no-op
 };
 
 vjs.Flash.prototype.buffered = function(){

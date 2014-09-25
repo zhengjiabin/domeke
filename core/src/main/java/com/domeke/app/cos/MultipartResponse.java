@@ -60,7 +60,7 @@ import javax.servlet.http.HttpServletResponse;
  * }
  * 
  * multi.startResponse(&quot;image/gif&quot;);
- * ServletUtils.returnFile(req.getRealPath(&quot;/images/go.gif&quot;), out);
+ * ServletUtils.returnFile(req.getRealPath(&quot;/http://www.dongmark.com/images/go.gif&quot;), out);
  * 
  * multi.finish();
  * </pre>

@@ -26,10 +26,10 @@
     <section class="White" style="overflow: hidden;">
     <% for(goods in goodss.list) {%>
     <div class="GoodsSub">
-    	<div class="GoodsPic"><img src="${goods.pic!}"></div> 
-        <div class="GoodsId"><a href="#">${goods.goodsname!}</a></div>
+    	<div class="GoodsPic"><a href="goods/getGoodsDetail?id=${goods.goodsid!}"><img src="${goods.pic!}"></a></div> 
+        <div class="GoodsId"><a href="goods/getGoodsDetail?id=${goods.goodsid!}">${goods.goodsname!}</a></div>
         <div class="GoodsProperties font_9"><span class="CurrentPrice">${goods.price!}元</span><span class="OriginalPrice">${goods.oldprice!}元</span></div>
-        <div class="GoodsLove font_9"><span><img src="images/ShopIcon02.png"></span><span>12345人评价</span></div>
+        <div class="GoodsLove font_9"><span><img src="http://www.dongmark.com/images/ShopIcon02.png"></span><span>12345人评价</span></div>
     </div>
     <% } %>
     </section>
@@ -48,42 +48,42 @@
 <section>
 	<div class="MePrivilege">
     	<div class="PrivilegeSub">
-        	<img src="images/Meicon01.png"> 
+        	<img src="http://www.dongmark.com/images/Meicon01.png"> 
             <span class="MePfont1">中国领先</span>
             <span class="MePfont2">私人定制商城</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="images/Meicon02.png"> 
+        	<img src="http://www.dongmark.com/images/Meicon02.png"> 
             <span class="MePfont1">100%专属定制</span>
             <span class="MePfont2">独一无二为您定制</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="images/Meicon03.png"> 
+        	<img src="http://www.dongmark.com/images/Meicon03.png"> 
             <span class="MePfont1">100%</span>
             <span class="MePfont2">正品保证</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="images/Meicon04.png"> 
+        	<img src="http://www.dongmark.com/images/Meicon04.png"> 
             <span class="MePfont1">30天</span>
             <span class="MePfont2">退货保证</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="images/Meicon05.png"> 
+        	<img src="http://www.dongmark.com/images/Meicon05.png"> 
             <span class="MePfont1">24小时</span>
             <span class="MePfont2">30%商品闪电发货</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="images/Meicon06.png"> 
+        	<img src="http://www.dongmark.com/images/Meicon06.png"> 
             <span class="MePfont1">精美包装</span>
             <span class="MePfont2">提供礼品级包装</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="images/Meicon07.png"> 
+        	<img src="http://www.dongmark.com/images/Meicon07.png"> 
             <span class="MePfont1">180用户</span>
             <span class="MePfont2">口碑信赖</span>
         </div>
         <div class="PrivilegeSub">
-        	<img src="images/Meicon08.png"> 
+        	<img src="http://www.dongmark.com/images/Meicon08.png"> 
             <span class="MePfont1">1250城市</span>
             <span class="MePfont2">货到付款</span>
         </div>
@@ -141,7 +141,7 @@
     <div class="FooterZoom">
     	<div class="FooterBorder">
             <div class="FooterLogo">
-            	<a href="#"><img src="images/logoBottom.png"></a>
+            	<a href="#"><img src="http://www.dongmark.com/images/logoBottom.png"></a>
             </div>
             <div class="FooterLink">
                 <span class="font_str">旗下网站</span><a href="#">动漫方舟</a>|<a href="#">金樽动漫</a>|<a href="#">动漫方舟</a>|

@@ -147,7 +147,7 @@ public class GoodsController extends FilesLoadController {
 		setAttr("goodstype",goodstype);
 		setAttr("goodss",goodss);
 		setAttr("codeTables",codeTables);
-		render("../ShopCategory.html");
+		render("/ShopCategory.html");
 	}
 	
 	/**
