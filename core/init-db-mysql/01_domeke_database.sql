@@ -26,7 +26,7 @@ CREATE TABLE `work` (
   `workname` varchar(20) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '名称',
   `workdes` varchar(255) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '简介',
   `comic` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '资源地址',
-  `isdisable` tinyint(1) DEFAULT '0' COMMENT '是否禁用 0否1禁',
+  `isdisable` tinyint(3) DEFAULT '0' COMMENT '是否禁用 0否1禁',
   `createtime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `creater` bigint(20) NOT NULL,
   `modifytime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
