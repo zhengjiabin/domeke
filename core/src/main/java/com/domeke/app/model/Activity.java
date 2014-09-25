@@ -1,5 +1,7 @@
 package com.domeke.app.model;
 
+import java.util.List;
+
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
@@ -128,5 +130,27 @@ public class Activity extends Model<Activity> {
     public Long getCount(){
     	Long count = Db.queryLong("select count(1) from activity where status='10'");
     	return count;
+    }
+    
+    /**
+     * 当前登录人总活动数
+     * @return 汇总数
+     */
+    public Long getCountByUserId(Object userId){
+    	Long count = Db.queryLong("select count(1) from activity where status='10' and userid=?",userId);
+    	return count;
+    }
+    
+    /**
+     * 根据版块统计活动数
+     * @return 汇总数
+     */
+    public List<Activity> getCountByCommunityPid(Object pid){
+    	StringBuffer sql = new StringBuffer();
+    	sql.append("select count(1) as number,aty.communityid from activity aty,community son ");
+    	sql.append(" where aty.communityid = son.communityid and aty.status='10' and son.pid = ? ");
+    	sql.append(" group by aty.communityid ");
+    	List<Activity> activityList = this.find(sql.toString(), pid);
+    	return activityList;
     }
 }

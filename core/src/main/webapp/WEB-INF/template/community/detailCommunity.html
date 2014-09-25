@@ -1,19 +1,30 @@
 <% for(communityFat in communityFatList){ %>
 		<div class="ArticleTitle">
-			<img src="images/FIcon03.png">${communityFat.title}
+			<img src="http://www.dongmark.com/images/FIcon03.png">${communityFat.title}
 		</div>
 		<div class="ArticleContent">
 			<% for(communitySon in communitySonList){ if(communitySon.pid !=
 			communityFat.communityid){continue;}%>
 			<div class="ForumSubL">
 				<div class="ForumPic">
-					<img src="images/FIcon04.png">
+					<img src="http://www.dongmark.com/images/FIcon04.png">
 				</div>
 				<div class="ForumDtl">
 					<span class="ForumName"><a href="javascript:void(0)"
 						onclick="goToOrderForum(this,'${communitySon.communityid!}')">${communitySon.title!}</a></span>
 					<span class="ForumIntro">${communitySon.content!}<br />
-					<span>主题：235</span><span> 帖数：2948万</span></span>
+					<% 
+						var forumCountList = @forumCountMap.get(communityFat.communityid); %>
+					<%	if(isEmpty(forumCountList)){
+							return;
+						}
+						for(forumCount in forumCountList) {
+							if(forumCount.communityid != communitySon.communityid){
+								continue;
+							}
+					%>
+					<span> 帖数：${forumCount.number!}</span></span>
+					<% }  %>
 				</div>
 			</div>
 			<% } %>

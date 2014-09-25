@@ -1,5 +1,7 @@
 package com.domeke.app.model;
 
+import java.util.List;
+
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
@@ -62,10 +64,11 @@ public class Post extends Model<Post> {
 	 * @return
 	 */
 	public Page<Post> findPageByCommunityId(int pageNumber, int pageSize,Object communityId) {
+		String select = "select u.username,u.imgurl,p.*,c.number as viewcount";
 		StringBuffer sqlExceptSelect = new StringBuffer();
-		sqlExceptSelect.append("from post p left join (select count(1) as number,targetid from comment group by targetid) c on p.postid=c.targetid ");
-		sqlExceptSelect.append(" where p.status='10' and p.communityId=? order by to_days(p.createtime) desc,p.top desc,p.essence desc");
-		Page<Post> page = this.paginate(pageNumber, pageSize, "select p.*,c.number as viewcount",sqlExceptSelect.toString(),communityId);
+		sqlExceptSelect.append("from user u,post p left join (select count(1) as number,targetid from comment group by targetid) c on p.postid=c.targetid ");
+		sqlExceptSelect.append(" where u.userid=p.userid and p.status='10' and p.communityId=? order by to_days(p.createtime) desc,p.top desc,p.essence desc");
+		Page<Post> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),communityId);
 		return page;
 	}
 
@@ -117,5 +120,27 @@ public class Post extends Model<Post> {
     public Long getCount(){
     	Long count = Db.queryLong("select count(1) from post where status='10'");
     	return count;
+    }
+    
+    /**
+     * 当前登录人总发帖数
+     * @return 汇总数
+     */
+    public Long getCountByUserId(Object userId){
+    	Long count = Db.queryLong("select count(1) from post where status='10' and userid=?",userId);
+    	return count;
+    }
+    
+    /**
+     * 根据版块统计总发帖数
+     * @return 汇总数
+     */
+    public List<Post> getCountByCommunityPid(Object pid){
+    	StringBuffer sql = new StringBuffer();
+    	sql.append("select count(1) as number,p.communityid from post p,community son ");
+    	sql.append(" where p.communityid = son.communityid and p.status='10' and son.pid = ? ");
+    	sql.append(" group by p.communityid ");
+    	List<Post> postList = this.find(sql.toString(), pid);
+    	return postList;
     }
 }
