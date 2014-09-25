@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,6 +16,7 @@ import com.domeke.app.model.User;
 import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
+import com.domeke.app.utils.GradeKit;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
@@ -209,24 +211,10 @@ public class VentWallController extends Controller {
 		List<CodeTable> codetables = CodeKit.getList("grade");
 		User user = getModel(User.class);
 		user = user.findById(userId);
-		//豆子
-		Long peas = 0L;
-		if (user.get("peas") != null){
-			peas = user.get("peas");			
-		}
-		//等级
-		Long point = user.get("point");
-		//豆子名
-		String peasName = "";
-		for (int i = 1; i <= codetables.size(); i++){
-			int codekey = Integer.parseInt(codetables.get(i).get("codekey"));
-			if (peas <= codekey){
-				peasName = codetables.get(i-1).getStr("codename");
-				setAttr("peasName", peasName);
-				setAttr("poin", point);
-				setAttr("peas", peas);
-				return;
-			}			
-		}
+		GradeKit gradeKit = new GradeKit();
+		Map<String,Object> gradeMap = gradeKit.getGrade(user);
+		setAttr("pointName", gradeMap.get("pointName"));
+		setAttr("poin", gradeMap.get("poin"));
+		setAttr("peas", gradeMap.get("peas"));
 	}
 }
