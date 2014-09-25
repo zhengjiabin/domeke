@@ -2,14 +2,17 @@ package com.domeke.app.controller;
 
 import java.util.List;
 
+import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Activity;
 import com.domeke.app.model.Community;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 
 @ControllerBind(controllerKey = "community")
+@Before(LoginInterceptor.class)
 public class CommunityController extends Controller {
 
 	public void index() {
@@ -108,12 +111,13 @@ public class CommunityController extends Controller {
 	/**
 	 * 跳转指定版块
 	 */
-	public void goToOrderCommunity() {
+	public void goToOrderForum() {
 		String communityId = getPara("communityId");
 		Community.dao.updateTimes(communityId);
 		
-		String actionKey = getPara("actionKey");
-		redirect(actionKey, true);
+		Community community = Community.dao.findById(communityId);
+		String actionKey = community.get("actionkey");
+		forwardAction(actionKey);
 	}
 
 	/**
@@ -123,6 +127,51 @@ public class CommunityController extends Controller {
 		setCommunityFatList();
 		setCommunitySonList();
 		render("/admin/admin_community.html");
+	}
+	
+	/**
+	 * 跳转到指定版块明细内容
+	 */
+	public void goToDetailContent(){
+		String communityId = getPara("communityId");
+		if(communityId == null || communityId.length()<=0){
+			renderNull();
+			return;
+		}
+		Community community = Community.dao.findById(communityId);
+		String actionKey = community.getStr("actionkey");
+		actionKey = actionKey + "/findById";
+		forwardAction(actionKey);
+	}
+	
+	/**
+	 * 跳转置顶功能
+	 */
+	public void setTop(){
+		String communityId = getPara("communityId");
+		if(communityId == null || communityId.length()<=0){
+			renderJson("false");
+			return;
+		}
+		Community community = Community.dao.findById(communityId);
+		String actionKey = community.getStr("actionkey");
+		actionKey = actionKey + "/setTop";
+		forwardAction(actionKey);
+	}
+	
+	/**
+	 * 跳转精华功能
+	 */
+	public void setEssence(){
+		String communityId = getPara("communityId");
+		if(communityId == null || communityId.length()<=0){
+			renderJson("false");
+			return;
+		}
+		Community community = Community.dao.findById(communityId);
+		String actionKey = community.getStr("actionkey");
+		actionKey = actionKey + "/setEssence";
+		forwardAction(actionKey);
 	}
 	
 	/**

@@ -13,6 +13,7 @@ INSERT INTO `code_type` VALUES ('1', 'workstype', '作品类型', null, '2014-09
 INSERT INTO `code_type` VALUES ('2', 'idtype', '回复类型', null, '2014-09-16 21:40:13', '1', '2014-09-16 21:40:17', '1');
 INSERT INTO `code_type` VALUES ('3', 'goodstype', '商品类型', null, '2014-09-18 20:06:49', '1', '2014-09-18 20:06:49', '1');
 INSERT INTO `code_type` VALUES ('4', 'grade', '等级', null, '2014-09-23 21:38:44', null, '2014-09-23 21:38:48', '1');
+INSERT INTO `code_type` VALUES ('5', 'gender', '性别', null, '2014-9-25 19:42:24', '1', '2014-9-25 19:42:30', '1');
 
 INSERT INTO `code_table` VALUES ('1', '00', 'workstype', '首页推荐', '首页推荐', '1', '2014-09-18 19:28:54', null, '2014-09-18 19:28:54', null, '0');
 INSERT INTO `code_table` VALUES ('2', '10', 'workstype', '原创动漫', '原创动漫', '2', '2014-09-18 19:28:31', null, '2014-09-18 19:28:31', null, '0');
@@ -35,6 +36,9 @@ INSERT INTO `code_table` VALUES ('18', '1500', 'grade', '小弯豆', '小弯豆'
 INSERT INTO `code_table` VALUES ('19', '4000', 'grade', '豆青', '豆青', null, '2014-09-23 21:58:28', null, '2014-09-23 21:58:30', null, '0');
 INSERT INTO `code_table` VALUES ('20', '20000', 'grade', '豆爷', '豆爷', null, '2014-09-23 21:59:47', null, '2014-09-23 21:59:47', null, '0');
 INSERT INTO `code_table` VALUES ('21', '50000', 'grade', '豆皇', '豆皇', null, '2014-09-23 21:59:48', null, '2014-09-23 21:59:48', null, '0');
+INSERT INTO `code_table` VALUES ('22', '0', 'gender', '男', '男', '1', '2014-9-25 19:45:20', '1', '2014-9-25 19:45:27', '1', '0');
+INSERT INTO `code_table` VALUES ('23', '1', 'gender', '女', '女', '2', '2014-9-25 19:45:24', '1', '2014-9-25 19:45:31', '1', '0');
+
 
 
 

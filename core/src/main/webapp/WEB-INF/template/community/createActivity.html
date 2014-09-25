@@ -33,13 +33,15 @@
 		</div>
 
 		<div class="control-group">
-			性别 <input type="text" name="activity.gender"
-				value="${activity.gender!}" class="span6 m-wrap" />
+			性别
+			<% if(has(genderList)){ for(codeTable in genderList) { %>
+				<input type="radio" name="activity.gender" value="${codeTable.codekey!}" />${codeTable.codevalue!}
+			<% } }%>
 		</div>
 
 		<div class="control-group">
 			人数 <input type="text" name="activity.number"
-				value="${activity.number!}" class="span6 m-wrap" />
+				value="${activity.number!}" />
 		</div>
 
 		<div class="control-group">

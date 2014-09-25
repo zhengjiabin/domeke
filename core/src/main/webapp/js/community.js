@@ -14,13 +14,54 @@ function showMoreCommunity(node,communityList){
 
 }
 
-function goToOrderCommunity(node,actionKey, communityId) {
-	var url = "./community/goToOrderCommunity?communityId=" + communityId
-			+ "&actionKey=" + actionKey;
-	$.post(url, {
-		communityId : communityId,
-		actionKey : actionKey
+//跳转版块明细
+function findById(node,targetId) {
+	var baseCommunity = $(node).closest("#baseCommunity");
+	var communityId = baseCommunity.find("#communityId").first().val();
+	
+	var url = "./community/goToDetailContent?communityId="+communityId;
+	$.post(url,{
+		targetId : targetId
 	}, function(data) {
+		var baseCommunity = $(node).closest("#baseCommunity");
+		var detailContentHtml = baseCommunity.find("#detailContentHtml").first();
+		detailContentHtml.html(data);
+	});
+}
+
+//置顶功能
+function setTop(node,targetId){
+	var baseCommunity = $(node).closest("#baseCommunity");
+	var communityId = baseCommunity.find("#communityId").first().val();
+	
+	var url = "./community/setTop?communityId="+communityId;
+	$.post(url,{
+		targetId : targetId
+	}, function(data) {
+		if(data == true){
+			alert("设置置顶成功");
+		}
+	});
+}
+
+//精华功能
+function setEssence(node,targetId){
+	var baseCommunity = $(node).closest("#baseCommunity");
+	var communityId = baseCommunity.find("#communityId").first().val();
+	
+	var url = "./community/setEssence?communityId="+communityId;
+	$.post(url,{
+		targetId : targetId
+	}, function(data) {
+		if(data == true){
+			alert("设置精华成功");
+		}
+	});
+}
+
+function goToOrderForum(node,communityId) {
+	var url = "./community/goToOrderForum?communityId=" + communityId;
+	$.post(url, function(data) {
 		var baseCommunity = $(node).closest("#communityLayout");
 		var communityLayout = baseCommunity.find("#baseCommunity").first();
 		communityLayout.html(data);

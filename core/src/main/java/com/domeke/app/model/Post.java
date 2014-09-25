@@ -49,7 +49,7 @@ public class Post extends Model<Post> {
 	 */
 	public Page<Post> findPage(int pageNumber, int pageSize) {
 		Page<Post> page = this.paginate(pageNumber, pageSize, "select *",
-				"from post where status='10' order by createtime");
+				"from post where status='10' order by to_days(createtime) desc,top desc,essence desc");
 		return page;
 	}
 	/**
@@ -64,7 +64,7 @@ public class Post extends Model<Post> {
 	public Page<Post> findPageByCommunityId(int pageNumber, int pageSize,Object communityId) {
 		StringBuffer sqlExceptSelect = new StringBuffer();
 		sqlExceptSelect.append("from post p left join (select count(1) as number,targetid from comment group by targetid) c on p.postid=c.targetid ");
-		sqlExceptSelect.append(" where p.status='10' and p.communityId=? order by createtime");
+		sqlExceptSelect.append(" where p.status='10' and p.communityId=? order by to_days(p.createtime) desc,p.top desc,p.essence desc");
 		Page<Post> page = this.paginate(pageNumber, pageSize, "select p.*,c.number as viewcount",sqlExceptSelect.toString(),communityId);
 		return page;
 	}
@@ -80,7 +80,7 @@ public class Post extends Model<Post> {
 	 */
 	public Page<Post> findByUserId(Object userId, int pageNumber, int pageSize) {
 		Page<Post> page = this.paginate(pageNumber, pageSize, "select *",
-				"from post where userid=? order by status,createtime", userId);
+				"from post where userid=? order by to_days(createtime) desc,top desc,essence desc", userId);
 		return page;
 	}
 

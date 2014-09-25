@@ -3,17 +3,19 @@ package com.domeke.app.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
+import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Comment;
 import com.domeke.app.model.Community;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "post")
+@Before(LoginInterceptor.class)
 public class PostController extends Controller {
 
 	/**
@@ -33,7 +35,7 @@ public class PostController extends Controller {
 	 */
 	public void findPage(){
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
+		int pageSize = getParaToInt("pageSize", 10);
 		Page<Post> postPage = Post.dao.findPage(pageNumber, pageSize);
 		setAttr("postPage", postPage);
 		render("/admin/admin_detailPost.html");
@@ -48,12 +50,44 @@ public class PostController extends Controller {
 		User user = getUser();
 		Object userId = user.get("userid");
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
+		int pageSize = getParaToInt("pageSize", 10);
 
 		Post post = getModel(Post.class);
 		Page<Post> page = post.findByUserId(userId, pageNumber, pageSize);
 		setAttr("page", page);
 		render("/community/myPost.html");
+	}
+	
+	/**
+	 * 置顶功能
+	 */
+	public void setTop(){
+		String postId = getPara("targetId");
+		if(postId == null || postId.length()<=0){
+			renderJson("false");
+			return;
+		}
+		Post post = getModel(Post.class);
+		post.set("postid", postId);
+		post.set("top", 1);
+		post.update();
+		renderJson("true");
+	}
+	
+	/**
+	 * 精华功能
+	 */
+	public void setEssence(){
+		String postId = getPara("targetId");
+		if(postId == null || postId.length()<=0){
+			renderJson("false");
+			return;
+		}
+		Post post = getModel(Post.class);
+		post.set("postid", postId);
+		post.set("essence", 1);
+		post.update();
+		renderJson("true");
 	}
 
 	/**
@@ -62,7 +96,7 @@ public class PostController extends Controller {
 	 * @return 指定帖子信息
 	 */
 	public void findById() {
-		String postId = getPara("postId");
+		String postId = getPara("targetId");
 		Post.dao.updateTimes(postId);
 		
 		setPost(postId);
@@ -87,7 +121,7 @@ public class PostController extends Controller {
 	 */
 	public void setCommentPage(Object postId) {
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
+		int pageSize = getParaToInt("pageSize", 10);
 		Page<Comment> commentPage = Comment.dao.findPageByTargetId(postId,
 				"10", pageNumber, pageSize);
 		setAttr("commentPage", commentPage);
@@ -292,7 +326,7 @@ public class PostController extends Controller {
 	 */
 	private void setPostPage(Object communityId) {
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
+		int pageSize = getParaToInt("pageSize", 10);
 		Page<Post> postPage = null;
 		if(communityId == null){
 			postPage =Post.dao.findPage(pageNumber, pageSize);
@@ -309,14 +343,7 @@ public class PostController extends Controller {
 	 * @return user
 	 */
 	private User getUser() {
-		HttpSession session = getSession();
-		Object user = session.getAttribute("user");
-		if (user instanceof User) {
-			return (User) user;
-		}
-		User test = new User();
-		test.set("userid", 1);
-		test.set("username", "zheng");
-		return test;
+		User user = getSessionAttr("user");
+		return user;
 	}
 }

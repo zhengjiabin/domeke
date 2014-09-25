@@ -4,17 +4,6 @@ function openApply(activityId) {
 	window.open(url, '', attribute);
 }
 
-function findById(node,activityId) {
-	var url = "./activity/findById";
-	$.post(url,{
-		activityId : activityId
-	}, function(data) {
-		var baseCommunity = $(node).closest("#baseCommunity");
-		var activityHtml = baseCommunity.find("#activityHtml").first();
-		activityHtml.html(data);
-	});
-}
-
 function submitApp(node,activityId) {
 	var url = "./activityApply/create?activityId=" + activityId;
 	$.post(url, 

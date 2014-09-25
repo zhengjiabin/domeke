@@ -8,11 +8,11 @@
 	<input value="${targetId!}" id="targetId" style="display: none;"> 
 	每页<select name="page.pageSize" id="pageSize"
 		onchange="goToPageSize(this,this.value,'1')">
-		<option value="2" selected="selected">2</option>
-		<option value="3">3</option>
-		<option value="5">5</option>
-		<option value="8">8</option>
-		<option value="10">10</option>
+		<option value="10" selected="selected">10</option>
+		<option value="20">20</option>
+		<option value="30">30</option>
+		<option value="50">50</option>
+		<option value="80">80</option>
 	</select>条&nbsp;共${page.totalRow!}条&nbsp;第${page.pageNumber!}
 	/${page.totalPage!}页 <a href="javascript:void(0)"
 		onclick="goToPageSize(this,${page.pageSize!},'1')">首页</a> <a

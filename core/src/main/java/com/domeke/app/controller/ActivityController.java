@@ -3,20 +3,23 @@ package com.domeke.app.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
+import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Activity;
 import com.domeke.app.model.ActivityApply;
+import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.Comment;
 import com.domeke.app.model.Community;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
+import com.domeke.app.utils.CodeKit;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "activity")
-//@Before(LoginInterceptor.class)
+@Before(LoginInterceptor.class)
 public class ActivityController extends Controller {
 
 	/**
@@ -55,7 +58,7 @@ public class ActivityController extends Controller {
 	 * @return 指定活动信息
 	 */
 	public void findById() {
-		String activityId = getPara("activityId");
+		String activityId = getPara("targetId");
 		Activity.dao.updateTimes(activityId);
 		
 		setActivity(activityId);
@@ -65,6 +68,38 @@ public class ActivityController extends Controller {
 		
 		keepPara("communityId");
 		render("/community/detailActivity.html");
+	}
+	
+	/**
+	 * 置顶功能
+	 */
+	public void setTop(){
+		String activityId = getPara("targetId");
+		if(activityId == null || activityId.length()<=0){
+			renderJson("false");
+			return;
+		}
+		Activity activity = getModel(Activity.class);
+		activity.set("activityid", activityId);
+		activity.set("top", 1);
+		activity.update();
+		renderJson("true");
+	}
+	
+	/**
+	 * 精华功能
+	 */
+	public void setEssence(){
+		String activityId = getPara("targetId");
+		if(activityId == null || activityId.length()<=0){
+			renderJson("false");
+			return;
+		}
+		Activity activity = getModel(Activity.class);
+		activity.set("activityid", activityId);
+		activity.set("essence", 1);
+		activity.update();
+		renderJson("true");
 	}
 	
 	/**
@@ -83,7 +118,7 @@ public class ActivityController extends Controller {
 	 */
 	private void setActivityApplyPage(Object activityId) {
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
+		int pageSize = getParaToInt("pageSize", 10);
 		Page<ActivityApply> activityApplyPage = ActivityApply.dao
 				.findByActivityId(activityId, pageNumber, pageSize);
 		setAttr("activityApplyPage", activityApplyPage);
@@ -94,7 +129,7 @@ public class ActivityController extends Controller {
 	 */
 	public void setCommentPage(Object activityId) {
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
+		int pageSize = getParaToInt("pageSize", 10);
 		Page<Comment> commentPage = Comment.dao.findPageByTargetId(activityId,
 				"20", pageNumber, pageSize);
 		setAttr("commentPage", commentPage);
@@ -146,7 +181,18 @@ public class ActivityController extends Controller {
 	 */
 	public void skipCreate() {
 		keepPara("communityId");
+		setCodeTableList("gender", "genderList");
 		render("/community/createActivity.html");
+	}
+	
+	/**
+	 * 设置码表
+	 * @param key
+	 * @param renderName
+	 */
+	private void setCodeTableList(String key,String renderName){
+		List<CodeTable> list = CodeKit.getList(key);
+		setAttr(renderName, list);
 	}
 
 	/**
@@ -202,7 +248,7 @@ public class ActivityController extends Controller {
 	 */
 	public void setActivityPage(Object communityId){
 		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 2);
+		int pageSize = getParaToInt("pageSize", 10);
 		
 		Page<Activity> activityPage = null;
 		if(communityId == null){
@@ -322,15 +368,7 @@ public class ActivityController extends Controller {
 	 * @return user
 	 */
 	private User getUser() {
-		HttpSession session = getSession();
-		Object user = session.getAttribute("user");
-		if (user instanceof User) {
-			return (User) user;
-		}
-		User test = new User();
-		test.set("userid", 1);
-		test.set("username", "zheng");
-		session.setAttribute("user", test);
-		return test;
+		User user = getSessionAttr("user");
+		return user;
 	}
 }

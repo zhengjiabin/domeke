@@ -49,11 +49,12 @@ public class Activity extends Model<Activity> {
 	 * @return
 	 */
 	public Page<Activity> findPage(int pageNumber, int pageSize) {
+		String select = "select u.imgurl,u.username,aty.*,app.number as applynumber";
 		StringBuffer sqlExceptSelect = new StringBuffer();
-		sqlExceptSelect.append("from activity aty left join (select count(1) as number,app.activityid from activity_apply app where app.status='10' ");
-		sqlExceptSelect.append(" group by app.activityid) app on aty.activityid=app.activityid where aty.status='10'");
-		sqlExceptSelect.append(" order by aty.createtime");
-		Page<Activity> page = this.paginate(pageNumber, pageSize, "select aty.*,app.number",sqlExceptSelect.toString());
+		sqlExceptSelect.append("from user u,activity aty left join (select count(1) as number,app.activityid from activity_apply app where app.status='10' ");
+		sqlExceptSelect.append(" group by app.activityid) app on aty.activityid=app.activityid where u.userid=aty.userid and aty.status='10'");
+		sqlExceptSelect.append(" order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc");
+		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
 		return page;
 	}
 
@@ -68,11 +69,12 @@ public class Activity extends Model<Activity> {
 	 */
 	public Page<Activity> findPage(int pageNumber, int pageSize,
 			Object communityId) {
+		String select = "select u.imgurl,u.username,aty.*,app.number as applynumber";
 		StringBuffer sqlExceptSelect = new StringBuffer();
-		sqlExceptSelect.append("from activity aty left join (select count(1) as number,app.activityid from activity_apply app where app.status='10' ");
-		sqlExceptSelect.append(" group by app.activityid) app on aty.activityid=app.activityid where aty.status='10' and aty.communityid=? ");
-		sqlExceptSelect.append("order by aty.createtime");
-		Page<Activity> page = this.paginate(pageNumber, pageSize, "select aty.*,app.number as applynumber",sqlExceptSelect.toString(),communityId);
+		sqlExceptSelect.append("from user u,activity aty left join (select count(1) as number,app.activityid from activity_apply app where app.status='10' ");
+		sqlExceptSelect.append(" group by app.activityid) app on aty.activityid=app.activityid where u.userid=aty.userid and aty.status='10' and aty.communityid=? ");
+		sqlExceptSelect.append("order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc");
+		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),communityId);
 		return page;
 	}
 
@@ -88,7 +90,7 @@ public class Activity extends Model<Activity> {
 	public Page<Activity> findByUserId(Object userId, int pageNumber,
 			int pageSize) {
 		Page<Activity> page = this.paginate(pageNumber, pageSize, "select *",
-				"from activity where userid=? order by status,createtime",
+				"from activity where userid=? order by to_days(createtime) desc,top desc,essence desc",
 				userId);
 		return page;
 	}
