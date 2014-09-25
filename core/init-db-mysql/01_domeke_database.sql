@@ -105,11 +105,11 @@ CREATE TABLE `user_action` (
 -- ----------------------------
 DROP TABLE IF EXISTS `community`;
 CREATE TABLE `community` (
-  `communityid` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `communityid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title`  varchar(64) NOT NULL,
   `content`  varchar(255) DEFAULT NULL,
   `actionkey`  varchar(255) DEFAULT NULL,
-  `pid` mediumint(8) DEFAULT '0',
+  `pid` bigint(20) DEFAULT '0',
   `level` int(11) NOT NULL DEFAULT '1',
   `position` int(11) DEFAULT '0',
   `times` bigint(20) DEFAULT '0',
