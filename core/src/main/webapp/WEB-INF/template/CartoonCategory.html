@@ -27,7 +27,7 @@
 			window.clearInterval(timer);
 			var src = $('img',this).attr('src');
 			var name = $(this).attr('wname');
-			$('.SortAD img').attr('src',src);
+			$('.SortAD img[flag=update]').attr('src',src);
 			$('.SortAD .SortADFootbar span').html(name);
 		});
 		//鼠标移出事件
@@ -51,9 +51,9 @@ for(wtypeCT in wtypeCTList){
 %>
 <section class="WhiteBg">
 	<div class="SortAD">
-		<img src="${allWorksMap[workstype][0].cover!}">
+		<img flag="update" src="${allWorksMap[workstype][0].cover!}">
 		<div class="SortADFootbar">
-			<!-- <a href="#"><img src="http://www.dongmark.com/images/icon_play.png"></a>  -->
+			<a href="#" class="icon"><img id="icon" src="images/icon_play.png"></a>
 			<span>${allWorksMap[workstype][0].worksname!}</span>
 		</div>
 	</div>
@@ -88,7 +88,8 @@ for(wtypeCT in wtypeCTList){
    	  			if(index <= 5){
    	  		%>
         	<div class="HISub">
-        		<img src="${works.cover!}"><br/><a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+        		<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
+        		<a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
         	</div>
         	<% }
         	} %>
@@ -103,7 +104,10 @@ for(wtypeCT in wtypeCTList){
             	index = index + 1;
             	if(index <= 4){
             %>
-            	<li><span>${index!}</span><a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a></li>
+            	<li>
+            		<span>${index!}</span>
+            			<a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+            	</li>
             <%	
             	}else if(index == 5){	
             %>
@@ -144,7 +148,7 @@ for(wtypeCT in wtypeCTList){
     	if(index <= 8 ){
     %>
     	<div class="CartoonSub">
-        	<img src="${works.cover!}"><br/>
+        	<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
             <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
         </div>
     <% }
@@ -166,7 +170,7 @@ for(wtypeCT in wtypeCTList){
     	if(index == 1 ){
     %>
     	<div class="Sort2">
-        	<img src="${works.cover!}"><br/>
+        	<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
         	<a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
         </div>
         <div class="Sort3 Guess">
@@ -175,7 +179,7 @@ for(wtypeCT in wtypeCTList){
 		}else if(index <= 7){
 	%>
         	<div class="CartoonSub">
-                <img src="${works.cover!}"><br/>
+                <a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
                 <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
             </div>
 	<%
@@ -215,7 +219,7 @@ for(wtypeCT in wtypeCTList){
     	if(index <= 6 ){
     %>
     	<div class="CartoonSub">
-        	<img src="${works.cover!}"><br/>
+        	<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
             <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
         </div>
 	<% }
