@@ -1,17 +1,17 @@
 Version 4.0.5 (2013-08-27)
 	Added visuals for UL, LI and BR to visualblocks plugin. Patch contributed by Dan Ransom.
 	Added new autosave_restore_when_empty option to autosave plugin. Enabled by default.
-	Fixed bug where an exception was thrown when inserting images if valid_elements didn't include an ID for the image.
+	Fixed bug where an exception was thrown when inserting http://www.dongmark.com/images/images if valid_elements didn't include an ID for the image.
 	Fixed bug where the advlist plugin wouldn't properly render the splitbutton controls.
 	Fixed bug where visual blocks menu item wouldn't be marked checked when using the visualblocks_default_state option.
 	Fixed bug where save button in save plugin wouldn't get properly enabled when contents was changed.
-	Fixed bug where it was possible to insert images without any value for it's source attribute.
+	Fixed bug where it was possible to insert http://www.dongmark.com/images/images without any value for it's source attribute.
 	Fixed bug where altering image attributes wouldn't add a new undo level.
 	Fixed bug where import rules in CSS files wouldn't be properly imported by the importcss plugin.
 	Fixed bug where selectors could be imported multiple times. Producing duplicate formats.
 	Fixed bug where IE would throw exception if selection was changed while the editor was hidden.
 	Fixed so complex rules like .class:before doesn't get imported by default in the importcss plugin.
-	Fixed so it's possible to remove images by setting the src attribute to a blank value.
+	Fixed so it's possible to remove http://www.dongmark.com/images/images by setting the src attribute to a blank value.
 	Fixed so the save_enablewhendirty setting in the save plugin is enabled by default.
 	Fixed so block formats drop down for classic mode can be translated properly using language packs.
 	Fixed so hr menu item and toolbar button gets the same translation string.
@@ -92,7 +92,7 @@ Version 4.0.1 (2013-06-26)
 	Fixed so image size fields gets updated when selecting a new image in the image dialog.
 	Fixed so it doesn't load any language pack if the language option is set to "en".
 	Fixed so ctrl+shift+z works as an alternative redo shortcut to match a common Mac OS X shortcut.
-	Fixed so it's not possible to drag/drop in images in Gecko by default when paste plugin is enabled.
+	Fixed so it's not possible to drag/drop in http://www.dongmark.com/images/images in Gecko by default when paste plugin is enabled.
 	Fixed so format menu item texts gets translated using the specified language pack.
 	Fixed so the image dialog title is the same as the insert/edit image button text.
 	Fixed so paste as plain text produces BR:s in PRE block and when forced_root_block is disabled.
@@ -105,7 +105,7 @@ Version 4.0 (2013-06-13)
 	Added new textcolor options that enables you to specify the colors you want to display. Contributed by Jennifer Arsenault.
 	Added new external file support for link_list and image_list options. The file format is a simple JSON file.
 	Added new "both" mode for the resize option. Enables resizing in both width and height.
-	Added new paste_data_images option that allows you to enable/disable paste of data images.
+	Added new paste_data_http://www.dongmark.com/images/images option that allows you to enable/disable paste of data http://www.dongmark.com/images/images.
 	Added new fixed_toolbar_container option that allows you to add a fixed container for the inline toolbar.
 	Fixed so font name, font size and block format select boxes gets updated with the current format.
 	Fixed so the resizeTo/resizeBy methods for the theme are exposed as it as in 3.x.
@@ -158,7 +158,7 @@ Version 4.0b3 (2013-05-15)
 	Fixed bug where image dialog wouldn't properly remove width/height if blanked.
 	Fixed bug where all events wasn't properly unbound when editor instances where removed.
 	Fixed bug where data- attributes wasn't working properly in the SaxParser.
-	Fixed bug where Gecko wouldn't properly render broken images.
+	Fixed bug where Gecko wouldn't properly render broken http://www.dongmark.com/images/images.
 	Fixed bug where Gecko wouldn't produce the same error dialog on paste as other browsers.
 	Fixed bug where is wasn't possible to prevent execCommands in beforeExecCommand event.
 	Fixed bug where the fullpage_hide_in_source_view option wasn't working in the fullpage plugin.
@@ -176,9 +176,9 @@ Version 4.0b2 (2013-04-24)
 	Added new rel_list option to link plugin. Enables you to specify values for a rel drop down.
 	Added new target_list option to link plugin. Enables you to add to or disable the link targets.
 	Added new link_list option to link plugin. Enables you to specify a list of links to pick from.
-	Added new image_list option to image pluigin. Enables you to specify a list of images to pick from.
+	Added new image_list option to image pluigin. Enables you to specify a list of http://www.dongmark.com/images/images to pick from.
 	Added new textcolor plugin. This plugin holds the text color and text background color buttons.
-	Fixed bug where alignment of images wasn't working properly on Firefox.
+	Fixed bug where alignment of http://www.dongmark.com/images/images wasn't working properly on Firefox.
 	Fixed bug where IE 8 would throw error when inserting a table.
 	Fixed bug where IE 8 wouldn't render the element path properly.
 	Fixed bug where old IE versions would render a red focus border.
@@ -190,12 +190,12 @@ Version 4.0b2 (2013-04-24)
 	Fixed bug where IE would throw "unknown error" exception sometimes in ForceBlocks logic.
 	Fixed bug where IE would't properly render disabled buttons in button groups.
 	Fixed bug where tab key wouldn't properly move to next input field in dialogs.
-	Fixed bug where resize handles for tables and images would appear at wrong positions on IE 8.
+	Fixed bug where resize handles for tables and http://www.dongmark.com/images/images would appear at wrong positions on IE 8.
 	Fixed bug where dialogs would produce stack overflow if title was wider than content.
 	Fixed bug with table cell/row menu items being enabled even if no cell was selected.
 	Fixed so the text to display is after the URL field in the link dialog.
 	Fixed so the width setting applies to the editor panel in modern theme.
-	Fixed so it's easier to make custom icons for buttons using plain old images.
+	Fixed so it's easier to make custom icons for buttons using plain old http://www.dongmark.com/images/images.
 Version 4.0b1 (2013-04-11)
 	Added new node.js based build process used uglify, amdlc, jake etc.
 	Added new package.json to enable easy installation of dependent npm packages used for building.

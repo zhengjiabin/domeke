@@ -34,7 +34,7 @@
 		{
 		height: 100%;
 		background-color: #333333;
-		background-image: url(images/bg.gif);
+		background-image: url(http://www.dongmark.com/images/bg.gif);
 		background-position: 0% 0;
 		color: #000000;
 		line-height: 1.5;
@@ -71,7 +71,7 @@
 		min-height: 100%;
 		margin: 17px auto;
 		padding: 0 18px;
-		background-image: url(images/page.gif);
+		background-image: url(http://www.dongmark.com/images/page.gif);
 		background-repeat: repeat-y;
 		text-align: left;
 		}
@@ -90,7 +90,7 @@
 		{
 		height: 90px;
 		background-color: #B2DD32;
-		background-image: url(images/header1.jpg);
+		background-image: url(http://www.dongmark.com/images/header1.jpg);
 		background-repeat: repeat-x;
 		}
 	
@@ -196,11 +196,11 @@
 		border: 1px solid #BFBAB0;
 		
 		background-color: #F2EFE9;
-		background-image: url(images/fieldset_gradient.jpg);
+		background-image: url(http://www.dongmark.com/images/fieldset_gradient.jpg);
 		background-repeat: repeat-x;
 		
 		background-color: #fff;
-		background-image: url(images/fieldset-gradient-02.jpg);
+		background-image: url(http://www.dongmark.com/images/fieldset-gradient-02.jpg);
 		background-position:bottom;
 		
 		float: left;
@@ -411,7 +411,7 @@
 /*** SUPPORTING CLASSES ***/
 
 	form label.required{
-		background-image:url(images/required_star.gif);
+		background-image:url(http://www.dongmark.com/images/required_star.gif);
 		background-position:right;
 		background-repeat:no-repeat;
 		}

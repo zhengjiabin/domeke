@@ -85,7 +85,7 @@ article > section,aside > section{
 	position: fixed;
 	top: 0px;
 	width: 100%;
-	background: url(../images/bg_fixed.png) left top repeat-x;
+	background: url(../http://www.dongmark.com/images/bg_fixed.png) left top repeat-x;
 	height: 38px;
 	z-index: 100;
 }
@@ -245,7 +245,7 @@ nav li{
 }
 .CartoonTitleB{
 	border-bottom: 0px;
-	background: url(../images/bg_title.png) left bottom no-repeat;
+	background: url(../http://www.dongmark.com/images/bg_title.png) left bottom no-repeat;
 	color: #666;
 }
 .CartoonTitleC{
@@ -362,13 +362,13 @@ a.icon{
 }
 .FloatL{
 	float: left;
-	background: url(../images/icon01.png) left top no-repeat;
+	background: url(../http://www.dongmark.com/images/icon01.png) left top no-repeat;
 	padding-left: 20px;
 	margin-left: 5px;
 }
 .FloatR{
 	float: right;
-	background: url(../images/icon02.png) left top no-repeat;
+	background: url(../http://www.dongmark.com/images/icon02.png) left top no-repeat;
 	padding-left: 20px;
 	margin-right: 5px;
 }
@@ -404,7 +404,7 @@ a.icon{
 }
 .LiVline li{
 	clear: both;
-	background: url(../images/bg_vline.png) left bottom repeat-x;
+	background: url(../http://www.dongmark.com/images/bg_vline.png) left bottom repeat-x;
 	padding: 9px 0px;
 }
 .LiHeightA,.LiContentB{
@@ -459,10 +459,10 @@ a.icon{
 	padding-top: 0px;
 }
 .Tip01{
-	background: url(../images/icon05.png) left center no-repeat;
+	background: url(../http://www.dongmark.com/images/icon05.png) left center no-repeat;
 }
 .Tip02{
-	background: url(../images/icon06.png) left center no-repeat;
+	background: url(../http://www.dongmark.com/images/icon06.png) left center no-repeat;
 }
 .LiC span{
 	display: inline-block;
@@ -482,36 +482,36 @@ a.icon{
 	height: 17px;
 }
 .Num1{
-	background: url(../images/N1.png) right bottom no-repeat;
+	background: url(../http://www.dongmark.com/images/N1.png) right bottom no-repeat;
 }
 .Num2{
-	background: url(../images/N2.png) right bottom no-repeat;
+	background: url(../http://www.dongmark.com/images/N2.png) right bottom no-repeat;
 }
 .Num3{
-	background: url(../images/N3.png) right bottom no-repeat;
+	background: url(../http://www.dongmark.com/images/N3.png) right bottom no-repeat;
 }
 .Num4{
-	background: url(../images/N4.png) right bottom no-repeat;
+	background: url(../http://www.dongmark.com/images/N4.png) right bottom no-repeat;
 }
 .Num5{
-	background: url(../images/N5.png) right bottom no-repeat;
+	background: url(../http://www.dongmark.com/images/N5.png) right bottom no-repeat;
 }
 
 .Num6{
-	background: url(../images/N6.png) right bottom no-repeat;
+	background: url(../http://www.dongmark.com/images/N6.png) right bottom no-repeat;
 	
 }
 .Num7{
-	background: url(../images/N7.png) right bottom no-repeat;
+	background: url(../http://www.dongmark.com/images/N7.png) right bottom no-repeat;
 }
 .Num8{
-	background: url(../images/N8.png) right bottom no-repeat;
+	background: url(../http://www.dongmark.com/images/N8.png) right bottom no-repeat;
 }
 .Num9{
-	background: url(../images/N9.png) right bottom no-repeat;
+	background: url(../http://www.dongmark.com/images/N9.png) right bottom no-repeat;
 }
 .Num0{
-	background: url(../images/N0.png) right bottom no-repeat;
+	background: url(../http://www.dongmark.com/images/N0.png) right bottom no-repeat;
 }
 .Num6,.Num7,.Num8,.Num9,.Num0{
 	top: 0px;
@@ -671,22 +671,22 @@ a.icon{
 	margin: 0px 15px;
 }
 .Good a{
-	background: url(../images/icon11_gry.png) left center no-repeat;
+	background: url(../http://www.dongmark.com/images/icon11_gry.png) left center no-repeat;
 }
 .Good a:hover{
-	background: url(../images/icon11.png) left center no-repeat;
+	background: url(../http://www.dongmark.com/images/icon11.png) left center no-repeat;
 }
 .Argument a{
-	background: url(../images/icon12_gry.png) left center no-repeat;
+	background: url(../http://www.dongmark.com/images/icon12_gry.png) left center no-repeat;
 }
 .Argument a:hover{
-	background: url(../images/icon12.png) left center no-repeat;
+	background: url(../http://www.dongmark.com/images/icon12.png) left center no-repeat;
 }
 .Share a{
-	background: url(../images/icon13_gry.png) left center no-repeat;
+	background: url(../http://www.dongmark.com/images/icon13_gry.png) left center no-repeat;
 }
 .Share a:hover{
-	background: url(../images/icon13.png) left center no-repeat;
+	background: url(../http://www.dongmark.com/images/icon13.png) left center no-repeat;
 }
 .RoolLeft{
 	position: relative;
@@ -750,7 +750,7 @@ a.icon{
 	margin-bottom: 30px;
 }
 .SetTitle{
-	background: url(../images/bg_tab.png) left top no-repeat;
+	background: url(../http://www.dongmark.com/images/bg_tab.png) left top no-repeat;
 	padding: 5px 0px 0px 25px;
 	color: #2d7cc8;
 	height: 24px;
