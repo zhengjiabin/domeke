@@ -35,52 +35,83 @@ public class WorksController extends FilesLoadController {
 	 * 
 	 */
 	public void save() {
+		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			String coverPath = upLoadFile("cover", "", 2000 * 1024 * 1024,
-					"utf-8");
+			String coverPath = upLoadFile("cover", "", 2000 * 1024 * 1024, "utf-8");
 			Works worksModel = getModel(Works.class);
+			if(StrKit.isBlank(coverPath)){
+				coverPath = "";
+			}
 			worksModel.set("cover", coverPath);
+			worksModel.set("leadingrole", 111);
+			
 			// 可改为获取当前用户的名字或者ID
 			worksModel.set("creater", 111111);
 			worksModel.set("modifier", 111111);
-			worksModel.saveWorksInfo();
-			redirect("/works/goToManager");
+			boolean bool = worksModel.save();
+			if(bool){
+				map.put("success", "1");
+			}else{
+				map.put("success", "0");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			render("/works/goToManager");
+			map.put("success", "0");
 		}
+		renderJson(map);
 	}
 
 	public void saveWork(){
-		String comicPath = upLoadFile("comic", "", 2000 * 1024 * 1024,
-				"utf-8");
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		Work workModel = getModel(Work.class);
-		workModel.set("comic", comicPath);
-		workModel.set("modifier", 1);
-		workModel.set("modifytime", timestamp);
-		workModel.set("createtime", timestamp);
-		workModel.set("creater", 1);
-		workModel.save();
-		redirect("/works/goToManager");
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			String comicPath = upLoadFile("comic", "", 2000 * 1024 * 1024, "utf-8");
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			Work workModel = getModel(Work.class);
+			workModel.set("comic", comicPath);
+			workModel.set("modifier", 1);
+			workModel.set("modifytime", timestamp);
+			workModel.set("createtime", timestamp);
+			workModel.set("creater", 1);
+			workModel.save();
+			map.put("success", "1");
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("success", "0");
+		}
+		renderJson(map);
 	}
 	/**
 	 * 更新已修的作品
 	 */
 	public void updateWorks() {
-		this.getFiles();
-		Works worksModel = getModel(Works.class);
-		worksModel.set("modifier", 111111);
-		worksModel.update();
-		redirect("/works/goToManager");
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			this.getFiles();
+			Works worksModel = getModel(Works.class);
+			worksModel.set("modifier", 111111);
+			worksModel.update();
+			map.put("success", "1");
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("success", "0");
+		}
+		renderJson(map);
 	}
 	
 	public void updateWork(){
-		this.getFiles();
-		Work workModel = getModel(Work.class);
-		workModel.set("modifier", 111111);
-		workModel.update();
-		redirect("/works/goToManager");
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			this.getFiles();
+			Work workModel = getModel(Work.class);
+			workModel.set("modifier", 111111);
+			workModel.update();
+			map.put("success", "1");
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("success", "0");
+		}
+		renderJson(map);
 	}
 	
 	/**

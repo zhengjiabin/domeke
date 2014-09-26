@@ -1,10 +1,11 @@
 <% layout("/admin/admin_layout.html"){ %>
 <base href="${core}/" />
 <script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/jquery.form.js"></script>
+<link href="assets/manage.css" rel="stylesheet" media="screen">
+<link href="bootstrap/css/bootstrap-3.2.0.min.css" rel="stylesheet" media="screen">
 <script src="bootstrap/js/bootstrap-3.2.0.min.js"></script>
-<link href="css/Cartoon.css" rel="stylesheet">
-<link href="bootstrap/css/bootstrap-3.2.0.min.css" rel="stylesheet">
-<link href="css/Member.css" rel="stylesheet">
+
 <script type="text/javascript">
 	var pageSize = 6;
 	var pageCount;
@@ -24,7 +25,21 @@
 		//添加
 		$('#parentAdd').click(function(){
 			$.digcenter($parentDialog,'添加','works/save');
+			$('form',$parentDialog)[0].reset();
 			$parentDialog.show();
+		});
+		//提交表单
+		$('#parentForm').submit(function(){
+			$('#parentForm').ajaxSubmit(function(data){
+				if(data.success == '1'){
+					alert('操作成功！');
+				}else{
+					alert('操作失败！');
+				}
+				$parentDialog.hide();
+				$.showTableParent();
+			});
+			return false;
 		});
 		$('#pageParent button').click(function(){
 			var $parentPageNumber = $('#parentPageNumber');
@@ -113,6 +128,7 @@
 			}
 			$.digcenter($childrenDialog,'添加','works/saveWork');
 			$('#parId').val(parId);
+			$('form',$childrenDialog)[0].reset();
 			$childrenDialog.show();
 			$('[flag=workid]',$childrenDialog).removeAttr('value');
 		});
@@ -155,7 +171,19 @@
 			//ajax提交选中的Id，查询并初始化值。然后显示dig
 			$.initDialog($childrenDialog,'works/getWorkJsonById','id='+parId,'修改','works/updateWork');
 		});
-		
+		//点击提交
+		$('form',$childrenDialog).submit(function(){
+			$('form',$childrenDialog).ajaxSubmit(function(data){
+				if(data.success == '1'){
+					alert('操作成功！');
+				}else{
+					alert('操作失败！');
+				}
+				$childrenDialog.hide();
+				$.showTableChilrend($('form :input[flag=worksid]',$childrenDialog).val());
+			});
+			return false;
+		});
 		//取消按钮
 		$('#childrenDigCancel',$childrenDialog).click(function(){
 			$childrenDialog.hide();
@@ -182,7 +210,7 @@
 					}else{
 						alert('删除失败');
 					}
-				$.showTableChilrend();
+				$.showTableChilrend(parId);
 				}
 			});
 	    });
@@ -397,7 +425,7 @@
 	<div id="parentDialog" class="panel panel-primary" style="position:fixed; z-index:9999; width: 300px;height:600px; display: none;">
 		<div class="panel-heading"></div>
 		<div class="panel-body">
-		<form class="form-inline" role="form" method="post" enctype="multipart/form-data">
+		<form id="parentForm" onsubmit="return false;" class="form-inline" role="form" method="post" enctype="multipart/form-data">
 			<input type="hidden" flag="worksid" name="works.worksid" class="form-control" required="required" autocomplete="off"/>
 			<label for="name">作品名称：</label>
 	        <input type="text" flag="worksname" name="works.worksname" class="form-control" placeholder="作品名称" required="required" autocomplete="off"/>
@@ -440,7 +468,7 @@
 			</br>
 			<textarea class="form-control" rows="5" cols="35" flag="describle" name="works.describle" autocomplete="off"></textarea>
 			<div class="btn btn-body" style="width: 100%;">
-			<button id="parentDigSubmit"  class="btn btn-success" type="submit">提交</button>
+			<button id="parentDigSubmit"  class="btn btn-success">提交</button>
 			&nbsp;&nbsp;&nbsp;
 			<button id="parentDigCancel" class="btn btn-cancel"  type="reset">取消</button>
 			</div>
