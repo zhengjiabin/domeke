@@ -51,7 +51,6 @@ public class CommunityController extends Controller {
 			list = refrectMethod(className,methodName, communityId);
 			forumCountMap.put(communityId, list);
 		}
-//		String jsonMap = JsonKit.mapToJson(forumCountMap, forumCountMap.size());
 		setAttr("forumCountMap", forumCountMap);
 	}
 	

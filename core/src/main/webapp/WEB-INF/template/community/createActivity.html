@@ -1,35 +1,49 @@
+<link rel="stylesheet" href="css/jquery-ui-1.9.2.custom.css" type="text/css"></link>
+
+<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script> 
+<script type="text/javascript" src="js/jquery-ui.js"></script> 
+<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script> 
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {   
+		$('#starttimefrom').datetimepicker({
+			timeFormat: 'HH:mm:ss'
+		});
+		$('#starttimeto').datetimepicker({
+			timeFormat: 'HH:mm:ss'
+		});
+	});
+</script>
 <article>
 	<form action="#" method="post" id="createHtml">
-
 		<div class="control-group" hidden="block">
 			社区ID <input type="hidden" name="activity.communityid"
-				value="${communityId!}" class="span6 m-wrap" />
+				value="${communityId!}" />
 		</div>
 
 		<div class="control-group">
 			标题 <input type="text" name="activity.subject"
-				value="${activity.subject!}" class="span6 m-wrap" />
+				value="${activity.subject!}" />
 		</div>
 
 		<div class="control-group">
-			开始时间 <input type="datetime" name="activity.starttimefrom"
-				value="${activity.starttimefrom!}" class="span6 m-wrap" />
+			开始时间 <input type="text" name="activity.starttimefrom"
+				value="${activity.starttimefrom!}" id="starttimefrom" readonly="readonly"/>
 		</div>
 
 		<div class="control-group">
-			结束时间 <input type="datetime" name="activity.starttimeto"
-				value="${activity.starttimeto!}" class="span6 m-wrap" />
+			结束时间 <input type="text" name="activity.starttimeto"
+				value="${activity.starttimeto!}" id="starttimeto" readonly="readonly"/>
 		</div>
 
 		<div class="control-group">
 			地点 <input type="text" name="activity.place"
-				value="${activity.place!}" class="span6 m-wrap" />
+				value="${activity.place!}" />
 		</div>
 
 		<div class="control-group">
 			类别 <input type="text" name="activity.class"
-				value="${activity.class!}" class="span6 m-wrap" />
+				value="${activity.class!}" />
 		</div>
 
 		<div class="control-group">
@@ -46,7 +60,7 @@
 
 		<div class="control-group">
 			报名截止日期 <input type="datetime" name="activity.expiration"
-				value="${activity.expiration!}" class="span6 m-wrap" />
+				value="${activity.expiration!}" />
 		</div>
 
 		<div class="control-group">
