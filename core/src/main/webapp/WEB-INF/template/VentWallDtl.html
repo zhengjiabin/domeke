@@ -61,14 +61,14 @@ $(function(){
     </div>
     <div class="VentLb">
        	<div class="VentWel">嗨仔每天都很开心，今天的你呢？快快选一个和嗨仔一样的标签签到吧~！</div>
-        <img src="images/VentTip02.png" /><input id="rdo1" name="ventWall.moodid" type="radio" value="VentTip02.png" checked=true/>
-        <img src="images/VentTip03.png" /><input id="rdo2" name="ventWall.moodid" type="radio" value="VentTip03.png" />
-        <img src="images/VentTip04.png" /><input id="rdo3" name="ventWall.moodid" type="radio" value="VentTip04.png" />
-        <img src="images/VentTip05.png" /><input id="rdo4" name="ventWall.moodid" type="radio" value="VentTip05.png" />
-        <img src="images/VentTip06.png" /><input id="rdo5" name="ventWall.moodid" type="radio" value="VentTip06.png" />
-        <img src="images/VentTip07.png" /><input id="rdo6" name="ventWall.moodid" type="radio" value="VentTip07.png" />
-        <img src="images/VentTip08.png" /><input id="rdo7" name="ventWall.moodid" type="radio" value="VentTip08.png" />
-        <img src="images/VentTip09.png" /><input id="rdo7" name="ventWall.moodid" type="radio" value="VentTip09.png" />
+        <img src="http://www.dongmark.com/images/VentTip02.png" /><input id="rdo1" name="ventWall.moodid" type="radio" value="VentTip02.png" checked=true/>
+        <img src="http://www.dongmark.com/images/VentTip03.png" /><input id="rdo2" name="ventWall.moodid" type="radio" value="VentTip03.png" />
+        <img src="http://www.dongmark.com/images/VentTip04.png" /><input id="rdo3" name="ventWall.moodid" type="radio" value="VentTip04.png" />
+        <img src="http://www.dongmark.com/images/VentTip05.png" /><input id="rdo4" name="ventWall.moodid" type="radio" value="VentTip05.png" />
+        <img src="http://www.dongmark.com/images/VentTip06.png" /><input id="rdo5" name="ventWall.moodid" type="radio" value="VentTip06.png" />
+        <img src="http://www.dongmark.com/images/VentTip07.png" /><input id="rdo6" name="ventWall.moodid" type="radio" value="VentTip07.png" />
+        <img src="http://www.dongmark.com/images/VentTip08.png" /><input id="rdo7" name="ventWall.moodid" type="radio" value="VentTip08.png" />
+        <img src="http://www.dongmark.com/images/VentTip09.png" /><input id="rdo7" name="ventWall.moodid" type="radio" value="VentTip09.png" />
         <textarea cols="" rows="" class="VentTxt" id="saytext" name="ventWall.message" value="${ventWall.message!}"></textarea>       
 	    <span class="textCount">0/50</span>
         <button id="btn2" name="${issignin}" class="btn2"  type="button" onmouseover="this.style.backgroundPosition='left -43px'" onmouseout="this.style.backgroundPosition='left top'">开始签到</button>
@@ -91,7 +91,7 @@ $(function(){
 <section class="White" style="padding: 5px;">
     <div id="wish">
         <% for(v in ventWallList!){%>
-            <div><img src="images/${v.moodid!}"/>${v.message!}<span style="position:absolute;bottom:0;right:0;font-weight:bold;font-style:italic;">${userName!}</span></div>
+            <div><img src="http://www.dongmark.com/images/${v.moodid!}"/>${v.message!}<span style="position:absolute;bottom:0;right:0;font-weight:bold;font-style:italic;">${userName!}</span></div>
         <%}%>
 	</div>
 </section>

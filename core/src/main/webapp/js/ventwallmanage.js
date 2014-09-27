@@ -1,5 +1,4 @@
 $(function(){
-    $(document).ready(function(){
         $("button[lable='修改']").click(function(){
           var $self = $(this);
           var $parent = $self.parent();
@@ -36,6 +35,5 @@ $(function(){
                     }   
                 });
            	}
-      	}); 
-    });       
+      	});       
 })
