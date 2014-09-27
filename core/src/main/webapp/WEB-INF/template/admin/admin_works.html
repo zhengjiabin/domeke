@@ -4,7 +4,6 @@
 <script src="js/jquery.form.js"></script>
 <link href="assets/manage.css" rel="stylesheet" media="screen">
 <link href="bootstrap/css/bootstrap-3.2.0.min.css" rel="stylesheet" media="screen">
-<script src="bootstrap/js/bootstrap-3.2.0.min.js"></script>
 
 <script type="text/javascript">
 	var pageSize = 6;
@@ -422,7 +421,7 @@
 		</div>
 	</div>
 	
-	<div id="parentDialog" class="panel panel-primary" style="position:fixed; z-index:9999; width: 300px;height:600px; display: none;">
+	<div id="parentDialog" class="panel panel-primary" style="position:fixed; z-index:9999; width: 300px;height:400px; display: none; overflow:auto; ">
 		<div class="panel-heading"></div>
 		<div class="panel-body">
 		<form id="parentForm" onsubmit="return false;" class="form-inline" role="form" method="post" enctype="multipart/form-data">
@@ -476,7 +475,7 @@
 		</div>
 	</div>
 	
-	<div id="childrenDialog" class="panel panel-primary" style="position:fixed; z-index:9999; width: 300px;height:400px; display: none;">
+	<div id="childrenDialog" class="panel panel-primary" style="position:fixed; z-index:9999; width: 300px;height:400px; display: none; overflow:auto;">
 		<div class="panel-heading"></div>
 		<div class="panel-body">
 		<form class="form-inline" role="form" method="post" enctype="multipart/form-data">

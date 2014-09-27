@@ -230,4 +230,10 @@ public class WorksController extends FilesLoadController {
 		return workslist;
 	}
 
+	//个人中心-->我的作品
+	public void myWork(){
+		String workType = getPara("workType");
+		render("/worksManager.html");
+	}
+	
 }

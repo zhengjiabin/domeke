@@ -43,6 +43,8 @@ CREATE TABLE `works` (
   `worksname` varchar(255) NOT NULL,
   `workstype` varchar(32) DEFAULT '10',
   `creativeprocess` varchar(32) DEFAULT '10',
+  `type` tinyint(2) DEFAULT '0' COMMENT '0专辑,1视频',
+  `ischeck` tinyint(2) DEFAULT '0' COMMENT '是否审核过 0未审核,1审核通过',
   `cover` varchar(255) NOT NULL,
   `leadingrole` varchar(255) NOT NULL,
   `describle` varchar(1024) DEFAULT NULL,
