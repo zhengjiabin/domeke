@@ -2,11 +2,14 @@ package com.domeke.app.controller;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.Goods;
+import com.domeke.app.model.GoodsType;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
 import com.jfinal.plugin.activerecord.Page;
@@ -123,6 +126,23 @@ public class GoodsController extends FilesLoadController {
 		Goods goods = getModel(Goods.class);
 		goods.updateGoodsInfo();
 		goToManager();
+	}
+	
+	/**
+	 * 获取类型为types的叶子商品
+	 * @param params key=字段名，value=参赛值
+	 * @return
+	 */
+	public List<Goods> getGoodsType(Map<String, Object> params){
+		Set<String> key = params.keySet();
+		Map<String, Object> gtMap = new HashMap<String, Object>();
+		for (Iterator it = key.iterator(); it.hasNext();) {	
+			String k = (String) it.next();
+			gtMap.put(k, GoodsType.gtDao.getGoodsType(params.get(k).toString()));
+		}
+		Goods goods = getModel(Goods.class);
+		List<Goods> goodsList = goods.goodsType(gtMap);
+		return goodsList;		
 	}
 	
 	

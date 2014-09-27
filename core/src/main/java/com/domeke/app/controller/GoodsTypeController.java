@@ -1,8 +1,6 @@
 package com.domeke.app.controller;
 
-import com.domeke.app.model.Goods;
 import com.domeke.app.model.GoodsType;
-import com.domeke.app.model.Menu;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
