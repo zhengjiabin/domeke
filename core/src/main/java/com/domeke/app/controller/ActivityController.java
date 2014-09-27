@@ -61,12 +61,26 @@ public class ActivityController extends Controller {
 		Activity.dao.updateTimes(activityId);
 		
 		setActivity(activityId);
+		setCommunity();
 		setActivityApplyPage(activityId);
 		setCommentPage(activityId);
 		setFollowList(activityId);
 		
 		keepPara("communityId");
 		render("/community/detailActivity.html");
+	}
+	
+	/**
+	 * 设置版块信息
+	 */
+	private void setCommunity(){
+		String communityId = getPara("communityId");
+		Community communitySon = Community.dao.findById(communityId);
+		setAttr("communitySon", communitySon);
+		
+		Object pId = communitySon.get("pid");
+		Community communityFat = Community.dao.findById(pId);
+		setAttr("communityFat", communityFat);
 	}
 	
 	/**
@@ -268,6 +282,11 @@ public class ActivityController extends Controller {
 	 * 设置发帖数
 	 */
 	private void setPublishNumber(){
+		// 当前登录人发帖数
+		Object userId = getUserId();
+		Long userActivityCount = Activity.dao.getCountByUserId(userId);
+		setAttr("userCount", userActivityCount);
+		
 		//今日发帖数
 		Long activityTodayCount = Activity.dao.getTodayCount();
 		setAttr("todayCount", activityTodayCount);

@@ -336,8 +336,29 @@ public class PostController extends Controller {
 	public void index() {
 		String communityId = getPara("communityId");
 		setPostPage(communityId);
+		setPublishNumber();
 		
 		render("/community/post.html");
+	}
+	
+	/**
+	 * 设置发帖数
+	 */
+	private void setPublishNumber(){
+		// 当前登录人发帖数
+		Object userId = getUserId();
+		Long userPostCount = Post.dao.getCountByUserId(userId);
+		setAttr("userCount", userPostCount);
+		
+		//今日发帖数
+		Long postTodayCount = Post.dao.getTodayCount();
+		setAttr("todayCount", postTodayCount);
+		//昨日发帖数
+		Long postYesCount = Post.dao.getYesterdayCount();
+		setAttr("yesCount", postYesCount);
+		//总发帖数
+		Long postCount = Post.dao.getCount();
+		setAttr("count", postCount);
 	}
 	
 	public void home(){
