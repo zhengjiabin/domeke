@@ -231,9 +231,17 @@ public class WorksController extends FilesLoadController {
 	}
 
 	//个人中心-->我的作品
-	public void myWork(){
-		String workType = getPara("workType");
-		render("/worksManager.html");
+	public void addWork(){
+		render("/works/addwork.htm");
+	}
+	public void addWorks(){
+		render("/works/addworks.htm");
+	}
+	public void editWork(){
+		render("/works/editWork.htm");
+	}
+	public void editWorks(){
+		render("/works/editWorks.htm");
 	}
 	
 }
