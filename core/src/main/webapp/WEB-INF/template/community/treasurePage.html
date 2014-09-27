@@ -7,15 +7,15 @@
         </div>
         <div class="ArticleTitle"><img src="/http://www.dongmark.com/images/FIcon03.png" >HIGH豆官方社区</div>
         <div class="ArticleContent">
-        <% for (post in postPage.list){ %>
+        <% for (treasure in treasurePage.list){ %>
         <% class = "";
-        	if(postLP.index % 5 ==0){
+        	if(treasureLP.index % 5 ==0){
         		class = "ListName font_r";
-        	} else if (postLP.index % 4 ==0){
+        	} else if (treasureLP.index % 4 ==0){
         		class = "ListName font_b";
-        	} else if (postLP.index % 3 ==0){
+        	} else if (treasureLP.index % 3 ==0){
         		class = "ListName font_ye";
-        	} else if (postLP.index % 2 ==0){
+        	} else if (treasureLP.index % 2 ==0){
         		class = "ListName font_gr";
         	} else {
         		class = "ListName font_Pur";
@@ -25,37 +25,37 @@
             	<div class="ListPic"><img src="http://www.dongmark.com/images/bg_Me.png"></div>
                 <div class="ListDtl">
                 	<div class="${class!}">
-                		<a href="javascript:void(0)" onclick="findById(this,'${post.postid!}','${post.communityid!}')">${post.subject!}</a>
-                		<% if(post.essence) { %>
+                		<a href="javascript:void(0)" onclick="findById(this,'${treasure.treasureid!}','${treasure.communityid!}')">${treasure.subject!}</a>
+                		<% if(treasure.essence) { %>
                 			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/jing.gif">
                 		<% } %>
-                		<% if(post.top) { %>
+                		<% if(treasure.top) { %>
                 			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/zding.gif?v=1" alt="置顶">
                 		<% } %>
                 	</div>
                     <div>
-                    	<span>发帖人姓名：${post.userid!}  </span>
-                    	<span>发帖时间：${post.dateline!}</span>
+                    	<span>发帖人姓名：${treasure.userid!}  </span>
+                    	<span>发帖时间：${treasure.dateline!}</span>
                     </div>
                 </div>
                 <div class="ListDate">
-                	<span class="TotleNum">${post.times!}</span>
-                    <span>${post.viewcount!}</span>
+                	<span class="TotleNum">${treasure.times!}</span>
+                    <span>${treasure.viewcount!}</span>
                 </div>
             </div>
         <% } %>
 
-		<% if(has(postPage)){
+		<% if(has(treasurePage)){
 				var pageAction = "";
 				if(has(communityId)){
-					pageAction = "./post/find?communityId="+communityId;
+					pageAction = "./treasure/find?communityId="+communityId;
 				}else{
-					pageAction = "./post/find";
+					pageAction = "./treasure/find";
 				} 
 				layout(
 					"/common/page.html",
 					{
-						"page":postPage,
+						"page":treasurePage,
 						"pageAction":pageAction,
 						"fatherNode":"#detailContentHtml"
 					}

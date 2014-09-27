@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.domeke.app.interceptor.LoginInterceptor;
-import com.domeke.app.model.Activity;
 import com.domeke.app.model.Comment;
 import com.domeke.app.model.Community;
 import com.domeke.app.model.Post;
@@ -100,11 +99,25 @@ public class PostController extends Controller {
 		Post.dao.updateTimes(postId);
 		
 		setPost(postId);
+		setCommunity();
 		setCommentPage(postId);
 		setFollowList(postId);
 		
 		keepPara("communityId");
 		render("/community/detailPost.html");
+	}
+	
+	/**
+	 * 设置版块信息
+	 */
+	private void setCommunity(){
+		String communityId = getPara("communityId");
+		Community communitySon = Community.dao.findById(communityId);
+		setAttr("communitySon", communitySon);
+		
+		Object pId = communitySon.get("pid");
+		Community communityFat = Community.dao.findById(pId);
+		setAttr("communityFat", communityFat);
 	}
 	
 	/**
@@ -214,8 +227,8 @@ public class PostController extends Controller {
 		Post post = getModel(Post.class);
 		Object communityId = post.get("communityid");
 		Object userId = getUserId();
-		Object atyOld = Activity.dao.findHasPublish(communityId, userId);
-		if(atyOld != null){
+		Object postOld = Post.dao.findHasPublish(communityId, userId);
+		if(postOld != null){
 			renderJson(false);
 			return;
 		}
