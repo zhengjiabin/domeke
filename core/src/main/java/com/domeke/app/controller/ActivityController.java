@@ -40,8 +40,7 @@ public class ActivityController extends Controller {
 	 * @return 活动信息
 	 */
 	public void findByUserId() {
-		User user = getUser();
-		Object userId = user.get("userid");
+		Object userId = getUserId();
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 
@@ -175,14 +174,55 @@ public class ActivityController extends Controller {
 
 		findByUserId();
 	}
+	
+	/**
+	 * 判断活动是否可报名
+	 * @return
+	 */
+	public void checkCanApply(){
+		Object activityId = getPara("activityId");
+		Object activity = Activity.dao.findCanApply(activityId);
+		if(activity == null){
+			renderText("报名已截止！");
+			return;
+		}
+		//判断当前用户是否已报名
+		Object userId = getUserId();
+		Object apply = ActivityApply.dao.findByUserId(activityId, userId);
+		if(apply != null){
+			renderText("已申请，禁止重复申请！");
+			return;
+		}
+		renderNull();
+	}
 
 	/**
 	 * 跳转活动申请
 	 */
 	public void skipCreate() {
+		String communityId = getPara("communityId");
+		Object userId = getUserId();
+		Object activity = Activity.dao.findHasPublish(communityId, userId);
+		if(activity != null){
+			renderJson(false);
+			return;
+		}
+		
 		keepPara("communityId");
 		setCodeTableList("gender", "genderList");
 		render("/community/createActivity.html");
+	}
+	
+	/**
+	 * 获取用户Id
+	 * @return
+	 */
+	private Object getUserId(){
+		User user = getUser();
+		if(user == null){
+			return null;
+		}
+		return user.get("userid");
 	}
 	
 	/**
@@ -200,13 +240,17 @@ public class ActivityController extends Controller {
 	 */
 	public void create() {
 		Activity activity = getModel(Activity.class);
-
-		User user = getUser();
-		activity.set("userid", user.get("userid"));
+		Object communityId = activity.get("communityid");
+		Object userId = getUserId();
+		Object atyOld = Activity.dao.findHasPublish(communityId, userId);
+		if(atyOld != null){
+			renderJson(false);
+			return;
+		}
 		
+		activity.set("userid", userId);
 		activity.save();
 
-		Object communityId = activity.get("communityid");
 		setActivityPage(communityId);
 		
 		render("/community/activity.html");
@@ -315,8 +359,8 @@ public class ActivityController extends Controller {
 		Object targetId = getPara("targetId");
 		comment.set("targetid", targetId);
 
-		User user = getUser();
-		comment.set("userid", user.get("userid"));
+		Object userId = getUserId();
+		comment.set("userid", userId);
 
 		comment.set("idtype", "20");
 

@@ -143,4 +143,13 @@ public class Post extends Model<Post> {
     	List<Post> postList = this.find(sql.toString(), pid);
     	return postList;
     }
+    
+    /**
+     * 查询指定时间范围内当前用户发布的帖子
+     * @return
+     */
+    public Object findHasPublish(Object communityId,Object userId){
+    	String sql = "select 1 from post where communityid=? and userid=? and createtime >= date_sub(now(),interval 5 minute)";
+    	return this.findFirst(sql, communityId, userId);
+    }
 }

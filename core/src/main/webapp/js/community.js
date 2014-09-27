@@ -169,6 +169,7 @@ function deleteFat(node,communityId){
 	}
 }
 
+//点击发表主题按钮事件
 function skipCommunity(node) {
 	var communityLayout = $(node).closest("#communityLayout");
 	var baseCommunity = communityLayout.find("#baseCommunity").first();
@@ -180,7 +181,11 @@ function skipCommunity(node) {
 	$.post(url, {
 		communityId :communityId
 	}, function(data) {
-		baseCommunity.html(data);
+		if(data == false){
+			alert("5分钟内只能发布一次同类型主题！");
+		}else{
+			baseCommunity.html(data);
+		}
 	});
 }
 
@@ -203,9 +208,13 @@ function showCommunity(node){
 	$.post("./community/goToCommunity", {
 		communityId :firstVal
 	}, function(data) {
-		var detailCommuntiyHtml = $(node).closest("#selectCommuntiyHtml");
-		var showCommunity = detailCommuntiyHtml.find("#showCommunity").first();
-		showCommunity.html(data);
+		if(data == false){
+			alert("5分钟内只能发布一次同类型主题！");
+		}else{
+			var detailCommuntiyHtml = $(node).closest("#selectCommuntiyHtml");
+			var showCommunity = detailCommuntiyHtml.find("#showCommunity").first();
+			showCommunity.html(data);
+		}
 	});
 }
 
@@ -219,8 +228,12 @@ function submitCreate(node,communityId) {
 	$.post(url, 
 		$(node).closest("#createHtml").serialize(), 
 		function(data) {
-		var communityHtml = $(node).closest("#communityLayout");
-		var baseCommunity = communityHtml.find("#baseCommunity").first();
-		baseCommunity.html(data);
+			if(data == false){
+				alert("5分钟内只能发布一次同类型主题！");
+			}else{
+				var communityHtml = $(node).closest("#communityLayout");
+				var baseCommunity = communityHtml.find("#baseCommunity").first();
+				baseCommunity.html(data);
+			}
 	});
 }

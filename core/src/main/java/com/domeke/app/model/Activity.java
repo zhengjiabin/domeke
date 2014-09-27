@@ -153,4 +153,22 @@ public class Activity extends Model<Activity> {
     	List<Activity> activityList = this.find(sql.toString(), pid);
     	return activityList;
     }
+    
+    /**
+     * 判断当前日期是否超出活动申请截止日期
+     * @return
+     */
+    public Object findCanApply(Object activityId){
+    	String sql = "select 1 from activity where activityid = ? and expiration>=now()";
+    	return this.findFirst(sql, activityId);
+    }
+    
+    /**
+     * 查询指定时间范围内当前用户发布的活动
+     * @return
+     */
+    public Object findHasPublish(Object communityId,Object userId){
+    	String sql = "select 1 from activity where communityid=? and userid=? and createtime >= date_sub(now(),interval 5 minute)";
+    	return this.findFirst(sql, communityId, userId);
+    }
 }

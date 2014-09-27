@@ -61,4 +61,13 @@ public class ActivityApply extends Model<ActivityApply> {
     	Long count = Db.queryLong("select count(1) from activity_apply where status='10' and activityid=?",activityId);
     	return count;
     }
+    
+    /**
+     * 当前活动是否可报名
+     * @return
+     */
+    public Object findByUserId(Object activityId,Object userId){
+    	String sql = "select 1 from activity_apply where activityid=? and userid=?";
+    	return this.findFirst(sql, activityId,userId);
+    }
 }

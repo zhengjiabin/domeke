@@ -7,9 +7,15 @@
 <script type="text/javascript">
 	$(document).ready(function() {   
 		$('#starttimefrom').datetimepicker({
+			dateFormat: "yy-mm-dd",
 			timeFormat: 'HH:mm:ss'
 		});
 		$('#starttimeto').datetimepicker({
+			dateFormat: "yy-mm-dd",
+			timeFormat: 'HH:mm:ss'
+		});
+		$('#expiration').datetimepicker({
+			dateFormat: "yy-mm-dd",
 			timeFormat: 'HH:mm:ss'
 		});
 	});
@@ -55,12 +61,12 @@
 
 		<div class="control-group">
 			人数 <input type="text" name="activity.number"
-				value="${activity.number!}" />
+				value="${activity.number!}"/>
 		</div>
 
 		<div class="control-group">
-			报名截止日期 <input type="datetime" name="activity.expiration"
-				value="${activity.expiration!}" />
+			报名截止日期 <input type="text" name="activity.expiration"
+				id="expiration" value="${activity.expiration!}" />
 		</div>
 
 		<div class="control-group">

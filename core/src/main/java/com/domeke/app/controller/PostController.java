@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.domeke.app.interceptor.LoginInterceptor;
+import com.domeke.app.model.Activity;
 import com.domeke.app.model.Comment;
 import com.domeke.app.model.Community;
 import com.domeke.app.model.Post;
@@ -47,8 +48,7 @@ public class PostController extends Controller {
 	 * @return 帖子信息
 	 */
 	public void findByUserId() {
-		User user = getUser();
-		Object userId = user.get("userid");
+		Object userId = getUserId();
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 
@@ -183,8 +183,28 @@ public class PostController extends Controller {
 	 * 跳转帖子申请
 	 */
 	public void skipCreate() {
+		String communityId = getPara("communityId");
+		Object userId = getUserId();
+		Object post = Post.dao.findHasPublish(communityId, userId);
+		if(post != null){
+			renderJson(false);
+			return;
+		}
+		
 		keepPara("communityId");
 		render("/community/createPost.html");
+	}
+	
+	/**
+	 * 获取用户Id
+	 * @return
+	 */
+	private Object getUserId(){
+		User user = getUser();
+		if(user == null){
+			return null;
+		}
+		return user.get("userid");
 	}
 
 	/**
@@ -192,15 +212,21 @@ public class PostController extends Controller {
 	 */
 	public void create() {
 		Post post = getModel(Post.class);
+		Object communityId = post.get("communityid");
+		Object userId = getUserId();
+		Object atyOld = Activity.dao.findHasPublish(communityId, userId);
+		if(atyOld != null){
+			renderJson(false);
+			return;
+		}
+		
 		HttpServletRequest request = getRequest();
 		String remoteIp = request.getRemoteAddr();
 
-		User user = getUser();
-		post.set("userid", user.get("userid"));
+		post.set("userid", userId);
 		post.set("userip", remoteIp);
 		post.save();
 
-		Object communityId = post.get("communityid");
 		setPostPage(communityId);
 		
 		render("/community/post.html");
@@ -260,8 +286,8 @@ public class PostController extends Controller {
 		Object targetId = getPara("targetId");
 		comment.set("targetid", targetId);
 
-		User user = getUser();
-		comment.set("userid", user.get("userid"));
+		Object userId = getUserId();
+		comment.set("userid", userId);
 
 		comment.set("idtype", "10");
 
