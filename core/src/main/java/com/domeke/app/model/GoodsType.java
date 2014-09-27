@@ -10,7 +10,7 @@ import com.jfinal.plugin.activerecord.Page;
  * @author chenzhicong
  *
  */
-@TableBind(tableName="goodstype", pkName="goodstypeid")
+@TableBind(tableName="goods_type", pkName="goodstypeid")
 public class GoodsType extends Model<GoodsType> {
 
 	private static final long serialVersionUID = -4324755844654141029L;
@@ -28,7 +28,7 @@ public class GoodsType extends Model<GoodsType> {
 	 */
 	public Page<GoodsType> findPage(int pageNumber, int pageSize) {
 		Page<GoodsType> gtPage = this.paginate(pageNumber, pageSize, "select *",
-				"from goodstype group by goodstypeid");
+				"from goods_type group by goodstypeid");
 		return gtPage;
 	}
 	
@@ -43,7 +43,7 @@ public class GoodsType extends Model<GoodsType> {
 	 */
 	public Page<GoodsType> findPage(int pageNumber, int pageSize, String goodstype) {
 		Page<GoodsType> page = this.paginate(pageNumber, pageSize, "select *",
-				"from goodstype where goodstype=? group by goodstypeid", goodstype);
+				"from goods_type where goodstype=? group by goodstypeid", goodstype);
 		return page;
 	}
 	
@@ -87,4 +87,30 @@ public class GoodsType extends Model<GoodsType> {
 	public void deleteGoodsType(int goodsTypeId) {
 		this.deleteById(goodsTypeId);
 	}
+		
+	/**
+	 * 根据商品类型id查询出返回改类型下的所有子类型
+	 * @param strs
+	 * @return
+	 */
+	public String getGoodsType(String strs){		
+		//获取strs级的叶子
+		List<GoodsType> gtList = this.find("select * from goods_type where parenttypeid in ("+strs+")");		
+		if (gtList.size() == 0) {
+			return strs;
+		}		
+		strs = "";
+		int row = 0;
+		for (GoodsType gt:gtList) {
+			if (row != gtList.size() - 1){
+				strs = strs + Long.toString(gt.getLong("goodstypeid")) + ",";
+			} else {
+				strs = strs + Long.toString(gt.getLong("goodstypeid"));
+			}
+			row++;			
+		}
+		strs = getGoodsType(strs);
+		return strs;
+	}
+
 }

@@ -83,9 +83,16 @@ public class GoodsTypeController extends Controller {
 	/**
 	 * 删除类型
 	 */
-	public void deleteGoodsTypeById() {
+	public void deleteGoodsType() {
 		int goodsTypeId = getParaToInt("goodsTypeId");
 		GoodsType.gtDao.deleteGoodsType(goodsTypeId);
 		goToManager();
+	}
+	
+	public void goCs(){
+		String[] strs = GoodsType.gtDao.getGoodsType("1").split(",");
+		for (int i = 0; i < strs.length; i ++){
+			System.out.println("===================="+strs[i]);
+		}
 	}
 }
