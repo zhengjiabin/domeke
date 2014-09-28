@@ -1,159 +1,85 @@
 <!DOCTYPE html>
 <!-- saved from url=(0029)http://www.youku.com/v/upload -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>专辑管理</title>
+	<link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/youku.css">
+	<link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/grid.css">
+	<link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/i.css">
+	<link id="skinCssLink" type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/default.css">
+	<link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/home.css">
 
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-<title>上传视频 - 优酷</title>
-<link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/youku.css">
-<link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/grid.css">
-<link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/i.css">
-<link id="skinCssLink" type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/default.css">
-<link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/home.css">
 	<body>
-		<div class="yk-row">
-		<div class="YK_topic">
-			<div class="pageTitle"><h3>管理专辑</h3></div>		
-	<div class="tpsummary" id="playlistDetail">	
-		<div id="playlistinfo_wrap"><div id="playlistinfo" params="">	<ul class="p ph">
-		<li class="p_link"><a onclick="hz.postHz(4008055,1000707);" href="http://www.youku.com/playlist_show/id_22882478.html" target="_blank" title="xxxxxxxxdf"></a></li>
-		<li class="p_thumb" id="folderLogo"><img src="http://g2.ykimg.com/0100641F4650BEE369E1F4082880541546A942-8819-F049-226E-2FF5488B02D0" alt="xxxxxxxxdf"></li>	
-		<li class="p_status"><span class="time">00:30</span><span class="status">1个视频</span><span class="bg"></span></li>
-		<li class="p_title"><a onclick="hz.postHz(4008056,1000707);" href="http://www.youku.com/playlist_show/id_22882478.html" target="_blank" title="xxxxxxxxdf">xxxxxxxxdf</a></li>
-		<li class="p_param">
-			<span class="stat"><label>视频数:</label><span class="num">1</span></span>
-			<span class="stat"><label>总时长:</label><span class="num">00:30</span></span>
-			<span class="stat"><label>播放数:</label><span class="num">1</span></span>
-		</li>
-		<li class="p_param">
-			<span class="stat"><label>分类:</label><a target="_blank" href="/v_showlist/t2d1c106.html">其他</a></span>
-			<span class="stat"><label>标签:</label>
-							<a target="_blank" href="http://www.soku.com/search_playlist/type_tag_q_%EF%BC%9F%EF%BC%9F" title="？？">？？</a>
-						</span>
-		</li>
-		<li class="p_intro">
-		<label>简介:</label><span class="text">sadaf</span>
-	
-		</li>
-	</ul>
-	<div class="action"><a href="javascript:;" onclick="mg.editplaylist(22882478)">编辑专辑信息</a></div></div></div>
-	</div>	
-		
-<div class="topiclist">
-		<div class="bd">
-		<div id="foldervideos_wrap"><div id="foldervideos" params="22882478" _fid="22882478">	<div class="YK_manager">
-		<div class="manager_tool">
-			<div class="manager_action">
-				<div class="adddel">
-					<div class="fn2nd">
-						<a href="javascript:;" onclick="mg.addvideo(null,22882478)">+ 添加视频</a>
+		<div class="topicedit">
+					<div class="entry">
+						<label><span>*</span>标题：</label>
+						<input type="text" value="" class="form_input" id="crtFolderName" name="crtFolderName">
+						<input type="hidden" id="crtFolderId" name="crtFolderId" value="">
+						<div class="error"></div>
 					</div>
-					<div class="fn2nd">
-						<a href="javascript:;" onclick="mg.removePlaylistVideo(22882478)">移出视频</a>
+					<div class="entry"><label>简介：</label><textarea class="form_input" id="crtFolderDesc" name="crtFolderDesc"></textarea>
+					<div class="error"></div>
 					</div>
-					<div class="fn2nd">
-						<a onclick="mg.moveVideos2Folder(this);" href="javascript:;" _p="0">移动到专辑</a>
-					</div>					
-				</div>
-			</div>
-						<div class="clear"></div>
-		</div>			
-		<div class="manager_con">
-			<div class="databox">
-				<table cellspacing="0" cellpadding="0" border="0">
-					<thead>
-						<tr>
-							<th class="tpl_check"><input id="check_all" type="checkbox" onclick="mg.check_all(1);"></th>
-							<th class="tpl_serial">排序</th>
-							<th class="tpl_video">视频</th>
-							<th class="tpl_time">添加时间</th>
-							<th class="tpl_uploader">上传者</th>
-							<th class="tpl_heat">热度</th>
-							<th class="tpl_opt">操作</th>
-						</tr>
-					</thead>
-					<tbody class="" id="videolist">
-					
-								<tr id="">
-							<td class="tpl_check"><div class="check"><input type="checkbox" id="input198022550" name="videos[]" value="198022550"><label for="input198022550"></label></div></td>
-							<td class="tpl_serial" id=""><a href="javascript:;">1</a><input type="text" style="display:none" _pkfid="191015686"><span class="ico__loading_16" style="vertical-align:middle;display:none;"></span></td>
-							<td class="tpl_video">
-								<ul class="v vsh">
-									<li class="v_link"><a href="http://v.youku.com/v_show/id_XNzkyMDkwMjAw.html?f=22882478" target="_blank" title="野生动物"></a></li>
-									<li class="v_thumb"><img src="http://g2.ykimg.com/0100641F4650BEE369E1F4082880541546A942-8819-F049-226E-2FF5488B02D0" alt="野生动物"></li>	
-									<li class="v_ishd"></li>	
-									<li class="v_menu" style="display: none;" id="PlayListFlag_XNzkyMDkwMjAw"><span class="ico__listadd" title="添加到点播单"></span></li>
-									
-									<li class="v_time"><span class="num">00:30</span><span class="bg"></span></li>
-									<li class="v_title">
-																					<a href="http://v.youku.com/v_show/id_XNzkyMDkwMjAw.html?f=22882478" target="_blank" title="野生动物">野生动物</a>
-																			</li>
-									<li class="v_info">
-																			<span class="icon unlock" title="所有人都可以看">
-											<em>公开访问</em>
-										</span>								
-																											
-									<span class="num">2014-09-27 17:29</span>
-									</li>
-								</ul>			
-							</td>
-							<td class="tpl_time">
-								<span>2014-09-27</span><span>18:31</span>
-							</td>
-							<td class="tpl_uploader"><a target="_blank" href="http://i.youku.com/u/UOTU5MDAwOTY=">tianxiaozi5200</a></td>
-							<td class="tpl_heat">
-								<ul class="heat">
-									<li><span><span class="ico__statplay" title="播放"></span>10</span></li>
-									<li><span><span title="评论" class="ico__statcomment"><em>评论</em></span>0</span></li>
-								</ul>
-							</td>
-							<td class="tpl_opt">
-								<div class="action">
-									<span class="add"><a onclick="hz.postHz(4008062,1000707);" target="_blank" href="/u/videos/edit/id_XNzkyMDkwMjAw.html">编辑视频</a></span>
-									<span class="share"><a href="javascript:;" _click="vshare">分享</a></span>
-																		<div class="clear"></div>
-																			<span class="mana disable " _id="setlog" data="%22fid%22%3A22882478%2C%22vid%22%3A198022550" id="" style="visibility: visible;">当前封面</span>
-																		
-									<span class="del" style="visibility: hidden;"><a href="javascript:;" onclick="mg.removePlaylistVideo(22882478,198022550)">移出</a></span>
+					<div style="z-index:1;" class="entry">
+						<label><span>*</span>分类：</label>
+						<div class="mod_select">
+							<div class="handle" id="droptype"><span id="droptype_s">
+							
+								请选择专辑所属分类
+							
+							</span><span class="icon"><em>箭头</em></span></div>
+							<input type="hidden" name="syscate" id="droptype_sv" value="">
+							<div class="panel" style="display: none;" id="droptypes">
+								<div class="content">
+								
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="123" class="">资讯</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="124" class="">原创</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="129" class="">电视剧</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="143" class="">娱乐</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="128" class="">电影</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="130" class="">体育</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="127" class="">音乐</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="131" class="">游戏</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="132" class="">动漫</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="139" class="">时尚</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="140" class="">母婴</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="136" class="">汽车</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="141" class="">旅游</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="137" class="">科技</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="144" class="">纪录片</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="142" class="">教育</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="135" class="">生活</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="126" class="">搞笑</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="134" class="">广告</a></span>
+																	<span style="padding:5px 4px;"><a href="javascript:;" _id="138" class="">其他</a></span>
+																
 								</div>
-							</td>
-						</tr>
-														
-					</tbody>
-					<tfoot>
-						<tr>
-							<th class="tpl_check"><input id="check_all_foot" type="checkbox" onclick="mg.check_all(2);"></th>
-							<th class="tpl_serial">排序</th>
-							<th class="tpl_video">视频</th>
-							<th class="tpl_time">添加时间</th>
-							<th class="tpl_uploader">上传者</th>
-							<th class="tpl_heat">热度</th>
-							<th class="tpl_opt">操作</th>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
-		</div>
-		<div class="manager_tool">
-			<div class="manager_action">
-				<div class="adddel">
-					<div class="fn2nd">
-						<a href="javascript:;" onclick="mg.addvideo(null,22882478)">+ 添加视频</a>
+							</div>
+						</div>
+					<div class="error"></div>
 					</div>
-					<div class="fn2nd">
-						<a href="javascript:;" onclick="mg.removePlaylistVideo(22882478)">移出视频</a>
+					<div class="entry" id="videoTagsParent">
+						<label><span>*</span>标签：</label>
+						<input type="text" value="" class="form_input" id="vtags" name="vtags">
+
+						<div class="desc"><span>每个标签2~6个字，每个专辑可有1至10个标签，用空格或逗号分隔开。</span></div>
+						<div class="usedtag" id="videoTags"><span>我用过的标签:</span>
+						
+																						<a href="javascript:;">野生动物</a>
+																					
+						</div>
+					<div class="error"></div>	
 					</div>
-					<div class="fn2nd">
-						<a href="javascript:;" onclick="mg.moveVideos2Folder(this)" _p="0">移动到专辑</a>
+					<div class="entry">
+						<label><span>*</span>验证码：</label>
+						<div class="identify" id="verifyCodeParent">
+						<input type="text" id="verifyCode" name="verifyCode" style="width:105px;" value="" class="form_input">
+						<img onclick="mg.chVerifyImg(this);" src="/u/verify?time =0.9937449204735458" style="margin-top:-10px;height:50px;">
+						<a href="#" onclick="mg.chVerifyImg(this);return false;">看不清,换一张</a></div>
+						<div class="error"></div>
 					</div>
+					<div class="entry"><div class="action" style="margin-top:-5px;"><div class="form_btn form_btn_m form_btnmaj_m"><span class="form_btn_text" onclick="mg.addplaylistsubmit()">确　定</span></div><div class="form_btn form_btn_m form_btnsub_m"><span class="form_btn_text" onclick="mg.qwindow.hide()">取　消</span></div></div></div>
 				</div>
-			</div>
-					
-			<div class="clear"></div>
-		</div>
-	</div></div></div>
-		</div>
-	</div>
-	</div><!--YKbody end-->
-</div>
 	</body>
 </html>

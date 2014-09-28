@@ -119,6 +119,28 @@ public class Works extends Model<Works> {
 	}
 	
 	/**
+	 * 分页
+	 * @param worksType 类型
+	 * @param type 0视频 1专辑
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
+	 */
+	public Page<Works> getWorksInfoPage(String worksType, String type, Integer pageNum, Integer pageSize) {
+		Page<Works> workslist = null;
+		StringBuffer from = new StringBuffer();
+		from.append("from works where 1=1");
+		if (!StrKit.isBlank(worksType)) {
+			from.append(" and workstype="+worksType);
+		}
+		if (!StrKit.isBlank(type)){
+			from.append(" and type="+type);
+		}
+		workslist = this.paginate(pageNum, pageSize, "select *", from.toString());
+		return workslist;
+	}
+	
+	/**
 	 * 按点击排名
 	 * @param limit
 	 * @return
