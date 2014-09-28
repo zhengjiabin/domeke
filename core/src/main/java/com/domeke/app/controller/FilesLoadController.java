@@ -61,14 +61,14 @@ public class FilesLoadController extends Controller {
 		UploadFile uploadFile = getFile(parameterName, tempDirectory, maxPostSize, encoding);
 		String filePath = null;
 		if (uploadFile != null) {
-			File replaceFile = renameToFile(uploadFile.getSaveDirectory(), uploadFile.getFile());
+			File srcFile = uploadFile.getFile();
 			imageDirectory = getDirectory(imageDirectory, saveFolderName);
 			File imgDirectory = new File(imageDirectory);
 			if (!imgDirectory.exists()) {
 				imgDirectory.mkdirs();
 			}
-			File targetFile = new File(imageDirectory + replaceFile.getName());
-			fileCopyByChannel(replaceFile, targetFile);
+			File targetFile = new File(imageDirectory + srcFile.getName());
+			fileCopyByChannel(srcFile, targetFile);
 			// 获取文件的绝对路径
 			filePath = targetFile.getAbsolutePath();
 		}
@@ -90,14 +90,14 @@ public class FilesLoadController extends Controller {
 		String directoryPath = null;
 		if (uploadFileList != null && uploadFileList.size() != 0) {
 			for (UploadFile uploadFile : uploadFileList) {
-				File replaceFile = renameToFile(uploadFile.getSaveDirectory(), uploadFile.getFile());
+				File srcFile = uploadFile.getFile();
 				imageDirectory = getDirectory(imageDirectory, saveFolderName);
 				File imgDirectory = new File(imageDirectory);
 				if (!imgDirectory.exists()) {
 					imgDirectory.mkdirs();
 				}
-				File targetFile = new File(imageDirectory + replaceFile.getName());
-				fileCopyByChannel(replaceFile, targetFile);
+				File targetFile = new File(imageDirectory + srcFile.getName());
+				fileCopyByChannel(srcFile, targetFile);
 				// 获取文件的绝对路径
 				directoryPath = imgDirectory.getAbsolutePath();
 			}
@@ -121,33 +121,33 @@ public class FilesLoadController extends Controller {
 		UploadFile uploadFile = getFile(parameterName, tempDirectory, maxPostSize, encoding);
 		getPara("worksname");
 		if (uploadFile != null) {
-			File tagVideo = renameToFile(uploadFile.getSaveDirectory(), uploadFile.getFile());
+			File tagVideo = uploadFile.getFile();
 			videoDirectory = getDirectory(videoDirectory, saveFolderName);
 			filename = VideoKit.compressVideo(tagVideo.getAbsolutePath(), videoDirectory);
 		}
 		return filename;
 	}
 
-	/**
-	 * 重命名文件
-	 * 
-	 * @param saveDirectory
-	 * @param oldFile
-	 * @return
-	 */
-	protected File renameToFile(String saveDirectory, File oldFile) {
-		// 通过文件名截取出文件的类型
-		String fileName = oldFile.getName();
-		String fileType = "";
-		if (fileName != null && fileName.indexOf('.') > 0) {
-			String[] temp = fileName.split("\\.");
-			fileType = temp[temp.length - 1];
-		}
-		// 以当前时间的毫秒数重命名文件名
-		File replaceFile = new File(saveDirectory + "\\" + System.currentTimeMillis() + "." + fileType);
-		oldFile.renameTo(replaceFile);
-		return replaceFile;
-	}
+//	/**
+//	 * 重命名文件
+//	 * 
+//	 * @param saveDirectory
+//	 * @param oldFile
+//	 * @return
+//	 */
+//	protected File renameToFile(String saveDirectory, File oldFile) {
+//		// 通过文件名截取出文件的类型
+//		String fileName = oldFile.getName();
+//		String fileType = "";
+//		if (fileName != null && fileName.indexOf('.') > 0) {
+//			String[] temp = fileName.split("\\.");
+//			fileType = temp[temp.length - 1];
+//		}
+//		// 以当前时间的毫秒数重命名文件名
+//		File replaceFile = new File(saveDirectory + "\\" + System.currentTimeMillis() + "." + fileType);
+//		oldFile.renameTo(replaceFile);
+//		return replaceFile;
+//	}
 
 	/**
 	 * 获取文件目录
