@@ -19,12 +19,11 @@ INSERT INTO `code_type` VALUES ('6', 'papers', '证件类型', null, '2014-9-27 
 INSERT INTO `code_table` VALUES ('1', '00', 'workstype', '首页推荐', '首页推荐', '1', '2014-09-18 19:28:54', null, '2014-09-18 19:28:54', null, '0');
 INSERT INTO `code_table` VALUES ('2', '10', 'workstype', '原创动漫', '原创动漫', '2', '2014-09-18 19:28:31', null, '2014-09-18 19:28:31', null, '0');
 INSERT INTO `code_table` VALUES ('3', '20', 'workstype', '亲子动漫', '亲子动漫', '3', '2014-09-18 19:28:36', null, '2014-09-18 19:28:36', null, '0');
-INSERT INTO `code_table` VALUES ('4', '30', 'workstype', '无奇不有', '无奇不有', '4', '2014-09-18 19:28:41', null, '2014-09-18 19:28:41', null, '0');
-INSERT INTO `code_table` VALUES ('5', '40', 'workstype', 'HIGH动漫', 'HIGH动漫', '5', '2014-09-18 19:28:45', null, '2014-09-18 19:28:45', null, '0');
-INSERT INTO `code_table` VALUES ('6', '50', 'workstype', 'HI豆推荐', 'HI豆推荐', '6', '2014-09-18 19:28:54', null, '2014-09-18 19:28:54', null, '0');
-INSERT INTO `code_table` VALUES ('7', '60', 'workstype', '原创精选', '原创精选', '7', '2014-09-18 19:28:54', null, '2014-09-18 19:28:54', null, '0');
-INSERT INTO `code_table` VALUES ('8', '70', 'workstype', '人气作品', '人气作品', '8', '2014-09-18 19:28:54', null, '2014-09-18 19:28:54', null, '0');
-INSERT INTO `code_table` VALUES ('9', '80', 'workstype', '新作预告', '新作预告', '9', '2014-09-18 19:28:54', null, '2014-09-18 19:28:54', null, '0');
+INSERT INTO `code_table` VALUES ('5', '30', 'workstype', 'HIGH动漫', 'HIGH动漫', '5', '2014-09-18 19:28:45', null, '2014-09-18 19:28:45', null, '0');
+INSERT INTO `code_table` VALUES ('6', '40', 'workstype', 'HI豆推荐', 'HI豆推荐', '6', '2014-09-18 19:28:54', null, '2014-09-18 19:28:54', null, '0');
+INSERT INTO `code_table` VALUES ('7', '50', 'workstype', '原创精选', '原创精选', '7', '2014-09-18 19:28:54', null, '2014-09-18 19:28:54', null, '0');
+INSERT INTO `code_table` VALUES ('8', '60', 'workstype', '人气作品', '人气作品', '8', '2014-09-18 19:28:54', null, '2014-09-18 19:28:54', null, '0');
+INSERT INTO `code_table` VALUES ('9', '70', 'workstype', '新作预告', '新作预告', '9', '2014-09-18 19:28:54', null, '2014-09-18 19:28:54', null, '0');
 INSERT INTO `code_table` VALUES ('10', '10001', 'idtype', '作品回复', 'works', null, '2014-09-18 19:28:49', null, '2014-09-18 19:28:49', null, '0');
 INSERT INTO `code_table` VALUES ('11', '100102', 'goodstype', '小米路由', '小米路由', null, '2014-09-18 19:26:56', null, '2014-09-18 19:26:59', null, '0');
 INSERT INTO `code_table` VALUES ('12', '100103', 'goodstype', '小米手机', '小米手机', null, '2014-09-18 19:29:41', null, '2014-09-18 19:29:43', null, '0');
