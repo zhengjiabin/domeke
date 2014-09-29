@@ -328,6 +328,11 @@ CREATE TABLE `goods` (
   `creater` bigint(20) NOT NULL,
   `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modifier` bigint(20) NOT NULL,
+  `goodsattr1` int(4) DEFAULT NULL,
+  `goodsattr2` int(4) DEFAULT NULL,
+  `goodsattr3` int(4) DEFAULT NULL,
+  `goodsattr4` int(4) DEFAULT NULL,
+  `goodsattr5` int(4) DEFAULT NULL,
   PRIMARY KEY (`goodsid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 -- ----------------------------
