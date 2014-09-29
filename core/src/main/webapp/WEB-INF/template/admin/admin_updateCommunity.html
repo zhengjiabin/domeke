@@ -1,0 +1,67 @@
+<form id="updateCommunityForm" class="form-horizontal" action="./community/updateCommunity" method="post" onsubmit="submitForm(this)">
+	<fieldset>
+		<legend>版块管理</legend>
+		<input type="text" name="community.communityid" value="${community.communityid!}" style="display: none;">
+		<input type="text" name="community.level" value="${community.level!}" style="display: none;">
+		
+		<div class="control-group warning">
+			<label class="control-label" for="inputError">标题</label>
+			<div class="controls">
+				<input type="text" name="community.title"
+					value="${community.title!}">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">概要</label>
+			<div class="controls">
+				<input class="input-xlarge focused" type="text"
+					name="community.content" value="${community.content!}">
+			</div>
+		</div>
+		
+		<% if(community.level == 2) { %>
+		<div class="control-group">
+			<label class="control-label" for="disabledInput">区域版块</label>
+			<div class="controls">
+				<% if(isEmpty(community.pid)) { %>
+					<select name="community.pid" required="required" id="pid">
+				<% } else { %>
+					<select name="community.pid" required="required" disabled="disabled" id="pid">
+				<% } %>
+					<% 
+						for(communityFat in communityFatList) { 
+							if(communityFat.communityid == community.pid){
+					%>
+						<option value="${communityFat.communityid!}" selected="selected">${communityFat.title!}</option>
+					<% } else {%>
+					<option value="${communityFat.communityid!}">${communityFat.title!}</option>
+					<% } } %>
+					
+				</select>
+			</div>
+		</div>
+		
+		<input type="text" name="community.actionkey" value="${community.actionkey!}" style="display: none;">
+		<% } else { %>
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">版块路径</label>
+			<div class="controls">
+				<input class="input-xlarge focused" type="text"
+					name="community.actionkey" value="${community.actionkey!}">
+			</div>
+		</div>
+		<% } %>
+		
+		<div class="control-group success">
+			<label class="control-label" for="selectError">显示顺序</label>
+			<input class="input-xlarge focused" type="number"
+					name="community.position" value="${community.position!}">
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">提交</button>
+			<button type="reset" class="btn">取消</button>
+		</div>
+	</fieldset>
+</form>

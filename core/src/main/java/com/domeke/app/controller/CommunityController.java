@@ -310,7 +310,56 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
-	 * 
+	 * admin管理--跳转修改社区版块页面
+	 */
+	public void skipModify(){
+		Community community = null;
+		String communityId = getPara("communityId");
+		if(StrKit.notBlank(communityId)){
+			community = Community.dao.findById(communityId);
+		}else {
+			community = addCommunity();
+		}
+		setAttr("community", community);
+		
+		setCommunityFatList();
+		render("/admin/admin_updateCommunity.html");
+	}
+	
+	/**
+	 * admin--设置更新版块信息
+	 */
+	private Community addCommunity() {
+		Community community = getModel(Community.class);
+		community.set("level", 1);
+		String pId = getPara("pId");
+		if (StrKit.notBlank(pId)) {
+			Community communityFat = Community.dao.findById(pId);
+			Object actionKey = communityFat.get("actionkey");
+			community.set("actionkey", actionKey);
+			community.set("pid", pId);
+			community.set("level", 2);
+		}
+		return community;
+	}
+	
+	/**
+	 * admin管理--更新社区版块
+	 */
+	public void updateCommunity() {
+		Community community = getModel(Community.class);
+		Object communityId = community.get("communityid");
+		if (communityId == null) {
+			community.save();
+		} else {
+			community.update();
+		}
+
+		goToManager();
+	}
+	
+	/**
+	 * admin管理--删除版块
 	 */
 	public void deleteSon(){
 		String communityId = getPara("communityId");
@@ -326,39 +375,13 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
-	 * 
+	 * admin管理--删除区域版块
 	 */
 	public void deleteFat(){
 		String communityId = getPara("communityId");
 		if(communityId != null && communityId.length() > 0){
 			Community.dao.deleteFatAndSonByCommunityId(communityId);
 		}
-		
-		setCommunityFatList();
-		setCommunitySonList();
-		render("/admin/admin_detailCommunity.html");
-	}
-	
-	public void addCommunitySon(){
-		Object pId = getPara("pId");
-		Community community = getModel(Community.class);
-		community.set("pid", pId);
-		community.set("level", 2);
-		community.set("title", "请填写标题");
-		community.save();
-		
-		Community communityFat = Community.dao.findById(pId);
-		setAttr("communityFat", communityFat);
-		
-		setCommunitySonListByPid(pId);
-		render("/admin/admin_communityFat.html");
-	}
-	
-	public void addCommunityFat(){
-		Community community = getModel(Community.class);
-		community.set("level", 1);
-		community.set("title", "请填写标题");
-		community.save();
 		
 		setCommunityFatList();
 		setCommunitySonList();
