@@ -85,7 +85,7 @@ article > section,aside > section{
 	position: fixed;
 	top: 0px;
 	width: 100%;
-	background: url(../http://www.dongmark.com/images/bg_fixed.png) left top repeat-x;
+	background: url(http://www.dongmark.com/images/bg_fixed.png) left top repeat-x;
 	height: 38px;
 	z-index: 100;
 }
@@ -245,7 +245,7 @@ nav li{
 }
 .CartoonTitleB{
 	border-bottom: 0px;
-	background: url(../http://www.dongmark.com/images/bg_title.png) left bottom no-repeat;
+	background: url(/http://www.dongmark.com/images/bg_title.png) left bottom no-repeat;
 	color: #666;
 }
 .CartoonTitleC{
