@@ -39,6 +39,23 @@ public class Post extends Model<Post> {
 	 */
 	private static final long serialVersionUID = 1L;
 	public static Post dao = new Post();
+	
+	/**
+	 * 分页查询论坛，不区分状态
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Post> findPageAll(int pageNumber, int pageSize) {
+		String select = "select p.*,u.username,u.imgurl";
+		StringBuffer sqlExceptSelect = new StringBuffer("from post p,user u where p.userid=u.userid ");
+		sqlExceptSelect.append("  order by to_days(createtime) desc,top desc,essence desc ");
+		Page<Post> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
+		return page;
+	}
 
 	/**
 	 * 分页查询帖子
@@ -50,8 +67,10 @@ public class Post extends Model<Post> {
 	 * @return
 	 */
 	public Page<Post> findPage(int pageNumber, int pageSize) {
-		Page<Post> page = this.paginate(pageNumber, pageSize, "select *",
-				"from post where status='10' order by to_days(createtime) desc,top desc,essence desc");
+		String select = "select p.*,u.username,u.imgurl";
+		StringBuffer sqlExceptSelect = new StringBuffer("from post p,user u where p.userid=u.userid and p.status='10' ");
+		sqlExceptSelect.append("  order by to_days(createtime) desc,top desc,essence desc ");
+		Page<Post> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
 		return page;
 	}
 	/**

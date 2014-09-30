@@ -12,11 +12,24 @@ import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "post")
 @Before(LoginInterceptor.class)
 public class PostController extends Controller {
+	
+	/** 回复类型 */
+	private static String IDTYPE = "10";
+	
+	/**
+	 * admin管理中对应的社区管理入口
+	 */
+	public void goToManager() {
+		findPostPageAll();
+		render("/admin/admin_post.html");
+	}
+	
 
 	/**
 	 * 查询指定社区的分页帖子信息
@@ -183,13 +196,15 @@ public class PostController extends Controller {
 	}
 
 	/**
-	 * 删除指定帖子
+	 * admin管理--删除指定帖子
 	 */
 	public void deleteById() {
-		String post = getPara("postId");
-		Post.dao.deleteById(post);
-
-		findByUserId();
+		String postId = getPara("postId");
+		Post.dao.deleteById(postId);
+		
+		Comment.dao.deleteByTheme(postId, IDTYPE);
+		findPostPageAll();
+		render("/admin/admin_detailPost.html");
 	}
 
 	/**
@@ -206,6 +221,53 @@ public class PostController extends Controller {
 		
 		keepPara("communityId");
 		render("/community/createPost.html");
+	}
+	
+	/**
+	 * admin管理--跳转发表/修改主题
+	 */
+	public void skipUpdate() {
+		Post post = null;
+		String postId = getPara("postId");
+		if(StrKit.notBlank(postId)){
+			post = Post.dao.findById(postId);
+		}else{
+			post = getModel(Post.class);
+		}
+		setAttr("post", post);
+		
+		List<Community> communityList = Community.dao.findSonList();
+		setAttr("communityList", communityList);
+		render("/admin/admin_updatePost.html");
+	}
+	
+	/**
+	 * admin管理--发表/修改主题
+	 */
+	public void update() {
+		Post post = getModel(Post.class);
+		Object postId = post.get("postid");
+		if (postId == null) {
+			Object userId = getUserId();
+			HttpServletRequest request = getRequest();
+			String remoteIp = request.getRemoteAddr();
+
+			post.set("userid", userId);
+			post.set("userip", remoteIp);
+			post.save();
+		} else {
+			post.update();
+		}
+		
+		goToManager();
+	}
+	
+	/**
+	 * admin管理--跳转指定页面
+	 */
+	public void findByAdminPage(){
+		findPostPageAll();
+		render("/admin/admin_detailPost.html");
 	}
 	
 	/**
@@ -302,7 +364,7 @@ public class PostController extends Controller {
 		Object userId = getUserId();
 		comment.set("userid", userId);
 
-		comment.set("idtype", "10");
+		comment.set("idtype", IDTYPE);
 
 		HttpServletRequest request = getRequest();
 		String remoteIp = request.getRemoteAddr();
@@ -379,6 +441,16 @@ public class PostController extends Controller {
 		List<Community> communitySonList = Community.dao.findSonList();
 		setAttr("communitySonList", communitySonList);
 		render("/community/postAll.html");
+	}
+	
+	/**
+	 * admin管理--分页查询论坛(不区分显示隐藏状态)
+	 */
+	private void findPostPageAll() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Post> postPage = Post.dao.findPageAll(pageNumber, pageSize);
+		setAttr("postPage", postPage);
 	}
 
 	/**

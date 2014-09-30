@@ -72,4 +72,11 @@ public class Comment extends Model<Comment> {
 		Db.batch(sql, new Object[][] { { targetId, targetId } }, 1);
 	}
 	
+	/**
+	 * 删除指定主题对应的所有回复信息
+	 */
+	public void deleteByTheme(Object targetId,Object idtype){
+		String sql = "delete from comment where targetid=? and idtype=? ";
+		Db.batch(sql, new Object[][] { { targetId, idtype } }, 1);
+	}
 }

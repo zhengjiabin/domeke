@@ -7,9 +7,8 @@
 			<tr>
 				<th>标题</th>
 				<th>概要</th>
-				<th>各版块根路径</th>
-				<th>显示层级</th>
-				<th>同层级下显示顺序</th>
+				<th>区域版块</th>
+				<th>同区域版块下显示顺序</th>
 				<th>操作</th>
 			</tr>
 		</thead>
@@ -17,8 +16,7 @@
 			<tr class="odd gradeX" id="fat">
 				<td id="title">${communityFat.title!}</td>
 				<td id="content">${communityFat.content!}</td>
-				<td id="actionkey">${communityFat.actionkey!}</td>
-				<td id="level">${communityFat.level!}</td>
+				<td id="pid"></td>
 				<td id="position">${communityFat.position!}</td>
 				<td>
 					<button class="btn btn-warning btn-mini"
@@ -31,8 +29,7 @@
 			<tr class="odd gradeX" id="son">
 				<td id="title">${communitySon.title!}</td>
 				<td id="content">${communitySon.content!}</td>
-				<td id="actionkey">${communitySon.actionkey!}</td>
-				<td id="level">${communitySon.level!}</td>
+				<td id="pid">${communityFat.title!}</td>
 				<td id="position">${communitySon.position!}</td>
 				<td>
 					<button class="btn btn-warning btn-mini"
