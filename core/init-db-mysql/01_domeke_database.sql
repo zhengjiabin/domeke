@@ -419,21 +419,6 @@ CREATE TABLE `post` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for post_approve
--- ----------------------------
-DROP TABLE IF EXISTS `post_approve`;
-CREATE TABLE `post_approve` (
-  `postapproveid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `postid` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `status` tinyint(3) NOT NULL DEFAULT '0',
-  `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` bigint(20) DEFAULT NULL,
-  `modifier` bigint(20) DEFAULT NULL,
-  `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`postapproveid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
