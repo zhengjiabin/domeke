@@ -88,13 +88,13 @@ $(function(){
 </section>
 <section class="White" style="padding: 5px;">
     <div id="wish">
-        <% for(v in ventWallList!){%>
+        <% for(v in ventWallList!){ var i=0;%>
             <div><img src="http://www.dongmark.com/images/${v.moodid!}"/>${v.message!}
             	 <span style="position:absolute;bottom:0;right:0;font-weight:bold;font-style:italic;">
             	 <% for(u in userList!){
             	 	  if (v.userid == u.userid){%>
             	 		${u.username!}
-            	 <%}}%>
+            	 <% break;}}%>
             	 </span>
             </div>
         <%}%>
