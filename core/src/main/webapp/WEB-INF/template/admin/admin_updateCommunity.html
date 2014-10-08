@@ -27,7 +27,7 @@
 				<% if(isEmpty(community.pid)) { %>
 					<select name="community.pid" required="required" id="pid">
 				<% } else { %>
-					<select name="community.pid" required="required" disabled="disabled" id="pid">
+					<select name="community.pid" required="required" disabled="disabled"  id="pid">
 				<% } %>
 					<% 
 						for(communityFat in communityFatList) { 
@@ -35,7 +35,7 @@
 					%>
 						<option value="${communityFat.communityid!}" selected="selected">${communityFat.title!}</option>
 					<% } else {%>
-					<option value="${communityFat.communityid!}">${communityFat.title!}</option>
+					<option value="${communityFat.communityid!}" >${communityFat.title!}</option>
 					<% } } %>
 					
 				</select>

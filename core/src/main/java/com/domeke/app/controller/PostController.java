@@ -26,7 +26,7 @@ public class PostController extends Controller {
 	 * admin管理中对应的社区管理入口
 	 */
 	public void goToManager() {
-		findPostPageAll();
+		findPageAll();
 		render("/admin/admin_post.html");
 	}
 	
@@ -203,7 +203,7 @@ public class PostController extends Controller {
 		Post.dao.deleteById(postId);
 		
 		Comment.dao.deleteByTheme(postId, IDTYPE);
-		findPostPageAll();
+		findPageAll();
 		render("/admin/admin_detailPost.html");
 	}
 
@@ -266,7 +266,7 @@ public class PostController extends Controller {
 	 * admin管理--跳转指定页面
 	 */
 	public void findByAdminPage(){
-		findPostPageAll();
+		findPageAll();
 		render("/admin/admin_detailPost.html");
 	}
 	
@@ -446,7 +446,7 @@ public class PostController extends Controller {
 	/**
 	 * admin管理--分页查询论坛(不区分显示隐藏状态)
 	 */
-	private void findPostPageAll() {
+	private void findPageAll() {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		Page<Post> postPage = Post.dao.findPageAll(pageNumber, pageSize);

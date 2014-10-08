@@ -16,11 +16,76 @@ import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "activity")
 @Before(LoginInterceptor.class)
 public class ActivityController extends Controller {
+	
+	/**
+	 * admin管理--社区管理入口
+	 */
+	public void goToManager() {
+		findPageAll();
+		render("/admin/admin_activity.html");
+	}
+	
+	/**
+	 * admin管理--分页查询活动(不区分显示隐藏状态)
+	 */
+	private void findPageAll() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Activity> activityPage = Activity.dao.findPageAll(pageNumber, pageSize);
+		setAttr("activityPage", activityPage);
+	}
+	
+	/**
+	 * admin管理--跳转发表/修改主题
+	 */
+	public void skipUpdate() {
+		Activity activity = null;
+		String activityId = getPara("activityId");
+		if(StrKit.notBlank(activityId)){
+			activity = Activity.dao.findById(activityId);
+		}else{
+			activity = getModel(Activity.class);
+		}
+		setAttr("activity", activity);
+		
+		setCodeTableList("gender", "genderList");
+		
+		List<Community> communityList = Community.dao.findSonList();
+		setAttr("communityList", communityList);
+		render("/admin/admin_updateActivity.html");
+	}
+	
+	/**
+	 * admin管理--发表/修改主题
+	 */
+	public void update() {
+		Activity activity = getModel(Activity.class);
+		Object activityId = activity.get("activityid");
+		if (activityId == null) {
+			Object userId = getUserId();
+
+			activity.set("userid", userId);
+			activity.save();
+		} else {
+			activity.update();
+		}
+		
+		goToManager();
+	}
+	
+	/**
+	 * admin管理--跳转指定页面
+	 */
+	public void findByAdminPage(){
+		findPageAll();
+		render("/admin/admin_detailActivity.html");
+	}
 
 	/**
 	 * 分页查询指定社区的活动

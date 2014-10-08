@@ -332,8 +332,8 @@ public class CommunityController extends Controller {
 	private Community addCommunity() {
 		Community community = getModel(Community.class);
 		community.set("level", 1);
-		String pId = getPara("pId");
-		if (StrKit.notBlank(pId)) {
+		Long pId = getParaToLong("pId");
+		if (pId != null) {
 			Community communityFat = Community.dao.findById(pId);
 			Object actionKey = communityFat.get("actionkey");
 			community.set("actionkey", actionKey);

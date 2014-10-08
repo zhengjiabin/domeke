@@ -8,6 +8,16 @@ function skipUpdatePost(node,postId) {
 	});
 }
 
+//跳转更新活动页面
+function skipUpdateActivity(node,activityId) {	
+	$.post("./activity/skipUpdate", {
+		activityId : activityId
+	}, function(data) {
+		var adminActivityHtml = $(node).closest("#adminActivityHtml");
+		adminActivityHtml.html(data);
+	});
+}
+
 //更新主题
 function submitForm(node) {
 	var content = CKEDITOR.instances.ckeditor.getData();
@@ -20,6 +30,16 @@ function submitForm(node) {
 function deletePost(node,postId){
 	$.post("./post/deleteById", {
 		postId : postId
+	}, function(data) {
+		var page = $(node).closest("#page");
+		page.html(data);
+	});
+}
+
+//删除活动主题
+function deleteActivity(node,activityId){
+	$.post("./activity/deleteById", {
+		activityId : activityId
 	}, function(data) {
 		var page = $(node).closest("#page");
 		page.html(data);

@@ -40,6 +40,23 @@ public class Activity extends Model<Activity> {
 	private static final long serialVersionUID = 1L;
 
 	public static Activity dao = new Activity();
+	
+	/**
+	 * 分页查询活动，不区分状态
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Activity> findPageAll(int pageNumber, int pageSize) {
+		String select = "select aty.*,u.username,u.imgurl";
+		StringBuffer sqlExceptSelect = new StringBuffer("from activity aty,user u where aty.userid=u.userid ");
+		sqlExceptSelect.append("  order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc ");
+		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
+		return page;
+	}
 
 	/**
 	 * 分页查询活动
