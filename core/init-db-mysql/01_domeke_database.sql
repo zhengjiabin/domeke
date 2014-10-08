@@ -133,46 +133,23 @@ CREATE TABLE `activity` (
   `userid` bigint(20) NOT NULL DEFAULT '0',
   `aid` int(11) NOT NULL DEFAULT '0',
   `starttimefrom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `starttimeto` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `starttimeto` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `place` varchar(255) NOT NULL,
-  `class` varchar(255) NOT NULL,
-  `gender` tinyint(1) NOT NULL DEFAULT '0',
+  `classtype` varchar(255) NOT NULL,
+  `gender` tinyint(2) NOT NULL DEFAULT '0',
   `number` smallint(5) unsigned NOT NULL DEFAULT '0',
-  `expiration` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ufield` text NOT NULL,
+  `expiration` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `message` text NOT NULL,
   `status` varchar(4) DEFAULT '10',
   `times` bigint(20) DEFAULT '0',
-  `top` tinyint(1) NOT NULL DEFAULT '0',
-  `essence` tinyint(1) NOT NULL DEFAULT '0',
+  `top` tinyint(2) NOT NULL DEFAULT '0',
+  `essence` tinyint(2) NOT NULL DEFAULT '0',
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) DEFAULT NULL,
   `modifier` bigint(20) DEFAULT NULL,
   `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `communityid` bigint(20) NOT NULL DEFAULT '0',
   PRIMARY KEY (`activityid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for activity_apply
--- ----------------------------
-DROP TABLE IF EXISTS `activity_apply`;
-CREATE TABLE `activity_apply` (
-  `activityapplyid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `activityid` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `userid` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `message` varchar(255) NOT NULL,
-  `dateline` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `realname` varchar(32) NOT NULL,
-  `mobile` varchar(32) NOT NULL,
-  `gender` tinyint(1) NOT NULL DEFAULT '0',
-  `papers` tinyint(1) DEFAULT '0',
-  `papersid` bigint(20) DEFAULT '0',
-  `status` varchar(4) DEFAULT '10',
-  `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` bigint(20) DEFAULT NULL,
-  `modifier` bigint(20) DEFAULT NULL,
-  `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`activityapplyid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -407,8 +384,8 @@ CREATE TABLE `post` (
   `message` text NOT NULL,
   `userip` varchar(15) NOT NULL,
   `times` bigint(20) DEFAULT '0',
-  `top` tinyint(1) NOT NULL DEFAULT '0',
-  `essence` tinyint(1) NOT NULL DEFAULT '0',
+  `top` tinyint(2) NOT NULL DEFAULT '0',
+  `essence` tinyint(2) NOT NULL DEFAULT '0',
   `status` varchar(4) NOT NULL DEFAULT '10',
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) DEFAULT NULL,
@@ -444,8 +421,8 @@ CREATE TABLE `treasure` (
   `message` text NOT NULL,
   `userip` varchar(15) NOT NULL,
   `times` bigint(20) DEFAULT '0',
-  `top` tinyint(1) NOT NULL DEFAULT '0',
-  `essence` tinyint(1) NOT NULL DEFAULT '0',
+  `top` tinyint(2) NOT NULL DEFAULT '0',
+  `essence` tinyint(2) NOT NULL DEFAULT '0',
   `status` varchar(4) NOT NULL DEFAULT '10',
   `communityid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
