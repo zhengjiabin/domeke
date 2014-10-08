@@ -8,7 +8,9 @@
 <script src="js/BizProduct090713.js" language="javascript" type="text/javascript"></script>
 <script src="js/BizCommon090801.js" language="javascript" type="text/javascript"></script>
     <div class="ShopPath">
-        <a href="#">首页</a>/<a href="#">配件</a>/<a href="#">米兔玩偶</a>/<a href="#">米兔纪念版钥匙扣</a>
+    <% for(g in goodsTypes!){ %>
+        <a href="#">${g.typename}</a>/
+    <%}%>
     </div>
     <div class="Goods">
     	<div class="GoodsPicRoll">
@@ -16,7 +18,7 @@
   <div class="mainShow"><img id="midImg" src="${goods.pic!}" class="Picture220"/></div>
   <div class="scroll" id="scroll"><a href="#prev" class="prevView prevStop" ><span>显示上一幅图片</span></a>
     <ul id="thumList">
-      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="http://www.dongmark.com/images/zixingche.jpg" alt="" ref1="http://www.dongmark.com/images/zixingche.jpg" ref2="http://www.dongmark.com/images/zixingche.jpg" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
+      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="${goods.pic!}" alt="" ref1="${goods.pic!}" ref2="${goods.pic!}" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
       <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="${goods.headimg!}" alt="" ref1="${goods.headimg!}" ref2="${goods.headimg!}" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture42"/></a></li>
       <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="http://www.dongmark.com/images/Mepic01.png" alt="" ref1="http://www.dongmark.com/images/Mepic01.png" ref2="http://www.dongmark.com/images/Mepic01.png" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
     </ul>
@@ -29,6 +31,7 @@
         	<div class="GPrice">折&nbsp;后&nbsp;价：￥${goods.price!}</div>
             <div class="GButton font_w">
             	<a href="http://detail.tmall.com/item.htm?spm=a230r.1.14.1.8jNRgD&id=37652444734&ad_id=&am_id=&cm_id=140105335569ed55e27b&pm_id=" class="BuyNow" target="_blank" >去 购 买</a>
+            	<a href="" class="BuyNow" target="_blank" >豆豆兑换</a>
                 <span class="Loves"><img src="images/icon11.png">喜 欢（26）</span>
           </div>
             <ul class="GProperties">
