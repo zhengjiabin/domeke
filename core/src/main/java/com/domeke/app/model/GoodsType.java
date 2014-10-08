@@ -1,6 +1,7 @@
 package com.domeke.app.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
@@ -130,6 +131,7 @@ public class GoodsType extends Model<GoodsType> {
 				break;
 			}
 		}
+		Collections.reverse(goodsTypeList);
 		return goodsTypeList;
 	}
 }
