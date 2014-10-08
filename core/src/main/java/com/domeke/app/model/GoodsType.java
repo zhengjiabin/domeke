@@ -1,5 +1,6 @@
 package com.domeke.app.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
@@ -16,7 +17,7 @@ public class GoodsType extends Model<GoodsType> {
 	private static final long serialVersionUID = -4324755844654141029L;
 	
 	public static GoodsType gtDao = new GoodsType();
-	
+		
 	/**
 	 * 分页查询
 	 * 
@@ -113,4 +114,22 @@ public class GoodsType extends Model<GoodsType> {
 		return strs;
 	}
 
+	/**
+	 * 根据商品id返回倒序的商品分类顺序
+	 * @param goodsTypeId
+	 * @return
+	 */
+	public List<GoodsType> getTypeUrl(String goodsTypeId) {
+		List<GoodsType> goodsTypeList = new ArrayList<GoodsType>();
+		int row = 0;
+		while (row < 1) {
+			GoodsType gt = this.findById(goodsTypeId);
+			goodsTypeList.add(gt);
+			goodsTypeId = String.valueOf(gt.get("parenttypeid"));
+			if ("null".equals(goodsTypeId) || "".equals(goodsTypeId) || goodsTypeId == null) {
+				break;
+			}
+		}
+		return goodsTypeList;
+	}
 }
