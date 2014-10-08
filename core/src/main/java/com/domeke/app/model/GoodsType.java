@@ -122,8 +122,7 @@ public class GoodsType extends Model<GoodsType> {
 	 */
 	public List<GoodsType> getTypeUrl(String goodsTypeId) {
 		List<GoodsType> goodsTypeList = new ArrayList<GoodsType>();
-		int row = 0;
-		while (row < 1) {
+		while (true) {
 			GoodsType gt = this.findById(goodsTypeId);
 			goodsTypeList.add(gt);
 			goodsTypeId = String.valueOf(gt.get("parenttypeid"));
