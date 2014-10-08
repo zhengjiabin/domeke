@@ -1,6 +1,7 @@
 package com.domeke.app.controller;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -49,8 +50,7 @@ public class GoodsController extends FilesLoadController {
 	}
 	
 	public void find(){
-		setGoodsPage(null);
-		render("/admin/admin_goodsPage.html");
+		goToManager();
 	}
 	
 	/**
@@ -280,9 +280,17 @@ public class GoodsController extends FilesLoadController {
 	}
 	public void getGoodsDetail(){
 		Goods goodsModel = getModel(Goods.class);
-		//Goods goods = goodsModel.findById(getParaToInt("id"));
-		Goods goods = goodsModel.findById(4);
+		Goods goods = goodsModel.findById(getParaToInt("id"));
+		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
+		List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
+		setAttr("goodsTypes", goodsTypes);
 		setAttr("goods", goods);
 		render("/ShopDtl.html");
+	}
+	public void backGoodsType(){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("goodsattr1", "2");
+		List<Goods> goodsList = getGoodsType(map);
+		
 	}
 }
