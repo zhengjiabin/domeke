@@ -278,6 +278,9 @@ public class GoodsController extends FilesLoadController {
 		List<Goods> goodsList = goodsModel.getGoodsInfoByName(goodsName);
 		this.setAttr("goodslist", goodsList);
 	}
+	/**
+	 * 商品明细
+	 */
 	public void getGoodsDetail(){
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("id"));
@@ -287,6 +290,9 @@ public class GoodsController extends FilesLoadController {
 		setAttr("goods", goods);
 		render("/ShopDtl.html");
 	}
+	/**
+	 * 
+	 */
 	public void backGoodsType(){
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("goodsattr1", "2");
