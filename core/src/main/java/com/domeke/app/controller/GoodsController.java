@@ -49,7 +49,8 @@ public class GoodsController extends FilesLoadController {
 	}
 	
 	public void find(){
-		goToManager();
+		setGoodsPage(null);
+		render("/admin/admin_goodsPage.html");
 	}
 	
 	/**
