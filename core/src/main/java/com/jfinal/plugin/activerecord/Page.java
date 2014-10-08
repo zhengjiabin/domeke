@@ -31,7 +31,8 @@ public class Page<T> implements Serializable {
 	private int pageSize;				// result amount of this page
 	private int totalPage;				// total page
 	private int totalRow;				// total row
-	
+	private int pageUp;
+	private int pageDown;
 	/**
 	 * Constructor.
 	 * @param list the list of paginate result
@@ -46,6 +47,8 @@ public class Page<T> implements Serializable {
 		this.pageSize = pageSize;
 		this.totalPage = totalPage;
 		this.totalRow = totalRow;
+		this.pageUp = this.getPageUp();
+		this.pageDown = this.getPageDown();
 	}
 	
 	/**
@@ -82,6 +85,23 @@ public class Page<T> implements Serializable {
 	public int getTotalRow() {
 		return totalRow;
 	}
+
+	public int getPageUp() {
+		if(this.pageNumber <= 1){
+			return 1;
+		}else{
+			return this.pageNumber - 1;
+		}
+	}
+
+	public int getPageDown() {
+		if(this.pageNumber >= this.totalPage){
+			return this.totalPage;
+		}else{
+			return this.pageNumber + 1;
+		}
+	}
+	
 }
 
 

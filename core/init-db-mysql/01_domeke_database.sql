@@ -283,7 +283,7 @@ CREATE TABLE `favourite` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for goods
+-- Table structure for `goods`
 -- ----------------------------
 DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods` (
@@ -291,7 +291,8 @@ CREATE TABLE `goods` (
   `goods` varchar(50) NOT NULL,
   `goodsname` varchar(255) NOT NULL,
   `price` float(7,2) unsigned NOT NULL COMMENT '现价',
-  `oldprice` float(7,2) COMMENT '原价',
+  `dougprice` float(7,2) NOT NULL DEFAULT '0.00',
+  `oldprice` float(7,2) DEFAULT NULL COMMENT '原价',
   `amount` int(10) unsigned NOT NULL DEFAULT '0',
   `pic` varchar(255) NOT NULL,
   `message` varchar(255) NOT NULL,
@@ -310,8 +311,9 @@ CREATE TABLE `goods` (
   `goodsattr3` int(4) DEFAULT NULL,
   `goodsattr4` int(4) DEFAULT NULL,
   `goodsattr5` int(4) DEFAULT NULL,
-  PRIMARY KEY (`goodsid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`goodsid`,`dougprice`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
 -- ----------------------------
 -- Table structure for message_queue
 -- ----------------------------

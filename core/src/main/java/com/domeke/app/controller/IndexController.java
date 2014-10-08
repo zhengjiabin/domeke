@@ -28,7 +28,6 @@ public class IndexController extends Controller {
 		List<Map<String, Object>> workss0 = Lists.newArrayList();
 		workss0 = this.worksParse(workss0Temp);
 		
-		
 		//加载中间数据
 		List<Works> workss1temp = worksDao.getWorksInfoByType("10",7);
 		List<Map<String, Object>> workss1 = Lists.newArrayList();
