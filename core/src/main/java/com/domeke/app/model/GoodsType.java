@@ -131,6 +131,6 @@ public class GoodsType extends Model<GoodsType> {
 			}
 		}
 		Collections.reverse(goodsTypeList);
-		return goodsTypeList;
+		return goodsTypeList; 
 	}
 }
