@@ -15,27 +15,23 @@
 			<div class="pageTitle"><h3>管理专辑</h3></div>		
 	<div class="tpsummary" id="playlistDetail">	
 		<div id="playlistinfo_wrap"><div id="playlistinfo" params="">	<ul class="p ph">
-		<li class="p_link"><a onclick="hz.postHz(4008055,1000707);" href="http://www.youku.com/playlist_show/id_22882478.html" target="_blank" title="xxxxxxxxdf"></a></li>
-		<li class="p_thumb" id="folderLogo"><img src="http://g2.ykimg.com/0100641F4650BEE369E1F4082880541546A942-8819-F049-226E-2FF5488B02D0" alt="xxxxxxxxdf"></li>	
-		<li class="p_status"><span class="time">00:30</span><span class="status">1个视频</span><span class="bg"></span></li>
-		<li class="p_title"><a onclick="hz.postHz(4008056,1000707);" href="http://www.youku.com/playlist_show/id_22882478.html" target="_blank" title="xxxxxxxxdf">xxxxxxxxdf</a></li>
+		<li class="p_link"><a href="cartoon/showDetail?id=${works.worksid!}" target="_blank" title="${works.worksname!}"></a></li>
+		<li class="p_thumb" id="folderLogo"><img src="${works.cover!}" alt="${works.worksname!}"></li>	
+		<li class="p_status"><span class="time">00:30</span><span class="status">${works.maxnum!}个视频</span><span class="bg"></span></li>
+		<li class="p_title"><a href="cartoon/showDetail?id=${works.worksid!}" target="_blank" title="${works.worksname!}">${works.worksname!}</a></li>
 		<li class="p_param">
-			<span class="stat"><label>视频数:</label><span class="num">1</span></span>
-			<span class="stat"><label>总时长:</label><span class="num">00:30</span></span>
-			<span class="stat"><label>播放数:</label><span class="num">1</span></span>
+			<span class="stat"><label>视频数:</label><span class="num">${works.maxnum!}</span></span>
+			<span class="stat"><label>播放数:</label><span class="num">${works.pageviews!}</span></span>
 		</li>
 		<li class="p_param">
-			<span class="stat"><label>分类:</label><a target="_blank" href="/v_showlist/t2d1c106.html">其他</a></span>
-			<span class="stat"><label>标签:</label>
-							<a target="_blank" href="http://www.soku.com/search_playlist/type_tag_q_%EF%BC%9F%EF%BC%9F" title="？？">？？</a>
-						</span>
+			<span class="stat"><label>分类:</label>${workstype!}</span>
 		</li>
 		<li class="p_intro">
-		<label>简介:</label><span class="text">sadaf</span>
+		<label>简介:</label><span class="text">${works.describle!}</span>
 	
 		</li>
 	</ul>
-	<div class="action"><a href="javascript:;" onclick="mg.editplaylist(22882478)">编辑专辑信息</a></div></div></div>
+	<div class="action"><a href="">编辑专辑信息</a></div></div></div>
 	</div>	
 		
 <div class="topiclist">
@@ -45,14 +41,8 @@
 			<div class="manager_action">
 				<div class="adddel">
 					<div class="fn2nd">
-						<a href="javascript:;" onclick="mg.addvideo(null,22882478)">+ 添加视频</a>
+						<a href="addWork?flag=1&worksid=${works.worksid!}&pageIndex=${pageWork.pageNumber!}">+ 添加视频</a>
 					</div>
-					<div class="fn2nd">
-						<a href="javascript:;" onclick="mg.removePlaylistVideo(22882478)">移出视频</a>
-					</div>
-					<div class="fn2nd">
-						<a onclick="mg.moveVideos2Folder(this);" href="javascript:;" _p="0">移动到专辑</a>
-					</div>					
 				</div>
 			</div>
 						<div class="clear"></div>
@@ -72,52 +62,37 @@
 						</tr>
 					</thead>
 					<tbody class="" id="videolist">
-					
-								<tr id="">
+						<% for(works in pageWork.list){%>
+						<tr id="">
 							<td class="tpl_check"><div class="check"><input type="checkbox" id="input198022550" name="videos[]" value="198022550"><label for="input198022550"></label></div></td>
-							<td class="tpl_serial" id=""><a href="javascript:;">1</a><input type="text" style="display:none" _pkfid="191015686"><span class="ico__loading_16" style="vertical-align:middle;display:none;"></span></td>
+							<td class="tpl_serial" id=""><a href="javascript:;">${work.worknum!}</a></td>
 							<td class="tpl_video">
 								<ul class="v vsh">
-									<li class="v_link"><a href="http://v.youku.com/v_show/id_XNzkyMDkwMjAw.html?f=22882478" target="_blank" title="野生动物"></a></li>
-									<li class="v_thumb"><img src="http://g2.ykimg.com/0100641F4650BEE369E1F4082880541546A942-8819-F049-226E-2FF5488B02D0" alt="野生动物"></li>	
+									<li class="v_link"><a href="cartoon/playVideo?id=${works.worksid!}" target="_blank" title="${work.workname!}"></a></li>
+									<li class="v_thumb"><img src="http://g2.ykimg.com/0100641F4650BEE369E1F4082880541546A942-8819-F049-226E-2FF5488B02D0" alt="${work.workname!}"></li>	
 									<li class="v_ishd"></li>	
-									<li class="v_menu" style="display: none;" id="PlayListFlag_XNzkyMDkwMjAw"><span class="ico__listadd" title="添加到点播单"></span></li>
-									
 									<li class="v_time"><span class="num">00:30</span><span class="bg"></span></li>
-									<li class="v_title">
-																					<a href="http://v.youku.com/v_show/id_XNzkyMDkwMjAw.html?f=22882478" target="_blank" title="野生动物">野生动物</a>
-																			</li>
-									<li class="v_info">
-																			<span class="icon unlock" title="所有人都可以看">
-											<em>公开访问</em>
-										</span>								
-																											
-									<span class="num">2014-09-27 17:29</span>
-									</li>
+									<li class="v_title"><a href="cartoon/playVideo?id=${works.worksid!}" target="_blank" title="${work.workname!}">${work.workname!}</a></li>
 								</ul>			
 							</td>
 							<td class="tpl_time">
 								<span>2014-09-27</span><span>18:31</span>
 							</td>
-							<td class="tpl_uploader"><a target="_blank" href="http://i.youku.com/u/UOTU5MDAwOTY=">tianxiaozi5200</a></td>
+							<td class="tpl_uploader">tianxiaozi5200</td>
 							<td class="tpl_heat">
 								<ul class="heat">
-									<li><span><span class="ico__statplay" title="播放"></span>10</span></li>
-									<li><span><span title="评论" class="ico__statcomment"><em>评论</em></span>0</span></li>
+									<li><span>播放：${works.pageviews!}</span></li>
 								</ul>
 							</td>
 							<td class="tpl_opt">
 								<div class="action">
-									<span class="add"><a onclick="hz.postHz(4008062,1000707);" target="_blank" href="/u/videos/edit/id_XNzkyMDkwMjAw.html">编辑视频</a></span>
-									<span class="share"><a href="javascript:;" _click="vshare">分享</a></span>
-																		<div class="clear"></div>
-																			<span class="mana disable " _id="setlog" data="%22fid%22%3A22882478%2C%22vid%22%3A198022550" id="" style="visibility: visible;">当前封面</span>
-																		
-									<span class="del" style="visibility: hidden;"><a href="javascript:;" onclick="mg.removePlaylistVideo(22882478,198022550)">移出</a></span>
+									<span class="add"><a target="_blank" href="/u/videos/edit/id_XNzkyMDkwMjAw.html">编辑视频</a></span>
+									<span class="share"></span>
+									<span class="del"><a href="javascript:;" onclick="mg.removePlaylistVideo(22882478,198022550)">删除</a></span>
 								</div>
 							</td>
 						</tr>
-														
+						<%}%>
 					</tbody>
 					<tfoot>
 						<tr>
@@ -137,18 +112,10 @@
 			<div class="manager_action">
 				<div class="adddel">
 					<div class="fn2nd">
-						<a href="javascript:;" onclick="mg.addvideo(null,22882478)">+ 添加视频</a>
-					</div>
-					<div class="fn2nd">
-						<a href="javascript:;" onclick="mg.removePlaylistVideo(22882478)">移出视频</a>
-					</div>
-					<div class="fn2nd">
-						<a href="javascript:;" onclick="mg.moveVideos2Folder(this)" _p="0">移动到专辑</a>
+						<a href="addWork?flag=1&worksid=${works.worksid!}&pageIndex=${pageWork.pageNumber!}">+ 添加视频</a>
 					</div>
 				</div>
 			</div>
-					
-			<div class="clear"></div>
 		</div>
 	</div></div></div>
 		</div>
