@@ -9,6 +9,12 @@
                      <div class="font_9">
                     	<span><a href="#">楼主：${treasure.treasureid!}</a></span>
                         <span>发表时间：${treasure.dateline!}</span>
+                        <% if(treasure.top == 0){ %>
+                        	<span><a href="javascript:void(0)" onclick="setTop(this,${treasure.treasureid!})">置顶</a></span>
+                        <% } %>
+                        <% if(treasure.essence == 0){ %>
+                        	<span><a href="javascript:void(0)" onclick="setEssence(this,${treasure.treasureid!})">精华</a></span>
+                        <% } %>	
                     </div>
                 </div>
         </div>

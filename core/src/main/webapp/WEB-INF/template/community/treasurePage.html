@@ -26,10 +26,10 @@
                 <div class="ListDtl">
                 	<div class="${class!}">
                 		<a href="javascript:void(0)" onclick="findById(this,'${treasure.treasureid!}','${treasure.communityid!}')">${treasure.subject!}</a>
-                		<% if(treasure.essence) { %>
+                		<% if(treasure.essence == 1) { %>
                 			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/jing.gif">
                 		<% } %>
-                		<% if(treasure.top) { %>
+                		<% if(treasure.top == 1) { %>
                 			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/zding.gif?v=1" alt="置顶">
                 		<% } %>
                 	</div>

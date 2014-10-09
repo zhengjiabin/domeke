@@ -26,10 +26,10 @@
                 <div class="ListDtl">
                 	<div class="${class!}">
                 		<a href="javascript:void(0)" onclick="findById(this,'${post.postid!}','${post.communityid!}')">${post.subject!}</a>
-                		<% if(post.essence) { %>
+                		<% if(post.essence == 1) { %>
                 			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/jing.gif">
                 		<% } %>
-                		<% if(post.top) { %>
+                		<% if(post.top == 1) { %>
                 			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/zding.gif?v=1" alt="置顶">
                 		<% } %>
                 	</div>

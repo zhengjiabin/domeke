@@ -153,6 +153,29 @@ CREATE TABLE `activity` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for activity_apply
+-- ----------------------------
+DROP TABLE IF EXISTS `activity_apply`;
+CREATE TABLE `activity_apply` (
+  `activityapplyid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `activityid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `userid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `message` varchar(255) NOT NULL,
+  `dateline` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `realname` varchar(32) NOT NULL,
+  `mobile` varchar(32) NOT NULL,
+  `gender` tinyint(2) NOT NULL DEFAULT '0',
+  `papers` tinyint(2) DEFAULT '0',
+  `papersid` bigint(20) DEFAULT '0',
+  `status` varchar(4) DEFAULT '10',
+  `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) DEFAULT NULL,
+  `modifier` bigint(20) DEFAULT NULL,
+  `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`activityapplyid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for approve
 -- ----------------------------
 DROP TABLE IF EXISTS `approve`;

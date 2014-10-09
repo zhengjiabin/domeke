@@ -14,7 +14,13 @@
 				<td>${activityApply.userid!}</td>
 				<td>${activityApply.message!}</td>
 				<td>${activityApply.dateline!}</td>
-				<td>${activityApply.gender!}</td>
+				<td>
+					<% if(activityApply.gender == 0) { %>
+						男
+					<% } else { %>
+						女
+					<% } %>
+				</td>
 			</tr>
 			<% } %>
 		</tbody>

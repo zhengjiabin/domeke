@@ -10,10 +10,10 @@
                     	<span><a href="#">楼主：${activity.userid!}</a></span>
                         <span>开始时间：${activity.starttimefrom!}</span>
                         <span>结束时间：${activity.starttimeto!}</span>
-                        <% if(!activity.top){ %>
+                        <% if(activity.top == 0){ %>
                         	<span><a href="javascript:void(0)" onclick="setTop(this,${activity.activityid!})">置顶</a></span>
                         <% } %>
-                        <% if(!activity.essence){ %>
+                        <% if(activity.essence == 0){ %>
                         	<span><a href="javascript:void(0)" onclick="setEssence(this,${activity.activityid!})">精华</a></span>
                         <% } %>	
                     </div>
@@ -26,9 +26,9 @@
         	<div class="FBodyTop"></div>
             <div class="FBodyContent">
             	<span>活动地点：${activity.place!}</span>
-            	<span>活动类别：${activity.clasee!}</span>
+            	<span>活动类别：${activity.classtype!}</span>
             	<span>报名截止日期：${activity.expiration!}</span>
-            	${activity.ufield!}
+            	${activity.message!}
             	
             </div>
              <div id="page">
