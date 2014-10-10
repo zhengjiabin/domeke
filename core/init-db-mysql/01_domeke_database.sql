@@ -137,7 +137,7 @@ CREATE TABLE `activity` (
   `place` varchar(255) NOT NULL,
   `classtype` varchar(255) NOT NULL,
   `gender` tinyint(2) NOT NULL DEFAULT '0',
-  `number` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `number` smallint(5)  DEFAULT '0',
   `expiration` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `message` text NOT NULL,
   `status` varchar(4) DEFAULT '10',

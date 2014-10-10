@@ -16,7 +16,6 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "post")
-@Before(LoginInterceptor.class)
 public class PostController extends Controller {
 	
 	/** 回复类型 */
@@ -73,6 +72,7 @@ public class PostController extends Controller {
 	/**
 	 * 置顶功能
 	 */
+	@Before(LoginInterceptor.class)
 	public void setTop(){
 		String postId = getPara("targetId");
 		if(postId == null || postId.length()<=0){
@@ -89,6 +89,7 @@ public class PostController extends Controller {
 	/**
 	 * 精华功能
 	 */
+	@Before(LoginInterceptor.class)
 	public void setEssence(){
 		String postId = getPara("targetId");
 		if(postId == null || postId.length()<=0){
@@ -188,6 +189,7 @@ public class PostController extends Controller {
 	/**
 	 * 修改帖子信息
 	 */
+	@Before(LoginInterceptor.class)
 	public void modify() {
 		Post post = getModel(Post.class);
 		post.update();
@@ -198,6 +200,7 @@ public class PostController extends Controller {
 	/**
 	 * admin管理--删除指定帖子
 	 */
+	@Before(LoginInterceptor.class)
 	public void deleteById() {
 		String postId = getPara("postId");
 		Post.dao.deleteById(postId);
@@ -210,6 +213,7 @@ public class PostController extends Controller {
 	/**
 	 * 跳转帖子申请
 	 */
+	@Before(LoginInterceptor.class)
 	public void skipCreate() {
 		String communityId = getPara("communityId");
 		Object userId = getUserId();
@@ -226,6 +230,7 @@ public class PostController extends Controller {
 	/**
 	 * admin管理--跳转发表/修改主题
 	 */
+	@Before(LoginInterceptor.class)
 	public void skipUpdate() {
 		Post post = null;
 		String postId = getPara("postId");
@@ -244,6 +249,7 @@ public class PostController extends Controller {
 	/**
 	 * admin管理--发表/修改主题
 	 */
+	@Before(LoginInterceptor.class)
 	public void update() {
 		Post post = getModel(Post.class);
 		Object postId = post.get("postid");
@@ -285,6 +291,7 @@ public class PostController extends Controller {
 	/**
 	 * 创建帖子申请
 	 */
+	@Before(LoginInterceptor.class)
 	public void create() {
 		Post post = getModel(Post.class);
 		Object communityId = post.get("communityid");
@@ -310,6 +317,7 @@ public class PostController extends Controller {
 	/**
 	 * 添加回复信息
 	 */
+	@Before(LoginInterceptor.class)
 	public void replyComment() {
 		addComment();
 
@@ -326,6 +334,7 @@ public class PostController extends Controller {
 	/**
 	 * 添加回复信息
 	 */
+	@Before(LoginInterceptor.class)
 	public void replyFollow() {
 		addComment();
 
@@ -401,6 +410,7 @@ public class PostController extends Controller {
 	/**
 	 * 删除回复信息
 	 */
+	@Before(LoginInterceptor.class)
 	public void deleteComment() {
 		Object commentId = getPara("commentId");
 		Comment.dao.deleteReplyAll(commentId);

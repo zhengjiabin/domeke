@@ -18,7 +18,87 @@
 			dateFormat: "yy-mm-dd",
 			timeFormat: 'HH:mm:ss'
 		});
+		
+		$('form :input[required=required]').each(function(){
+	        var $required = $("<span class='formtips' style=\"color: red\"> *</span>"); //创建元素
+	        $(this).parent().append($required); //然后将它追加到文档中
+	    });
 	});
+	
+	 //文本框失去焦点后
+    $('form :input').blur(function(){
+       	var $parent = $(this).parent();
+        $parent.find(".formtips").remove();
+      	//标题验证
+        if($(this).is('#subject')){
+        	if( this.value=="" ){
+        	    var errorMsg = '标题不能为空';
+        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             $parent.append('<span class="formtips onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+      	//开始时间
+        if($(this).is('#starttimefrom')){
+        	createHtml = $(this).closest("#createHtml");
+    		starttimefrom = createHtml.find("#starttimefrom").first().val();
+    		starttimeto = createHtml.find("#starttimeto").first().val();
+    		expiration = createHtml.find("#expiration").first().val();
+    		starttimefrom = new Date(parseInt(Date.parse(starttimefrom),10));
+    		starttimeto = new Date(parseInt(Date.parse(starttimeto),10));
+    		expiration = new Date(parseInt(Date.parse(expiration),10));
+        	if( this.value=="" ){
+        	    var errorMsg = '开始时间不能为空';
+        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if (starttimefrom > starttimeto){
+        		var errorMsg = '开始时间不能大于结束时间';
+        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if (starttimefrom < expiration){
+        		var errorMsg = '开始时间不能小于报名截止时间';
+        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             $parent.append('<span class="formtips onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+      	//结束时间
+        if($(this).is('#starttimeto')){
+        	createHtml = $(this).closest("#createHtml");
+    		starttimefrom = createHtml.find("#starttimefrom").first().val();
+    		starttimeto = createHtml.find("#starttimeto").first().val();
+    		starttimefrom = new Date(parseInt(Date.parse(starttimefrom),10));
+    		starttimeto = new Date(parseInt(Date.parse(starttimeto),10));
+        	if( this.value==""){
+        	    var errorMsg = '结束时间不能为空';
+        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if (starttimefrom > starttimeto){
+        		var errorMsg = '结束时间不能小于开始时间';
+        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             $parent.append('<span class="formtips onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+      	//截止时间
+        if($(this).is('#expiration')){
+        	createHtml = $(this).closest("#createHtml");
+    		starttimefrom = createHtml.find("#starttimefrom").first().val();
+    		expiration = createHtml.find("#expiration").first().val();
+    		starttimefrom = new Date(parseInt(Date.parse(starttimefrom),10));
+    		expiration = new Date(parseInt(Date.parse(expiration),10));
+        	if( this.value=="" ){
+        	    var errorMsg = '报名截止时间不能为空';
+        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if (starttimefrom < expiration){
+        		var errorMsg = '报名截止时间不能大于开始时间';
+        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             $parent.append('<span class="formtips onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+    });
 </script>
 <article>
 	<form action="#" method="post" id="createHtml">
@@ -28,18 +108,18 @@
 		</div>
 
 		<div class="control-group">
-			标题 <input type="text" name="activity.subject"
-				value="${activity.subject!}" />
+			标题 <input type="text" name="activity.subject" id="subject"
+				value="${activity.subject!}" required="required"/>
 		</div>
 
 		<div class="control-group">
 			开始时间 <input type="text" name="activity.starttimefrom"
-				value="${activity.starttimefrom!}" id="starttimefrom" readonly="readonly"/>
+				value="${activity.starttimefrom!}" id="starttimefrom" readonly="readonly" required="required"/>
 		</div>
 
 		<div class="control-group">
 			结束时间 <input type="text" name="activity.starttimeto"
-				value="${activity.starttimeto!}" id="starttimeto" readonly="readonly"/>
+				value="${activity.starttimeto!}" id="starttimeto" readonly="readonly" required="required"/>
 		</div>
 
 		<div class="control-group">
@@ -67,19 +147,19 @@
 
 		<div class="control-group">
 			报名截止日期 <input type="text" name="activity.expiration"
-				id="expiration" value="${activity.expiration!}" />
+				id="expiration" value="${activity.expiration!}" required="required"/>
 		</div>
 
 		<div class="control-group">
 			活动详细内容<textarea name="ckeditor" id="ckeditor"></textarea>
 			<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
 			 <input type="text" name="activity.message" id="message"
-				value="${activity.message!}" hidden="block"/>
+				value="${activity.message!}" hidden="block" />
 		</div>
 
 		<div class="form-actions">
 			<button type="button" class="btn btn-primary"
-				onclick="submitCreate(this,'${communityId!}')">提交</button>
+				onclick="submitActivity(this,'${communityId!}')">提交</button>
 			<button type="button" class="btn">取消</button>
 		</div>
 	</form>

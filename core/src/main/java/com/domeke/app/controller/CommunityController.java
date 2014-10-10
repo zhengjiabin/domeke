@@ -19,7 +19,6 @@ import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 
 @ControllerBind(controllerKey = "community")
-@Before(LoginInterceptor.class)
 public class CommunityController extends Controller {
 
 	public void index() {
@@ -96,6 +95,7 @@ public class CommunityController extends Controller {
 	/**
 	 * 创建主题
 	 */
+	@Before(LoginInterceptor.class)
 	public void create() {
 		String communityId = getPara("communityId");
 		if(communityId == null || communityId.length()<=0){
@@ -111,6 +111,7 @@ public class CommunityController extends Controller {
 	/**
 	 * 跳转到选择主题页面
 	 */
+	@Before(LoginInterceptor.class)
 	public void skipCommunity(){
 		setCommunityFatList();
 		render("/community/selectCommunity.html");
@@ -119,6 +120,7 @@ public class CommunityController extends Controller {
 	/**
 	 * 下拉选择发布的主题
 	 */
+	@Before(LoginInterceptor.class)
 	public void selectSon(){
 		String pId = getPara("pId");
 		if(pId != null && pId.length()>0){
@@ -162,11 +164,13 @@ public class CommunityController extends Controller {
 	private void setPublishNumber(){
 		//当前登录人发帖数
 		User user = getUser();
-		Long userId = user.get("userid");
-		Long userPostCount = Post.dao.getCountByUserId(userId);
-		Long userActivityCount = Activity.dao.getCountByUserId(userId);
-		Long userCount = userPostCount + userActivityCount;
-		setAttr("userCount", userCount);
+		if (user != null){
+			Long userId = user.get("userid");
+			Long userPostCount = Post.dao.getCountByUserId(userId);
+			Long userActivityCount = Activity.dao.getCountByUserId(userId);
+			Long userCount = userPostCount + userActivityCount;
+			setAttr("userCount", userCount);
+		}
 		
 		//今日发帖数
 		Long postTodayCount = Post.dao.getTodayCount();
@@ -227,6 +231,7 @@ public class CommunityController extends Controller {
 	/**
 	 * 跳转置顶功能
 	 */
+	@Before(LoginInterceptor.class)
 	public void setTop(){
 		String communityId = getPara("communityId");
 		if(communityId == null || communityId.length()<=0){
@@ -242,6 +247,7 @@ public class CommunityController extends Controller {
 	/**
 	 * 跳转精华功能
 	 */
+	@Before(LoginInterceptor.class)
 	public void setEssence(){
 		String communityId = getPara("communityId");
 		if(communityId == null || communityId.length()<=0){
@@ -257,6 +263,7 @@ public class CommunityController extends Controller {
 	/**
 	 * 
 	 */
+	@Before(LoginInterceptor.class)
 	public void saveSon(){
 		Object communityId = getPara("communityId");
 		Community community = getModel(Community.class);
@@ -276,6 +283,7 @@ public class CommunityController extends Controller {
 	/**
 	 * 
 	 */
+	@Before(LoginInterceptor.class)
 	public void saveFat(){
 		Object communityId = getPara("communityId");
 		Community community = getModel(Community.class);
@@ -299,6 +307,7 @@ public class CommunityController extends Controller {
 	 * 
 	 * @param community
 	 */
+	@Before(LoginInterceptor.class)
 	private void updateCommuntiy(Community community){
 		setCommunity(community);
 		community.update();
@@ -312,6 +321,7 @@ public class CommunityController extends Controller {
 	/**
 	 * admin管理--跳转修改社区版块页面
 	 */
+	@Before(LoginInterceptor.class)
 	public void skipModify(){
 		Community community = null;
 		String communityId = getPara("communityId");
@@ -329,6 +339,7 @@ public class CommunityController extends Controller {
 	/**
 	 * admin--设置更新版块信息
 	 */
+	@Before(LoginInterceptor.class)
 	private Community addCommunity() {
 		Community community = getModel(Community.class);
 		community.set("level", 1);
@@ -346,6 +357,7 @@ public class CommunityController extends Controller {
 	/**
 	 * admin管理--更新社区版块
 	 */
+	@Before(LoginInterceptor.class)
 	public void updateCommunity() {
 		Community community = getModel(Community.class);
 		Object communityId = community.get("communityid");
@@ -361,6 +373,7 @@ public class CommunityController extends Controller {
 	/**
 	 * admin管理--删除版块
 	 */
+	@Before(LoginInterceptor.class)
 	public void deleteSon(){
 		String communityId = getPara("communityId");
 		if(communityId != null && communityId.length() > 0){
@@ -377,6 +390,7 @@ public class CommunityController extends Controller {
 	/**
 	 * admin管理--删除区域版块
 	 */
+	@Before(LoginInterceptor.class)
 	public void deleteFat(){
 		String communityId = getPara("communityId");
 		if(communityId != null && communityId.length() > 0){

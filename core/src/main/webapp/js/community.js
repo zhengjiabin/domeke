@@ -164,6 +164,29 @@ function showCommunity(node){
 	});
 }
 
+//提交活动主题
+function submitActivity(node,communityId){
+	createHtml = $(node).closest("#createHtml");
+	subject = createHtml.find("#subject").first();
+	canSubmit = true;
+	$("form :input[required=required]").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	alert("活动详情不能为空");
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	submitCreate(node,communityId)
+    } else {
+    	alert("提交失败，存在非规范内容，请检查！");
+    }
+}
+
+//提交主题
 function submitCreate(node,communityId) {
 	var content = CKEDITOR.instances.ckeditor.getData();
 	var createHtml = $(node).closest("#createHtml");
