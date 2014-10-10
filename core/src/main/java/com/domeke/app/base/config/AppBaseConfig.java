@@ -24,7 +24,6 @@ import com.jfinal.ext.interceptor.SessionInViewInterceptor;
 import com.jfinal.plugin.activerecord.tx.TxByActionMethods;
 import com.jfinal.plugin.activerecord.tx.TxByRegex;
 import com.jfinal.plugin.druid.DruidPlugin;
-import com.jfinal.plugin.ehcache.EhCachePlugin;
 import com.jfinal.plugin.spring.SpringPlugin;
 
 public class AppBaseConfig extends JFinalConfig {
@@ -62,7 +61,6 @@ public class AppBaseConfig extends JFinalConfig {
 
 	@Override
 	public void configPlugin(Plugins plugins) {
-		plugins.add(new EhCachePlugin());
 		DruidPlugin druidPlugin = DruidDatasouceUtil.getDruidPlugin();
 		plugins.add(druidPlugin);
 
@@ -76,7 +74,6 @@ public class AppBaseConfig extends JFinalConfig {
 		ApplicationContext app = new ClassPathXmlApplicationContext("applicationContext-mail.xml");
 		plugins.add(new SpringPlugin(app));
 		plugins.add(new ShiroPlugin(routes));
-		plugins.add(new EhCachePlugin());
 	}
 
 	@Override
