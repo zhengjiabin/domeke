@@ -133,4 +133,13 @@ public class GoodsType extends Model<GoodsType> {
 		Collections.reverse(goodsTypeList);
 		return goodsTypeList; 
 	}
+	
+	/**
+	 * 获取一级商品类型
+	 * @return 返回一级商品类型
+	 */
+	public List<GoodsType> getTopGoodsType(){
+		List<GoodsType> goodsTypeList = this.find("select * from goods_type where level = '1' order by sortnum");
+		return goodsTypeList;
+	}
 }
