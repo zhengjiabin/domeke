@@ -39,18 +39,19 @@ public class GoodsController extends FilesLoadController {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		Page<Goods> goodsList = null;
-		//if ("".equals(menuType) || "0".equals(menuType) || menuType == null){
+//		if ("".equals(goods) || "0".equals(goods) || goods == null){
 			goodsList = Goods.dao.findPage(pageNumber, pageSize);
 			goods = "0";
-		//}else {
-			//goodsList = Goods.dao.findPage(pageNumber, pageSize, menuType);
-		//}
+//		}else {
+//			goodsList = Goods.dao.findPage(pageNumber, pageSize, goods);
+//		}
 		setAttr("goods", goods);
 		setAttr("goodsList", goodsList);
 	}
 	
 	public void find(){
-		goToManager();
+		setGoodsPage(null);
+		render("/admin/admin_goodsPage.html");
 	}
 	
 	/**
