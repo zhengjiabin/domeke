@@ -57,12 +57,10 @@ public class FilesLoadController extends Controller {
 	 *            编码
 	 * @return 如果没有上传文件，则返回的文件路径为null
 	 */
-	protected String upLoadFile(String parameterName, String saveFolderName,
-			Integer maxPostSize, String encoding) {
+	protected String upLoadFile(String parameterName, String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
 		tempDirectory = getDirectory(tempDirectory, saveFolderName);
-		UploadFile uploadFile = getFile(parameterName, tempDirectory,
-				maxPostSize, encoding);
+		UploadFile uploadFile = getFile(parameterName, tempDirectory, maxPostSize, encoding);
 		String imgFilePath = "";
 		if (uploadFile != null) {
 			File srcFile = uploadFile.getFile();
@@ -87,12 +85,10 @@ public class FilesLoadController extends Controller {
 	 * @param encoding
 	 * @return
 	 */
-	protected String upLoadFiles(String saveFolderName, Integer maxPostSize,
-			String encoding) {
+	protected String upLoadFiles(String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
 		tempDirectory = getDirectory(tempDirectory, saveFolderName);
-		List<UploadFile> uploadFileList = getFiles(tempDirectory, maxPostSize,
-				encoding);
+		List<UploadFile> uploadFileList = getFiles(tempDirectory, maxPostSize, encoding);
 		String imgFilePath = "";
 		if (uploadFileList != null && uploadFileList.size() != 0) {
 			for (UploadFile uploadFile : uploadFileList) {
@@ -120,18 +116,15 @@ public class FilesLoadController extends Controller {
 	 * @param encoding
 	 * @return
 	 */
-	protected String upLoadVideo(String parameterName, String saveFolderName,
-			Integer maxPostSize, String encoding) {
+	protected String upLoadVideo(String parameterName, String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
 		tempDirectory = getDirectory(tempDirectory, saveFolderName);
-		UploadFile uploadFile = getFile(parameterName, tempDirectory,
-				maxPostSize, encoding);
+		UploadFile uploadFile = getFile(parameterName, tempDirectory, maxPostSize, encoding);
 		String fileName = "";
 		if (uploadFile != null) {
 			File tagVideo = uploadFile.getFile();
 			videoDirectory = getDirectory(videoDirectory, saveFolderName);
-			fileName = VideoKit.compressVideo(tagVideo.getAbsolutePath(),
-					videoDirectory);
+			fileName = VideoKit.compressVideo(tagVideo.getAbsolutePath(), videoDirectory);
 		}
 		return getDomainNameFilePath(fileName);
 	}
@@ -146,12 +139,10 @@ public class FilesLoadController extends Controller {
 	private String getDirectory(String fixDirectory, String userDefinedDirectory) {
 		if (fixDirectory.indexOf("<username>") >= 0) {
 			User user = getSessionAttr("user");
-			String userName = user == null || user.getStr("username") == null ? "admin"
-					: user.getStr("username");
+			String userName = user == null || user.getStr("username") == null ? "admin" : user.getStr("username");
 			fixDirectory = fixDirectory.replaceAll("<username>", userName);
 		}
-		if (userDefinedDirectory != null
-				&& userDefinedDirectory.trim().length() != 0) {
+		if (userDefinedDirectory != null && userDefinedDirectory.trim().length() != 0) {
 			fixDirectory = fixDirectory + userDefinedDirectory;
 		}
 		return fixDirectory;
@@ -167,8 +158,7 @@ public class FilesLoadController extends Controller {
 	private String getDomainNameFilePath(String filePath) {
 		String basePath = "/data/upload";
 		StringBuffer domainNameFilePath = new StringBuffer(domainName);
-		String lastFilePath = filePath.substring(filePath.indexOf(basePath)
-				+ basePath.length(), filePath.length() - 1);
+		String lastFilePath = filePath.substring(filePath.indexOf(basePath) + basePath.length(), filePath.length());
 		domainNameFilePath.append(lastFilePath);
 		return domainNameFilePath.toString();
 	}
@@ -212,8 +202,7 @@ public class FilesLoadController extends Controller {
 	protected void initProgress() {
 		FilePart.progresss.set(new FilePart.Progress() {
 			public void progress(long currentSize) {
-				int totalsize = FilesLoadController.this.getRequest()
-						.getContentLength();
+				int totalsize = FilesLoadController.this.getRequest().getContentLength();
 				double csize = (double) currentSize;
 				double s = csize / totalsize * 100;
 				logger.info("文件上传百分之{}", String.format("%.2f", s));
