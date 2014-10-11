@@ -4,7 +4,7 @@
     	<% if(session.user.username! == null) {%>
     		<a href="user/goLogin">请登录</a><a href="user/goRegist">免费注册</a></span>
     	<% } else{%>
-    		<a href="personal/forMyProduction" style="color:#F00">${session.user.username!}</a>
+    		<a href="community/goToManager" style="color:#F00">${session.user.username!}</a>
     		<a href="login/logout">退出</a>
     		<a href="personal/forMyProduction">个人中心</a>
     	<%}%>
