@@ -122,14 +122,8 @@ public class User extends Model<User> {
 		User user = dao.findFirst(sql);
 		return user;
 	}
-	public Long countUser(String cloum,String param){
-		String  sql = "";
-		if(cloum != null && param != null){
-			sql = "select count(1) from user where "+cloum+" = '"+param+"'";
-		}else{
-			sql = "select count(1) from user";
-		}
-		Long count = Db.queryLong(sql);
-		return count;
+	public void updatePeas(Long userid,Long peas){
+		String sql="update user set peas='"+peas+"' where userid='"+userid+"'";
+		Db.update(sql);
 	}
 }

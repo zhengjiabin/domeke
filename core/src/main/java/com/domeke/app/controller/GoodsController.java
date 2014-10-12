@@ -8,11 +8,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.GoodsType;
+import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
+import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
 /**
@@ -22,6 +25,7 @@ import com.jfinal.plugin.activerecord.Page;
  *
  */
 @ControllerBind(controllerKey = "/goods")
+@Before(LoginInterceptor.class)
 public class GoodsController extends FilesLoadController {
 	
 	/**
@@ -39,19 +43,18 @@ public class GoodsController extends FilesLoadController {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		Page<Goods> goodsList = null;
-//		if ("".equals(goods) || "0".equals(goods) || goods == null){
+		//if ("".equals(menuType) || "0".equals(menuType) || menuType == null){
 			goodsList = Goods.dao.findPage(pageNumber, pageSize);
 			goods = "0";
-//		}else {
-//			goodsList = Goods.dao.findPage(pageNumber, pageSize, goods);
-//		}
+		//}else {
+			//goodsList = Goods.dao.findPage(pageNumber, pageSize, menuType);
+		//}
 		setAttr("goods", goods);
 		setAttr("goodsList", goodsList);
 	}
 	
 	public void find(){
-		setGoodsPage(null);
-		render("/admin/admin_goodsPage.html");
+		goToManager();
 	}
 	
 	/**
@@ -284,20 +287,66 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public void getGoodsDetail(){
 		Goods goodsModel = getModel(Goods.class);
-		Goods goods = goodsModel.findById(getParaToInt("id"));
+		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
 		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
 		List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
 		setAttr("goodsTypes", goodsTypes);
 		setAttr("goods", goods);
+		Map<String,Object> changeMap = getPeas();
+		String isChange = (String)changeMap.get("isChange");	
+		setAttr("isChange", isChange);
+		setAttr("userId", changeMap.get("userId"));
 		render("/ShopDtl.html");
 	}
 	/**
 	 * 
 	 */
 	public void backGoodsType(){
+		int goodstypeid = getParaToInt("goodstypeid");
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("goodsattr1", "2");
+		map.put("goodsattr1", goodstypeid);
 		List<Goods> goodsList = getGoodsType(map);
 		
+	}
+	/**
+	 * 豆豆兑换
+	 */
+	public void peasChange(){
+		Map<String,Object> changeMap = getPeas();
+		String isChange = (String)changeMap.get("isChange");
+		int dougprice = (int)changeMap.get("dougprice");
+		User user = getSessionAttr("user");
+		Long userId = user.get("userid");
+		user = user.findById(userId);
+		//豆子
+		Long peas = (Long)changeMap.get("peas");
+		if (dougprice <= peas){
+			isChange = "1";
+		}
+		if (isChange == "1" || "1".equals(isChange)){
+			peas = peas - dougprice;
+			User.dao.updatePeas(userId, peas);
+		}
+	}
+	/**
+	 * 获得豆豆
+	 */
+	public Map<String,Object> getPeas(){
+		int dougprice = getParaToInt("dougprice");
+		User user = getSessionAttr("user");
+		Long userId = user.get("userid");
+		user = user.findById(userId);
+		String isChange = "0";
+		//豆子
+		Long peas = user.get("peas");
+		if (dougprice <= peas){
+			isChange = "1";
+		}
+		Map<String,Object> changeMap = new HashMap<String, Object>();
+		changeMap.put("isChange", isChange);
+		changeMap.put("dougprice", dougprice);
+		changeMap.put("peas", peas);
+		changeMap.put("userId", userId);
+		return changeMap;
 	}
 }
