@@ -61,7 +61,7 @@ CREATE TABLE `works` (
   `worksname` varchar(255) NOT NULL,
   `workstype` varchar(32) DEFAULT '10',
   `creativeprocess` tinyint(3) DEFAULT '0' COMMENT '0是连载状态，1完结状态',
-  `type` tinyint(2) DEFAULT '0' COMMENT '0专辑,1视频',
+  `type` tinyint(2) DEFAULT '0' COMMENT '0视频,1专辑',
   `ischeck` tinyint(2) DEFAULT '0' COMMENT '是否审核过 0未审核,1审核通过',
   `cover` varchar(255) NOT NULL,
   `leadingrole` varchar(255) NOT NULL,

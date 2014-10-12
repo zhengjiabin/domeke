@@ -1,5 +1,15 @@
 <article class="MeArticle">
 		<script type="text/javascript">
+				$(document).ready(function(){
+					$.ajax({
+						type:'post',
+						data:'type=0&workstype=&pageIndex=1',
+						url :'works/showPage',
+						success:function(data){
+							$('#worksManager').html(data);
+						}
+					});
+				});
 				function showPage(params){
 					var workstype = '';
 					if($('#workstype').length > 0){
