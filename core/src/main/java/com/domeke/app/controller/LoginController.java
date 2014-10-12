@@ -77,6 +77,7 @@ public class LoginController extends Controller {
 		if (DomekeConstants.IS_ADMIN.equals(username)) {
 			setSessionAttr("isAdmin", "true");
 		}
+		
 	}
 
 	@Before(ActionInterceptor.class)

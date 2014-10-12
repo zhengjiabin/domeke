@@ -467,6 +467,10 @@ CREATE TABLE `user` (
   `password` varchar(32) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `nickname` varchar(16) DEFAULT NULL,
+  `address` varchar(64) DEFAULT NULL,
+  `realname` varchar(12) DEFAULT NULL,
+  `sex` varchar(4) DEFAULT NULL,
+  `age` varchar(4) DEFAULT NULL,
   `mobile` varchar(32) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL,
   `creater` varchar(64) DEFAULT NULL,
@@ -480,6 +484,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `username_idx` (`username`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
 
 -- ----------------------------
 -- Table structure for user_message
