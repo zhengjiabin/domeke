@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 
 @TableBind(tableName="playcount", pkName="PlayCountId")
 public class PlayCount extends Model<PlayCount>{
@@ -14,4 +15,9 @@ public class PlayCount extends Model<PlayCount>{
 		List<PlayCount> downList = this.find(sql);
 		return downList;
 	}
+	
+  public Page<PlayCount> getByUserId(Long userId,int pageNumber,int pageSize){
+    	Page<PlayCount> page = this.paginate(pageNumber, pageSize, "select * ", "from playcount where userid=?",userId);
+    	return page;
+    }
 }
