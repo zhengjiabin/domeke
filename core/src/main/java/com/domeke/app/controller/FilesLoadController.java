@@ -61,17 +61,17 @@ public class FilesLoadController extends Controller {
 	 */
 	protected String upLoadFile(String parameterName, String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
-		tempDirectory = getDirectory(tempDirectory, saveFolderName);
-		UploadFile uploadFile = getFile(parameterName, tempDirectory, maxPostSize, encoding);
+		String tmpDirectoryPath = getDirectory(tempDirectory, saveFolderName);
+		UploadFile uploadFile = getFile(parameterName, tmpDirectoryPath, maxPostSize, encoding);
 		String imgFilePath = "";
 		if (uploadFile != null) {
 			File srcFile = uploadFile.getFile();
-			imageDirectory = getDirectory(imageDirectory, saveFolderName);
-			File imgDirectory = new File(imageDirectory);
+			String imgDirectoryPath = getDirectory(imageDirectory, saveFolderName);
+			File imgDirectory = new File(imgDirectoryPath);
 			if (!imgDirectory.exists()) {
 				imgDirectory.mkdirs();
 			}
-			File targetFile = new File(imageDirectory + srcFile.getName());
+			File targetFile = new File(imgDirectoryPath + srcFile.getName());
 			fileCopyByChannel(srcFile, targetFile);
 			// 获取文件的绝对路径
 			imgFilePath = targetFile.getAbsolutePath();
@@ -89,19 +89,19 @@ public class FilesLoadController extends Controller {
 	 */
 	protected List<UploadFile> upLoadFiles(String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
-		tempDirectory = getDirectory(tempDirectory, saveFolderName);
-		List<UploadFile> uploadFileList = getFiles(tempDirectory, maxPostSize, encoding);
+		String tmpDirectoryPath = getDirectory(tempDirectory, saveFolderName);
+		List<UploadFile> uploadFileList = getFiles(tmpDirectoryPath, maxPostSize, encoding);
 		String imgFilePath = "";
 		ArrayList<String> domainFilePath = Lists.newArrayList();
 		if (uploadFileList != null && uploadFileList.size() != 0) {
 			for (UploadFile uploadFile : uploadFileList) {
 				File srcFile = uploadFile.getFile();
-				imageDirectory = getDirectory(imageDirectory, saveFolderName);
-				File imgDirectory = new File(imageDirectory);
+				String imgDirectoryPath = getDirectory(imageDirectory, saveFolderName);
+				File imgDirectory = new File(imgDirectoryPath);
 				if (!imgDirectory.exists()) {
 					imgDirectory.mkdirs();
 				}
-				File targetFile = new File(imageDirectory + srcFile.getName());
+				File targetFile = new File(imgDirectoryPath + srcFile.getName());
 				fileCopyByChannel(srcFile, targetFile);
 				// 获取文件的绝对路径
 				imgFilePath = imgDirectory.getAbsolutePath();
@@ -123,13 +123,13 @@ public class FilesLoadController extends Controller {
 	 */
 	protected String upLoadVideo(String parameterName, String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
-		tempDirectory = getDirectory(tempDirectory, saveFolderName);
-		UploadFile uploadFile = getFile(parameterName, tempDirectory, maxPostSize, encoding);
+		String tmpDirectoryPath = getDirectory(tempDirectory, saveFolderName);
+		UploadFile uploadFile = getFile(parameterName, tmpDirectoryPath, maxPostSize, encoding);
 		String fileName = "";
 		if (uploadFile != null) {
 			File tagVideo = uploadFile.getFile();
-			videoDirectory = getDirectory(videoDirectory, saveFolderName);
-			fileName = VideoKit.compressVideo(tagVideo.getAbsolutePath(), videoDirectory);
+			String vdoDirectoryPath = getDirectory(videoDirectory, saveFolderName);
+			fileName = VideoKit.compressVideo(tagVideo.getAbsolutePath(), vdoDirectoryPath);
 		}
 		return getDomainNameFilePath(fileName);
 	}
