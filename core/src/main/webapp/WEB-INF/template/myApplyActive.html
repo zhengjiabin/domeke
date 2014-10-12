@@ -3,12 +3,13 @@
         <section class="CartonDtl">
  
  <div class="ArgumentZoom">
-            	<div class="LevelTitle">播放记录：</div>
-            <% for(act in actList!){%>
+            	<div class="LevelTitle">参与的活动：</div>
+            	<h1>${menuId!}</h1>
+            <% for(page1 in actPage.list!){%>
                 <div class="ArgumentSub">
                 	<div class="MemberHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
                     <div class="ArgumentInfo">
-                    	<div class="MemberNick font_b">${play.cartoon_name!}</div>
+                    	<div class="MemberNick font_b">${page1.subject!}</div>
                         <div class="ArgumentContent">我也希望有一个像小丸子一样的妹妹{:11:}望有一个像小丸子一样的妹妹{:11:}，不过不望有一个像小丸子一样的妹妹{:11:}，不过不需要因为本人也像小丸子一样，不讲道理，有仇必报，有吃必抢{:11:} </div>
                         <div class="ArgumentTime font_b">
                         	<a href="#">30有用</a><a href="#">回复</a>
@@ -16,6 +17,19 @@
                     </div>
                 </div>
               <% } %> 
+              <% 
+              var menuId = menuId;
+              if(actPage != null){ 
+		layout(
+			"/common/page.html",
+			{
+				"page":actPage,
+				"pageAction":"./personal/forMyProductionPage?menuId="+menuId,
+				"fatherNode":"#personal"
+			}
+		){} 
+	}%>
+              
     </div>
  </section>
  </article>
