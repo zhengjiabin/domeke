@@ -176,7 +176,7 @@ public class GoodsController extends FilesLoadController {
 			while(!StrKit.isBlank(goodstypeid)){
 				GoodsType goodsType = getModel(GoodsType.class).getGoodsTypeById(Integer.parseInt(goodstypeid));
 				goodsTypeStack.add(goodsType);
-				goodstypeid = goodsType.get("parenttypeid");
+				goodstypeid = String.valueOf(goodsType.get("parenttypeid"));
 			}
 		}
 		if(!goodsTypeStack.isEmpty()){
