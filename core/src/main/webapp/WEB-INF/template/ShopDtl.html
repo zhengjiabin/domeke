@@ -17,11 +17,12 @@ $(document).ready(function(){
 		var dougprice = $("#dougprice").val();
 		var obj ="";
 		var url = "goods/peasChange?dougprice="+dougprice+"&goodsid="+goodsid+"&goodsattr="+goodsattr1;
-		$.showView(obj,url);
 		var ischange = $(this).attr("name");
 		if (ischange=="0"){
 			jAlert('您的豆豆不够兑换哦！', '警告对话框');
+			return;
 		}
+		$.showView(obj,url);
 		console.log("您今天已经签到！"+goodsattr1);
 	});
 });  

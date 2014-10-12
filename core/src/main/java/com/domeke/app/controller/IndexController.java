@@ -168,7 +168,7 @@ public class IndexController extends Controller {
 				map.put("submitdate", goods.get("submitdate"));
 				map.put("username", goods.get("username"));
 				map.put("headimg", goods.get("headimg"));
-				String detailUrl = "goods/getGoodsDetail?id=5";
+				String detailUrl = "goods/getGoodsDetail?goodsid="+goods.get("goodsid")+"&goodsattr="+goods.get("goodsattr1")+"&dougprice="+goods.get("dougprice");
 				map.put("detailUrl", detailUrl);
 				resultMap.add(map);
 			}

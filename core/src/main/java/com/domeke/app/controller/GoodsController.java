@@ -400,7 +400,7 @@ public class GoodsController extends FilesLoadController {
 				map.put("submitdate", goods.get("submitdate"));
 				map.put("username", goods.get("username"));
 				map.put("headimg", goods.get("headimg"));
-				String detailUrl = "goods/getGoodsDetail?id=5";
+				String detailUrl = "goods/getGoodsDetail?goodsid=5&goodsattr=12&dougprice=0";
 				map.put("detailUrl", detailUrl);
 				resultMap.add(map);
 			}
