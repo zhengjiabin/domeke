@@ -8,12 +8,12 @@ import com.jfinal.core.Controller;
 public class StatisticController extends Controller{
 	public void goUserCount(){
 		User user = getModel(User.class);
-		Long countUser = user.countUser(null, null);
-		Long isActivation = user.countUser("activation", "Y");
-		Long noActivation = user.countUser("activation", "N");
-		setAttr("countUser", countUser);
-		setAttr("isActivation", isActivation);
-		setAttr("noActivation", noActivation);
+//		Long countUser = user.countUser(null, null);
+//		Long isActivation = user.countUser("activation", "Y");
+//		Long noActivation = user.countUser("activation", "N");
+//		setAttr("countUser", countUser);
+//		setAttr("isActivation", isActivation);
+//		setAttr("noActivation", noActivation);
 		render("/admin/admin_userCount.html");
 	}
 	
