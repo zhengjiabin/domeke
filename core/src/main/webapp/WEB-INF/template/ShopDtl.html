@@ -43,7 +43,7 @@ $.extend({
 <section class="White">
     <div class="ShopPath">
     <% for(g in goodsTypes!){ %>
-        <a href="index">${g.typename}</a>/
+        <a href="goods/shop?goodstype=${g.goodstypeid!}">${g.typename}</a>/
     <%}%>
     </div>
     <div class="Goods">
