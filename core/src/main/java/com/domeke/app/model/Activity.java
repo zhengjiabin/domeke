@@ -188,4 +188,9 @@ public class Activity extends Model<Activity> {
     	String sql = "select 1 from activity where communityid=? and userid=? and createtime >= date_sub(now(),interval 5 minute)";
     	return this.findFirst(sql, communityId, userId);
     }
+    
+    public Page<Activity> getActivity(Long userId,int pageNumber,int pageSize){
+    	Page<Activity> page = this.paginate(pageNumber, pageSize, "select * ", "from activity where userid in (select userid from activity_apply where userid=?)",userId);
+    	return page;
+    }
 }

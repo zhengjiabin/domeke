@@ -17,7 +17,7 @@
 				<span class="ForumName">
 					<a href="javascript:void(0)" onclick="goToOrderForum(this,'${communitySon.communityid!}')">${communitySon.title!}</a>
 				</span>
-				<span class="ForumIntro">${communitySon.content!}<br />
+				<span class="ForumIntro">${communitySon.content!}
 					<% 
 						var forumCountList = @forumCountMap.get(communityFat.communityid); %>
 					<%	if(isEmpty(forumCountList)){
@@ -28,9 +28,9 @@
 								continue;
 							}
 					%>
-					<span> 帖数：${forumCount.number!}</span>
+						帖数：${forumCount.number!}
+					<% }  %>
 				</span>
-				<% }  %>
 			</div>
 		</div>
 		<% } %>

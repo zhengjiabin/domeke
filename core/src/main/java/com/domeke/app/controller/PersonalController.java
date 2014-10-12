@@ -5,12 +5,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.domeke.app.interceptor.LoginInterceptor;
+import com.domeke.app.model.Activity;
 import com.domeke.app.model.DownLoad;
 import com.domeke.app.model.PlayCount;
 import com.domeke.app.model.User;
 import com.domeke.app.utils.EncryptKit;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Page;
 
 public class PersonalController extends Controller{
 	@Before(LoginInterceptor.class)
@@ -24,7 +26,21 @@ public class PersonalController extends Controller{
 		uploadMsg(mid);
 		myDownLoad(mid);
 		myPlay(mid);
+		acctiveApply(mid);
 		render("/personalCenter.html");
+	}
+	public void forMyProductionPage(){
+		String mid = getPara("menuId");
+		User user = getSessionAttr("user");
+		Long userId = user.getLong("userid");
+		setAttr("userId", userId);
+		setAttr("menuId", mid);
+		setAttr("menuid", "1");
+		uploadMsg(mid);
+		myDownLoad(mid);
+		myPlay(mid);
+		acctiveApply(mid);
+		render("/myApplyActive.html");
 	}
 	
 	/**
@@ -53,7 +69,21 @@ public class PersonalController extends Controller{
 			setAttr("playList", playList);
 		}
 	}
-	
+	/**
+	 * 加载我参与的活动
+	 */
+	public void acctiveApply(String minuId){
+		if("14".equals(minuId)){
+			User user = getModel(User.class);
+			Activity activity = getModel(Activity.class);
+			user = getSessionAttr("user");
+			Long userid = user.getLong("userid");
+			int pageNumber = getParaToInt("pageNumber", 1);
+			int pageSize = getParaToInt("pageSize", 10);
+			Page<Activity> actPage = activity.getActivity(userid, pageNumber, pageSize);
+			setAttr("actPage", actPage);
+		}
+	}
 	/**
 	 * 跟据不同的minuId加载不同的数据
 	 * @param minuId
