@@ -132,4 +132,6 @@ public class User extends Model<User> {
 		Long count = Db.queryLong(sql);
 		return count;
 	}
+	
+	
 }
