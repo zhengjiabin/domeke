@@ -1,7 +1,14 @@
-<% for(community in communitySonList){ 
-      if(communityLP.index == communitySize){
+<% 
+	for(community in communitySonList){ 
+      	if(communityLP.index == communitySize){
         	break;
-      }
+      	}
+      	if(communityLP.index % 2 ==0){
 %>
 	<a href="javascript:void(0)" class="AL" onclick="goToOrderForum(this,'${community.communityid!}')">${community.title!}</a>
-<% } %>
+<% 		} else { %>
+	<a href="javascript:void(0)" class="AR" onclick="goToOrderForum(this,'${community.communityid!}')">${community.title!}</a>
+<% 		
+		}
+	}
+ %>	

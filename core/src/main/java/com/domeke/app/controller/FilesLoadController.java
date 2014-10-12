@@ -87,12 +87,11 @@ public class FilesLoadController extends Controller {
 	 * @param encoding
 	 * @return
 	 */
-	protected List<UploadFile> upLoadFiles(String saveFolderName, Integer maxPostSize, String encoding) {
+	protected String upLoadFiles(String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
 		String tmpDirectoryPath = getDirectory(tempDirectory, saveFolderName);
 		List<UploadFile> uploadFileList = getFiles(tmpDirectoryPath, maxPostSize, encoding);
 		String imgFilePath = "";
-		ArrayList<String> domainFilePath = Lists.newArrayList();
 		if (uploadFileList != null && uploadFileList.size() != 0) {
 			for (UploadFile uploadFile : uploadFileList) {
 				File srcFile = uploadFile.getFile();
@@ -103,13 +102,10 @@ public class FilesLoadController extends Controller {
 				}
 				File targetFile = new File(imgDirectoryPath + srcFile.getName());
 				fileCopyByChannel(srcFile, targetFile);
-				// 获取文件的绝对路径
-				imgFilePath = imgDirectory.getAbsolutePath();
-				uploadFile.setDomainFullPath(getDomainNameFilePath(imgFilePath));
+				imgFilePath = imgDirectoryPath;
 			}
 		}
-
-		return uploadFileList;
+		return imgFilePath;
 	}
 
 	/**
@@ -160,7 +156,7 @@ public class FilesLoadController extends Controller {
 	 *            文件的物理路径
 	 * @return 域名中的路径
 	 */
-	private String getDomainNameFilePath(String filePath) {
+	protected String getDomainNameFilePath(String filePath) {
 		filePath = filePath.replaceAll("\\\\", "/");
 		String basePath = PropKit.getString("base_path");
 		StringBuffer domainNameFilePath = new StringBuffer(domainName);
