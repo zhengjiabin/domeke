@@ -1,6 +1,5 @@
 package com.domeke.app.controller;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +39,14 @@ public class PersonalController extends Controller{
 		myDownLoad(mid);
 		myPlay(mid);
 		acctiveApply(mid);
-		render("/myApplyActive.html");
+		if("14".equals(mid)){
+			render("/myApplyActive.html");
+		}else if("13".equals(mid)){
+			render("/mydowload.html");
+		}else if("2".equals(mid)){
+			render("/playRecord.html");
+		}
+		
 	}
 	
 	/**
@@ -49,11 +55,13 @@ public class PersonalController extends Controller{
 	public void myDownLoad(String minuId){
 		if("13".equals(minuId)){
 			User user = getModel(User.class);
+			DownLoad down = getModel(DownLoad.class);
 			user = getSessionAttr("user");
 			Long userid = user.getLong("userid");
-			DownLoad down = getModel(DownLoad.class);
-			List<DownLoad> downList = down.getByUserId(userid);
-			setAttr("downList", downList);
+			int pageNumber = getParaToInt("pageNumber", 1);
+			int pageSize = getParaToInt("pageSize", 10);
+			Page<DownLoad> downPage = down.getByUserId(userid, pageNumber, pageSize);
+			setAttr("downPage", downPage);
 		}
 	}
 	/**
@@ -65,8 +73,10 @@ public class PersonalController extends Controller{
 			user = getSessionAttr("user");
 			Long userid = user.getLong("userid");
 			PlayCount down = getModel(PlayCount.class);
-			List<PlayCount> playList = down.getByUserId(userid);
-			setAttr("playList", playList);
+			int pageNumber = getParaToInt("pageNumber", 1);
+			int pageSize = getParaToInt("pageSize", 10);
+			Page<PlayCount> playPage = down.getByUserId(userid, pageNumber, pageSize);
+			setAttr("playPage", playPage);
 		}
 	}
 	/**
