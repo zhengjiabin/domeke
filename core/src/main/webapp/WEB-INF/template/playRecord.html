@@ -4,7 +4,7 @@
  
  <div class="ArgumentZoom">
             	<div class="LevelTitle">播放记录：</div>
-            <% for(play in playList!){%>
+            <% for(play in playPage.list!){%>
                 <div class="ArgumentSub">
                 	<div class="MemberHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
                     <div class="ArgumentInfo">
@@ -16,6 +16,18 @@
                     </div>
                 </div>
               <% } %> 
+                <% 
+              var menuId = menuId;
+              if(playPage != null){ 
+		layout(
+			"/common/page.html",
+			{
+				"page":playPage,
+				"pageAction":"./personal/forMyProductionPage?menuId="+menuId,
+				"fatherNode":"#personal"
+			}
+		){} 
+	}%>
     </div>
  </section>
  </article>
