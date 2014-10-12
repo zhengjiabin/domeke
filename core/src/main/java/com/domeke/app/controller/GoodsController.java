@@ -99,6 +99,36 @@ public class GoodsController extends FilesLoadController {
 		}
 		return files;
 	}
+	
+	/**
+	 * 获取指定路径下的所有文件域路径
+	 * @param url 指定文件夹路径
+	 * @return 返回指定路径下的所有文件域路径数组
+	 */
+	public String[] getFileUrls(String url){
+		File dir = new File(url);
+		String[] fileUrls = null;
+		String[] files = this.showAllFiles(dir);
+		for (int i =0; i < files.length; i ++) {
+			fileUrls[i] = getDomainNameFilePath(url + "/" + files[i]);
+		}
+		return fileUrls;
+	}
+	
+	/**
+	 * 删除指定文件夹下的指定文件
+	 * @param url 文件夹路径
+	 * @param fileName 文件名称
+	 */
+	public void deleteFile(String url, String fileName){
+		File folder = new File(url);
+		File[] files = folder.listFiles();
+		for(File file:files){
+			if(file.getName().equals(fileName)){
+				file.delete();
+			}
+		}		
+	}
 
 	public void addGoods() {
 		render("/admin/admin_addGoods.html");
