@@ -11,10 +11,12 @@ import com.domeke.app.model.User;
 import com.domeke.app.model.UserRole;
 import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
+import com.domeke.app.model.WorksType;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
 import com.jfinal.aop.Before;
 import com.jfinal.core.ActionKey;
+import com.jfinal.kit.ParseDemoKit;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
@@ -707,6 +709,34 @@ public class WorksController extends FilesLoadController {
 		render("/works/editWork.htm");
 	}
 	
-	public void showType(){
+	public void showPage(){
+		String type = getPara("type");
+		String workstype = getPara("workstype");
+		String pageIndexStr = getPara("pageIndex");
+		Integer pageIndex = 1;
+		if(!StrKit.isBlank(pageIndexStr)){
+			pageIndex = Integer.parseInt(pageIndexStr);
+		}
+		String pageSizeStr = getPara("pageSize");
+		Integer pageSize = 10;
+		if(!StrKit.isBlank(pageSizeStr)){
+			pageSize = Integer.parseInt(pageSizeStr);
+		}
+		WorksType worksTypeModel = getModel(WorksType.class);
+		Works worksModel = getModel(Works.class);
+		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(Integer.parseInt(type));
+		Page<Works> page = worksModel.getWorksInfoPage(workstype, type, pageIndex, pageSize);
+		List<Map<String, Object>> data = ParseDemoKit.worksParse(page.getList());
+		Page<List<Map<String, Object>>> pageWorks =  new Page(data, page.getPageNumber(), page.getPageSize(), page.getTotalPage(), page.getTotalRow());
+		setAttr("worksTypes", worksTypes);
+		setAttr("pageWorks", pageWorks);
+		if("0".equals(type)){
+			//0是视频
+			render("/worksManage/shipinManage.html");
+		}
+		if("1".equals(type)){
+			render("/worksManage/zhuanjiManage.html");
+		}
 	}
+	
 }

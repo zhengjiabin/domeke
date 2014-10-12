@@ -50,7 +50,7 @@ CREATE TABLE `work` (
   `modifier` bigint(20) NOT NULL,
   `modifiername` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '修改者 user账号',
   PRIMARY KEY (`workid`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for works
@@ -78,8 +78,10 @@ CREATE TABLE `works` (
   `updatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) NOT NULL,
+  `creatername` varchar(20) DEFAULT NULL,
   `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modifier` bigint(20) NOT NULL,
+  `modifiername` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`worksid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -1,19 +1,17 @@
 <article class="MeArticle">
 		<script type="text/javascript">
-			$(document).ready(function(){
 				function showPage(type){
-					$('#worksManager_menu li').removeClass("TabLi_active");
-					$('#worksManager_menu li').eq(type).addClass("TabLi_active");
+					$('#worksManager_menu li').removeClass("TabLi_active").addClass("TabLi");
+					$('#worksManager_menu li').eq(type).removeClass("TabLi").addClass("TabLi_active");
 					$.ajax({
 						type:'post',
 						data:'type='+type,
-						url :'works/showType',
+						url :'works/showPage',
 						success:function(data){
 							$('#worksManager').html(data);
 						}
 					});
 				}
-			});
 		</script>
         <ul class="MeTab" id="worksManager_menu">
             <li class="TabLi_active"><a href="javascript:showPage(0);">视  频</a></li>
