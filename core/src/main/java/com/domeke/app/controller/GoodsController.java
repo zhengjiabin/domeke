@@ -9,13 +9,13 @@ import java.util.Map;
 import java.util.Set;
 
 import com.domeke.app.interceptor.LoginInterceptor;
-import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.GoodsType;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
-import com.domeke.app.utils.CodeKit;
 import com.jfinal.aop.Before;
+import com.google.common.collect.Lists;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 /**
@@ -44,10 +44,10 @@ public class GoodsController extends FilesLoadController {
 		int pageSize = getParaToInt("pageSize", 10);
 		Page<Goods> goodsList = null;
 		//if ("".equals(menuType) || "0".equals(menuType) || menuType == null){
-			goodsList = Goods.dao.findPage(pageNumber, pageSize);
-			goods = "0";
+		goodsList = Goods.dao.findPage(pageNumber, pageSize);
+		goods = "0";
 		//}else {
-			//goodsList = Goods.dao.findPage(pageNumber, pageSize, menuType);
+		//goodsList = Goods.dao.findPage(pageNumber, pageSize, menuType);
 		//}
 		setAttr("goods", goods);
 		setAttr("goodsList", goodsList);
@@ -156,7 +156,6 @@ public class GoodsController extends FilesLoadController {
 		String goodstype = getPara("goodstype");
 		Integer pageNumber = getParaToInt("pageNumber");
 		Integer pageSize = getParaToInt("pageSize");
-		
 		if(pageNumber == null){
 			pageNumber = 1;
 		}
@@ -165,14 +164,37 @@ public class GoodsController extends FilesLoadController {
 		}
 		
 		//获取类型集合
-		Map<String,Object> typeMap = new HashMap<String, Object>();
-		List<CodeTable> codeTables = CodeKit.getList("goodstype");
+		List<GoodsType> goodsTypeStack = Lists.newArrayList();
+		List<GoodsType> goodsTypeList = Lists.newArrayList();
+		GoodsType goodsTypeModel = getModel(GoodsType.class);
+		if(!StrKit.isBlank(goodstype)){
+			goodsTypeModel = getModel(GoodsType.class).getGoodsTypeById(Integer.parseInt(goodstype));
+		}
+		if(goodsTypeModel.get("goodstypeid") != null){
+			goodsTypeStack.add(goodsTypeModel);
+			String goodstypeid = String.valueOf(goodsTypeModel.get("parenttypeid"));
+			while(!StrKit.isBlank(goodstypeid)){
+				GoodsType goodsType = getModel(GoodsType.class).getGoodsTypeById(Integer.parseInt(goodstypeid));
+				goodsTypeStack.add(goodsType);
+				goodstypeid = goodsType.get("parenttypeid");
+			}
+		}
+		if(!goodsTypeStack.isEmpty()){
+			goodsTypeModel = goodsTypeStack.get(goodsTypeStack.size() - 1);
+			goodsTypeList = goodsTypeModel.getGoodsTypeByParId(String.valueOf(goodsTypeModel.get("goodstypeid")));
+		}else {
+			goodsTypeList = goodsTypeModel.getGoodsTypeByParId("");
+		}
+		
 		//按类型获取商品分类
 		Page<Goods> goodss = getModel(Goods.class).getGoodsPageByType(goodstype, pageNumber, pageSize);
+		List<Map<String, Object>> datas = goodsParse(goodss.getList());
+		Page<List<Map<String, Object>>> pageMap = new Page(datas, goodss.getPageNumber(), goodss.getPageSize(), goodss.getTotalPage(), goodss.getTotalRow());
+		setAttr("goodsTypeStack",goodsTypeStack);
+		setAttr("goodsTypeList",goodsTypeList);
 		setAttr("goodstype",goodstype);
-		setAttr("goodss",goodss);
-		setAttr("codeTables",codeTables);
-		render("/ShopCategory.html");
+		setAttr("goodss",pageMap);
+		render("/shop.html");
 	}
 	
 	/**
@@ -348,5 +370,41 @@ public class GoodsController extends FilesLoadController {
 		changeMap.put("peas", peas);
 		changeMap.put("userId", userId);
 		return changeMap;
+	}
+	
+	private List<Map<String, Object>> goodsParse(List<Goods> goodss){
+		List<Map<String, Object>> resultMap = Lists.newArrayList();
+		try {
+			for (Goods goods : goodss) {
+				if(goods == null)
+					continue;
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("goodsid", goods.get("goodsid"));
+				String goodsname = goods.get("goodsname");
+				if(goodsname.length() >= 12){
+					goodsname = goodsname.substring(0,12);
+				}
+				map.put("goods", goods.get("goods"));
+				map.put("goodsname", goodsname);
+				map.put("price", goods.get("goodsid"));
+				map.put("oldprice", goods.get("oldprice"));
+				map.put("amount", goods.get("amount"));
+				map.put("pic", goods.get("pic"));
+				String message = goods.get("message");
+				if(message.length() > 50){
+					message = message.substring(0, 50) + "...";
+				}
+				map.put("message", message);
+				map.put("submitdate", goods.get("submitdate"));
+				map.put("username", goods.get("username"));
+				map.put("headimg", goods.get("headimg"));
+				String detailUrl = "goods/getGoodsDetail?id=5";
+				map.put("detailUrl", detailUrl);
+				resultMap.add(map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resultMap;
 	}
 }

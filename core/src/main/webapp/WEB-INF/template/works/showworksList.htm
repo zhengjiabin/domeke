@@ -11,7 +11,27 @@
 <link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/i.css">
 <link id="skinCssLink" type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/default.css">
 <link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/home.css">
+<script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
 
+<script type="text/javascript">
+	function del(worksid){
+		if(confirm("确认删除吗？")){
+			$.ajax({
+				url:'delete',
+				data:'id='+worksid,
+				success:function(data){
+					if(data.success == 1){
+						$('#showShipin').submit();
+					}else{
+						alert("删除失败");
+					}
+				}
+			});
+		}else{
+			return false;
+		}
+	}
+</script>
 
 <meta http-equiv="Content-Language" content="zh-CN">
 <body class="yk-w1190" style="padding-right: 50px; min-width: 1002px;">
@@ -23,7 +43,7 @@
 						<div class="manager_con">
 							<div class="databox">
 								<a href="addWorks?flag=1&pageIndex=${pageWorks.pageNumber!}">添加专辑</a>
-								<form action="showWorksList" method="post">
+								<form id="showShipin" action="showWorksList" method="post">
 								<input name="pageIndex" type="hidden" value="${pageWorks.pageNumber!}">
 								<table cellspacing="0" cellpadding="0" border="0">
 									<thead>
@@ -82,7 +102,7 @@
 											<td class="m_opt">
 												<div class="action">
 													<span><a target="_blank" href="showWorks?worksid=${works.worksid}&pageIndex=1" _hz="edit">编辑</a></span> 
-													<span class="del" ><a href="javascript:;" _click="svdel">删除</a></span>
+													<span class="del" ><a href="javascript:del(${works.worksid!});" >删除</a></span>
 												</div>
 											</td>
 										</tr>

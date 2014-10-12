@@ -9,77 +9,45 @@
 	<link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/i.css">
 	<link id="skinCssLink" type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/default.css">
 	<link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/home.css">
-
+	<link href="http://localhost:8080/core/temp/up_v3.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript">
+		var isshow = '${works.creativeprocess!}';
+		window.onload = function(){
+			if(isshow != ''){
+				document.getElementById('creativeprocess').value = isshow;
+			}
+		} 
+	</script>
 	<body>
+		<form action="editWorks" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="worksid" value="${works.worksid!}">
+		<input type="hidden" name="pageIndex" value="${pageIndex!}">
 		<div class="topicedit">
 					<div class="entry">
 						<label><span>*</span>标题：</label>
-						<input type="text" value="" class="form_input" id="crtFolderName" name="crtFolderName">
-						<input type="hidden" id="crtFolderId" name="crtFolderId" value="">
-						<div class="error"></div>
+						<input type="text" class="form_input" id="crtFolderName" name="worksname" value="${works.worksname!}">
 					</div>
-					<div class="entry"><label>简介：</label><textarea class="form_input" id="crtFolderDesc" name="crtFolderDesc"></textarea>
-					<div class="error"></div>
+					<div class="entry"><label>简介：</label>
+					<textarea class="form_input" id="crtFolderDesc" name="describle" >${works.describle!}</textarea>
 					</div>
-					<div style="z-index:1;" class="entry">
-						<label><span>*</span>分类：</label>
-						<div class="mod_select">
-							<div class="handle" id="droptype"><span id="droptype_s">
-							
-								请选择专辑所属分类
-							
-							</span><span class="icon"><em>箭头</em></span></div>
-							<input type="hidden" name="syscate" id="droptype_sv" value="">
-							<div class="panel" style="display: none;" id="droptypes">
-								<div class="content">
-								
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="123" class="">资讯</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="124" class="">原创</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="129" class="">电视剧</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="143" class="">娱乐</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="128" class="">电影</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="130" class="">体育</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="127" class="">音乐</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="131" class="">游戏</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="132" class="">动漫</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="139" class="">时尚</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="140" class="">母婴</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="136" class="">汽车</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="141" class="">旅游</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="137" class="">科技</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="144" class="">纪录片</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="142" class="">教育</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="135" class="">生活</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="126" class="">搞笑</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="134" class="">广告</a></span>
-																	<span style="padding:5px 4px;"><a href="javascript:;" _id="138" class="">其他</a></span>
-																
-								</div>
-							</div>
-						</div>
-					<div class="error"></div>
-					</div>
-					<div class="entry" id="videoTagsParent">
-						<label><span>*</span>标签：</label>
-						<input type="text" value="" class="form_input" id="vtags" name="vtags">
-
-						<div class="desc"><span>每个标签2~6个字，每个专辑可有1至10个标签，用空格或逗号分隔开。</span></div>
-						<div class="usedtag" id="videoTags"><span>我用过的标签:</span>
-						
-																						<a href="javascript:;">野生动物</a>
-																					
-						</div>
-					<div class="error"></div>	
-					</div>
-					<div class="entry">
+		           	<div class="entry">
+		                <label>是否完结：</label>
+		                <select class="meta-cate" style="width:440px; height: 30px;" id="creativeprocess" name="creativeprocess">
+		                    <option value="10">连载</option>
+		                    <option value="20">完结</option>
+		                </select>
+		           	</div>
+		           	</br>
+					<!-- <div class="entry">
 						<label><span>*</span>验证码：</label>
 						<div class="identify" id="verifyCodeParent">
 						<input type="text" id="verifyCode" name="verifyCode" style="width:105px;" value="" class="form_input">
 						<img onclick="mg.chVerifyImg(this);" src="/u/verify?time =0.9937449204735458" style="margin-top:-10px;height:50px;">
 						<a href="#" onclick="mg.chVerifyImg(this);return false;">看不清,换一张</a></div>
 						<div class="error"></div>
-					</div>
-					<div class="entry"><div class="action" style="margin-top:-5px;"><div class="form_btn form_btn_m form_btnmaj_m"><span class="form_btn_text" onclick="mg.addplaylistsubmit()">确　定</span></div><div class="form_btn form_btn_m form_btnsub_m"><span class="form_btn_text" onclick="mg.qwindow.hide()">取　消</span></div></div></div>
+					</div> -->
+					<div class="entry"><div class="action" style="margin-top:-5px;"><button type="submit">确　定</button>&nbsp;&nbsp;&nbsp;<button type="reset">取　消</button></div></div>
 				</div>
+		</form>
 	</body>
 </html>
