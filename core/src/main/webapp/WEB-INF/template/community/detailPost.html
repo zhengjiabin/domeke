@@ -1,62 +1,70 @@
-		<div class="ForumPath">
-        	<a href="javascript:void(0)" onclick="goToHomeForum('${communityFat.actionkey!}')">${communityFat.title}</a>
-        	/<a href="javascript:void(0)" onclick="goToOrderForum(this,${communitySon.communityid!})">${communitySon.title}</a>
-    	</div>
-		<div class="ForumTheme">
-        	<div class="ListPic"><img src="/http://www.dongmark.com/images/qq4.jpg"></div>
-                <div class="ListDtl">
-                	<div class="ListName"><a href="#">${post.subject!}</a></div>
-                     <div class="font_9">
-                    	<span><a href="#">楼主：${post.postid!}</a></span>
-                        <span>发表时间：${post.dateline!}</span>
-                        <% if(post.top == 0){ %>
-                        	<span><a href="javascript:void(0)" onclick="setTop(this,${post.postid!})">置顶</a></span>
-                        <% } %>
-                        <% if(post.essence == 0){ %>
-                        	<span><a href="javascript:void(0)" onclick="setEssence(this,${post.postid!})">精华</a></span>
-                        <% } %>	
-                    </div>
-                </div>
-        </div>
-		<div class="clear"></div> 
+<div class="ForumPath">
+	<a href="javascript:void(0)" onclick="goToHomeForum('${communityFat.actionkey!}')">${communityFat.title}</a>
+	/<a href="javascript:void(0)" onclick="goToOrderForum(this,${communitySon.communityid!})">${communitySon.title}</a>
+</div>
+<div class="ForumTheme">
+	<div class="ListPic">
+		<img src="/http://www.dongmark.com/images/qq4.jpg">
+	</div>
+	<div class="ListDtl">
+		<div class="ListName">
+			<a href="#">${post.subject!}</a>
+		</div>
+		<div class="font_9">
+			<span><a href="#">楼主：${post.postid!}</a></span> 
+			<span>发表时间：${post.dateline!}</span>
+			<% if(post.top == 0){ %> 
+				<span>
+					<a href="javascript:void(0)" onclick="setTop(this,${post.postid!})">置顶</a>
+				</span>
+			 <% } %> 
+			 <% if(post.essence == 0){ %> 
+			 	<span>
+			 		<a href="javascript:void(0)" onclick="setEssence(this,${post.postid!})">精华</a>
+			 	</span> 
+			 <% } %>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
 <div id="replyComments">
-		<div class="ForumBody">
-            <div class="FBodyContent">${post.message!}</div>
-            <div class="FBodyBottom font_9">
-            	<span class="FL"><a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a></span>
-            </div>
-            <div class="clear"></div>
-      </div>
-      <div class="ForumInfoA"></div>
-      <div id="commentHtml"><% if(commentPage != null && post.postid != null){ 
-					layout(
-					"/comment/comment.html",
-					{
+	<div class="ForumBody">
+		<div class="FBodyContent">${post.message!}</div>
+		<div class="FBodyBottom font_9">
+			<span class="FL">
+				<a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a>
+			</span>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ForumInfoA"></div>
+	<div id="commentHtml">
+		<% 
+			if(commentPage != null && post.postid != null){ 
+				layout(
+				"/comment/comment.html",
+				{
 					"commentPage":commentPage,
 					"targetId":post.postid,
-					"commentAction":"./post/replyComment?postId="+post.postid,
-					"followAction":"./post/replyFollow?postId="+post.postid,
-					"pageAction":"./post/findCommentByPostId?targetId="+post.postid+"&postId="+post.postid,
-					"fatherNode":"#commentHtml"
-					}
-					){}
-				}%>
+					"idtype":"10"
+				}
+				){}
+			}
+		%>
 	</div>
-   <div class="PiecesText" id="commentForm">
-   <% if(post.postid != null){ 
-					layout(
+	<div class="PiecesText" id="commentForm">
+		<% 
+   			if(post.postid != null){ 
+				layout(
 					"/common/ckeditor.html",
 					{
-					"targetId":post.postid,
-					"ckeditorAction":"./post/replyComment?postId="+post.postid,
-					"ckeditorNode":"#replyComments",
-					"commentAction":"./post/replyComment?postId="+post.postid,
-					"followAction":"./post/replyFollow?postId="+post.postid,
-					"pageAction":"./post/findCommentByPostId?targetId="+post.postid+"&postId="+post.postid,
-					"fatherNode":"#commentHtml"
+						"targetId":post.postid,
+						"idtype":"10",
+						"render":"/comment/comment.html"
 					}
-					){}
-				}%>
+				){}
+			}
+		%>
 	</div>
- </div>
-		
+</div>
+

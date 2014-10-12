@@ -46,39 +46,18 @@
                 <% } %>
                 </div>
             </div>
-            <div class="ArgumentZoom">
-            	<div class="LevelTitle"><a href="#" class="WArgument">我来说两句</a>骄傲的兔子评论：</div>
-                <div class="ArgumentSub">
-                	<div class="MemberHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
-                    <div class="ArgumentInfo">
-                    	<div class="MemberNick font_b">世嘉硬件女孩</div>
-                        <div class="ArgumentContent">我也希望有一个像小丸子一样的妹妹{:11:}望有一个像小丸子一样的妹妹{:11:}，不过不望有一个像小丸子一样的妹妹{:11:}，不过不需要因为本人也像小丸子一样，不讲道理，有仇必报，有吃必抢{:11:} </div>
-                        <div class="ArgumentTime font_b">
-                        	<a href="#">30有用</a><a href="#">回复</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ArgumentSub">
-                	<div class="MemberHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
-                    <div class="ArgumentInfo">
-                    	<div class="MemberNick font_b">世嘉硬件女孩</div>
-                        <div class="ArgumentContent">我也希望有一个像小丸子一样的妹妹{:11:}望有一个像小丸子一样的妹妹{:11:}，不过不望有一个像小丸子一样的妹妹{:11:}，不过不需要因为本人也像小丸子一样，不讲道理，有仇必报，有吃必抢{:11:} </div>
-                        <div class="ArgumentTime font_b">
-                        	<a href="#">30有用</a><a href="#">回复</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="ArgumentSub">
-                	<div class="MemberHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
-                    <div class="ArgumentInfo">
-                    	<div class="MemberNick font_b">世嘉硬件女孩</div>
-                        <div class="ArgumentContent">我也希望有一个像小丸子一样的妹妹{:11:}望有一个像小丸子一样的妹妹{:11:}，不过不望有一个像小丸子一样的妹妹{:11:}，不过不需要因为本人也像小丸子一样，不讲道理，有仇必报，有吃必抢{:11:} </div>
-                        <div class="ArgumentTime font_b">
-                        	<a href="#">30有用</a><a href="#">回复</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="ArgumentZoom" id = "commentHtml">
+      			<% if(commentPage != null && works.worksid != null){ 
+					layout(
+					"/comment/cartoonComment.html",
+					{
+						"commentPage":commentPage,
+						"targetId":works.worksid,
+						"idtype":"40"
+					}
+					){}
+				}%>
+			</div>
         </section>
     </article>
     <aside>

@@ -1,18 +1,23 @@
 <% for(communityFat in communityFatList){ %>
-		<div class="ArticleTitle">
-			<img src="http://www.dongmark.com/images/FIcon03.png">${communityFat.title}
-		</div>
-		<div class="ArticleContent">
-			<% for(communitySon in communitySonList){ if(communitySon.pid !=
-			communityFat.communityid){continue;}%>
-			<div class="ForumSubL">
-				<div class="ForumPic">
-					<img src="http://www.dongmark.com/images/FIcon04.png">
-				</div>
-				<div class="ForumDtl">
-					<span class="ForumName"><a href="javascript:void(0)"
-						onclick="goToOrderForum(this,'${communitySon.communityid!}')">${communitySon.title!}</a></span>
-					<span class="ForumIntro">${communitySon.content!}<br />
+	<div class="ArticleTitle">
+		<img src="http://www.dongmark.com/images/FIcon03.png">${communityFat.title}
+	</div>
+	<div class="ArticleContent">
+		<% 
+			for(communitySon in communitySonList){ 
+				if(communitySon.pid != communityFat.communityid){
+					continue;
+				}
+		%>
+		<div class="ForumSubL">
+			<div class="ForumPic">
+				<img src="http://www.dongmark.com/images/FIcon04.png">
+			</div>
+			<div class="ForumDtl">
+				<span class="ForumName">
+					<a href="javascript:void(0)" onclick="goToOrderForum(this,'${communitySon.communityid!}')">${communitySon.title!}</a>
+				</span>
+				<span class="ForumIntro">${communitySon.content!}<br />
 					<% 
 						var forumCountList = @forumCountMap.get(communityFat.communityid); %>
 					<%	if(isEmpty(forumCountList)){
@@ -23,11 +28,12 @@
 								continue;
 							}
 					%>
-					<span> 帖数：${forumCount.number!}</span></span>
-					<% }  %>
-				</div>
+					<span> 帖数：${forumCount.number!}</span>
+				</span>
+				<% }  %>
 			</div>
-			<% } %>
-			<div class="clear"></div>
 		</div>
+		<% } %>
+		<div class="clear"></div>
+	</div>
 <% } %>

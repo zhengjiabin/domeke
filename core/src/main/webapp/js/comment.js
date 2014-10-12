@@ -1,41 +1,35 @@
+//文本编辑器聚焦
 function showCkeditor(node) {
 	CKEDITOR.instances.ckeditor.focus();
 }
 
-function publishCkeditor(node) {
+//提交回复信息
+function publishCkeditor(node,targetId,idtype,render) {
 	var content = CKEDITOR.instances.ckeditor.getData();
-
-	var commentForm = $(node).closest("#commentForm");
-	var ckeditorActionVal = commentForm.find("#ckeditorAction").first().val();
-	var targetIdVal = commentForm.find("#targetId").first().val();
-	var pageActionVal = commentForm.find("#pageAction").first().val();
-	var fatherNodeVal = commentForm.find("#fatherNode").first().val();
-	var commentActionVal = commentForm.find("#commentAction").first().val();
-	var followActionVal = commentForm.find("#followAction").first().val();
-	var ckeditorNodeVal = commentForm.find("#ckeditorNode").first().val();
+	var replyComments = $(node).closest("#replyComments");
+	var commentContents = replyComments.find("#commentHtml").first();
 	
-	$.post(ckeditorActionVal, {
-		targetId : targetIdVal,
-		message : content,
-		pageAction : pageActionVal,
-		fatherNode : fatherNodeVal,
-		followAction : followActionVal,
-		commentAction : commentActionVal
-	}, function(data) {
-		CKEDITOR.instances.ckeditor.setData("");
-
-		var replyComments = $(node).closest(ckeditorNodeVal);
-		var commentContents = replyComments.find("#commentHtml").first();
-		commentContents.html(data);
-	});
+	$.post(
+		"./comment/reply", 
+		{
+			targetId : targetId,
+			idtype : idtype,
+			render : render,
+			message : content
+		}, 
+		function(data) {
+			CKEDITOR.instances.ckeditor.setData("");
+			commentContents.html(data);
+		});
 }
 
-function showPublishFace(node) {
-	var commentForm = $(node).closest("#commentForm");
-	var editor = commentForm.find("#editor").first();
+// 显示回复框信息
+function showPublishHtml(node) {
+	var publishHtml = $(node).next("#publishHtml");
+	var editor = publishHtml.find("#editor").first();
 	editor.attr("contenteditable", "true");
 
-	var showEditor = commentForm.find("#showEditor").first();
+	var showEditor = publishHtml.find("#showEditor").first();
 	showEditor.show();
 }
 
@@ -63,40 +57,27 @@ function insertFace(img) {
 	editor.html(val);
 }
 
-function publishFace(node) {
+//发表回复信息
+function publish(node,targetId,idtype,pId,toUserId,render) {
 	var showEditor = $(node).closest("#showEditor");
 	var editor = showEditor.find("#editor").first();
 	var message = showEditor.find("#message").first();
 	var val = editor.html();
 	message.html(val);
-
-	var commentForm = $(node).closest("#commentForm");
-	var publishFaceActionVal = commentForm.find("#publishFaceAction").first().val();
-	var targetIdVal = commentForm.find("#targetId").first().val();
-	var pIdVal = commentForm.find("#pId").first().val();
-	var toUserIdVal = commentForm.find("#toUserId").first().val();
-	var pageActionVal = commentForm.find("#pageAction").first().val();
-	var fatherNodeVal = commentForm.find("#fatherNode").first().val();
 	
-	
-	var commentFatherNodeVal = commentForm.find("#commentFatherNode").first().val();
-	var targetNodeVal = "";
-	if(commentFatherNodeVal != "#commentContent"){
-		targetNodeVal = "#commentContent";
+	var fartherNode = $(node).closest("#commentHtml");
+	if(pId != null && pId !=""){
+		fartherNode = $(node).closest("#commentContents");
+		fartherNode = fartherNode.find("#commentHtml").first();
 	}
 	
-	var commentActionVal = commentForm.find("#commentAction").first().val();
-	var followActionVal = commentForm.find("#followAction").first().val();
-
-	$.post(publishFaceActionVal, {
-		targetId : targetIdVal,
-		pId : pIdVal,
-		toUserId : toUserIdVal,
+	$.post("./comment/reply", {
+		targetId : targetId,
+		idtype : idtype,
+		pId : pId,
+		toUserId : toUserId,
 		message : message.text(),
-		pageAction : pageActionVal,
-		fatherNode : fatherNodeVal,
-		commentAction : commentActionVal,
-		followAction : followActionVal
+		render : render
 	}, function(data) {
 		var commentForm = $(node).closest("#commentForm");
 		var showEditor = commentForm.find("#showEditor").first();
@@ -105,11 +86,7 @@ function publishFace(node) {
 		editor.html("");
 		var message = showEditor.find("#message").first();
 		message.html("");
-
-		var commentContent = $(node).closest(commentFatherNodeVal);
-		if(targetNodeVal != ""){
-			commentContent =  commentContent.find(targetNodeVal).first();
-		}
-		commentContent.html(data);
+		
+		fartherNode.html(data);
 	});
 }

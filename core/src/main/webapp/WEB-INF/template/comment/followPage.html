@@ -1,30 +1,39 @@
 <% for (follow in followPage){
 	if(follow.pid!=comment.commentid){continue;}%>
 <div class="ForumReply">
-      	<div class="ReplyHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
-        <div class="ReplyBody">
-        	<div class="ReplyTop">
-            	<span class="ReplyID font_ye"><a href="#">用户：${follow.userid!}</a></span>
-            	<span >内容:${follow.message!}</span>
-                <span>发表时间：${follow.dateline!}</span>
-            </div>
-          	<div class="ReplyBottom font_9">
-            
-            <%
-				layout(
-				"/common/publishFace.html",
-				{
-					"targetId":targetId,
-					"publishFaceAction":followAction,
-					"pId":comment.commentid,
-					"toUserId":follow.commentid,
-					"commentFatherNode":"#commentContent"
-				}
-				){}
-			%>
-			</div>
+	<div class="ReplyHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
+    <div class="ReplyBody">
+    	<div class="ReplyTop">
+	        <span class="ReplyID font_ye">
+	        	<a href="#">${follow.username!}</a>
+	        </span>
+	        <span>${follow.dateline!}</span>
         </div>
-        <div class="clear"></div>
+        <div class="ReplyInfo">
+	       	<% if(!isEmpty(follow.tousername)) { %>
+	    	 		回复  ${follow.tousername!} ：
+	    	<% } %>
+	        ${follow.message!}
+		</div>
+       	<div class="ReplyBottom font_9">
+         	<a href="javascript:void(0);" onclick="showPublishHtml(this)">回复</a>
+         	<div id="publishHtml">
+				<%
+					layout(
+						"/common/publishFace.html",
+						{
+							"targetId":targetId,
+							"idtype":idtype,
+							"pId":comment.commentid,
+							"toUserId":follow.userid,
+							"render":"/comment/followPage.html"
+						}
+					){}
+				%>
+			</div>
+		</div>
+	</div>
+    <div class="clear"></div>
 </div> 
 <% } %>
 

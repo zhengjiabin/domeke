@@ -22,6 +22,9 @@ import com.jfinal.plugin.activerecord.Page;
  *
  */
 public class CartoonController extends Controller {
+	
+	/** 回复类型 */
+	private static String IDTYPE = "40";
 
 	public void index() {
 		setAttr("menuid", "2");
@@ -65,17 +68,23 @@ public class CartoonController extends Controller {
 	public void showDetail() {
 		Works worksModel = getModel(Works.class);
 		Work workModel = getModel(Work.class);
+		Integer worksId = getParaToInt("id");
 		// 取某一部动漫
-		Works works = worksModel.findById(getParaToInt("id"));
+		Works works = worksModel.findById(worksId);
 		// 取该动漫的集数
-		List<Work> workList = workModel.getWorkByWorksID(getParaToInt("id"));
+		List<Work> workList = workModel.getWorkByWorksID(worksId);
 		// 取精彩推荐的动漫作品
-		List<Works> wonderfulWorksList = worksModel.getWonderfulRecommend(
-				getParaToInt("id"), 5);
+		List<Works> wonderfulWorksList = worksModel.getWonderfulRecommend(worksId, 5);
+		
 		this.setAttr("works", works);
 		this.setAttr("workList", workList);
 		this.setAttr("wonderfulWorksList", wonderfulWorksList);
-		render("/CartoonDtl.html");
+		
+		String action = "/comment/setPage";
+		setAttr("render", "/CartoonDtl.html");
+		setAttr("targetId", worksId);
+		setAttr("idtype", IDTYPE);
+		forwardAction(action);
 	}
 
 	/**

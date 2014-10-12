@@ -105,8 +105,7 @@ public class PostController extends Controller {
 
 	/**
 	 * 查询指定帖子信息
-	 * 
-	 * @return 指定帖子信息
+	 * 请求  post/findById?communityId=${communityId!}&targetId=${targetId!}&idtype=${idtype!}
 	 */
 	public void findById() {
 		String postId = getPara("targetId");
@@ -114,11 +113,20 @@ public class PostController extends Controller {
 		
 		setPost(postId);
 		setCommunity();
-		setCommentPage(postId);
-		setFollowList(postId);
-		
 		keepPara("communityId");
-		render("/community/detailPost.html");
+		
+		forwardComment(postId);
+	}
+	
+	/**
+	 * 跳转回复控制器，设置回复信息
+	 */
+	private void forwardComment(Object targetId){
+		String action = "/comment/setPage";
+		setAttr("render", "/community/detailPost.html");
+		setAttr("targetId", targetId);
+		setAttr("idtype", IDTYPE);
+		forwardAction(action);
 	}
 	
 	/**
@@ -141,37 +149,6 @@ public class PostController extends Controller {
 	private void setPost(Object postId){
 		Post post = Post.dao.findById(postId);
 		setAttr("post", post);
-	}
-	
-	/**
-	 * 分页设置父回复信息
-	 */
-	public void setCommentPage(Object postId) {
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Page<Comment> commentPage = Comment.dao.findPageByTargetId(postId,
-				"10", pageNumber, pageSize);
-		setAttr("commentPage", commentPage);
-	}
-	
-	/**
-	 * 设置子回复信息
-	 */
-	public void setFollowList(Object postId) {
-		List<Comment> followPage = Comment.dao.findFollowByTargetId(postId,
-				"10");
-		setAttr("followPage", followPage);
-	}
-
-	/**
-	 * 异步分页查询回复信息
-	 */
-	public void findCommentByPostId() {
-		Object postId = getPara("postId");
-		setCommentPage(postId);
-		setFollowList(postId);
-		setReplyCommentData();
-		render("/comment/comment.html");
 	}
 
 	/**
@@ -312,99 +289,6 @@ public class PostController extends Controller {
 		setPostPage(communityId);
 		
 		render("/community/post.html");
-	}
-
-	/**
-	 * 添加回复信息
-	 */
-	@Before(LoginInterceptor.class)
-	public void replyComment() {
-		addComment();
-
-		String postId = getPara("postId");
-		setPost(postId);
-		setCommentPage(postId);
-		setFollowList(postId);
-		
-		setReplyCommentData();
-
-		render("/comment/comment.html");
-	}
-	
-	/**
-	 * 添加回复信息
-	 */
-	@Before(LoginInterceptor.class)
-	public void replyFollow() {
-		addComment();
-
-		String postId = getPara("postId");
-		setPost(postId);
-		setFollowList(postId);
-		
-		String pId = getPara("pId");
-		if (pId != null && pId.length() > 0) {
-			setComment(pId);
-		}
-		setReplyCommentData();
-
-		render("/comment/followPage.html");
-	}
-	
-	/**
-	 * 设置回复信息
-	 * 
-	 * @param commentId
-	 */
-	private void setComment(Object commentId) {
-		Comment comment = Comment.dao.findById(commentId);
-		setAttr("comment", comment);
-	}
-
-	/**
-	 * 保存回复信息
-	 */
-	private void addComment() {
-		Comment comment = getModel(Comment.class);
-
-		Object targetId = getPara("targetId");
-		comment.set("targetid", targetId);
-
-		Object userId = getUserId();
-		comment.set("userid", userId);
-
-		comment.set("idtype", IDTYPE);
-
-		HttpServletRequest request = getRequest();
-		String remoteIp = request.getRemoteAddr();
-		comment.set("userip", remoteIp);
-
-		//默认回复楼层
-		comment.set("level", "1");
-		
-		String pId = getPara("pId");
-		if (pId != null && pId.length() > 0) {
-			comment.set("pid", pId);
-			comment.set("level", "2");
-		}
-
-		String toUserId = getPara("toUserID");
-		if (toUserId != null && toUserId.length() > 0) {
-			comment.set("touserid", toUserId);
-		}
-
-		Object message = getPara("message");
-		comment.set("message", message);
-		comment.save();
-	}
-
-	/**
-	 * 添加额外的回复信息
-	 */
-	private void setReplyCommentData() {
-		Object targetId = getPara("targetId");
-		setAttr("targetId", targetId);
-		keepPara("pageAction", "fatherNode","commentAction","followAction");
 	}
 
 	/**

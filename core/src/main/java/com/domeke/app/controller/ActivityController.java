@@ -2,13 +2,10 @@ package com.domeke.app.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Activity;
 import com.domeke.app.model.ActivityApply;
 import com.domeke.app.model.CodeTable;
-import com.domeke.app.model.Comment;
 import com.domeke.app.model.Community;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
@@ -22,6 +19,9 @@ import com.jfinal.plugin.activerecord.Page;
 @ControllerBind(controllerKey = "activity")
 @Before(LoginInterceptor.class)
 public class ActivityController extends Controller {
+	
+	/** 回复类型 */
+	private static String IDTYPE = "20";
 	
 	/**
 	 * admin管理--社区管理入口
@@ -89,8 +89,7 @@ public class ActivityController extends Controller {
 
 	/**
 	 * 分页查询指定社区的活动
-	 * 
-	 * @return 活动信息
+	 * 请求 activity/find?communityId=${communityId!}
 	 */
 	public void find() {
 		Object communityId = getPara("communityId");
@@ -118,8 +117,7 @@ public class ActivityController extends Controller {
 
 	/**
 	 * 查询指定活动信息
-	 * 
-	 * @return 指定活动信息
+	 * 请求 activity/findById?communityId=${communityId!}&targetId=${targetId!}&idtype=${idtype!}
 	 */
 	public void findById() {
 		String activityId = getPara("targetId");
@@ -128,12 +126,22 @@ public class ActivityController extends Controller {
 		setActivity(activityId);
 		setCommunity();
 		setActivityApplyPage(activityId);
-		setCommentPage(activityId);
-		setFollowList(activityId);
-		
 		keepPara("communityId");
-		render("/community/detailActivity.html");
+		
+		forwardComment(activityId);
 	}
+	
+	/**
+	 * 跳转回复控制器，设置回复信息
+	 */
+	private void forwardComment(Object targetId){
+		String action = "/comment/setPage";
+		setAttr("render", "/community/detailActivity.html");
+		setAttr("targetId", targetId);
+		setAttr("idtype", IDTYPE);
+		forwardAction(action);
+	}
+	
 	
 	/**
 	 * 设置版块信息
@@ -200,26 +208,6 @@ public class ActivityController extends Controller {
 		Page<ActivityApply> activityApplyPage = ActivityApply.dao
 				.findByActivityId(activityId, pageNumber, pageSize);
 		setAttr("activityApplyPage", activityApplyPage);
-	}
-	
-	/**
-	 * 分页设置父回复信息
-	 */
-	public void setCommentPage(Object activityId) {
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Page<Comment> commentPage = Comment.dao.findPageByTargetId(activityId,
-				"20", pageNumber, pageSize);
-		setAttr("commentPage", commentPage);
-	}
-
-	/**
-	 * 设置子回复信息
-	 */
-	public void setFollowList(Object activityId) {
-		List<Comment> followPage = Comment.dao.findFollowByTargetId(activityId,
-				"20");
-		setAttr("followPage", followPage);
 	}
 
 	/**
@@ -386,108 +374,6 @@ public class ActivityController extends Controller {
 		}
 		setAttr("activityPage", activityPage);
 		setAttr("communityId", communityId);
-	}
-	
-	/**
-	 * 添加回复信息
-	 */
-	public void replyComment() {
-		addComment();
-
-		String activityId = getPara("activityId");
-		setActivity(activityId);
-		setCommentPage(activityId);
-		setFollowList(activityId);
-		
-		setReplyCommentData();
-
-		render("/comment/comment.html");
-	}
-	
-	/**
-	 * 添加回复信息
-	 */
-	public void replyFollow() {
-		addComment();
-
-		String activityId = getPara("activityId");
-		setActivity(activityId);
-		setFollowList(activityId);
-		
-		String pId = getPara("pId");
-		if (pId != null && pId.length() > 0) {
-			setComment(pId);
-		}
-		setReplyCommentData();
-
-		render("/comment/followPage.html");
-	}
-	
-	/**
-	 * 异步分页查询回复信息
-	 */
-	public void findCommentByActivityId(){
-		Object activityId = getPara("activityId");
-		setCommentPage(activityId);
-		setFollowList(activityId);
-		setReplyCommentData();
-		render("/comment/comment.html");
-	}
-	
-	/**
-	 * 保存回复信息
-	 */
-	private void addComment() {
-		Comment comment = getModel(Comment.class);
-
-		Object targetId = getPara("targetId");
-		comment.set("targetid", targetId);
-
-		Object userId = getUserId();
-		comment.set("userid", userId);
-
-		comment.set("idtype", "20");
-
-		HttpServletRequest request = getRequest();
-		String remoteIp = request.getRemoteAddr();
-		comment.set("userip", remoteIp);
-
-		//默认回复楼层
-		comment.set("level", "1");
-		
-		String pId = getPara("pId");
-		if (pId != null && pId.length() > 0) {
-			comment.set("pid", pId);
-			comment.set("level", "2");
-		}
-
-		String toUserId = getPara("toUserID");
-		if (toUserId != null && toUserId.length() > 0) {
-			comment.set("touserid", toUserId);
-		}
-
-		Object message = getPara("message");
-		comment.set("message", message);
-		comment.save();
-	}
-	
-	/**
-	 * 添加额外的回复信息
-	 */
-	private void setReplyCommentData() {
-		Object targetId = getPara("targetId");
-		setAttr("targetId", targetId);
-		keepPara("pageAction", "fatherNode","commentAction","followAction");
-	}
-	
-	/**
-	 * 设置回复信息
-	 * 
-	 * @param commentId
-	 */
-	private void setComment(Object commentId) {
-		Comment comment = Comment.dao.findById(commentId);
-		setAttr("comment", comment);
 	}
 
 	/**

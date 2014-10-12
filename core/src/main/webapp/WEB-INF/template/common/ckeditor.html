@@ -1,13 +1,6 @@
 <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
-	<textarea name="message" id="ckeditor"></textarea>
-	<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
-	
-	<input id="publish" type="button" value="发表" onclick="publishCkeditor(this)">
-	<input value="${ckeditorAction!}" id="ckeditorAction" style="display: none;"> 
-	<input value="${targetId!}" id="targetId" style="display: none;"> 
-	<input value="${pageAction!}" id="pageAction" style="display: none;">
-	<input value="${fatherNode!}" id="fatherNode" style="display: none;">
-	<input value="${commentAction!}" id="commentAction" style="display: none;">
-	<input value="${followAction!}" id="followAction" style="display: none;">
-	<input value="${ckeditorNode!}" id="ckeditorNode" style="display: none;"> 
+<textarea name="message" id="ckeditor"></textarea>
+<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
+
+<input id="publish" type="button" value="发表" onclick="publishCkeditor(this,'${targetId!}','${idtype!}','${render!}')">
 
