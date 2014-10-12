@@ -2,9 +2,11 @@ package com.domeke.app.solr;
 
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 
+import com.jfinal.kit.PropKit;
+
 public class SolrServerClient {
 
-	private String SOLR_ADMIN_URL = "http://localhost:8888/solr/";
+	private String SOLR_ADMIN_URL;
 	private static HttpSolrServer server = null;
 	private volatile static SolrServerClient solrServiceClient = null;
 
@@ -36,6 +38,7 @@ public class SolrServerClient {
 	 */
 	public HttpSolrServer getServer() {
 		if (server == null) {
+			SOLR_ADMIN_URL = PropKit.getString("solr_admin_url");
 			server = new HttpSolrServer(SOLR_ADMIN_URL);
 			server.setConnectionTimeout(3000);
 			server.setDefaultMaxConnectionsPerHost(100);
