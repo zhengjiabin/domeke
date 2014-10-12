@@ -1,5 +1,4 @@
 <% layout("/shop/slayout.html"){ %>
-<section class="White">
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <link rel="stylesheet" type="text/css" href="css/jqzoom.css" />
 <script type="text/javascript" src="js/jquery.min.js"></script>
@@ -7,9 +6,44 @@
 <script src="js/WebApplication.js" language="javascript" type="text/javascript"></script>
 <script src="js/BizProduct090713.js" language="javascript" type="text/javascript"></script>
 <script src="js/BizCommon090801.js" language="javascript" type="text/javascript"></script>
+<script src="js/jquery.ui.draggable.js" type="text/javascript"></script>
+<script src="js/jquery.alerts.js" type="text/javascript"></script>
+<link href="css/jquery.alerts.css" rel="stylesheet" type="text/css" media="screen" />
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#peas').click(function(){
+		var goodsid = $("#goodsid").val();
+		var goodsattr1 = $("#goodsattr1").val();
+		var dougprice = $("#dougprice").val();
+		var obj ="";
+		var url = "goods/peasChange?dougprice="+dougprice+"&goodsid="+goodsid+"&goodsattr="+goodsattr1;
+		$.showView(obj,url);
+		var ischange = $(this).attr("name");
+		if (ischange=="0"){
+			jAlert('您的豆豆不够兑换哦！', '警告对话框');
+		}
+		console.log("您今天已经签到！"+goodsattr1);
+	});
+});  
+$.extend({
+	showView:function(obj,url){
+		$.ajax({   
+            type:"post",    
+            dataType:"html",
+            url:url, 
+            data:obj,  
+            error:function(){ 
+            	alert("error");
+            	console.info(msg);
+            }   
+        });
+	}
+});
+</script>
+<section class="White">
     <div class="ShopPath">
     <% for(g in goodsTypes!){ %>
-        <a href="#">${g.typename}</a>/
+        <a href="index">${g.typename}</a>/
     <%}%>
     </div>
     <div class="Goods">
@@ -25,14 +59,23 @@
 </div>
 </div>
 </div>
-      <div class="GoodsInfos">
+      <div  class="GoodsInfos">
         	<div class="GName">${goods.goodsname!}</div>
         	<div class="GPrice">原&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：￥${goods.oldprice!}</div><br>
-        	<div class="GPrice">折&nbsp;后&nbsp;价：￥${goods.price!}</div>
+        	<div class="GPrice">折&nbsp;后&nbsp;价：￥${goods.price!}</div><br>
+        	<% if(goods.dougprice!=0) { %>
+        		<div class="GPrice">豆&nbsp;豆&nbsp;价：${goods.dougprice!}</div>
+        	<%}%>
             <div class="GButton font_w">
             	<a href="http://detail.tmall.com/item.htm?spm=a230r.1.14.1.8jNRgD&id=37652444734&ad_id=&am_id=&cm_id=140105335569ed55e27b&pm_id=" class="BuyNow" target="_blank" >去 购 买</a>
-            	<a href="" class="BuyNow" target="_blank" >豆豆兑换</a>
+            	<% if(goods.dougprice!=0) { %>
+            		<a id="peas"  name="${isChange!}" href="javascript:void(0)" class="BuyNow" >豆豆兑换</a>
+                <%}%>
                 <span class="Loves"><img src="images/icon11.png">喜 欢（26）</span>
+                <input id="goodsid" type="hidden" name="goodsid" value="${goods.goodsid!}"/>
+                <input id="goodsattr1" type="hidden" name="goodsattr1" value="${goods.goodsattr1!}"/>
+                <input id="dougprice" type="hidden" name="dougprice" value="${goods.dougprice!}"/>
+                <input id="dougprice" type="hidden" name="dougprice" value="${goods.dougprice!}"/>
           </div>
             <ul class="GProperties">
             	<li>数量：${goods.amount!}</li>
