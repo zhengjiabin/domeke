@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import com.domeke.app.cos.multipart.FilePart;
 import com.domeke.app.model.User;
 import com.domeke.app.utils.VideoKit;
-import com.google.common.collect.Lists;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.PropKit;
 import com.jfinal.upload.UploadFile;
@@ -59,7 +57,8 @@ public class FilesLoadController extends Controller {
 	 *            编码
 	 * @return 如果没有上传文件，则返回的文件路径为null
 	 */
-	protected String upLoadFile(String parameterName, String saveFolderName, Integer maxPostSize, String encoding) {
+	protected String upLoadFileDealPath(String parameterName, String saveFolderName, Integer maxPostSize,
+			String encoding) {
 		initProgress();
 		String tmpDirectoryPath = getDirectory(tempDirectory, saveFolderName);
 		UploadFile uploadFile = getFile(parameterName, tmpDirectoryPath, maxPostSize, encoding);
@@ -80,6 +79,27 @@ public class FilesLoadController extends Controller {
 	}
 
 	/**
+	 * 
+	 * @param parameterName
+	 * @param saveFolderName
+	 * @param maxPostSize
+	 * @param encoding
+	 * @return
+	 */
+	protected String upLoadFileNotDealPath(String parameterName, String saveFolderName, Integer maxPostSize,
+			String encoding) {
+		initProgress();
+		String imgDirectoryPath = getDirectory(imageDirectory, saveFolderName);
+		UploadFile uploadFile = getFile(parameterName, imgDirectoryPath, maxPostSize, encoding);
+		String imgFilePath = "";
+		if (uploadFile != null) {
+			File srcFile = uploadFile.getFile();
+			imgFilePath = srcFile.getAbsolutePath();
+		}
+		return getDomainNameFilePath(imgFilePath);
+	}
+
+	/**
 	 * 一次请求提交上传多个同一字段类型的文件
 	 * 
 	 * @param saveFolderName
@@ -87,23 +107,13 @@ public class FilesLoadController extends Controller {
 	 * @param encoding
 	 * @return
 	 */
-	protected String upLoadFiles(String saveFolderName, Integer maxPostSize, String encoding) {
+	protected String upLoadFilesNotDealPath(String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
-		String tmpDirectoryPath = getDirectory(tempDirectory, saveFolderName);
-		List<UploadFile> uploadFileList = getFiles(tmpDirectoryPath, maxPostSize, encoding);
+		String imgDirectoryPath = getDirectory(imageDirectory, saveFolderName);
+		List<UploadFile> uploadFileList = getFiles(imgDirectoryPath, maxPostSize, encoding);
 		String imgFilePath = "";
 		if (uploadFileList != null && uploadFileList.size() != 0) {
-			for (UploadFile uploadFile : uploadFileList) {
-				File srcFile = uploadFile.getFile();
-				String imgDirectoryPath = getDirectory(imageDirectory, saveFolderName);
-				File imgDirectory = new File(imgDirectoryPath);
-				if (!imgDirectory.exists()) {
-					imgDirectory.mkdirs();
-				}
-				File targetFile = new File(imgDirectoryPath + srcFile.getName());
-				fileCopyByChannel(srcFile, targetFile);
-				imgFilePath = imgDirectoryPath;
-			}
+			imgFilePath = imgDirectoryPath;
 		}
 		return imgFilePath;
 	}

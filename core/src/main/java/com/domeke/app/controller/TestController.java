@@ -9,35 +9,29 @@ import com.jfinal.core.ActionKey;
 
 @ControllerBind(controllerKey = "/test")
 public class TestController extends FilesLoadController {
-	
+
 	private Logger logger = LoggerFactory.getLogger(TestController.class);
-	
-	
-	public void index(){
+
+	public void index() {
 		render("/demo/upload.html");
 	}
-	
-	
+
 	@ActionKey("/upload")
-	public void upoload(){
+	public void upoload() {
 		renderNull();
 	}
-	
-	
-	
-	
+
 	@ActionKey("/saveUpload")
-	public void saveFile(){
+	public void saveFile() {
 		logger.debug("上传文件开始========================");
-		
+
 		String name = getAttr("name");
-		
+
 		String addfile = getAttr("addfile");
-		logger.debug("文件名称1============={}",name);
-		logger.debug("文件名称2============={}",addfile);
+		logger.debug("文件名称1============={}", name);
+		logger.debug("文件名称2============={}", addfile);
 		try {
-			String coverPath = upLoadFile("cover", "", 2000 * 1024 * 1024,
-					"utf-8");
+			String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
 			Works worksModel = getModel(Works.class);
 			worksModel.set("cover", coverPath);
 			worksModel.set("worksname", getAttr("worksname"));
@@ -50,7 +44,7 @@ public class TestController extends FilesLoadController {
 			e.printStackTrace();
 			render("/works/goToManager");
 		}
-		
+
 		logger.debug("上传文件结束========================");
 	}
 

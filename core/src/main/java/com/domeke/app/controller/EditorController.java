@@ -12,7 +12,7 @@ public class EditorController extends FilesLoadController {
 
 	public void uploadImage() {
 		try {
-			String filePath = upLoadFile(parameterName, saveFolderName, maxPostSize, encoding);
+			String filePath = upLoadFileDealPath(parameterName, saveFolderName, maxPostSize, encoding);
 			afterUpload(filePath);
 
 		} catch (RuntimeException e) {

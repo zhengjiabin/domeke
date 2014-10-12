@@ -1,7 +1,6 @@
 package com.domeke.app.controller;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,8 +12,8 @@ import com.domeke.app.model.Goods;
 import com.domeke.app.model.GoodsType;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
-import com.jfinal.aop.Before;
 import com.google.common.collect.Lists;
+import com.jfinal.aop.Before;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -27,7 +26,7 @@ import com.jfinal.plugin.activerecord.Page;
 @ControllerBind(controllerKey = "/goods")
 @Before(LoginInterceptor.class)
 public class GoodsController extends FilesLoadController {
-	
+
 	/**
 	 * to管理界面
 	 */
@@ -35,39 +34,39 @@ public class GoodsController extends FilesLoadController {
 		setGoodsPage(null);
 		render("/admin/admin_goods.html");
 	}
-	
+
 	/**
 	 * 分页查询
 	 */
-	public void setGoodsPage(String goods){
+	public void setGoodsPage(String goods) {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		Page<Goods> goodsList = null;
-		//if ("".equals(menuType) || "0".equals(menuType) || menuType == null){
+		// if ("".equals(menuType) || "0".equals(menuType) || menuType == null){
 		goodsList = Goods.dao.findPage(pageNumber, pageSize);
 		goods = "0";
-		//}else {
-		//goodsList = Goods.dao.findPage(pageNumber, pageSize, menuType);
-		//}
+		// }else {
+		// goodsList = Goods.dao.findPage(pageNumber, pageSize, menuType);
+		// }
 		setAttr("goods", goods);
 		setAttr("goodsList", goodsList);
 	}
-	
-	public void find(){
+
+	public void find() {
 		goToManager();
 	}
-	
+
 	/**
 	 * 新增商品
 	 */
-	public void saveGoods(){
+	public void saveGoods() {
 		try {
 			long timeMillis = System.currentTimeMillis();
 			String fileNmae = Long.toString(timeMillis);
-			String picturePath = upLoadFile("pic", fileNmae + "\\", 200 * 1024 * 1024, "utf-8");
+			String picturePath = upLoadFileNotDealPath("pic", fileNmae + "\\", 200 * 1024 * 1024, "utf-8");
 			String[] strs = picturePath.split("\\\\");
 			int leng = strs.length;
-			String headimg = upLoadFile("headimg", fileNmae + "\\", 200 * 1024 * 1024, "utf-8");
+			String headimg = upLoadFilesNotDealPath(fileNmae + "\\", 200 * 1024 * 1024, "utf-8");
 			Goods goods = getModel(Goods.class);
 			goods.set("pic", strs[leng - 1]);
 			goods.set("headimg", headimg);
@@ -81,34 +80,34 @@ public class GoodsController extends FilesLoadController {
 			render("/admin/admin_addGoods.html");
 		}
 	}
-	
+
 	/**
 	 * 遍历文件夹下的图片
 	 */
 	final static String[] showAllFiles(File dir) {
 		File[] fs = dir.listFiles();
 		String[] files = null;
-		for(int i=0; i<fs.length; i++){
+		for (int i = 0; i < fs.length; i++) {
 			files[i] = fs[i].getAbsolutePath();
-			if(fs[i].isDirectory()){
-				try{
+			if (fs[i].isDirectory()) {
+				try {
 					showAllFiles(fs[i]);
-				}catch(Exception e){
+				} catch (Exception e) {
 					System.out.println(e);
 				}
 			}
 		}
 		return files;
 	}
-	
-	public void addGoods(){
+
+	public void addGoods() {
 		render("/admin/admin_addGoods.html");
 	}
-	
+
 	/**
 	 * 商品详情
 	 */
-	public void goodsMessage(){
+	public void goodsMessage() {
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsId"));
 		setAttr("goods", goods);
@@ -123,80 +122,79 @@ public class GoodsController extends FilesLoadController {
 		goods.deleteById(getParaToInt("goodsId"));
 		goToManager();
 	}
-	
+
 	/**
 	 * 编辑商品
 	 */
-	public void updateGoods(){
+	public void updateGoods() {
 		Goods goods = getModel(Goods.class);
 		goods.updateGoodsInfo();
 		goToManager();
 	}
-	
+
 	/**
 	 * 获取类型为types的叶子商品
 	 * @param params key=字段名，value=参赛值
 	 * @return
 	 */
-	public List<Goods> getGoodsType(Map<String, Object> params){
+	public List<Goods> getGoodsType(Map<String, Object> params) {
 		Set<String> key = params.keySet();
 		Map<String, Object> gtMap = new HashMap<String, Object>();
-		for (Iterator it = key.iterator(); it.hasNext();) {	
+		for (Iterator it = key.iterator(); it.hasNext();) {
 			String k = (String) it.next();
 			gtMap.put(k, GoodsType.gtDao.getGoodsType(params.get(k).toString()));
 		}
 		Goods goods = getModel(Goods.class);
 		List<Goods> goodsList = goods.goodsType(gtMap);
-		return goodsList;		
+		return goodsList;
 	}
-	
-	
-	
+
 	public void shop() {
 		String goodstype = getPara("goodstype");
 		Integer pageNumber = getParaToInt("pageNumber");
 		Integer pageSize = getParaToInt("pageSize");
-		if(pageNumber == null){
+		if (pageNumber == null) {
 			pageNumber = 1;
 		}
-		if(pageSize == null){
+		if (pageSize == null) {
 			pageSize = 25;
 		}
-		
-		//获取类型集合
+
+		// 获取类型集合
 		List<GoodsType> goodsTypeStack = Lists.newArrayList();
 		List<GoodsType> goodsTypeList = Lists.newArrayList();
 		GoodsType goodsTypeModel = getModel(GoodsType.class);
-		if(!StrKit.isBlank(goodstype)){
+		if (!StrKit.isBlank(goodstype)) {
 			goodsTypeModel = getModel(GoodsType.class).getGoodsTypeById(Integer.parseInt(goodstype));
 		}
-		if(goodsTypeModel.get("goodstypeid") != null){
+		if (goodsTypeModel.get("goodstypeid") != null) {
 			goodsTypeStack.add(goodsTypeModel);
 			String goodstypeid = String.valueOf(goodsTypeModel.get("parenttypeid"));
-			while(!StrKit.isBlank(goodstypeid)){
+			while (!StrKit.isBlank(goodstypeid)) {
 				GoodsType goodsType = getModel(GoodsType.class).getGoodsTypeById(Integer.parseInt(goodstypeid));
 				goodsTypeStack.add(goodsType);
 				goodstypeid = String.valueOf(goodsType.get("parenttypeid"));
 			}
 		}
-		if(!goodsTypeStack.isEmpty()){
+		if (!goodsTypeStack.isEmpty()) {
 			goodsTypeModel = goodsTypeStack.get(goodsTypeStack.size() - 1);
 			goodsTypeList = goodsTypeModel.getGoodsTypeByParId(String.valueOf(goodsTypeModel.get("goodstypeid")));
-		}else {
+		} else {
 			goodsTypeList = goodsTypeModel.getGoodsTypeByParId("");
 		}
-		
-		//按类型获取商品分类
+
+		// 按类型获取商品分类
 		Page<Goods> goodss = getModel(Goods.class).getGoodsPageByType(goodstype, pageNumber, pageSize);
 		List<Map<String, Object>> datas = goodsParse(goodss.getList());
-		Page<List<Map<String, Object>>> pageMap = new Page(datas, goodss.getPageNumber(), goodss.getPageSize(), goodss.getTotalPage(), goodss.getTotalRow());
-		setAttr("goodsTypeStack",goodsTypeStack);
-		setAttr("goodsTypeList",goodsTypeList);
-		setAttr("goodstype",goodstype);
-		setAttr("goodss",pageMap);
+		Page<List<Map<String, Object>>> pageMap = new Page(datas, goodss.getPageNumber(), goodss.getPageSize(),
+				goodss.getTotalPage(), goodss.getTotalRow());
+		setAttr("goodsTypeStack", goodsTypeStack);
+		setAttr("goodsTypeList", goodsTypeList);
+		setAttr("goodstype", goodstype);
+		setAttr("goodss", pageMap);
 		render("/shop.html");
 	}
-	
+
 	/**
 	 * 跳转商品管理界面
 	 */
@@ -223,8 +221,7 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public void save() {
 		try {
-			String picturePath = upLoadFile("pictrue", "", 200 * 1024 * 1024,
-					"utf-8");
+			String picturePath = upLoadFileNotDealPath("pictrue", "", 200 * 1024 * 1024, "utf-8");
 			Goods goodsModel = getModel(Goods.class);
 			goodsModel.set("pic", picturePath);
 			// 可改为获取当前用户的名字或者ID
@@ -242,8 +239,7 @@ public class GoodsController extends FilesLoadController {
 	 * 更新已修的商品
 	 */
 	public void update() {
-		String picturePath = upLoadFile("pictrue", "", 200 * 1024 * 1024,
-				"utf-8");
+		String picturePath = upLoadFileNotDealPath("pictrue", "", 200 * 1024 * 1024, "utf-8");
 		Goods goodsModel = getModel(Goods.class);
 		if (picturePath != null) {
 			goodsModel.set("pic", picturePath);
@@ -304,85 +300,89 @@ public class GoodsController extends FilesLoadController {
 		List<Goods> goodsList = goodsModel.getGoodsInfoByName(goodsName);
 		this.setAttr("goodslist", goodsList);
 	}
+
 	/**
 	 * 商品明细
 	 */
-	public void getGoodsDetail(){
+	public void getGoodsDetail() {
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
 		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
-		List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
+		List<GoodsType> goodsTypes = GoodsType.gtDao.getTypeUrl(goodsattr);
 		setAttr("goodsTypes", goodsTypes);
 		setAttr("goods", goods);
-		Map<String,Object> changeMap = getPeas();
-		String isChange = (String)changeMap.get("isChange");	
+		Map<String, Object> changeMap = getPeas();
+		String isChange = (String) changeMap.get("isChange");
 		setAttr("isChange", isChange);
 		setAttr("userId", changeMap.get("userId"));
 		render("/ShopDtl.html");
 	}
+
 	/**
 	 * 
 	 */
-	public void backGoodsType(){
+	public void backGoodsType() {
 		int goodstypeid = getParaToInt("goodstypeid");
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("goodsattr1", goodstypeid);
 		List<Goods> goodsList = getGoodsType(map);
-		
+
 	}
+
 	/**
 	 * 豆豆兑换
 	 */
-	public void peasChange(){
-		Map<String,Object> changeMap = getPeas();
-		String isChange = (String)changeMap.get("isChange");
-		int dougprice = (int)changeMap.get("dougprice");
+	public void peasChange() {
+		Map<String, Object> changeMap = getPeas();
+		String isChange = (String) changeMap.get("isChange");
+		int dougprice = (int) changeMap.get("dougprice");
 		User user = getSessionAttr("user");
 		Long userId = user.get("userid");
 		user = user.findById(userId);
-		//豆子
-		Long peas = (Long)changeMap.get("peas");
-		if (dougprice <= peas){
+		// 豆子
+		Long peas = (Long) changeMap.get("peas");
+		if (dougprice <= peas) {
 			isChange = "1";
 		}
-		if (isChange == "1" || "1".equals(isChange)){
+		if (isChange == "1" || "1".equals(isChange)) {
 			peas = peas - dougprice;
 			User.dao.updatePeas(userId, peas);
 		}
 	}
+
 	/**
 	 * 获得豆豆
 	 */
-	public Map<String,Object> getPeas(){
+	public Map<String, Object> getPeas() {
 		int dougprice = getParaToInt("dougprice");
 		User user = getSessionAttr("user");
 		Long userId = user.get("userid");
 		user = user.findById(userId);
 		String isChange = "0";
-		//豆子
+		// 豆子
 		Long peas = user.get("peas");
-		if (dougprice <= peas){
+		if (dougprice <= peas) {
 			isChange = "1";
 		}
-		Map<String,Object> changeMap = new HashMap<String, Object>();
+		Map<String, Object> changeMap = new HashMap<String, Object>();
 		changeMap.put("isChange", isChange);
 		changeMap.put("dougprice", dougprice);
 		changeMap.put("peas", peas);
 		changeMap.put("userId", userId);
 		return changeMap;
 	}
-	
-	private List<Map<String, Object>> goodsParse(List<Goods> goodss){
+
+	private List<Map<String, Object>> goodsParse(List<Goods> goodss) {
 		List<Map<String, Object>> resultMap = Lists.newArrayList();
 		try {
 			for (Goods goods : goodss) {
-				if(goods == null)
+				if (goods == null)
 					continue;
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("goodsid", goods.get("goodsid"));
 				String goodsname = goods.get("goodsname");
-				if(goodsname.length() >= 12){
-					goodsname = goodsname.substring(0,12);
+				if (goodsname.length() >= 12) {
+					goodsname = goodsname.substring(0, 12);
 				}
 				map.put("goods", goods.get("goods"));
 				map.put("goodsname", goodsname);
@@ -393,7 +393,7 @@ public class GoodsController extends FilesLoadController {
 				map.put("goodsattr1", goods.get("goodsattr1"));
 				map.put("dougprice", goods.get("dougprice"));
 				String message = goods.get("message");
-				if(message.length() > 50){
+				if (message.length() > 50) {
 					message = message.substring(0, 50) + "...";
 				}
 				map.put("message", message);
