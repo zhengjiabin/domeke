@@ -127,5 +127,4 @@ public class User extends Model<User> {
 		Db.update(sql);
 	}
 	
-	
 }
