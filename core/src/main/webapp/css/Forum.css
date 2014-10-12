@@ -97,13 +97,12 @@ nav li{
 .AL,.AR{
 	display: inline-block;
 	width: 122px;
-	border-right: 1px #ededed solid;
 	border-bottom: 1px #ededed solid;
 	text-align: center;
 	padding: 8px 0px;
 }
-.AR{
-	border-right: 1px #fff solid;
+.AL{
+	border-right: 1px #ededed solid;
 }
 .SeeMore{
 	text-align: center;
