@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import com.domeke.app.cos.multipart.FilePart;
 import com.domeke.app.model.User;
 import com.domeke.app.utils.VideoKit;
+import com.google.common.collect.Lists;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.PropKit;
 import com.jfinal.upload.UploadFile;
@@ -85,11 +87,12 @@ public class FilesLoadController extends Controller {
 	 * @param encoding
 	 * @return
 	 */
-	protected String upLoadFiles(String saveFolderName, Integer maxPostSize, String encoding) {
+	protected List<String> upLoadFiles(String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
 		tempDirectory = getDirectory(tempDirectory, saveFolderName);
 		List<UploadFile> uploadFileList = getFiles(tempDirectory, maxPostSize, encoding);
 		String imgFilePath = "";
+		ArrayList<String> domainFilePath = Lists.newArrayList();
 		if (uploadFileList != null && uploadFileList.size() != 0) {
 			for (UploadFile uploadFile : uploadFileList) {
 				File srcFile = uploadFile.getFile();
@@ -102,9 +105,11 @@ public class FilesLoadController extends Controller {
 				fileCopyByChannel(srcFile, targetFile);
 				// 获取文件的绝对路径
 				imgFilePath = imgDirectory.getAbsolutePath();
+				domainFilePath.add(getDomainNameFilePath(imgFilePath));
 			}
 		}
-		return getDomainNameFilePath(imgFilePath);
+
+		return domainFilePath;
 	}
 
 	/**
