@@ -1,0 +1,103 @@
+ <section>
+	<article>
+        <section class="CartonDtl">
+ 
+ <div class="ArgumentZoom">
+            	<div class="LevelTitle">资料修改：</div>
+                <div class="ArgumentSub">
+          <form action="personal/upUser" id="user_regist" class="form-horizontal" method="post">
+    		<table border="0" cellspacing="0" cellpadding="0" class="Table_reg" >
+	     		<input name="user.userid" type="hidden" value="${user.userid!}">
+	     		<input name="user.username" type="hidden" value="${user.username!}">
+	     		<input name="user.password" type="hidden" value="${user.password!}">
+	     		<tr>
+	     			<td style="text-align: right;color: red;">${msg!}</td>
+	     		</tr>
+	     		<tr>
+	        		<th>真实姓名：</th>
+	        		<td><input name="user.realname" value="${user.realname!}" type="text" class="InputUid">
+	        		<div>
+		        		<a style="color:#F00">${realname!}</a>
+		    		</div>
+	        		</td>
+	      		</tr>
+	      		<tr>
+	        		<th>昵称：</th>
+	        		<td><input name="user.nickname" value="${user.nickname!}" type="text" class="InputUid">
+	        		<div>
+		        		<a style="color:#F00">${nickname!}</a>
+		    		</div>
+	        		</td>
+	      		</tr>
+	      		<tr>
+	        		<th>性别：${user.sex!}</th>
+	        		<td>
+	        		 <select name="user.sex" value="${user.sex!}">   
+				        <option value="0">男</option>   
+				        <option value="1">女</option>   
+      				</select>   
+	        		<div>
+		        		<a style="color:#F00">${sex!}</a>
+		    		</div>
+	        		</td>
+	      		</tr>
+	      		<tr>
+	        		<th>年龄：</th>
+	        		<td><input name="user.age" value="${user.age!}" type="text" class="InputUid">
+	        		<div>
+		        		<a style="color:#F00">${age!}</a>
+		    		</div>
+	        		</td>
+	      		</tr>
+	      		<tr>
+	        		<th>QQ：</th>
+	        		<td><input name="user.QQ" value="${user.QQ!}" type="text" class="InputUid">
+	        		<div>
+		        		<a style="color:#F00">${QQ!}</a>
+		    		</div>
+	        		</td>
+	      		</tr>
+	     		
+	      		<tr>
+	        		<th>邮箱：</th>
+	        		<td><input name="user.email" value="${user.email!}" type="text" class="InputUid">
+	        		<div>
+		        		<a style="color:#F00">${email!}</a>
+		    		</div>
+	        		</td>
+	      		</tr>
+	      		<tr>
+	        		<th>住址：</th>
+	        		<td><input name="user.address" value="${user.address!}" type="text" class="InputUid">
+	        		<div>
+		        		<a style="color:#F00">${address!}</a>
+		    		</div>
+	        		</td>
+	      		</tr>
+	      		<tr>
+	        		<th>电话：</th>
+	        		<td><input name="user.mobile" value="${user.mobile!}" type="text" class="InputUid">
+	        		<div>
+		        		<a style="color:#F00">${mobile!}</a>
+		    		</div>
+	        		</td>
+	      		</tr>
+	      		<tr>
+	        		<td>
+	        		<div>
+		        		<a style="color:#F00">${nullMsg!}</a>
+		    		</div>
+	        		</td>
+	      		</tr>
+	      		<tr>
+	        		<th>&nbsp;</th>
+	        		<td><input  type="submit" class="BtReg" value="保存修改"></td>
+	     		 </tr>
+     		</table>
+  		</form>
+                </div>
+               
+    </div>
+ </section>
+ </article>
+ </section>
