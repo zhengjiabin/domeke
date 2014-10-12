@@ -6,6 +6,5 @@ import com.jfinal.core.Controller;
 @ControllerBind(controllerKey="down")
 public class DownLoadController extends Controller{
 	public void getMyDownLoad(){
-		
 	}
 }
