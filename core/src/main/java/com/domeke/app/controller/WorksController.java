@@ -706,4 +706,7 @@ public class WorksController extends FilesLoadController {
 		setAttr("work", work);
 		render("/works/editWork.htm");
 	}
+	
+	public void showType(){
+	}
 }

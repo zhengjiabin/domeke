@@ -161,6 +161,7 @@ public class FilesLoadController extends Controller {
 	 * @return 域名中的路径
 	 */
 	private String getDomainNameFilePath(String filePath) {
+		filePath = filePath.replaceAll("\\\\", "/");
 		String basePath = PropKit.getString("base_path");
 		StringBuffer domainNameFilePath = new StringBuffer(domainName);
 		String lastFilePath = filePath.substring(filePath.indexOf(basePath) + basePath.length(), filePath.length());
