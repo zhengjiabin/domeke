@@ -87,7 +87,7 @@ public class FilesLoadController extends Controller {
 	 * @param encoding
 	 * @return
 	 */
-	protected List<String> upLoadFiles(String saveFolderName, Integer maxPostSize, String encoding) {
+	protected List<UploadFile> upLoadFiles(String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
 		tempDirectory = getDirectory(tempDirectory, saveFolderName);
 		List<UploadFile> uploadFileList = getFiles(tempDirectory, maxPostSize, encoding);
@@ -105,11 +105,11 @@ public class FilesLoadController extends Controller {
 				fileCopyByChannel(srcFile, targetFile);
 				// 获取文件的绝对路径
 				imgFilePath = imgDirectory.getAbsolutePath();
-				domainFilePath.add(getDomainNameFilePath(imgFilePath));
+				uploadFile.setDomainFullPath(getDomainNameFilePath(imgFilePath));
 			}
 		}
 
-		return domainFilePath;
+		return uploadFileList;
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class FilesLoadController extends Controller {
 	 * @return 域名中的路径
 	 */
 	private String getDomainNameFilePath(String filePath) {
-		String basePath = "/data/upload";
+		String basePath = PropKit.getString("base_path");
 		StringBuffer domainNameFilePath = new StringBuffer(domainName);
 		String lastFilePath = filePath.substring(filePath.indexOf(basePath) + basePath.length(), filePath.length());
 		domainNameFilePath.append(lastFilePath);
