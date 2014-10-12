@@ -1,0 +1,33 @@
+<% for (follow in followPage){
+	if(follow.pid!=comment.commentid){continue;}%>
+<div class="ArgumentSub">
+      	<div class="MemberHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
+        <div class="ArgumentInfo">
+        	<div class="MemberNick font_b">${follow.username!}</div>
+       	 	<div class="ArgumentContent">
+       	 		<% if(!isEmpty(follow.tousername)) { %>
+       	 			回复  ${follow.tousername!} ：
+       	 		<% } %>
+       	 		${follow.message!}
+       	 	
+       	 	</div>
+            <div class="ArgumentTime font_b">
+            	<a href="#">有用</a><a href="javascript:java(0);" onclick="showPublishHtml(this)">回复</a>
+            	<div id="publishHtml" >
+					<%
+						layout(
+						"/common/publishFace.html",
+						{
+							"targetId":targetId,
+							"idtype":idtype,
+							"pId":comment.commentid,
+							"toUserId":follow.userid,
+							"render":"/comment/cartoonFollowPage.html"
+						}
+						){}
+					%>
+				</div>
+            </div> 
+        </div>
+</div> 
+<% } %>
