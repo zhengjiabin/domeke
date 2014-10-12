@@ -27,7 +27,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import com.domeke.app.cos.multipart.DefaultFileRenamePolicy;
+import com.domeke.app.cos.multipart.FileRenamePolicy;
+import com.domeke.app.cos.multipart.FileRenamePolicyByTime;
 
 /**
  * MultipartRequest.
@@ -39,7 +40,8 @@ public class MultipartRequest extends HttpServletRequestWrapper {
 	private static int maxPostSize;
 	private static String encoding;
 	private static boolean isMultipartSupported = false;
-	private static final DefaultFileRenamePolicy fileRenamePolicy = new DefaultFileRenamePolicy();
+	// chenhailin add modify
+	private static final FileRenamePolicy fileRenamePolicy = new FileRenamePolicyByTime();
 	
 	private List<UploadFile> uploadFiles;
 	private com.domeke.app.cos.MultipartRequest multipartRequest;

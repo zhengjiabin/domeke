@@ -3,6 +3,7 @@ package com.domeke.app.controller;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -34,10 +35,7 @@ public class VentWallController extends Controller {
 	 * 新增留言记录
 	 */
 	public void save(){
-		VentWall ventWall = getModel(VentWall.class);
-		String msg = ventWall.getStr("moodid");
-		msg = getImg(msg);
-		ventWall.set("moodid", msg);	
+		VentWall ventWall = getModel(VentWall.class);	
 		ventWall.set("creater", 1);
 		Long userId = getUser();
 		ventWall.set("userid", userId);
@@ -45,21 +43,6 @@ public class VentWallController extends Controller {
 		select();
 		render("/VentWallDtl.html");
 	}
-	/**
-	 * 正则表达式转换表情
-	 * @param msg
-	 * @return 已转换格式
-	 */
-	private String getImg(String msg) {
-		Pattern p=Pattern.compile("\\[em_(\\d+)\\]");
-		Matcher matcher=p.matcher(msg);
-		while(matcher.find()){
-			String imgNo=matcher.group(1);
-			msg = msg.replace("[em_"+imgNo+"]",imgNo +".jpg");
-		}
-		return msg;
-	}
-	
 	public void index() {			
 		int menuid = getParaToInt("menuid");
 		setAttr("menuid", menuid);	
@@ -163,7 +146,14 @@ public class VentWallController extends Controller {
 	private void selectUtil() {
 		VentWall.venWdao.removeCache();		
 		List<VentWall> ventWallList = VentWall.venWdao.getVentWall();
+		List<User> userList = new ArrayList<User>();
+		User user = getModel(User.class);
+		for (VentWall vent : ventWallList){
+			user = user.findById(vent.get("userid"));
+			userList.add(user);
+		}
 		setAttr("ventWallList", ventWallList);
+		setAttr("userList", userList);
 	}
 	/**
 	 * 分页查询签到墙

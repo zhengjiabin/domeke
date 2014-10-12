@@ -1,12 +1,10 @@
 $(function(){
-    $(document).ready(function(){
         $("button[lable='修改']").click(function(){
           var $self = $(this);
           var $parent = $self.parent();
           $parent = $parent.parent();
           var keyname =$('td input',$parent).val();
           var keyid = $(this).attr("name");
-          console.log(keyname+"Gogo"+keyid);
           var obj = {"searchKey.keyid":keyid,"searchKey.keyname":keyname};
           var url = "searchkey/updateById/"+keyid;
           $.showView(obj,url); 
@@ -16,19 +14,16 @@ $(function(){
           var $parent = $self.parent();
           $parent = $parent.parent();
           var keyid = $(this).attr("name");
-          console.log(keyid);
           var obj = {"searchKey.keyid":keyid};
           var url = "searchkey/delete/"+keyid;
           $.showView(obj,url); 
       });
         $("button[lable='新增']").click(function(){
         	var keyname = $('#keyname1').val();
-            console.log(keyname);
             var obj = {"searchKey.keyname":keyname};
             var url = "searchkey/save";
             $.showView(obj,url); 
-        });
-    });       
+        });      
           $.extend({
            	showView:function(obj,url){
         	$.ajax({   

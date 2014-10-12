@@ -1,8 +1,6 @@
 package com.domeke.app.controller;
 
-import com.domeke.app.model.Goods;
 import com.domeke.app.model.GoodsType;
-import com.domeke.app.model.Menu;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
@@ -83,7 +81,7 @@ public class GoodsTypeController extends Controller {
 	/**
 	 * 删除类型
 	 */
-	public void deleteGoodsTypeById() {
+	public void deleteGoodsType() {
 		int goodsTypeId = getParaToInt("goodsTypeId");
 		GoodsType.gtDao.deleteGoodsType(goodsTypeId);
 		goToManager();

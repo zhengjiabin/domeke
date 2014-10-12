@@ -1,10 +1,12 @@
 package com.domeke.app.controller;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
 import com.domeke.app.model.ActivityApply;
+import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
+import com.domeke.app.utils.CodeKit;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -16,7 +18,19 @@ public class ActivityApplyController extends Controller {
 	 */
 	public void skipCreate() {
 		keepPara();
+		setCodeTableList("gender", "genderList");
+		setCodeTableList("papers", "papersList");
 		render("/community/createActivityApply.html");
+	}
+	
+	/**
+	 * 设置码表
+	 * @param key
+	 * @param renderName
+	 */
+	private void setCodeTableList(String key,String renderName){
+		List<CodeTable> list = CodeKit.getList(key);
+		setAttr(renderName, list);
 	}
 
 	/**
@@ -68,16 +82,8 @@ public class ActivityApplyController extends Controller {
 	 * @return user
 	 */
 	private User getUser() {
-		HttpSession session = getSession();
-		Object user = session.getAttribute("user");
-		if (user instanceof User) {
-			return (User) user;
-		}
-		User test = new User();
-		test.set("userid", 1);
-		test.set("username", "zheng");
-		session.setAttribute("user", test);
-		return test;
+		User user = getSessionAttr("user");
+		return user;
 	}
 
 }

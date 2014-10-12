@@ -1,73 +1,61 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>宝贝信息</title>
-<base href="${core}/" />
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- Bootstrap -->
-<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
-	media="screen">
-<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
-	media="screen">
-<link href="assets/styles.css" rel="stylesheet" media="screen">
-<script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-
-</head>
-<body>
-	<form class="form-signin" action="treasure/modify" method="post">
-		<h1>
-			<a href="./treasure/find">宝贝信息 </a>
-		</h1>
-
-		<div class="control-group" hidden="block">
-			<label class="control-label">宝贝ID<span class="required">*</span></label>
-			<div class="controls">
-				<input type="hidden" name="treasure.treasureid"
-					value="${treasure.treasureid!}" class="span6 m-wrap" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">标题<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="treasure.subject"
-					value="${treasure.subject!}" class="span6 m-wrap" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">发布时间<span class="required">*</span></label>
-			<div class="controls">
-				<input type="datetime" name="treasure.dateline"
-					value="${treasure.dateline!}" class="span6 m-wrap" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">内容<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="treasure.message"
-					value="${treasure.message!}" class="span6 m-wrap" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">是否匿名<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="treasure.anonymous"
-					value="${treasure.anonymous!}" class="span6 m-wrap" />
-			</div>
-		</div>
-
-		<div class="control-group">
-			<label class="control-label">是否启用签名<span class="required">*</span></label>
-			<div class="controls">
-				<input type="text" name="treasure.usesig"
-					value="${treasure.usesig!}" class="span6 m-wrap" />
-			</div>
-		</div>
-
-	</form>
-</body>
-</html>
+		<div class="ForumPath">
+        	<a href="javascript:void(0)" onclick="goToHomeForum('${communityFat.actionkey!}')">${communityFat.title}</a>
+        	/<a href="javascript:void(0)" onclick="goToOrderForum(this,${communitySon.communityid!})">${communitySon.title}</a>
+    	</div>
+		<div class="ForumTheme">
+        	<div class="ListPic"><img src="/http://www.dongmark.com/images/qq4.jpg"></div>
+                <div class="ListDtl">
+                	<div class="ListName"><a href="#">${treasure.subject!}</a></div>
+                     <div class="font_9">
+                    	<span><a href="#">楼主：${treasure.treasureid!}</a></span>
+                        <span>发表时间：${treasure.dateline!}</span>
+                        <% if(treasure.top == 0){ %>
+                        	<span><a href="javascript:void(0)" onclick="setTop(this,${treasure.treasureid!})">置顶</a></span>
+                        <% } %>
+                        <% if(treasure.essence == 0){ %>
+                        	<span><a href="javascript:void(0)" onclick="setEssence(this,${treasure.treasureid!})">精华</a></span>
+                        <% } %>	
+                    </div>
+                </div>
+        </div>
+		<div class="clear"></div> 
+	<div id="replyComments">
+		<div class="ForumBody">
+            <div class="FBodyContent">${treasure.message!}</div>
+            <div class="FBodyBottom font_9">
+            	<span class="FL"><a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a></span>
+            </div>
+            <div class="clear"></div>
+      </div>
+      <div class="ForumInfoA"></div>
+      <div id="commentHtml"><% if(commentPage != null && treasure.treasureid != null){ 
+					layout(
+					"/comment/comment.html",
+					{
+					"commentPage":commentPage,
+					"targetId":treasure.treasureid,
+					"commentAction":"./treasure/replyComment?treasureId="+treasure.treasureid,
+					"followAction":"./treasure/replyFollow?treasureId="+treasure.treasureid,
+					"pageAction":"./treasure/findCommentByTreasureId?targetId="+treasure.treasureid+"&treasureId="+treasure.treasureid,
+					"fatherNode":"#commentHtml"
+					}
+					){}
+				}%>
+	</div>
+   <div class="PiecesText" id="commentForm">
+   <% if(treasure.treasureid != null){ 
+					layout(
+					"/common/ckeditor.html",
+					{
+					"targetId":treasure.treasureid,
+					"ckeditorAction":"./treasure/replyComment?treasureId="+treasure.treasureid,
+					"ckeditorNode":"#replyComments",
+					"commentAction":"./treasure/replyComment?treasureId="+treasure.treasureid,
+					"followAction":"./treasure/replyFollow?treasureId="+treasure.treasureid,
+					"pageAction":"./treasure/findCommentByTreasureId?targetId="+treasure.treasureid+"&treasureId="+treasure.treasureid,
+					"fatherNode":"#commentHtml"
+					}
+					){}
+				}%>
+	</div>
+</div>		

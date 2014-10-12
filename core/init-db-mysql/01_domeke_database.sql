@@ -26,7 +26,7 @@ CREATE TABLE `work` (
   `workname` varchar(20) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '名称',
   `workdes` varchar(255) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '简介',
   `comic` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '资源地址',
-  `isdisable` tinyint(1) DEFAULT '0' COMMENT '是否禁用 0否1禁',
+  `isdisable` tinyint(3) DEFAULT '0' COMMENT '是否禁用 0否1禁',
   `createtime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `creater` bigint(20) NOT NULL,
   `modifytime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
@@ -43,6 +43,8 @@ CREATE TABLE `works` (
   `worksname` varchar(255) NOT NULL,
   `workstype` varchar(32) DEFAULT '10',
   `creativeprocess` varchar(32) DEFAULT '10',
+  `type` tinyint(2) DEFAULT '0' COMMENT '0专辑,1视频',
+  `ischeck` tinyint(2) DEFAULT '0' COMMENT '是否审核过 0未审核,1审核通过',
   `cover` varchar(255) NOT NULL,
   `leadingrole` varchar(255) NOT NULL,
   `describle` varchar(1024) DEFAULT NULL,
@@ -105,11 +107,11 @@ CREATE TABLE `user_action` (
 -- ----------------------------
 DROP TABLE IF EXISTS `community`;
 CREATE TABLE `community` (
-  `communityid` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `communityid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title`  varchar(64) NOT NULL,
   `content`  varchar(255) DEFAULT NULL,
   `actionkey`  varchar(255) DEFAULT NULL,
-  `pid` mediumint(8) DEFAULT '0',
+  `pid` bigint(20) DEFAULT '0',
   `level` int(11) NOT NULL DEFAULT '1',
   `position` int(11) DEFAULT '0',
   `times` bigint(20) DEFAULT '0',
@@ -304,7 +306,7 @@ CREATE TABLE `favourite` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for goods
+-- Table structure for `goods`
 -- ----------------------------
 DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods` (
@@ -312,7 +314,8 @@ CREATE TABLE `goods` (
   `goods` varchar(50) NOT NULL,
   `goodsname` varchar(255) NOT NULL,
   `price` float(7,2) unsigned NOT NULL COMMENT '现价',
-  `oldprice` float(7,2) COMMENT '原价',
+  `dougprice` bigint(20)  DEFAULT '0',
+  `oldprice` float(7,2) DEFAULT NULL COMMENT '原价',
   `amount` int(10) unsigned NOT NULL DEFAULT '0',
   `pic` varchar(255) NOT NULL,
   `message` varchar(255) NOT NULL,
@@ -326,8 +329,14 @@ CREATE TABLE `goods` (
   `creater` bigint(20) NOT NULL,
   `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modifier` bigint(20) NOT NULL,
-  PRIMARY KEY (`goodsid`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  `goodsattr1` int(4) DEFAULT NULL,
+  `goodsattr2` int(4) DEFAULT NULL,
+  `goodsattr3` int(4) DEFAULT NULL,
+  `goodsattr4` int(4) DEFAULT NULL,
+  `goodsattr5` int(4) DEFAULT NULL,
+  PRIMARY KEY (`goodsid`,`dougprice`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
 -- ----------------------------
 -- Table structure for message_queue
 -- ----------------------------
@@ -412,21 +421,6 @@ CREATE TABLE `post` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for post_approve
--- ----------------------------
-DROP TABLE IF EXISTS `post_approve`;
-CREATE TABLE `post_approve` (
-  `postapproveid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `postid` bigint(20) unsigned NOT NULL DEFAULT '0',
-  `status` tinyint(3) NOT NULL DEFAULT '0',
-  `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` bigint(20) DEFAULT NULL,
-  `modifier` bigint(20) DEFAULT NULL,
-  `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`postapproveid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for role
 -- ----------------------------
 DROP TABLE IF EXISTS `role`;
@@ -445,42 +439,22 @@ CREATE TABLE `role` (
 -- ----------------------------
 DROP TABLE IF EXISTS `treasure`;
 CREATE TABLE `treasure` (
-  `treasureid` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `author` varchar(15) NOT NULL,
-  `authorid` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `treasureid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `subject` varchar(80) NOT NULL,
-  `dateline` int(10) unsigned NOT NULL DEFAULT '0',
+  `userid` bigint(20) NOT NULL DEFAULT '0',
+  `dateline` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `message` text NOT NULL,
-  `useip` varchar(15) NOT NULL,
-  `invisible` tinyint(1) NOT NULL DEFAULT '0',
-  `anonymous` tinyint(1) NOT NULL DEFAULT '0',
-  `usesig` tinyint(1) NOT NULL DEFAULT '0',
-  `attachment` tinyint(1) NOT NULL DEFAULT '0',
-  `rate` smallint(6) NOT NULL DEFAULT '0',
-  `ratetimes` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `status` int(10) NOT NULL DEFAULT '0',
-  `comment` tinyint(1) NOT NULL DEFAULT '0',
-  `replycredit` int(10) NOT NULL DEFAULT '0',
-  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`treasureid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for treasure_approve
--- ----------------------------
-DROP TABLE IF EXISTS `treasure_approve`;
-CREATE TABLE `treasure_approve` (
-  `treasureapproveid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `treasureid` bigint(20) unsigned NOT NULL,
-  `status` tinyint(3) NOT NULL DEFAULT '0',
+  `userip` varchar(15) NOT NULL,
+  `times` bigint(20) DEFAULT '0',
+  `top` tinyint(1) NOT NULL DEFAULT '0',
+  `essence` tinyint(1) NOT NULL DEFAULT '0',
+  `status` varchar(4) NOT NULL DEFAULT '10',
+  `communityid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) DEFAULT NULL,
   `modifier` bigint(20) DEFAULT NULL,
   `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`treasureapproveid`)
+  PRIMARY KEY (`treasureid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -503,8 +477,8 @@ CREATE TABLE `user` (
   `modifier` varchar(64) DEFAULT NULL,
   `modify_time` timestamp NULL DEFAULT NULL,
   `activation` varchar(2) DEFAULT 'N',
-  `peas` bigint(20) DEFAULT NULL,
-  `point` bigint(20) DEFAULT NULL,
+  `peas` bigint(20) DEFAULT '0',
+  `point` bigint(20) DEFAULT '0',
   `imgurl` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`userid`),
   UNIQUE KEY `username_idx` (`username`),
@@ -591,10 +565,10 @@ CREATE TABLE `search_key` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for `goodstype`
+-- Table structure for `goods_type`
 -- ----------------------------
-DROP TABLE IF EXISTS `goodstype`;
-CREATE TABLE `goodstype` (
+DROP TABLE IF EXISTS `goods_type`;
+CREATE TABLE `goods_type` (
   `goodstypeid` bigint(11) NOT NULL AUTO_INCREMENT,
   `typename` varchar(64) NOT NULL,
   `actionkey` varchar(64) NOT NULL,
@@ -603,4 +577,4 @@ CREATE TABLE `goodstype` (
   `parenttypeid` int(11) DEFAULT NULL,
   `goodstype` int(2) NOT NULL,
   PRIMARY KEY (`goodstypeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;

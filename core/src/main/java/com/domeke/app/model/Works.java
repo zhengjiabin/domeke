@@ -117,6 +117,25 @@ public class Works extends Model<Works> {
 		}
 		return workslist;
 	}
+	/**
+	 * 分页
+	 * @param worksType 动漫类型
+	 * @param pageNum 第几页
+	 * @param pageSize 一页多少记录
+	 * @return 
+	 */
+	public Page<Works> getWorksInfoPage(String worksType, String type, Integer pageNum, Integer pageSize) {
+		Page<Works> workslist = null;
+		String form = "from works where 1=1";
+		if (!StrKit.isBlank(worksType)) {
+			form = form + " and workstype = "+worksType;
+		}
+		if (!StrKit.isBlank(type)) {
+			form = form + " and type = "+type;
+		}
+		workslist = this.paginate(pageNum, pageSize, "select *", form);
+		return workslist;
+	}
 	
 	/**
 	 * 按点击排名

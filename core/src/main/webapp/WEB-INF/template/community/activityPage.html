@@ -2,7 +2,7 @@
         	<span>今日发帖数:${todayCount!}</span>
             <span>昨日发帖数:${yesCount!}</span>
             <span>总帖数:${count!}</span>
-            <span>会员总数:32454</span>
+            <span>您发帖数:${userCount!}</span>
         </div>
         <div class="ArticleTitle"><img src="http://www.dongmark.com/images/FIcon03.png" >HIGH豆官方社区</div>
         <div class="ArticleContent">
@@ -23,7 +23,15 @@
        	  <div class="ForumList" id="moduleHtml">
             	<div class="ListPic"><img src="${activity.imgurl!}"></div>
                 <div class="ListDtl">
-                	<div class="${class!}"><a href="javascript:void(0)" onclick="findById(this,'${activity.activityid!}')">${activity.subject!}</a></div>
+                	<div class="${class!}">
+                		<a href="javascript:void(0)" onclick="findById(this,'${activity.activityid!}','${activity.communityid!}')">${activity.subject!}</a>
+                		<% if(activity.essence == 1) { %>
+                			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/jing.gif">
+                		<% } %>
+                		<% if(activity.top == 1) { %>
+                			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/zding.gif?v=1" alt="置顶">
+                		<% } %>
+                	</div>
                     <div>
                     	<span>发起人：${activity.username!}  </span>
                     	<span>报名截止日期：${activity.expiration!}</span>
@@ -48,7 +56,7 @@
 				{
 					"page":activityPage,
 					"pageAction":pageAction,
-					"fatherNode":"#activityHtml"
+					"fatherNode":"#detailContentHtml"
 				}
 			){} 
 		}%>

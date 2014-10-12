@@ -16,11 +16,76 @@ import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "activity")
 @Before(LoginInterceptor.class)
 public class ActivityController extends Controller {
+	
+	/**
+	 * admin管理--社区管理入口
+	 */
+	public void goToManager() {
+		findPageAll();
+		render("/admin/admin_activity.html");
+	}
+	
+	/**
+	 * admin管理--分页查询活动(不区分显示隐藏状态)
+	 */
+	private void findPageAll() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Activity> activityPage = Activity.dao.findPageAll(pageNumber, pageSize);
+		setAttr("activityPage", activityPage);
+	}
+	
+	/**
+	 * admin管理--跳转发表/修改主题
+	 */
+	public void skipUpdate() {
+		Activity activity = null;
+		String activityId = getPara("activityId");
+		if(StrKit.notBlank(activityId)){
+			activity = Activity.dao.findById(activityId);
+		}else{
+			activity = getModel(Activity.class);
+		}
+		setAttr("activity", activity);
+		
+		setCodeTableList("gender", "genderList");
+		
+		List<Community> communityList = Community.dao.findSonList();
+		setAttr("communityList", communityList);
+		render("/admin/admin_updateActivity.html");
+	}
+	
+	/**
+	 * admin管理--发表/修改主题
+	 */
+	public void update() {
+		Activity activity = getModel(Activity.class);
+		Object activityId = activity.get("activityid");
+		if (activityId == null) {
+			Object userId = getUserId();
+
+			activity.set("userid", userId);
+			activity.save();
+		} else {
+			activity.update();
+		}
+		
+		goToManager();
+	}
+	
+	/**
+	 * admin管理--跳转指定页面
+	 */
+	public void findByAdminPage(){
+		findPageAll();
+		render("/admin/admin_detailActivity.html");
+	}
 
 	/**
 	 * 分页查询指定社区的活动
@@ -40,8 +105,7 @@ public class ActivityController extends Controller {
 	 * @return 活动信息
 	 */
 	public void findByUserId() {
-		User user = getUser();
-		Object userId = user.get("userid");
+		Object userId = getUserId();
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 
@@ -62,12 +126,26 @@ public class ActivityController extends Controller {
 		Activity.dao.updateTimes(activityId);
 		
 		setActivity(activityId);
+		setCommunity();
 		setActivityApplyPage(activityId);
 		setCommentPage(activityId);
 		setFollowList(activityId);
 		
 		keepPara("communityId");
 		render("/community/detailActivity.html");
+	}
+	
+	/**
+	 * 设置版块信息
+	 */
+	private void setCommunity(){
+		String communityId = getPara("communityId");
+		Community communitySon = Community.dao.findById(communityId);
+		setAttr("communitySon", communitySon);
+		
+		Object pId = communitySon.get("pid");
+		Community communityFat = Community.dao.findById(pId);
+		setAttr("communityFat", communityFat);
 	}
 	
 	/**
@@ -175,14 +253,55 @@ public class ActivityController extends Controller {
 
 		findByUserId();
 	}
+	
+	/**
+	 * 判断活动是否可报名
+	 * @return
+	 */
+	public void checkCanApply(){
+		Object activityId = getPara("activityId");
+		Object activity = Activity.dao.findCanApply(activityId);
+		if(activity == null){
+			renderText("报名已截止！");
+			return;
+		}
+		//判断当前用户是否已报名
+		Object userId = getUserId();
+		Object apply = ActivityApply.dao.findByUserId(activityId, userId);
+		if(apply != null){
+			renderText("已申请，禁止重复申请！");
+			return;
+		}
+		renderNull();
+	}
 
 	/**
 	 * 跳转活动申请
 	 */
 	public void skipCreate() {
+		String communityId = getPara("communityId");
+		Object userId = getUserId();
+		Object activity = Activity.dao.findHasPublish(communityId, userId);
+		if(activity != null){
+			renderJson(false);
+			return;
+		}
+		
 		keepPara("communityId");
 		setCodeTableList("gender", "genderList");
 		render("/community/createActivity.html");
+	}
+	
+	/**
+	 * 获取用户Id
+	 * @return
+	 */
+	private Object getUserId(){
+		User user = getUser();
+		if(user == null){
+			return null;
+		}
+		return user.get("userid");
 	}
 	
 	/**
@@ -200,13 +319,17 @@ public class ActivityController extends Controller {
 	 */
 	public void create() {
 		Activity activity = getModel(Activity.class);
-
-		User user = getUser();
-		activity.set("userid", user.get("userid"));
+		Object communityId = activity.get("communityid");
+		Object userId = getUserId();
+		Object atyOld = Activity.dao.findHasPublish(communityId, userId);
+		if(atyOld != null){
+			renderJson(false);
+			return;
+		}
 		
+		activity.set("userid", userId);
 		activity.save();
 
-		Object communityId = activity.get("communityid");
 		setActivityPage(communityId);
 		
 		render("/community/activity.html");
@@ -224,6 +347,11 @@ public class ActivityController extends Controller {
 	 * 设置发帖数
 	 */
 	private void setPublishNumber(){
+		// 当前登录人发帖数
+		Object userId = getUserId();
+		Long userActivityCount = Activity.dao.getCountByUserId(userId);
+		setAttr("userCount", userActivityCount);
+		
 		//今日发帖数
 		Long activityTodayCount = Activity.dao.getTodayCount();
 		setAttr("todayCount", activityTodayCount);
@@ -315,8 +443,8 @@ public class ActivityController extends Controller {
 		Object targetId = getPara("targetId");
 		comment.set("targetid", targetId);
 
-		User user = getUser();
-		comment.set("userid", user.get("userid"));
+		Object userId = getUserId();
+		comment.set("userid", userId);
 
 		comment.set("idtype", "20");
 

@@ -1,9 +1,9 @@
 
     	<div class="ForumSubInfo">
-        	<span>今日发帖数:124343</span>
-            <span>昨日发帖数:6343324</span>
-            <span>总帖数:34545</span>
-            <span>会员总数:32454</span>
+        	<span>今日发帖数:${todayCount!}</span>
+            <span>昨日发帖数:${yesCount!}</span>
+            <span>总帖数:${count!}</span>
+            <span>会员总数:${userCount!}</span>
         </div>
         <div class="ArticleTitle"><img src="/http://www.dongmark.com/images/FIcon03.png" >HIGH豆官方社区</div>
         <div class="ArticleContent">
@@ -24,15 +24,23 @@
        	  <div class="ForumList">
             	<div class="ListPic"><img src="http://www.dongmark.com/images/bg_Me.png"></div>
                 <div class="ListDtl">
-                	<div class="${class!}"><a href="javascript:void(0)" onclick="findById(this,'${post.postid!}')">${post.subject!}</a></div>
+                	<div class="${class!}">
+                		<a href="javascript:void(0)" onclick="findById(this,'${post.postid!}','${post.communityid!}')">${post.subject!}</a>
+                		<% if(post.essence == 1) { %>
+                			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/jing.gif">
+                		<% } %>
+                		<% if(post.top == 1) { %>
+                			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/zding.gif?v=1" alt="置顶">
+                		<% } %>
+                	</div>
                     <div>
                     	<span>发帖人姓名：${post.userid!}  </span>
                     	<span>发帖时间：${post.dateline!}</span>
                     </div>
                 </div>
                 <div class="ListDate">
-                	<span class="TotleNum">浏览次数(${post.times!})</span>
-                    <span>评论次数(${post.viewcount!})</span>
+                	<span class="TotleNum">${post.times!}</span>
+                    <span>${post.viewcount!}</span>
                 </div>
             </div>
         <% } %>
@@ -49,7 +57,7 @@
 					{
 						"page":postPage,
 						"pageAction":pageAction,
-						"fatherNode":"#postHtml"
+						"fatherNode":"#detailContentHtml"
 					}
 			){} 
 		}%>

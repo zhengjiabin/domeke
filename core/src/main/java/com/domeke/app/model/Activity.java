@@ -1,5 +1,7 @@
 package com.domeke.app.model;
 
+import java.util.List;
+
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
@@ -38,6 +40,23 @@ public class Activity extends Model<Activity> {
 	private static final long serialVersionUID = 1L;
 
 	public static Activity dao = new Activity();
+	
+	/**
+	 * 分页查询活动，不区分状态
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Activity> findPageAll(int pageNumber, int pageSize) {
+		String select = "select aty.*,u.username,u.imgurl";
+		StringBuffer sqlExceptSelect = new StringBuffer("from activity aty,user u where aty.userid=u.userid ");
+		sqlExceptSelect.append("  order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc ");
+		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
+		return page;
+	}
 
 	/**
 	 * 分页查询活动
@@ -128,5 +147,45 @@ public class Activity extends Model<Activity> {
     public Long getCount(){
     	Long count = Db.queryLong("select count(1) from activity where status='10'");
     	return count;
+    }
+    
+    /**
+     * 当前登录人总活动数
+     * @return 汇总数
+     */
+    public Long getCountByUserId(Object userId){
+    	Long count = Db.queryLong("select count(1) from activity where status='10' and userid=?",userId);
+    	return count;
+    }
+    
+    /**
+     * 根据版块统计活动数
+     * @return 汇总数
+     */
+    public List<Activity> getCountByCommunityPid(Object pid){
+    	StringBuffer sql = new StringBuffer();
+    	sql.append("select count(1) as number,aty.communityid from activity aty,community son ");
+    	sql.append(" where aty.communityid = son.communityid and aty.status='10' and son.pid = ? ");
+    	sql.append(" group by aty.communityid ");
+    	List<Activity> activityList = this.find(sql.toString(), pid);
+    	return activityList;
+    }
+    
+    /**
+     * 判断当前日期是否超出活动申请截止日期
+     * @return
+     */
+    public Object findCanApply(Object activityId){
+    	String sql = "select 1 from activity where activityid = ? and expiration>=now()";
+    	return this.findFirst(sql, activityId);
+    }
+    
+    /**
+     * 查询指定时间范围内当前用户发布的活动
+     * @return
+     */
+    public Object findHasPublish(Object communityId,Object userId){
+    	String sql = "select 1 from activity where communityid=? and userid=? and createtime >= date_sub(now(),interval 5 minute)";
+    	return this.findFirst(sql, communityId, userId);
     }
 }

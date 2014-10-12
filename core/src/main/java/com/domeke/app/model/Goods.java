@@ -1,6 +1,9 @@
 package com.domeke.app.model;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.domeke.app.tablebind.TableBind;
 import com.google.common.collect.Lists;
@@ -108,5 +111,27 @@ public class Goods extends Model<Goods> {
 		Page<Goods> goodsPage = this.paginate(pageNumber, pageSize, "select *",
 				"from goods group by goodsid");
 		return goodsPage;
+	}
+	
+	/**
+	 * 根据商品类型获取商品
+	 * @param params
+	 * @return
+	 */
+	public List<Goods> goodsType(Map<String, Object> params) {
+		String sql = "select * from goods ";
+		Set<String> key = params.keySet();
+		int row = 0;
+		for (Iterator it = key.iterator(); it.hasNext();) {			
+			String k = (String) it.next();
+			if (row == 0) {
+				row++;
+				sql = sql + "where " + k + " in (" + params.get(k).toString() + ") ";
+			} else {
+				sql = sql + "and " + k + " in (" + params.get(k).toString() + ") ";
+			}			
+		}
+		List<Goods> goodsType = this.find(sql);
+		return goodsType;
 	}
 }

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.jfinal.kit.PropKit;
 
 /**
  * @author lijiasen@domeke.com
@@ -28,6 +29,10 @@ public class VideoKit {
 	public static int COMMOND_IMAGE = 1;
 
 	private static String toDirectory = "";
+
+	static {
+		FFMEPG_PATH = PropKit.getString("ffmepg_path");
+	}
 
 	public static boolean checkVideoType(String filepath) {
 		int fileSuffixIndex = filepath.lastIndexOf(".");

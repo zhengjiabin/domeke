@@ -17,13 +17,16 @@ import org.slf4j.LoggerFactory;
 import com.domeke.app.model.vo.BaseVO;
 import com.domeke.app.solr.SolrServerClient;
 import com.google.common.collect.Lists;
+import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 
 public class SolrKit {
 
 	private static Logger logger = LoggerFactory.getLogger(SolrKit.class);
 
-	public static List<BaseVO> query(String[] tags, String queryKey, BaseVO vo) throws SolrServerException {
-		SolrDocumentList docs = query(tags, queryKey);
+	public static List<BaseVO> query(String[] tags, String queryKey, BaseVO vo, Page<Model> page)
+			throws SolrServerException {
+		SolrDocumentList docs = query(tags, queryKey, page);
 		List<BaseVO> voList = Lists.newArrayList();
 		for (SolrDocument doc : docs) {
 			Collection<String> fieldNames = doc.getFieldNames();
@@ -43,7 +46,7 @@ public class SolrKit {
 		return voList;
 	}
 
-	public static SolrDocumentList query(String[] tags, String queryKey) throws SolrServerException {
+	public static SolrDocumentList query(String[] tags, String queryKey, Page<Model> page) throws SolrServerException {
 		SolrServer server = SolrServerClient.getInstance().getServer();
 		StringBuffer queryStrBuffer = new StringBuffer();
 
@@ -58,6 +61,8 @@ public class SolrKit {
 		}
 
 		SolrQuery query = new SolrQuery(queryStrBuffer.toString());
+		query.setStart(page.getPageNumber());
+		query.setRows(page.getPageSize());
 		QueryResponse response = null;
 		try {
 			response = server.query(query);

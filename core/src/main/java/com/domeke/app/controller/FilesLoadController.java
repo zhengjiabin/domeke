@@ -14,6 +14,7 @@ import com.domeke.app.cos.multipart.FilePart;
 import com.domeke.app.model.User;
 import com.domeke.app.utils.VideoKit;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.PropKit;
 import com.jfinal.upload.UploadFile;
 
 /**
@@ -28,9 +29,17 @@ public class FilesLoadController extends Controller {
 
 	private Logger logger = LoggerFactory.getLogger(FilesLoadController.class);
 
-	private static String tempDirectory = "D:\\<username>\\tempFile\\";
-	private static String imageDirectory = "D:\\upload\\<username>\\image\\";
-	private static String videoDirectory = "D:\\upload\\<username>\\video\\";
+	private static String tempDirectory = "";
+	private static String imageDirectory = "";
+	private static String videoDirectory = "";
+	private static String domainName = "";
+
+	static {
+		tempDirectory = PropKit.getString("tempDirectory");
+		imageDirectory = PropKit.getString("imageDirectory");
+		videoDirectory = PropKit.getString("videoDirectory");
+		domainName = PropKit.getString("domainName");
+	}
 
 	/**
 	 * 文件上传，要求表单enctype="multipart/form-data"类型<br>
@@ -48,25 +57,24 @@ public class FilesLoadController extends Controller {
 	 *            编码
 	 * @return 如果没有上传文件，则返回的文件路径为null
 	 */
-	protected String upLoadFile(String parameterName, String saveFolderName,
-			Integer maxPostSize, String encoding) {
+	protected String upLoadFile(String parameterName, String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
 		tempDirectory = getDirectory(tempDirectory, saveFolderName);
 		UploadFile uploadFile = getFile(parameterName, tempDirectory, maxPostSize, encoding);
-		String filePath = null;
+		String imgFilePath = "";
 		if (uploadFile != null) {
-			File replaceFile = renameToFile(uploadFile.getSaveDirectory(), uploadFile.getFile());
+			File srcFile = uploadFile.getFile();
 			imageDirectory = getDirectory(imageDirectory, saveFolderName);
 			File imgDirectory = new File(imageDirectory);
 			if (!imgDirectory.exists()) {
 				imgDirectory.mkdirs();
 			}
-			File targetFile = new File(imageDirectory + replaceFile.getName());
-			fileCopyByChannel(replaceFile, targetFile);
+			File targetFile = new File(imageDirectory + srcFile.getName());
+			fileCopyByChannel(srcFile, targetFile);
 			// 获取文件的绝对路径
-			filePath = targetFile.getAbsolutePath();
+			imgFilePath = targetFile.getAbsolutePath();
 		}
-		return filePath;
+		return getDomainNameFilePath(imgFilePath);
 	}
 
 	/**
@@ -77,26 +85,26 @@ public class FilesLoadController extends Controller {
 	 * @param encoding
 	 * @return
 	 */
-	protected String upLoadFile(String saveFolderName, Integer maxPostSize, String encoding) {
+	protected String upLoadFiles(String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
 		tempDirectory = getDirectory(tempDirectory, saveFolderName);
 		List<UploadFile> uploadFileList = getFiles(tempDirectory, maxPostSize, encoding);
-		String directoryPath = null;
+		String imgFilePath = "";
 		if (uploadFileList != null && uploadFileList.size() != 0) {
 			for (UploadFile uploadFile : uploadFileList) {
-				File replaceFile = renameToFile(uploadFile.getSaveDirectory(),uploadFile.getFile());
+				File srcFile = uploadFile.getFile();
 				imageDirectory = getDirectory(imageDirectory, saveFolderName);
 				File imgDirectory = new File(imageDirectory);
 				if (!imgDirectory.exists()) {
 					imgDirectory.mkdirs();
 				}
-				File targetFile = new File(imageDirectory + replaceFile.getName());
-				fileCopyByChannel(replaceFile, targetFile);
+				File targetFile = new File(imageDirectory + srcFile.getName());
+				fileCopyByChannel(srcFile, targetFile);
 				// 获取文件的绝对路径
-				directoryPath = imgDirectory.getAbsolutePath();
+				imgFilePath = imgDirectory.getAbsolutePath();
 			}
 		}
-		return directoryPath;
+		return getDomainNameFilePath(imgFilePath);
 	}
 
 	/**
@@ -108,40 +116,17 @@ public class FilesLoadController extends Controller {
 	 * @param encoding
 	 * @return
 	 */
-	protected String upLoadVideo(String parameterName, String saveFolderName,
-			Integer maxPostSize, String encoding) {
+	protected String upLoadVideo(String parameterName, String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
-		String filename = "";
 		tempDirectory = getDirectory(tempDirectory, saveFolderName);
 		UploadFile uploadFile = getFile(parameterName, tempDirectory, maxPostSize, encoding);
-		getPara("worksname");
+		String fileName = "";
 		if (uploadFile != null) {
-			File tagVideo = renameToFile(uploadFile.getSaveDirectory(), uploadFile.getFile());
+			File tagVideo = uploadFile.getFile();
 			videoDirectory = getDirectory(videoDirectory, saveFolderName);
-			filename = VideoKit.compressVideo(tagVideo.getAbsolutePath(), videoDirectory);
+			fileName = VideoKit.compressVideo(tagVideo.getAbsolutePath(), videoDirectory);
 		}
-		return filename;
-	}
-
-	/**
-	 * 重命名文件
-	 * 
-	 * @param saveDirectory
-	 * @param oldFile
-	 * @return
-	 */
-	protected File renameToFile(String saveDirectory, File oldFile) {
-		// 通过文件名截取出文件的类型
-		String fileName = oldFile.getName();
-		String fileType = "";
-		if (fileName != null && fileName.indexOf('.') > 0) {
-			String[] temp = fileName.split("\\.");
-			fileType = temp[temp.length - 1];
-		}
-		// 以当前时间的毫秒数重命名文件名
-		File replaceFile = new File(saveDirectory + "\\" + System.currentTimeMillis() + "." + fileType);
-		oldFile.renameTo(replaceFile);
-		return replaceFile;
+		return getDomainNameFilePath(fileName);
 	}
 
 	/**
@@ -154,21 +139,37 @@ public class FilesLoadController extends Controller {
 	private String getDirectory(String fixDirectory, String userDefinedDirectory) {
 		if (fixDirectory.indexOf("<username>") >= 0) {
 			User user = getSessionAttr("user");
-			String userName = user == null || user.getStr("username") == null ? "admin"
-					: user.getStr("username");
+			String userName = user == null || user.getStr("username") == null ? "admin" : user.getStr("username");
 			fixDirectory = fixDirectory.replaceAll("<username>", userName);
 		}
-		if (userDefinedDirectory != null
-				&& userDefinedDirectory.trim().length() != 0) {
+		if (userDefinedDirectory != null && userDefinedDirectory.trim().length() != 0) {
 			fixDirectory = fixDirectory + userDefinedDirectory;
 		}
 		return fixDirectory;
 	}
 
 	/**
+	 * 获取文件在域名中的路径
+	 * 
+	 * @param filePath
+	 *            文件的物理路径
+	 * @return 域名中的路径
+	 */
+	private String getDomainNameFilePath(String filePath) {
+		String basePath = "/data/upload";
+		StringBuffer domainNameFilePath = new StringBuffer(domainName);
+		String lastFilePath = filePath.substring(filePath.indexOf(basePath) + basePath.length(), filePath.length());
+		domainNameFilePath.append(lastFilePath);
+		return domainNameFilePath.toString();
+	}
+
+	/**
 	 * 文件复制
-	 * @param srcFile 源文件
-	 * @param tagFile 目标文件
+	 * 
+	 * @param srcFile
+	 *            源文件
+	 * @param tagFile
+	 *            目标文件
 	 */
 	public void fileCopyByChannel(File srcFile, File tagFile) {
 		FileInputStream fi = null;

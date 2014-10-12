@@ -1,5 +1,7 @@
 package com.domeke.app.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
@@ -10,13 +12,13 @@ import com.jfinal.plugin.activerecord.Page;
  * @author chenzhicong
  *
  */
-@TableBind(tableName="goodstype", pkName="goodstypeid")
+@TableBind(tableName="goods_type", pkName="goodstypeid")
 public class GoodsType extends Model<GoodsType> {
 
 	private static final long serialVersionUID = -4324755844654141029L;
 	
 	public static GoodsType gtDao = new GoodsType();
-	
+		
 	/**
 	 * 分页查询
 	 * 
@@ -28,7 +30,7 @@ public class GoodsType extends Model<GoodsType> {
 	 */
 	public Page<GoodsType> findPage(int pageNumber, int pageSize) {
 		Page<GoodsType> gtPage = this.paginate(pageNumber, pageSize, "select *",
-				"from goodstype group by goodstypeid");
+				"from goods_type group by goodstypeid");
 		return gtPage;
 	}
 	
@@ -43,7 +45,7 @@ public class GoodsType extends Model<GoodsType> {
 	 */
 	public Page<GoodsType> findPage(int pageNumber, int pageSize, String goodstype) {
 		Page<GoodsType> page = this.paginate(pageNumber, pageSize, "select *",
-				"from goodstype where goodstype=? group by goodstypeid", goodstype);
+				"from goods_type where goodstype=? group by goodstypeid", goodstype);
 		return page;
 	}
 	
@@ -86,5 +88,58 @@ public class GoodsType extends Model<GoodsType> {
 	 */
 	public void deleteGoodsType(int goodsTypeId) {
 		this.deleteById(goodsTypeId);
+	}
+		
+	/**
+	 * 根据商品类型id查询出返回改类型下的所有子类型
+	 * @param strs
+	 * @return
+	 */
+	public String getGoodsType(String strs){		
+		//获取strs级的叶子
+		List<GoodsType> gtList = this.find("select * from goods_type where parenttypeid in ("+strs+")");		
+		if (gtList.size() == 0) {
+			return strs;
+		}		
+		strs = "";
+		int row = 0;
+		for (GoodsType gt:gtList) {
+			if (row != gtList.size() - 1){
+				strs = strs + Long.toString(gt.getLong("goodstypeid")) + ",";
+			} else {
+				strs = strs + Long.toString(gt.getLong("goodstypeid"));
+			}
+			row++;			
+		}
+		strs = getGoodsType(strs);
+		return strs;
+	}
+
+	/**
+	 * 根据商品id返回倒序的商品分类顺序
+	 * @param goodsTypeId
+	 * @return
+	 */
+	public List<GoodsType> getTypeUrl(String goodsTypeId) {
+		List<GoodsType> goodsTypeList = new ArrayList<GoodsType>();
+		while (true) {
+			GoodsType gt = this.findById(goodsTypeId);
+			goodsTypeList.add(gt);
+			goodsTypeId = String.valueOf(gt.get("parenttypeid"));
+			if ("null".equals(goodsTypeId) || "".equals(goodsTypeId) || goodsTypeId == null) {
+				break;
+			}
+		}
+		Collections.reverse(goodsTypeList);
+		return goodsTypeList; 
+	}
+	
+	/**
+	 * 获取一级商品类型
+	 * @return 返回一级商品类型
+	 */
+	public List<GoodsType> getTopGoodsType(){
+		List<GoodsType> goodsTypeList = this.find("select * from goods_type where level = '1' order by sortnum");
+		return goodsTypeList;
 	}
 }

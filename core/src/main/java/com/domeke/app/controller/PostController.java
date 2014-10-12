@@ -12,11 +12,23 @@ import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "post")
-@Before(LoginInterceptor.class)
 public class PostController extends Controller {
+	
+	/** 回复类型 */
+	private static String IDTYPE = "10";
+	
+	/**
+	 * admin管理中对应的社区管理入口
+	 */
+	public void goToManager() {
+		findPageAll();
+		render("/admin/admin_post.html");
+	}
+	
 
 	/**
 	 * 查询指定社区的分页帖子信息
@@ -47,8 +59,7 @@ public class PostController extends Controller {
 	 * @return 帖子信息
 	 */
 	public void findByUserId() {
-		User user = getUser();
-		Object userId = user.get("userid");
+		Object userId = getUserId();
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 
@@ -61,6 +72,7 @@ public class PostController extends Controller {
 	/**
 	 * 置顶功能
 	 */
+	@Before(LoginInterceptor.class)
 	public void setTop(){
 		String postId = getPara("targetId");
 		if(postId == null || postId.length()<=0){
@@ -77,6 +89,7 @@ public class PostController extends Controller {
 	/**
 	 * 精华功能
 	 */
+	@Before(LoginInterceptor.class)
 	public void setEssence(){
 		String postId = getPara("targetId");
 		if(postId == null || postId.length()<=0){
@@ -100,11 +113,25 @@ public class PostController extends Controller {
 		Post.dao.updateTimes(postId);
 		
 		setPost(postId);
+		setCommunity();
 		setCommentPage(postId);
 		setFollowList(postId);
 		
 		keepPara("communityId");
 		render("/community/detailPost.html");
+	}
+	
+	/**
+	 * 设置版块信息
+	 */
+	private void setCommunity(){
+		String communityId = getPara("communityId");
+		Community communitySon = Community.dao.findById(communityId);
+		setAttr("communitySon", communitySon);
+		
+		Object pId = communitySon.get("pid");
+		Community communityFat = Community.dao.findById(pId);
+		setAttr("communityFat", communityFat);
 	}
 	
 	/**
@@ -162,6 +189,7 @@ public class PostController extends Controller {
 	/**
 	 * 修改帖子信息
 	 */
+	@Before(LoginInterceptor.class)
 	public void modify() {
 		Post post = getModel(Post.class);
 		post.update();
@@ -170,37 +198,117 @@ public class PostController extends Controller {
 	}
 
 	/**
-	 * 删除指定帖子
+	 * admin管理--删除指定帖子
 	 */
+	@Before(LoginInterceptor.class)
 	public void deleteById() {
-		String post = getPara("postId");
-		Post.dao.deleteById(post);
-
-		findByUserId();
+		String postId = getPara("postId");
+		Post.dao.deleteById(postId);
+		
+		Comment.dao.deleteByTheme(postId, IDTYPE);
+		findPageAll();
+		render("/admin/admin_detailPost.html");
 	}
 
 	/**
 	 * 跳转帖子申请
 	 */
+	@Before(LoginInterceptor.class)
 	public void skipCreate() {
+		String communityId = getPara("communityId");
+		Object userId = getUserId();
+		Object post = Post.dao.findHasPublish(communityId, userId);
+		if(post != null){
+			renderJson(false);
+			return;
+		}
+		
 		keepPara("communityId");
 		render("/community/createPost.html");
+	}
+	
+	/**
+	 * admin管理--跳转发表/修改主题
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipUpdate() {
+		Post post = null;
+		String postId = getPara("postId");
+		if(StrKit.notBlank(postId)){
+			post = Post.dao.findById(postId);
+		}else{
+			post = getModel(Post.class);
+		}
+		setAttr("post", post);
+		
+		List<Community> communityList = Community.dao.findSonList();
+		setAttr("communityList", communityList);
+		render("/admin/admin_updatePost.html");
+	}
+	
+	/**
+	 * admin管理--发表/修改主题
+	 */
+	@Before(LoginInterceptor.class)
+	public void update() {
+		Post post = getModel(Post.class);
+		Object postId = post.get("postid");
+		if (postId == null) {
+			Object userId = getUserId();
+			HttpServletRequest request = getRequest();
+			String remoteIp = request.getRemoteAddr();
+
+			post.set("userid", userId);
+			post.set("userip", remoteIp);
+			post.save();
+		} else {
+			post.update();
+		}
+		
+		goToManager();
+	}
+	
+	/**
+	 * admin管理--跳转指定页面
+	 */
+	public void findByAdminPage(){
+		findPageAll();
+		render("/admin/admin_detailPost.html");
+	}
+	
+	/**
+	 * 获取用户Id
+	 * @return
+	 */
+	private Object getUserId(){
+		User user = getUser();
+		if(user == null){
+			return null;
+		}
+		return user.get("userid");
 	}
 
 	/**
 	 * 创建帖子申请
 	 */
+	@Before(LoginInterceptor.class)
 	public void create() {
 		Post post = getModel(Post.class);
+		Object communityId = post.get("communityid");
+		Object userId = getUserId();
+		Object postOld = Post.dao.findHasPublish(communityId, userId);
+		if(postOld != null){
+			renderJson(false);
+			return;
+		}
+		
 		HttpServletRequest request = getRequest();
 		String remoteIp = request.getRemoteAddr();
 
-		User user = getUser();
-		post.set("userid", user.get("userid"));
+		post.set("userid", userId);
 		post.set("userip", remoteIp);
 		post.save();
 
-		Object communityId = post.get("communityid");
 		setPostPage(communityId);
 		
 		render("/community/post.html");
@@ -209,6 +317,7 @@ public class PostController extends Controller {
 	/**
 	 * 添加回复信息
 	 */
+	@Before(LoginInterceptor.class)
 	public void replyComment() {
 		addComment();
 
@@ -225,6 +334,7 @@ public class PostController extends Controller {
 	/**
 	 * 添加回复信息
 	 */
+	@Before(LoginInterceptor.class)
 	public void replyFollow() {
 		addComment();
 
@@ -260,10 +370,10 @@ public class PostController extends Controller {
 		Object targetId = getPara("targetId");
 		comment.set("targetid", targetId);
 
-		User user = getUser();
-		comment.set("userid", user.get("userid"));
+		Object userId = getUserId();
+		comment.set("userid", userId);
 
-		comment.set("idtype", "10");
+		comment.set("idtype", IDTYPE);
 
 		HttpServletRequest request = getRequest();
 		String remoteIp = request.getRemoteAddr();
@@ -300,6 +410,7 @@ public class PostController extends Controller {
 	/**
 	 * 删除回复信息
 	 */
+	@Before(LoginInterceptor.class)
 	public void deleteComment() {
 		Object commentId = getPara("commentId");
 		Comment.dao.deleteReplyAll(commentId);
@@ -310,8 +421,29 @@ public class PostController extends Controller {
 	public void index() {
 		String communityId = getPara("communityId");
 		setPostPage(communityId);
+		setPublishNumber();
 		
 		render("/community/post.html");
+	}
+	
+	/**
+	 * 设置发帖数
+	 */
+	private void setPublishNumber(){
+		// 当前登录人发帖数
+		Object userId = getUserId();
+		Long userPostCount = Post.dao.getCountByUserId(userId);
+		setAttr("userCount", userPostCount);
+		
+		//今日发帖数
+		Long postTodayCount = Post.dao.getTodayCount();
+		setAttr("todayCount", postTodayCount);
+		//昨日发帖数
+		Long postYesCount = Post.dao.getYesterdayCount();
+		setAttr("yesCount", postYesCount);
+		//总发帖数
+		Long postCount = Post.dao.getCount();
+		setAttr("count", postCount);
 	}
 	
 	public void home(){
@@ -319,6 +451,16 @@ public class PostController extends Controller {
 		List<Community> communitySonList = Community.dao.findSonList();
 		setAttr("communitySonList", communitySonList);
 		render("/community/postAll.html");
+	}
+	
+	/**
+	 * admin管理--分页查询论坛(不区分显示隐藏状态)
+	 */
+	private void findPageAll() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Post> postPage = Post.dao.findPageAll(pageNumber, pageSize);
+		setAttr("postPage", postPage);
 	}
 
 	/**

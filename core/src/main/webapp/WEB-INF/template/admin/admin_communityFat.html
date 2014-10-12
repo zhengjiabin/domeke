@@ -1,47 +1,50 @@
 <div class="navbar navbar-inner block-header">
-	<button class="btn btn-danger btn-mini" onclick="deleteFat(this,'${communityFat.communityid!}')">刪除此区域版块</button>
-					<table class="table table-striped table-bordered" id="table">
-							
-						<thead>
-							<tr>
-								<th>标题</th>
-								<th>概要</th>
-								<th>各版块根路径</th>
-								<th>显示层级</th>
-								<th>同层级下显示顺序</th>
-								<th>操作</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="odd gradeX" id="fat">
-								<td id="title">${communityFat.title!}</td>
-								<td id="content">${communityFat.content!}</td>
-								<td id="actionkey">${communityFat.actionkey!}</td>
-								<td id="level">${communityFat.level!}</td>
-								<td id="position">${communityFat.position!}</td>
-								<td>
-									<button class="btn btn-mini" onclick="saveFat(this,'${communityFat.communityid!}')">保存</button>
-									<button class="btn btn-warning btn-mini" onclick="modify(this,'#fat')">修改</button>
-								</td>
-							</tr>
-							
-							<% for(communitySon in communitySonList){ if(communitySon.pid != communityFat.communityid){continue;}%>
-							<tr class="odd gradeX" id="son">
-								<td id="title">${communitySon.title!}</td>
-								<td id="content">${communitySon.content!}</td>
-								<td id="actionkey">${communitySon.actionkey!}</td>
-								<td id="level">${communitySon.level!}</td>
-								<td id="position">${communitySon.position!}</td>
-								<td>
-									<button class="btn btn-mini" onclick="saveSon(this,'${communitySon.communityid!}','${communityFat.communityid!}')">保存</button>
-									<button class="btn btn-warning btn-mini" onclick="modify(this,'#son')">修改</button>
-									<button class="btn btn-danger btn-mini" onclick="deleteSon(this,'${communitySon.communityid!}',${communityFat.communityid!})">刪除</button>
-								</td>
-							</tr>
-							<% } %>
-						</tbody>
-					</table>
-				<a href="javascript:void(0);" onclick="addCommunitySon(this,'${communityFat.communityid!}')">
-					<button class="btn btn-info btn-mini">添加版块 <i class="icon-plus icon-white"></i></button>
-				</a>
+	<button class="btn btn-danger btn-mini"
+		onclick="deleteFat(this,'${communityFat.communityid!}')">刪除此区域版块</button>
+	<table class="table table-striped table-bordered" id="table">
+
+		<thead>
+			<tr>
+				<th>标题</th>
+				<th>概要</th>
+				<th>区域版块</th>
+				<th>同区域版块下显示顺序</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="odd gradeX" id="fat">
+				<td id="title">${communityFat.title!}</td>
+				<td id="content">${communityFat.content!}</td>
+				<td id="pid"></td>
+				<td id="position">${communityFat.position!}</td>
+				<td>
+					<button class="btn btn-warning btn-mini"
+						onclick="skipModify(this,'${communityFat.communityid!}')">修改</button>
+				</td>
+			</tr>
+
+			<% for(communitySon in communitySonList){ if(communitySon.pid !=
+			communityFat.communityid){continue;}%>
+			<tr class="odd gradeX" id="son">
+				<td id="title">${communitySon.title!}</td>
+				<td id="content">${communitySon.content!}</td>
+				<td id="pid">${communityFat.title!}</td>
+				<td id="position">${communitySon.position!}</td>
+				<td>
+					<button class="btn btn-warning btn-mini"
+						onclick="skipModify(this,'${communitySon.communityid!}')">修改</button>
+					<button class="btn btn-danger btn-mini"
+						onclick="deleteSon(this,'${communitySon.communityid!}',${communityFat.communityid!})">刪除</button>
+				</td>
+			</tr>
+			<% } %>
+		</tbody>
+	</table>
+	<a href="javascript:void(0);"
+		onclick="skipModify(this,'','${communityFat.communityid!}')">
+		<button class="btn btn-info btn-mini">
+			添加版块 <i class="icon-plus icon-white"></i>
+		</button>
+	</a>
 </div>

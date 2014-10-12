@@ -15,10 +15,7 @@ function showMoreCommunity(node,communityList){
 }
 
 //跳转版块明细
-function findById(node,targetId) {
-	var baseCommunity = $(node).closest("#baseCommunity");
-	var communityId = baseCommunity.find("#communityId").first().val();
-	
+function findById(node,targetId,communityId) {
 	var url = "./community/goToDetailContent?communityId="+communityId;
 	$.post(url,{
 		targetId : targetId
@@ -59,6 +56,7 @@ function setEssence(node,targetId){
 	});
 }
 
+//跳转指定版块
 function goToOrderForum(node,communityId) {
 	var url = "./community/goToOrderForum?communityId=" + communityId;
 	$.post(url, function(data) {
@@ -68,80 +66,28 @@ function goToOrderForum(node,communityId) {
 	});
 }
 
-function addCommunityFat(node) {
-	var fatherNode = $(node).closest("#admin_Community");
-	var targetNode = fatherNode.find("#detail_CommunityHtml").first();
-	$.post("./community/addCommunityFat", function(data) {
-		targetNode.html(data);
-		
-		var tableNode = targetNode.find("#table").first();
-		var trNode = tableNode.find("#communityTr").first();
-		trNode.attr("contenteditable",true);
-		trNode.focus();
-	});
+//跳转到版块根目录
+function goToHomeForum(actionKey){
+	actionKey = '.' + actionKey + "/home";
+	window.location.href=actionKey;
 }
 
-function saveSon(node,communityId,pId){
-	var tr = $(node).closest("#son");
-	var title = tr.find("#title").first().html();
-	var content = tr.find("#content").first().html();
-	var actionkey = tr.find("#actionkey").first().html();
-	var level = tr.find("#level").first().html();
-	var position = tr.find("#position").first().html();
-	
-	$.post("./community/saveSon", {
-		title : title,
-		content : content,
-		actionkey : actionkey,
-		level : level,
-		position : position,
-		communityId :communityId,
+//admin 跳转修改社区版块
+function skipModify(node,communityId,pId){
+	$.post("./community/skipModify", {
+		communityId : communityId,
 		pId : pId
 	}, function(data) {
-		var fatherNode = $(node).closest("#detailCommunity");
-		fatherNode.html(data);
+		var adminCommunityHtml = $(node).closest("#adminCommunityHtml");
+		adminCommunityHtml.html(data);
 	});
 }
 
-function saveFat(node,communityId){
-	var tr = $(node).closest("#fat");
-	var title = tr.find("#title").first().html();
-	var content = tr.find("#content").first().html();
-	var actionkey = tr.find("#actionkey").first().html();
-	var level = tr.find("#level").first().html();
-	var position = tr.find("#position").first().html();
-	
-	$.post("./community/saveFat", {
-		title : title,
-		content : content,
-		actionkey : actionkey,
-		level : level,
-		position : position,
-		communityId :communityId
-	}, function(data) {
-		var fatherNode = $(node).closest("#detailCommunity");
-		fatherNode.html(data);
-	});
-}
-
-//添加版块
-function addCommunitySon(node,pId) {
-	$.post("./community/addCommunitySon", {
-		pId : pId
-	}, function(data) {
-		var fatherNode = $(node).closest("#detailCommunity");
-		fatherNode.html(data);
-		
-		var tableNode = fatherNode.find("#table").first();
-		var trNode = tableNode.find("#son").first();
-		trNode.attr("contenteditable",true);
-		trNode.focus();
-	});
-}
-
-function modify(node,fatherNode){
-	var tr = $(node).closest(fatherNode);
-	tr.attr("contenteditable",true);
+//admin 提交创建/修改版块
+function submitForm(node) {
+	var updateCommunityForm = $(node).closest("#updateCommunityForm");
+	var pid = updateCommunityForm.find("#pid").first();
+	pid.attr("disabled",false);
 }
 
 function deleteSon(node,communityId,pId){
@@ -169,6 +115,7 @@ function deleteFat(node,communityId){
 	}
 }
 
+//点击发表主题按钮事件
 function skipCommunity(node) {
 	var communityLayout = $(node).closest("#communityLayout");
 	var baseCommunity = communityLayout.find("#baseCommunity").first();
@@ -180,7 +127,11 @@ function skipCommunity(node) {
 	$.post(url, {
 		communityId :communityId
 	}, function(data) {
-		baseCommunity.html(data);
+		if(data == false){
+			alert("5分钟内只能发布一次同类型主题！");
+		}else{
+			baseCommunity.html(data);
+		}
 	});
 }
 
@@ -203,12 +154,39 @@ function showCommunity(node){
 	$.post("./community/goToCommunity", {
 		communityId :firstVal
 	}, function(data) {
-		var detailCommuntiyHtml = $(node).closest("#selectCommuntiyHtml");
-		var showCommunity = detailCommuntiyHtml.find("#showCommunity").first();
-		showCommunity.html(data);
+		if(data == false){
+			alert("5分钟内只能发布一次同类型主题！");
+		}else{
+			var detailCommuntiyHtml = $(node).closest("#selectCommuntiyHtml");
+			var showCommunity = detailCommuntiyHtml.find("#showCommunity").first();
+			showCommunity.html(data);
+		}
 	});
 }
 
+//提交活动主题
+function submitActivity(node,communityId){
+	createHtml = $(node).closest("#createHtml");
+	subject = createHtml.find("#subject").first();
+	canSubmit = true;
+	$("form :input[required=required]").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	alert("活动详情不能为空");
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	submitCreate(node,communityId)
+    } else {
+    	alert("提交失败，存在非规范内容，请检查！");
+    }
+}
+
+//提交主题
 function submitCreate(node,communityId) {
 	var content = CKEDITOR.instances.ckeditor.getData();
 	var createHtml = $(node).closest("#createHtml");
@@ -219,8 +197,12 @@ function submitCreate(node,communityId) {
 	$.post(url, 
 		$(node).closest("#createHtml").serialize(), 
 		function(data) {
-		var communityHtml = $(node).closest("#communityLayout");
-		var baseCommunity = communityHtml.find("#baseCommunity").first();
-		baseCommunity.html(data);
+			if(data == false){
+				alert("5分钟内只能发布一次同类型主题！");
+			}else{
+				var communityHtml = $(node).closest("#communityLayout");
+				var baseCommunity = communityHtml.find("#baseCommunity").first();
+				baseCommunity.html(data);
+			}
 	});
 }
