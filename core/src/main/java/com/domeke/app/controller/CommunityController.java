@@ -21,6 +21,10 @@ import com.jfinal.kit.StrKit;
 @ControllerBind(controllerKey = "community")
 public class CommunityController extends Controller {
 
+	/**
+	 * 版块入口
+	 * 请求 ./community
+	 */
 	public void index() {
 		setCommunityFatList();
 		setCommunitySonList();

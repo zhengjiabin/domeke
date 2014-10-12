@@ -10,7 +10,7 @@
 		</select>条&nbsp;共${page.totalRow!}条&nbsp;第${page.pageNumber!}/${page.totalPage!}页 
 	
 	<a href="javascript:void(0)" onclick="goToPageSize(this,${page.pageSize!},'1','${pageAction!}','${fatherNode!}')">首页</a> 
-	<a href="javascript:void(0)" onclick="goToPageSize(this,${page.pageSize!},${page.pageNumber!-1<1?1:page.pageNumber!-1},'${pageAction!}','${fatherNode!}')">上页</a>
-	<a href="javascript:void(0)" onclick="goToPageSize(this,${page.pageSize!},${page.pageNumber!+1>page.totalPage!?page.totalPage!:page.pageNumber!+1},'${pageAction!}','${fatherNode!}')">下页</a>
+	<a href="javascript:void(0)" onclick="goToPageSize(this,${page.pageSize!},${page.pageUp!},'${pageAction!}','${fatherNode!}')">上页</a>
+	<a href="javascript:void(0)" onclick="goToPageSize(this,${page.pageSize!},${page.pageDown!},'${pageAction!}','${fatherNode!}')">下页</a>
 	<a href="javascript:void(0)" onclick="goToPageSize(this,${page.pageSize!},pageNumber=${page.totalPage!},'${pageAction!}','${fatherNode!}')">末页</a>
 </div>

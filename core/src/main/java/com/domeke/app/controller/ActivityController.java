@@ -17,7 +17,6 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "activity")
-@Before(LoginInterceptor.class)
 public class ActivityController extends Controller {
 	
 	/** 回复类型 */
@@ -159,6 +158,7 @@ public class ActivityController extends Controller {
 	/**
 	 * 置顶功能
 	 */
+	@Before(LoginInterceptor.class)
 	public void setTop(){
 		String activityId = getPara("targetId");
 		if(activityId == null || activityId.length()<=0){
@@ -175,6 +175,7 @@ public class ActivityController extends Controller {
 	/**
 	 * 精华功能
 	 */
+	@Before(LoginInterceptor.class)
 	public void setEssence(){
 		String activityId = getPara("targetId");
 		if(activityId == null || activityId.length()<=0){

@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Comment;
 import com.domeke.app.model.Community;
 import com.domeke.app.model.Treasure;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -60,6 +62,7 @@ public class TreasureController extends Controller {
 	/**
 	 * 置顶功能
 	 */
+	@Before(LoginInterceptor.class)
 	public void setTop(){
 		String treasureId = getPara("targetId");
 		if(treasureId == null || treasureId.length()<=0){
@@ -76,6 +79,7 @@ public class TreasureController extends Controller {
 	/**
 	 * 精华功能
 	 */
+	@Before(LoginInterceptor.class)
 	public void setEssence(){
 		String treasureId = getPara("targetId");
 		if(treasureId == null || treasureId.length()<=0){
