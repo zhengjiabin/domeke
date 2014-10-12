@@ -26,6 +26,7 @@ public class PersonalController extends Controller{
 		myPlay(mid);
 		render("/personalCenter.html");
 	}
+	
 	/**
 	 * 加载我的下载记录
 	 */
