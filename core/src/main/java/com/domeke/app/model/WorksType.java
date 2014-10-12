@@ -29,5 +29,9 @@ public class WorksType extends Model<WorksType> {
 		List<WorksType> worksTypes = this.find(sql);
 		return worksTypes;
 	}
-	
+	public List<WorksType> getWorksTypes(){
+		String sql = "select * from works_type order by istop desc";
+		List<WorksType> worksTypes = this.find(sql);
+		return worksTypes;
+	}
 }

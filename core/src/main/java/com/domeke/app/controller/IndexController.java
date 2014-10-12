@@ -1,15 +1,11 @@
 package com.domeke.app.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.Works;
 import com.domeke.app.model.WorksType;
 import com.domeke.app.route.ControllerBind;
-import com.domeke.app.utils.CodeKit;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.jfinal.core.Controller;
@@ -20,7 +16,7 @@ public class IndexController extends Controller {
 
 	public void index() {
 		WorksType worksTypeModel = getModel(WorksType.class);
-		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(0);
+		List<WorksType> worksTypes = worksTypeModel.getWorksTypes();
 		
 		Works worksDao = getModel(Works.class);
 		Map<String, Object> typeMap = Maps.newHashMap();

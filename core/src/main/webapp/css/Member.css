@@ -60,11 +60,13 @@
 	border-width: 0px 1px 1px 1px;
 	padding: 20px;
 }
+
 .MeCaption{
 	padding: 8px 15px;
 	background: #eaeaea;
 	font-size: 14px;
 }
+
 .MeHead{
 	float: left;
 	width: 100px;

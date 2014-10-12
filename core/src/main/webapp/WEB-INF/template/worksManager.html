@@ -1,8 +1,10 @@
 <article class="MeArticle">
+<script src="js/jquery.form.js"></script>
 		<script type="text/javascript">
 				$(document).ready(function(){
 					$.ajax({
 						type:'post',
+						async:false,
 						data:'type=0&workstype=&pageIndex=1',
 						url :'works/showPage',
 						success:function(data){
@@ -10,16 +12,25 @@
 						}
 					});
 				});
+				
 				function showPage(params){
 					var workstype = '';
-					if($('#workstype').length > 0){
-						workstype = $('#workstype').val();
+					if(params.flag == null){
+						params.flag = params.type;
 					}
+					if($('#workstypesel').length > 0){
+						workstype = $('#workstypesel').val();
+					}
+					var data = "workstype="+workstype;
+					$.each(params,function(key,value){
+						data = data + "&" + key + "=" + value;
+					});
 					$('#worksManager_menu li').removeClass("TabLi_active").addClass("TabLi");
 					$('#worksManager_menu li').eq(params.type).removeClass("TabLi").addClass("TabLi_active");
 					$.ajax({
 						type:'post',
-						data:'type='+params.type+'&workstype='+workstype+'&pageIndex='+params.pageIndex,
+						async:false,
+						data:data,
 						url :'works/showPage',
 						success:function(data){
 							$('#worksManager').html(data);
