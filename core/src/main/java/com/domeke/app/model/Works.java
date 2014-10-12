@@ -47,7 +47,13 @@ public class Works extends Model<Works> {
 		List<Works> workslist = this.find(querySql);
 		return workslist == null ? Lists.newArrayList() : workslist;
 	}
-
+	
+	public List<Works> getHomePage(Integer limit){
+		String querySql = "select * from works where homepage > 0 order by homepage desc limit "+limit;
+		List<Works> workss = this.find(querySql);
+		return workss;
+	}
+	
 	/**
 	 * 根据商品类型返回商品信息
 	 * 

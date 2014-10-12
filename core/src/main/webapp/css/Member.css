@@ -20,7 +20,42 @@
 	border-top: 1px #ccc solid;
 	margin-left: 30px;
 }
-.MeBlock,.MeCaption,.MeGoods{
+
+
+.MeTab{
+	margin-left: 30px;	
+}
+.TabLi,.TabLi_active{
+	float: left;
+	margin-left: 8px;
+	border: #ccc solid;
+	border-width: 1px 1px 0px 1px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	font-size: 14px;
+}
+.MeTab li a{
+	display: block;
+	padding: 8px 15px;
+}
+.TabLi{
+	background: #eaeaea;
+}
+.TabLi_active{
+	background: #c40000;
+}
+.TabLi_active a{
+	color: #fff;
+}
+.TabLi_fl{
+	float: right;
+	border-radius: 0px;
+	border: 0px;
+}
+
+
+
+.MeBlock,.MeCaption,.MeGoods,.AlbumInfo{
 	border: #ccc solid;
 	border-width: 0px 1px 1px 1px;
 	padding: 20px;
@@ -167,10 +202,10 @@
 	font-family:\5FAE\8F6F\96C5\9ED1;
 }
 .Uid{
-	background: url(../http://www.dongmark.com/images/bg_Uid.png) left center no-repeat;
+	background: url(../images/bg_Uid.png) left center no-repeat;
 }
 .Pwd{
-	background: url(../http://www.dongmark.com/images/bg_Pwd.png) left center no-repeat;
+	background: url(../images/bg_Pwd.png) left center no-repeat;
 }
 .LoginButton{
 	text-align: center;
@@ -221,7 +256,9 @@
 .RegSwitch span input{
 	padding-right: 10px;
 }
-
+.AlbumBlock{
+	
+}
 
 
 
@@ -279,6 +316,71 @@
 	padding: 0px 10px;
 }
 
+.Table_Member{ 
+	border-collapse:collapse;
+	width:100%;
+	margin: 30px 0px;
+}
+.Table_Member th{
+	color: #333;
+	width: 150px;
+	text-align: right;
+	font-weight: normal;
+	padding: 10px;
+	font-size: 14px;
+	border-collapse:collapse;
+	empty-cells:show;
+}
+.Table_Member td{
+	padding: 10px;
+}
+
+.Table_Album{ 
+	border-collapse:collapse;
+	width:100%;
+	border: #ccc solid;
+	border-width: 0px 1px 1px 1px;
+}
+.Table_Album th{
+	color: #333;
+	width: 150px;
+	text-align: left;
+	font-weight: normal;
+	padding: 8px 1px;
+	font-size: 14px;
+	border-collapse:collapse;
+	empty-cells:show;
+	border: #ddd solid;
+	border-width: 0px 0px 0px 0px;
+	background: #f1f6fa;
+}
+.Table_Album td{
+	padding: 10px 0px;
+	border: #ddd solid;
+	border-width: 0px 0px 1px 0px;
+	color: #333;
+	background: #fff;
+}
+.Table_Album img{
+	width: 80px;
+	height: 60px;
+	vertical-align: middle;
+}
+.Table_Album a{
+	margin: 0px 5px;
+}
+.center{
+	text-align: center;
+}
 
 
 
+.input_Member{
+	width: 400px;
+	height: 30px;
+	background: #fff;
+	border: 1px #ddd solid;
+	border-radius: 5px;
+	font-family:\5FAE\8F6F\96C5\9ED1;
+	padding: 3px 10px;
+}

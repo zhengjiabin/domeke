@@ -3,16 +3,39 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-<title>上传视频 - 优酷</title>
+<title>上传视频 </title>
 <link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/youku.css">
 <link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/grid.css">
 <link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/i.css">
 <link id="skinCssLink" type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/default.css">
 <link type="text/css" rel="stylesheet" href="http://localhost:8080/core/temp/home.css">
+<script type="text/javascript" src="../js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+	function del(workid){
+		if(confirm("确认删除吗？")){
+			$.ajax({
+				url:'deleteWork',
+				data:'id='+workid,
+				success:function(data){
+					if(data.success == 1){
+						$('#showShipin').submit();
+					}else{
+						alert("删除失败");
+					}
+				}
+			});
+		}else{
+			return false;
+		}
+	}
+</script>
 	<body>
+	<form id="showShipin" action="showWorks" method="post">
+	<input name="worksid" type="hidden" value="${works.worksid!}">
 		<div class="yk-row">
 		<div class="YK_topic">
-			<div class="pageTitle"><h3>管理专辑</h3></div>		
+			<div class="pageTitle"><h3>管理专辑</h3>
+			</div>		
 	<div class="tpsummary" id="playlistDetail">	
 		<div id="playlistinfo_wrap"><div id="playlistinfo" params="">	<ul class="p ph">
 		<li class="p_link"><a href="cartoon/showDetail?id=${works.worksid!}" target="_blank" title="${works.worksname!}"></a></li>
@@ -31,7 +54,7 @@
 	
 		</li>
 	</ul>
-	<div class="action"><a href="">编辑专辑信息</a></div></div></div>
+	<div class="action"><a href="editWorks?flag=1&worksid=${works.worksid!}">编辑专辑信息</a></div></div></div>
 	</div>	
 		
 <div class="topiclist">
@@ -62,7 +85,7 @@
 						</tr>
 					</thead>
 					<tbody class="" id="videolist">
-						<% for(works in pageWork.list){%>
+						<% for(work in pageWork.list){%>
 						<tr id="">
 							<td class="tpl_check"><div class="check"><input type="checkbox" id="input198022550" name="videos[]" value="198022550"><label for="input198022550"></label></div></td>
 							<td class="tpl_serial" id=""><a href="javascript:;">${work.worknum!}</a></td>
@@ -86,9 +109,9 @@
 							</td>
 							<td class="tpl_opt">
 								<div class="action">
-									<span class="add"><a target="_blank" href="/u/videos/edit/id_XNzkyMDkwMjAw.html">编辑视频</a></span>
+									<span class="add"><a target="_blank" href="editWork?flag=1&worksid=${works.worksid!}&workid=${work.workid!}&pageIndex=${pageWork.pageNumber!}">编辑视频</a></span>
 									<span class="share"></span>
-									<span class="del"><a href="javascript:;" onclick="mg.removePlaylistVideo(22882478,198022550)">删除</a></span>
+									<span class="del"><a href="javascript:del(${work.workid!});">删除</a></span>
 								</div>
 							</td>
 						</tr>
@@ -108,6 +131,14 @@
 				</table>
 			</div>
 		</div>
+		当前第&nbsp;<input name="pageIndex" type="hidden" value="${pageWork.pageNumber!}"> ${pageWork.pageNumber!}&nbsp;页，
+								<a href="showWorks?worksid=${works.worksid}&pageIndex=${pageWork.pageUp!}">上一页</a>
+								&nbsp;
+								&nbsp;
+								<a href="showWorks?worksid=${works.worksid}&pageIndex=${pageWork.pageDown!}">下一页</a>
+								，共&nbsp; ${pageWork.totalPage} &nbsp;页
+		
+		
 		<div class="manager_tool">
 			<div class="manager_action">
 				<div class="adddel">
@@ -122,5 +153,6 @@
 	</div>
 	</div><!--YKbody end-->
 </div>
+</form>
 	</body>
 </html>

@@ -15,6 +15,17 @@ Date: 2014-09-09 22:07:29
 
 SET FOREIGN_KEY_CHECKS=0;
 
+DROP TABLE IF EXISTS `works_type`;
+CREATE TABLE `works_type` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `type` tinyint(3) DEFAULT '0' COMMENT '0为视频，1为漫画',
+  `istop` int(11) DEFAULT '0' COMMENT '大于0则在首页显示 值越高排名越靠前',
+  `des` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '简介',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 -- ----------------------------
 -- Table structure for `work`
 -- ----------------------------
@@ -25,14 +36,21 @@ CREATE TABLE `work` (
   `worknum` int(10) DEFAULT '1' COMMENT '第几集',
   `workname` varchar(20) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '名称',
   `workdes` varchar(255) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '简介',
+  `ischeck` tinyint(3) DEFAULT '0' COMMENT '0未审核 1已审核',
+  `cover` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '每一集的封面',
   `comic` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '资源地址',
-  `isdisable` tinyint(3) DEFAULT '0' COMMENT '是否禁用 0否1禁',
+  `times` int(11) DEFAULT '0' COMMENT '视频时长 单位秒',
+  `timesdes` varchar(20) COLLATE utf8_unicode_ci DEFAULT '00:00' COMMENT '视频时长秒转分钟  格式 65:30',
+  `isdisable` tinyint(3) DEFAULT '0' COMMENT '是否公开 1公开0隐藏',
+  `playtimes` int(11) DEFAULT '0' COMMENT '播放次数',
   `createtime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `creater` bigint(20) NOT NULL,
+  `creatername` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '创建者 user的账号',
   `modifytime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `modifier` bigint(20) NOT NULL,
+  `modifiername` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '修改者 user账号',
   PRIMARY KEY (`workid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for works
@@ -42,20 +60,22 @@ CREATE TABLE `works` (
   `worksid` bigint(20) NOT NULL AUTO_INCREMENT,
   `worksname` varchar(255) NOT NULL,
   `workstype` varchar(32) DEFAULT '10',
-  `creativeprocess` varchar(32) DEFAULT '10',
+  `creativeprocess` tinyint(3) DEFAULT '0' COMMENT '0是连载状态，1完结状态',
   `type` tinyint(2) DEFAULT '0' COMMENT '0专辑,1视频',
   `ischeck` tinyint(2) DEFAULT '0' COMMENT '是否审核过 0未审核,1审核通过',
   `cover` varchar(255) NOT NULL,
   `leadingrole` varchar(255) NOT NULL,
   `describle` varchar(1024) DEFAULT NULL,
-  `istop` int(11) DEFAULT '0',
+  `homepage` int(11) DEFAULT '0' COMMENT '是否首页推荐字段 如果大于0 则只在首页5个轮换，并且不在其他分类里面展现，并按值大到小排序',
+  `istop` int(11) DEFAULT '0' COMMENT '大于1 则在搜索时靠前显示，并且在本类型展示中靠前',
+  `ispublic` tinyint(3) DEFAULT '0' COMMENT '是否公开',
   `comment` bigint(20) DEFAULT '0',
   `pageviews` bigint(20) DEFAULT '0',
   `collection` bigint(20) DEFAULT '0',
   `praise` bigint(20) DEFAULT '0',
-  `maxnum` bigint(20) DEFAULT '0', 
-  `releasedate` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `updatetime` timestamp DEFAULT CURRENT_TIMESTAMP,
+  `maxnum` bigint(20) DEFAULT '0',
+  `releasedate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) NOT NULL,
   `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

@@ -6,94 +6,45 @@
 	<title>上传视频</title>
 	<link href="http://localhost:8080/core/temp/youku.css" rel="stylesheet" type="text/css">
 	<link href="http://localhost:8080/core/temp/up_v3.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript">
+		var isshow = '${work.isdisable!}';
+		window.onload = function(){
+			if(isshow != ''){
+				document.getElementById('isdisable').value = isshow;
+			}
+		} 
+	</script>
 	<body>
-		<div class="videoLeft">   
+		<form action="editShipin" method="post" enctype="application/x-www-form-urlencoded">
+		<input type="hidden" name="worksid" value="${works.worksid!}">
+		<input type="hidden" name="pageIndex" value="${pageIndex!}">
+		<div class="videoLeft">
             <div class="items upBottom">
                 <h3>视频信息</h3>
             </div>
             <div class="space20"></div>
             <div class="items">
                 <span class="meta-title f_14">标题：</span>
-                <input type="text" class="form_input" name="title" value="默认视频名称" style="width:548px;">
-                <div class="qtips qtips_lt qtips-title" style="display:none">
-                    <div class="handler handler-qtips"></div>
-                    <div class="arrow"></div>
-                    <div class="content">
-                        <p></p>
-                        <div class="con_tips">
-                            用一句话概括视频在讲什么故事：）简明扼要的标题会使你的视频更容易被搜索到，建议不要使用无意义或难于理解的文字。
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
+                <input type="text" class="form_input" name="worksname" value="${works.worksname!}" style="width:548px;">
             </div>
-            <div class="error error-title" style="display: none;"></div>
             <div class="space20"></div>
-            <div class="textareaItems" style="z-index:100">
-                <span class="f_14">简介：</span><textarea class="form_input" name="description" style="overflow:hidden"></textarea>
-                <textarea class="form_input uploadf_14 description-hidden" style="position:absolute; top:-9999px; left:-9999px; right:auto; bottom:auto; -moz-box-sizing:content-box; -webkit-box-sizing:content-box; box-sizing:content-box; word-wrap:break-word; height:0 !important; min-height:0 !important; overflow:hidden;"></textarea>
-                <div class="qtips qtips_lt qtips-description" style="display:none">
-                    <div class="handler handler-qtips"></div>
-                    <div class="arrow"></div>
-                    <div class="content">
-                    <p></p>
-                    <div class="con_tips">
-                        详细的介绍能帮助人们得到更多的信息：）例如，这个视频的来历，拍摄的时间、地点，背景音乐的名字，观看的感受，有什么精彩的看点等等。
-                    </div>
-                    <div class="clear"></div>
-                    </div>
-                </div>
+            <div class="textareaItems">
+                <span class="f_14">简介：</span>
+                <textarea class="form_input" name="describle" style="overflow:hidden">${works.describle!}</textarea>
             </div>
-            <div class="error error-description" style="display: none;"></div>
             <div class="space20"></div>
             <div class="items" style="z-index:92">
-                <span class="f_14">分类：</span>
-                <select class="meta-cate upOriginal ">
-                    <option>其他</option>
-                    
+                <span class="f_14">隐私：</span>
+                <select id="isdisable" class="meta-cate upOriginal" name="isdisable">
+                    <option value="1">公开</option>
+                    <option value="0">隐藏</option>
                 </select>
-                <div class="meta-cate-list upCate">
-                    <dl class="upTransparent">
-                    <dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="97">电视剧</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="96">电影</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="85">综艺</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="100">动漫</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="95">音乐</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="87">教育</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="84">纪录片</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="91">资讯</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="86">娱乐</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="98">体育</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="104">汽车</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="105">科技</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="99">游戏</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="103">生活</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="89">时尚</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="88">旅游</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="90">亲子</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="94">搞笑</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="171">微电影</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="172">网剧</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="174">拍客</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="175">创意视频</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="176">自拍</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="102">广告</a></dd><dd><a href="/QUpload/~ajax/getSubCates/" data-name="category_id" data-value="106">其他</a></dd>                    </dl>
-                </div>
-                <input type="hidden" name="category_id" value="106">
             </div>
-            <div class="error error-category_id" style="display: none;"></div>
             <div class="space20"></div>
-
-            <div class="items items_last" style="z-index:90;height:auto;zoom:1">
-                <span class="f_14">标签：</span>
-                <div style="position:relative;float:left" class="meta-tags-container">
-                    <div class="form_input meta-tags-box" style="height:auto;padding:4px;width:554px;">
-                        <input type="text" class="input-mini meta-tags"> 
-                        <div class="clear"></div>
-                    </div>
-                </div>
-                <div class="qtips qtips_lt qtips-tags" style="display:none">
-                    <div class="handler handler-qtips"></div>
-                    <div class="arrow"></div>
-                    <div class="content">
-                        <p></p>
-                        <div class="con_tips">
-                        标签用空格或逗号分隔。标签是根据视频内容、属性所概括出的一组关键词，填写合理的标签可以让别人更快速、准确的搜索到您的视频！
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-                <input type="hidden" name="tags" value="">
-                <div class="clear"></div>
-            </div>
-            <div class="error error-tags" style="display: none;"></div>
-            <div class="upLabel">
-                    <div>
-                        <p>我的标签:</p>
-                        <div class="uplabel_select meta-tags-my">
-                                                    <span class="upLabel_list"><a href="#" class="my-tag-0">野生动物</a></span>
-                                                </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="meta-tags-rec"><p>推荐标签:</p><div class="uplabel_select"><span class="upLabel_list"><a href="#" class="rec-tag-0">dc</a></span></div><div class="clear"></div></div>
-                </div>
-            </div>
+            <button type="submit">提交</button>
+            &nbsp;&nbsp;&nbsp;
+            <button type="reset">取消</button>
+        </div>
+        </form>
 	</body>
 </html>

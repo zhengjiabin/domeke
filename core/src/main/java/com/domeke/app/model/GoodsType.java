@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -115,6 +116,20 @@ public class GoodsType extends Model<GoodsType> {
 		return strs;
 	}
 
+	/**
+	 * 通过 父ID 查询 GoodsType 
+	 * @return
+	 */
+	public List<GoodsType> getGoodsTypeByParId(String parId){
+		String sql = "";
+		if(StrKit.isBlank(parId)){
+			sql = "select * from goods_type where parenttypeid is null or parenttypeid = ''";
+		}else {
+			sql = "select * from goods_type where parenttypeid = "+parId;
+		}
+		return this.find(sql);
+	}
+	
 	/**
 	 * 根据商品id返回倒序的商品分类顺序
 	 * @param goodsTypeId

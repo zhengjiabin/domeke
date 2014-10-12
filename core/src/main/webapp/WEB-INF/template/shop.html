@@ -1,123 +1,50 @@
 <% layout("/shop/slayout.html"){ %>
-<section>
-	<div class="ShopTopL">
-    	<div class="ShopTopLSub">
-        	<div class="TopLSubName font_r"><a href="#">商品一级分类一</a></div>
-            <div class="TopLSubDtl">
-            	<a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a>
-            </div>
-        </div>
-        <div class="ShopTopLSub">
-        	<div class="TopLSubName font_r"><a href="#">商品一级分类一</a></div>
-            <div class="TopLSubDtl">
-            	<a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a>
-            </div>
-        </div>
-        <div class="ShopTopLSub">
-        	<div class="TopLSubName font_r"><a href="#">商品一级分类一</a></div>
-            <div class="TopLSubDtl">
-            	<a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a>
-            </div>
-        </div>
-        <div class="ShopTopLSub">
-        	<div class="TopLSubName font_r"><a href="#">商品一级分类一</a></div>
-            <div class="TopLSubDtl">
-            	<a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a>
-            </div>
-        </div>
-        <div class="ShopTopLSub">
-        	<div class="TopLSubName font_r"><a href="#">商品一级分类一</a></div>
-            <div class="TopLSubDtl">
-            	<a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a>
-            </div>
-        </div>
-        <div class="ShopTopLSub">
-        	<div class="TopLSubName font_r"><a href="#">商品一级分类一</a></div>
-            <div class="TopLSubDtl">
-            	<a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a><a href="#">水壶</a><a href="#">热水器</a>
-            </div>
-        </div>
+<link href="css/Cartoon.css" rel="stylesheet" type="text/css">
+<link href="css/Member.css" rel="stylesheet" type="text/css">
+<link href="css/Shop.css" rel="stylesheet" type="text/css">
+<section class="White">
+    <div class="ShopPath">
+    	<a href="goods/shop">全部</a>
+    	<%for(stack in goodsTypeStack){%>
+    	/<a href="goods/shop?goodstype=${stack.goodstypeid!}">${stack.typename!}</a>
+        <%}%>
     </div>
-    <div class="ShopTopR">
-    	<div class="ShopRoll"><img src="http://www.dongmark.com/images/Shop01.png"></div>
-        <div class="SmallADZoom">
-        	<div class="SmallAD"><a href="#"><img src="http://www.dongmark.com/images/Shop02.png"></a></div>
-            <div class="SmallAD"><a href="#"><img src="http://www.dongmark.com/images/Shop03.png"></a></div>
-            <div class="SmallAD"><a href="#"><img src="http://www.dongmark.com/images/Shop04.png"></a></div>
-            <div class="SmallAD"><a href="#"><img src="http://www.dongmark.com/images/Shop02.png"></a></div>
-        </div>
-    </div>
-    <div class="clear">&nbsp;</div>
-</section>
-<section>
-	<div class="MeTitle">推荐单品</div>
-    <div class="MeGoods">
-    	<a href="#"><img src="http://www.dongmark.com/images/Mepic01.png"></a>
-        <a href="#"><img src="http://www.dongmark.com/images/Mepic02.png"></a>
-        <a href="#"><img src="http://www.dongmark.com/images/Mepic02.png"></a>
+    <div class="CategorySub">
+    	<% for(list in goodsTypeList){%>
+    	<a href="goods/shop?goodstype=${list.goodstypeid!}" >${list.typename!}</a>|
+    	<% } %>
     </div>
 </section>
-<section>
-	<div class="MeTitle">新品上架</div>
-    <div class="ProductContent">
-    	<div class="ProductR">
-        	<div class="ProductAD2"><a href="#"><img src="http://www.dongmark.com/images/Shop05.png"></a></div>
-            <div class="ProductAD5"><a href="#"><img src="http://www.dongmark.com/images/Shop06.png"></a></div>
-        </div>
-        <div class="ProductL">
-        	<div class="ProductAD1"><a href="#"><img src="http://www.dongmark.com/images/Shop07.png"></a></div>
-            <div style="width: 897px;">
-                <div class="ProductAD3"><a href="#"><img src="http://www.dongmark.com/images/Shop08.png"></a></div>
-                <div class="ProductAD4"><a href="#"><img src="http://www.dongmark.com/images/Shop09.png"></a></div>
-                <div class="clear"></div>
-            </div>
-        </div>
+<section class="White">
+	<div class="CategoryTop font_9">
+    	<span class="FL">
+        	<a href="#">推荐</a>|<a href="#">最新</a>|<a href="#">价格从高到低</a>|<a href="#">价格从低到高</a>|<a href="#">关注度</a>
+        </span>
+        <span class="FR">
+        	<span><input name="" type="checkbox" value="">仅显示特惠商品</span><span><input name="" type="checkbox" value="">仅显示有货商品</span>
+        </span>
         <div class="clear"></div>
     </div>
-</section>
-<section>
-	<div class="MeTitle">大家都喜欢</div>
-    <div class="ProductContent">
-    	<div class="ProductR">
-        	<div class="HotTitle"><span class="font_r">HOT</span>热销排行榜</div>
-            <div class="HotSub">
-            	<span class="HotNum">1</span>
-                <span class="HotName"><a href="#">5200mAh移动电源</a><br />49元</span>
-                <span class="HotPic"><img src="http://www.dongmark.com/images/ShopIcon01.png"></span>
-            </div>
-            <div class="HotSub">
-            	<span class="HotNum">2</span>
-                <span class="HotName"><a href="#">5200mAh移动电源</a><br />49元</span>
-                <span class="HotPic"><img src="http://www.dongmark.com/images/ShopIcon01.png"></span>
-            </div>
-            <div class="HotSub">
-            	<span class="HotNum">3</span>
-                <span class="HotName"><a href="#">5200mAh移动电源</a><br />49元</span>
-                <span class="HotPic"><img src="http://www.dongmark.com/images/ShopIcon01.png"></span>
-            </div>
-            <div class="HotSub">
-            	<span class="HotNum">4</span>
-                <span class="HotName"><a href="#">5200mAh移动电源</a><br />49元</span>
-                <span class="HotPic"><img src="http://www.dongmark.com/images/ShopIcon01.png"></span>
-            </div>
-            <div class="HotSub">
-            	<span class="HotNum">5</span>
-                <span class="HotName"><a href="#">5200mAh移动电源</a><br />49元</span>
-                <span class="HotPic"><img src="http://www.dongmark.com/images/ShopIcon01.png"></span>
-            </div>
-        </div>
-        <div class="ProductL">
-        	<div class="ProductAD1"><a href="#"><img src="http://www.dongmark.com/images/Shop07.png"></a></div>
-            <div style="width: 897px;">
-                <div class="ProductAD3"><a href="#"><img src="http://www.dongmark.com/images/Shop08.png"></a></div>
-                <div class="ProductAD4"><a href="#"><img src="http://www.dongmark.com/images/Shop09.png"></a></div>
-                <div class="clear"></div>
-            </div>
-        </div>
-        <div class="clear"></div>
+    <section class="White" style="overflow: hidden;">
+    <% for(goods in goodss.list) {%>
+    <div class="GoodsSub">
+    	<div class="GoodsPic"><a href="goods/getGoodsDetail?id=${goods.goodsid!}&goodsattr=${goods.goodsattr1!}"><img src="${goods.pic!}"></a></div> 
+        <div class="GoodsId"><a href="goods/getGoodsDetail?id=${goods.goodsid!}&goodsattr=${goods.goodsattr1!}">${goods.goodsname!}</a></div>
+        <div class="GoodsProperties font_9"><span class="CurrentPrice">${goods.price!}元</span><span class="OriginalPrice">${goods.oldprice!}元</span></div>
+        <div class="GoodsLove font_9"><span><img src="http://www.dongmark.com/images/ShopIcon02.png"></span><span>12345人评价</span></div>
     </div>
+    <% } %>
+    </section>
+	<div class="PageMore">
+          <a href="goods/shop?goodstype=${goodstype!}&pageNumber=${goodss.pageUp!}">上一页</a>
+          <% for(var i=0; i < goodss.totalPage; i++){%>
+          <a href="goods/shop?goodstype=${goodstype!}&pageNumber=${i+1}">${i+1}</a>
+          <% } %>
+          <a href="goods/shop?goodstype=${goodstype!}&pageNumber=${goodss.pageDown!}">下一页</a>
+      </div>
+    <div class="clear"></div>
 </section>
-
+<div class="clear"></div>
 <section>
 	<div class="MePrivilege">
     	<div class="PrivilegeSub">
@@ -209,4 +136,18 @@
         <span><a href="#">24小时在线客服</a></span>
     </div>
 </section>
+<footer>
+  
+    <div class="FooterZoom">
+    	<div class="FooterBorder">
+            <div class="FooterLogo">
+            	<a href="#"><img src="http://www.dongmark.com/images/logoBottom.png"></a>
+            </div>
+            <div class="FooterLink">
+                <span class="font_str">旗下网站</span><a href="#">动漫方舟</a>|<a href="#">金樽动漫</a>|<a href="#">动漫方舟</a>|
+                <a href="#">金樽动漫</a>
+            </div>
+        </div>
+    </div>
+</footer>
 <% } %> 

@@ -7,6 +7,7 @@ import java.util.Map;
 import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.Works;
+import com.domeke.app.model.WorksType;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
 import com.google.common.collect.Lists;
@@ -17,31 +18,33 @@ import com.jfinal.core.Controller;
 public class IndexController extends Controller {
 
 	public void index() {
-		List<CodeTable> codetables = CodeKit.getList("workstype");
+		WorksType worksTypeModel = getModel(WorksType.class);
+		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(0);
+		
 		Works worksDao = getModel(Works.class);
 		Map<String, Object> typeMap = Maps.newHashMap();
-		for (CodeTable codeTable : codetables) {
-			typeMap.put(codeTable.getStr("codekey"), codeTable.getStr("codevalue"));
+		for (WorksType worksType : worksTypes) {
+			typeMap.put(worksType.get("id").toString(), worksType.get("name"));
 		}
-		//加载头部5个循环显示
-		List<Works> workss0Temp = worksDao.getWorksInfoByType("00",5);
+		//加载首页5个循环显示
+		List<Works> workss0Temp = worksDao.getHomePage(5);
 		List<Map<String, Object>> workss0 = Lists.newArrayList();
 		workss0 = this.worksParse(workss0Temp);
 		
 		//加载中间数据
-		List<Works> workss1temp = worksDao.getWorksInfoByType("10",7);
+		List<Works> workss1temp = worksDao.getWorksInfoByType(worksTypes.get(0).get("id").toString(),7);
 		List<Map<String, Object>> workss1 = Lists.newArrayList();
 		workss1 = this.worksParse(workss1temp);
 		
-		List<Works> workss2temp = worksDao.getWorksInfoByType("20",5);
+		List<Works> workss2temp = worksDao.getWorksInfoByType(worksTypes.get(1).get("id").toString(),5);
 		List<Map<String, Object>> workss2 = Lists.newArrayList();
 		workss2 = this.worksParse(workss2temp);
 		
-		List<Works> workss3temp = worksDao.getWorksInfoByType("30",5);
+		List<Works> workss3temp = worksDao.getWorksInfoByType(worksTypes.get(2).get("id").toString(),5);
 		List<Map<String, Object>> workss3 = Lists.newArrayList();
 		workss3 = this.worksParse(workss3temp);
 		
-		List<Works> workss4temp = worksDao.getWorksInfoByType("40",10);
+		List<Works> workss4temp = worksDao.getWorksInfoByType(worksTypes.get(3).get("id").toString(),10);
 		List<Map<String, Object>> workss4 = Lists.newArrayList();
 		workss4 = this.worksParse(workss4temp);
 		
