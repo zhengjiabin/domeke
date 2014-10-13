@@ -1,6 +1,7 @@
 package com.domeke.app.controller;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -221,6 +222,7 @@ public class GoodsController extends FilesLoadController {
 				goodsTypeStack.add(goodsType);
 				goodstypeid = String.valueOf(goodsType.get("parenttypeid"));
 			}
+			Collections.reverse(goodsTypeStack);
 		}
 		if (!goodsTypeStack.isEmpty()) {
 			goodsTypeModel = goodsTypeStack.get(goodsTypeStack.size() - 1);

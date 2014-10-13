@@ -35,16 +35,25 @@
     </div>
     <% } %>
     </section>
-    <% if(goodss.totalRow > 25) {%>
 	<div class="PageMore">
-          <a href="#">上一页</a>
-          <% for(var i=0; i < goodss.totalPage; i++){%>
-          <a href="goods/shop?goodstype=${goodstype!}&pageNumber=${i+1}">${i+1}</a>
-          <% } %>
-          <a href="#">下一页</a>
+		 <a href="goods/shop?goodstype=${goodstype!}&pageNumber=${goodss.pageUp!}">上一页</a>
+             <% for(var i=0; i < goodss.totalPage; i++)
+             {
+             	if(i+1 == goodss.pageNumber){
+             %>
+             	
+          		<a style="background-color:#ccc;" href="goods/shop?goodstype=${goodstype!}&pageNumber=${i+1}">${i+1}</a>
+          	<% 
+          		}
+          		else{
+          	%>
+          		<a href="goods/shop?goodstype=${goodstype!}&pageNumber=${i+1}">${i+1}</a>
+          	<%	
+          		}
+          	}%>
+            <a href="goods/shop?goodstype=${goodstype!}&pageNumber=${goodss.pageUp!}">下一页</a>
       </div>
     <div class="clear"></div>
-    <% } %>
 </section>
 <div class="clear"></div>
 <section>
