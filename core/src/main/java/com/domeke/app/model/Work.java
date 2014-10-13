@@ -56,7 +56,7 @@ public class Work extends Model<Work> {
 	public Work getFirstWork(Object worksid) {
 		String querySql = "select * from work where worksid=? and worknum=1";
 		List<Work> worklist = this.find(querySql, worksid);
-		return worklist == null ? this : worklist.get(0);
+		return worklist == null || worklist.size() == 0 ? this : worklist.get(0);
 	}
 
 }
