@@ -29,19 +29,18 @@
            	<span>活动类别：${activity.classtype!}</span>
            	<span>报名截止日期：${activity.expiration!}</span>
            	${activity.message!}
-           	
-        </div>
-        <div id="page">
-			<% if(activityApplyPage != null){
-			layout(
-				"/community/activityApplyPage.html",
-				{
-					"activityApplyPage":activityApplyPage,
-					"pageAction":"./activityApply/findByActivityId?activityId="+activity.activityid,
-					"fatherNode":"#page"
-				} 
-			){} 
-			}%>
+	        <div id="page">
+				<% if(activityApplyPage != null){
+				layout(
+					"/community/activityApplyPage.html",
+					{
+						"activityApplyPage":activityApplyPage,
+						"pageAction":"./activityApply/findByActivityId?activityId="+activity.activityid,
+						"fatherNode":"#page"
+					} 
+				){} 
+				}%>
+			</div>
 		</div>
        	<div class="FBodyBottom font_9">
 			<span class="FL">
@@ -65,7 +64,7 @@
 			}
 		%>
 	</div>
-	<div class="PiecesText" id="commentForm">
+	<div id="commentForm">
    		<% 
    			if(activity.activityid != null){ 
 				layout(

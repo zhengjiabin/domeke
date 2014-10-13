@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="css/jquery-ui-1.9.2.custom.css" type="text/css"></link>
+<!-- <link rel="stylesheet" href="css/jquery-ui-1.8.16.custom.css" type="text/css"></link> -->
+<link href="css/jquery-ui-1.9.2.custom.css" rel="stylesheet">
 
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script> 
 <script type="text/javascript" src="js/jquery-ui.js"></script> 
@@ -18,9 +19,8 @@
 			dateFormat: "yy-mm-dd",
 			timeFormat: 'HH:mm:ss'
 		});
-		
 		$('form :input[required=required]').each(function(){
-	        var $required = $("<span class='formtips' style=\"color: red\"> *</span>"); //创建元素
+	        var $required = $("<span class='font_r' style=\"color: red\"> *</span>"); //创建元素
 	        $(this).parent().append($required); //然后将它追加到文档中
 	    });
 	});
@@ -28,15 +28,15 @@
 	 //文本框失去焦点后
     $('form :input').blur(function(){
        	var $parent = $(this).parent();
-        $parent.find(".formtips").remove();
+        $parent.find(".font_r").remove();
       	//标题验证
         if($(this).is('#subject')){
         	if( this.value=="" ){
         	    var errorMsg = '标题不能为空';
-        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else{
         	    var okMsg = '输入正确';
-             $parent.append('<span class="formtips onSuccess" style="color: red" >'+okMsg+'</span>');
+             $parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
        	   	}
         }
       	//开始时间
@@ -50,16 +50,16 @@
     		expiration = new Date(parseInt(Date.parse(expiration),10));
         	if( this.value=="" ){
         	    var errorMsg = '开始时间不能为空';
-        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else if (starttimefrom > starttimeto){
         		var errorMsg = '开始时间不能大于结束时间';
-        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else if (starttimefrom < expiration){
         		var errorMsg = '开始时间不能小于报名截止时间';
-        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else{
         	    var okMsg = '输入正确';
-             $parent.append('<span class="formtips onSuccess" style="color: red" >'+okMsg+'</span>');
+             $parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
        	   	}
         }
       	//结束时间
@@ -71,13 +71,13 @@
     		starttimeto = new Date(parseInt(Date.parse(starttimeto),10));
         	if( this.value==""){
         	    var errorMsg = '结束时间不能为空';
-        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else if (starttimefrom > starttimeto){
         		var errorMsg = '结束时间不能小于开始时间';
-        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else{
         	    var okMsg = '输入正确';
-             $parent.append('<span class="formtips onSuccess" style="color: red" >'+okMsg+'</span>');
+             $parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
        	   	}
         }
       	//截止时间
@@ -89,78 +89,75 @@
     		expiration = new Date(parseInt(Date.parse(expiration),10));
         	if( this.value=="" ){
         	    var errorMsg = '报名截止时间不能为空';
-        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else if (starttimefrom < expiration){
         		var errorMsg = '报名截止时间不能大于开始时间';
-        	    $parent.append('<span class="formtips onError" style="color: red" >'+errorMsg+'</span>');
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else{
         	    var okMsg = '输入正确';
-             $parent.append('<span class="formtips onSuccess" style="color: red" >'+okMsg+'</span>');
+             $parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
        	   	}
         }
     });
 </script>
 <article>
-	<form action="#" method="post" id="createHtml">
-		<div class="control-group" hidden="block">
-			社区ID <input type="hidden" name="activity.communityid"
-				value="${communityId!}" />
-		</div>
-
-		<div class="control-group">
-			标题 <input type="text" name="activity.subject" id="subject"
-				value="${activity.subject!}" required="required"/>
-		</div>
-
-		<div class="control-group">
-			开始时间 <input type="text" name="activity.starttimefrom"
-				value="${activity.starttimefrom!}" id="starttimefrom" readonly="readonly" required="required"/>
-		</div>
-
-		<div class="control-group">
-			结束时间 <input type="text" name="activity.starttimeto"
-				value="${activity.starttimeto!}" id="starttimeto" readonly="readonly" required="required"/>
-		</div>
-
-		<div class="control-group">
-			地点 <input type="text" name="activity.place"
-				value="${activity.place!}" />
-		</div>
-
-		<div class="control-group">
-			类别 <input type="text" name="activity.classtype"
-				value="${activity.classtype!}" />
-		</div>
-
-		<div class="control-group">
-			性别要求
-			<% if(has(genderList)){ for(codeTable in genderList) { %>
-				<input type="radio" name="activity.gender" value="${codeTable.codekey!}" />${codeTable.codevalue!}
-			<% } }%>
-				<input type="radio" name="activity.gender" value="2" />无
-		</div>
-
-		<div class="control-group">
-			上线人数 <input type="number" name="activity.number"
-				value="${activity.number!}"/>
-		</div>
-
-		<div class="control-group">
-			报名截止日期 <input type="text" name="activity.expiration"
-				id="expiration" value="${activity.expiration!}" required="required"/>
-		</div>
-
-		<div class="control-group">
-			活动详细内容<textarea name="ckeditor" id="ckeditor"></textarea>
-			<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
-			 <input type="text" name="activity.message" id="message"
-				value="${activity.message!}" hidden="block" />
-		</div>
-
-		<div class="form-actions">
-			<button type="button" class="btn btn-primary"
-				onclick="submitActivity(this,'${communityId!}')">提交</button>
-			<button type="button" class="btn">取消</button>
-		</div>
-	</form>
+   	<div class="ForumReply">
+		<form action="#" method="post" id="createHtml">
+		
+      		<table border="0" cellspacing="0" cellpadding="0" class="Table_Forum">
+      			<tr hidden="block">
+      				<th>社区ID：</th>
+      				<td><input name="activity.communityid" type="text" class="input_Forum" value="${communityId!}"></td>
+      			</tr>
+              	<tr>
+               	 	<th>标题：</th>
+                	<td><input id="subject" name="activity.subject" type="text" class="input_Forum" value="${activity.subject!}" required="required"></td>
+              	</tr>
+              	<tr>
+                	<th>开始时间：</th>
+                	<td><input id="starttimefrom" name="activity.starttimefrom" type="text" class="input_Forum" value="${activity.starttimefrom!}" required="required" readonly="readonly"></td>
+             	</tr>
+              	<tr>
+                	<th>结束时间：</th>
+                	<td><input id="starttimeto" name="activity.starttimeto" type="text" class="input_Forum" value="${activity.starttimeto!}" required="required" readonly="readonly"></td>
+              	</tr>
+               	<tr>
+                	<th>地点：</th>
+                	<td><input name="activity.place" type="text" class="input_Forum" value="${activity.place!}"></td>
+              	</tr>
+              
+              	<tr>
+                	<th>类别：</th>
+                	<td><input name="activity.classtype" type="text" class="input_Forum" value="${activity.classtype!}"></td>
+              	</tr>
+              	<tr>
+                	<th>性别要求：</th>
+                	<td>
+                		<% if(has(genderList)){ for(codeTable in genderList) { %>
+							<input type="radio" name="activity.gender" value="${codeTable.codekey!}" />${codeTable.codevalue!}&nbsp;&nbsp;&nbsp;&nbsp;
+						<% } }%>
+							<input type="radio" name="activity.gender" value="2" />无
+                	</td>
+              	</tr>
+               	<tr>
+                	<th>上线报名人数：</th>
+                	<td><input name="activity.number" type="number" class="input_Forum" value="${activity.number!}"></td>
+              	</tr>
+              <tr>
+                <th>报名截止日期：</th>
+                <td><input id="expiration" name="activity.expiration" type="text" class="input_Forum" value="${activity.expiration!}" required="required"></td>
+              </tr>
+            </table>
+            <div class="ForumInfoA font_str">活动详细内容：</div>
+      		<div class="WhiteBg" style="height: 300px;padding: 30px;">
+      			<textarea name="ckeditor" id="ckeditor"></textarea>
+				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
+				<input type="text" name="activity.message" id="message" value="${activity.message!}" hidden="block" />
+      		</div> 
+      		<div class="ForumButton font_w">
+      			<a href="javascript:void(0)" class="Fsubmit" onclick="submitActivity(this,'${communityId!}')">确定发布</a>
+        		<a href="javascript:void(0)" class="Freset">取消发布</a>
+     		</div>
+		</form>
+	</div>
 </article>

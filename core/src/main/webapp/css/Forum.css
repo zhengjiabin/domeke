@@ -278,6 +278,7 @@ nav li{
 	background: #fff;
 	border-bottom: 2px #ddd solid;
 }
+
 .ReplyHead{
 	float: left;
 	width: 100px;
@@ -308,6 +309,37 @@ nav li{
 .ReplyBottom{
 	padding-bottom: 10px;
 }
+.ForumReplyTo{
+	padding-top: 40px;
+}
+.ForumReplyToReply{
+	background: #f1f2f6;
+	border-top: 1px #fff solid;
+	font-size: 12px;
+}
+.ForumReplyToReply .ReplyHead{
+	float: left;
+	width: 60px;
+	text-align: center;
+	padding-top: 20px;
+}
+.ForumReplyToReply .ReplyHead img{
+	width: 40px;
+	height: 40px;
+	border-radius: 5px;
+}
+.ForumReplyToReply .ReplyBody{
+	padding: 10px 10px 10px 60px;
+}
+.ForumReplyToReply .ReplyID{
+	font-size: 12px;
+}
+.ForumReplyToReply .ReplyInfo{
+	font-size: 12px;
+	padding: 20px;
+}
+
+
 .White{
 	background: #fff;
 }
@@ -317,12 +349,116 @@ nav li{
 	height: 250px;
 }
 
+.PicBlock{
+	background: #fff;
+	border-radius: 5px;
+	margin-bottom: 30px;
+	padding: 20px;
+}
+.PicBlock .CartoonSub{
+	width: 209px;
+	height: 150px;
+	display: inline-block;
+	margin: 0px 5px 15px 5px;
+	background: #fff;
+}
+.PicBlock .CartoonSub img{
+	width: 209px;
+	height: 120px;
+}
+.PicBlock .CartoonSubFootbar{
+	position: relative;
+	bottom: 45px;
+	height: 20px;
+	width: 204px;
+	background:  rgba(0,0,0,0.3);
+	color: #fff;
+	padding-left: 5px;
+	text-align: left;
+	float: left;
+}
 
 
 
 
 
+.Table_Forum{ 
+	border-collapse:collapse;
+	width:100%;
+	margin: 30px 0px;
+}
+.Table_Forum th{
+	color: #333;
+	width: 150px;
+	text-align: right;
+	font-weight: normal;
+	padding: 10px;
+	font-size: 14px;
+	border-collapse:collapse;
+	empty-cells:show;
+}
+.Table_Forum td{
+	padding: 10px;
+}
+.Table_Info{ 
+	border-collapse:collapse;
+	width:100%;
+	margin: 30px 0px;
+	border-top: 1px #f1f6fa solid;
+	border-left: 1px #f1f6fa solid;
+}
+.Table_Info th{
+	color: #333;
+	text-align: center;
+	font-weight: normal;
+	padding: 5px;
+	font-size: 14px;
+	border-collapse:collapse;
+	empty-cells:show;
+	border: #f1f6fa solid;
+	border-width: 0px 1px 1px 0px;
+	background: #f1f6fa;
+}
+.Table_Info td{
+	padding: 5px;
+	text-align: center;
+	font-size: 12px;
+	border: #f1f6fa solid;
+	border-width: 0px 1px 1px 0px;
+}
 
+
+
+
+.input_Forum{
+	width: 400px;
+	height: 30px;
+	background: #fff;
+	border: 1px #ddd solid;
+	border-radius: 5px;
+	font-family:\5FAE\8F6F\96C5\9ED1;
+	padding: 3px 10px;
+	margin-right: 20px;
+}
+.ForumButton{
+	text-align: center;
+	margin-top: 30px;
+}
+.ForumButton a{
+	display: inline-block;
+	width: 120px;
+	padding: 10px 0px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 16px;
+	margin: 0px 15px;
+}
+.Fsubmit{
+	background: #c40001;	
+}
+.Freset{
+	background: #ccc;
+}
 
 
 

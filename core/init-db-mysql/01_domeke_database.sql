@@ -15,6 +15,29 @@ Date: 2014-09-09 22:07:29
 
 SET FOREIGN_KEY_CHECKS=0;
 
+-- ----------------------------
+-- Table structure for of_wonders
+-- ----------------------------
+DROP TABLE IF EXISTS `of_wonders`;
+CREATE TABLE `of_wonders` (
+  `ofwondersid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `subject` varchar(80) NOT NULL,
+  `dateline` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `message` text NOT NULL,
+  `userip` varchar(15) NOT NULL,
+  `times` bigint(20) DEFAULT '0',
+  `top` tinyint(1) NOT NULL DEFAULT '0',
+  `essence` tinyint(1) NOT NULL DEFAULT '0',
+  `status` varchar(4) NOT NULL DEFAULT '10',
+  `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) DEFAULT NULL,
+  `modifier` bigint(20) DEFAULT NULL,
+  `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `communityid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ofwondersid`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `works_type`;
 CREATE TABLE `works_type` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,

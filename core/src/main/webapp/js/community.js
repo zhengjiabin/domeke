@@ -164,6 +164,56 @@ function showCommunity(node){
 	});
 }
 
+//提交宝贝主题
+function submitTreasure(node,communityId){
+	createHtml = $(node).closest("#createHtml");
+	subject = createHtml.find("#subject").first();
+	canSubmit = true;
+	$("form :input[required=required]").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	submitCreate(node,communityId)
+    } else {
+    	if(content == ""){
+    		alert("内容不能为空！");
+    	}else{
+    		alert("提交失败，存在非规范内容，请检查！");
+    	}
+    }
+}
+
+//提交论坛主题
+function submitPost(node,communityId){
+	createHtml = $(node).closest("#createHtml");
+	subject = createHtml.find("#subject").first();
+	canSubmit = true;
+	$("form :input[required=required]").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	submitCreate(node,communityId)
+    } else {
+    	if(content == ""){
+    		alert("内容不能为空！");
+    	}else{
+    		alert("提交失败，存在非规范内容，请检查！");
+    	}
+    }
+}
+
 //提交活动主题
 function submitActivity(node,communityId){
 	createHtml = $(node).closest("#createHtml");
@@ -176,13 +226,16 @@ function submitActivity(node,communityId){
     }
     var content = CKEDITOR.instances.ckeditor.getData();
     if(content == ""){
-    	alert("活动详情不能为空");
     	canSubmit = false;
     }
     if(canSubmit){
     	submitCreate(node,communityId)
     } else {
-    	alert("提交失败，存在非规范内容，请检查！");
+    	if(content == ""){
+    		alert("内容不能为空！");
+    	}else{
+    		alert("提交失败，存在非规范内容，请检查！");
+    	}
     }
 }
 

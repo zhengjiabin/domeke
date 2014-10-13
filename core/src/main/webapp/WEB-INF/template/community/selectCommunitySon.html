@@ -1,8 +1,6 @@
+<th>主题类型：</th>
 <td>
-	主题类型：
-</td>
-<td>
-	<select id="first" onchange="showCommunity(this)">
+	<select id="first" onchange="showCommunity(this)" class="input_Forum">
 		<option value="">
 		<% for( communitySon in communitySonList!) { %>
 			<option value="${communitySon.communityid!}">${communitySon.title!}

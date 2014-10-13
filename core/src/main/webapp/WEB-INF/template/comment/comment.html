@@ -6,8 +6,9 @@
 			<span class="ReplyID font_ye"><a href="#">${comment.username!}</a></span>
 	        <span>${comment.dateline!}</span>
 	    </div>
-	   	<div class="ReplyInfo">${comment.message!}
-	       	<div id="commentHtml" >
+	   	<div class="ReplyInfo">
+	   		${comment.message!}
+	       	<div id="commentHtml" class="ForumReplyTo">
 				<%
 					if(followPage != null){
 					layout(
@@ -46,7 +47,7 @@
      <div class="clear"></div>
 </div> 
 <% } %>
-<div>
+<div class="PageMore White">
 	<% if(commentPage != null){ 
 		layout(
 			"/common/page.html",

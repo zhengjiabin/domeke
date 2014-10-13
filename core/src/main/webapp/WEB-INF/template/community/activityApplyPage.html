@@ -1,33 +1,36 @@
+<table border="0" cellspacing="0" cellpadding="0" class="Table_Info">
+	<thead>
+		<tr>
+			<th>用户名</th>
+			<th>消息</th>
+			<th>申请时间</th>
+			<th>性别</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% for (activityApply in activityApplyPage.list){ %>
+		<tr>
+			<td>${activityApply.username!}</td>
+			<td>${activityApply.message!}</td>
+			<td>${activityApply.dateline!}</td>
+			<td><% if(activityApply.gender == 0) { %> 男 <% } else { %> 女 <%
+				} %></td>
+		</tr>
+		<% } %>
+	</tbody>
+</table>
 <div>
-	<table border="1" >
-		<thead>
-			<tr>
-				<td>用户名</td>
-				<td>消息</td>
-				<td>申请时间</td>
-				<td>性别</td>
-			</tr>
-		</thead>
-		<tbody>
-			<% for (activityApply in activityApplyPage.list){ %>
-			<tr>
-				<td>${activityApply.userid!}</td>
-				<td>${activityApply.message!}</td>
-				<td>${activityApply.dateline!}</td>
-				<td>
-					<% if(activityApply.gender == 0) { %>
-						男
-					<% } else { %>
-						女
-					<% } %>
-				</td>
-			</tr>
-			<% } %>
-		</tbody>
-	</table>
-	<div><% if(activityApplyPage != null){ layout("/common/page.html",
-	{"page":activityApplyPage,"pageAction":pageAction,"fatherNode":fatherNode}
-	){} }%></div>
+	<% if(activityApplyPage != null){ 
+		layout(
+			"/common/page.html",
+			{
+				"page":activityApplyPage,
+				"pageAction":pageAction,
+				"fatherNode":fatherNode
+			}
+		){} 
+	}%>
 </div>
+      
 
 
