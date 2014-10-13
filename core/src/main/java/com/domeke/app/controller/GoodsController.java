@@ -101,6 +101,22 @@ public class GoodsController extends FilesLoadController {
 	}
 	
 	/**
+	 * 修改文件夹名
+	 * @param fileUrl 文件路径
+	 * @param oldFileName 原文件名
+	 * @param newFileName 新文件名
+	 */
+	public void updateFileName(String fileUrl, String oldFileName, String newFileName){
+		File file = new File(fileUrl);
+		File[] files = file.listFiles();
+		for (int i = 0; i < files.length; i ++) {
+			if(oldFileName.equals(files[i].getName())) {
+				files[i].renameTo(new File(newFileName));
+			}
+		}
+	}
+	
+	/**
 	 * 获取指定路径下的所有文件域路径
 	 * @param url 指定文件夹路径
 	 * @return 返回指定路径下的所有文件域路径数组
