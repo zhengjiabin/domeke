@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +16,7 @@ import com.domeke.app.cos.multipart.FilePart;
 import com.domeke.app.model.User;
 import com.domeke.app.utils.VideoKit;
 import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
 import com.jfinal.kit.PropKit;
 import com.jfinal.upload.UploadFile;
 
@@ -57,15 +60,23 @@ public class FilesLoadController extends Controller {
 	 *            编码
 	 * @return 如果没有上传文件，则返回的文件路径为null
 	 */
-	protected String upLoadFileDealPath(String parameterName, String saveFolderName, Integer maxPostSize,
-			String encoding) {
+	protected String upLoadFileDealPath(String parameterName,
+			String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
+		boolean isAbsolutePath = isAbsolutePath(imageDirectory);
 		String tmpDirectoryPath = getDirectory(tempDirectory, saveFolderName);
-		UploadFile uploadFile = getFile(parameterName, tmpDirectoryPath, maxPostSize, encoding);
+		UploadFile uploadFile = getFile(parameterName, tmpDirectoryPath,
+				maxPostSize, encoding);
 		String imgFilePath = "";
 		if (uploadFile != null) {
 			File srcFile = uploadFile.getFile();
-			String imgDirectoryPath = getDirectory(imageDirectory, saveFolderName);
+			String imgDirectoryPath = getDirectory(imageDirectory,
+					saveFolderName);
+			if (!isAbsolutePath) {
+				ServletContext servletContext = JFinal.me().getServletContext();
+				String contextPath = servletContext.getRealPath("");
+				imgDirectoryPath = contextPath + "\\\\" + imgDirectoryPath;
+			}
 			File imgDirectory = new File(imgDirectoryPath);
 			if (!imgDirectory.exists()) {
 				imgDirectory.mkdirs();
@@ -86,11 +97,12 @@ public class FilesLoadController extends Controller {
 	 * @param encoding
 	 * @return
 	 */
-	protected String upLoadFileNotDealPath(String parameterName, String saveFolderName, Integer maxPostSize,
-			String encoding) {
+	protected String upLoadFileNotDealPath(String parameterName,
+			String saveFolderName, Integer maxPostSize, String encoding) {
 		initProgress();
 		String imgDirectoryPath = getDirectory(imageDirectory, saveFolderName);
-		UploadFile uploadFile = getFile(parameterName, imgDirectoryPath, maxPostSize, encoding);
+		UploadFile uploadFile = getFile(parameterName, imgDirectoryPath,
+				maxPostSize, encoding);
 		String imgFilePath = "";
 		if (uploadFile != null) {
 			File srcFile = uploadFile.getFile();
@@ -107,10 +119,12 @@ public class FilesLoadController extends Controller {
 	 * @param encoding
 	 * @return
 	 */
-	protected String upLoadFilesNotDealPath(String saveFolderName, Integer maxPostSize, String encoding) {
+	protected String upLoadFilesNotDealPath(String saveFolderName,
+			Integer maxPostSize, String encoding) {
 		initProgress();
 		String imgDirectoryPath = getDirectory(imageDirectory, saveFolderName);
-		List<UploadFile> uploadFileList = getFiles(imgDirectoryPath, maxPostSize, encoding);
+		List<UploadFile> uploadFileList = getFiles(imgDirectoryPath,
+				maxPostSize, encoding);
 		String imgFilePath = "";
 		if (uploadFileList != null && uploadFileList.size() != 0) {
 			imgFilePath = imgDirectoryPath;
@@ -127,15 +141,24 @@ public class FilesLoadController extends Controller {
 	 * @param encoding
 	 * @return
 	 */
-	protected String upLoadVideo(String parameterName, String saveFolderName, Integer maxPostSize, String encoding) {
+	protected String upLoadVideo(String parameterName, String saveFolderName,
+			Integer maxPostSize, String encoding) {
 		initProgress();
+		boolean isAbsolutePath = isAbsolutePath(imageDirectory);
 		String tmpDirectoryPath = getDirectory(tempDirectory, saveFolderName);
-		UploadFile uploadFile = getFile(parameterName, tmpDirectoryPath, maxPostSize, encoding);
+		UploadFile uploadFile = getFile(parameterName, tmpDirectoryPath,
+				maxPostSize, encoding);
 		String fileName = "";
 		if (uploadFile != null) {
 			File tagVideo = uploadFile.getFile();
-			String vdoDirectoryPath = getDirectory(videoDirectory, saveFolderName);
-			fileName = VideoKit.compressVideo(tagVideo.getAbsolutePath(), vdoDirectoryPath);
+			String vdoDirectoryPath = getDirectory(videoDirectory,
+					saveFolderName);
+			if (!isAbsolutePath) {
+				ServletContext servletContext = JFinal.me().getServletContext();
+				String contextPath = servletContext.getRealPath("");
+				vdoDirectoryPath = contextPath + "\\\\" + vdoDirectoryPath;
+			}
+			fileName = VideoKit.compressVideo(tagVideo, vdoDirectoryPath);
 		}
 		return getDomainNameFilePath(fileName);
 	}
@@ -150,13 +173,26 @@ public class FilesLoadController extends Controller {
 	private String getDirectory(String fixDirectory, String userDefinedDirectory) {
 		if (fixDirectory.indexOf("<username>") >= 0) {
 			User user = getSessionAttr("user");
-			String userName = user == null || user.getStr("username") == null ? "admin" : user.getStr("username");
+			String userName = user == null || user.getStr("username") == null ? "admin"
+					: user.getStr("username");
 			fixDirectory = fixDirectory.replaceAll("<username>", userName);
 		}
-		if (userDefinedDirectory != null && userDefinedDirectory.trim().length() != 0) {
+		if (userDefinedDirectory != null
+				&& userDefinedDirectory.trim().length() != 0) {
 			fixDirectory = fixDirectory + userDefinedDirectory;
 		}
 		return fixDirectory;
+	}
+
+	protected boolean isAbsolutePath(String path) {
+		if (path == null || path.trim().length() == 0) {
+			return true;
+		}
+		if (path.startsWith("/") || path.indexOf(":") == 1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -170,7 +206,8 @@ public class FilesLoadController extends Controller {
 		filePath = filePath.replaceAll("\\\\", "/");
 		String basePath = PropKit.getString("base_path");
 		StringBuffer domainNameFilePath = new StringBuffer(domainName);
-		String lastFilePath = filePath.substring(filePath.indexOf(basePath) + basePath.length(), filePath.length());
+		String lastFilePath = filePath.substring(filePath.indexOf(basePath)
+				+ basePath.length(), filePath.length());
 		domainNameFilePath.append(lastFilePath);
 		return domainNameFilePath.toString();
 	}
@@ -214,7 +251,8 @@ public class FilesLoadController extends Controller {
 	protected void initProgress() {
 		FilePart.progresss.set(new FilePart.Progress() {
 			public void progress(long currentSize) {
-				int totalsize = FilesLoadController.this.getRequest().getContentLength();
+				int totalsize = FilesLoadController.this.getRequest()
+						.getContentLength();
 				double csize = (double) currentSize;
 				double s = csize / totalsize * 100;
 				logger.info("文件上传百分之{}", String.format("%.2f", s));

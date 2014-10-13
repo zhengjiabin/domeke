@@ -68,7 +68,8 @@ public class VideoKit {
 		return true;
 	}
 
-	public static String getVideoPath(String filepath) {
+	public static String getVideoPath(File file) {
+		String filepath = file.getAbsolutePath();
 		int filePrefixIndex = filepath.lastIndexOf(".");
 		String filePathAndName = "";
 		if (toDirectory == null || toDirectory.length() == 0) {
@@ -85,7 +86,8 @@ public class VideoKit {
 		return filePathAndName;
 	}
 
-	public static String getImagePath(String filepath) {
+	public static String getImagePath(File file) {
+		String filepath = file.getAbsolutePath();
 		int filePrefixIndex = filepath.lastIndexOf(".");
 		String filePathAndName = "";
 		if (toDirectory == null || toDirectory.length() == 0) {
@@ -102,23 +104,20 @@ public class VideoKit {
 		return filePathAndName;
 	}
 
-	public static String compressVideo(String filepath, String toDirectory) {
-		if (!checkFile(filepath)) {
-			return "";
-		}
+	public static String compressVideo(File file, String toDirectory) {
 		VideoKit.toDirectory = toDirectory;
-		String targePath = process(filepath, COMMOND_VIDEO);
-		process(filepath, COMMOND_IMAGE);
+		String targePath = process(file, COMMOND_VIDEO);
+		process(file, COMMOND_IMAGE);
 		return targePath;
 	}
 
-	private static Map<String, Object> buildCompressCommand(String filepath) {
+	private static Map<String, Object> buildCompressCommand(File file) {
 		Map<String, Object> resultMap = Maps.newHashMap();
 		List<String> command = Lists.newArrayList();
-		String videoPath = getVideoPath(filepath);
+		String videoPath = getVideoPath(file);
 		command.add(FFMEPG_PATH);
 		command.add("-i");
-		command.add(filepath);
+		command.add(file.getAbsolutePath());
 		// 音频码率 32 64 96 128
 		command.add("-ab");
 		command.add("64");
@@ -149,13 +148,13 @@ public class VideoKit {
 		return resultMap;
 	}
 
-	private static Map<String, Object> buildImageCommond(String filepath) {
+	private static Map<String, Object> buildImageCommond(File file) {
 		Map<String, Object> resultMap = Maps.newHashMap();
 		List<String> command = Lists.newArrayList();
-		String imagePath = getImagePath(filepath);
+		String imagePath = getImagePath(file);
 		command.add(FFMEPG_PATH);
 		command.add("-i");
-		command.add(filepath);
+		command.add(file.getAbsolutePath());
 		command.add("-y");
 		command.add("-f");
 		command.add("image2");
@@ -173,13 +172,13 @@ public class VideoKit {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static String process(String filepath, int commType) {
+	public static String process(File file, int commType) {
 		Map<String, Object> resultMap = Maps.newHashMap();
 		List<String> command = Lists.newArrayList();
 		if (COMMOND_IMAGE == commType) {
-			resultMap = buildImageCommond(filepath);
+			resultMap = buildImageCommond(file);
 		} else {
-			resultMap = buildCompressCommand(filepath);
+			resultMap = buildCompressCommand(file);
 		}
 		command = (List<String>) resultMap.get("command");
 		try {
@@ -194,6 +193,6 @@ public class VideoKit {
 	}
 
 	public static void main(String[] args) {
-		VideoKit.compressVideo("G:\\1.mp4", "G:\\upload\\");
+		VideoKit.compressVideo(new File("G:\\1.mp4"), "G:\\upload\\");
 	}
 }
