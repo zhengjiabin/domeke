@@ -158,7 +158,7 @@ public class FilesLoadController extends Controller {
 				String contextPath = servletContext.getRealPath("");
 				vdoDirectoryPath = contextPath + "\\\\" + vdoDirectoryPath;
 			}
-			fileName = VideoKit.compressVideo(tagVideo, vdoDirectoryPath);
+			fileName = VideoKit.compressVideo(tagVideo,	vdoDirectoryPath);
 		}
 		return getDomainNameFilePath(fileName);
 	}
