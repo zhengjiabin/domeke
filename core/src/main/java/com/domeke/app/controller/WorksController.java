@@ -73,7 +73,7 @@ public class WorksController extends FilesLoadController {
 	public void saveWork() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
-			String comicPath = upLoadFileDealPath("comic", "", 2000 * 1024 * 1024, "utf-8");
+			String comicPath = upLoadVideo("comic", "", 2000 * 1024 * 1024, "utf-8");
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 			Work workModel = getModel(Work.class);
 			workModel.set("comic", comicPath);
@@ -240,7 +240,7 @@ public class WorksController extends FilesLoadController {
 		String userName = user.get("username");
 		
 		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
-		String comicPath = upLoadFileDealPath("comic", "", 2000 * 1024 * 1024, "utf-8");
+		String comicPath = upLoadVideo("comic", "", 2000 * 1024 * 1024, "utf-8");
 		String title = getPara("title");
 		String des = getPara("des");
 		String type = getPara("type");
@@ -360,7 +360,7 @@ public class WorksController extends FilesLoadController {
 		String userName = user.get("username");
 		
 		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
-		String comicPath = upLoadFileDealPath("comic", "", 2000 * 1024 * 1024, "utf-8");
+		String comicPath = upLoadVideo("comic", "", 2000 * 1024 * 1024, "utf-8");
 		String title = getPara("title");
 		String des = getPara("des");
 		String ispublic = getPara("ispublic");
@@ -429,7 +429,7 @@ public class WorksController extends FilesLoadController {
 			render("/works/addwork.htm");
 			return;
 		}
-		String comicPath = upLoadFileDealPath("comic", "", 2000 * 1024 * 1024, "utf-8");
+		String comicPath = upLoadVideo("comic", "", 2000 * 1024 * 1024, "utf-8");
 		pageIndexStr = getPara("pageIndex");
 		Integer pageIndex = 1;
 		if (!StrKit.isBlank(pageIndexStr)) {
