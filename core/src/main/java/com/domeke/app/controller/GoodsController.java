@@ -1,6 +1,7 @@
 package com.domeke.app.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,13 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.GoodsType;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.google.common.collect.Lists;
-import com.jfinal.aop.Before;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -25,7 +24,6 @@ import com.jfinal.plugin.activerecord.Page;
  *
  */
 @ControllerBind(controllerKey = "/goods")
-@Before(LoginInterceptor.class)
 public class GoodsController extends FilesLoadController {
 
 	/**
@@ -75,6 +73,12 @@ public class GoodsController extends FilesLoadController {
 			goods.set("creater", 111111);
 			goods.set("modifier", 111111);
 			goods.saveGoodsInfo();
+//			headimg = headimg.substring(0, headimg.length() - 1);
+//			String[] headimgs = headimg.split("/");
+//			String fileUrl = headimg.substring(0, headimg.lastIndexOf("/"));
+			String[] headimgs = headimg.split("\\\\");
+			String fileUrl = headimg.substring(0, headimg.lastIndexOf('\\'));
+			this.updateFileName(fileUrl, headimgs[headimgs.length - 1], Long.toString(goods.get("goodsid")));
 			goToManager();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,13 +92,16 @@ public class GoodsController extends FilesLoadController {
 	final static String[] showAllFiles(File dir) {
 		File[] fs = dir.listFiles();
 		String[] files = null;
-		for (int i = 0; i < fs.length; i++) {
-			files[i] = fs[i].getAbsolutePath();
-			if (fs[i].isDirectory()) {
-				try {
-					showAllFiles(fs[i]);
-				} catch (Exception e) {
-					System.out.println(e);
+		if (fs != null) {
+			files = new String[fs.length];
+			for (int i = 0; i < fs.length; i++) {
+				files[i] = fs[i].getAbsolutePath();
+				if (fs[i].isDirectory()) {
+					try {
+						showAllFiles(fs[i]);
+					} catch (Exception e) {
+						System.out.println(e);
+					}
 				}
 			}
 		}
@@ -112,6 +119,8 @@ public class GoodsController extends FilesLoadController {
 		File[] files = file.listFiles();
 		for (int i = 0; i < files.length; i ++) {
 			if(oldFileName.equals(files[i].getName())) {
+//				files[i].renameTo(new File(newFileName));
+//				files[i].renameTo(new File(files[i].getPath() + newFileName));
 				files[i].renameTo(new File(newFileName));
 			}
 		}
@@ -122,12 +131,13 @@ public class GoodsController extends FilesLoadController {
 	 * @param url 指定文件夹路径
 	 * @return 返回指定路径下的所有文件域路径数组
 	 */
-	public String[] getFileUrls(String url){
+	public List<String> getFileUrls(String url){
 		File dir = new File(url);
-		String[] fileUrls = null;
+		List<String> fileUrls = new ArrayList<String>();
 		String[] files = this.showAllFiles(dir);
 		for (int i =0; i < files.length; i ++) {
-			fileUrls[i] = getDomainNameFilePath(url + "/" + files[i]);
+//			fileUrls.add(getDomainNameFilePath(files[i]));
+			fileUrls.add(files[i]);
 		}
 		return fileUrls;
 	}
@@ -157,6 +167,9 @@ public class GoodsController extends FilesLoadController {
 	public void goodsMessage() {
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsId"));
+		String headimg = goods.getStr("headimg");
+		List<String> headimgs = this.getFileUrls(headimg);		
+		setAttr("headimgs", headimgs);
 		setAttr("goods", goods);
 		render("/admin/admin_goodsMsg.html");
 	}
@@ -174,6 +187,7 @@ public class GoodsController extends FilesLoadController {
 	 * 编辑商品
 	 */
 	public void updateGoods() {
+		
 		Goods goods = getModel(Goods.class);
 		goods.updateGoodsInfo();
 		goToManager();

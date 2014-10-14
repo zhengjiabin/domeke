@@ -8,6 +8,7 @@ import java.util.Set;
 import com.domeke.app.tablebind.TableBind;
 import com.google.common.collect.Lists;
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -133,5 +134,9 @@ public class Goods extends Model<Goods> {
 		}
 		List<Goods> goodsType = this.find(sql);
 		return goodsType;
+	}
+	
+	public String getHeadImg(String goodsId) {
+		return Db.queryStr("select headimg from goods where goodsid = " + goodsId);
 	}
 }

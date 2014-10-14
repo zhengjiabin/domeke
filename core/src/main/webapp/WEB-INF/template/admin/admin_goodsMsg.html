@@ -28,7 +28,7 @@
         	<input name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
         	
         	<!-- <input name="goods.pic" value="${goods.pic!}" type="text" class="span6 m-wrap" /><br> -->
-        	<label class="control-label">主图：</label><input id="fileImage" type="file" size="30" name="${goods.pic!}" /><br>
+        	<label class="control-label">主图：</label><!-- <input id="fileImage" type="file" size="30" name="${goods.pic!}" /> --><br>
         	<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${goods.pic!}"/><br>
         	
         	<label class="control-label">商品信息：</label>
@@ -39,6 +39,24 @@
         	<input name="goods.istop" value="${goods.istop!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">状态：</label>
         	<input name="goods.status" value="${goods.status!}" type="text" class="span6 m-wrap" /><br>
+        	
+        	<%
+        	var idx = 0;
+        	for(var i=0; i < headimgs.~size; i++){
+        	idx = idx + 1;
+        	%>
+        	<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${headimgs[i]}"/>
+        	<% 
+        	if (idx%4 == 0){
+        	%>
+        	<br>
+        	<%
+        	}
+        	}
+        	%>
+        	
+        	
+        	
         	<label class="control-label">上传用户：</label>
         	<input name="goods.username" value="${goods.username!}" type="text" class="span6 m-wrap" readonly = "readonly "/><br>
         	        	
