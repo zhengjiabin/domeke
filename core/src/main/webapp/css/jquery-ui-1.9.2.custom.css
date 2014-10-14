@@ -4,6 +4,17 @@
 * To view and modify this theme, visit http://jqueryui.com/themeroller/?ffDefault=Trebuchet%20MS%2CTahoma%2CVerdana%2CArial%2Csans-serif&fwDefault=bold&fsDefault=1.1em&cornerRadius=4px&bgColorHeader=f6a828&bgTextureHeader=gloss_wave&bgImgOpacityHeader=35&borderColorHeader=e78f08&fcHeader=ffffff&iconColorHeader=ffffff&bgColorContent=eeeeee&bgTextureContent=highlight_soft&bgImgOpacityContent=100&borderColorContent=dddddd&fcContent=333333&iconColorContent=222222&bgColorDefault=f6f6f6&bgTextureDefault=glass&bgImgOpacityDefault=100&borderColorDefault=cccccc&fcDefault=1c94c4&iconColorDefault=ef8c08&bgColorHover=fdf5ce&bgTextureHover=glass&bgImgOpacityHover=100&borderColorHover=fbcb09&fcHover=c77405&iconColorHover=ef8c08&bgColorActive=ffffff&bgTextureActive=glass&bgImgOpacityActive=65&borderColorActive=fbd850&fcActive=eb8f00&iconColorActive=ef8c08&bgColorHighlight=ffe45c&bgTextureHighlight=highlight_soft&bgImgOpacityHighlight=75&borderColorHighlight=fed22f&fcHighlight=363636&iconColorHighlight=228ef1&bgColorError=b81900&bgTextureError=diagonals_thick&bgImgOpacityError=18&borderColorError=cd0a0a&fcError=ffffff&iconColorError=ffd27a&bgColorOverlay=666666&bgTextureOverlay=diagonals_thick&bgImgOpacityOverlay=20&opacityOverlay=50&bgColorShadow=000000&bgTextureShadow=flat&bgImgOpacityShadow=10&opacityShadow=20&thicknessShadow=5px&offsetTopShadow=-5px&offsetLeftShadow=-5px&cornerRadiusShadow=5px
 * Copyright 2014 jQuery Foundation and other contributors; Licensed MIT */
 
+/*timepicker
+-----------------------------------*/
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; } 
+.ui-timepicker-div dl { text-align: left; } 
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; } 
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; } 
+.ui-timepicker-div td { font-size: 90%; } 
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; } 
+.ui_tpicker_hour_label,.ui_tpicker_minute_label,.ui_tpicker_second_label, 
+.ui_tpicker_millisec_label,.ui_tpicker_time_label{padding-left:20px} 
+
 /* Layout helpers
 ----------------------------------*/
 .ui-helper-hidden { display: none; }
