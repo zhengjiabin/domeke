@@ -429,7 +429,7 @@ public class GoodsController extends FilesLoadController {
 		//豆子
 		Long peas = (Long)changeMap.get("peas");
 		if (dougprice <= peas){
-			isChange = "1";
+			isChange = "1"; 
 		}
 		if (isChange == "1" || "1".equals(isChange)){
 			peas = peas - dougprice;
