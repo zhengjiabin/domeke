@@ -1,17 +1,5 @@
 <script type="text/javascript">
 	$(document).ready(function() {   
-		$('#starttimefrom').datetimepicker({
-			dateFormat: "yy-mm-dd",
-			timeFormat: 'HH:mm:ss'
-		});
-		$('#starttimeto').datetimepicker({
-			dateFormat: "yy-mm-dd",
-			timeFormat: 'HH:mm:ss'
-		});
-		$('#expiration').datetimepicker({
-			dateFormat: "yy-mm-dd",
-			timeFormat: 'HH:mm:ss'
-		});
 		$('form :input[required=required]').each(function(){
 	        var $required = $("<span class='font_r' style=\"color: red\"> *</span>"); //创建元素
 	        $(this).parent().append($required); //然后将它追加到文档中
@@ -108,11 +96,11 @@
               	</tr>
               	<tr>
                 	<th>开始时间：</th>
-                	<td><input id="starttimefrom" name="activity.starttimefrom" type="text" class="input_Forum" value="${activity.starttimefrom!}" required="required" readonly="readonly"></td>
+                	<td><input id="starttimefrom" name="activity.starttimefrom" type="text" class="input_Forum" value="${activity.starttimefrom!}" required="required" readonly="readonly" onClick="WdatePicker()"></td>
              	</tr>
               	<tr>
                 	<th>结束时间：</th>
-                	<td><input id="starttimeto" name="activity.starttimeto" type="text" class="input_Forum" value="${activity.starttimeto!}" required="required" readonly="readonly"></td>
+                	<td><input id="starttimeto" name="activity.starttimeto" type="text" class="input_Forum" value="${activity.starttimeto!}" required="required" readonly="readonly" onClick="WdatePicker()"></td>
               	</tr>
                	<tr>
                 	<th>地点：</th>
@@ -138,7 +126,7 @@
               	</tr>
               <tr>
                 <th>报名截止日期：</th>
-                <td><input id="expiration" name="activity.expiration" type="text" class="input_Forum" value="${activity.expiration!}" required="required"></td>
+                <td><input id="expiration" name="activity.expiration" type="text" class="input_Forum" value="${activity.expiration!}" required="required" onClick="WdatePicker()"></td>
               </tr>
             </table>
             <div class="ForumInfoA font_str">活动详细内容：</div>
