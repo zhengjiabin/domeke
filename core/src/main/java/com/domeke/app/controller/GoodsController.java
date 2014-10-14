@@ -16,6 +16,7 @@ import com.domeke.app.route.ControllerBind;
 import com.google.common.collect.Lists;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.upload.UploadFile;
 
 /**
  * 商品model控制器
@@ -76,9 +77,9 @@ public class GoodsController extends FilesLoadController {
 //			headimg = headimg.substring(0, headimg.length() - 1);
 //			String[] headimgs = headimg.split("/");
 //			String fileUrl = headimg.substring(0, headimg.lastIndexOf("/"));
-			String[] headimgs = headimg.split("\\\\");
-			String fileUrl = headimg.substring(0, headimg.lastIndexOf('\\'));
-			this.updateFileName(fileUrl, headimgs[headimgs.length - 1], Long.toString(goods.get("goodsid")));
+//			String[] headimgs = headimg.split("\\\\");
+//			String fileUrl = headimg.substring(0, headimg.lastIndexOf('\\'));
+//			this.updateFileName(fileUrl, headimgs[headimgs.length - 1], Long.toString(goods.get("goodsid")));
 			goToManager();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -156,6 +157,23 @@ public class GoodsController extends FilesLoadController {
 			}
 		}		
 	}
+	
+	/**
+	 * 删除图片
+	 */
+	public void deleteImg() {
+		String url = getPara("url");
+		String urlFile = url.substring(0, url.lastIndexOf("\\"));
+		String[] fileNames = url.split("\\\\");
+		String fileName = fileNames[fileNames.length - 1];
+		deleteFile(urlFile, fileName);
+		Goods goods = Goods.dao.findById(getParaToInt("goodsId"));
+		String headimg = goods.getStr("headimg");
+		List<String> headimgs = this.getFileUrls(headimg);		
+		setAttr("headimgs", headimgs);
+		setAttr("goods", goods);
+		render("/admin/admin_goodsMsg.html");
+	}
 
 	public void addGoods() {
 		render("/admin/admin_addGoods.html");
@@ -187,8 +205,15 @@ public class GoodsController extends FilesLoadController {
 	 * 编辑商品
 	 */
 	public void updateGoods() {
-		
+		UploadFile file = getFile();
 		Goods goods = getModel(Goods.class);
+		String goodsId = Long.toString(goods.getLong("goodsid"));
+		
+		String headimg = goods.getHeadImg(goodsId);
+		String[] headimgs = headimg.split("\\\\");
+		
+		String headimg2 = upLoadFilesNotDealPath(headimgs[headimgs.length - 1] + "\\", 200 * 1024 * 1024, "utf-8");
+		
 		goods.updateGoodsInfo();
 		goToManager();
 	}

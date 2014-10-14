@@ -14,9 +14,10 @@
 			</div>
 			<div class="block-content collapse in">
 				<div class="span12">
-     <form class="form-signin" action="goods/updateGoods" method="post">
+     <form class="form-signin" action="goods/updateGoods" method="post" enctype="multipart/form-data">
+     	
      		<input name="goods.goodsid" value="${goods.goodsid!}" type="text" class="span6 m-wrap" style="display:none"/><br>
-        	<label class="control-label">商品类型：</label>
+         	<label class="control-label">商品类型：</label>
         	<input name="goods.goods" value="${goods.goods!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">商品名称：</label>
         	<input name="goods.goodsname" value="${goods.goodsname!}" type="text" class="span6 m-wrap" /><br>
@@ -26,9 +27,12 @@
         	<input id="price" name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
 			<label class="control-label">历史价格：</label>
         	<input name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
-        	
+        	 
+        	 
         	<!-- <input name="goods.pic" value="${goods.pic!}" type="text" class="span6 m-wrap" /><br> -->
+        	
         	<label class="control-label">主图：</label><!-- <input id="fileImage" type="file" size="30" name="${goods.pic!}" /> --><br>
+        	
         	<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${goods.pic!}"/><br>
         	
         	<label class="control-label">商品信息：</label>
@@ -40,26 +44,29 @@
         	<label class="control-label">状态：</label>
         	<input name="goods.status" value="${goods.status!}" type="text" class="span6 m-wrap" /><br>
         	
+        	<label class="control-label">上传用户：</label>
+        	<input name="goods.username" value="${goods.username!}" type="text" class="span6 m-wrap" readonly = "readonly "/><br>
+        	        	
         	<%
         	var idx = 0;
         	for(var i=0; i < headimgs.~size; i++){
         	idx = idx + 1;
         	%>
-        	<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${headimgs[i]}"/>
-        	<% 
-        	if (idx%4 == 0){
-        	%>
-        	<br>
-        	<%
+        	<div>
+        	<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${headimgs[i]!}"/><br>
+        	<a href="goods/deleteImg?url=${headimgs[i]!}&goodsId=${goods.goodsid!}">删除</a>
+        	</div>
+        		<% 
+        		if (idx%4 == 0){
+        		%>
+        			<br>
+        		<%
+        		}
         	}
-        	}
         	%>
+        	<label class="control-label">商品子图</label>
+        	<input id="fileImage" type="file" size="30" name="addheadimg" multiple /><br>
         	
-        	
-        	
-        	<label class="control-label">上传用户：</label>
-        	<input name="goods.username" value="${goods.username!}" type="text" class="span6 m-wrap" readonly = "readonly "/><br>
-        	        	
 			<button class="btn btn-large btn-primary" type="submit" >编辑</button>
 			<a href="goods/goToManager" class="btn btn-large btn-primary" >返回</a>
       </form>
