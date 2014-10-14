@@ -1,0 +1,52 @@
+<% layout("/shop/slayout.html"){ %>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script src="js/newegg.jqzoom.js" language="javascript" type="text/javascript"></script>
+<script src="js/WebApplication.js" language="javascript" type="text/javascript"></script>
+<script src="js/BizProduct090713.js" language="javascript" type="text/javascript"></script>
+<script src="js/BizCommon090801.js" language="javascript" type="text/javascript"></script>
+<script src="js/jquery.ui.draggable.js" type="text/javascript"></script>
+<script src="js/jquery.alerts.js" type="text/javascript"></script>
+<link href="css/jquery.alerts.css" rel="stylesheet" type="text/css" media="screen" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/jqzoom.css" />
+<script type="text/javascript">
+function test(){
+	var goodsid = $("#goodsid").val();
+	var goodsattr1 = $("#goodsattr1").val();
+	var dougprice = $("#dougprice").val();
+	var ischange = $("#isChange").val();
+	var obj ="";
+	var url = "goods/peasChange?dougprice="+dougprice+"&goodsid="+goodsid+"&goodsattr="+goodsattr1;
+	if (ischange=="0"){
+		jAlert('您的豆豆不够兑换哦！', '警告对话框');
+		return;
+	}
+	if (ischange==""){
+		jAlert('兑换出错请联系管理员！', '警告对话框');
+		return;
+	}
+	$.showView(obj,url);
+	jAlert('您已经兑换成功！', '提示对话框');
+	console.log("您今天已经签到！"+goodsattr1);
+}  
+$.extend({
+	showView:function(obj,url){
+		$.ajax({   
+            type:"post",    
+            dataType:"html",
+            url:url, 
+            data:obj,  
+            success:function(data){
+            	$('#view').html(data);                  	
+            }, 
+            error:function(){ 
+            	alert("error");
+            }   
+        });
+	}
+});
+</script>
+  <div id="view">
+	<% layout("/ShopDtl.html"){} %>
+  </div>
+<%}%>

@@ -366,18 +366,18 @@ public class GoodsController extends FilesLoadController {
 	/**
 	 * 商品明细
 	 */
-	public void getGoodsDetail() {
+	public void getGoodsDetail(){
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
 		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
-		List<GoodsType> goodsTypes = GoodsType.gtDao.getTypeUrl(goodsattr);
+		List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
 		setAttr("goodsTypes", goodsTypes);
 		setAttr("goods", goods);
-		Map<String, Object> changeMap = getPeas();
-		String isChange = (String) changeMap.get("isChange");
+		Map<String,Object> changeMap = getPeas();
+		String isChange = (String)changeMap.get("isChange");	
 		setAttr("isChange", isChange);
 		setAttr("userId", changeMap.get("userId"));
-		render("/ShopDtl.html");
+		render("/ShopCentre.html");
 	}
 
 	/**
@@ -394,22 +394,33 @@ public class GoodsController extends FilesLoadController {
 	/**
 	 * 豆豆兑换
 	 */
-	public void peasChange() {
-		Map<String, Object> changeMap = getPeas();
-		String isChange = (String) changeMap.get("isChange");
-		int dougprice = (int) changeMap.get("dougprice");
+	public void peasChange(){
+		Map<String,Object> changeMap = getPeas();
+		String isChange = (String)changeMap.get("isChange");
+		int dougprice = (int)changeMap.get("dougprice");
 		User user = getSessionAttr("user");
 		Long userId = user.get("userid");
 		user = user.findById(userId);
-		// 豆子
-		Long peas = (Long) changeMap.get("peas");
-		if (dougprice <= peas) {
+		//豆子
+		Long peas = (Long)changeMap.get("peas");
+		if (dougprice <= peas){
 			isChange = "1";
 		}
-		if (isChange == "1" || "1".equals(isChange)) {
+		if (isChange == "1" || "1".equals(isChange)){
 			peas = peas - dougprice;
 			User.dao.updatePeas(userId, peas);
+			if (peas<=0)
+			isChange = "0";
 		}
+		Goods goodsModel = getModel(Goods.class);
+		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
+		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
+		List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
+		setAttr("goodsTypes", goodsTypes);
+		setAttr("goods", goods);	
+		setAttr("isChange", isChange);
+		setAttr("userId", changeMap.get("userId"));
+		render("/ShopDtl.html");
 	}
 
 	/**
