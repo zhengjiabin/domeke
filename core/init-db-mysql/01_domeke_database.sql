@@ -420,29 +420,7 @@ CREATE TABLE `message_queue` (
   PRIMARY KEY (`messageid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Table structure for orders
--- ----------------------------
-DROP TABLE IF EXISTS `orders`;
-CREATE TABLE `orders` (
-  `orderid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `goodsid` bigint(20) NOT NULL,
-  `status` varchar(4) NOT NULL DEFAULT '10',
-  `buyer` varchar(50) NOT NULL,
-  `userid` bigint(20) unsigned NOT NULL,
-  `amount` int(10) unsigned NOT NULL DEFAULT '0',
-  `price` float(7,2) unsigned NOT NULL,
-  `submitdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `confirmdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `email` varchar(40) NOT NULL,
-  `ip` varchar(15) NOT NULL,
-  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` bigint(20) NOT NULL,
-  `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` bigint(20) NOT NULL,
-  PRIMARY KEY (`orderid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
- 
+
 -- ----------------------------
 -- Table structure for playcount
 -- ----------------------------
