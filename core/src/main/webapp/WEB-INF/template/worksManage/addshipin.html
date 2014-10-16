@@ -1,14 +1,14 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#addshipin').submit(function(){
-			$('buttom[type=submit]',this).attr('disabled',true);
+			$('button[type=submit]',this).attr('disabled',true);
 			$(this).ajaxSubmit(function(data){
 				if(data.success == 1){
 					alert("添加成功!");
 					showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}});
 				}else{
 					alert("添加失败  信息：" + data.message);
-					$('buttom[type=submit]',this).removeAttr('disabled');
+					$('button[type=submit]',this).removeAttr('disabled');
 				}
 			});
 			return false;

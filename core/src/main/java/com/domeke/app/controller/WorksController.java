@@ -1,5 +1,6 @@
 package com.domeke.app.controller;
 
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -678,60 +679,77 @@ public class WorksController extends FilesLoadController {
 	}
 
 	public void editShipin() {
+		Map<String, Object> map = Maps.newHashMap();
+		User user = getSessionAttr("user");
+		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
+		String userName = user.get("username");
+		
+		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
 		String worksid = getPara("worksid");
-		String pageIndexStr = getPara("pageIndex");
-		String pageSizeStr = getPara("pageSize");
-		String flag = getPara("flag");
-		if ("1".equals(flag)) {
-			Works worksModel = getModel(Works.class).findById(worksid);
-			Work workModel = getModel(Work.class).getWorkByWorksID(worksid).get(0);
-			setAttr("pageIndex", pageIndexStr);
-			setAttr("works", worksModel);
-			setAttr("work", workModel);
-			render("/works/editshipin.htm");
+		String title = getPara("title");
+		String leadingrole = getPara("leadingrole");
+		String des = getPara("des");
+		String ispublic = getPara("ispublic");
+		Works worksModel = getModel(Works.class).findById(worksid);
+		Work workModel = getModel(Work.class);
+		List<Work> works = getModel(Work.class).getWorkByWorksID(worksid);
+		if(!works.isEmpty()){
+			workModel = works.get(0);
+		}
+		boolean bool = false;
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		if(!StrKit.isBlank(coverPath)){
+			String oldcover = worksModel.get("cover");
+			File coverFile = new File(oldcover);
+			if(coverFile.exists()){
+				coverFile.delete();
+			}
+			worksModel.set("cover", coverPath);
+			
+			String oldcover1 = workModel.get("cover");
+			File coverFile1 = new File(oldcover1);
+			if(coverFile1.exists()){
+				coverFile1.delete();
+			}
+			workModel.set("cover", coverPath);
+		}
+		if(!StrKit.isBlank(title)){
+			worksModel.set("worksname", title);
+			workModel.set("workname", title);
+		}
+		if(!StrKit.isBlank(leadingrole)){
+			worksModel.set("leadingrole", leadingrole);
+		}
+		worksModel.set("describle", des);
+		workModel.set("workdes", des);
+		if(!StrKit.isBlank(ispublic)){
+			worksModel.set("ispublic", ispublic);
+			workModel.set("isdisable", ispublic);
+		}
+		worksModel.set("modifier", userId);
+		worksModel.set("modifiername", userName);
+		worksModel.set("modifytime", timestamp);
+		
+		bool = worksModel.update();
+		if(!bool){
+			map.put("success", 0);
+			map.put("message", "服务器错误！");
+			renderJson(map);
 			return;
 		}
-		Integer pageIndex = 1;
-		if (!StrKit.isBlank(pageIndexStr)) {
-			pageIndex = Integer.parseInt(pageIndexStr);
-		}
-		Integer pageSize = 10;
-		if (!StrKit.isBlank(pageSizeStr)) {
-			pageSize = Integer.parseInt(pageSizeStr);
-		}
-		Works worksModel = getModel(Works.class).findById(worksid);
-		Work workModel = getModel(Work.class).getWorkByWorksID(worksid).get(0);
-		String worksname = getPara("worksname");
-		String describle = getPara("describle");
-		String isdisable = getPara("isdisable");
-
-		if (!StrKit.isBlank(worksname)) {
-			worksModel.set("worksname", worksname);
-			workModel.set("workname", worksname);
-		}
-		if (!StrKit.isBlank(describle)) {
-			worksModel.set("describle", describle);
-			workModel.set("workdes", describle);
-		}
-		if (!StrKit.isBlank(isdisable)) {
-			workModel.set("isdisable", isdisable);
-		}
-		boolean bool = worksModel.update();
+		workModel.set("modifier", userId);
+		workModel.set("modifiername", userName);
+		workModel.set("modifytime", timestamp);
 		bool = workModel.update();
 		if (bool) {
 			// 成功
-			Page<Works> pageWorks = null;
-			pageWorks = worksModel.getWorksInfoPage("", "1", pageIndex, pageSize);
-			setAttr("pageWorks", pageWorks);
-			render("/works/showworkList.htm");
-			return;
+			map.put("success", 1);
 		} else {
-			// 失败
-			setAttr("works", worksModel);
-			setAttr("message", "添加失败!");
-			render("/works/editshipin.htm");
-			return;
+			map.put("success", 0);
+			map.put("message", "服务器错误！");
 		}
+		renderJson(map);
+		return;
 	}
 
 	public void showShipin() {
@@ -895,9 +913,13 @@ public class WorksController extends FilesLoadController {
 				workModel = works.get(0);
 			}
 			setAttr("type", type);
+			setAttr("pageIndex", pageIndex);
+			
 			setAttr("worksTypes", worksTypes);
 			setAttr("workstype", workstype);
-			setAttr("pageIndex", pageIndex);
+			setAttr("works", worksModel);
+			setAttr("work", workModel);
+			
 			render("/worksManage/editshipin.html");
 		}else if("21".equals(flag)){
 			//21 是跳转 专辑详细页面
@@ -919,8 +941,24 @@ public class WorksController extends FilesLoadController {
 			render("/worksManage/detailzhuanji.html");
 		}else if("22".equals(flag)){
 			//22 是跳转 编辑专辑页面
+			String worksid = getPara("worksid");
+			String workpageIndexStr = getPara("workpageIndex");
+			Integer workpageIndex = 1;
+			if (!StrKit.isBlank(workpageIndexStr)) {
+				workpageIndex = Integer.parseInt(workpageIndexStr);
+			}
+			worksModel = worksModel.findById(Integer.parseInt(worksid));
+			worksTypeModel = worksTypeModel.findById(worksModel.get("workstype"));
+			setAttr("type", type);
+			setAttr("workstype", workstype);
+			setAttr("pageIndex", pageIndex);
+			setAttr("workpageIndex", workpageIndex);
+			
+			setAttr("works", worksModel);
+			setAttr("worksType", worksTypeModel);
+			render("/worksManage/editzhuanji.html");
 		}else if("23".equals(flag)){
-			//23 是跳转 视频页面
+			//23 是跳转 编辑专辑-->视频页面
 		}else if("24".equals(flag)){
 			//23 是跳转 添加专辑->视频 页面
 			String workpageIndexStr = getPara("workpageIndex");
