@@ -60,13 +60,11 @@
 	border-width: 0px 1px 1px 1px;
 	padding: 20px;
 }
-
 .MeCaption{
 	padding: 8px 15px;
 	background: #eaeaea;
 	font-size: 14px;
 }
-
 .MeHead{
 	float: left;
 	width: 100px;
@@ -261,7 +259,35 @@
 .AlbumBlock{
 	
 }
-
+.AlbumButton{
+	float: right;
+	width: 120px;
+	text-align: center;
+}
+.AlbumButton a{
+	display: block;
+	width: 90px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+.AlbumContent{
+	padding-right: 140px;
+}
+.AlbumPic{
+	float: left;
+	width: 140px;
+}
+.AlbumPic img{
+	width: 120px;
+	height: 90px;
+	border: 1px #fff solid;
+}
+.AlbumDtl{
+	padding-left: 160px;
+}
+.AlbumDtl li{
+	padding: 5px 0px;
+}
 
 
 

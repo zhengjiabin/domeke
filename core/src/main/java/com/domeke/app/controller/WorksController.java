@@ -832,6 +832,7 @@ public class WorksController extends FilesLoadController {
 
 	
 	public void showPage() {
+		
 		String flag = getPara("flag");
 		String type = getPara("type");
 		String workstype = getPara("workstype");
@@ -886,17 +887,34 @@ public class WorksController extends FilesLoadController {
 			render("/worksManage/addzhuanji.html");
 		}else if("20".equals(flag)){
 			//20 是跳转 编辑视频页面
+			String worksid = getPara("worksid");
+			worksModel = worksModel.findById(worksid);
+			Work workModel = getModel(Work.class);
+			List<Work> works = workModel.getWorkByWorksID(worksid);
+			if(!works.isEmpty()){
+				workModel = works.get(0);
+			}
+			setAttr("type", type);
+			setAttr("worksTypes", worksTypes);
+			setAttr("workstype", workstype);
+			setAttr("pageIndex", pageIndex);
+			render("/worksManage/editshipin.html");
 		}else if("21".equals(flag)){
 			//21 是跳转 专辑详细页面
 			String worksid = getPara("worksid");
+			String workpageIndexStr = getPara("workpageIndex");
+			Integer workpageIndex = 1;
+			if (!StrKit.isBlank(workpageIndexStr)) {
+				workpageIndex = Integer.parseInt(workpageIndexStr);
+			}
 			worksModel = worksModel.findById(Integer.parseInt(worksid));
-			Page<Work> pageWork = getModel(Work.class).getWorkByWorksID(Integer.parseInt(worksid), pageIndex, pageSize);
+			worksTypeModel = worksTypeModel.findById(worksModel.get("workstype"));
+			Page<Work> pageWork = getModel(Work.class).getWorkByWorksID(Integer.parseInt(worksid), workpageIndex, pageSize);
 			setAttr("type", type);
 			setAttr("workstype", workstype);
 			setAttr("pageIndex", pageIndex);
-			
 			setAttr("works", worksModel);
-			setAttr("worksTypes", worksTypes);
+			setAttr("worksType", worksTypeModel);
 			setAttr("pageWork", pageWork);
 			render("/worksManage/detailzhuanji.html");
 		}else if("22".equals(flag)){
@@ -905,9 +923,15 @@ public class WorksController extends FilesLoadController {
 			//23 是跳转 视频页面
 		}else if("24".equals(flag)){
 			//23 是跳转 添加专辑->视频 页面
+			String workpageIndexStr = getPara("workpageIndex");
+			Integer workpageIndex = 1;
+			if (!StrKit.isBlank(workpageIndexStr)) {
+				workpageIndex = Integer.parseInt(workpageIndexStr);
+			}
 			String worksid = getPara("worksid");
 			setAttr("type", type);
 			setAttr("workstype", workstype);
+			setAttr("workpageIndex", workpageIndex);
 			setAttr("pageIndex", pageIndex);
 			setAttr("worksid", worksid);
 			render("/worksManage/uploadshipin.html");

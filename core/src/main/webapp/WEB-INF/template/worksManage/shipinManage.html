@@ -53,7 +53,7 @@
                 <td>${works.createtime!}</td>
                 <td>${works.creatername!}</td>
                 <td>播放：${works.pageviews!}</td>
-                <td><a href="#">编辑视频</a><a href="javascript:del(${works.worksid!});">删除</a></td>
+                <td><a href="javascript:showPage({'flag':20,'type':0,'pageIndex':${pageWorks.pageUp!},'worksid':${works.worksid!}});">编辑视频</a><a href="javascript:del(${works.worksid!});">删除</a></td>
               </tr>
               <%}%>
               </tbody>
