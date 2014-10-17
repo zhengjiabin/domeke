@@ -43,6 +43,7 @@ CREATE TABLE `of_wonders` (
   `ofwondersid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `userid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(80) NOT NULL,
+  `themeimg` varchar(100) DEFAULT NULL,
   `dateline` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `message` text NOT NULL,
   `userip` varchar(15) NOT NULL,
@@ -54,7 +55,7 @@ CREATE TABLE `of_wonders` (
   `creater` bigint(20) DEFAULT NULL,
   `modifier` bigint(20) DEFAULT NULL,
   `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `communityid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `wonderstypeid` bigint(20) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`ofwondersid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 

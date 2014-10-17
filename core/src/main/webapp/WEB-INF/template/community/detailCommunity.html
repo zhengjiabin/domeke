@@ -17,18 +17,15 @@
 				<span class="ForumName">
 					<a href="javascript:void(0)" onclick="goToOrderForum(this,'${communitySon.communityid!}')">${communitySon.title!}</a>
 				</span>
-				<span class="ForumIntro">${communitySon.content!}
+				<span class="ForumIntro">${communitySon.content!}<br />
 					<% 
 						var forumCountList = @forumCountMap.get(communityFat.communityid); %>
-					<%	if(isEmpty(forumCountList)){
-							return;
-						}
-						for(forumCount in forumCountList) {
+					<%	for(forumCount in forumCountList) {
 							if(forumCount.communityid != communitySon.communityid){
 								continue;
 							}
 					%>
-						帖数：${forumCount.number!}
+						<span>帖数：${forumCount.number!}</span>
 					<% }  %>
 				</span>
 			</div>

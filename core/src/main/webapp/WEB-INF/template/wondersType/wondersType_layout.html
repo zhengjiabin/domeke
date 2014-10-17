@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <% include("/wondersType/wondersType_head.html"){} %>
+</head>
+<body>
+	<% include("/wondersType/wondersType_header.html"){} %>
+	<section id="wondersTypeLayout">
+		<div id="baseWondersType">
+			${layoutContent}
+		</div>
+ 		<% layout("/wondersType/wondersType_aside.html"){} %>
+	</section>
+	<% include("/wondersType/wondersType_footer.html"){} %>
+</body>
+</html>
