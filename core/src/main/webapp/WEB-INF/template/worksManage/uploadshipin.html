@@ -1,14 +1,14 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#uploadshipin').submit(function(){
-			$('buttom[type=submit]',this).attr('disabled',true);
+			$('button[type=submit]',this).attr('disabled',true);
 			$(this).ajaxSubmit(function(data){
 				if(data.success == 1){
 					alert("上传视频成功!");
 					showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!}});
 				}else{
 					alert("上传视频失败  信息：" + data.message);
-					$('buttom[type=submit]',this).removeAttr('disabled');
+					$('button[type=submit]',this).removeAttr('disabled');
 				}
 			});
 			return false;
@@ -20,8 +20,8 @@
         <input type="hidden" name="worksid" value="${worksid!}">
         <div class="MemberIndex">
           <div class="MeCaption"><a href="javascript:showPage({'flag':1,'type':1,'pageIndex':${pageIndex!}});">专辑管理</a> 
-          --> <a href="javascript:showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!}});">编辑专辑</a>
-          --> <a href="javascript:showPage({'flag':24,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!}});">上传视频</a>
+          --> <a href="javascript:showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${workpageIndex!},'worksid':${worksid!}});">编辑专辑</a>
+          --> <a href="javascript:showPage({'flag':24,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${workpageIndex!},'worksid':${worksid!}});">上传视频</a>
           </div>
           <div class="MeBlock">
           <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">

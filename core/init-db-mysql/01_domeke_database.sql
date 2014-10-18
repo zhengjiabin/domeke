@@ -16,6 +16,26 @@ Date: 2014-09-09 22:07:29
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
+-- Table structure for ofWonders_
+-- ----------------------------
+DROP TABLE IF EXISTS `wonders_type`;
+CREATE TABLE `wonders_type` (
+  `wonderstypeid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title`  varchar(64) NOT NULL,
+  `content`  varchar(255) DEFAULT NULL,
+  `pid` bigint(20) DEFAULT '0',
+  `level` int(11) NOT NULL DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `times` bigint(20) DEFAULT '0',
+  `status` varchar(4) DEFAULT '10',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`wonderstypeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
 -- Table structure for of_wonders
 -- ----------------------------
 DROP TABLE IF EXISTS `of_wonders`;
@@ -23,6 +43,7 @@ CREATE TABLE `of_wonders` (
   `ofwondersid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `userid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(80) NOT NULL,
+  `themeimg` varchar(100) DEFAULT NULL,
   `dateline` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `message` text NOT NULL,
   `userip` varchar(15) NOT NULL,
@@ -34,7 +55,7 @@ CREATE TABLE `of_wonders` (
   `creater` bigint(20) DEFAULT NULL,
   `modifier` bigint(20) DEFAULT NULL,
   `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `communityid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `wonderstypeid` bigint(20) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`ofwondersid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 

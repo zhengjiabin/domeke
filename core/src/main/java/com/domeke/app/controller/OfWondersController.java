@@ -6,9 +6,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Comment;
-import com.domeke.app.model.Community;
 import com.domeke.app.model.OfWonders;
 import com.domeke.app.model.User;
+import com.domeke.app.model.WondersType;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -19,27 +19,84 @@ import com.jfinal.plugin.activerecord.Page;
 public class OfWondersController extends Controller {
 	
 	/** 回复类型 */
-	private static String IDTYPE = "10";
-	
+	private static String IDTYPE = "50";
+
 	/**
-	 * admin管理中对应的社区管理入口
+	 * 查询主题列表
+	 * 请求 /ofWonders/
 	 */
-	public void goToManager() {
-		findPageAll();
-		render("/admin/admin_ofWonders.html");
+	public void index() {
+		String wondersTypeId = getPara("wondersTypeId");
+		setOfWondersPage(wondersTypeId);
+		setPublishNumber();
+		
+		render("/wondersType/ofWonders.html");
+	}
+
+	/**
+	 * 创建主题
+	 * 请求 ./ofWonders/create?wondersTypeId = ${wondersTypeId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void create() {
+		OfWonders ofWonders = getModel(OfWonders.class);
+		Object wondersTypeId = getPara("wondersTypeId");
+		ofWonders.set("wonderstypeid", wondersTypeId);
+		Object userId = getUserId();
+		Object ofWondersOld = OfWonders.dao.findHasPublish(wondersTypeId, userId);
+		if(ofWondersOld != null){
+			renderJson(false);
+			return;
+		}
+		
+		HttpServletRequest request = getRequest();
+		String remoteIp = request.getRemoteAddr();
+
+		ofWonders.set("userid", userId);
+		ofWonders.set("userip", remoteIp);
+		ofWonders.save();
+
+		setOfWondersPage(wondersTypeId);
+		
+		render("/wondersType/ofWonders.html");
+	}
+
+	/**
+	 * 查询指定帖子信息
+	 * 请求  ofWonders/findById?wondersTypeId=${wondersTypeId!}&targetId=${targetId!}
+	 */
+	public void findById() {
+		String ofWondersId = getPara("targetId");
+		OfWonders.dao.updateTimes(ofWondersId);
+		
+		setOfWonders(ofWondersId);
+		setWondersType();
+		keepPara("wondersTypeId");
+		
+		forwardComment(ofWondersId);
 	}
 	
-
+	/**
+	 * 版块根目录
+	 * 请求 /ofWonders/home
+	 */
+	public void home(){
+		setOfWondersPage(null);
+		List<WondersType> wondersTypeSonList =  WondersType.dao.findSonList();
+		setAttr("wondersTypeSonList", wondersTypeSonList);
+		render("/wondersType/ofWondersForum.html");
+	}
+	
 	/**
 	 * 查询指定社区的分页帖子信息
 	 * 
 	 * @return 帖子信息
 	 */
 	public void find() {
-		String communityId = getPara("communityId");
-		setofWondersPage(communityId);
+		String ofWondersId = getPara("ofWondersId");
+		setOfWondersPage(ofWondersId);
 		
-		render("/community/ofWondersPage.html");
+		render("/ofWonders/ofWondersPage.html");
 	}
 	
 	/**
@@ -66,7 +123,7 @@ public class OfWondersController extends Controller {
 		OfWonders ofWonders = getModel(OfWonders.class);
 		Page<OfWonders> page = ofWonders.findByUserId(userId, pageNumber, pageSize);
 		setAttr("page", page);
-		render("/community/myofWonders.html");
+		render("/ofWonders/myofWonders.html");
 	}
 	
 	/**
@@ -102,28 +159,13 @@ public class OfWondersController extends Controller {
 		ofWonders.update();
 		renderJson("true");
 	}
-
-	/**
-	 * 查询指定帖子信息
-	 * 请求  ofWonders/findById?communityId=${communityId!}&targetId=${targetId!}&idtype=${idtype!}
-	 */
-	public void findById() {
-		String ofWondersId = getPara("targetId");
-		OfWonders.dao.updateTimes(ofWondersId);
-		
-		setofWonders(ofWondersId);
-		setCommunity();
-		keepPara("communityId");
-		
-		forwardComment(ofWondersId);
-	}
 	
 	/**
 	 * 跳转回复控制器，设置回复信息
 	 */
 	private void forwardComment(Object targetId){
 		String action = "/comment/setPage";
-		setAttr("render", "/community/detailofWonders.html");
+		setAttr("render", "/wondersType/ofWondersDetail.html");
 		setAttr("targetId", targetId);
 		setAttr("idtype", IDTYPE);
 		forwardAction(action);
@@ -132,21 +174,21 @@ public class OfWondersController extends Controller {
 	/**
 	 * 设置版块信息
 	 */
-	private void setCommunity(){
-		String communityId = getPara("communityId");
-		Community communitySon = Community.dao.findById(communityId);
-		setAttr("communitySon", communitySon);
+	private void setWondersType(){
+		String wondersTypeId = getPara("wondersTypeId");
+		WondersType wondersTypeSon = WondersType.dao.findById(wondersTypeId);
+		setAttr("wondersTypeSon", wondersTypeSon);
 		
-		Object pId = communitySon.get("pid");
-		Community communityFat = Community.dao.findById(pId);
-		setAttr("communityFat", communityFat);
+		Object pId = wondersTypeSon.get("pid");
+		WondersType wondersTypeFat = WondersType.dao.findById(pId);
+		setAttr("wondersTypeFat", wondersTypeFat);
 	}
 	
 	/**
 	 * 设置帖子信息
 	 * @param ofWondersId
 	 */
-	private void setofWonders(Object ofWondersId){
+	private void setOfWonders(Object ofWondersId){
 		OfWonders ofWonders = OfWonders.dao.findById(ofWondersId);
 		setAttr("ofWonders", ofWonders);
 	}
@@ -160,7 +202,7 @@ public class OfWondersController extends Controller {
 		String ofWondersId = getPara("ofWondersId");
 		OfWonders ofWonders = OfWonders.dao.findById(ofWondersId);
 		setAttr("ofWonders", ofWonders);
-		render("/community/modifyofWonders.html");
+		render("/ofWonders/modifyofWonders.html");
 	}
 
 	/**
@@ -188,20 +230,20 @@ public class OfWondersController extends Controller {
 	}
 
 	/**
-	 * 跳转帖子申请
+	 * 跳转主题申请
 	 */
 	@Before(LoginInterceptor.class)
 	public void skipCreate() {
-		String communityId = getPara("communityId");
+		String wondersTypeId = getPara("wondersTypeId");
 		Object userId = getUserId();
-		Object ofWonders = OfWonders.dao.findHasPublish(communityId, userId);
+		Object ofWonders = OfWonders.dao.findHasPublish(wondersTypeId, userId);
 		if(ofWonders != null){
 			renderJson(false);
 			return;
 		}
 		
-		keepPara("communityId");
-		render("/community/createofWonders.html");
+		keepPara("wondersTypeId");
+		render("/wondersType/ofWondersCreate.html");
 	}
 	
 	/**
@@ -212,14 +254,14 @@ public class OfWondersController extends Controller {
 		OfWonders ofWonders = null;
 		String ofWondersId = getPara("ofWondersId");
 		if(StrKit.notBlank(ofWondersId)){
-			ofWonders = ofWonders.dao.findById(ofWondersId);
+			ofWonders = OfWonders.dao.findById(ofWondersId);
 		}else{
 			ofWonders = getModel(OfWonders.class);
 		}
 		setAttr("ofWonders", ofWonders);
 		
-		List<Community> communityList = Community.dao.findSonList();
-		setAttr("communityList", communityList);
+		List<OfWonders> ofWondersList = null;
+		setAttr("ofWondersList", ofWondersList);
 		render("/admin/admin_updateofWonders.html");
 	}
 	
@@ -242,7 +284,6 @@ public class OfWondersController extends Controller {
 			ofWonders.update();
 		}
 		
-		goToManager();
 	}
 	
 	/**
@@ -266,32 +307,6 @@ public class OfWondersController extends Controller {
 	}
 
 	/**
-	 * 创建帖子申请
-	 */
-	@Before(LoginInterceptor.class)
-	public void create() {
-		OfWonders ofWonders = getModel(OfWonders.class);
-		Object communityId = ofWonders.get("communityid");
-		Object userId = getUserId();
-		Object ofWondersOld = ofWonders.dao.findHasPublish(communityId, userId);
-		if(ofWondersOld != null){
-			renderJson(false);
-			return;
-		}
-		
-		HttpServletRequest request = getRequest();
-		String remoteIp = request.getRemoteAddr();
-
-		ofWonders.set("userid", userId);
-		ofWonders.set("userip", remoteIp);
-		ofWonders.save();
-
-		setofWondersPage(communityId);
-		
-		render("/community/ofWonders.html");
-	}
-
-	/**
 	 * 删除回复信息
 	 */
 	@Before(LoginInterceptor.class)
@@ -300,14 +315,6 @@ public class OfWondersController extends Controller {
 		Comment.dao.deleteReplyAll(commentId);
 
 		findById();
-	}
-
-	public void index() {
-		String communityId = getPara("communityId");
-		setofWondersPage(communityId);
-		setPublishNumber();
-		
-		render("/community/ofWonders.html");
 	}
 	
 	/**
@@ -330,13 +337,6 @@ public class OfWondersController extends Controller {
 		setAttr("count", ofWondersCount);
 	}
 	
-	public void home(){
-		setofWondersPage(null);
-		List<Community> communitySonList = Community.dao.findSonList();
-		setAttr("communitySonList", communitySonList);
-		render("/community/ofWondersAll.html");
-	}
-	
 	/**
 	 * admin管理--分页查询论坛(不区分显示隐藏状态)
 	 */
@@ -350,17 +350,17 @@ public class OfWondersController extends Controller {
 	/**
 	 * 设置分页帖子
 	 */
-	private void setofWondersPage(Object communityId) {
+	private void setOfWondersPage(Object wondersTypeId) {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		Page<OfWonders> ofWondersPage = null;
-		if(communityId == null){
+		if(wondersTypeId == null){
 			ofWondersPage =OfWonders.dao.findPage(pageNumber, pageSize);
 		}else{
-			ofWondersPage = OfWonders.dao.findPageByCommunityId(pageNumber,pageSize, communityId);
+			ofWondersPage = OfWonders.dao.findPageByOfWondersId(pageNumber, pageSize, wondersTypeId);
 		}
 		setAttr("ofWondersPage", ofWondersPage);
-		setAttr("communityId", communityId);
+		setAttr("wondersTypeId", wondersTypeId);
 	}
 
 	/**

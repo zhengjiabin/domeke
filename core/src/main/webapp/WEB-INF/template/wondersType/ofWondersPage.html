@@ -1,0 +1,63 @@
+<div class="ForumSubInfo">
+	<span>今日发帖数:${todayCount!}</span>
+    <span>昨日发帖数:${yesCount!}</span>
+    <span>总帖数:${count!}</span>
+    <span>会员总数:${userCount!}</span>
+</div>
+<div class="ArticleTitle"><img src="/http://www.dongmark.com/images/FIcon03.png" >HIGH豆官方社区</div>
+<div class="ArticleContent">
+   <% for (ofWonders in ofWondersPage.list){ %>
+   <% class = "";
+   	if(ofWondersLP.index % 5 ==0){
+   		class = "ListName font_r";
+   	} else if (ofWondersLP.index % 4 ==0){
+   		class = "ListName font_b";
+   	} else if (ofWondersLP.index % 3 ==0){
+   		class = "ListName font_ye";
+   	} else if (ofWondersLP.index % 2 ==0){
+   		class = "ListName font_gr";
+   	} else {
+   		class = "ListName font_Pur";
+   	}
+   %>
+  	  <div class="ForumList">
+       	<div class="ListPic"><img src="http://www.dongmark.com/images/bg_Me.png"></div>
+           <div class="ListDtl">
+           	<div class="${class!}">
+           		<a href="javascript:void(0)" onclick="findById(this,'${ofWonders.ofwondersid!}','${ofWonders.wonderstypeid!}')">${ofWonders.subject!}</a>
+               		<% if(ofWonders.essence == 1) { %>
+               			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/jing.gif">
+               		<% } %>
+               		<% if(ofWonders.top == 1) { %>
+               			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/zding.gif?v=1" alt="置顶">
+               		<% } %>
+               	</div>
+                   <div>
+                   	<span>${ofWonders.username!}  </span>
+                   	<span>${ofWonders.dateline!}</span>
+                   </div>
+               </div>
+               <div class="ListDate">
+               	<span class="TotleNum">${ofWonders.times!}</span>
+                   <span>${ofWonders.viewcount!}</span>
+               </div>
+           </div>
+       <% } %>
+
+	<% if(has(ofWondersPage)){
+			var pageAction = "";
+			if(has(communityId)){
+				pageAction = "./ofWonders/find?wondersTypeId=" + wondersTypeId;
+			}else{
+				pageAction = "./ofWonders/find";
+			} 
+			layout(
+				"/common/page.html",
+				{
+					"page":ofWondersPage,
+					"pageAction":pageAction,
+					"fatherNode":"#detailContentHtml"
+				}
+		){} 
+	}%>
+</div>     
