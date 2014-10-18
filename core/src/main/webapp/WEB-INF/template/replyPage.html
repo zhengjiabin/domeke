@@ -1,11 +1,15 @@
- <section>
-	<article>
-        <section class="CartonDtl">
- 
- <div class="ArgumentZoom">
-        <% include("/common/header_leaveMsg.html"){} %>
-                <div class="ArgumentSub">
-                	<div class="MemberHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
+  <article class="MeArticle">
+    	<ul class="MeTab">
+        	<li class="TabLi_fl font_b"><a href="um/forLeaveMsg?menuId=8">发表留言 &gt;&gt;</a></li>
+            <li class="TabLi"><a href="um/forLeaveMsg?menuId=5">所有留言</a></li>
+            <li class="TabLi"><a href="um/forLeaveMsg?menuId=6">用户留言</a></li>
+            <li class="TabLi"><a href="um/forLeaveMsg?menuId=7">系统留言</a></li>
+            <li class="TabLi"><a href="um/forLeaveMsg?menuId=11">我的留言</a></li>
+        </ul>
+        <div class="clear"></div>
+        <div class="MemberIndex">
+          <div class="MeBlock">
+          <div class="MemberHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
                     <div class="ArgumentInfo" style="">
                     	<input type="hidden" value="${msg.messageid!}"/>
                     	<div class="MemberNick font_b" style="">
@@ -21,8 +25,8 @@
                         	<% } %>
                         </div>
                     </div>
-                </div>
-    </div>
- </section>
- </article>
- </section>
+          </div>
+        </div>
+        
+    </article>
+    <div class="clear"></div>
