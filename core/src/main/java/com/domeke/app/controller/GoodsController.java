@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.GoodsType;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.google.common.collect.Lists;
+import com.jfinal.aop.Before;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
@@ -25,6 +27,7 @@ import com.jfinal.upload.UploadFile;
  *
  */
 @ControllerBind(controllerKey = "/goods")
+@Before(LoginInterceptor.class)
 public class GoodsController extends FilesLoadController {
 
 	/**
@@ -53,8 +56,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	public void find() {
-		setGoodsPage(null);
-		render("/admin/admin_goodsPage.html");
+		goToManager();
 	}
 
 	/**
@@ -64,10 +66,10 @@ public class GoodsController extends FilesLoadController {
 		try {
 			long timeMillis = System.currentTimeMillis();
 			String fileNmae = Long.toString(timeMillis);
-			String picturePath = upLoadFileNotDealPath("pic", fileNmae, 200 * 1024 * 1024, "utf-8");
+			String picturePath = upLoadFileNotDealPath("pic", fileNmae + "\\", 200 * 1024 * 1024, "utf-8");
 			String[] strs = picturePath.split("\\\\");
 			int leng = strs.length;
-			String headimg = upLoadFilesNotDealPath(fileNmae, 200 * 1024 * 1024, "utf-8");
+			String headimg = upLoadFilesNotDealPath(fileNmae + "\\", 200 * 1024 * 1024, "utf-8");
 			Goods goods = getModel(Goods.class);
 			goods.set("pic", strs[leng - 1]);
 			goods.set("headimg", headimg);
@@ -75,6 +77,12 @@ public class GoodsController extends FilesLoadController {
 			goods.set("creater", 111111);
 			goods.set("modifier", 111111);
 			goods.saveGoodsInfo();
+//			headimg = headimg.substring(0, headimg.length() - 1);
+//			String[] headimgs = headimg.split("/");
+//			String fileUrl = headimg.substring(0, headimg.lastIndexOf("/"));
+//			String[] headimgs = headimg.split("\\\\");
+//			String fileUrl = headimg.substring(0, headimg.lastIndexOf('\\'));
+//			this.updateFileName(fileUrl, headimgs[headimgs.length - 1], Long.toString(goods.get("goodsid")));
 			goToManager();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,6 +110,24 @@ public class GoodsController extends FilesLoadController {
 			}
 		}
 		return files;
+	}
+	
+	/**
+	 * 修改文件夹名
+	 * @param fileUrl 文件路径
+	 * @param oldFileName 原文件名
+	 * @param newFileName 新文件名
+	 */
+	public void updateFileName(String fileUrl, String oldFileName, String newFileName){
+		File file = new File(fileUrl);
+		File[] files = file.listFiles();
+		for (int i = 0; i < files.length; i ++) {
+			if(oldFileName.equals(files[i].getName())) {
+//				files[i].renameTo(new File(newFileName));
+//				files[i].renameTo(new File(files[i].getPath() + newFileName));
+				files[i].renameTo(new File(newFileName));
+			}
+		}
 	}
 	
 	/**
@@ -183,28 +209,16 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public void updateGoods() {
 		UploadFile file = getFile();
-		Goods gs = getModel(Goods.class);
-		String goodsId = Long.toString(gs.getLong("goodsid"));		
-		String headimg = gs.getHeadImg(goodsId);
+		Goods goods = getModel(Goods.class);
+		String goodsId = Long.toString(goods.getLong("goodsid"));
 		
-		String[] headimgs2 = headimg.split("\\\\");
-		String headimg2 = upLoadFilesNotDealPath(headimgs2[headimgs2.length - 1], 200 * 1024 * 1024, "utf-8");
+		String headimg = goods.getHeadImg(goodsId);
+		String[] headimgs = headimg.split("\\\\");
 		
-//		int row = headimg.lastIndexOf("/") + 1;
-//		headimg = headimg.substring(row, headimg.length()-1);
-//		String headimg2 = upLoadFilesNotDealPath(headimg, 200 * 1024 * 1024, "utf-8");
+		String headimg2 = upLoadFilesNotDealPath(headimgs[headimgs.length - 1] + "\\", 200 * 1024 * 1024, "utf-8");
 		
-		if (headimg2 != null) {
-			gs.updateGoodsInfo();
-			goToManager();
-		} else {
-			Goods goods = gs.findById(goodsId);
-			String hg = goods.getStr("headimg");
-			List<String> headimgs = this.getFileUrls(hg);		
-			setAttr("headimgs", headimgs);
-			setAttr("goods", goods);
-			render("/admin/admin_goodsMsg.html");
-		}
+		goods.updateGoodsInfo();
+		goToManager();
 	}
 
 	/**
@@ -388,9 +402,12 @@ public class GoodsController extends FilesLoadController {
 		setAttr("goodsTypes", goodsTypes);
 		setAttr("goods", goods);
 		Map<String,Object> changeMap = getPeas();
-		String isChange = (String)changeMap.get("isChange");	
+		String isChange = "";
+		if (changeMap != null){
+			isChange = (String)changeMap.get("isChange");	
+			setAttr("userId", changeMap.get("userId"));
+		}
 		setAttr("isChange", isChange);
-		setAttr("userId", changeMap.get("userId"));
 		render("/ShopCentre.html");
 	}
 
@@ -413,6 +430,9 @@ public class GoodsController extends FilesLoadController {
 		String isChange = (String)changeMap.get("isChange");
 		int dougprice = (int)changeMap.get("dougprice");
 		User user = getSessionAttr("user");
+		if(user == null){
+			return;
+		} 
 		Long userId = user.get("userid");
 		user = user.findById(userId);
 		//豆子
@@ -430,6 +450,9 @@ public class GoodsController extends FilesLoadController {
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
 		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
 		List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
+		String tamllurl = getPara("tamllurl");
+		List<String> headimgs = this.getFileUrls(tamllurl);
+		setAttr("images", headimgs);
 		setAttr("goodsTypes", goodsTypes);
 		setAttr("goods", goods);	
 		setAttr("isChange", isChange);
@@ -443,6 +466,9 @@ public class GoodsController extends FilesLoadController {
 	public Map<String, Object> getPeas() {
 		int dougprice = getParaToInt("dougprice");
 		User user = getSessionAttr("user");
+		if(user == null){
+			return null;
+		} 
 		Long userId = user.get("userid");
 		user = user.findById(userId);
 		String isChange = "0";
