@@ -25,7 +25,6 @@ $(function() {
                 	$('#view').html(data);                  	
                 },   
                 error:function(){ 
-                	alert("error");
                 	console.info(msg);
                 }   
             });
