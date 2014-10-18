@@ -21,12 +21,12 @@
         	<div class="GName">${goods.goodsname!}</div>
         	<div class="GPrice">原&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：￥${goods.oldprice!}</div><br>
         	<div class="GPrice">折&nbsp;后&nbsp;价：￥${goods.price!}</div><br>
-        	<% if(goods.dougprice!=0) { %>
+        	<% if(goods.dougprice!=0 && isChange!="") { %>
         		<div class="GPrice">豆&nbsp;豆&nbsp;价：${goods.dougprice!}</div>
         	<%}%>
             <div class="GButton font_w">
             	<a href="http://detail.tmall.com/item.htm?spm=a230r.1.14.1.8jNRgD&id=37652444734&ad_id=&am_id=&cm_id=140105335569ed55e27b&pm_id=" class="BuyNow" target="_blank" >去 购 买</a>
-            	<% if(goods.dougprice!=0) { %>
+            	<% if(goods.dougprice!=0 && isChange!="") { %>
             		<a id="peas"  name="${isChange!}" href="javascript:test();" class="BuyNow" >豆豆兑换</a>
                 <%}%>
                 <span class="Loves"><img src="images/icon11.png">喜 欢（26）</span>

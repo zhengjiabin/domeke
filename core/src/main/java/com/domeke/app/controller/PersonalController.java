@@ -65,6 +65,16 @@ public class PersonalController extends Controller{
 		}
 	}
 	/**
+	 * 删除我的下载记录
+	 */
+	public void deleteMyDownLoad(){
+		DownLoad down = getModel(DownLoad.class);
+		String downId = getPara("downid");
+		String menuId = getPara("menuId");
+		down.deleteById(downId);
+		renderPersonal(menuId);	
+	}
+	/**
 	 * 加载我的播放记录
 	 */
 	public void myPlay(String minuId){
@@ -78,6 +88,33 @@ public class PersonalController extends Controller{
 			Page<PlayCount> playPage = down.getByUserId(userid, pageNumber, pageSize);
 			setAttr("playPage", playPage);
 		}
+	}
+	/**
+	 * 删除我的播放记录
+	 */
+	public void deleteMyPlay(){
+		PlayCount play = getModel(PlayCount.class);
+		String playId = getPara("playid");
+		String menuId = getPara("menuId");
+		play.deleteById(playId);
+		renderPersonal(menuId);	
+	}
+	
+	/**
+	 * @param menuId
+	 * 跳转个人中心页面
+	 */
+	public void renderPersonal(String menuId){
+		User user = getSessionAttr("user");
+		Long userId = user.getLong("userid");
+		setAttr("userId", userId);
+		setAttr("menuId", menuId);
+		setAttr("menuid", "1");
+		uploadMsg(menuId);
+		myDownLoad(menuId);
+		myPlay(menuId);
+		acctiveApply(menuId);
+		render("/personalCenter.html");
 	}
 	/**
 	 * 加载我参与的活动
@@ -109,6 +146,9 @@ public class PersonalController extends Controller{
 			setAttr("user", user);
 		}
 	}
+	/**
+	 *  资料修改
+	 */
 	public void upUser(){
 		User user  = getModel(User.class);
 		user.update();

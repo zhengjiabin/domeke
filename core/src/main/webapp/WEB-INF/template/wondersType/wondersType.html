@@ -1,0 +1,44 @@
+<% layout("/wondersType/wondersType_layout.html"){ %>
+	<div class="WelcomInfo">
+		<div class="clear"></div>
+		<div class="ForumInfo">
+			<div>
+				今日发帖数<br />
+				<span>${todayCount!}</span>
+			</div>
+			<div>
+				昨日发帖数<br />
+				<span>${yesCount!}</span>
+			</div>
+			<div>
+				总帖数<br />
+				<span>${count!}</span>
+			</div>
+			<div style="border: 0px;">
+				您发帖数<br />
+				<span>${userCount!}</span>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<article>
+		<div class="PicBlock">
+			<% for(ofWonders in ofWondersPicList) { %>
+	        	<div class="CartoonSub">
+	                <img src="${ofWonders.themeimg!}">
+	                <div class="CartoonName">
+	                	<a href="javascript:void(0)" onclick="skipDetail(this,'${ofWonders.ofwondersid!}')">${ofWonders.subject!}</a>
+	                </div>
+	                <div class="CartoonSubFootbar">${ofWonders.subject!}</div>
+	             </div>
+        	<% } %>
+	    </div>
+		<% layout(
+			"/wondersType/wondersTypeDetail.html", 
+			{
+				"wondersTypeFatList":wondersTypeFatList,
+				"wondersTypeSonList":wondersTypeSonList
+			} 
+		){} %>
+	</article>
+<% } %>

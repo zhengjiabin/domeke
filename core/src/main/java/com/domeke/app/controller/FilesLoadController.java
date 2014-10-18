@@ -18,6 +18,7 @@ import com.domeke.app.utils.VideoKit;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.PropKit;
+import com.jfinal.kit.StrKit;
 import com.jfinal.upload.UploadFile;
 
 /**
@@ -203,6 +204,9 @@ public class FilesLoadController extends Controller {
 	 * @return 域名中的路径
 	 */
 	protected String getDomainNameFilePath(String filePath) {
+		if(StrKit.isBlank(filePath)){
+			return "";
+		}
 		filePath = filePath.replaceAll("\\\\", "/");
 		String basePath = PropKit.getString("base_path");
 		StringBuffer domainNameFilePath = new StringBuffer(domainName);

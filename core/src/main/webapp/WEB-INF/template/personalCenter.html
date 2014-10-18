@@ -1,5 +1,5 @@
 <% layout("/common/personalLayout.html"){ %>
-<div style="margin-left: 30px;" id="personal">
+<div id="personal">
 	<% if(menuId! == null) {%>
 		<% include("/test1.html"){} %>
 	<% } %>
@@ -39,7 +39,7 @@
 		<% include("/replyPage.html"){} %>
 	<% } %>
 	<% if(menuId! == '11') {%>
-		<% include("/oureMsg.html"){} %>
+		<% include("/userMsg.html"){} %>
 	<% } %>
 	<% if(menuId! == '13') {%>
 		<% include("/mydowload.html"){} %>
@@ -47,6 +47,9 @@
 	
 	<% if(menuId! == '14') {%>
 		<% include("/myApplyActive.html"){} %>
+	<% } %>
+	<% if(menuId! == '12') {%>
+		<% include("/updateUserMsg.html"){} %>
 	<% } %>
 </div>
 <% } %> 

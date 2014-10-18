@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#addzhuanji').submit(function(){
-			$('buttom[type=submit]',this).attr('disabled',true);
+			$('button[type=submit]',this).attr('disabled',true);
 			$(this).ajaxSubmit(function(data){
 				if(data.success == 1){
 					if(confirm("添加成功 是否跳转编辑页面？")){
@@ -11,7 +11,7 @@
 					}
 				}else{
 					alert("添加失败  信息：" + data.message);
-					$('buttom[type=submit]',this).removeAttr('disabled');
+					$('button[type=submit]',this).removeAttr('disabled');
 				}
 			});
 			return false;
@@ -58,7 +58,7 @@
                 <td>
                 	<select name="ispublic" class="input_Member">
                 		<option value="1">公开</option>
-                		<option value="1">隐藏</option>
+                		<option value="0">隐藏</option>
                 	</select>
                 </td>
               </tr>

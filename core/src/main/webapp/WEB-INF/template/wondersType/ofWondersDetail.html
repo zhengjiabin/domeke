@@ -1,0 +1,70 @@
+<div class="ForumPath">
+	<a href="javascript:void(0)" onclick="goToHomeForum()">${wondersTypeFat.title!}</a>
+	/<a href="javascript:void(0)" onclick="goToOrderForum(this,${wondersTypeSon.wonderstypeid!})">${wondersTypeSon.title!}</a>
+</div>
+<div class="ForumTheme">
+	<div class="ListPic">
+		<img src="/http://www.dongmark.com/images/qq4.jpg">
+	</div>
+	<div class="ListDtl">
+		<div class="ListName">
+			<a href="#">${ofWonders.subject!}</a>
+		</div>
+		<div class="font_9">
+			<span><a href="#">楼主：${ofWonders.ofwondersid!}</a></span> 
+			<span>发表时间：${ofWonders.dateline!}</span>
+			<% if(ofWonders.top == 0){ %> 
+				<span>
+					<a href="javascript:void(0)" onclick="setTop(this,${ofWonders.ofwondersid!})">置顶</a>
+				</span>
+			 <% } %> 
+			 <% if(ofWonders.essence == 0){ %> 
+			 	<span>
+			 		<a href="javascript:void(0)" onclick="setEssence(this,${ofWonders.ofwondersid!})">精华</a>
+			 	</span> 
+			 <% } %>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+<div id="replyComments">
+	<div class="ForumBody">
+		<div class="FBodyContent">${ofWonders.message!}</div>
+		<div class="FBodyBottom font_9">
+			<span class="FL">
+				<a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a>
+			</span>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ForumInfoA"></div>
+	<div id="commentHtml">
+		<% 
+			if(commentPage != null && ofWonders.ofwondersid != null){ 
+				layout(
+				"/comment/comment.html",
+				{
+					"commentPage":commentPage,
+					"targetId":ofWonders.ofWondersid,
+					"idtype":"50"
+				}
+				){}
+			}
+		%>
+	</div>
+	<div id="commentForm">
+		<% 
+   			if(ofWonders.ofwondersid != null){ 
+				layout(
+					"/common/ckeditor.html",
+					{
+						"targetId":ofWonders.ofwondersid,
+						"idtype":"50",
+						"render":"/comment/comment.html"
+					}
+				){}
+			}
+		%>
+	</div>
+</div>
+

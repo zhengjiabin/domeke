@@ -1,0 +1,16 @@
+<% 
+	var i = 0;
+	for(wondersType in wondersTypeSonList){ 
+      	if(wondersTypeLP.index == wondersTypeSize){
+        	break;
+      	}
+      	i = i + 1;
+      	if(i % 2 ==0){
+%>
+	<a href="javascript:void(0)" class="AR" onclick="goToOrderForum(this,'${wondersType.wonderstypeid!}')">${wondersType.title!}</a>
+<% 		} else { %>
+	<a href="javascript:void(0)" class="AL" onclick="goToOrderForum(this,'${wondersType.wonderstypeid!}')">${wondersType.title!}</a>
+<% 		
+		}
+	}
+ %>	
