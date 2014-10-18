@@ -6,6 +6,7 @@
 	media="screen">
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="js/goods.js"></script>
 
 <div class="span9" id="content">
 	<div class="row-fluid">
@@ -21,16 +22,16 @@
         	<span class='font_r' style="color: red"> *</span><br>
         	商品名称：<input id="goodsname" name="goods.goodsname" value="${goods.goodsname!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
-        	价格：<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" />
+        	商品价格：<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
         	豆豆价格：<input id="price" name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
         	历史价格：<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
-        	主图：<input id="fileImage" type="file" size="30" name="pic" /><span class='font_r' style="color: red"> *</span><br>
+        	商品主图：<input id="fileImage" type="file" size="30" name="pic" /><span class='font_r' style="color: red"> *</span><br>
         	商品描述：<input id="message" name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" /><br>
         	淘宝地址：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>        			
        		是否放首页：<input id="istop" name="goods.istop" value="${goods.istop!}" type="text" class="span6 m-wrap" /><br> 
-        	状态：<input id="status" name="goods.status" value="${goods.status!}" type="text" class="span6 m-wrap" />
+        	商品状态：<input id="status" name="goods.status" value="${goods.status!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>  
         	<label class="control-label">商品子图</label>
         	<input id="fileImage" type="file" size="30" name="headimg" multiple /><br>
