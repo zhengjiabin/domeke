@@ -30,4 +30,14 @@
 		var menuType = encodeURIComponent(document.getElementById('menuType').value);
 		window.location.href = "menu/menuTypeForName?menuType="+menuType;
 	}
+	function checknull(obj) {
+		var fn=document.getElementById("goods").value
+		var count = fn.length;
+		if(count == 0) {
+			alert("必填!");
+			document.getElementById("goods").focus();
+			return false;
+		}
+		form.submit();
+	}
 </script>

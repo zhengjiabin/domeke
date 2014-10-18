@@ -14,7 +14,7 @@
 			</div>
 			<div class="block-content collapse in">
 				<div class="span12">
-     <form class="form-signin" action="goods/updateGoods" method="post" enctype="multipart/form-data">
+     <form class="form-signin" action="goods/updateGoods?goodsId=${goods.goodsid!}" method="post" enctype="multipart/form-data">
      	
      		<input name="goods.goodsid" value="${goods.goodsid!}" type="text" class="span6 m-wrap" style="display:none"/><br>
          	<label class="control-label">商品类型：</label>
@@ -26,13 +26,10 @@
         	<label class="control-label">豆豆价格：</label>
         	<input id="price" name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
 			<label class="control-label">历史价格：</label>
-        	<input name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
-        	 
-        	 
-        	<!-- <input name="goods.pic" value="${goods.pic!}" type="text" class="span6 m-wrap" /><br> -->
+        	<input name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>        	 
         	
-        	<label class="control-label">主图：</label><!-- <input id="fileImage" type="file" size="30" name="${goods.pic!}" /> --><br>
-        	
+        	<label class="control-label">主图：</label>
+        	<input id="fileImage" type="file" size="30" name="pic" />
         	<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${goods.pic!}"/><br>
         	
         	<label class="control-label">商品信息：</label>

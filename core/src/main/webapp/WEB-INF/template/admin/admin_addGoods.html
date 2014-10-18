@@ -17,30 +17,26 @@
 				<div class="span12">
       <form class="form-signin" action="goods/saveGoods" method="post" align="center" enctype="multipart/form-data">
         	
-        	<label class="control-label">商品类型：</label>
-        	<input id="goods" name="goods.goods" value="${goods.goods!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">商品名称：</label>
-        	<input id="goodsname" name="goods.goodsname" value="${goods.goodsname!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">价格：</label>
-        	<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">豆豆价格：</label>
-        	<input id="price" name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">历史价格：</label>
-        	<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">主图：</label><input id="fileImage" type="file" size="30" name="pic" /><br>
-        	<label class="control-label">商品描述：</label>
-        	<input id="message" name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">淘宝地址：</label>
-        	<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" /><br>        			
-       		<label class="control-label">是否放首页：</label>
-        	<input id="istop" name="goods.istop" value="${goods.istop!}" type="text" class="span6 m-wrap" /><br> 
-        	<label class="control-label">状态：</label>
-        	<input id="status" name="goods.status" value="${goods.status!}" type="text" class="span6 m-wrap" /><br>  
+        	<span>商品类型：</span><input id="goods" name="goods.goods" value="${goods.goods!}" type="text" class="span6 m-wrap"/>
+        	<span class='font_r' style="color: red"> *</span><br>
+        	商品名称：<input id="goodsname" name="goods.goodsname" value="${goods.goodsname!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	价格：<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	豆豆价格：<input id="price" name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
+        	历史价格：<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
+        	主图：<input id="fileImage" type="file" size="30" name="pic" /><span class='font_r' style="color: red"> *</span><br>
+        	商品描述：<input id="message" name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" /><br>
+        	淘宝地址：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>        			
+       		是否放首页：<input id="istop" name="goods.istop" value="${goods.istop!}" type="text" class="span6 m-wrap" /><br> 
+        	状态：<input id="status" name="goods.status" value="${goods.status!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>  
         	<label class="control-label">商品子图</label>
         	<input id="fileImage" type="file" size="30" name="headimg" multiple /><br>
 
         	
-        <button class="btn btn-large btn-primary" type="submit" >保存</button>
+        <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>
       </form>
 				</div>
 			</div>

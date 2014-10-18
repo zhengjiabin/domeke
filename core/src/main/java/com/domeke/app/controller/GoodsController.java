@@ -9,13 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.GoodsType;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.google.common.collect.Lists;
-import com.jfinal.aop.Before;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
@@ -27,7 +25,6 @@ import com.jfinal.upload.UploadFile;
  *
  */
 @ControllerBind(controllerKey = "/goods")
-@Before(LoginInterceptor.class)
 public class GoodsController extends FilesLoadController {
 
 	/**
@@ -56,7 +53,8 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	public void find() {
-		goToManager();
+		setGoodsPage(null);
+		render("/admin/admin_goodsPage.html");
 	}
 
 	/**
@@ -66,10 +64,10 @@ public class GoodsController extends FilesLoadController {
 		try {
 			long timeMillis = System.currentTimeMillis();
 			String fileNmae = Long.toString(timeMillis);
-			String picturePath = upLoadFileNotDealPath("pic", fileNmae + "\\", 200 * 1024 * 1024, "utf-8");
+			String picturePath = upLoadFileNotDealPath("pic", fileNmae, 200 * 1024 * 1024, "utf-8");
 			String[] strs = picturePath.split("\\\\");
 			int leng = strs.length;
-			String headimg = upLoadFilesNotDealPath(fileNmae + "\\", 200 * 1024 * 1024, "utf-8");
+			String headimg = upLoadFilesNotDealPath(fileNmae, 200 * 1024 * 1024, "utf-8");
 			Goods goods = getModel(Goods.class);
 			goods.set("pic", strs[leng - 1]);
 			goods.set("headimg", headimg);
@@ -77,12 +75,6 @@ public class GoodsController extends FilesLoadController {
 			goods.set("creater", 111111);
 			goods.set("modifier", 111111);
 			goods.saveGoodsInfo();
-//			headimg = headimg.substring(0, headimg.length() - 1);
-//			String[] headimgs = headimg.split("/");
-//			String fileUrl = headimg.substring(0, headimg.lastIndexOf("/"));
-//			String[] headimgs = headimg.split("\\\\");
-//			String fileUrl = headimg.substring(0, headimg.lastIndexOf('\\'));
-//			this.updateFileName(fileUrl, headimgs[headimgs.length - 1], Long.toString(goods.get("goodsid")));
 			goToManager();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -110,24 +102,6 @@ public class GoodsController extends FilesLoadController {
 			}
 		}
 		return files;
-	}
-	
-	/**
-	 * 修改文件夹名
-	 * @param fileUrl 文件路径
-	 * @param oldFileName 原文件名
-	 * @param newFileName 新文件名
-	 */
-	public void updateFileName(String fileUrl, String oldFileName, String newFileName){
-		File file = new File(fileUrl);
-		File[] files = file.listFiles();
-		for (int i = 0; i < files.length; i ++) {
-			if(oldFileName.equals(files[i].getName())) {
-//				files[i].renameTo(new File(newFileName));
-//				files[i].renameTo(new File(files[i].getPath() + newFileName));
-				files[i].renameTo(new File(newFileName));
-			}
-		}
 	}
 	
 	/**
@@ -208,17 +182,57 @@ public class GoodsController extends FilesLoadController {
 	 * 编辑商品
 	 */
 	public void updateGoods() {
+		String goodsId = getPara("goodsId");
+		String headimg = Goods.dao.getHeadImg(goodsId);
+		String[] headimgs2 = headimg.split("/");
+		String fileName = headimgs2[headimgs2.length - 1];
+		String picturePath = upLoadFileNotDealPath("pic", fileName, 200 * 1024 * 1024, "utf-8");
+		String[] strs = picturePath.split("/");
+		int leng = strs.length;
+		String headimg2 = upLoadFilesNotDealPath(fileName, 200 * 1024 * 1024, "utf-8");
 		UploadFile file = getFile();
-		Goods goods = getModel(Goods.class);
-		String goodsId = Long.toString(goods.getLong("goodsid"));
+		Goods gs = getModel(Goods.class);
+		if (leng > 1) {
+			gs.set("pic", strs[leng - 1]);
+		}
+		if (headimg2 != null) {
+			gs.updateGoodsInfo();
+			goToManager();
+		} else {
+			Goods goods = gs.findById(goodsId);
+			String hg = goods.getStr("headimg");
+			List<String> headimgs = this.getFileUrls(hg);		
+			setAttr("headimgs", headimgs);
+			setAttr("goods", goods);
+			render("/admin/admin_goodsMsg.html");
+		}
+		/*
+		String goodsId = Long.toString(gs.getLong("goodsid"));		
+		String headimg = gs.getHeadImg(goodsId);
+		String[] headimgs2 = headimg.split("/");
+		String fileName = headimgs2[headimgs2.length - 1];
+		String picturePath = upLoadFileNotDealPath("pic", fileName, 200 * 1024 * 1024, "utf-8");
+		String[] strs = picturePath.split("/");
+		int leng = strs.length;
+		gs.set("pic", strs[leng - 1]);
+		String headimg2 = upLoadFilesNotDealPath(fileName, 200 * 1024 * 1024, "utf-8");
 		
-		String headimg = goods.getHeadImg(goodsId);
-		String[] headimgs = headimg.split("\\\\");
+//		int row = headimg.lastIndexOf("/") + 1; 
+//		headimg = headimg.substring(row, headimg.length()-1);
+//		String headimg2 = upLoadFilesNotDealPath(headimg, 200 * 1024 * 1024, "utf-8");
 		
-		String headimg2 = upLoadFilesNotDealPath(headimgs[headimgs.length - 1] + "\\", 200 * 1024 * 1024, "utf-8");
-		
-		goods.updateGoodsInfo();
-		goToManager();
+		if (headimg2 != null) {
+			gs.updateGoodsInfo();
+			goToManager();
+		} else {
+			Goods goods = gs.findById(goodsId);
+			String hg = goods.getStr("headimg");
+			List<String> headimgs = this.getFileUrls(hg);		
+			setAttr("headimgs", headimgs);
+			setAttr("goods", goods);
+			render("/admin/admin_goodsMsg.html");
+		}
+		*/
 	}
 
 	/**
