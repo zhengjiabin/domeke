@@ -25,12 +25,21 @@
 </script>
 <article>
 	<div class="ForumReply">
-		<form action="#" method="post" id="createHtml">
+		<form action="#" method="post" id="createHtml" enctype="multipart/form-data">
 		
       		<table border="0" cellspacing="0" cellpadding="0" class="Table_Forum">
               	<tr>
                	 	<th>标题：</th>
-                	<td><input id="subject" name="ofWonders.subject" type="text" class="input_Forum" value="${ofWonders.subject!}" required="required"></td>
+                	<td>
+                		<input id="subject" name="ofWonders.subject" type="text" class="input_Forum" value="${ofWonders.subject!}" required="required">
+                	</td>
+              	</tr>
+              	<tr>
+               	 	<th>主题图片：</th>
+                	<td>
+                		<img id="preview" style="display:none;" src="${ofWonders.themeing!}">
+                		<input id="themeing" name="ofWonders.themeing" type="file" class="input_Forum" value="${ofWonders.themeing!}" onchange="onUploadImgChange(this)" required="required">
+                	</td>
               	</tr>
             </table>
             <div class="ForumInfoA font_str">活动详细内容：</div>

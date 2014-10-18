@@ -1,19 +1,23 @@
 <aside>
-		<div class="AsideBTitle font_w"><a href="javascript:void(0);" onclick="skipWondersType(this)">发布主题</a></div>
-        <div class="AsideContent" id="asideHtml">
-        	<div id="showMoreHtml">
-        		<% layout(
-        			"/wondersType/wondersType_showMore.html",
-        			{
-        				"wondersTypeSonList":wondersTypeSonList,
-        				"wondersTypeSize":9
-        			}
-        		){} %>
-        	</div>
-        <div class="SeeMore font_r" id="showMore">
-        	<a href="javascript:void(0)" onclick="showMoreWondersType(this)">查看更多论坛版块&gt;&gt;</a>
-        </div>
+	<div class="AsideBTitle font_w">
+		<a href="javascript:void(0);" onclick="skipWondersType(this)">发布主题</a>
 	</div>
-        <div class="AsideBTitle font_w"><a href="javascript:void(0)" onclick="goToVentWall()">签到 ${ventWallCount!}人</a></div>
-  </aside>
-  <div class="clear">&nbsp;</div>
+   	<div class="AsideContent" id="asideHtml">
+	   	<div id="showMoreHtml">
+	   		<% layout(
+	   			"/wondersType/wondersType_showMore.html",
+	   			{
+	   				"wondersTypeSonList":wondersTypeSonList,
+	   				"wondersTypeSize":9
+	   			}
+	   		){} %>
+	   	</div>
+	    <div class="SeeMore font_r" id="showMore">
+	    	<a href="javascript:void(0)" onclick="showMoreWondersType(this)">查看更多论坛版块&gt;&gt;</a>
+	    </div>
+	</div>
+    <div class="AsideBTitle font_w">
+    	<a href="javascript:void(0)" onclick="goToVentWall()">签到 ${ventWallCount!}人</a>
+    </div>
+</aside>
+<div class="clear">&nbsp;</div>

@@ -144,4 +144,15 @@ public class OfWonders extends Model<OfWonders> {
     	String sql = "select 1 from of_wonders where wonderstypeid=? and userid=? and createtime >= date_sub(now(),interval 5 minute)";
     	return this.findFirst(sql, wondersTypeId, userId);
     }
+    
+    /**
+     * 查询热门主题
+     * @return
+     */
+    public List<OfWonders> findPic(){
+    	StringBuffer sql = new StringBuffer("select p.* from of_wonders p ");
+    	sql.append(" where p.status='10' order by p.top desc,p.essence desc,to_days(p.createtime) desc ");
+    	sql.append(" limit 8");
+    	return this.find(sql.toString());
+    }
 }

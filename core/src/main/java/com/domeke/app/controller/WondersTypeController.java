@@ -23,6 +23,7 @@ public class WondersTypeController extends Controller {
 	 * 请求 ./wondersType
 	 */
 	public void index() {
+		setWondersTypePic();
 		setWondersTypeFatList();
 		setWondersTypeSonList();
 		setForumCount();
@@ -31,7 +32,7 @@ public class WondersTypeController extends Controller {
 		
 		render("/wondersType/wondersType.html");
 	}
-	
+
 	/**
 	 * 跳转到选择主题页面
 	 * 请求 ./wondersType/skipWondersType?wondersTypeId = ${wondersTypeId!}
@@ -77,6 +78,14 @@ public class WondersTypeController extends Controller {
 		setWondersTypeSonList();
 		setAttr("wondersTypeSize", 81);
 		render("/wondersType/wondersType_showMore.html");
+	}
+	
+	/**
+	 * 设置热门主题
+	 */
+	private void setWondersTypePic() {
+		List<OfWonders> ofWondersPicList = OfWonders.dao.findPic();
+		setAttr("ofWondersPicList", ofWondersPicList);
 	}
 	
 	/**

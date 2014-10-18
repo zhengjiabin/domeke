@@ -30,10 +30,7 @@ function findById(node,targetId,wondersTypeId) {
 
 //置顶功能
 function setTop(node,targetId){
-	var basewondersType = $(node).closest("#basewondersType");
-	var wondersTypeId = basewondersType.find("#wondersTypeId").first().val();
-	
-	var url = "./wondersType/setTop?wondersTypeId="+wondersTypeId;
+	var url = "./ofWonders/setTop";
 	$.post(url,{
 		targetId : targetId
 	}, function(data) {
@@ -45,10 +42,7 @@ function setTop(node,targetId){
 
 //精华功能
 function setEssence(node,targetId){
-	var basewondersType = $(node).closest("#basewondersType");
-	var wondersTypeId = basewondersType.find("#wondersTypeId").first().val();
-	
-	var url = "./wondersType/setEssence?wondersTypeId="+wondersTypeId;
+	var url = "./ofWonders/setEssence";
 	$.post(url,{
 		targetId : targetId
 	}, function(data) {
@@ -205,4 +199,32 @@ function submitCreate(node,wondersTypeId) {
 				baseWondersType.html(data);
 			}
 	});
+}
+
+//点击版块首页的热门主题
+function skipDetail(node,ofWondersId){
+	var url = "./ofWonders/findById";
+	$.post(url,{
+		targetId : ofWondersId
+	}, function(data) {
+		var baseWondersType = $(node).closest("#baseWondersType");
+		data = "<article id=\"detailContentHtml\"> " + data + " </article>";
+		baseWondersType.html(data);
+	});
+}
+
+//显示上传图片
+function onUploadImgChange(node){
+    if( !node.value.match( /.jpg|.gif|.png|.bmp/i ) ){
+        alert('图片格式无效！');
+        return false;
+    }
+    var createHtml = $(node).closest("#createHtml");
+    var preview = createHtml.find("#preview").first();
+    node.select();
+    var imgSrc = document.selection.createRange().text;
+    if( node.files && node.files[0] ){
+    	preview.attr("style","display:block");
+    	preview.attr("src",path);
+    }
 }

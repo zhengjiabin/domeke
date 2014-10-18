@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
- <% include("/wondersType/wondersType_head.html"){} %>
-</head>
-<body>
-	<% include("/wondersType/wondersType_header.html"){} %>
+<% layout("/common/layout.html"){ %>
+	<link href="css/ofWonders.css" rel="stylesheet" type="text/css">
+	
+	<script src="js/wondersType.js" type="text/javascript"></script>
+	<script src="js/comment.js" type="text/javascript"></script>
+	
+	<script src="js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 	<section id="wondersTypeLayout">
 		<div id="baseWondersType">
 			${layoutContent}
 		</div>
- 		<% layout("/wondersType/wondersType_aside.html"){} %>
+			<% layout("/wondersType/wondersType_aside.html"){} %>
 	</section>
-	<% include("/wondersType/wondersType_footer.html"){} %>
-</body>
-</html>
+<%}%>

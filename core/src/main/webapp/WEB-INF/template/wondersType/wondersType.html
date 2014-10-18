@@ -23,12 +23,16 @@
 	<div class="clear"></div>
 	<article>
 		<div class="PicBlock">
-        	<div class="CartoonSub">
-                <img src="../images/pic_Cartoon3.png">
-                <div class="CartoonName"><a href="#">动画大电影</a></div>
-                 <div class="CartoonSubFootbar">人气爆棚剧场版</div>
-             </div>
-        </div>
+			<% for(ofWonders in ofWondersPicList) { %>
+	        	<div class="CartoonSub">
+	                <img src="${ofWonders.themeimg!}">
+	                <div class="CartoonName">
+	                	<a href="javascript:void(0)" onclick="skipDetail(this,'${ofWonders.ofwondersid!}')">${ofWonders.subject!}</a>
+	                </div>
+	                <div class="CartoonSubFootbar">${ofWonders.subject!}</div>
+	             </div>
+        	<% } %>
+	    </div>
 		<% layout(
 			"/wondersType/wondersTypeDetail.html", 
 			{

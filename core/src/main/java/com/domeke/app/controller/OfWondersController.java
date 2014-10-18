@@ -88,6 +88,42 @@ public class OfWondersController extends Controller {
 	}
 	
 	/**
+	 * 置顶功能
+	 * 请求 /ofWonders/setTop
+	 */
+	@Before(LoginInterceptor.class)
+	public void setTop(){
+		String ofWondersId = getPara("targetId");
+		if(StrKit.isBlank(ofWondersId)){
+			renderJson("false");
+			return;
+		}
+		OfWonders ofWonders = getModel(OfWonders.class);
+		ofWonders.set("ofwondersid", ofWondersId);
+		ofWonders.set("top", 1);
+		ofWonders.update();
+		renderJson("true");
+	}
+	
+	/**
+	 * 精华功能
+	 * 请求 /ofWonders/setEssence
+	 */
+	@Before(LoginInterceptor.class)
+	public void setEssence(){
+		String ofWondersId = getPara("targetId");
+		if(StrKit.isBlank(ofWondersId)){
+			renderJson("false");
+			return;
+		}
+		OfWonders ofWonders = getModel(OfWonders.class);
+		ofWonders.set("ofwondersid", ofWondersId);
+		ofWonders.set("essence", 1);
+		ofWonders.update();
+		renderJson("true");
+	}
+	
+	/**
 	 * 查询指定社区的分页帖子信息
 	 * 
 	 * @return 帖子信息
@@ -127,40 +163,6 @@ public class OfWondersController extends Controller {
 	}
 	
 	/**
-	 * 置顶功能
-	 */
-	@Before(LoginInterceptor.class)
-	public void setTop(){
-		String ofWondersId = getPara("targetId");
-		if(ofWondersId == null || ofWondersId.length()<=0){
-			renderJson("false");
-			return;
-		}
-		OfWonders ofWonders = getModel(OfWonders.class);
-		ofWonders.set("ofWondersid", ofWondersId);
-		ofWonders.set("top", 1);
-		ofWonders.update();
-		renderJson("true");
-	}
-	
-	/**
-	 * 精华功能
-	 */
-	@Before(LoginInterceptor.class)
-	public void setEssence(){
-		String ofWondersId = getPara("targetId");
-		if(ofWondersId == null || ofWondersId.length()<=0){
-			renderJson("false");
-			return;
-		}
-		OfWonders ofWonders = getModel(OfWonders.class);
-		ofWonders.set("ofWondersid", ofWondersId);
-		ofWonders.set("essence", 1);
-		ofWonders.update();
-		renderJson("true");
-	}
-	
-	/**
 	 * 跳转回复控制器，设置回复信息
 	 */
 	private void forwardComment(Object targetId){
@@ -175,7 +177,11 @@ public class OfWondersController extends Controller {
 	 * 设置版块信息
 	 */
 	private void setWondersType(){
-		String wondersTypeId = getPara("wondersTypeId");
+		Object wondersTypeId = getPara("wondersTypeId");
+		if(StrKit.isBlank((String)wondersTypeId)){
+			OfWonders ofWonders = getAttr("ofWonders");
+			wondersTypeId = ofWonders.get("wonderstypeid");
+		}
 		WondersType wondersTypeSon = WondersType.dao.findById(wondersTypeId);
 		setAttr("wondersTypeSon", wondersTypeSon);
 		
