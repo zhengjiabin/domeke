@@ -5,7 +5,7 @@
 			$(this).ajaxSubmit(function(data){
 				if(data.success == 1){
 					alert("修改成功!");
-					showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${workpageIndex!}});
+					showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${workpageIndex!},'worksid':${works.worksid!}});
 				}else{
 					alert("修改失败  信息：" + data.message);
 					$('button[type=submit]',this).removeAttr('disabled');
@@ -15,7 +15,7 @@
 		});
 		
 		var workstype = '${workstype!}';
-		var ispubulic = '${works.ispubulic!}';
+		var ispubulic = '${works.ispublic!}';
 		if(workstype != ''){
 			$('#editworkstype').val(workstype);
 		}
@@ -72,7 +72,7 @@
                 <td>
                 	<select name="ispublic" id="editispublic" class="input_Member">
                 		<option value="1">公开</option>
-                		<option value="1">隐藏</option>
+                		<option value="0">隐藏</option>
                 	</select>
                 </td>
               </tr>
@@ -81,7 +81,7 @@
                 <td>
                 	<button  type="submit" class="">提交</button>
                 	&nbsp;&nbsp;&nbsp;
-                	<button type="submit" class="">取消</button>
+                	<button type="button" onclick="showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':${works.worksid!}})">取消</button>
 				</td>
               </tr>
             </tbody></table>

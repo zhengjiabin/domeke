@@ -65,7 +65,7 @@
                 <td>${work.createtime!}</td>
                 <td>${work.creatername!}</td>
                 <td>播放：${work.playtimes!}</td>
-                <td><a href="javascript:;">编辑视频</a><a href="javascript:;">删除</a></td>
+                <td><a href="javascript:showPage({'flag':23,'type':1,'pageIndex':${pageIndex!},'worksid':${work.worksid!},'workid':${work.workid!},'workpageIndex':${pageWork.pageNumber!}});">编辑视频</a><a href="javascript:;">删除</a></td>
             </tr>
             <%}%>
             </tbody>

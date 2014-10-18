@@ -418,265 +418,6 @@ public class WorksController extends FilesLoadController {
 		renderJson(map);
 		return;
 	}
-	
-	public void addWork() {
-		String flag = getPara("flag");
-		String worksidStr = getPara("worksid");
-		String pageIndexStr = getPara("pageIndex");
-		String pageSizeStr = getPara("pageSize");
-		if ("1".equals(flag)) {
-			setAttr("worksid", worksidStr);
-			setAttr("pageIndex", pageIndexStr);
-			render("/works/addwork.htm");
-			return;
-		}
-		String comicPath = upLoadVideo("comic", "", 2000 * 1024 * 1024, "utf-8");
-		pageIndexStr = getPara("pageIndex");
-		Integer pageIndex = 1;
-		if (!StrKit.isBlank(pageIndexStr)) {
-			pageIndex = Integer.parseInt(pageIndexStr);
-		}
-		Integer pageSize = 10;
-		if (!StrKit.isBlank(pageSizeStr)) {
-			pageSize = Integer.parseInt(pageSizeStr);
-		}
-		try {
-			Work workModel = getModel(Work.class);
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			workModel.set("comic", comicPath);
-			workModel.set("creater", 1);
-			workModel.set("modifier", 1);
-			workModel.set("createtime", timestamp);
-			workModel.set("modifytime", timestamp);
-			boolean bool = workModel.save();
-			if (bool) {
-				// 成功
-				Integer worksid = Integer.parseInt(String.valueOf(workModel.get("worksid")));
-				Works works = getModel(Works.class).findById(worksid);
-				Page<Work> pageWork = workModel.getWorkByWorksID(worksid, pageIndex, pageSize);
-				setAttr("works", works);
-				setAttr("pageWork", pageWork);
-				render("/works/showworks.htm");
-				return;
-			} else {
-				// 失败
-				setAttr("worksid", worksidStr);
-				setAttr("pageIndex", pageIndexStr);
-				setAttr("message", "添加失败!");
-				render("/works/addwork.htm");
-				return;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			setAttr("message", "服务器错误!");
-			render("/works/addwork.htm");
-			return;
-		}
-	}
-	public void addWorks() {
-		try {
-			String flag = getPara("flag");
-			String pageIndexStr = getPara("pageIndex");
-			String pageSizeStr = getPara("pageSize");
-			List<CodeTable> codeTables = CodeKit.getList("workstype");
-			if ("1".equals(flag)) {
-				setAttr("workstype", codeTables);
-				setAttr("pageIndex", pageIndexStr);
-				render("/works/addworks.htm");
-				return;
-			}
-			String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
-			pageIndexStr = getPara("pageIndex");
-			pageSizeStr = getPara("pageSize");
-			Integer pageIndex = 1;
-			if (!StrKit.isBlank(pageIndexStr)) {
-				pageIndex = Integer.parseInt(pageIndexStr);
-			}
-			Integer pageSize = 10;
-			if (!StrKit.isBlank(pageSizeStr)) {
-				pageSize = Integer.parseInt(pageSizeStr);
-			}
-			User user = getSessionAttr("user");
-
-			if (StrKit.isBlank(coverPath)) {
-				coverPath = "";
-			}
-			Works worksModel = getModel(Works.class);
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			worksModel.set("cover", coverPath);
-			worksModel.set("type", 0);
-			UserRole userrole = getModel(UserRole.class).getRolid(user.get("userid"));
-			if (userrole.get("roleid") == "1") {
-				worksModel.set("ischeck", 1);
-			} else {
-				worksModel.set("ischeck", 0);
-			}
-			worksModel.set("istop", 0);
-			worksModel.set("creativeprocess", 20);
-			worksModel.set("comment", 0);
-			worksModel.set("pageviews", 0);
-			worksModel.set("collection", 0);
-			worksModel.set("praise", 0);
-			worksModel.set("maxnum", 0);
-			worksModel.set("releasedate", timestamp);
-			worksModel.set("updatetime", timestamp);
-			worksModel.set("leadingrole", 111);
-			worksModel.set("creater", 111);
-			worksModel.set("createtime", timestamp);
-			worksModel.set("modifier", 111);
-			worksModel.set("modifytime", timestamp);
-			boolean bool = worksModel.save();
-			if (bool) {
-				// 成功
-				Page<Works> pageWorks = worksModel.getWorksInfoPage("", "0", pageIndex, pageSize);
-				setAttr("pageWorks", pageWorks);
-				render("/works/showworksList.htm");
-				return;
-			} else {
-				setAttr("works", worksModel);
-				setAttr("message", "添加失败!");
-				render("/works/addworks.htm");
-				return;
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			setAttr("message", "服务器错误");
-			render("/works/addworks.htm");
-			return;
-		}
-
-	}
-
-	public void editWork() {
-		String worksidStr = getPara("worksid");
-		String workidStr = getPara("workid");
-		String pageIndexStr = getPara("pageIndex");
-		String pageSizeStr = getPara("pageSize");
-		String flag = getPara("flag");
-		if ("1".equals(flag)) {
-			Work workModel = getModel(Work.class).findById(workidStr);
-			Works worksModel = getModel(Works.class).findById(worksidStr);
-			setAttr("works", worksModel);
-			setAttr("work", workModel);
-			setAttr("pageIndex", pageIndexStr);
-			render("/works/editwork.htm");
-			return;
-		}
-		String worknumStr = getPara("worknum");
-		String worknameStr = getPara("workname");
-		String workdesStr = getPara("workdes");
-		String isdisableStr = getPara("isdisable");
-		if (StrKit.isBlank(workidStr)) {
-			render("/works/editwork.htm");
-			return;
-		}
-		Integer pageIndex = 1;
-		if (!StrKit.isBlank(pageIndexStr)) {
-			pageIndex = Integer.parseInt(pageIndexStr);
-		}
-		Integer pageSize = 10;
-		if (!StrKit.isBlank(pageSizeStr)) {
-			pageSize = Integer.parseInt(pageSizeStr);
-		}
-		try {
-			Work workModel = getModel(Work.class).findById(workidStr);
-			Works worksModel = getModel(Works.class).findById(worksidStr);
-
-			if (!StrKit.isBlank(worknumStr)) {
-				workModel.set("worknum", worknumStr);
-			}
-			if (!StrKit.isBlank(worknameStr)) {
-				workModel.set("workname", worknameStr);
-			}
-			if (!StrKit.isBlank(workdesStr)) {
-				workModel.set("workdes", workdesStr);
-			}
-			if (!StrKit.isBlank(isdisableStr)) {
-				workModel.set("isdisable", isdisableStr);
-			}
-			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			workModel.set("modifier", 1);
-			workModel.set("modifytime", timestamp);
-			boolean bool = workModel.update();
-			if (bool) {
-				// 成功
-				Page<Work> pageWork = null;
-				pageWork = workModel.getWorkByWorksID(Integer.parseInt(worksidStr), pageIndex, pageSize);
-				setAttr("works", worksModel);
-				setAttr("pageWork", pageWork);
-				render("/works/showworks.htm");
-				return;
-			} else {
-				// 失败
-				setAttr("works", workModel);
-				setAttr("message", "添加失败!");
-				render("/works/editwork.htm");
-				return;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			setAttr("message", "服务器错误!");
-			render("/works/editwork.htm");
-			return;
-		}
-	}
-
-	public void editWorks() {
-		String worksidStr = getPara("worksid");
-		String pageIndexStr = getPara("pageIndex");
-		String pageSizeStr = getPara("pageSize");
-		String flag = getPara("flag");
-		if ("1".equals(flag)) {
-			Works worksModel = getModel(Works.class).findById(worksidStr);
-			setAttr("works", worksModel);
-			setAttr("pageIndex", pageIndexStr);
-			render("/works/editworks.htm");
-			return;
-		}
-		Integer pageIndex = 1;
-		if (!StrKit.isBlank(pageIndexStr)) {
-			pageIndex = Integer.parseInt(pageIndexStr);
-		}
-		Integer pageSize = 10;
-		if (!StrKit.isBlank(pageSizeStr)) {
-			pageSize = Integer.parseInt(pageSizeStr);
-		}
-
-		Works worksModel = getModel(Works.class).findById(worksidStr);
-		String workname = getPara("worksname");
-		String workdes = getPara("workdes");
-		String creativeprocess = getPara("creativeprocess");
-		String describle = getPara("describle");
-		if (!StrKit.isBlank(workname)) {
-			worksModel.set("workname", workname);
-		}
-		if (!StrKit.isBlank(workdes)) {
-			worksModel.set("workdes", workdes);
-		}
-		if (!StrKit.isBlank(creativeprocess)) {
-			worksModel.set("creativeprocess", creativeprocess);
-		}
-		if (!StrKit.isBlank(describle)) {
-			worksModel.set("describle", describle);
-		}
-		boolean bool = worksModel.update();
-		if (bool) {
-			// 成功
-			Page<Works> pageWorks = null;
-			pageWorks = worksModel.getWorksInfoPage("", pageIndex, pageSize);
-			setAttr("works", worksModel);
-			setAttr("pageWorks", pageWorks);
-			render("/works/showworks.htm");
-			return;
-		} else {
-			// 失败
-			setAttr("works", worksModel);
-			setAttr("message", "添加失败!");
-			render("/works/editwork.htm");
-			return;
-		}
-	}
 
 	public void editShipin() {
 		Map<String, Object> map = Maps.newHashMap();
@@ -751,82 +492,99 @@ public class WorksController extends FilesLoadController {
 		renderJson(map);
 		return;
 	}
-
-	public void showShipin() {
-		String pageIndexStr = getPara("pageIndex");
-		Integer pageIndex = 1;
-		if (!StrKit.isBlank(pageIndexStr)) {
-			pageIndex = Integer.parseInt(pageIndexStr);
-		}
-		String pageSizeStr = getPara("pageSize");
-		Integer pageSize = 10;
-		if (!StrKit.isBlank(pageSizeStr)) {
-			pageSize = Integer.parseInt(pageSizeStr);
-		}
-		try {
-			Works worksModel = getModel(Works.class);
-			Page<Works> pageWorks = null;
-			pageWorks = worksModel.getWorksInfoPage("", "1", pageIndex, pageSize);
-			setAttr("pageWorks", pageWorks);
-			render("/works/showworkList.htm");
-			return;
-		} catch (Exception e) {
-			e.printStackTrace();
-			render("/works/showworkList.htm");
-			return;
-		}
-	}
-
-	public void showWorks() {
-		try {
-			String worksid = getPara("worksid");
-			String pageIndexStr = getPara("pageIndex");
-			Integer pageIndex = 1;
-			if (!StrKit.isBlank(pageIndexStr)) {
-				pageIndex = Integer.parseInt(pageIndexStr);
+	
+	public void editZhuanji(){
+		Map<String, Object> map = Maps.newHashMap();
+		User user = getSessionAttr("user");
+		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
+		String userName = user.get("username");
+		
+		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
+		String worksid = getPara("worksid");
+		String title = getPara("title");
+		String leadingrole = getPara("leadingrole");
+		String des = getPara("des");
+		String ispublic = getPara("ispublic");
+		Works worksModel = getModel(Works.class).findById(worksid);
+		boolean bool = false;
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		if(!StrKit.isBlank(coverPath)){
+			String oldcover = worksModel.get("cover");
+			File coverFile = new File(oldcover);
+			if(coverFile.exists()){
+				coverFile.delete();
 			}
-			String pageSizeStr = getPara("pageSize");
-			Integer pageSize = 10;
-			if (!StrKit.isBlank(pageSizeStr)) {
-				pageSize = Integer.parseInt(pageSizeStr);
-			}
-			Works worksModel = getModel(Works.class).findById(worksid);
-			String workstype = CodeKit.getValue("workstype", worksModel.get("workstype"));
-			Page<Work> pageWork = getModel(Work.class).getWorkByWorksID(Integer.parseInt(worksid), pageIndex, pageSize);
-			setAttr("works", worksModel);
-			setAttr("workstype", workstype);
-			setAttr("pageWork", pageWork);
-			render("/works/showWorks.htm");
-			return;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return;
+			worksModel.set("cover", coverPath);
 		}
+		if(!StrKit.isBlank(title)){
+			worksModel.set("worksname", title);
+		}
+		if(!StrKit.isBlank(leadingrole)){
+			worksModel.set("leadingrole", leadingrole);
+		}
+		worksModel.set("describle", des);
+		if(!StrKit.isBlank(ispublic)){
+			worksModel.set("ispublic", ispublic);
+		}
+		worksModel.set("modifier", userId);
+		worksModel.set("modifiername", userName);
+		worksModel.set("modifytime", timestamp);
+		bool = worksModel.update();
+		if (bool) {
+			// 成功
+			map.put("success", 1);
+		} else {
+			map.put("success", 0);
+			map.put("message", "服务器错误！");
+		}
+		renderJson(map);
+		return;
+	}
+	
+	public void editZhuanjiShipin(){
+		Map<String, Object> map = Maps.newHashMap();
+		User user = getSessionAttr("user");
+		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
+		String userName = user.get("username");
+		
+		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
+		String workid = getPara("workid");
+		String title = getPara("title");
+		String des = getPara("des");
+		String ispublic = getPara("ispublic");
+		
+		Work workModel = getModel(Work.class).findById(workid);
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		if(!StrKit.isBlank(coverPath)){
+			String oldcover1 = workModel.get("cover");
+			File coverFile1 = new File(oldcover1);
+			if(coverFile1.exists()){
+				coverFile1.delete();
+			}
+			workModel.set("cover", coverPath);
+		}
+		if(!StrKit.isBlank(title)){
+			workModel.set("workname", title);
+		}
+		workModel.set("workdes", des);
+		if(!StrKit.isBlank(ispublic)){
+			workModel.set("isdisable", ispublic);
+		}
+		workModel.set("modifier", userId);
+		workModel.set("modifiername", userName);
+		workModel.set("modifytime", timestamp);
+		boolean bool = workModel.update();
+		if (bool) {
+			// 成功
+			map.put("success", 1);
+		} else {
+			map.put("success", 0);
+			map.put("message", "服务器错误！");
+		}
+		renderJson(map);
+		return;
 	}
 
-	public void showWorksList() {
-		String pageIndexStr = getPara("pageIndex");
-		Integer pageIndex = 1;
-		if (!StrKit.isBlank(pageIndexStr)) {
-			pageIndex = Integer.parseInt(pageIndexStr);
-		}
-		String pageSizeStr = getPara("pageSize");
-		Integer pageSize = 10;
-		if (!StrKit.isBlank(pageSizeStr)) {
-			pageSize = Integer.parseInt(pageSizeStr);
-		}
-		try {
-			Works worksModel = getModel(Works.class);
-			Page<Works> pageWorks = null;
-			pageWorks = worksModel.getWorksInfoPage("", pageIndex, pageSize);
-			setAttr("pageWorks", pageWorks);
-			render("/works/showworksList.htm");
-			return;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		render("/works/showworksList.htm");
-	}
 
 	/**
 	 * 根据作品ID获取某作品
@@ -909,13 +667,13 @@ public class WorksController extends FilesLoadController {
 			worksModel = worksModel.findById(worksid);
 			Work workModel = getModel(Work.class);
 			List<Work> works = workModel.getWorkByWorksID(worksid);
+			worksTypeModel = worksTypeModel.findById(worksModel.get("workstype"));
 			if(!works.isEmpty()){
 				workModel = works.get(0);
 			}
 			setAttr("type", type);
 			setAttr("pageIndex", pageIndex);
-			
-			setAttr("worksTypes", worksTypes);
+			setAttr("worksType", worksTypeModel);
 			setAttr("workstype", workstype);
 			setAttr("works", worksModel);
 			setAttr("work", workModel);
@@ -959,6 +717,22 @@ public class WorksController extends FilesLoadController {
 			render("/worksManage/editzhuanji.html");
 		}else if("23".equals(flag)){
 			//23 是跳转 编辑专辑-->视频页面
+			String workpageIndexStr = getPara("workpageIndex");
+			Integer workpageIndex = 1;
+			if (!StrKit.isBlank(workpageIndexStr)) {
+				workpageIndex = Integer.parseInt(workpageIndexStr);
+			}
+			String worksid = getPara("worksid");
+			String workid = getPara("workid");
+			Work workModel = getModel(Work.class).findById(workid);
+			
+			setAttr("type", type);
+			setAttr("workpageIndex", workpageIndex);
+			setAttr("pageIndex", pageIndex);
+			setAttr("worksid", worksid);
+			
+			setAttr("work", workModel);
+			render("/worksManage/editzhuanjishipin.html");
 		}else if("24".equals(flag)){
 			//23 是跳转 添加专辑->视频 页面
 			String workpageIndexStr = getPara("workpageIndex");

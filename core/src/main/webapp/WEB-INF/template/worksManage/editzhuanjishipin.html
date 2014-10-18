@@ -1,11 +1,11 @@
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#editshipin').submit(function(){
+		$('#editzhuanjishipin').submit(function(){
 			$('button[type=submit]',this).attr('disabled',true);
 			$(this).ajaxSubmit(function(data){
 				if(data.success == 1){
 					alert("修改成功!");
-					showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}});
+					showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!},'workpageIndex':${workpageIndex!}});
 				}else{
 					alert("修改失败  信息：" + data.message);
 					$('button[type=submit]',this).removeAttr('disabled');
@@ -14,32 +14,31 @@
 			return false;
 		});
 		
-		var workstype = '${workstype!}';
-		var ispubulic = '${works.ispublic!}';
-		if(workstype != ''){
-			$('#editworkstype').val(workstype);
-		}
+		var ispubulic = '${work.isdisable!}';
 		if(ispubulic != ''){
 			$('#editispublic').val(ispubulic);
 		}
 	});
 </script>
 <article class="MeArticle">
-		<form id="editshipin" action="works/editShipin" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="worksid" value="${works.worksid!}"/>
+		<form id="editzhuanjishipin" action="works/editZhuanjiShipin" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="workid" value="${work.workid!}"/>
         <div class="MemberIndex">
-          <div class="MeCaption"><a href="javascript:showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}});">视频管理</a> --> <a href="javascript:showPage({'flag':20,'type':0,'pageIndex':${pageIndex!},'worksid':${works.worksid!}});">编辑视频</a></div>
+          <div class="MeCaption"><a href="javascript:showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}});">视频管理</a>
+           --> <a href="javascript:showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!},'workpageIndex':${workpageIndex!}});">编辑专辑</a>
+           --> <a href="javascript:showPage({'flag':23,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!},'workid':${work.workid!},'workpageIndex':${workpageIndex!}});">编辑视频</a>
+           </div>
           <div class="MeBlock">
           <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
               <tbody><tr>
                 <th><em style="color: red;"> * </em>标题：</th>
-                <td><input name="title" type="text" class="input_Member" value="${works.worksname!}" required="required"></td>
+                <td><input name="title" type="text" class="input_Member" value="${work.workname!}" required="required"></td>
               </tr>
               
               <tr>
                 <th><em style="color: red;"> * </em>封面：</th>
                 <td>
-                	<img width="120px" height="100px" alt="${works.worksname!}" src="${works.cover!}" />
+                	<img width="120px" height="100px" alt="${work.workname!}" src="${work.cover!}" />
                 </td>
               </tr>
               <tr>
@@ -48,21 +47,10 @@
                 	<input name="cover" type="file" class="input_Member" style="width:150px;">
                 </td>
               </tr>
-              <tr>
-                <th>主角：</th>
-                <td>
-                	<input name="leadingrole" type="text" value="${works.leadingrole!}" class="input_Member"></td>
-                </td>
                <tr>
                 <th>简介：</th>
                 <td>
-                	<textarea name="des" style="padding:10px;" rows="8" cols="54">${works.describle!}</textarea>
-                </td>
-              </tr>
-              <tr>
-                <th><em style="color: red;"> * </em>分类：</th>
-                <td>
-                	<input type="text" value="${worksType.name!}" class="input_Member" disabled="disabled">
+                	<textarea name="des" style="padding:10px;" rows="8" cols="54">${work.workdes!}</textarea>
                 </td>
               </tr>
               <tr>
@@ -79,7 +67,7 @@
                 <td>
                 	<button  type="submit" class="">提交</button>
                 	&nbsp;&nbsp;&nbsp;
-                	<button type="button" onclick="showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}})">取消</button>
+                	<button type="button" onclick="showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!},'workpageIndex':${workpageIndex!}})">取消</button>
 				</td>
               </tr>
             </tbody></table>
