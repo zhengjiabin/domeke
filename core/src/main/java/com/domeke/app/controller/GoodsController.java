@@ -464,9 +464,9 @@ public class GoodsController extends FilesLoadController {
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
 		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
 		List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
-		String tamllurl = getPara("tamllurl");
-		List<String> headimgs = this.getFileUrls(tamllurl);
-		setAttr("images", headimgs);
+//		String tamllurl = getPara("tamllurl");
+//		List<String> headimgs = this.getFileUrls(tamllurl);
+//		setAttr("images", headimgs);
 		setAttr("goodsTypes", goodsTypes);
 		setAttr("goods", goods);	
 		setAttr("isChange", isChange);
