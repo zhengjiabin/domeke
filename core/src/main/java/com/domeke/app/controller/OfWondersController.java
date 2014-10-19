@@ -11,15 +11,19 @@ import com.domeke.app.model.User;
 import com.domeke.app.model.WondersType;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.aop.Before;
-import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "ofWonders")
-public class OfWondersController extends Controller {
+public class OfWondersController extends FilesLoadController {
 	
 	/** 回复类型 */
 	private static String IDTYPE = "50";
+	
+	private static String saveFolderName = "/wondersType";
+	private static String parameterName = "ofWonders.themeing";
+	private static int maxPostSize = 2 * 1024 * 1024;
+	private static String encoding = "UTF-8";
 
 	/**
 	 * 查询主题列表
@@ -39,9 +43,16 @@ public class OfWondersController extends Controller {
 	 */
 	@Before(LoginInterceptor.class)
 	public void create() {
+		String imgPath = dealUploadImg();
+		if(StrKit.isBlank(imgPath)){
+			return;
+		}
 		OfWonders ofWonders = getModel(OfWonders.class);
+		ofWonders.set("themeimg", imgPath);
+		
 		Object wondersTypeId = getPara("wondersTypeId");
 		ofWonders.set("wonderstypeid", wondersTypeId);
+		
 		Object userId = getUserId();
 		Object ofWondersOld = OfWonders.dao.findHasPublish(wondersTypeId, userId);
 		if(ofWondersOld != null){
@@ -121,6 +132,24 @@ public class OfWondersController extends Controller {
 		ofWonders.set("essence", 1);
 		ofWonders.update();
 		renderJson("true");
+	}
+	
+	/**
+	 * 处理图片上传
+	 * @return 是否上传成功
+	 */
+	@SuppressWarnings("finally")
+	private String dealUploadImg(){
+		String imgPath = null;
+		try {
+			imgPath = upLoadFileDealPath(parameterName, saveFolderName, maxPostSize, encoding);
+		} catch (RuntimeException e) {
+			renderHtml("<script type=\"text/javascript\">alert(\"上传的文件有误，请重新上传。\");</script>");
+		} catch (Exception e) {
+			renderHtml("<script type=\"text/javascript\">alert(\"上传文件失败，请联系管理员。\");</script>");
+		} finally{
+			return imgPath;
+		}
 	}
 	
 	/**

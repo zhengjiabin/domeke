@@ -7,31 +7,6 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 
-/**
- * 
- * CREATE TABLE `activity` (
- * `activityid` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
- * `uid` mediumint(8) NOT NULL DEFAULT '0' ,
- * `aid` mediumint(8) NOT NULL DEFAULT '0' ,
- * `cost` mediumint(8) NOT NULL DEFAULT '0',
- * `starttimefrom` timestamp NOT NULL ,
- * `starttimeto` timestamp NOT NULL ,
- * `place` varchar(255) NOT NULL,
- * `class` varchar(255) NOT NULL,
- * `gender` tinyint(1) NOT NULL DEFAULT '0',
- * `number` smallint(5) unsigned NOT NULL DEFAULT '0',
- * `applynumber` smallint(5) unsigned NOT NULL DEFAULT '0',
- * `expiration` timestamp NOT NULL ,
- * `ufield` text NOT NULL,
- * `credit` smallint(6) unsigned NOT NULL DEFAULT '0',
- * `status` tinyint(1) DEFAULT NULL,
- * `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- * `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
- * `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- * `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
- * PRIMARY KEY (`activityid`)
- * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
- */
 @TableBind(tableName = "activity", pkName = "activityid")
 public class Activity extends Model<Activity> {
 	/**
@@ -70,8 +45,9 @@ public class Activity extends Model<Activity> {
 	public Page<Activity> findPage(int pageNumber, int pageSize) {
 		String select = "select u.imgurl,u.username,aty.*,app.number as applynumber";
 		StringBuffer sqlExceptSelect = new StringBuffer();
-		sqlExceptSelect.append("from user u,activity aty left join (select count(1) as number,app.activityid from activity_apply app where app.status='10' ");
-		sqlExceptSelect.append(" group by app.activityid) app on aty.activityid=app.activityid where u.userid=aty.userid and aty.status='10'");
+		sqlExceptSelect.append("from user u,activity aty left join (select count(1) as number,app.activityid from activity_apply app ");
+		sqlExceptSelect.append(" where app.status='10' group by app.activityid) app on aty.activityid=app.activityid where u.userid=aty.userid ");
+		sqlExceptSelect.append(" and aty.status='10'");
 		sqlExceptSelect.append(" order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc");
 		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
 		return page;
@@ -86,13 +62,13 @@ public class Activity extends Model<Activity> {
 	 *            页数
 	 * @return
 	 */
-	public Page<Activity> findPage(int pageNumber, int pageSize,
-			Object communityId) {
+	public Page<Activity> findPageByCommunityId(int pageNumber, int pageSize,Object communityId) {
 		String select = "select u.imgurl,u.username,aty.*,app.number as applynumber";
 		StringBuffer sqlExceptSelect = new StringBuffer();
-		sqlExceptSelect.append("from user u,activity aty left join (select count(1) as number,app.activityid from activity_apply app where app.status='10' ");
-		sqlExceptSelect.append(" group by app.activityid) app on aty.activityid=app.activityid where u.userid=aty.userid and aty.status='10' and aty.communityid=? ");
-		sqlExceptSelect.append("order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc");
+		sqlExceptSelect.append("from user u,activity aty left join (select count(1) as number,app.activityid from activity_apply app ");
+		sqlExceptSelect.append(" where app.status='10' group by app.activityid) app on aty.activityid=app.activityid where u.userid=aty.userid ");
+		sqlExceptSelect.append(" and aty.status='10' and aty.communityid=? ");
+		sqlExceptSelect.append(" order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc");
 		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),communityId);
 		return page;
 	}

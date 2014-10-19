@@ -7,31 +7,6 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 
-/**
- * CREATE TABLE `treasure` (
- * `treasureid` int(10) unsigned NOT NULL AUTO_INCREMENT,
- * `author` varchar(15) NOT NULL,
- * `authorid` mediumint(8) unsigned NOT NULL DEFAULT '0',
- * `subject` varchar(80) NOT NULL,
- * `dateline` timestamp NOT NULL ,
- * `message` text NOT NULL,
- * `useip` varchar(15) NOT NULL,
- * `invisible` tinyint(1) NOT NULL DEFAULT '0',
- * `anonymous` tinyint(1) NOT NULL DEFAULT '0',
- * `usesig` tinyint(1) NOT NULL DEFAULT '0',
- * `attachment` tinyint(1) NOT NULL DEFAULT '0',
- * `rate` smallint(6) NOT NULL DEFAULT '0',
- * `ratetimes` tinyint(3) unsigned NOT NULL DEFAULT '0',
- * `status` int(10) NOT NULL DEFAULT '0',
- * `comment` tinyint(1) NOT NULL DEFAULT '0',
- * `replycredit` int(10) NOT NULL DEFAULT '0',
- * `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- * `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
- * `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- * `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
- * PRIMARY KEY (`treasureid`)
- * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
- */
 @TableBind(tableName = "treasure", pkName = "treasureid")
 public class Treasure extends Model<Treasure> {
 	/**
@@ -52,8 +27,11 @@ public class Treasure extends Model<Treasure> {
 	 * @return
 	 */
 	public Page<Treasure> findPage(int pageNumber, int pageSize) {
-		Page<Treasure> page = this.paginate(pageNumber, pageSize, "select *",
-				"from treasure where status='10' order by to_days(createtime) desc,top desc,essence desc");
+		String select = "select u.username,u.imgurl,t.*";
+		StringBuffer sqlExceptSelect = new StringBuffer("from treasure t,user u ");
+		sqlExceptSelect.append(" where t.userid=u.userid and t.status='10' ");
+		sqlExceptSelect.append(" order by to_days(t.createtime) desc,t.top desc,t.essence desc");
+		Page<Treasure> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
 		return page;
 	}
 	/**
@@ -66,10 +44,11 @@ public class Treasure extends Model<Treasure> {
 	 * @return
 	 */
 	public Page<Treasure> findPageByCommunityId(int pageNumber, int pageSize,Object communityId) {
-		String select = "select u.username,u.imgurl,p.*,c.number as viewcount";
-		StringBuffer sqlExceptSelect = new StringBuffer();
-		sqlExceptSelect.append("from user u,treasure p left join (select count(1) as number,targetid from comment where idtype='30' group by targetid) c on p.treasureid=c.targetid ");
-		sqlExceptSelect.append(" where u.userid=p.userid and p.status='10' and p.communityid=? order by to_days(p.createtime) desc,p.top desc,p.essence desc");
+		String select = "select u.username,u.imgurl,t.*,cm.number as viewcount";
+		StringBuffer sqlExceptSelect = new StringBuffer("from user u,treasure t left join ");
+		sqlExceptSelect.append(" (select count(1) as number,targetid from comment where idtype='30' group by targetid) cm on t.treasureid=cm.targetid ");
+		sqlExceptSelect.append(" where u.userid=t.userid and t.status='10' and t.communityid=? ");
+		sqlExceptSelect.append(" order by to_days(t.createtime) desc,t.top desc,t.essence desc");
 		Page<Treasure> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),communityId);
 		return page;
 	}

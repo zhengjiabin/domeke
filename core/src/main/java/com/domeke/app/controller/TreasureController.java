@@ -21,6 +21,19 @@ public class TreasureController extends Controller {
 	private static String IDTYPE = "30";
 
 	/**
+	 * 宝贝列表
+	 * 请求 ./treasure?communityId=${communityId!}
+	 */
+	public void index() {
+		String communityId = getPara("communityId");
+		setTreasurePage(communityId);
+		setPublishNumber();
+		setCommunity();
+		
+		render("/community/treasure.html");
+	}
+
+	/**
 	 * 查询指定社区的分页宝贝信息
 	 * 
 	 * @return 宝贝信息
@@ -103,7 +116,7 @@ public class TreasureController extends Controller {
 		Treasure.dao.updateTimes(treasureId);
 		
 		setTreasure(treasureId);
-		setCommunity();
+		setCommunitys();
 		keepPara("communityId");
 		
 		forwardComment(treasureId);
@@ -123,7 +136,7 @@ public class TreasureController extends Controller {
 	/**
 	 * 设置版块信息
 	 */
-	private void setCommunity(){
+	private void setCommunitys(){
 		String communityId = getPara("communityId");
 		Community communitySon = Community.dao.findById(communityId);
 		setAttr("communitySon", communitySon);
@@ -131,6 +144,15 @@ public class TreasureController extends Controller {
 		Object pId = communitySon.get("pid");
 		Community communityFat = Community.dao.findById(pId);
 		setAttr("communityFat", communityFat);
+	}
+	
+	/**
+	 * 设置版块信息
+	 */
+	private void setCommunity(){
+		String communityId = getPara("communityId");
+		Community community = Community.dao.findById(communityId);
+		setAttr("community", community);
 	}
 	
 	/**
@@ -236,14 +258,6 @@ public class TreasureController extends Controller {
 
 		findById();
 	}
-
-	public void index() {
-		String communityId = getPara("communityId");
-		setTreasurePage(communityId);
-		setPublishNumber();
-		
-		render("/community/treasure.html");
-	}
 	
 	/**
 	 * 设置宝贝数
@@ -272,6 +286,7 @@ public class TreasureController extends Controller {
 		setTreasurePage(null);
 		List<Community> communitySonList = Community.dao.findSonList();
 		setAttr("communitySonList", communitySonList);
+		setPublishNumber();
 		render("/community/treasureAll.html");
 	}
 

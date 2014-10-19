@@ -20,6 +20,19 @@ public class PostController extends Controller {
 	
 	/** 回复类型 */
 	private static String IDTYPE = "10";
+
+	/**
+	 * 论坛列表
+	 * 请求 ./post?communityId=${communityId!}
+	 */
+	public void index() {
+		String communityId = getPara("communityId");
+		setPostPage(communityId);
+		setPublishNumber();
+		setCommunity();
+		
+		render("/community/post.html");
+	}
 	
 	/**
 	 * admin管理中对应的社区管理入口
@@ -112,7 +125,7 @@ public class PostController extends Controller {
 		Post.dao.updateTimes(postId);
 		
 		setPost(postId);
-		setCommunity();
+		setCommunitys();
 		keepPara("communityId");
 		
 		forwardComment(postId);
@@ -132,7 +145,7 @@ public class PostController extends Controller {
 	/**
 	 * 设置版块信息
 	 */
-	private void setCommunity(){
+	private void setCommunitys(){
 		String communityId = getPara("communityId");
 		Community communitySon = Community.dao.findById(communityId);
 		setAttr("communitySon", communitySon);
@@ -140,6 +153,15 @@ public class PostController extends Controller {
 		Object pId = communitySon.get("pid");
 		Community communityFat = Community.dao.findById(pId);
 		setAttr("communityFat", communityFat);
+	}
+	
+	/**
+	 * 设置版块信息
+	 */
+	private void setCommunity(){
+		String communityId = getPara("communityId");
+		Community community = Community.dao.findById(communityId);
+		setAttr("community", community);
 	}
 	
 	/**
@@ -301,14 +323,6 @@ public class PostController extends Controller {
 
 		findById();
 	}
-
-	public void index() {
-		String communityId = getPara("communityId");
-		setPostPage(communityId);
-		setPublishNumber();
-		
-		render("/community/post.html");
-	}
 	
 	/**
 	 * 设置发帖数
@@ -334,6 +348,7 @@ public class PostController extends Controller {
 		setPostPage(null);
 		List<Community> communitySonList = Community.dao.findSonList();
 		setAttr("communitySonList", communitySonList);
+		setPublishNumber();
 		render("/community/postAll.html");
 	}
 	

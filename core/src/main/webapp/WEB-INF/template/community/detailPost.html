@@ -4,14 +4,14 @@
 </div>
 <div class="ForumTheme">
 	<div class="ListPic">
-		<img src="/http://www.dongmark.com/images/qq4.jpg">
+		<img src="${post.imgurl!}">
 	</div>
 	<div class="ListDtl">
 		<div class="ListName">
 			<a href="#">${post.subject!}</a>
 		</div>
 		<div class="font_9">
-			<span><a href="#">楼主：${post.postid!}</a></span> 
+			<span><a href="#">楼主：${post.username!}</a></span> 
 			<span>发表时间：${post.dateline!}</span>
 			<% if(post.top == 0){ %> 
 				<span>

@@ -35,6 +35,23 @@ public class CommunityController extends Controller {
 		render("/community/community.html");
 	}
 	
+	
+	/**
+	 * 跳转到指定主题
+	 * 请求 ./community/goToCommunity?communityId=${communityId!}
+	 */
+	public void goToCommunity(){
+		String communityId = getPara("communityId");
+		if(communityId == null || communityId.length()<=0){
+			renderNull();
+			return;
+		}
+		Community community = Community.dao.findById(communityId);
+		String actionKey = community.getStr("actionkey");
+		actionKey = actionKey + "/skipCreate";
+		forwardAction(actionKey);
+	}
+	
 	/**
 	 * 设置各子版块帖子数
 	 * @param <T>
@@ -140,21 +157,6 @@ public class CommunityController extends Controller {
 		setCommunitySonList();
 		setAttr("communitySize", 81);
 		render("/community/community_showMore.html");
-	}
-	
-	/**
-	 * 跳转到指定主题
-	 */
-	public void goToCommunity(){
-		String communityId = getPara("communityId");
-		if(communityId == null || communityId.length()<=0){
-			renderNull();
-			return;
-		}
-		Community community = Community.dao.findById(communityId);
-		String actionKey = community.getStr("actionkey");
-		actionKey = actionKey + "/skipCreate";
-		forwardAction(actionKey);
 	}
 	
 	private void setVentWall(){

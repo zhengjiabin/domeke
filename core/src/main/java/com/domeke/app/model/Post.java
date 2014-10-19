@@ -7,31 +7,6 @@ import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 
-/**
- * CREATE TABLE `post` (
- * `postid` int(10) unsigned NOT NULL AUTO_INCREMENT,
- * `author` varchar(15) NOT NULL,
- * `authorid` mediumint(8) unsigned NOT NULL DEFAULT '0',
- * `subject` varchar(80) NOT NULL,
- * `dateline` timestamp NOT NULL ,
- * `message` text NOT NULL,
- * `useip` varchar(15) NOT NULL,
- * `invisible` tinyint(1) NOT NULL DEFAULT '0',
- * `anonymous` tinyint(1) NOT NULL DEFAULT '0',
- * `usesig` tinyint(1) NOT NULL DEFAULT '0',
- * `attachment` tinyint(1) NOT NULL DEFAULT '0',
- * `rate` smallint(6) NOT NULL DEFAULT '0',
- * `ratetimes` tinyint(3) unsigned NOT NULL DEFAULT '0',
- * `status` int(10) NOT NULL DEFAULT '0',
- * `comment` tinyint(1) NOT NULL DEFAULT '0',
- * `replycredit` int(10) NOT NULL DEFAULT '0',
- * `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- * `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
- * `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
- * `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
- * PRIMARY KEY (`postid`)
- * ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
- */
 @TableBind(tableName = "post", pkName = "postid")
 public class Post extends Model<Post> {
 	/**
@@ -68,8 +43,9 @@ public class Post extends Model<Post> {
 	 */
 	public Page<Post> findPage(int pageNumber, int pageSize) {
 		String select = "select p.*,u.username,u.imgurl";
-		StringBuffer sqlExceptSelect = new StringBuffer("from post p,user u where p.userid=u.userid and p.status='10' ");
-		sqlExceptSelect.append("  order by to_days(createtime) desc,top desc,essence desc ");
+		StringBuffer sqlExceptSelect = new StringBuffer("from post p,user u where p.userid=u.userid ");
+		sqlExceptSelect.append("  and p.status='10' ");
+		sqlExceptSelect.append("  order by to_days(p.createtime) desc,p.top desc,p.essence desc ");
 		Page<Post> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
 		return page;
 	}
@@ -83,10 +59,11 @@ public class Post extends Model<Post> {
 	 * @return
 	 */
 	public Page<Post> findPageByCommunityId(int pageNumber, int pageSize,Object communityId) {
-		String select = "select u.username,u.imgurl,p.*,c.number as viewcount";
-		StringBuffer sqlExceptSelect = new StringBuffer();
-		sqlExceptSelect.append("from user u,post p left join (select count(1) as number,targetid from comment where idtype='10' group by targetid) c on p.postid=c.targetid ");
-		sqlExceptSelect.append(" where u.userid=p.userid and p.status='10' and p.communityid=? order by to_days(p.createtime) desc,p.top desc,p.essence desc");
+		String select = "select u.username,u.imgurl,p.*,cm.number as viewcount,c.title";
+		StringBuffer sqlExceptSelect = new StringBuffer("from community c,user u,post p left join ");
+		sqlExceptSelect.append(" (select count(1) as number,targetid from comment where idtype='10' group by targetid) cm on p.postid=cm.targetid ");
+		sqlExceptSelect.append(" where c.communityid=p.communityid and u.userid=p.userid and p.status='10' and p.communityid=? ");
+		sqlExceptSelect.append(" order by to_days(p.createtime) desc,p.top desc,p.essence desc ");
 		Page<Post> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),communityId);
 		return page;
 	}

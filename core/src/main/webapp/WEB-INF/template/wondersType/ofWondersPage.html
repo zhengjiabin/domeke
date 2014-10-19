@@ -2,7 +2,7 @@
 	<span>今日发帖数:${todayCount!}</span>
     <span>昨日发帖数:${yesCount!}</span>
     <span>总帖数:${count!}</span>
-    <span>会员总数:${userCount!}</span>
+    <span>您发帖数:${userCount!}</span>
 </div>
 <div class="ArticleTitle"><img src="/http://www.dongmark.com/images/FIcon03.png" >HIGH豆官方社区</div>
 <div class="ArticleContent">
@@ -21,7 +21,7 @@
    	}
    %>
   	  <div class="ForumList">
-       	<div class="ListPic"><img src="http://www.dongmark.com/images/bg_Me.png"></div>
+       	<div class="ListPic"><img src="${ofWonders.imgurl!}"></div>
            <div class="ListDtl">
            	<div class="${class!}">
            		<a href="javascript:void(0)" onclick="findById(this,'${ofWonders.ofwondersid!}','${ofWonders.wonderstypeid!}')">${ofWonders.subject!}</a>

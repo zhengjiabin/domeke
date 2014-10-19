@@ -181,16 +181,21 @@ function submitOfWonders(node,wondersTypeId){
 }
 
 //提交主题
-function submitCreate(node,wondersTypeId) {
+function submitCreate(node) {
 	var content = CKEDITOR.instances.ckeditor.getData();
 	var createHtml = $(node).closest("#createHtml");
 	var message = createHtml.find("#message").first();
 	message.val(content);
 	
-	var url = "./ofWonders/create?wondersTypeId="+wondersTypeId;
-	$.post(url, 
-		$(node).closest("#createHtml").serialize(), 
-		function(data) {
+	createHtml.submit();
+}
+
+//异步提交
+function onSubmitCreate(node,wondersTypeId){
+	$(node).ajaxSubmit({
+		type:"post",
+		url:"./ofWonders/create?wondersTypeId="+wondersTypeId,
+		success:function(data) {
 			if(data == false){
 				alert("5分钟内只能发布一次同类型主题！");
 			}else{
@@ -198,7 +203,9 @@ function submitCreate(node,wondersTypeId) {
 				var baseWondersType = wondersTypeHtml.find("#baseWondersType").first();
 				baseWondersType.html(data);
 			}
+		}
 	});
+	return false;
 }
 
 //点击版块首页的热门主题
@@ -221,10 +228,8 @@ function onUploadImgChange(node){
     }
     var createHtml = $(node).closest("#createHtml");
     var preview = createHtml.find("#preview").first();
-    node.select();
-    var imgSrc = document.selection.createRange().text;
+    
     if( node.files && node.files[0] ){
-    	preview.attr("style","display:block");
-    	preview.attr("src",path);
+    	preview.attr("src",node.value);
     }
 }

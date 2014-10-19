@@ -23,6 +23,19 @@ public class ActivityController extends Controller {
 	private static String IDTYPE = "20";
 	
 	/**
+	 * 活动列表
+	 * 请求 /activity?communityId=${communityId!}
+	 */
+	public void index() {
+		String communityId = getPara("communityId");
+		setActivityPage(communityId);
+		setPublishNumber();
+		setCommunity();
+		
+		render("/community/activity.html");
+	}
+	
+	/**
 	 * admin管理--社区管理入口
 	 */
 	public void goToManager() {
@@ -123,7 +136,7 @@ public class ActivityController extends Controller {
 		Activity.dao.updateTimes(activityId);
 		
 		setActivity(activityId);
-		setCommunity();
+		setCommunitys();
 		setActivityApplyPage(activityId);
 		keepPara("communityId");
 		
@@ -141,11 +154,19 @@ public class ActivityController extends Controller {
 		forwardAction(action);
 	}
 	
-	
 	/**
 	 * 设置版块信息
 	 */
 	private void setCommunity(){
+		String communityId = getPara("communityId");
+		Community community = Community.dao.findById(communityId);
+		setAttr("community", community);
+	}
+	
+	/**
+	 * 设置版块信息
+	 */
+	private void setCommunitys(){
 		String communityId = getPara("communityId");
 		Community communitySon = Community.dao.findById(communityId);
 		setAttr("communitySon", communitySon);
@@ -324,14 +345,6 @@ public class ActivityController extends Controller {
 		render("/community/activity.html");
 	}
 
-	public void index() {
-		String communityId = getPara("communityId");
-		setActivityPage(communityId);
-		setPublishNumber();
-		
-		render("/community/activity.html");
-	}
-	
 	/**
 	 * 设置发帖数
 	 */
@@ -356,6 +369,7 @@ public class ActivityController extends Controller {
 		setActivityPage(null);
 		List<Community> communitySonList = Community.dao.findSonList();
 		setAttr("communitySonList", communitySonList);
+		setPublishNumber();
 		render("/community/activityAll.html");
 	}
 	
@@ -371,7 +385,7 @@ public class ActivityController extends Controller {
 		if(communityId == null){
 			activityPage = Activity.dao.findPage(pageNumber, pageSize);
 		}else{
-			activityPage = Activity.dao.findPage(pageNumber,pageSize,communityId);
+			activityPage = Activity.dao.findPageByCommunityId(pageNumber,pageSize,communityId);
 		}
 		setAttr("activityPage", activityPage);
 		setAttr("communityId", communityId);

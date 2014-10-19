@@ -25,7 +25,7 @@
 </script>
 <article>
 	<div class="ForumReply">
-		<form action="#" method="post" id="createHtml" enctype="multipart/form-data">
+		<form action="#" method="post" id="createHtml" enctype="multipart/form-data" onsubmit="return onSubmitCreate(this,'${wondersTypeId!}');">
 		
       		<table border="0" cellspacing="0" cellpadding="0" class="Table_Forum">
               	<tr>
@@ -37,7 +37,7 @@
               	<tr>
                	 	<th>主题图片：</th>
                 	<td>
-                		<img id="preview" style="display:none;" src="${ofWonders.themeing!}">
+                		<img id="preview" src="${ofWonders.themeing!}">
                 		<input id="themeing" name="ofWonders.themeing" type="file" class="input_Forum" value="${ofWonders.themeing!}" onchange="onUploadImgChange(this)" required="required">
                 	</td>
               	</tr>
@@ -49,7 +49,7 @@
 				<input type="text" name="ofWonders.message" id="message" value="${ofWonders.message!}" hidden="block" />
       		</div> 
       		<div class="ForumButton font_w">
-      			<a href="javascript:void(0)" class="Fsubmit" onclick="submitOfWonders(this,'${wondersTypeId!}')">确定发布</a>
+      			<a href="javascript:void(0)" class="Fsubmit" onclick="submitOfWonders(this)">确定发布</a>
         		<a href="javascript:void(0)" class="Freset">取消发布</a>
      		</div>
 		</form>
