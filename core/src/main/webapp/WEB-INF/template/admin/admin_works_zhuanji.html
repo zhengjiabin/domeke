@@ -91,10 +91,10 @@
          <tr>
          	<td class="center">${worksLP.index!}</td>
            <td>
-           	<img src="">
+           <a href="${works.detailUrl!}" target="_blank"><img src="${works.cover!}"></a>
            </td>
            <td>
-           	<a href="cartoon/playVideo?id=1">${works.worksname!}</a>
+           	<a href="${works.detailUrl!}" target="_blank">${works.worksname!}</a>
            </td>
            <td>
            	 <em style="color: #ccc;">${works.describle!}</em>
@@ -130,7 +130,7 @@
          <tr>
          	<td colspan="6">
          	<%for(work in works.workNotCheck){%>
-         	<div class="btnblock"><input type="checkbox" value="${work.workid!}"/> <a>${work.workname!}</a></div>
+         	<div class="btnblock"><input type="checkbox" value="${work.workid!}"/> <a href="${works.playUrl!}&gid=${work.workid!}" target="_blank">${work.workname!}</a></div>
          	<%}%>
          	</td>
          	<td>
