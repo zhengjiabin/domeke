@@ -1,4 +1,3 @@
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('form :input[required=required]').each(function(){
@@ -21,6 +20,19 @@
              $parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
        	   	}
         }
+      	//主题图片验证
+        if($(this).is('#themeing')){
+        	if( this.value=="" ){
+        	    var errorMsg = '主题图片不能为空';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if(!this.value.match( /.jpg|.gif|.png|.bmp/i )){
+        		var errorMsg = '图片格式无效';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
     });
 </script>
 <article>
@@ -37,7 +49,7 @@
               	<tr>
                	 	<th>主题图片：</th>
                 	<td>
-                		<img id="preview" src="${ofWonders.themeing!}">
+                		<div id="preview"></div>
                 		<input id="themeing" name="ofWonders.themeing" type="file" class="input_Forum" value="${ofWonders.themeing!}" onchange="onUploadImgChange(this)" required="required">
                 	</td>
               	</tr>
