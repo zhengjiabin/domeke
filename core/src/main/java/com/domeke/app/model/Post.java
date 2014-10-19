@@ -100,12 +100,32 @@ public class Post extends Model<Post> {
     	return count;
     }
     
+	/**
+     * 今日发帖数
+     * @return 汇总数
+     */
+    public Long getTodayCountByCommunityId(Object communityId){
+    	String sql = "select count(1) from post where status='10' and communityid=? and to_days(createtime)=to_days(now())";
+    	Long count = Db.queryLong(sql,communityId);
+    	return count;
+    }
+    
     /**
      * 昨日发帖数
      * @return 汇总数
      */
     public Long getYesterdayCount(){
     	Long count = Db.queryLong("select count(1) from post where status='10' and date(createtime) = date_sub(curdate(),interval 1 day)");
+    	return count;
+    }
+    
+    /**
+     * 昨日发帖数
+     * @return 汇总数
+     */
+    public Long getYesterdayCountByCommunityId(Object communityId){
+    	String sql = "select count(1) from post where status='10' and communityid=? and date(createtime) = date_sub(curdate(),interval 1 day)";
+    	Long count = Db.queryLong(sql,communityId);
     	return count;
     }
     
@@ -119,11 +139,11 @@ public class Post extends Model<Post> {
     }
     
     /**
-     * 当前登录人总发帖数
+     * 总发帖数
      * @return 汇总数
      */
-    public Long getCountByUserId(Object userId){
-    	Long count = Db.queryLong("select count(1) from post where status='10' and userid=?",userId);
+    public Long getCountByCommunityId(Object communityId){
+    	Long count = Db.queryLong("select count(1) from post where status='10' and communityid=?",communityId);
     	return count;
     }
     
@@ -138,6 +158,25 @@ public class Post extends Model<Post> {
     	sql.append(" group by p.communityid ");
     	List<Post> postList = this.find(sql.toString(), pid);
     	return postList;
+    }
+    
+    /**
+     * 当前登录人总发帖数
+     * @return 汇总数
+     */
+    public Long getCountByUserId(Object userId){
+    	Long count = Db.queryLong("select count(1) from post where status='10' and userid=?",userId);
+    	return count;
+    }
+    
+    /**
+     * 当前登录人总发帖数
+     * @return 汇总数
+     */
+    public Long getCountByCommunityAndUsr(Object communityId,Object userId){
+    	String sql = "select count(1) from post where status='10' and communityid=? and userid=?";
+    	Long count = Db.queryLong(sql,communityId,userId);
+    	return count;
     }
     
     /**

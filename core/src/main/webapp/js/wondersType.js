@@ -192,6 +192,8 @@ function submitCreate(node) {
 
 //异步提交
 function onSubmitCreate(node,wondersTypeId){
+	var wondersTypeLayout = $(node).closest("#wondersTypeLayout");
+	var baseWondersType = wondersTypeLayout.find("#baseWondersType").first();
 	$(node).ajaxSubmit({
 		type:"post",
 		url:"./ofWonders/create?wondersTypeId="+wondersTypeId,
@@ -199,8 +201,6 @@ function onSubmitCreate(node,wondersTypeId){
 			if(data == false){
 				alert("5分钟内只能发布一次同类型主题！");
 			}else{
-				var wondersTypeHtml = $(node).closest("#wondersTypeLayout");
-				var baseWondersType = wondersTypeHtml.find("#baseWondersType").first();
 				baseWondersType.html(data);
 			}
 		}

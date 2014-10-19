@@ -12,6 +12,7 @@ import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "treasure")
@@ -27,10 +28,50 @@ public class TreasureController extends Controller {
 	public void index() {
 		String communityId = getPara("communityId");
 		setTreasurePage(communityId);
-		setPublishNumber();
+		setPublishNumber(communityId);
 		setCommunity();
 		
 		render("/community/treasure.html");
+	}
+	
+	/**
+	 * 创建宝贝主题
+	 * 请求 ./treasure/create
+	 */
+	public void create() {
+		Treasure treasure = getModel(Treasure.class);
+		Object communityId = treasure.get("communityid");
+		Object userId = getUserId();
+		Object treasureOld = Treasure.dao.findHasPublish(communityId, userId);
+		if(treasureOld != null){
+			renderJson(false);
+			return;
+		}
+		
+		HttpServletRequest request = getRequest();
+		String remoteIp = request.getRemoteAddr();
+
+		treasure.set("userid", userId);
+		treasure.set("userip", remoteIp);
+		treasure.save();
+
+		setTreasurePage(communityId);
+		setPublishNumber(communityId);
+		
+		render("/community/treasure.html");
+	}
+	
+	
+	/**
+	 * 版块入口
+	 * 请求 ./treasure/home
+	 */
+	public void home(){
+		setTreasurePage(null);
+		List<Community> communitySonList = Community.dao.findSonList();
+		setAttr("communitySonList", communitySonList);
+		setPublishNumber(null);
+		render("/community/treasureAll.html");
 	}
 
 	/**
@@ -225,31 +266,6 @@ public class TreasureController extends Controller {
 	}
 
 	/**
-	 * 创建宝贝申请
-	 */
-	public void create() {
-		Treasure treasure = getModel(Treasure.class);
-		Object communityId = treasure.get("communityid");
-		Object userId = getUserId();
-		Object treasureOld = Treasure.dao.findHasPublish(communityId, userId);
-		if(treasureOld != null){
-			renderJson(false);
-			return;
-		}
-		
-		HttpServletRequest request = getRequest();
-		String remoteIp = request.getRemoteAddr();
-
-		treasure.set("userid", userId);
-		treasure.set("userip", remoteIp);
-		treasure.save();
-
-		setTreasurePage(communityId);
-		
-		render("/community/treasure.html");
-	}
-
-	/**
 	 * 删除回复信息
 	 */
 	public void deleteComment() {
@@ -262,32 +278,28 @@ public class TreasureController extends Controller {
 	/**
 	 * 设置宝贝数
 	 */
-	private void setPublishNumber(){
-		// 当前登录人宝贝数
+	private void setPublishNumber(Object communityId){
+		Long userTreasureCount = null,treasureTodayCount = null,treasureYesCount = null,treasureCount = null;
 		Object userId = getUserId();
-		Long userTreasureCount = Treasure.dao.getCountByUserId(userId);
+		if(StrKit.notNull(communityId)){
+			userTreasureCount = Treasure.dao.getCountByCommunityAndUser(communityId, userId);
+			treasureTodayCount = Treasure.dao.getTodayCountByCommunityId(communityId);
+			treasureYesCount = Treasure.dao.getYesterdayCountByCommunityId(communityId);
+			treasureCount = Treasure.dao.getCountByCommunityId(communityId);
+		}else{
+			userTreasureCount = Treasure.dao.getCountByUserId(userId);
+			treasureTodayCount = Treasure.dao.getTodayCount();
+			treasureYesCount = Treasure.dao.getYesterdayCount();
+			treasureCount = Treasure.dao.getCount();
+		}
+		// 当前登录人宝贝数
 		setAttr("userCount", userTreasureCount);
-		
 		//今日宝贝数
-		Long treasureTodayCount = Treasure.dao.getTodayCount();
 		setAttr("todayCount", treasureTodayCount);
 		//昨日宝贝数
-		Long treasureYesCount = Treasure.dao.getYesterdayCount();
 		setAttr("yesCount", treasureYesCount);
 		//总宝贝数
-		Long treasureCount = Treasure.dao.getCount();
 		setAttr("count", treasureCount);
-	}
-	
-	/**
-	 * 点击宝贝菜单
-	 */
-	public void home(){
-		setTreasurePage(null);
-		List<Community> communitySonList = Community.dao.findSonList();
-		setAttr("communitySonList", communitySonList);
-		setPublishNumber();
-		render("/community/treasureAll.html");
 	}
 
 	/**

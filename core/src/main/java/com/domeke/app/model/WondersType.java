@@ -31,6 +31,19 @@ public class WondersType extends Model<WondersType> {
 		List<WondersType> wondersTypeSonList = this.find(sql);
 		return wondersTypeSonList;
 	}
+	
+	/**
+	 * 查询子版块和对应的主题总数
+	 * @return
+	 */
+	public List<WondersType> findSonListCount(){
+		StringBuffer sql = new StringBuffer("select o.number as ofwondersnumber,w.* ");
+		sql.append(" from wonders_type w left join (select count(1) as number,of.wonderstypeid  from of_wonders of ");
+		sql.append(" where of.status='10' group by of.wonderstypeid) o on o.wonderstypeid=w.wonderstypeid ");
+		sql.append(" where w.status='10' and w.level = 2 order by w.position ");
+		List<WondersType> wondersTypeSonList = this.find(sql.toString());
+		return wondersTypeSonList;
+	}
 
 	/**
 	 * 根据父模块查询子模块

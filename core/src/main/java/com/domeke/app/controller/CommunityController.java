@@ -42,7 +42,7 @@ public class CommunityController extends Controller {
 	 */
 	public void goToCommunity(){
 		String communityId = getPara("communityId");
-		if(communityId == null || communityId.length()<=0){
+		if(StrKit.isBlank(communityId)){
 			renderNull();
 			return;
 		}
@@ -119,7 +119,7 @@ public class CommunityController extends Controller {
 	@Before(LoginInterceptor.class)
 	public void create() {
 		String communityId = getPara("communityId");
-		if(communityId == null || communityId.length()<=0){
+		if(StrKit.isBlank(communityId)){
 			renderNull();
 			return;
 		}

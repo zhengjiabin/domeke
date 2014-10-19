@@ -29,10 +29,46 @@ public class ActivityController extends Controller {
 	public void index() {
 		String communityId = getPara("communityId");
 		setActivityPage(communityId);
-		setPublishNumber();
+		setPublishNumber(communityId);
 		setCommunity();
 		
 		render("/community/activity.html");
+	}
+
+	/**
+	 * 创建活动
+	 * 请求 ./activity/create
+	 * 
+	 */
+	public void create() {
+		Activity activity = getModel(Activity.class);
+		Object communityId = activity.get("communityid");
+		Object userId = getUserId();
+		Object atyOld = Activity.dao.findHasPublish(communityId, userId);
+		if(atyOld != null){
+			renderJson(false);
+			return;
+		}
+		
+		activity.set("userid", userId);
+		activity.save();
+
+		setActivityPage(communityId);
+		setPublishNumber(communityId);
+		
+		render("/community/activity.html");
+	}
+	
+	/**
+	 * 版块入口
+	 * 请求 ./activity/home
+	 */
+	public void home(){
+		setActivityPage(null);
+		List<Community> communitySonList = Community.dao.findSonList();
+		setAttr("communitySonList", communitySonList);
+		setPublishNumber(null);
+		render("/community/activityAll.html");
 	}
 	
 	/**
@@ -325,52 +361,30 @@ public class ActivityController extends Controller {
 	}
 
 	/**
-	 * 创建活动申请
-	 */
-	public void create() {
-		Activity activity = getModel(Activity.class);
-		Object communityId = activity.get("communityid");
-		Object userId = getUserId();
-		Object atyOld = Activity.dao.findHasPublish(communityId, userId);
-		if(atyOld != null){
-			renderJson(false);
-			return;
-		}
-		
-		activity.set("userid", userId);
-		activity.save();
-
-		setActivityPage(communityId);
-		
-		render("/community/activity.html");
-	}
-
-	/**
 	 * 设置发帖数
 	 */
-	private void setPublishNumber(){
-		// 当前登录人发帖数
+	private void setPublishNumber(Object communityId){
+		Long userActivityCount = null,activityTodayCount = null,activityYesCount = null,activityCount = null;
 		Object userId = getUserId();
-		Long userActivityCount = Activity.dao.getCountByUserId(userId);
+		if(StrKit.notNull(communityId)){
+			userActivityCount = Activity.dao.getCountByCommunityAndUser(communityId, userId);
+			activityTodayCount = Activity.dao.getTodayCountByCommunityId(communityId);
+			activityYesCount = Activity.dao.getYesterdayCountByCommunityId(communityId);
+			activityCount = Activity.dao.getCountByCommunityId(communityId);
+		}else{
+			userActivityCount = Activity.dao.getCountByUserId(userId);
+			activityTodayCount = Activity.dao.getTodayCount();
+			activityYesCount = Activity.dao.getYesterdayCount();
+			activityCount = Activity.dao.getCount();
+		}
+		// 当前登录人发帖数
 		setAttr("userCount", userActivityCount);
-		
 		//今日发帖数
-		Long activityTodayCount = Activity.dao.getTodayCount();
 		setAttr("todayCount", activityTodayCount);
 		//昨日发帖数
-		Long activityYesCount = Activity.dao.getYesterdayCount();
 		setAttr("yesCount", activityYesCount);
 		//总发帖数
-		Long activityCount = Activity.dao.getCount();
 		setAttr("count", activityCount);
-	}
-	
-	public void home(){
-		setActivityPage(null);
-		List<Community> communitySonList = Community.dao.findSonList();
-		setAttr("communitySonList", communitySonList);
-		setPublishNumber();
-		render("/community/activityAll.html");
 	}
 	
 	/**

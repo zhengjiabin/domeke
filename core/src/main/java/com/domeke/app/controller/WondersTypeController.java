@@ -1,9 +1,6 @@
 package com.domeke.app.controller;
 
-import java.math.BigInteger;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.OfWonders;
@@ -25,8 +22,7 @@ public class WondersTypeController extends Controller {
 	public void index() {
 		setWondersTypePic();
 		setWondersTypeFatList();
-		setWondersTypeSonList();
-		setForumCount();
+		setWondersTypeSonListCount();
 		setVentWall();
 		setPublishNumber();
 		
@@ -50,7 +46,7 @@ public class WondersTypeController extends Controller {
 	@Before(LoginInterceptor.class)
 	public void selectSon(){
 		String pId = getPara("pId");
-		if(pId != null && pId.length()>0){
+		if(StrKit.notBlank(pId)){
 			setWondersTypeSonListByPid(pId);
 		}
 		render("/wondersType/wondersTypeSelDetail.html");
@@ -62,7 +58,7 @@ public class WondersTypeController extends Controller {
 	 */
 	public void goToWondersType(){
 		String wondersTypeId = getPara("wondersTypeId");
-		if(wondersTypeId == null || wondersTypeId.length()<=0){
+		if(StrKit.isBlank(wondersTypeId)){
 			renderNull();
 			return;
 		}
@@ -86,25 +82,6 @@ public class WondersTypeController extends Controller {
 	private void setWondersTypePic() {
 		List<OfWonders> ofWondersPicList = OfWonders.dao.findPic();
 		setAttr("ofWondersPicList", ofWondersPicList);
-	}
-	
-	/**
-	 * 设置各子版块帖子数
-	 * @param <T>
-	 */
-	private void setForumCount(){
-		List<WondersType> wondersTypeFatList = getAttr("wondersTypeFatList");
-
-		List<OfWonders> list = null;
-		BigInteger wondersTypeId = null;
-		Map<Object,List<OfWonders>> forumCountMap = new HashMap<Object,List<OfWonders>>(); 
-		for(WondersType wondersType : wondersTypeFatList){
-			wondersTypeId = wondersType.getBigInteger("wonderstypeid");
-			
-			list = OfWonders.dao.getCountByWondersTypeId(wondersTypeId);
-			forumCountMap.put(wondersTypeId, list);
-		}
-		setAttr("forumCountMap", forumCountMap);
 	}
 	
 	private void setVentWall(){
@@ -386,6 +363,14 @@ public class WondersTypeController extends Controller {
 	 */
 	private void setWondersTypeSonList(){
 		List<WondersType> wondersTypeSonList = WondersType.dao.findSonList();
+		setAttr("wondersTypeSonList", wondersTypeSonList);
+	}
+	
+	/**
+	 * 设置子版块及主题数
+	 */
+	private void setWondersTypeSonListCount(){
+		List<WondersType> wondersTypeSonList = WondersType.dao.findSonListCount();
 		setAttr("wondersTypeSonList", wondersTypeSonList);
 	}
 	

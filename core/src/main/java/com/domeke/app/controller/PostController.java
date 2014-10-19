@@ -28,10 +28,50 @@ public class PostController extends Controller {
 	public void index() {
 		String communityId = getPara("communityId");
 		setPostPage(communityId);
-		setPublishNumber();
+		setPublishNumber(communityId);
 		setCommunity();
 		
 		render("/community/post.html");
+	}
+
+	/**
+	 * 创建帖子申请
+	 * 请求 ./post/create
+	 */
+	@Before(LoginInterceptor.class)
+	public void create() {
+		Post post = getModel(Post.class);
+		Object communityId = post.get("communityid");
+		Object userId = getUserId();
+		Object postOld = Post.dao.findHasPublish(communityId, userId);
+		if(postOld != null){
+			renderJson(false);
+			return;
+		}
+		
+		HttpServletRequest request = getRequest();
+		String remoteIp = request.getRemoteAddr();
+
+		post.set("userid", userId);
+		post.set("userip", remoteIp);
+		post.save();
+
+		setPostPage(communityId);
+		setPublishNumber(communityId);
+		
+		render("/community/post.html");
+	}
+	
+	/**
+	 * 版块入口
+	 * 请求 ./post/home
+	 */
+	public void home(){
+		setPostPage(null);
+		List<Community> communitySonList = Community.dao.findSonList();
+		setAttr("communitySonList", communitySonList);
+		setPublishNumber(null);
+		render("/community/postAll.html");
 	}
 	
 	/**
@@ -288,32 +328,6 @@ public class PostController extends Controller {
 	}
 
 	/**
-	 * 创建帖子申请
-	 */
-	@Before(LoginInterceptor.class)
-	public void create() {
-		Post post = getModel(Post.class);
-		Object communityId = post.get("communityid");
-		Object userId = getUserId();
-		Object postOld = Post.dao.findHasPublish(communityId, userId);
-		if(postOld != null){
-			renderJson(false);
-			return;
-		}
-		
-		HttpServletRequest request = getRequest();
-		String remoteIp = request.getRemoteAddr();
-
-		post.set("userid", userId);
-		post.set("userip", remoteIp);
-		post.save();
-
-		setPostPage(communityId);
-		
-		render("/community/post.html");
-	}
-
-	/**
 	 * 删除回复信息
 	 */
 	@Before(LoginInterceptor.class)
@@ -327,29 +341,28 @@ public class PostController extends Controller {
 	/**
 	 * 设置发帖数
 	 */
-	private void setPublishNumber(){
-		// 当前登录人发帖数
+	private void setPublishNumber(Object communityId){
+		Long userPostCount = null,postTodayCount = null,postYesCount = null,postCount = null;
 		Object userId = getUserId();
-		Long userPostCount = Post.dao.getCountByUserId(userId);
+		if(StrKit.notNull(communityId)){
+			userPostCount = Post.dao.getCountByCommunityAndUsr(communityId, userId);
+			postTodayCount = Post.dao.getTodayCountByCommunityId(communityId);
+			postYesCount = Post.dao.getYesterdayCountByCommunityId(communityId);
+			postCount = Post.dao.getCountByCommunityId(communityId);
+		}else{
+			userPostCount = Post.dao.getCountByUserId(userId);
+			postTodayCount = Post.dao.getTodayCount();
+			postYesCount = Post.dao.getYesterdayCount();
+			postCount = Post.dao.getCount();
+		}
+		// 当前登录人发帖数
 		setAttr("userCount", userPostCount);
-		
 		//今日发帖数
-		Long postTodayCount = Post.dao.getTodayCount();
 		setAttr("todayCount", postTodayCount);
 		//昨日发帖数
-		Long postYesCount = Post.dao.getYesterdayCount();
 		setAttr("yesCount", postYesCount);
 		//总发帖数
-		Long postCount = Post.dao.getCount();
 		setAttr("count", postCount);
-	}
-	
-	public void home(){
-		setPostPage(null);
-		List<Community> communitySonList = Community.dao.findSonList();
-		setAttr("communitySonList", communitySonList);
-		setPublishNumber();
-		render("/community/postAll.html");
 	}
 	
 	/**

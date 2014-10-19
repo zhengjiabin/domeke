@@ -32,7 +32,8 @@ public class OfWondersController extends FilesLoadController {
 	public void index() {
 		String wondersTypeId = getPara("wondersTypeId");
 		setOfWondersPage(wondersTypeId);
-		setPublishNumber();
+		setPublishNumber(wondersTypeId);
+		setWondersType();
 		
 		render("/wondersType/ofWonders.html");
 	}
@@ -68,6 +69,7 @@ public class OfWondersController extends FilesLoadController {
 		ofWonders.save();
 
 		setOfWondersPage(wondersTypeId);
+		setPublishNumber(wondersTypeId);
 		
 		render("/wondersType/ofWonders.html");
 	}
@@ -81,7 +83,7 @@ public class OfWondersController extends FilesLoadController {
 		OfWonders.dao.updateTimes(ofWondersId);
 		
 		setOfWonders(ofWondersId);
-		setWondersType();
+		setWondersTypes();
 		keepPara("wondersTypeId");
 		
 		forwardComment(ofWondersId);
@@ -205,7 +207,7 @@ public class OfWondersController extends FilesLoadController {
 	/**
 	 * 设置版块信息
 	 */
-	private void setWondersType(){
+	private void setWondersTypes(){
 		Object wondersTypeId = getPara("wondersTypeId");
 		if(StrKit.isBlank((String)wondersTypeId)){
 			OfWonders ofWonders = getAttr("ofWonders");
@@ -217,6 +219,15 @@ public class OfWondersController extends FilesLoadController {
 		Object pId = wondersTypeSon.get("pid");
 		WondersType wondersTypeFat = WondersType.dao.findById(pId);
 		setAttr("wondersTypeFat", wondersTypeFat);
+	}
+	
+	/**
+	 * 设置版块信息
+	 */
+	private void setWondersType(){
+		Object wondersTypeId = getPara("wondersTypeId");
+		WondersType wondersType = WondersType.dao.findById(wondersTypeId);
+		setAttr("wondersType", wondersType);
 	}
 	
 	/**
@@ -355,20 +366,20 @@ public class OfWondersController extends FilesLoadController {
 	/**
 	 * 设置发帖数
 	 */
-	private void setPublishNumber(){
+	private void setPublishNumber(Object wondersTypeId){
 		// 当前登录人发帖数
 		Object userId = getUserId();
-		Long userofWondersCount = OfWonders.dao.getCountByUserId(userId);
+		Long userofWondersCount = OfWonders.dao.getCountByTypeAndUser(wondersTypeId, userId);
 		setAttr("userCount", userofWondersCount);
 		
 		//今日发帖数
-		Long ofWondersTodayCount = OfWonders.dao.getTodayCount();
+		Long ofWondersTodayCount = OfWonders.dao.getTodayCountByWondersTypeId(wondersTypeId);
 		setAttr("todayCount", ofWondersTodayCount);
 		//昨日发帖数
-		Long ofWondersYesCount = OfWonders.dao.getYesterdayCount();
+		Long ofWondersYesCount = OfWonders.dao.getYesterdayCountByWondersTypeId(wondersTypeId);
 		setAttr("yesCount", ofWondersYesCount);
 		//总发帖数
-		Long ofWondersCount = OfWonders.dao.getCount();
+		Long ofWondersCount = OfWonders.dao.getCountByWondersTypeId(wondersTypeId);
 		setAttr("count", ofWondersCount);
 	}
 	
