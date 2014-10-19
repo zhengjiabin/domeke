@@ -47,6 +47,15 @@ public class Work extends Model<Work> {
 	}
 	
 	/**
+	 * 获取未审核的视频
+	 * @return
+	 */
+	public List<Work> getNotCheckWork(Object worksid){
+		String querySql = "select * from work where ischeck = 0 and worksid = "+worksid+" order by worknum asc";
+		return this.find(querySql);
+	}
+	
+	/**
 	 * 获取某一部动漫作品的第一集
 	 * 
 	 * @param worksid

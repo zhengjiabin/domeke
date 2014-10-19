@@ -1,511 +1,111 @@
 <% layout("/admin/admin_layout.html"){ %>
-<base href="${core}/" />
-<script src="js/jquery-2.1.1.min.js"></script>
-<script src="js/jquery.form.js"></script>
-<link href="assets/manage.css" rel="stylesheet" media="screen">
-<link href="bootstrap/css/bootstrap-3.2.0.min.css" rel="stylesheet" media="screen">
-
+<link href="css/Member.css" rel="stylesheet" media="screen">
+<style>
+	.btnblock{
+		border:1px solid #ccc;
+		float: left;
+		overflow:hidden;
+		padding:5px;
+		margin:5px;
+	}
+</style>
 <script type="text/javascript">
-	var pageSize = 6;
-	var pageCount;
-	
+	var flag = '';
+	var workstype = '';
+	var type = '';
 	$(document).ready(function(){
-		var $parentDialog = $('#parentDialog');
-		var $parentTable = $('#parentTable');
-		////////////////////////////////////////////////////////////////////////////父表
-		//加载表格数据
-		$.showTableParent();
+		flag = $('#flag-sel').val();
+		workstype = $('#workstype-sel').val();
+		type = $('#page-title [name=selected]').attr('value');
+		//初始化 作品类型
+		showWorksType({'type':1});
+		//初始化 数据表格
+		showData({'flag':flag,'type':type,'workstype':workstype,'pageIndex':1});
 		
-		//选择类型 初始化父表格
-		$('#typeSelect').change(function(){
-			$.showTableParent();
+		//选择查询条件时 刷新
+		$('#flag-sel').change(function(){
+			flag = $(this).val();
+			showData({'flag':flag,'type':type,'workstype':workstype,'pageIndex':1});
 		});
-		
-		//添加
-		$('#parentAdd').click(function(){
-			$.digcenter($parentDialog,'添加','works/save');
-			$('form',$parentDialog)[0].reset();
-			$parentDialog.show();
+		//选择作品类型时 刷新
+		$('#workstype-sel').change(function(){
+			workstype = $(this).val();
+			showData({'flag':flag,'type':type,'workstype':workstype,'pageIndex':1});
 		});
-		//提交表单
-		$('#parentForm').submit(function(){
-			$('#parentForm').ajaxSubmit(function(data){
-				if(data.success == '1'){
-					alert('操作成功！');
-				}else{
-					alert('操作失败！');
-				}
-				$parentDialog.hide();
-				$.showTableParent();
-			});
-			return false;
-		});
-		$('#pageParent button').click(function(){
-			var $parentPageNumber = $('#parentPageNumber');
-			var $parentTotalPage = $('#parentTotalPage');
-			
-			if($(this).attr('flag') == 'up'){
-				if($parentPageNumber.html() != '1'){
-					var num = $parentPageNumber.html();
-					num = (parseInt(num) - 1);
-					$parentPageNumber.html(num);
-				}
-			}else if($(this).attr('flag') == 'down'){
-				if($parentPageNumber.html() != $parentTotalPage.html()){
-					var num = $parentPageNumber.html();
-					num = (parseInt(num) + 1);
-					$parentPageNumber.html(num);
-				}
-			}else if($(this).attr('flag') == 'start'){
-				$parentPageNumber.html(1);
-			}else if($(this).attr('flag') == 'end'){
-				$parentPageNumber.html($parentTotalPage.html());
-			}
-			$.showTableParent();
-		});
-		//修改
-		$('#parentUpdate').click(function(){
-			//获取选择的表格
-			var $selectTr = $('tr.select',$parentTable);
-			var parId = '';
-			if($selectTr.length >= 1){
-				parId = $('td:eq(0)',$selectTr).html();
-			}else{
-				alert("请选中一条记录修改");
-				return;
-			}
-			//ajax提交选中的Id，查询并初始化值。然后显示dig
-			$.initDialog($parentDialog,'works/getWorksJsonById','id='+parId,'修改','works/updateWorks');
-	    });
-		
-		//取消按钮
-		$('#parentDigCancel',$parentDialog).click(function(){
-			$parentDialog.hide();
-		});
-		
-		$("#parentDelete").click(function(){
-			if (!window.confirm("确认删除该记录吗?")){
-				return;
-			}
-			//获取选择的表格
-			var $selectTr = $('tr.select',$parentTable);
-			var parId = '';
-			if($selectTr.length >= 1){
-				parId = $('td:eq(0)',$selectTr).html();
-			}else{
-				alert("请选中一条记录删除");
-				return;
-			}
-			$.ajax({
-				url:'works/delete',
-				data:'id='+parId,
-				success:function(data){
-					if(data.success == '1'){
-						alert('删除成功');
-					}else{
-						alert('删除失败');
-					}
-				$.showTableParent();
-				}
-			});
-	    });
-		
-		///////////////////////////////////////////////////////////////////////////子表
-		var $childrenDialog = $('#childrenDialog');
-		var $childrenTable = $('#childrenTable');
-		
-		//点击添加子表
-		$('#childrenAdd').click(function(){
-			//保证父表已经选中行
-			var $selectTr = $('tr.select',$parentTable);
-			var parId = '';
-			if($selectTr.length >= 1){
-				parId = $('td:eq(0)',$selectTr).html();
-			}else{
-				alert("请选择一条父表记录");
-				return;
-			}
-			$.digcenter($childrenDialog,'添加','works/saveWork');
-			$('#parId').val(parId);
-			$('form',$childrenDialog)[0].reset();
-			$childrenDialog.show();
-			$('[flag=workid]',$childrenDialog).removeAttr('value');
-		});
-		
-		$('#pageChildren button').click(function(){
-			var $parentPageNumber = $('#childrenPageNumber');
-			var $parentTotalPage = $('#childrenTotalPage');
-			
-			if($(this).attr('flag') == 'up'){
-				if($parentPageNumber.html() != '1'){
-					var num = $parentPageNumber.html();
-					num = (parseInt(num) - 1);
-					$parentPageNumber.html(num);
-				}
-			}else if($(this).attr('flag') == 'down'){
-				if($parentPageNumber.html() != $parentTotalPage.html()){
-					var num = $parentPageNumber.html();
-					num = (parseInt(num) + 1);
-					$parentPageNumber.html(num);
-				}
-			}else if($(this).attr('flag') == 'start'){
-				$parentPageNumber.html(1);
-			}else if($(this).attr('flag') == 'end'){
-				$parentPageNumber.html($parentTotalPage.html());
-			}
-			$.showTableParent();
-		});
-		
-		//点击修改子表
-		$('#childrenUpdate').click(function(){
-			//获取选择的表格
-			var $selectTr = $('tr.select',$childrenTable);
-			var parId = '';
-			if($selectTr.length >= 1){
-				parId = $('td:eq(0)',$selectTr).html();
-			}else{
-				alert("请选中一条记录修改");
-				return;
-			}
-			//ajax提交选中的Id，查询并初始化值。然后显示dig
-			$.initDialog($childrenDialog,'works/getWorkJsonById','id='+parId,'修改','works/updateWork');
-		});
-		//点击提交
-		$('form',$childrenDialog).submit(function(){
-			$('form',$childrenDialog).ajaxSubmit(function(data){
-				if(data.success == '1'){
-					alert('操作成功！');
-				}else{
-					alert('操作失败！');
-				}
-				$childrenDialog.hide();
-				$.showTableChilrend($('form :input[flag=worksid]',$childrenDialog).val());
-			});
-			return false;
-		});
-		//取消按钮
-		$('#childrenDigCancel',$childrenDialog).click(function(){
-			$childrenDialog.hide();
-		});
-		$("#childrenDelete").click(function(){
-			if (!window.confirm("确认删除该记录吗?")){
-				return;
-			}
-			//获取选择的表格
-			var $selectTr = $('tr.select',$childrenTable);
-			var parId = '';
-			if($selectTr.length >= 1){
-				parId = $('td:eq(0)',$selectTr).html();
-			}else{
-				alert("请选中一条记录删除");
-				return;
-			}
-			$.ajax({
-				url:'works/deleteWork',
-				data:'id='+parId,
-				success:function(data){
-					if(data.success == '1'){
-						alert('删除成功');
-					}else{
-						alert('删除失败');
-					}
-				$.showTableChilrend(parId);
-				}
-			});
-	    });
-		
 	});
 	
-	//定义jQuery方法
-	$.extend({
-		initDialog:function($dialog,url,data,title,action){
-			$.ajax({
-				type: 'post',
-				url: url,
-				data:data,
-				dataType: 'json',
-				success:function(data){
-					$.each(data,function(key,value){
-						var $input = $('[flag='+key+']',$dialog);
-						if($input.length >= 1){
-							$input.val(value);
-						}
-					});
-					$.digcenter($dialog,title,action);
-					$dialog.show();
-				}
-			});
-		},
-		digcenter:function($dialog,title,action){
-			if(title == '修改'){
-				$('[type=file]',$dialog).hide();
-			}else{
-				$('[type=file]',$dialog).show();
+	function showData(params){
+		var data = '';
+		$.each(params,function(key,value){
+			data = data + key + "=" + value + "&";
+		});
+		data = data.substring(0,data.length - 1);
+		$.ajax({
+			type:'post',
+			data:data,
+			url : 'works/showAdminPage',
+			success : function(data){
+				$('#showpage').html(data);
 			}
-			$('form',$dialog).attr('action',action);
-			$('div.panel-heading',$dialog).html(title);
-			var widthWin = $(window.document.body).width();
-			var heightWin = $(window.document.body).height();
-			var widthDig = $dialog.width();
-			var heightDig = $dialog.height();
-			var left = (widthWin - widthDig) / 2;
-			var top = (heightWin - heightDig) / 6;
-			$dialog.css({'left':left,'top':top});
-		},
-		showTableChilrend : function(parentId){
-			var $page = $('#pageChildren');
-			var pageIndex = $('#parentPageNumber').html();
-			var $self = $('#childrenTable');
-			$.ajax({
-				type:'post',
-				async:false,
-				url: 'works/getSubWork',
-				dataType:'json',
-				data:'worksId='+parentId+'&pageIndex='+pageIndex+'&pageSize='+pageSize,
-				success:function(data){
-					//构建分页
-					
-					//构建表格
-					$('tbody tr',$self).remove();
-					$.each(data.list,function(i,rows){
-						$tbody = $('tbody',$self).append('<tr></tr>');
-						$tr = $('tr:eq('+i+')',$tbody);
-						$tr.append('<td>'+rows.workid+'</td>');
-						$tr.append('<td>'+rows.worknum+'</td>');
-						$tr.append('<td>'+rows.workname+'</td>');
-						$tr.append('<td>'+rows.workdes+'</td>');
-						$tr.append('<td>'+rows.isdisable+'</td>');
-					});
-					
-					$('tbody tr',$self).unbind('click');
-					$('tbody tr',$self).bind('click',function(){
-						$('tbody tr',$self).removeClass('select');
-						$(this).addClass('select');
-					});
-				}
-			});
-		},
-		showTableParent : function(){
-			var select = $('#typeSelect').val();
-			var pageIndex = $('#parentPageNumber').html();
-			$self = $('#parentTable');
-			$.ajax({
-				type:'post',
-				async:false,
-				url: "works/getWorksInfoByType",
-				dataType:'json',
-				data:'workstype='+select+'&pageIndex='+pageIndex+'&pageSize'+pageSize,
-				success:function(data){
-					//分页
-					$('#parentPageNumber').html(data.pageNumber);
-					$('#parentTotalPage').html(data.totalPage);
-					
-					//构建表格
-					$self = $('#parentTable');
-					$('tbody tr',$self).remove();
-					$.each(data.list,function(i,rows){
-						$tbody = $('tbody',$self).append('<tr class="dataRow"></tr>');
-						$tr = $('tr:eq('+i+')',$tbody);
-						$tr.append('<td >'+rows.worksid+'</td>');
-						$tr.append('<td>'+rows.worksname+'</td>');
-						$tr.append('<td>'+rows.workstype+'</td>');
-						$tr.append('<td>'+rows.creativeprocess+'</td>');
-						$tr.append('<td>'+rows.describle+'</td>');
-						$tr.append('<td>'+rows.istop+'</td>');
-						$tr.append('<td>'+rows.comment+'</td>');
-						$tr.append('<td>'+rows.pageviews+'</td>');
-						$tr.append('<td>'+rows.collection+'</td>');
-						$tr.append('<td>'+rows.praise+'</td>');
-						$tr.append('<td>'+rows.maxnum+'</td>');
-						$tr.append('<td>'+rows.updatetime+'</td>');
-					});
-					$('tbody tr',$self).unbind('click');
-					$('tbody tr',$self).bind('click',function(){
-						$('tbody tr',$self).removeClass('select');
-						$(this).addClass('select');
-						//父表格点击 加载子表格
-						var parentId = $('td:eq(0)',this).html();
-			 			$.showTableChilrend(parentId);
-					});
-				}
-			});
-		}
-	});
+		});
+	}
+	
+	
+	function showWorksType(params){
+		var data = '';
+		$.each(params,function(key,value){
+			data = data + key + "=" + value + "&";
+		});
+		data = data.substring(0,data.length - 1);
+		$.ajax({
+			type:'post',
+			data:data,
+			url : 'works/getWorksTypes',
+			success : function(data){
+				$('#workstype-sel option').remove();
+				var $sel = $('#workstype-sel');
+				$sel.append('<option value="">全部</option>');
+				$.each(data,function(key,value){
+					$sel.append('<option value="'+value.id+'">'+value.name+'</option>');
+				});
+				
+			}
+		});
+	}
 </script>
+<div class="span9" id="content">
+	<div class="row-fluid">
+		<div class="block">
+			<div class="navbar navbar-inner block-header" id="page-title">
+				<div class="muted pull-left" name="selected" value="1">专辑管理</div>
+				<div class="muted pull-left">&nbsp;&nbsp;|&nbsp;&nbsp;</div>
+				<div class="muted pull-left"><a>漫画管理</a></div>
+			</div>
+			<div class="block-content collapse in">
+				<div class="span12">
+					<div class="table-toolbar">
+						<lable>查询条件：
+							<select id="flag-sel">
+								<option value="2">全部</option>
+								<option value="0">未审核</option>
+								<option value="1">首页5条轮播</option>
+							</select>
+						</lable>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<lable>查询类型：
+							<select id="workstype-sel">
+								<option value="">全部</option>
+								<option value="">原创动漫</option>
+								<option value="">Higin动漫</option>
+								<option value="">亲子动漫</option>
+							</select>
+						</lable>
+					</div>
+					<div id="showpage">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-	<div class="panel panel-primary">
-		<div class="panel-heading">选择类型</div>
-		<div class="panel-body">
-			<label for="name">类型：</label>
-			<select class="btn btn-default" id="typeSelect">
-				<option value="">-请选择一个类型-</option>
-				<option value="10">搞笑</option>
-				<option value="20">恐怖</option>
-			</select>
-		</div>
-	</div>
-	<div class="panel panel-default">
-		<div class="panel-body" >
-			<button type="button" class="btn btn-success" id="parentAdd"> 添加</button>
-			<button type="button" class="btn btn-warning"  id="parentUpdate"> 修改</button>
-			<button type="button" class="btn btn-danger" id="parentDelete"> 删除</button>
-		</div>
-		<div class="table-responsive">
-		   <table class="table" id="parentTable">
-		      <thead>
-		         <tr>
-		            <th>编号</th>
-		            <th>名称</th>
-		            <th>类型</th>
-		            <th>是否完结</th>
-		            <th>描述</th>
-		            <th>置顶</th>
-		            <th>评论数</th>
-		            <th>浏览量</th>
-		            <th>收藏数</th>
-		            <th>点赞数</th>
-		            <th>最新一集</th>
-		            <th>最后更新时间</th>
-		         </tr>
-		      </thead>
-		      <tbody>
-		         
-		      </tbody>
-		   </table>
-		</div>
-		<div class="pagination" id="pageParent">
-		当前第&nbsp;<span id="parentPageNumber">1</span>&nbsp;页
-		  <button class="btn btn-default" flag="up"> 上一页 </button>&nbsp;&nbsp;
-		  <button class="btn btn-default" flag="down"> 下一页</button>
-		 共&nbsp;<span id="parentTotalPage">1</span>&nbsp;页&nbsp;&nbsp;
-		 &nbsp;&nbsp;
-		&nbsp;&nbsp;
-		&nbsp;&nbsp;
-		<button class="btn btn-default" flag="start"> 首页 </button>&nbsp;&nbsp;
-		<button class="btn btn-default" flag="end"> 尾页 </button>
-		</div>
-	</div>
-	<div class="panel panel-default workContent">
-		<div class="panel-body">
-			<button type="button" class="btn btn-success" id="childrenAdd"> 添加</button>
-			<button type="button" class="btn btn-warning" id="childrenUpdate"> 修改</button>
-			<button type="button" class="btn btn-danger" id="childrenDelete"> 删除</button>
-			<div class="table-responsive">
-			   <table class="table" id="childrenTable">
-			      <thead>
-			         <tr>
-			            <th>编号</th>
-			            <th>第几集</th>
-			            <th>该集名称</th>
-			            <th>简介</th>
-			            <th>是否显示</th>
-			         </tr>
-			      </thead>
-			      <tbody>
-			      	
-			      </tbody>
-			   </table>
-			</div>
-			<div class="pagination" id="pageChildren">
-		当前第&nbsp;<span id="childrenPageNumber">1</span>&nbsp;页
-		  <button class="btn btn-default" flag="up"> 上一页 </button>&nbsp;&nbsp;
-		  <button class="btn btn-default" flag="down"> 下一页</button>
-		 共&nbsp;<span id="childrenTotalPage">1</span>&nbsp;页&nbsp;&nbsp;
-		 &nbsp;&nbsp;
-		&nbsp;&nbsp;
-		&nbsp;&nbsp;
-		<button class="btn btn-default" flag="start"> 首页 </button>&nbsp;&nbsp;
-		<button class="btn btn-default" flag="end"> 尾页 </button>
-		</div>
-		</div>
-		</div>
-	</div>
-	
-	<div id="parentDialog" class="panel panel-primary" style="position:fixed; z-index:9999; width: 300px;height:400px; display: none; overflow:auto; ">
-		<div class="panel-heading"></div>
-		<div class="panel-body">
-		<form id="parentForm" onsubmit="return false;" class="form-inline" role="form" method="post" enctype="multipart/form-data">
-			<input type="hidden" flag="worksid" name="works.worksid" class="form-control" required="required" autocomplete="off"/>
-			<label for="name">作品名称：</label>
-	        <input type="text" flag="worksname" name="works.worksname" class="form-control" placeholder="作品名称" required="required" autocomplete="off"/>
-	        </br>
-	        <label for="name">作品类别：</label>
-	        <input type="text" flag="workstype" name="works.workstype" class="form-control" placeholder="作品类别" required="required" autocomplete="off"/>
-	        </br>
-	        <label for="name">置顶值：</label>
-	        <input type="text" flag="istop" name="works.istop" class="form-control" placeholder="置顶值 越大越前" required="required" autocomplete="off"/>
-	        </br>
-	        <label for="name">评论数：</label>
-	        <input type="text" flag="comment" name="works.comment" class="form-control" placeholder="评论数" required="required" autocomplete="off"/>
-	        </br>
-	        <label for="name">浏览量：</label>
-	        <input type="text" flag="pageviews" name="works.pageviews" class="form-control" placeholder="浏览量" required="required" autocomplete="off"/>
-	        </br>
-	        <label for="name">收藏数：</label>
-	        <input type="text" flag="collection" name="works.collection" class="form-control" placeholder="收藏数" required="required" autocomplete="off"/>
-	        </br>
-	        <label for="name">点赞数：</label>
-	        <input type="text" flag="praise" name="works.praise" class="form-control" placeholder="点赞数" required="required" autocomplete="off"/>
-	        </br>
-	        <label for="name">最新集数：</label>
-	        <input type="text" flag="maxnum" name="works.maxnum" class="form-control" placeholder="最新集数" required="required" autocomplete="off"/>
-	        </br>
-	        <label for="name">是否完结：</label>
-	        <select flag="creativeprocess" name="works.creativeprocess" class="btn btn-default" required="required">
-		        <option value="10" selected="selected">创作中</option>
-		        <option value="20">已完结</option>
-		    </select>
-	        </br>
-	        <!--TODO 根据用户类型来显示上传图片还是直接贴文件路径-->
-			<label type="file" for="name">作品封面：</label>
-			<input type="file" class="form-control" name="cover" accept="image/*" style="width:180px;"  autocomplete="off"/>
-			<br>
-			<!-- <label for="name">上传作品：</label>
-			<input class="form-control" type="file" id="comic" name="comic" accept="video/*" size="20" maxlength="255" required="required"/>
-			<br> -->
-			<label for="name">作品描述：</label>
-			</br>
-			<textarea class="form-control" rows="5" cols="35" flag="describle" name="works.describle" autocomplete="off"></textarea>
-			<div class="btn btn-body" style="width: 100%;">
-			<button id="parentDigSubmit"  class="btn btn-success">提交</button>
-			&nbsp;&nbsp;&nbsp;
-			<button id="parentDigCancel" class="btn btn-cancel"  type="reset">取消</button>
-			</div>
-        </form>
-		</div>
-	</div>
-	
-	<div id="childrenDialog" class="panel panel-primary" style="position:fixed; z-index:9999; width: 300px;height:400px; display: none; overflow:auto;">
-		<div class="panel-heading"></div>
-		<div class="panel-body">
-		<form class="form-inline" role="form" method="post" enctype="multipart/form-data">
-			<input type="hidden"  flag="workid" name="work.workid"/>
-			<input type="hidden"  flag="worksid" name="work.worksid" id="parId" />
-			<label for="name" class="">名称：</label>
-	        <input type="text" flag="workname" name="work.workname" class="form-control" placeholder="名称" required="required" autocomplete="off"/>
-	        </br>
-	        <label for="name" class="">第几集：</label>
-	        <input type="text" flag="worknum" name="work.worknum" class="form-control" placeholder="第几集" required="required" autocomplete="off"/>
-	        </br>
-	        <label for="name">是否显示：</label>
-	        <select flag="isdisable" name="work.isdisable" class="btn btn-default" required="required" autocomplete="off">
-		        <option value="1" selected="selected">显示</option>
-		        <option value="0">隐藏</option>
-		    </select>
-	        </br>
-	        <!--TODO 根据用户类型来显示上传图片还是直接贴文件路径-->
-			<label  type="file" for="name">资源：</label>
-			<input type="file" class="form-control" name="comic" style="width:180px;" />
-			<br>
-			<label for="name">本集描述：</label>
-			</br>
-			<textarea class="form-control" rows="5" cols="35" flag="workdes" name="work.workdes"  autocomplete="off"></textarea>
-			<div class="btn btn-body" style="width: 100%;">
-			<button id="childrenDigSubmit" class="btn btn-success" type="submit">提交</button>
-			&nbsp;&nbsp;&nbsp;
-			<button id="childrenDigCancel" class="btn btn-cancel" type="reset">取消</button>
-			</div>
-        </form>
-		</div>
-	</div>
-<%}%>
+<% } %>

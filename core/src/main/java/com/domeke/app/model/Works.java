@@ -36,7 +36,25 @@ public class Works extends Model<Works> {
 	public void updateWorksInfo() {
 		this.update();
 	}
-
+	
+	public int getMaxHomePageValue(String type){
+		String sql = "select * from works order by homepage desc  limit 1";
+		if(!StrKit.isBlank(type)){
+			sql = "select * from works where type="+type+" order by homepage desc  limit 1";
+		}
+		Works works = this.findFirst(sql);
+		return works.get("homepage");
+	}
+	
+	public int getMaxTopValue(String type){
+		String sql = "select * from works order by istop desc  limit 1";
+		if(!StrKit.isBlank(type)){
+			sql = "select * from works where type="+type+" order by istop desc  limit 1";
+		}
+		Works works = this.findFirst(sql);
+		return works.get("istop");
+	}
+	
 	/**
 	 * 获取所有商品信息
 	 * 
@@ -49,8 +67,27 @@ public class Works extends Model<Works> {
 	}
 	
 	public List<Works> getHomePage(Integer limit){
-		String querySql = "select * from works where homepage > 0 order by homepage desc limit "+limit;
+		String querySql = "select * from works where homepage > 0 and ischeck = 1 order by homepage desc limit "+limit;
 		List<Works> workss = this.find(querySql);
+		return workss;
+	}
+	
+	public Page<Works> getHomePage(String workstype,Integer pageIndex,Integer pageSize){
+		String querySql = "from works where homepage > 0 order by homepage desc";
+		if(!StrKit.isBlank(workstype)){
+			querySql = "from works where homepage > 0 and workstype = "+workstype+" order by homepage desc";
+		}
+		Page<Works> workss = this.paginate(pageIndex, pageSize, "select *", querySql);
+		return workss;
+	}
+	
+	public Page<Works> getWorksNotCheck(String workstype,Integer pageIndex,Integer pageSize){
+		
+		String querySql = "from works t1 inner join work t2 on t2.worksid = t1.worksid where t1.ischeck = 0 or t2.ischeck = 0";
+		if(!StrKit.isBlank(workstype)){
+			querySql = "from works t1 inner join work t2 on t2.worksid = t1.worksid where (t1.ischeck = 0 or t2.ischeck = 0) and t1.workstype = " + workstype;
+		}
+		Page<Works> workss = this.paginate(pageIndex, pageSize, "select t1.*", querySql);
 		return workss;
 	}
 	
@@ -75,7 +112,7 @@ public class Works extends Model<Works> {
 	 * @return 返回对应类型的作品信息
 	 */
 	public List<Works> getWorksInfoByType(String worksType,Integer limit) {
-		String querySql = "select * from works where workstype=? order by istop limit "+limit;
+		String querySql = "select * from works where workstype=? and ischeck = 1 order by istop limit "+limit;
 		List<Works> workslist = this.find(querySql, worksType);
 		return workslist == null ? Lists.newArrayList() : workslist;
 	}
@@ -142,6 +179,28 @@ public class Works extends Model<Works> {
 		workslist = this.paginate(pageNum, pageSize, "select *", form);
 		return workslist;
 	}
+	/**
+	 * 分页
+	 * @param worksType 动漫类型
+	 * @param pageNum 第几页
+	 * @param pageSize 一页多少记录
+	 * @return 
+	 */
+	public Page<Works> getWorksInfoPage(String worksType, String type, String creater, Integer pageNum, Integer pageSize) {
+		Page<Works> workslist = null;
+		String form = "from works where 1=1";
+		if (!StrKit.isBlank(worksType)) {
+			form = form + " and workstype = "+worksType;
+		}
+		if (!StrKit.isBlank(type)) {
+			form = form + " and type = "+type;
+		}
+		if(!StrKit.isBlank(creater)){
+			form = form + " and creater = "+creater;
+		}
+		workslist = this.paginate(pageNum, pageSize, "select *", form);
+		return workslist;
+	}
 	
 	/**
 	 * 按点击排名
@@ -150,7 +209,7 @@ public class Works extends Model<Works> {
 	 */
 	public List<Works> getWorksInfoByPageViewsLimit(Integer limit){
 		List<Works> workss = null;
-		workss = this.find("select * from works order by pageviews desc limit ?", limit);
+		workss = this.find("select * from works where ischeck = 1 order by pageviews desc limit ?", limit);
 		return workss;
 	}
 	/**
@@ -159,7 +218,7 @@ public class Works extends Model<Works> {
 	 */
 	public List<Works> getWorksInfoByUpdateLimit(Integer limit){
 		List<Works> workss = null;
-		workss = this.find("select * from works order by updatetime desc limit ?", limit);
+		workss = this.find("select * from works where ischeck = 1 order by updatetime desc limit ?", limit);
 		return workss;
 	}
 
@@ -172,7 +231,7 @@ public class Works extends Model<Works> {
 	 */
 	public List<Works> getWonderfulRecommend(Object worksid, Integer limit) {
 		List<Works> workss = null;
-		String querySql = "select * from works where worksid <> ? order by (praise + collection) desc limit ?";
+		String querySql = "select * from works where worksid <> ? and ischeck = 1 order by (praise + collection) desc limit ?";
 		workss = this.find(querySql, worksid, limit);
 		return workss;
 	}
