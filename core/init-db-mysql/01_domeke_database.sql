@@ -16,7 +16,7 @@ Date: 2014-09-09 22:07:29
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for ofWonders_
+-- Table structure for wonders_type
 -- ----------------------------
 DROP TABLE IF EXISTS `wonders_type`;
 CREATE TABLE `wonders_type` (
@@ -201,7 +201,7 @@ CREATE TABLE `activity` (
   `starttimefrom` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `starttimeto` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `place` varchar(255) NOT NULL,
-  `class` varchar(255) NOT NULL,
+  `classtype` varchar(255) NOT NULL,
   `gender` tinyint(2) NOT NULL DEFAULT '0',
   `number` smallint(5) unsigned NOT NULL DEFAULT '0',
   `expiration` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
