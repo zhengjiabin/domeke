@@ -245,7 +245,7 @@ public class TreasureController extends Controller {
 		Object userId = getUserId();
 		Object treasure = Treasure.dao.findHasPublish(communityId, userId);
 		if(treasure != null){
-			renderJson(false);
+			renderHtml("<script> alert('5分钟内只能发布一次同类型主题！');</script>");
 			return;
 		}
 		

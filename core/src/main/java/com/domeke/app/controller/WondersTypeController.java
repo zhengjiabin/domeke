@@ -139,38 +139,6 @@ public class WondersTypeController extends Controller {
 	}
 	
 	/**
-	 * 跳转置顶功能
-	 */
-	@Before(LoginInterceptor.class)
-	public void setTop(){
-		String wondersTypeId = getPara("wondersTypeId");
-		if(wondersTypeId == null || wondersTypeId.length()<=0){
-			renderJson("false");
-			return;
-		}
-		WondersType wondersType = WondersType.dao.findById(wondersTypeId);
-		String actionKey = wondersType.getStr("actionkey");
-		actionKey = actionKey + "/setTop";
-		forwardAction(actionKey);
-	}
-	
-	/**
-	 * 跳转精华功能
-	 */
-	@Before(LoginInterceptor.class)
-	public void setEssence(){
-		String wondersTypeId = getPara("wondersTypeId");
-		if(wondersTypeId == null || wondersTypeId.length()<=0){
-			renderJson("false");
-			return;
-		}
-		WondersType wondersType = WondersType.dao.findById(wondersTypeId);
-		String actionKey = wondersType.getStr("actionkey");
-		actionKey = actionKey + "/setEssence";
-		forwardAction(actionKey);
-	}
-	
-	/**
 	 * 
 	 */
 	@Before(LoginInterceptor.class)

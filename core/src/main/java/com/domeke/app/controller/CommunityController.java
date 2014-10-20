@@ -35,7 +35,6 @@ public class CommunityController extends Controller {
 		render("/community/community.html");
 	}
 	
-	
 	/**
 	 * 跳转到指定主题
 	 * 请求 ./community/goToCommunity?communityId=${communityId!}

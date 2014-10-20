@@ -1,63 +1,29 @@
-CREATE DATABASE  IF NOT EXISTS `domeke` /*!40100 DEFAULT CHARACTER SET utf8 */;
-USE `domeke`;
--- MySQL dump 10.13  Distrib 5.6.17, for Win32 (x86)
---
--- Host: localhost    Database: domeke
--- ------------------------------------------------------
--- Server version	5.6.19
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `menu`
---
-
-DROP TABLE IF EXISTS `menu`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `menu` (
-  `menuid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `mid` int(11) DEFAULT NULL,
-  `menuname` varchar(64) DEFAULT NULL,
-  `actionkey` varchar(256) DEFAULT NULL,
-  `top` char(2) DEFAULT NULL,
-  `sortnum` int(11) DEFAULT NULL,
-  `parentmenuid` bigint(20) DEFAULT NULL,
-  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `creater` varchar(32) DEFAULT NULL,
-  `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `modifier` varchar(32) DEFAULT NULL,
-  `menutype` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`menuid`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `menu`
---
-
-LOCK TABLES `menu` WRITE;
-/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` VALUES (1,10,'首页','index','1',100000000,NULL,'2014-09-13 11:13:02',NULL,'2014-09-13 11:13:02',NULL,'1'),(2,20,'动漫','cartoon','1',200000000,NULL,'2014-09-13 14:43:09',NULL,'2014-09-13 14:43:09',NULL,'1'),(3,30,'无奇不有','#','1',300000000,NULL,'2014-09-16 12:44:30',NULL,'2014-09-16 12:44:30',NULL,'1'),(4,40,'商城','goods/shop','1',400000000,NULL,'2014-09-13 14:20:08',NULL,'2014-09-13 14:20:08',NULL,'1'),(5,50,'HIGH豆社区','forum','1',500000000,NULL,'2014-09-13 14:20:13',NULL,'2014-09-13 14:20:13',NULL,'1'),(6,60,'签到发泄墙','ventwall','1',600000000,NULL,'2014-09-13 11:13:10',NULL,'2014-09-13 11:13:10',NULL,'1'),(8,20020,'个人中心','#','1',200010000,NULL,'2014-09-13 12:51:46',NULL,'2014-09-13 12:51:46',NULL,'2'),(15,NULL,'我的作品','personal/forMyProduction?menuId=1','2',200010010,8,'2014-09-16 13:23:35',NULL,'2014-09-16 13:23:35',NULL,'2'),(16,NULL,'播放记录','personal/forMyProduction?menuId=2','2',200010020,8,'2014-09-16 13:23:39',NULL,'2014-09-16 13:23:39',NULL,'2'),(17,NULL,'我的下载','personal/forMyProduction?menuId=13','2',200010030,8,'2014-09-13 12:52:05',NULL,'2014-09-13 12:52:05',NULL,'2'),(18,NULL,'参与的活动','personal/forMyProduction?menuId=14','2',200010040,8,'2014-09-13 12:52:06',NULL,'2014-09-13 12:52:06',NULL,'2'),(19,NULL,'会员等级','personal/forMyProduction?menuId=3','2',200010050,8,'2014-09-16 13:23:58',NULL,'2014-09-16 13:23:58',NULL,'2'),(20,NULL,'会员积分','personal/forMyProduction?menuId=3','2',200010060,8,'2014-09-16 13:24:02',NULL,'2014-09-16 13:24:02',NULL,'2'),(21,NULL,'动画收藏','#','2',200010070,8,'2014-09-13 12:52:09',NULL,'2014-09-13 12:52:09',NULL,'2'),(37,NULL,'社区','community','1',200000000,NULL,'2014-09-21 09:38:36',NULL,'2014-09-21 09:38:36',NULL,'3'),(38,NULL,'论坛','post/home','1',300000000,NULL,'2014-09-21 09:38:14',NULL,'2014-09-21 09:38:14',NULL,'3'),(39,NULL,'活动','activity/home','1',400000000,NULL,'2014-09-21 09:38:02',NULL,'2014-09-21 09:38:02',NULL,'3'),(40,NULL,'宝贝','treasure/home','1',500000000,NULL,'2014-09-21 09:37:50',NULL,'2014-09-21 09:37:50',NULL,'3'),(42,NULL,'全部商品分类','#','1',100000000,NULL,NULL,NULL,NULL,NULL,'4'),(43,NULL,'创意生活','#','1',200000000,NULL,NULL,NULL,NULL,NULL,'4'),(44,NULL,'无土栽培','#','1',300000000,NULL,NULL,NULL,NULL,NULL,'4'),(45,NULL,' 进口食品','#','1',400000000,NULL,NULL,NULL,NULL,NULL,'4'),(46,NULL,'母婴用品','#','1',500000000,NULL,NULL,NULL,NULL,NULL,'4'),(47,NULL,'动漫周边','#','1',600000000,NULL,NULL,NULL,NULL,NULL,'4'),(48,NULL,'图书音像','#','1',700000000,NULL,NULL,NULL,NULL,NULL,'4'),(49,NULL,'跳蚤市场','#','1',800000000,NULL,NULL,NULL,NULL,NULL,'4'),(53,NULL,'资料修改','personal/forMyProduction?menuId=12','2',200010075,8,NULL,NULL,NULL,NULL,'2'),(50,NULL,'修改密码','personal/forMyProduction?menuId=4','2',200010080,8,NULL,NULL,NULL,NULL,'2'),(51,NULL,'站内留言','um/forLeaveMsg?menuId=5','2',200010005,8,NULL,NULL,NULL,NULL,'2'),(52,NULL,'首页','#','1',100000000,NULL,'2014-09-21 09:37:21',NULL,'2014-09-21 09:37:21',NULL,'3');
-/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
-
--- Dump completed on 2014-09-21 17:39:48
+INSERT INTO `menu` VALUES (1, 10, '首页', 'index', '1', 100000000, NULL, '2014-9-13 11:13:02', NULL, '2014-9-13 11:13:02', NULL, '1');
+INSERT INTO `menu` VALUES (2, 20, '动漫', 'cartoon', '1', 200000000, NULL, '2014-9-13 14:43:09', NULL, '2014-9-13 14:43:09', NULL, '1');
+INSERT INTO `menu` VALUES (3, 30, '无奇不有', 'wondersType', '1', 300000000, NULL, '2014-10-18 11:56:12', NULL, '2014-10-18 11:56:12', NULL, '1');
+INSERT INTO `menu` VALUES (4, 40, '商城', 'goods/shop', '1', 400000000, NULL, '2014-9-13 14:20:08', NULL, '2014-9-13 14:20:08', NULL, '1');
+INSERT INTO `menu` VALUES (5, 50, 'HIGH豆社区', 'forum', '1', 500000000, NULL, '2014-9-13 14:20:13', NULL, '2014-9-13 14:20:13', NULL, '1');
+INSERT INTO `menu` VALUES (6, 60, '签到发泄墙', 'ventwall', '1', 600000000, NULL, '2014-9-13 11:13:10', NULL, '2014-9-13 11:13:10', NULL, '1');
+INSERT INTO `menu` VALUES (8, 20020, '个人中心', '#', '1', 200010000, NULL, '2014-9-13 12:51:46', NULL, '2014-9-13 12:51:46', NULL, '2');
+INSERT INTO `menu` VALUES (15, NULL, '我的作品', 'personal/forMyProduction?menuId=1', '2', 200010010, 8, '2014-9-16 13:23:35', NULL, '2014-9-16 13:23:35', NULL, '2');
+INSERT INTO `menu` VALUES (16, NULL, '播放记录', 'personal/forMyProduction?menuId=2', '2', 200010020, 8, '2014-9-16 13:23:39', NULL, '2014-9-16 13:23:39', NULL, '2');
+INSERT INTO `menu` VALUES (17, NULL, '我的下载', 'personal/forMyProduction?menuId=13', '2', 200010030, 8, '2014-9-13 12:52:05', NULL, '2014-9-13 12:52:05', NULL, '2');
+INSERT INTO `menu` VALUES (18, NULL, '参与的活动', 'personal/forMyProduction?menuId=14', '2', 200010040, 8, '2014-9-13 12:52:06', NULL, '2014-9-13 12:52:06', NULL, '2');
+INSERT INTO `menu` VALUES (19, NULL, '会员等级', 'personal/forMyProduction?menuId=3', '2', 200010050, 8, '2014-9-16 13:23:58', NULL, '2014-9-16 13:23:58', NULL, '2');
+INSERT INTO `menu` VALUES (20, NULL, '会员积分', 'personal/forMyProduction?menuId=3', '2', 200010060, 8, '2014-9-16 13:24:02', NULL, '2014-9-16 13:24:02', NULL, '2');
+INSERT INTO `menu` VALUES (21, NULL, '动画收藏', '#', '2', 200010070, 8, '2014-9-13 12:52:09', NULL, '2014-9-13 12:52:09', NULL, '2');
+INSERT INTO `menu` VALUES (37, NULL, '社区', 'community', '1', 200000000, NULL, '2014-9-21 09:38:36', NULL, '2014-9-21 09:38:36', NULL, '3');
+INSERT INTO `menu` VALUES (38, NULL, '论坛', 'post/home', '1', 300000000, NULL, '2014-9-21 09:38:14', NULL, '2014-9-21 09:38:14', NULL, '3');
+INSERT INTO `menu` VALUES (39, NULL, '活动', 'activity/home', '1', 400000000, NULL, '2014-9-21 09:38:02', NULL, '2014-9-21 09:38:02', NULL, '3');
+INSERT INTO `menu` VALUES (40, NULL, '宝贝', 'treasure/home', '1', 500000000, NULL, '2014-9-21 09:37:50', NULL, '2014-9-21 09:37:50', NULL, '3');
+INSERT INTO `menu` VALUES (42, NULL, '全部商品分类', '#', '1', 100000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (43, NULL, '创意生活', '#', '1', 200000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (44, NULL, '无土栽培', '#', '1', 300000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (45, NULL, ' 进口食品', '#', '1', 400000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (46, NULL, '母婴用品', '#', '1', 500000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (47, NULL, '动漫周边', '#', '1', 600000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (48, NULL, '图书音像', '#', '1', 700000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (49, NULL, '跳蚤市场', '#', '1', 800000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (50, NULL, '修改密码', 'personal/forMyProduction?menuId=4', '2', 200010080, 8, NULL, NULL, NULL, NULL, '2');
+INSERT INTO `menu` VALUES (51, NULL, '站内留言', 'um/forLeaveMsg?menuId=5', '2', 200010005, 8, NULL, NULL, NULL, NULL, '2');
+INSERT INTO `menu` VALUES (52, NULL, '首页', '#', '1', 100000000, NULL, '2014-9-21 09:37:21', NULL, '2014-9-21 09:37:21', NULL, '3');

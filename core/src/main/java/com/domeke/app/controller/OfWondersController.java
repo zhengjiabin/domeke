@@ -284,7 +284,7 @@ public class OfWondersController extends FilesLoadController {
 		Object userId = getUserId();
 		Object ofWonders = OfWonders.dao.findHasPublish(wondersTypeId, userId);
 		if(ofWonders != null){
-			renderJson(false);
+			renderHtml("<script> alert('5分钟内只能发布一次同类型主题！');</script>");
 			return;
 		}
 		

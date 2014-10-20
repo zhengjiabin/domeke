@@ -258,7 +258,7 @@ public class PostController extends Controller {
 		Object userId = getUserId();
 		Object post = Post.dao.findHasPublish(communityId, userId);
 		if(post != null){
-			renderJson(false);
+			renderHtml("<script> alert('5分钟内只能发布一次同类型主题！');</script>");
 			return;
 		}
 		

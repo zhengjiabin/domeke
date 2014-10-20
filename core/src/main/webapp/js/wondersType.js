@@ -198,11 +198,7 @@ function onSubmitCreate(node,wondersTypeId){
 		type:"post",
 		url:"./ofWonders/create?wondersTypeId="+wondersTypeId,
 		success:function(data) {
-			if(data == false){
-				alert("5分钟内只能发布一次同类型主题！");
-			}else{
-				baseWondersType.html(data);
-			}
+			baseWondersType.html(data);
 		}
 	});
 	return false;

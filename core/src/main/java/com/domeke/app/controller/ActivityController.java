@@ -329,7 +329,7 @@ public class ActivityController extends Controller {
 		Object userId = getUserId();
 		Object activity = Activity.dao.findHasPublish(communityId, userId);
 		if(activity != null){
-			renderJson(false);
+			renderHtml("<script> alert('5分钟内只能发布一次同类型主题！');</script>");
 			return;
 		}
 		

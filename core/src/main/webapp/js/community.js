@@ -127,11 +127,7 @@ function skipCommunity(node) {
 	$.post(url, {
 		communityId :communityId
 	}, function(data) {
-		if(data == false){
-			alert("5分钟内只能发布一次同类型主题！");
-		}else{
-			baseCommunity.html(data);
-		}
+		baseCommunity.html(data);
 	});
 }
 
@@ -154,13 +150,9 @@ function showCommunity(node){
 	$.post("./community/goToCommunity", {
 		communityId :firstVal
 	}, function(data) {
-		if(data == false){
-			alert("5分钟内只能发布一次同类型主题！");
-		}else{
-			var detailCommuntiyHtml = $(node).closest("#selectCommuntiyHtml");
-			var showCommunity = detailCommuntiyHtml.find("#showCommunity").first();
-			showCommunity.html(data);
-		}
+		var detailCommuntiyHtml = $(node).closest("#selectCommuntiyHtml");
+		var showCommunity = detailCommuntiyHtml.find("#showCommunity").first();
+		showCommunity.html(data);
 	});
 }
 
