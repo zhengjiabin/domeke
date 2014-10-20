@@ -77,6 +77,85 @@ public class WondersTypeController extends Controller {
 	}
 	
 	/**
+	 * admin管理--入口
+	 * 请求 ./community/goToManger
+	 */
+	public void goToManager() {
+		setWondersTypeFatList();
+		setWondersTypeSonList();
+		render("/admin/admin_wondersType.html");
+	}
+	
+	/**
+	 * admin管理--跳转修改页面
+	 * 请求 ./wondersType/skipModify?wondersType=${wondersTypeId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipModify(){
+		WondersType wondersType = null;
+		String wondersTypeId = getPara("wondersTypeId");
+		if(StrKit.notBlank(wondersTypeId)){
+			wondersType = WondersType.dao.findById(wondersTypeId);
+		}else {
+			wondersType = addWondersType();
+		}
+		setAttr("wondersType", wondersType);
+		
+		setWondersTypeFatList();
+		render("/admin/admin_wondersTypeUpdate.html");
+	}
+	
+	/**
+	 * admin管理--更新版块
+	 * 请求 ./wondesType/updateWondersType
+	 */
+	@Before(LoginInterceptor.class)
+	public void updateWondersType() {
+		WondersType wondersType = getModel(WondersType.class);
+		Object wondersTypeId = wondersType.get("wonderstypeid");
+		if (wondersTypeId == null) {
+			wondersType.save();
+		} else {
+			wondersType.update();
+		}
+		goToManager();
+	}
+	
+	/**
+	 * admin管理--删除版块明细
+	 * 请求 ./wondersType/deleteSon?wondersTypeId=${wondersTypeId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void deleteSon(){
+		String wondersTypeId = getPara("wondersTypeId");
+		if (StrKit.notBlank(wondersTypeId)) {
+			WondersType.dao.deleteById(wondersTypeId);
+		}
+		
+		Object pId = getPara("pId");
+		WondersType wondersType = WondersType.dao.findById(pId);
+		setAttr("wondersTypeFat", wondersType);
+		setWondersTypeSonListByPid(pId);
+		render("/admin/admin_wondersTypeDetail.html");
+	}
+	
+	/**
+	 * admin管理--删除区域版块
+	 * 请求 ./wondersType/deleteFat?wondersTypeId=${wondersTypeId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void deleteFat(){
+		String wondersTypeId = getPara("wondersTypeId");
+		if(StrKit.notBlank(wondersTypeId)){
+			WondersType.dao.deleteFatAndSonByWondersTypeId(wondersTypeId);
+		}
+		
+		setWondersTypeFatList();
+		setWondersTypeSonList();
+		render("/admin/admin_wondersTypeForum.html");
+	}
+	
+	/**
 	 * 设置热门主题
 	 */
 	private void setWondersTypePic() {
@@ -113,15 +192,6 @@ public class WondersTypeController extends Controller {
 		Long count = OfWonders.dao.getCount();
 		setAttr("count", count);
 	}
-
-	/**
-	 * admin管理中对应的社区管理入口
-	 */
-	public void goToManager() {
-		setWondersTypeFatList();
-		setWondersTypeSonList();
-		render("/admin/admin_wondersType.html");
-	}
 	
 	/**
 	 * 跳转到指定版块明细内容
@@ -152,7 +222,7 @@ public class WondersTypeController extends Controller {
 		}
 		
 		Object pId = getPara("pId");
-		WondersType wondersTypeFat = wondersType.dao.findById(pId);
+		WondersType wondersTypeFat = WondersType.dao.findById(pId);
 		setAttr("wondersTypeFat", wondersTypeFat);
 		setWondersTypeSonListByPid(pId);
 		render("/admin/admin_wondersTypeFat.html");
@@ -197,84 +267,18 @@ public class WondersTypeController extends Controller {
 	}
 	
 	/**
-	 * admin管理--跳转修改社区版块页面
-	 */
-	@Before(LoginInterceptor.class)
-	public void skipModify(){
-		WondersType wondersType = null;
-		String wondersTypeId = getPara("wondersTypeId");
-		if(StrKit.notBlank(wondersTypeId)){
-			wondersType = wondersType.dao.findById(wondersTypeId);
-		}else {
-			wondersType = addWondersType();
-		}
-		setAttr("wondersType", wondersType);
-		
-		setWondersTypeFatList();
-		render("/admin/admin_updatewondersType.html");
-	}
-	
-	/**
 	 * admin--设置更新版块信息
 	 */
 	@Before(LoginInterceptor.class)
 	private WondersType addWondersType() {
 		WondersType wondersType = getModel(WondersType.class);
 		wondersType.set("level", 1);
-		Long pId = getParaToLong("pId");
-		if (pId != null) {
-			WondersType wondersTypeFat = wondersType.dao.findById(pId);
-			Object actionKey = wondersTypeFat.get("actionkey");
-			wondersType.set("actionkey", actionKey);
+		String pId = getPara("pId");
+		if (StrKit.notBlank(pId)) {
 			wondersType.set("pid", pId);
 			wondersType.set("level", 2);
 		}
 		return wondersType;
-	}
-	
-	/**
-	 * admin管理--更新社区版块
-	 */
-	@Before(LoginInterceptor.class)
-	public void updatewondersType() {
-		WondersType wondersType = getModel(WondersType.class);
-		Object wondersTypeId = wondersType.get("wondersTypeid");
-		if (wondersTypeId == null) {
-			wondersType.save();
-		} else {
-			wondersType.update();
-		}
-
-		goToManager();
-	}
-	
-	/**
-	 * admin管理--删除版块
-	 */
-	@Before(LoginInterceptor.class)
-	public void deleteSon(){
-		String wondersTypeId = getPara("wondersTypeId");
-		if(wondersTypeId != null && wondersTypeId.length() > 0){
-			WondersType.dao.deleteById(wondersTypeId);
-		}
-		
-		Object pId = getPara("pId");
-		WondersType wondersType = WondersType.dao.findById(pId);
-		setAttr("wondersTypeFat", wondersType);
-		setWondersTypeSonListByPid(pId);
-		render("/admin/admin_wondersTypeFat.html");
-	}
-	
-	/**
-	 * admin管理--删除区域版块
-	 */
-	@Before(LoginInterceptor.class)
-	public void deleteFat(){
-		String wondersTypeId = getPara("wondersTypeId");
-		
-		setWondersTypeFatList();
-		setWondersTypeSonList();
-		render("/admin/admin_detailwondersType.html");
 	}
 	
 	/**

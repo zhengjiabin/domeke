@@ -67,24 +67,25 @@ function goToHomeForum(){
 	window.location.href="./ofWonders/home";
 }
 
-//admin 跳转修改社区版块
+//admin 跳转修改页面
 function skipModify(node,wondersTypeId,pId){
 	$.post("./wondersType/skipModify", {
 		wondersTypeId : wondersTypeId,
 		pId : pId
 	}, function(data) {
-		var adminwondersTypeHtml = $(node).closest("#adminwondersTypeHtml");
-		adminwondersTypeHtml.html(data);
+		var adminWondersType = $(node).closest("#adminWondersType");
+		adminWondersType.html(data);
 	});
 }
 
-//admin 提交创建/修改版块
+//admin管理--提交创建/修改版块
 function submitForm(node) {
-	var updatewondersTypeForm = $(node).closest("#updatewondersTypeForm");
-	var pid = updatewondersTypeForm.find("#pid").first();
+	var wondersTypeForm = $(node).closest("#wondersTypeForm");
+	var pid = wondersTypeForm.find("#pid").first();
 	pid.attr("disabled",false);
 }
 
+//admin管理--删除版块明细
 function deleteSon(node,wondersTypeId,pId){
 	var result = confirm("确定删除？");
 	if(result){
@@ -92,19 +93,20 @@ function deleteSon(node,wondersTypeId,pId){
 			wondersTypeId : wondersTypeId,
 			pId : pId
 		}, function(data) {
-			var fatherNode = $(node).closest("#detailwondersType");
+			var fatherNode = $(node).closest("#wondersTypeForum");
 			fatherNode.html(data);
 		});
 	}
 }
 
+//admin管理--删除版块
 function deleteFat(node,wondersTypeId){
 	var result = confirm("确定删除？");
 	if(result){
 		$.post("./wondersType/deleteFat", {
 			wondersTypeId : wondersTypeId
 		}, function(data) {
-			var fatherNode = $(node).closest("#detail_wondersTypeHtml");
+			var fatherNode = $(node).closest("#adminWondersTypeForumHtml");
 			fatherNode.html(data);
 		});
 	}

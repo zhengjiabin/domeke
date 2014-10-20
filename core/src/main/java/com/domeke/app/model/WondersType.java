@@ -3,6 +3,7 @@ package com.domeke.app.model;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 
 @TableBind(tableName = "wonders_type", pkName = "wonderstypeid")
@@ -54,5 +55,14 @@ public class WondersType extends Model<WondersType> {
 		String sql = "select * from wonders_type where status='10' and level=2 and pid=? order by position";
 		List<WondersType> wondersTypeSonList = this.find(sql, pId);
 		return wondersTypeSonList;
+	}
+	
+	/**
+	 * 删除版块及子版块
+	 * @param wondersTypeId
+	 */
+	public void deleteFatAndSonByWondersTypeId(Object wondersTypeId){
+		String sql = "delete from wonders_type where wonderstypeid=? or pid=?";
+		Db.batch(sql, new Object[][] { { wondersTypeId, wondersTypeId } }, 1);
 	}
 }

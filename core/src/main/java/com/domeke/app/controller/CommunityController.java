@@ -52,6 +52,16 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
+	 * admin管理入口
+	 * 请求 ./community/goToManger
+	 */
+	public void goToManager() {
+		setCommunityFatList();
+		setCommunitySonList();
+		render("/admin/admin_community.html");
+	}
+	
+	/**
 	 * 设置各子版块帖子数
 	 * @param <T>
 	 */
@@ -209,15 +219,6 @@ public class CommunityController extends Controller {
 		forwardAction(actionKey);
 	}
 
-	/**
-	 * admin管理中对应的社区管理入口
-	 */
-	public void goToManager() {
-		setCommunityFatList();
-		setCommunitySonList();
-		render("/admin/admin_community.html");
-	}
-	
 	/**
 	 * 跳转到指定版块明细内容
 	 */
