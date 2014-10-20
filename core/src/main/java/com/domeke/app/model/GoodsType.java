@@ -157,4 +157,9 @@ public class GoodsType extends Model<GoodsType> {
 		List<GoodsType> goodsTypeList = this.find("select * from goods_type where level = '1' order by sortnum");
 		return goodsTypeList;
 	}
+	
+	public List<GoodsType> getGoodsTypeList() {
+		List<GoodsType> goodsTypeList = this.find("select * from goods_type");
+		return goodsTypeList;
+	}
 }

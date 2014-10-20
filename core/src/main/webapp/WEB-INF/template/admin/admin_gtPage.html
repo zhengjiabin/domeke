@@ -23,9 +23,38 @@
 									<td>${index!}</td>
 									<td>${g.typename!}</td>
 									<td>${g.actionkey!}</td>
-									<td>${g.level!}</td>
+									
+									<td>
+									<%
+										for(t in levelList) {
+										var codekey = parseInt(t.codekey);
+										var level =parseInt(g.level);
+											if (codekey == g.level) {
+									%>
+												${t.codename!}
+									<%
+											}
+										}
+									%>
+									</td>
+									
+									
 									<td>${g.sortnum!}</td>
-									<td>${g.parenttypeid!}</td>
+									
+									<td>
+									<%
+									for (gt in goodsTypeList) {
+									%>
+									<%
+										if (g.parenttypeid == gt.goodstypeid){
+									%>
+											${gt.typename!}
+									<%
+										}
+									}
+									%>
+									</td>
+									
 									<td>${g.goodstype!}</td>
 									<td width="120">
 									<a href="goodstype/upGoodsType?goodsTypeId=${g.goodstypeid!}"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>
