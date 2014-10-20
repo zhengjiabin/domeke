@@ -210,8 +210,9 @@ nav li{
 	display: block;
 	font-size: 12px;
 }
-.AdSub a:hover { 
-	background: #eaeaea;
+.AdSub a:hover {
+	color:#fff;
+	background: #c40000;
 }
 .Adpic img{
 	width: 900px;

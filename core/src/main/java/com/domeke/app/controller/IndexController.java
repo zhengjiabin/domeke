@@ -2,6 +2,7 @@ package com.domeke.app.controller;
 
 import java.util.List;
 import java.util.Map;
+
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.Works;
 import com.domeke.app.model.WorksType;
@@ -10,11 +11,16 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.ParseDemoKit;
+import com.jfinal.kit.StrKit;
 
 @ControllerBind(controllerKey = "/")
 public class IndexController extends Controller {
 
 	public void index() {
+		String menuid = getPara("menuid");
+		if(StrKit.isBlank(menuid)){
+			menuid = "1";
+		}
 		WorksType worksTypeModel = getModel(WorksType.class);
 		List<WorksType> worksTypes = worksTypeModel.getWorksTypes();
 		
@@ -62,6 +68,7 @@ public class IndexController extends Controller {
 		goodss = ParseDemoKit.goodsParse(goodsstemp);
 		
 		//返回数据
+		setAttr("menuid", menuid);
 		setAttr("workss0", workss0);
 		setAttr("workstype", typeMap);
 		setAttr("workss1", workss1);
