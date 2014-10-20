@@ -154,6 +154,26 @@
 	            <%}%>
             </div>
         </section>
+        
+        <section>
+        	<div class="CartoonTitle">${wonderTypeMenu.menuname!}<a href="${wonderTypeMenu.actionkey!}">/更多</a></div>
+            <div class="CartoonContent">
+            	<%for(ofWonders in ofWondersList){%>
+		            <div class="CartoonSub">
+			                <img src="${ofWonders.themeimg!}">
+			                <div class="CartoonName">
+			                	<a href="javascript:void(0)" onclick="skipOfWonders('${ofWonders.ofwondersid!}')">${ofWonders.subject!}</a>
+			                </div>
+		                <div class="CartoonInfo">
+		                	<span class="FloatL">${ofWonders.times!}</span>
+		                    <span class="FloatR">${ofWonders.viewcount!}</span>
+		                </div>
+		                <div class="CartoonSubFootbar">${ofWonders.subject!}</div>
+		            </div>
+	            <%}%>
+            </div>
+        </section>
+        
     </article>
     <aside>
     	<section>

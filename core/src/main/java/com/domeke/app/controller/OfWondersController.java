@@ -8,6 +8,7 @@ import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Comment;
 import com.domeke.app.model.OfWonders;
 import com.domeke.app.model.User;
+import com.domeke.app.model.VentWall;
 import com.domeke.app.model.WondersType;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.aop.Before;
@@ -85,8 +86,8 @@ public class OfWondersController extends FilesLoadController {
 		setOfWonders(ofWondersId);
 		setWondersTypes();
 		keepPara("wondersTypeId");
-		
-		forwardComment(ofWondersId);
+		String render = "/wondersType/ofWondersDetail.html";
+		forwardComment(ofWondersId, render);
 	}
 	
 	/**
@@ -134,6 +135,48 @@ public class OfWondersController extends FilesLoadController {
 		ofWonders.set("essence", 1);
 		ofWonders.update();
 		renderJson("true");
+	}
+	
+	/**
+	 * 首页无奇不有跳转指定明细
+	 * 请求 ./ofWonders/skipContain?ofWondersId = ${ofWondersId!}
+	 */
+	public void skipContain(){
+		String ofWondersId = getPara("ofWondersId");
+		String render = "/wondersType/ofWondersContain.html";
+		OfWonders.dao.updateTimes(ofWondersId);
+		
+		setOfWonders(ofWondersId);
+		setWondersTypeFatList();
+		setWondersTypeSonListCount();
+		setWondersTypes();
+		setVentWall();
+		
+		forwardComment(ofWondersId,render);
+	}
+	
+	/**
+	 * 设置父版块
+	 */
+	private void setWondersTypeFatList(){
+		List<WondersType> wondersTypeFatList = WondersType.dao.findFatList();
+		setAttr("wondersTypeFatList", wondersTypeFatList);
+	}
+	
+	/**
+	 * 设置签到人数
+	 */
+	private void setVentWall(){
+		Object ventWallCount = VentWall.venWdao.getTodayCount();
+		setAttr("ventWallCount", ventWallCount);
+	}
+	
+	/**
+	 * 设置子版块及主题数
+	 */
+	private void setWondersTypeSonListCount(){
+		List<WondersType> wondersTypeSonList = WondersType.dao.findSonListCount();
+		setAttr("wondersTypeSonList", wondersTypeSonList);
 	}
 	
 	/**
@@ -196,9 +239,9 @@ public class OfWondersController extends FilesLoadController {
 	/**
 	 * 跳转回复控制器，设置回复信息
 	 */
-	private void forwardComment(Object targetId){
+	private void forwardComment(Object targetId,String render){
 		String action = "/comment/setPage";
-		setAttr("render", "/wondersType/ofWondersDetail.html");
+		setAttr("render", render);
 		setAttr("targetId", targetId);
 		setAttr("idtype", IDTYPE);
 		forwardAction(action);

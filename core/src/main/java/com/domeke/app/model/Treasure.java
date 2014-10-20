@@ -46,8 +46,8 @@ public class Treasure extends Model<Treasure> {
 	public Page<Treasure> findPageByCommunityId(int pageNumber, int pageSize,Object communityId) {
 		String select = "select u.username,u.imgurl,t.*,cm.number as viewcount";
 		StringBuffer sqlExceptSelect = new StringBuffer("from user u,treasure t left join ");
-		sqlExceptSelect.append(" (select count(1) as number,targetid from comment where idtype='30' group by targetid) cm on t.treasureid=cm.targetid ");
-		sqlExceptSelect.append(" where u.userid=t.userid and t.status='10' and t.communityid=? ");
+		sqlExceptSelect.append(" (select count(1) as number,targetid from comment where status='10' and idtype='30' group by targetid) cm ");
+		sqlExceptSelect.append(" on t.treasureid=cm.targetid where u.userid=t.userid and t.status='10' and t.communityid=? ");
 		sqlExceptSelect.append(" order by to_days(t.createtime) desc,t.top desc,t.essence desc");
 		Page<Treasure> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),communityId);
 		return page;

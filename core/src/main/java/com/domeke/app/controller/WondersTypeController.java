@@ -80,7 +80,7 @@ public class WondersTypeController extends Controller {
 	 * 设置热门主题
 	 */
 	private void setWondersTypePic() {
-		List<OfWonders> ofWondersPicList = OfWonders.dao.findPic();
+		List<OfWonders> ofWondersPicList = OfWonders.dao.findPic(8);
 		setAttr("ofWondersPicList", ofWondersPicList);
 	}
 	

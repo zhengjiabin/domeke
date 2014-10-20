@@ -59,8 +59,8 @@ public class OfWonders extends Model<OfWonders> {
 	public Page<OfWonders> findPageByOfWondersId(int pageNumber, int pageSize,Object wondersTypeId) {
 		String select = "select u.username,u.imgurl,p.*,c.number as viewcount";
 		StringBuffer sqlExceptSelect = new StringBuffer("from user u,of_wonders p left join ");
-		sqlExceptSelect.append("(select count(1) as number,targetid from comment where idtype='50' group by targetid) c on p.ofwondersid=c.targetid ");
-		sqlExceptSelect.append(" where u.userid=p.userid and p.status='10' and p.wonderstypeid=? ");
+		sqlExceptSelect.append("(select count(1) as number,targetid from comment where status='10' and idtype='50' group by targetid) c ");
+		sqlExceptSelect.append(" on p.ofwondersid=c.targetid where u.userid=p.userid and p.status='10' and p.wonderstypeid=? ");
 		sqlExceptSelect.append(" order by to_days(p.createtime) desc,p.top desc,p.essence desc");
 		Page<OfWonders> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),wondersTypeId);
 		return page;
@@ -190,10 +190,11 @@ public class OfWonders extends Model<OfWonders> {
      * 查询热门主题
      * @return
      */
-    public List<OfWonders> findPic(){
-    	StringBuffer sql = new StringBuffer("select p.* from of_wonders p ");
-    	sql.append(" where p.status='10' order by p.top desc,p.essence desc,to_days(p.createtime) desc ");
-    	sql.append(" limit 8");
-    	return this.find(sql.toString());
+    public List<OfWonders> findPic(int limit){
+    	StringBuffer sql = new StringBuffer("select c.number as viewcount,p.* from of_wonders p left join ");
+    	sql.append(" (select count(1) as number,targetid from comment where status='10' and idtype='50' group by targetid) c ");
+    	sql.append(" on p.ofwondersid=c.targetid where p.status='10' ");
+    	sql.append(" order by p.top desc,p.essence desc,to_days(p.createtime) desc limit ?");
+    	return this.find(sql.toString(),limit);
     }
 }

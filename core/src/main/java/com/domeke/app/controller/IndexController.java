@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.domeke.app.model.Goods;
+import com.domeke.app.model.Menu;
+import com.domeke.app.model.OfWonders;
 import com.domeke.app.model.Works;
 import com.domeke.app.model.WorksType;
 import com.domeke.app.route.ControllerBind;
@@ -51,6 +53,8 @@ public class IndexController extends Controller {
 		List<Map<String, Object>> workss4 = Lists.newArrayList();
 		workss4 = ParseDemoKit.worksParse(workss4temp);
 		
+		List<OfWonders> ofWondersList = OfWonders.dao.findPic(10);
+		Menu wonderTypeMenu = Menu.menuDao.findById(3);
 		
 		//加载右边列表
 		List<Works> worksClickListTemp = worksDao.getWorksInfoByPageViewsLimit(9);
@@ -75,6 +79,8 @@ public class IndexController extends Controller {
 		setAttr("workss2", workss2);
 		setAttr("workss3", workss3);
 		setAttr("workss4", workss4);
+		setAttr("ofWondersList", ofWondersList);
+		setAttr("wonderTypeMenu", wonderTypeMenu);
 		setAttr("worksClickList", worksClickList);
 		setAttr("worksUpdateList", worksUpdateList);
 		setAttr("goodss", goodss);

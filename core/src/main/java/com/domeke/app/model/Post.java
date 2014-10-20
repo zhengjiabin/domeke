@@ -61,8 +61,9 @@ public class Post extends Model<Post> {
 	public Page<Post> findPageByCommunityId(int pageNumber, int pageSize,Object communityId) {
 		String select = "select u.username,u.imgurl,p.*,cm.number as viewcount,c.title";
 		StringBuffer sqlExceptSelect = new StringBuffer("from community c,user u,post p left join ");
-		sqlExceptSelect.append(" (select count(1) as number,targetid from comment where idtype='10' group by targetid) cm on p.postid=cm.targetid ");
-		sqlExceptSelect.append(" where c.communityid=p.communityid and u.userid=p.userid and p.status='10' and p.communityid=? ");
+		sqlExceptSelect.append(" (select count(1) as number,targetid from comment where status='10' and idtype='10' group by targetid) cm ");
+		sqlExceptSelect.append(" on p.postid=cm.targetid where c.communityid=p.communityid and u.userid=p.userid and p.status='10' ");
+		sqlExceptSelect.append(" and p.communityid=? ");
 		sqlExceptSelect.append(" order by to_days(p.createtime) desc,p.top desc,p.essence desc ");
 		Page<Post> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),communityId);
 		return page;
