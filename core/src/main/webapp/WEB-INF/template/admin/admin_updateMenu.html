@@ -6,6 +6,7 @@
 	media="screen">
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="js/menu.js"></script>
 <div class="span9" id="content">
 	<div class="row-fluid">
 		<div class="block">
@@ -16,16 +17,15 @@
 				<div class="span12">
      <form class="form-signin" action="menu/updateMenu?menuid=${menuid!}" method="post">
         	<input name="menu.menuid" value="${menu.menuid}" type="text" class="span6 m-wrap" style="display:none"/><br>
-        	<label class="control-label">菜单名称：</label>
-        	<input name="menu.menuname" value="${menu.menuname!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">actionkey：</label>
-        	<input name="menu.actionkey" value="${menu.actionkey!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">菜单级别：</label>
-        	<input name="menu.top" value="${menu.top!}" type="text" class="span6 m-wrap" /><br> 
-        	<label class="control-label">排序：</label>
-        	<input name="menu.sortnum" value="${menu.sortnum!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">父级ID：</label>
-        	<select name="menu.parentmenuid">         		
+        	菜单名称：<input id="menuname" name="menu.menuname" value="${menu.menuname!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	actionkey：<input id="actionkey" name="menu.actionkey" value="${menu.actionkey!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	菜单级别：<input id="top" name="menu.top" value="${menu.top!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br> 
+        	菜单排序：<input id="sortnum" name="menu.sortnum" value="${menu.sortnum!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	父级ID：<select name="menu.parentmenuid" class="span6 m-wrap">         		
         		<%
         		var menuid = menu.parentmenuid;
         		var count = 0;
@@ -42,11 +42,10 @@
         		%>
         			<option value="" selected="selected">主菜单</option>
         		<% } %>
-   			</select> 
-        	<label class="control-label">菜单模块：</label>
-        	<input name="menu.menutype" value="${menu.menutype!}" type="text" class="span6 m-wrap" />
-        	<br>
-        <button class="btn btn-large btn-primary" type="submit" >保存</button>
+   			</select> <br>
+        	菜单模块：<input id="menutype" name="menu.menutype" value="${menu.menutype!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>
       </form>
 				</div>
 			</div>
