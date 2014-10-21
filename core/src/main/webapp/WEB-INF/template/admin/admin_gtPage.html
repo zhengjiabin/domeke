@@ -26,9 +26,9 @@
 									
 									<td>
 									<%
+										var level =parseInt(g.level);
 										for(t in levelList) {
 										var codekey = parseInt(t.codekey);
-										var level =parseInt(g.level);
 											if (codekey == g.level) {
 									%>
 												${t.codename!}

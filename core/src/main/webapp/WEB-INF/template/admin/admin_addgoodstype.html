@@ -20,12 +20,30 @@
         	<input name="goodsType.typename" value="${goodsType.typename!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">actionkey：</label>
         	<input name="goodsType.actionkey" value="${goodsType.actionkey!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">级别：</label>
-        	<input name="goodsType.level" value="${goodsType.level!}" type="text" class="span6 m-wrap" /><br>
+        	 <label class="control-label">级别：</label>
+        	<!--<input name="goodsType.level" value="${goodsType.level!}" type="text" class="span6 m-wrap" /><br> -->
+        	<select name="goodsType.level" class="span6 m-wrap" > 
+        		<option value="" selected="selected">请选择---------</option>        		
+        		<%
+        		for (t in levelList){        		
+        		%>
+        			<option value="${t.codekey!}">${t.codename!}</option> 
+    			<% } %>
+   			</select> 
         	<label class="control-label">排序：</label>
         	<input name="goodsType.sortnum" value="${goodsType.sortnum!}" type="text" class="span6 m-wrap" /><br>
         	<label class="control-label">父级类型：</label>
-        	<input name="goodsType.parenttypeid" value="${goodsType.parenttypeid!}" type="text" class="span6 m-wrap" /><br>
+        	
+        	<select name="goodsType.parenttypeid" class="span6 m-wrap" > 
+        		<option value="" selected="selected">请选择---------</option>        		
+        		<%
+        		for(gt in goodsTypeList){        		
+        		%>
+        			<option value="${gt.goodstypeid!}">${gt.typename!}</option> 
+    			<% } %>
+   			</select> 
+   			
+        	<!-- <input name="goodsType.parenttypeid" value="${goodsType.parenttypeid!}" type="text" class="span6 m-wrap" /><br> --> 
         	<label class="control-label">类型模块：</label>
         	<input name="goodsType.goodstype" value="${goodsType.goodstype!}" type="text" class="span6 m-wrap" /><br>
         	

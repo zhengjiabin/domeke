@@ -55,6 +55,10 @@ public class GoodsTypeController extends Controller {
 	 * 跳转新增类型界面
 	 */
 	public void addGoodsType(){
+		List<CodeTable> levelList = CodeKit.getList("level");
+		setAttr("levelList", levelList);
+		List<GoodsType> goodsTypeList = GoodsType.gtDao.getGoodsTypeList();
+		setAttr("goodsTypeList", goodsTypeList);
 		render("/admin/admin_addgoodstype.html");
 	}
 	
@@ -74,6 +78,10 @@ public class GoodsTypeController extends Controller {
 		int goodsTypeId = getParaToInt("goodsTypeId");
 		GoodsType goodsType = GoodsType.gtDao.getGoodsTypeById(goodsTypeId);
 		setAttr("goodsType", goodsType);
+		List<CodeTable> levelList = CodeKit.getList("level");
+		setAttr("levelList", levelList);
+		List<GoodsType> goodsTypeList = GoodsType.gtDao.getGoodsTypeList();
+		setAttr("goodsTypeList", goodsTypeList);
 		render("/admin/admin_upgoodstype.html");
 	}
 	
