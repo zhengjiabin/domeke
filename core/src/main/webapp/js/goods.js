@@ -19,13 +19,17 @@ function checknull(obj) {
 		alert("[商品主图]必填!");
 		document.getElementById("fileImage").focus();
 		return false;
-	}  else if (document.getElementById("tamllurl").value.length == 0) {
+	} else if (document.getElementById("tamllurl").value.length == 0) {
 		alert("[淘宝地址]必填!");
 		document.getElementById("tamllurl").focus();
 		return false;
-	}  else if (document.getElementById("status").value.length == 0) {
+	} else if (document.getElementById("status").value.length == 0) {
 		alert("[商品状态]必填!");
 		document.getElementById("status").focus();
+		return false;
+	} else if (document.getElementById("message").value.length == 0) {
+		alert("[商品描述]必填!");
+		document.getElementById("message").focus();
 		return false;
 	}
 	form.submit();
@@ -53,6 +57,10 @@ function upchecknull(obj) {
 	}  else if (document.getElementById("status").value.length == 0) {
 		alert("[商品状态]必填!");
 		document.getElementById("status").focus();
+		return false;
+	} else if (document.getElementById("message").value.length == 0) {
+		alert("[商品描述]必填!");
+		document.getElementById("message").focus();
 		return false;
 	}
 	form.submit();
