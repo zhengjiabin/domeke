@@ -363,13 +363,13 @@ a.icon{
 }
 .FloatL{
 	float: left;
-	background: url(../http://www.dongmark.com/images/icon01.png) left top no-repeat;
+	background: url(http://www.dongmark.com/images/icon01.png) left top no-repeat;
 	padding-left: 20px;
 	margin-left: 5px;
 }
 .FloatR{
 	float: right;
-	background: url(../http://www.dongmark.com/images/icon02.png) left top no-repeat;
+	background: url(http://www.dongmark.com/images/icon02.png) left top no-repeat;
 	padding-left: 20px;
 	margin-right: 5px;
 }

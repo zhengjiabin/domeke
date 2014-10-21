@@ -1,6 +1,7 @@
 <% layout("/common/layout.html"){ %>
 <script type="text/javascript">
 	$(document).ready(function(){
+		var max = $('.AdSub ul li').length;
 		$.extend({
 			loopplay:function(){
 				$('.AdSub ul li').removeClass('select');
@@ -10,7 +11,7 @@
 				var href = $('a',$curs).attr('href');
 				$('.Adpic a').attr('href',href);
 				i++;
-				if(i > 5){
+				if(i > max){
 					i=0;
 				}
 			},
@@ -46,11 +47,9 @@
 <section>
 	<div class="AdSub">
     <ul>
-    	<li src="${workss0[0].cover!}"><a href="${workss0[0].detailUrl!}">${workss0[0].worksname!}<span>${workss0[0].describle!}</span></a></li>
-        <li src="${workss0[1].cover!}"><a href="${workss0[0].detailUrl!}">${workss0[1].worksname!}<span>${workss0[1].describle!}</span></a></li>
-        <li src="${workss0[2].cover!}" class="LiAd"><a href="${workss0[0].detailUrl!}">${workss0[2].worksname!}<span>${workss0[2].describle!}</span></a></li>
-        <li src="${workss0[3].cover!}"><a href="${workss0[0].detailUrl!}">${workss0[3].worksname!}<span>${workss0[3].describle!}</span></a></li>
-        <li src="${workss0[4].cover!}"><a href="${workss0[0].detailUrl!}">${workss0[4].worksname!}<span>${workss0[4].describle!}</span></a></li>
+    	<%for(works in workss0){%>
+    		<li src="${works.cover!}"><a href="${works.detailUrl!}">${works.worksname!}<span>${works.describle!}</span></a></li>
+    	<%}%>
     </ul>
     </div>
     <div class="Adpic"><a href="${workss0[0].detailUrl!}"><img src="${workss0[0].cover!}"></a></div>
@@ -147,7 +146,7 @@
 	                </a>
 	                <div class="CartoonInfo">
 	                	<span class="FloatL">${works.pageviews!}</span>
-	                    <span class="FloatR">${works.collection!}</span>
+	                    <span class="FloatR">${works.comment!}</span>
 	                </div>
 	                <div class="CartoonSubFootbar">${works.describle!}</div>
 	            </div>
