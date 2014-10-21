@@ -440,47 +440,61 @@ public class WorksController extends FilesLoadController {
 	}
 	
 	public void editZhuanjiShipin(){
+		
 		Map<String, Object> map = Maps.newHashMap();
-		User user = getSessionAttr("user");
-		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
-		String userName = user.get("username");
-		
-		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
-		String workid = getPara("workid");
-		String title = getPara("title");
-		String des = getPara("des");
-		String ispublic = getPara("ispublic");
-		
-		Work workModel = getModel(Work.class).findById(workid);
-		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		if(!StrKit.isBlank(coverPath)){
-			String oldcover1 = workModel.get("cover");
-			File coverFile1 = new File(oldcover1);
-			if(coverFile1.exists()){
-				coverFile1.delete();
+		boolean bool = false;
+		try {
+			User user = getSessionAttr("user");
+			Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
+			String userName = user.get("username");
+			
+			String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
+			String workid = getPara("workid");
+			String title = getPara("title");
+			String des = getPara("des");
+			String ispublic = getPara("ispublic");
+			
+			Work workModel = getModel(Work.class).findById(workid);
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			if(!StrKit.isBlank(coverPath)){
+				String oldcover1 = workModel.get("cover");
+				if(!StrKit.isBlank(oldcover1)){
+					File coverFile1 = new File(oldcover1);
+					if(coverFile1.exists()){
+						coverFile1.delete();
+					}
+				}
+				workModel.set("cover", coverPath);
 			}
-			workModel.set("cover", coverPath);
-		}
-		if(!StrKit.isBlank(title)){
-			workModel.set("workname", title);
-		}
-		workModel.set("workdes", des);
-		if(!StrKit.isBlank(ispublic)){
-			workModel.set("isdisable", ispublic);
-		}
-		workModel.set("modifier", userId);
-		workModel.set("modifiername", userName);
-		workModel.set("modifytime", timestamp);
-		boolean bool = workModel.update();
-		if (bool) {
-			// 成功
-			map.put("success", 1);
-		} else {
+			if(!StrKit.isBlank(title)){
+				workModel.set("workname", title);
+			}
+			workModel.set("workdes", des);
+			if(!StrKit.isBlank(ispublic)){
+				workModel.set("isdisable", ispublic);
+			}
+			workModel.set("modifier", userId);
+			workModel.set("modifiername", userName);
+			workModel.set("modifytime", timestamp);
+			bool = workModel.update();
+			if (bool) {
+				// 成功
+				map.put("success", 1);
+			} else {
+				map.put("success", 0);
+				map.put("message", "服务器错误！");
+			}
+			renderJson(map);
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
 			map.put("success", 0);
 			map.put("message", "服务器错误！");
+			renderJson(map);
+			return;
 		}
-		renderJson(map);
-		return;
+		
+		
 	}
 
 

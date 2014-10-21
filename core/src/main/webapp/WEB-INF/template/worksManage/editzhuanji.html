@@ -1,8 +1,24 @@
 <script type="text/javascript">
 	$(document).ready(function(){
+		var bar = $('.bar');
+		var percent = $('.percent');
+		var status = $('#status');
+		
 		$('#editzhuanji').submit(function(){
 			$('button[type=submit]',this).attr('disabled',true);
-			$(this).ajaxSubmit(function(data){
+			$(this).ajaxSubmit({
+				beforeSend: function() {
+			        status.empty();
+			        var percentVal = '0%';
+			        percent.html(percentVal);
+			        $('#progressTr').show();
+			    },
+			    uploadProgress: function(event, position, total, percentComplete) {
+			        var percentVal = percentComplete + '%';
+			        bar.val(percentComplete)
+			        percent.html(percentVal);
+			    },
+				success:function(data){
 				if(data.success == 1){
 					alert("修改成功!");
 					showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${workpageIndex!},'worksid':${works.worksid!}});
@@ -10,7 +26,7 @@
 					alert("修改失败  信息：" + data.message);
 					$('button[type=submit]',this).removeAttr('disabled');
 				}
-			});
+			}});
 			return false;
 		});
 		
@@ -37,11 +53,17 @@
                 <th><em style="color: red;"> * </em>标题：</th>
                 <td><input name="title" type="text" class="input_Member" value="${works.worksname!}" required="required"></td>
               </tr>
-              
               <tr>
                 <th><em style="color: red;"> * </em>封面：</th>
                 <td>
                 	<img width="120px" height="100px" alt="${works.worksname!}" src="${works.cover!}" />
+                </td>
+              </tr>
+              <tr id="progressTr" style="display: none;">
+                <th><em style="color: red;"> * </em>进度：</th>
+                <td>
+                	<p><progress class="bar" value="0" max="100"></progress>
+                	<div class="percent">0%</div ></p>
                 </td>
               </tr>
               <tr>

@@ -1,17 +1,34 @@
 <script type="text/javascript">
 	$(document).ready(function(){
+		var bar = $('.bar');
+		var percent = $('.percent');
+		var status = $('#status');
+		
 		$('#addzhuanji').submit(function(){
 			$('button[type=submit]',this).attr('disabled',true);
-			$(this).ajaxSubmit(function(data){
-				if(data.success == 1){
-					if(confirm("添加成功 是否跳转编辑页面？")){
-						showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':data.worksid});
+			$(this).ajaxSubmit({
+				beforeSend: function() {
+			        status.empty();
+			        var percentVal = '0%';
+			        percent.html(percentVal);
+			        $('#progressTr').show();
+			    },
+			    uploadProgress: function(event, position, total, percentComplete) {
+			        var percentVal = percentComplete + '%';
+			        bar.val(percentComplete)
+			        percent.html(percentVal);
+			    },
+				success:function(data){
+					if(data.success == 1){
+						if(confirm("添加成功 是否跳转编辑页面？")){
+							showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':data.worksid});
+						}else{
+							showPage({'flag':1,'type':1,'pageIndex':${pageIndex!}});
+						}
 					}else{
-						showPage({'flag':1,'type':1,'pageIndex':${pageIndex!}});
+						alert("添加失败  信息：" + data.message);
+						$('button[type=submit]',this).removeAttr('disabled');
 					}
-				}else{
-					alert("添加失败  信息：" + data.message);
-					$('button[type=submit]',this).removeAttr('disabled');
 				}
 			});
 			return false;
@@ -27,6 +44,13 @@
               <tbody><tr>
                 <th><em style="color: red;"> * </em>标题：</th>
                 <td><input name="title" type="text" class="input_Member" required="required"></td>
+              </tr>
+              <tr id="progressTr" style="display: none;">
+                <th><em style="color: red;"> * </em>进度：</th>
+                <td>
+                	<p><progress class="bar" value="0" max="100"></progress>
+                	<div class="percent">0%</div ></p>
+                </td>
               </tr>
               <tr>
                 <th><em style="color: red;"> * </em>封面：</th>
@@ -65,9 +89,9 @@
               <tr>
                 <th></th>
                 <td>
-                	<button  type="submit" class="">提交</button>
+                	<button type="submit" >提交</button>
                 	&nbsp;&nbsp;&nbsp;
-                	<button type="submit" class="">取消</button>
+                	<button type="button" onclick="showPage({'flag':1,'type':1,'pageIndex':${pageIndex!}})">取消</button>
 				</td>
               </tr>
             </tbody></table>

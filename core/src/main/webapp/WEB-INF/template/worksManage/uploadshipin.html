@@ -1,14 +1,31 @@
 <script type="text/javascript">
 	$(document).ready(function(){
+		var bar = $('.bar');
+		var percent = $('.percent');
+		var status = $('#status');
+		
 		$('#uploadshipin').submit(function(){
 			$('button[type=submit]',this).attr('disabled',true);
-			$(this).ajaxSubmit(function(data){
-				if(data.success == 1){
-					alert("上传视频成功!");
-					showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!}});
-				}else{
-					alert("上传视频失败  信息：" + data.message);
-					$('button[type=submit]',this).removeAttr('disabled');
+			$(this).ajaxSubmit({
+				beforeSend: function() {
+			        status.empty();
+			        var percentVal = '0%';
+			        percent.html(percentVal);
+			        $('#progressTr').show();
+			    },
+			    uploadProgress: function(event, position, total, percentComplete) {
+			        var percentVal = percentComplete + '%';
+			        bar.val(percentComplete)
+			        percent.html(percentVal);
+			    },
+				success:function(data){
+					if(data.success == 1){
+						alert("上传视频成功!");
+						showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!}});
+					}else{
+						alert("上传视频失败  信息：" + data.message);
+						$('button[type=submit]',this).removeAttr('disabled');
+					}
 				}
 			});
 			return false;
@@ -38,6 +55,13 @@
                 	<textarea name="des" style="padding:10px;" rows="8" cols="54"></textarea>
                 </td>
               </tr>
+              <tr id="progressTr" style="display: none;">
+                <th><em style="color: red;"> * </em>进度：</th>
+                <td>
+                	<p><progress class="bar" value="0" max="100"></progress>
+                	<div class="percent">0%</div ></p>
+                </td>
+              </tr>
               <tr>
                 <th>视频：</th>
                 <td><input name="comic" type="file" class="input_Member"></td>
@@ -56,7 +80,7 @@
                 <td>
                 	<button  type="submit" class="">提交</button>
                 	&nbsp;&nbsp;&nbsp;
-                	<button type="submit" class="">取消</button>
+                	<button type="button" onclick="showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${workpageIndex!},'worksid':${worksid!}})">取消</button>
 				</td>
               </tr>
             </tbody></table>
