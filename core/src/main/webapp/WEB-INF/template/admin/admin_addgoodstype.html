@@ -6,6 +6,7 @@
 	media="screen">
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="js/goodsType.js"></script>
 <div class="span9" id="content">
 	<div class="row-fluid">
 		<div class="block">
@@ -16,38 +17,34 @@
 				<div class="span12">
      <form class="form-signin" action="goodstype/saveGoodsType" method="post">
      
-     		<label class="control-label">类型名称：</label>
-        	<input name="goodsType.typename" value="${goodsType.typename!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">actionkey：</label>
-        	<input name="goodsType.actionkey" value="${goodsType.actionkey!}" type="text" class="span6 m-wrap" /><br>
-        	 <label class="control-label">级别：</label>
-        	<!--<input name="goodsType.level" value="${goodsType.level!}" type="text" class="span6 m-wrap" /><br> -->
-        	<select name="goodsType.level" class="span6 m-wrap" > 
+     		类型名称：<input id="typename" name="goodsType.typename" value="${goodsType.typename!}" type="text" class="span6 m-wrap" />
+     		<span class='font_r' style="color: red"> *</span><br>
+        	actionkey：<input id="actionkey" name="goodsType.actionkey" value="${goodsType.actionkey!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	类型级别：<select id="level" name="goodsType.level" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择---------</option>        		
         		<%
         		for (t in levelList){        		
         		%>
         			<option value="${t.codekey!}">${t.codename!}</option> 
     			<% } %>
-   			</select> 
-        	<label class="control-label">排序：</label>
-        	<input name="goodsType.sortnum" value="${goodsType.sortnum!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">父级类型：</label>
-        	
-        	<select name="goodsType.parenttypeid" class="span6 m-wrap" > 
+   			</select> <span class='font_r' style="color: red"> *</span><br>
+        	类型排序：<input id="sortnum" name="goodsType.sortnum" value="${goodsType.sortnum!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	父级类型：<select name="goodsType.parenttypeid" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择---------</option>        		
         		<%
         		for(gt in goodsTypeList){        		
         		%>
         			<option value="${gt.goodstypeid!}">${gt.typename!}</option> 
     			<% } %>
-   			</select> 
+   			</select> <br>
    			
         	<!-- <input name="goodsType.parenttypeid" value="${goodsType.parenttypeid!}" type="text" class="span6 m-wrap" /><br> --> 
-        	<label class="control-label">类型模块：</label>
-        	<input name="goodsType.goodstype" value="${goodsType.goodstype!}" type="text" class="span6 m-wrap" /><br>
+        	类型模块：<input id="goodstype" name="goodsType.goodstype" value="${goodsType.goodstype!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
         	
-			<button class="btn btn-large btn-primary" type="submit" >保存</button>
+			<button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>
 			<a href="goodstype/goToManager" class="btn btn-large btn-primary" >返回</a>
       </form>
 				</div>
