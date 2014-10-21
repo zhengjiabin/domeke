@@ -730,6 +730,44 @@ public class WorksController extends FilesLoadController {
 		renderJson(map);
 		return;
 	}
+	public void yesCheckWorks(){
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			String worksid = getPara("worksid");
+			if(StrKit.isBlank(worksid)){
+				map.put("success", 0);
+				map.put("message", "参数为空！");
+				renderJson(map);
+				return;
+			}
+			Works worksModel = getModel(Works.class).findById(worksid);
+			if(!worksModel.isNotEmpty()){
+				map.put("success", 0);
+				map.put("message", "找不到对象");
+				renderJson(map);
+				return;
+			}
+			
+			worksModel.set("ischeck", 1);
+			boolean bool = worksModel.update();
+			if(bool){
+				map.put("success", 1);
+				renderJson(map);
+				return;
+			}else {
+				map.put("success", 0);
+				map.put("message", "审核失败");
+				renderJson(map);
+				return;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("success", 1);
+			map.put("message", "服务器错误");
+			renderJson(map);
+			return;
+		}
+	}
 	
 	public void upranking(){
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -784,6 +822,7 @@ public class WorksController extends FilesLoadController {
 				}
 				map.put("worksname", worksname);
 				map.put("workstype", works.get("workstype"));
+				map.put("ischeck", works.get("ischeck"));
 				map.put("istop", works.get("istop"));
 				map.put("homepage", works.get("homepage"));
 				map.put("praise", works.get("praise"));

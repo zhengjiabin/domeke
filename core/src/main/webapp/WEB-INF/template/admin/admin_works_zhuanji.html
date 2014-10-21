@@ -1,3 +1,8 @@
+<style>
+	button{
+		height:23px;
+	}
+</style>
 <script type="text/javascript">
 	//全选
 	function allChecked(_self){
@@ -54,6 +59,7 @@
 		});
 	}
 	
+	
 	function upranking(state,worksid){
 		$.ajax({
 			type : 'post',
@@ -73,6 +79,49 @@
 				}
 			}
 		});
+	}
+	function okcheck(parid){
+		var params = 'worksid='+parid;
+		$.ajax({
+			type : 'post',
+			data : params,
+			url : 'works/yesCheckWorks',
+			success : function(data) {
+				if (data.success == 1) {
+					showData({
+						'flag' : flag,
+						'type' : type,
+						'workstype' : workstype,
+						'pageIndex' : '${pageWorks.pageNumber!}'
+					});
+				} else {
+					alert("置顶失败");
+					return;
+				}
+			}
+		});
+	}
+	//删除
+	function del(worksid){
+		if(confirm("确认删除吗？")){
+			$.ajax({
+				url:'works/delete',
+				data:'id='+worksid,
+				success:function(data){
+					if(data.success != 1){
+						alert("删除失败");
+					}
+					showData({
+						'flag' : flag,
+						'type' : type,
+						'workstype' : workstype,
+						'pageIndex' : '${pageWorks.pageNumber!}'
+					});
+				}
+			});
+		}else{
+			return false;
+		}
 	}
 </script>
 <article>
@@ -109,8 +158,10 @@
            	&nbsp;回复：<em style="color: #ccc;">${works.comment!}</em></br>
            </td>
            <td>
-           	<%if(works.ischeck! == 0){%>
-           	<button >通过审核</button>
+           	<%
+           	if(works.ischeck! == 0){
+           	%>
+           	<button onclick="okcheck(${works.worksid!})">通过审核</button>
            	</br>
            	<%}%>
            	<button onclick="upranking(0,${works.worksid!})">首页</button>
@@ -124,6 +175,8 @@
            	<button onclick="upranking(11,${works.worksid!})">取消</button>
            	<%}%>
            	<%}%>
+           	</br>
+           	<button onclick="del(${works.worksid!})">删除</button>
            </td>
          </tr>
          <%if(works.workNotCheck.~size > 0){%>
