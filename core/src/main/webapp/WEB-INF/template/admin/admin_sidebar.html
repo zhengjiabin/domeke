@@ -14,7 +14,13 @@
             	</ul>
 		</li>
 		<li>
-			<a href="javascript:void(0)" onclick="goToManage('/community/goToManager')"><i class="icon-chevron-right"></i> 社区管理</a>
+			<a href="javascript:void(0)" onclick="showForum(this)"><i class="icon-chevron-right"></i> 社区管理</a>
+			<ul style="display: none" id="secForum">
+					<li><a href="javascript:void(0)" onclick="goToManage('/community/goToManager')"><i class="icon-chevron-right"></i> 版块管理</a></li>
+					<li><a href="javascript:void(0)" onclick="goToManage('/post/goToManager')"><i class="icon-chevron-right"></i> 论坛管理</a></li>
+					<li><a href="javascript:void(0)" onclick="goToManage('/activity/goToManager')"><i class="icon-chevron-right"></i> 活动管理</a></li>
+					<li><a href="javascript:void(0)" onclick="goToManage('/treasure/goToManager')"><i class="icon-chevron-right"></i> 宝贝管理</a></li>
+            </ul>
 		</li>
 		<li>
 			<a href="javascript:void(0)" onclick="goToManage('/ventwall/goToManager')"><i class="icon-chevron-right"></i> 发泄墙管理</a>

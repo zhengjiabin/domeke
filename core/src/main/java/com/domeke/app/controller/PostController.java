@@ -75,13 +75,78 @@ public class PostController extends Controller {
 	}
 	
 	/**
-	 * admin管理中对应的社区管理入口
+	 * admin管理--入口
+	 * 请求 ./post/goToManager
 	 */
 	public void goToManager() {
 		findPageAll();
 		render("/admin/admin_post.html");
 	}
 	
+	/**
+	 * admin管理--分页跳转
+	 * 请求 ./post/findByAdminPage
+	 */
+	public void findByAdminPage(){
+		findPageAll();
+		render("/admin/admin_postPage.html");
+	}
+	
+	/**
+	 * admin管理--删除指定主题
+	 * 请求 ./post/deleteById?postId=${postId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void deleteById() {
+		String postId = getPara("postId");
+		Post.dao.deleteById(postId);
+		
+		Comment.dao.deleteByTheme(postId, IDTYPE);
+		findPageAll();
+		render("/admin/admin_postPage.html");
+	}
+	
+	/**
+	 * admin管理--跳转发表/修改主题
+	 * 请求 ./post/skipUpdate?postId=${postId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipUpdate() {
+		Post post = null;
+		String postId = getPara("postId");
+		if(StrKit.notBlank(postId)){
+			post = Post.dao.findById(postId);
+		}else{
+			post = getModel(Post.class);
+		}
+		setAttr("post", post);
+		
+		List<Community> communityList = Community.dao.findSonList();
+		setAttr("communityList", communityList);
+		render("/admin/admin_postUpdate.html");
+	}
+	
+	/**
+	 * admin管理--发表/修改主题
+	 * 请求 ./post/update
+	 */
+	@Before(LoginInterceptor.class)
+	public void update() {
+		Post post = getModel(Post.class);
+		Object postId = post.get("postid");
+		if (postId == null) {
+			Object userId = getUserId();
+			HttpServletRequest request = getRequest();
+			String remoteIp = request.getRemoteAddr();
+
+			post.set("userid", userId);
+			post.set("userip", remoteIp);
+			post.save();
+		} else {
+			post.update();
+		}
+		goToManager();
+	}
 
 	/**
 	 * 查询指定社区的分页帖子信息
@@ -103,7 +168,7 @@ public class PostController extends Controller {
 		int pageSize = getParaToInt("pageSize", 10);
 		Page<Post> postPage = Post.dao.findPage(pageNumber, pageSize);
 		setAttr("postPage", postPage);
-		render("/admin/admin_detailPost.html");
+		render("/admin/admin_postPage.html");
 	}
 
 	/**
@@ -237,19 +302,6 @@ public class PostController extends Controller {
 	}
 
 	/**
-	 * admin管理--删除指定帖子
-	 */
-	@Before(LoginInterceptor.class)
-	public void deleteById() {
-		String postId = getPara("postId");
-		Post.dao.deleteById(postId);
-		
-		Comment.dao.deleteByTheme(postId, IDTYPE);
-		findPageAll();
-		render("/admin/admin_detailPost.html");
-	}
-
-	/**
 	 * 跳转帖子申请
 	 */
 	@Before(LoginInterceptor.class)
@@ -264,55 +316,6 @@ public class PostController extends Controller {
 		
 		keepPara("communityId");
 		render("/community/createPost.html");
-	}
-	
-	/**
-	 * admin管理--跳转发表/修改主题
-	 */
-	@Before(LoginInterceptor.class)
-	public void skipUpdate() {
-		Post post = null;
-		String postId = getPara("postId");
-		if(StrKit.notBlank(postId)){
-			post = Post.dao.findById(postId);
-		}else{
-			post = getModel(Post.class);
-		}
-		setAttr("post", post);
-		
-		List<Community> communityList = Community.dao.findSonList();
-		setAttr("communityList", communityList);
-		render("/admin/admin_updatePost.html");
-	}
-	
-	/**
-	 * admin管理--发表/修改主题
-	 */
-	@Before(LoginInterceptor.class)
-	public void update() {
-		Post post = getModel(Post.class);
-		Object postId = post.get("postid");
-		if (postId == null) {
-			Object userId = getUserId();
-			HttpServletRequest request = getRequest();
-			String remoteIp = request.getRemoteAddr();
-
-			post.set("userid", userId);
-			post.set("userip", remoteIp);
-			post.save();
-		} else {
-			post.update();
-		}
-		
-		goToManager();
-	}
-	
-	/**
-	 * admin管理--跳转指定页面
-	 */
-	public void findByAdminPage(){
-		findPageAll();
-		render("/admin/admin_detailPost.html");
 	}
 	
 	/**
