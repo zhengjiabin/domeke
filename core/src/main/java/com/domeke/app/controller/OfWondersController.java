@@ -156,6 +156,80 @@ public class OfWondersController extends FilesLoadController {
 	}
 	
 	/**
+	 * admin管理--入口
+	 * 请求 ./ofWonders/goToManger
+	 */
+	public void goToManager() {
+		findPageAll();
+		render("/admin/admin_ofWonders.html");
+	}
+	
+	/**
+	 * admin管理--删除指定主题
+	 * 请求 ./ofWonders/deleteById?ofWondersId=${ofWondersId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void deleteById() {
+		String ofWondersId = getPara("ofWondersId");
+		OfWonders.dao.deleteById(ofWondersId);
+		
+		Comment.dao.deleteByTheme(ofWondersId, IDTYPE);
+		findPageAll();
+		render("/admin/admin_ofWondersPage.html");
+	}
+	
+	/**
+	 * admin管理--跳转发表/修改主题
+	 * 请求 ./ofWonders/skipUpdate?ofWondersId=${ofWondersId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipUpdate() {
+		OfWonders ofWonders = null;
+		String ofWondersId = getPara("ofWondersId");
+		if(StrKit.notBlank(ofWondersId)){
+			ofWonders = OfWonders.dao.findById(ofWondersId);
+		}else{
+			ofWonders = getModel(OfWonders.class);
+		}
+		setAttr("ofWonders", ofWonders);
+		
+		List<WondersType> WondersTypeDetailList = WondersType.dao.findSonList();
+		setAttr("WondersTypeDetailList", WondersTypeDetailList);
+		render("/admin/admin_ofWondersUpdate.html");
+	}
+	
+	/**
+	 * admin管理--发表/修改主题
+	 * 请求 ./ofWonders/update?ofWondersId=${ofWondersId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void update() {
+		OfWonders ofWonders = getModel(OfWonders.class);
+		Object ofWondersId = ofWonders.get("ofwondersid");
+		if (ofWondersId == null) {
+			Object userId = getUserId();
+			HttpServletRequest request = getRequest();
+			String remoteIp = request.getRemoteAddr();
+
+			ofWonders.set("userid", userId);
+			ofWonders.set("userip", remoteIp);
+			ofWonders.save();
+		} else {
+			ofWonders.update();
+		}
+		goToManager();
+	}
+	
+	/**
+	 * admin管理--跳转指定页面
+	 * 请求  ./ofWonders/skipUpdate?ofWondersId=${ofWondersId!}
+	 */
+	public void findByAdminPage(){
+		findPageAll();
+		render("/admin/admin_ofWondersPage.html");
+	}
+	
+	/**
 	 * 设置父版块
 	 */
 	private void setWondersTypeFatList(){
@@ -306,19 +380,6 @@ public class OfWondersController extends FilesLoadController {
 	}
 
 	/**
-	 * admin管理--删除指定帖子
-	 */
-	@Before(LoginInterceptor.class)
-	public void deleteById() {
-		String ofWondersId = getPara("ofWondersId");
-		OfWonders.dao.deleteById(ofWondersId);
-		
-		Comment.dao.deleteByTheme(ofWondersId, IDTYPE);
-		findPageAll();
-		render("/admin/admin_detailofWonders.html");
-	}
-
-	/**
 	 * 跳转主题申请
 	 */
 	@Before(LoginInterceptor.class)
@@ -336,54 +397,6 @@ public class OfWondersController extends FilesLoadController {
 	}
 	
 	/**
-	 * admin管理--跳转发表/修改主题
-	 */
-	@Before(LoginInterceptor.class)
-	public void skipUpdate() {
-		OfWonders ofWonders = null;
-		String ofWondersId = getPara("ofWondersId");
-		if(StrKit.notBlank(ofWondersId)){
-			ofWonders = OfWonders.dao.findById(ofWondersId);
-		}else{
-			ofWonders = getModel(OfWonders.class);
-		}
-		setAttr("ofWonders", ofWonders);
-		
-		List<OfWonders> ofWondersList = null;
-		setAttr("ofWondersList", ofWondersList);
-		render("/admin/admin_updateofWonders.html");
-	}
-	
-	/**
-	 * admin管理--发表/修改主题
-	 */
-	@Before(LoginInterceptor.class)
-	public void update() {
-		OfWonders ofWonders = getModel(OfWonders.class);
-		Object ofWondersId = ofWonders.get("ofWondersid");
-		if (ofWondersId == null) {
-			Object userId = getUserId();
-			HttpServletRequest request = getRequest();
-			String remoteIp = request.getRemoteAddr();
-
-			ofWonders.set("userid", userId);
-			ofWonders.set("userip", remoteIp);
-			ofWonders.save();
-		} else {
-			ofWonders.update();
-		}
-		
-	}
-	
-	/**
-	 * admin管理--跳转指定页面
-	 */
-	public void findByAdminPage(){
-		findPageAll();
-		render("/admin/admin_detailofWonders.html");
-	}
-	
-	/**
 	 * 获取用户Id
 	 * @return
 	 */
@@ -393,17 +406,6 @@ public class OfWondersController extends FilesLoadController {
 			return null;
 		}
 		return user.get("userid");
-	}
-
-	/**
-	 * 删除回复信息
-	 */
-	@Before(LoginInterceptor.class)
-	public void deleteComment() {
-		Object commentId = getPara("commentId");
-		Comment.dao.deleteReplyAll(commentId);
-
-		findById();
 	}
 	
 	/**

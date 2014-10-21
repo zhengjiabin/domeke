@@ -24,9 +24,9 @@ public class OfWonders extends Model<OfWonders> {
 	 * @return
 	 */
 	public Page<OfWonders> findPageAll(int pageNumber, int pageSize) {
-		String select = "select p.*,u.username,u.imgurl";
-		StringBuffer sqlExceptSelect = new StringBuffer("from ofWondersid p,user u where p.userid=u.userid ");
-		sqlExceptSelect.append("  order by to_days(createtime) desc,top desc,essence desc ");
+		String select = "select o.*,u.username,u.imgurl";
+		StringBuffer sqlExceptSelect = new StringBuffer("from of_wonders o,user u where o.userid=u.userid ");
+		sqlExceptSelect.append("  order by to_days(o.createtime) desc,o.top desc,o.essence desc ");
 		Page<OfWonders> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
 		return page;
 	}
