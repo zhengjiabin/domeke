@@ -16,7 +16,7 @@
 			</div>
 			<div class="block-content collapse in">
 				<div class="span12">
-      <form class="form-signin" action="goods/saveGoods" method="post" align="center" enctype="multipart/form-data">
+      <form class="form-signin" action="goods/saveGoods" id="createHtml" method="post" align="center" enctype="multipart/form-data">
         	
         	<span>商品类型：</span><input id="goods" name="goods.goods" value="${goods.goods!}" type="text" class="span6 m-wrap"/>
         	<span class='font_r' style="color: red"> *</span><br>
@@ -26,7 +26,8 @@
         	<span class='font_r' style="color: red"> *</span><br>
         	豆豆价格：<input id="price" name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
         	历史价格：<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
-        	商品主图：<input id="fileImage" type="file" size="30" name="pic" /><span class='font_r' style="color: red"> *</span><br>
+        	<div id="preview"></div>
+        	商品主图：<input id="fileImage" type="file" size="30" name="pic" onchange="onUploadImgChange(this)" required="required" /><span class='font_r' style="color: red"> *</span><br>
         	商品描述：<input id="message" name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
         	淘宝地址：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
@@ -35,8 +36,8 @@
         	商品状态：<input id="status" name="goods.status" value="${goods.status!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>  
         	<label class="control-label">商品子图</label>
-        	<input id="fileImage" type="file" size="30" name="headimg" multiple /><br>
-
+        	<div id="previews"></div>
+        	<input id="fileImage" type="file" size="30" name="headimg" onchange="onUploadImgChanges(this)" required="required" multiple /><br>
         	
         <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>
       </form>
