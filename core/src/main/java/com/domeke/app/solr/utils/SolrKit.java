@@ -97,7 +97,11 @@ public class SolrKit {
 		query.setHighlightSimplePost("</font>");// 后缀
 		query.setHighlightSnippets(2);// 结果分片数，默认为1
 		query.setHighlightFragsize(1000);// 每个分片的最大长度，默认为100
-		query.setStart(page.getPageNumber());
+		if (page.getPageNumber() - 1 <= 0) {
+			query.setStart(0);
+		} else {
+			query.setStart(page.getPageNumber() - 1);
+		}
 		query.setRows(page.getPageSize());
 		return query;
 	}
