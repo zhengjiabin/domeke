@@ -64,7 +64,7 @@ public class SolrKit {
 		} else {
 			totalPageSize = numFound / page.getPageSize();
 		}
-		page = new Page(voList, page.getPageNumber(), page.getPageSize(), numFound, totalPageSize);
+		page = new Page(voList, page.getPageNumber(), page.getPageSize(), totalPageSize, numFound);
 		return page;
 	}
 
