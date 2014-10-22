@@ -1,10 +1,7 @@
 package com.domeke.app.controller;
 
-import java.util.List;
-
 import org.apache.solr.client.solrj.SolrServerException;
 
-import com.domeke.app.model.vo.BaseVO;
 import com.domeke.app.model.vo.WorksVO;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.solr.utils.SolrKit;
@@ -29,7 +26,7 @@ public class SearchController extends Controller {
 		WorksVO worksVO = new WorksVO();
 		try {
 			String[] tags = new String[] { "worksname", "desc", "cover" };
-			List<BaseVO> worksVOList = SolrKit.query(tags, queryKey, worksVO, page);
+			Page worksVOList = SolrKit.query(tags, queryKey, worksVO, page);
 			setAttr("worksVOList", worksVOList);
 			render("/searchSite.html");
 		} catch (SolrServerException e) {
