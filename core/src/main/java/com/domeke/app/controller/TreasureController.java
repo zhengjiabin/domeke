@@ -179,22 +179,6 @@ public class TreasureController extends Controller {
 		setAttr("treasurePage", treasurePage);
 		render("/admin/admin_detailtreasure.html");
 	}
-
-	/**
-	 * 查询当前用户所有宝贝信息
-	 * 
-	 * @return 宝贝信息
-	 */
-	public void findByUserId() {
-		Object userId = getUserId();
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-
-		Treasure treasure = getModel(Treasure.class);
-		Page<Treasure> page = treasure.findByUserId(userId, pageNumber, pageSize);
-		setAttr("page", page);
-		render("/community/myTreasure.html");
-	}
 	
 	/**
 	 * 置顶功能
@@ -286,28 +270,6 @@ public class TreasureController extends Controller {
 	private void setTreasure(Object treasureId){
 		Treasure treasure = Treasure.dao.findById(treasureId);
 		setAttr("treasure", treasure);
-	}
-
-	/**
-	 * 查询修改的宝贝信息
-	 * 
-	 * @return 宝贝信息
-	 */
-	public void modifyById() {
-		String treasureId = getPara("treasureId");
-		Treasure treasure = Treasure.dao.findById(treasureId);
-		setAttr("treasure", treasure);
-		render("/community/modifyTreasure.html");
-	}
-
-	/**
-	 * 修改宝贝信息
-	 */
-	public void modify() {
-		Treasure treasure = getModel(Treasure.class);
-		treasure.update();
-
-		findByUserId();
 	}
 
 	/**

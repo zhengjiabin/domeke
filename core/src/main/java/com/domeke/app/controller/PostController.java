@@ -170,22 +170,6 @@ public class PostController extends Controller {
 		setAttr("postPage", postPage);
 		render("/admin/admin_postPage.html");
 	}
-
-	/**
-	 * 查询发帖人所有帖子信息
-	 * 
-	 * @return 帖子信息
-	 */
-	public void findByUserId() {
-		Object userId = getUserId();
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-
-		Post post = getModel(Post.class);
-		Page<Post> page = post.findByUserId(userId, pageNumber, pageSize);
-		setAttr("page", page);
-		render("/community/myPost.html");
-	}
 	
 	/**
 	 * 置顶功能
@@ -276,29 +260,6 @@ public class PostController extends Controller {
 	private void setPost(Object postId){
 		Post post = Post.dao.findById(postId);
 		setAttr("post", post);
-	}
-
-	/**
-	 * 查询修改的帖子信息
-	 * 
-	 * @return 帖子信息
-	 */
-	public void modifyById() {
-		String postId = getPara("postId");
-		Post post = Post.dao.findById(postId);
-		setAttr("post", post);
-		render("/community/modifyPost.html");
-	}
-
-	/**
-	 * 修改帖子信息
-	 */
-	@Before(LoginInterceptor.class)
-	public void modify() {
-		Post post = getModel(Post.class);
-		post.update();
-
-		findByUserId();
 	}
 
 	/**
