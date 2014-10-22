@@ -1,15 +1,7 @@
 <% layout("/common/layout.html"){ %>
 <section class="List" id="page">
-    <div class="CartoonContent">
-    	<% 
-    		for (worksvo in worksVOList){ 
-    	%>
-        <div class="CartoonSub"> 
-            <a href="cartoon/showDetail?id=${worksvo.id!}"><img src="${worksvo.cover!}"></a>
-            <div class="CartoonName">${worksvo.worksname!}</div>
-        </div>
-        <% } %>
-     </div> 
-	<!-- 分页 -->
+    <% if(worksVOPage != null){
+		layout("/searchPage.html", {"worksVOPage":worksVOPage} ){} 
+	}%>
 </section>
 <% } %> 

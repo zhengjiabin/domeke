@@ -27,4 +27,8 @@ INSERT INTO `menu` VALUES (49, NULL, '跳蚤市场', '#', '1', 800000000, NULL, 
 INSERT INTO `menu` VALUES (50, NULL, '修改密码', 'personal/forMyProduction?menuId=4', '2', 200010080, 8, NULL, NULL, NULL, NULL, '2');
 INSERT INTO `menu` VALUES (51, NULL, '站内留言', 'um/forLeaveMsg?menuId=5', '2', 200010005, 8, NULL, NULL, NULL, NULL, '2');
 INSERT INTO `menu` VALUES (52, NULL, '首页', '#', '1', 100000000, NULL, '2014-9-21 09:37:21', NULL, '2014-9-21 09:37:21', NULL, '3');
-INSERT INTO `menu` VALUES (53,NULL,'资料修改','personal/forMyProduction?menuId=12','2',200010075,8,NULL,NULL,NULL,NULL,'2')
+INSERT INTO `menu` VALUES (53,NULL,'资料修改','personal/forMyProduction?menuId=12','2',200010075,8,NULL,NULL,NULL,NULL,'2');
+INSERT INTO `menu` VALUES (54,NULL,'发布的活动','personal/forMyProduction?menuId=15','2',200010041,8,NULL,NULL,NULL,NULL,'2');
+INSERT INTO `menu` VALUES (55,NULL,'发布的帖子','personal/forMyProduction?menuId=16','2',200010042,8,NULL,NULL,NULL,NULL,'2');
+INSERT INTO `menu` VALUES (56,NULL,'发布的宝贝','personal/forMyProduction?menuId=17','2',200010043,8,NULL,NULL,NULL,NULL,'2');
+INSERT INTO `menu` VALUES (57,NULL,'我的无奇不有','personal/forMyProduction?menuId=18','2',200010070,8,NULL,NULL,NULL,NULL,'2');

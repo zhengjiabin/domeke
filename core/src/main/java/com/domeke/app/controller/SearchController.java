@@ -21,14 +21,34 @@ public class SearchController extends Controller {
 	 * 站内搜索功能
 	 */
 	public void search() {
-		Page page = new Page(null, 0, 0, 0, 0);
+		setPage();
+		render("/searchSite.html");
+	}
+	
+	/**
+	 * 分页跳转
+	 * 请求 ./search/searchPage?queryKey=${queryKey!}&pageNumber={pageNumber!}&pageSize={pageSize!}
+	 */
+	public void searchPage(){
+		setPage();
+		render("/searchPage.html");
+	}
+	
+	/**
+	 * 设置分页
+	 */
+	@SuppressWarnings("unchecked")
+	private void setPage(){
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 30);
+		Page<WorksVO> page = new Page<WorksVO>(null, pageNumber, pageSize, 0, 0);
 		String queryKey = getPara("queryKey");
 		WorksVO worksVO = new WorksVO();
 		try {
 			String[] tags = new String[] { "worksname", "desc", "cover" };
-			Page worksVOList = SolrKit.query(tags, queryKey, worksVO, page);
-			setAttr("worksVOList", worksVOList);
-			render("/searchSite.html");
+			Page<WorksVO> worksVOPage = SolrKit.query(tags, queryKey, worksVO, page);
+			setAttr("worksVOPage", worksVOPage);
+			keepPara("queryKey");
 		} catch (SolrServerException e) {
 			e.printStackTrace();
 		}
