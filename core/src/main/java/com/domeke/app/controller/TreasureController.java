@@ -61,7 +61,6 @@ public class TreasureController extends Controller {
 		render("/community/treasure.html");
 	}
 	
-	
 	/**
 	 * 版块入口
 	 * 请求 ./treasure/home
@@ -72,6 +71,90 @@ public class TreasureController extends Controller {
 		setAttr("communitySonList", communitySonList);
 		setPublishNumber(null);
 		render("/community/treasureAll.html");
+	}
+
+	/**
+	 * admin管理--入口
+	 * 请求 ./treasure/goToManager
+	 */
+	public void goToManager() {
+		findPageAll();
+		render("/admin/admin_treasure.html");
+	}
+	
+	/**
+	 * admin管理--分页跳转
+	 * 请求 ./treasure/findByAdminPage
+	 */
+	public void findByAdminPage(){
+		findPageAll();
+		render("/admin/admin_treasurePage.html");
+	}
+	
+	/**
+	 * admin管理--删除指定主题
+	 * 请求 ./treasure/deleteById?treasureId=${treasureId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void deleteById() {
+		String treasureId = getPara("treasureId");
+		Treasure.dao.deleteById(treasureId);
+		
+		Comment.dao.deleteByTheme(treasureId, IDTYPE);
+		findPageAll();
+		render("/admin/admin_treasurePage.html");
+	}
+	
+	/**
+	 * admin管理--跳转发表/修改主题
+	 * 请求 ./treasure/skipUpdate?treasureId=${treasureId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipUpdate() {
+		Treasure treasure = null;
+		String treasureId = getPara("treasureId");
+		if(StrKit.notBlank(treasureId)){
+			treasure = Treasure.dao.findById(treasureId);
+		}else{
+			treasure = getModel(Treasure.class);
+		}
+		setAttr("treasure", treasure);
+		
+		List<Community> communityList = Community.dao.findSonList();
+		setAttr("communityList", communityList);
+		render("/admin/admin_treasureUpdate.html");
+	}
+	
+	/**
+	 * admin管理--发表/修改主题
+	 * 请求 ./treasure/update
+	 */
+	@Before(LoginInterceptor.class)
+	public void update() {
+		Treasure treasure = getModel(Treasure.class);
+		Object treasureId = treasure.get("treasureid");
+		if (treasureId == null) {
+			Object userId = getUserId();
+			HttpServletRequest request = getRequest();
+			String remoteIp = request.getRemoteAddr();
+
+			treasure.set("userid", userId);
+			treasure.set("userip", remoteIp);
+			treasure.save();
+		} else {
+			treasure.update();
+		}
+		goToManager();
+	}
+	
+	/**
+	 * admin管理--分页查询论坛(不区分显示隐藏状态)
+	 */
+	private void findPageAll() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Treasure> treasurePage = Treasure.dao.findPageAll(pageNumber, pageSize);
+		setAttr("treasurePage", treasurePage);
 	}
 
 	/**
@@ -223,16 +306,6 @@ public class TreasureController extends Controller {
 	public void modify() {
 		Treasure treasure = getModel(Treasure.class);
 		treasure.update();
-
-		findByUserId();
-	}
-
-	/**
-	 * 删除指定宝贝
-	 */
-	public void deleteById() {
-		String treasure = getPara("treasureId");
-		Treasure.dao.deleteById(treasure);
 
 		findByUserId();
 	}

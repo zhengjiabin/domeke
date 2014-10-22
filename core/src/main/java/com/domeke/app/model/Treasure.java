@@ -15,6 +15,23 @@ public class Treasure extends Model<Treasure> {
 	private static final long serialVersionUID = 1L;
 
 	public static Treasure dao = new Treasure();
+	
+	/**
+	 * 分页查询论坛，不区分状态
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Treasure> findPageAll(int pageNumber, int pageSize) {
+		String select = "select t.*,u.username,u.imgurl";
+		StringBuffer sqlExceptSelect = new StringBuffer("from treasure t,user u where t.userid=u.userid ");
+		sqlExceptSelect.append("  order by to_days(t.createtime) desc,t.top desc,t.essence desc ");
+		Page<Treasure> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
+		return page;
+	}
 
 
 	/**
