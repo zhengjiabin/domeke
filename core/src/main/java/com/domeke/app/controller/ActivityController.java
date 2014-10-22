@@ -6,8 +6,8 @@ import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Activity;
 import com.domeke.app.model.ActivityApply;
 import com.domeke.app.model.CodeTable;
+import com.domeke.app.model.Comment;
 import com.domeke.app.model.Community;
-import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
@@ -72,25 +72,18 @@ public class ActivityController extends Controller {
 	}
 	
 	/**
-	 * admin管理--社区管理入口
+	 * admin管理--入口
+	 * 请求 ./activity/goToManager
 	 */
 	public void goToManager() {
 		findPageAll();
 		render("/admin/admin_activity.html");
 	}
 	
-	/**
-	 * admin管理--分页查询活动(不区分显示隐藏状态)
-	 */
-	private void findPageAll() {
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Page<Activity> activityPage = Activity.dao.findPageAll(pageNumber, pageSize);
-		setAttr("activityPage", activityPage);
-	}
 	
 	/**
 	 * admin管理--跳转发表/修改主题
+	 * 请求 ./activity/skipUpdate?activityId=${activityId!}
 	 */
 	public void skipUpdate() {
 		Activity activity = null;
@@ -102,15 +95,14 @@ public class ActivityController extends Controller {
 		}
 		setAttr("activity", activity);
 		
-		setCodeTableList("gender", "genderList");
-		
 		List<Community> communityList = Community.dao.findSonList();
 		setAttr("communityList", communityList);
-		render("/admin/admin_updateActivity.html");
+		render("/admin/admin_activityUpdate.html");
 	}
 	
 	/**
 	 * admin管理--发表/修改主题
+	 * 请求 ./activity/update
 	 */
 	public void update() {
 		Activity activity = getModel(Activity.class);
@@ -123,16 +115,16 @@ public class ActivityController extends Controller {
 		} else {
 			activity.update();
 		}
-		
 		goToManager();
 	}
 	
 	/**
-	 * admin管理--跳转指定页面
+	 * admin管理--分页跳转
+	 * 请求 ./activity/findByAdminPage
 	 */
 	public void findByAdminPage(){
 		findPageAll();
-		render("/admin/admin_detailActivity.html");
+		render("/admin/admin_activityPage.html");
 	}
 
 	/**
@@ -144,6 +136,16 @@ public class ActivityController extends Controller {
 		setActivityPage(communityId);
 		
 		render("/community/activityPage.html");
+	}
+	
+	/**
+	 * admin管理--分页查询活动(不区分显示隐藏状态)
+	 */
+	private void findPageAll() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Activity> activityPage = Activity.dao.findPageAll(pageNumber, pageSize);
+		setAttr("activityPage", activityPage);
 	}
 
 	/**
@@ -177,6 +179,19 @@ public class ActivityController extends Controller {
 		keepPara("communityId");
 		
 		forwardComment(activityId);
+	}
+	
+	/**
+	 * 删除指定活动
+	 * 请求 ./activity/deleteById?activityId=${activityId!}
+	 */
+	public void deleteById() {
+		String activityId = getPara("activityId");
+		Activity.dao.deleteById(activityId);
+		Comment.dao.deleteByTheme(activityId, IDTYPE);
+		
+		findPageAll();
+		render("/admin/admin_activityPage.html");
 	}
 	
 	/**
@@ -286,16 +301,6 @@ public class ActivityController extends Controller {
 	public void modify() {
 		Activity activity = getModel(Activity.class);
 		activity.update();
-
-		findByUserId();
-	}
-
-	/**
-	 * 删除指定活动
-	 */
-	public void deleteById() {
-		String activityId = getPara("activityID");
-		Post.dao.deleteById(activityId);
 
 		findByUserId();
 	}

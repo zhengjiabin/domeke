@@ -1,26 +1,5 @@
-<link rel="stylesheet" href="css/jquery-ui-1.9.2.custom.css" type="text/css"></link>
-
-<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script> 
-<script type="text/javascript" src="js/jquery-ui.js"></script> 
-<script type="text/javascript" src="js/jquery-ui-timepicker-addon.js"></script> 
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {   
-		$('#starttimefrom').datetimepicker({
-			dateFormat: "yy-mm-dd",
-			timeFormat: 'HH:mm:ss'
-		});
-		$('#starttimeto').datetimepicker({
-			dateFormat: "yy-mm-dd",
-			timeFormat: 'HH:mm:ss'
-		});
-		$('#expiration').datetimepicker({
-			dateFormat: "yy-mm-dd",
-			timeFormat: 'HH:mm:ss'
-		});
-	});
-</script>
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="${core}/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="${core}/My97DatePicker/WdatePicker.js"></script>
 <form id="submitForm" class="form-horizontal" action="./activity/update" method="post" onsubmit="submitForm(this)">
 	<fieldset>
 		<legend>活动管理</legend>
@@ -57,14 +36,14 @@
 		<div class="control-group">
 			<label class="control-label" for="focusedInput">开始时间</label>
 			<div class="controls">
-				<input type="text" name="activity.starttimefrom" value="${activity.starttimefrom!}" id="starttimefrom" readonly="readonly"/>
+				<input type="text" name="activity.starttimefrom" value="${activity.starttimefrom!}" id="starttimefrom" readonly="readonly" onClick="WdatePicker()"/>
 			</div>
 		</div>
 		
 		<div class="control-group">
 			<label class="control-label" for="focusedInput">结束时间</label>
 			<div class="controls">
-				<input type="text" name="activity.starttimeto" value="${activity.starttimeto!}" id="starttimeto" readonly="readonly"/>
+				<input type="text" name="activity.starttimeto" value="${activity.starttimeto!}" id="starttimeto" readonly="readonly" onClick="WdatePicker()"/>
 			</div>
 		</div>
 		
@@ -85,14 +64,19 @@
 		<div class="control-group">
 			<label class="control-label" for="focusedInput">性别要求</label>
 			<div class="controls">
-				 <% if(has(genderList)){ for(codeTable in genderList) { 
-				 		if(activity.gender == codeTable.codekey) {
-				 %>
-					<input type="radio" name="activity.gender" value="${codeTable.codekey!}" checked="checked"/>${codeTable.codevalue!}
-				<% } else { %>
-					<input type="radio" name="activity.gender" value="${codeTable.codekey!}" />${codeTable.codevalue!}
-				<% } } }%>
+				 <% if(activity.gender == 0) { %>
+					<input type="radio" name="activity.gender" value="0" checked="checked"/>男
+					<input type="radio" name="activity.gender" value="1" />女
 					<input type="radio" name="activity.gender" value="2" />无
+				<% 	} else if (activity.gender == 1) { %>
+					<input type="radio" name="activity.gender" value="0" />男
+					<input type="radio" name="activity.gender" value="1" checked="checked"/>女
+					<input type="radio" name="activity.gender" value="2" />无
+				<% 	} else { %>
+					<input type="radio" name="activity.gender" value="0" />男
+					<input type="radio" name="activity.gender" value="1" />女
+					<input type="radio" name="activity.gender" value="2" checked="checked"/>无
+				<% 	} %>
 			</div>
 		</div>
 
@@ -106,7 +90,7 @@
 		<div class="control-group">
 			<label class="control-label" for="focusedInput">报名截止日期</label>
 			<div class="controls">
-				<input type="text" name="activity.expiration" id="expiration" value="${activity.expiration!}" readonly="readonly"/>
+				<input type="text" name="activity.expiration" id="expiration" value="${activity.expiration!}" readonly="readonly" onClick="WdatePicker()"/>
 			</div>
 		</div>
 		
@@ -154,7 +138,7 @@
 			<div class="controls">
 				<textarea name="ckeditor" id="ckeditor">${activity.message!}</textarea>
 				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
-				<input type="text" id="message" name="activity.message" value="${activity.message!}" style="display: none;"/>
+				<input type="text" id="message" name="activity.message" style="display: none;"/>
 			</div>
 		</div>
 
