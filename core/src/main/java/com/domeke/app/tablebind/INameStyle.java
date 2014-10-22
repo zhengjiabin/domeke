@@ -5,3 +5,4 @@ public interface INameStyle {
 	String name(String className);
 
 }
+                                                  
