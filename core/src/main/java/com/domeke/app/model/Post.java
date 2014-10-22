@@ -27,7 +27,7 @@ public class Post extends Model<Post> {
 	public Page<Post> findPageAll(int pageNumber, int pageSize) {
 		String select = "select p.*,u.username,u.imgurl";
 		StringBuffer sqlExceptSelect = new StringBuffer("from post p,user u where p.userid=u.userid ");
-		sqlExceptSelect.append("  order by to_days(createtime) desc,top desc,essence desc ");
+		sqlExceptSelect.append("  order by to_days(p.createtime) desc,p.top desc,p.essence desc ");
 		Page<Post> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
 		return page;
 	}

@@ -1,20 +1,29 @@
- <section>
-	<article>
-        <section class="CartonDtl">
- 
- <div class="ArgumentZoom">
-        <div class="LevelTitle" style="height: 30px;">
-		     <div style="width: 100px;height: 32px;float: left;margin-left: 30px"><a href="personal/forMyProduction?menuId=5"><h3>留言：</h3></a></div>
-		</div>
-          		<div class="ArgumentSub" style="height: 300px;margin-left: 30px">
-          			<form action="um/leaveMsg" class="form-horizontal" method="post">
-	                	用户名：</a><input type="text" name="touser" value="${u.touser!}"><br>
-	                	表&nbsp;&nbsp;&nbsp;题：</a><input type="text" name="title" value="${u.title!}"><br>
-	                	留&nbsp;&nbsp;&nbsp;言：<textarea name="content" rows="8" value="${u.content!}" cols="40"></textarea><br>
-	                	<input type="submit" value="提交留言"/>
-                	</form>
-                </div>
-    	</div>
- </section>
- </article>
- </section>
+   <article class="MeArticle">
+        <div class="MemberIndex">
+          <div class="MeCaption">消息回复：</div>
+          <div class="MeBlock">
+          <form action="um/leaveMsg" class="form-horizontal" method="post">
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
+              <tr>
+                <th>用户名：</th>
+                <td><input name="touser" value="${u.touser!}" type="text" class="input_Member"></td>
+              </tr>
+           	  <tr>
+                <th>标题：</th>
+                <td><input name="title" value="${u.title!}"  type="text" class="input_Member"></td>
+              </tr>
+              <tr>
+                <th>回复：</th>
+                <td><textarea name="content" rows="8" value="${u.content!}" cols="40"></textarea> </td>
+              </tr>
+              <tr>
+                <th></th>
+                <td><input name="" type="submit" class="Button" value="提交回复"></td>
+              </tr>
+            </table>
+			</form>
+          </div>
+        </div>
+        
+    </article>
+    <div class="clear"></div>

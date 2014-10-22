@@ -28,6 +28,16 @@ function skipUpdateActivity(node,activityId) {
 	});
 }
 
+//跳转更新宝贝页面
+function skipUpdateTreasure(node,treasureId) {	
+	$.post("./treasure/skipUpdate", {
+		treasureId : treasureId
+	}, function(data) {
+		var adminTreasureHtml = $(node).closest("#adminTreasureHtml");
+		adminTreasureHtml.html(data);
+	});
+}
+
 //跳转新建/更新无奇不有主题页面
 function skipUpdateOfWonders(node,ofWondersId){
 	$.post("./ofWonders/skipUpdate", {
@@ -60,6 +70,16 @@ function deletePost(node,postId){
 function deleteActivity(node,activityId){
 	$.post("./activity/deleteById", {
 		activityId : activityId
+	}, function(data) {
+		var page = $(node).closest("#page");
+		page.html(data);
+	});
+}
+
+//删除宝贝主题
+function deleteTreasure(node,treasureId){
+	$.post("./treasure/deleteById", {
+		treasureId : treasureId
 	}, function(data) {
 		var page = $(node).closest("#page");
 		page.html(data);
