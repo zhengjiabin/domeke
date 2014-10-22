@@ -32,6 +32,24 @@ public class Activity extends Model<Activity> {
 		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
 		return page;
 	}
+	
+	/**
+	 * 分页查询指定发起人的活动
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Activity> findByUserId(Object userId, int pageNumber, int pageSize) {
+		String select = "select aty.*,u.username,u.imgurl";
+		StringBuffer sqlExceptSelect = new StringBuffer("from activity aty,user u where aty.userid=u.userid ");
+		sqlExceptSelect.append(" and aty.userid=? and aty.status='10' ");
+		sqlExceptSelect.append(" order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc ");
+		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),userId);
+		return page;
+	}
 
 	/**
 	 * 分页查询活动
@@ -73,23 +91,6 @@ public class Activity extends Model<Activity> {
 		return page;
 	}
 
-	/**
-	 * 分页查询指定发起人的活动
-	 * 
-	 * @param pageNumber
-	 *            页号
-	 * @param pageSize
-	 *            页数
-	 * @return
-	 */
-	public Page<Activity> findByUserId(Object userId, int pageNumber,
-			int pageSize) {
-		Page<Activity> page = this.paginate(pageNumber, pageSize, "select *",
-				"from activity where userid=? order by to_days(createtime) desc,top desc,essence desc",
-				userId);
-		return page;
-	}
-	
 	/**
 	 * 浏览次数+1
 	 */

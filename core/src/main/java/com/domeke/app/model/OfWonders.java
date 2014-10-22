@@ -30,6 +30,24 @@ public class OfWonders extends Model<OfWonders> {
 		Page<OfWonders> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
 		return page;
 	}
+	
+	/**
+	 * 分页查询指定发帖人的帖子
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<OfWonders> findByUserId(Object userId, int pageNumber, int pageSize) {
+		String select = "select o.*,u.username,u.imgurl";
+		StringBuffer sqlExceptSelect = new StringBuffer("from of_wonders o,user u where o.userid=u.userid ");
+		sqlExceptSelect.append(" and o.userid=? and o.status='10' ");
+		sqlExceptSelect.append(" order by to_days(o.createtime) desc,o.top desc,o.essence desc ");
+		Page<OfWonders> page = this.paginate(pageNumber, pageSize, select, sqlExceptSelect.toString(), userId);
+		return page;
+	}
 
 	/**
 	 * 分页查询帖子
@@ -63,22 +81,6 @@ public class OfWonders extends Model<OfWonders> {
 		sqlExceptSelect.append(" on p.ofwondersid=c.targetid where u.userid=p.userid and p.status='10' and p.wonderstypeid=? ");
 		sqlExceptSelect.append(" order by to_days(p.createtime) desc,p.top desc,p.essence desc");
 		Page<OfWonders> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),wondersTypeId);
-		return page;
-	}
-
-	/**
-	 * 分页查询指定发帖人的帖子
-	 * 
-	 * @param pageNumber
-	 *            页号
-	 * @param pageSize
-	 *            页数
-	 * @return
-	 */
-	public Page<OfWonders> findByUserId(Object userId, int pageNumber, int pageSize) {
-		String select = "select *";
-		String sqlExceptSelect = "from of_wonders where userid=? order by to_days(createtime) desc,top desc,essence desc";
-		Page<OfWonders> page = this.paginate(pageNumber, pageSize, select, sqlExceptSelect, userId);
 		return page;
 	}
 

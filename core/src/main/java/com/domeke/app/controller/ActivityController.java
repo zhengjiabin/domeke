@@ -149,23 +149,6 @@ public class ActivityController extends Controller {
 	}
 
 	/**
-	 * 查询发起人所有活动信息
-	 * 
-	 * @return 活动信息
-	 */
-	public void findByUserId() {
-		Object userId = getUserId();
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-
-		Activity activity = getModel(Activity.class);
-		Page<Activity> page = activity.findByUserId(userId, pageNumber,
-				pageSize);
-		setAttr("page", page);
-		render("/community/myActivity.html");
-	}
-
-	/**
 	 * 查询指定活动信息
 	 * 请求 activity/findById?communityId=${communityId!}&targetId=${targetId!}&idtype=${idtype!}
 	 */
@@ -293,16 +276,6 @@ public class ActivityController extends Controller {
 		Activity activity = Activity.dao.findById(activityId);
 		setAttr("activity", activity);
 		render("/community/modifyActivity.html");
-	}
-
-	/**
-	 * 修改活动信息
-	 */
-	public void modify() {
-		Activity activity = getModel(Activity.class);
-		activity.update();
-
-		findByUserId();
 	}
 	
 	/**

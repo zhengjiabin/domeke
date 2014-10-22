@@ -51,5 +51,14 @@
 	<% if(menuId! == '12') {%>
 		<% include("/updateUserMsg.html"){} %>
 	<% } %>
+	<% if(menuId! == '15') {%>
+		<% include("/personal/personal_activity.html"){} %>
+	<% } else if (menuId! == '16') { %>
+		<% include("/personal/personal_post.html"){} %>
+	<% } else if (menuId! == '17') { %>	
+		<% include("/personal/personal_treasure.html"){} %>
+	<% } else if (menuId! == '18') { %>	
+		<% include("/personal/personal_ofWonders.html"){} %>
+	<% } %>		
 </div>
 <% } %> 
