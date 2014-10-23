@@ -15,6 +15,25 @@ Date: 2014-09-09 22:07:29
 
 SET FOREIGN_KEY_CHECKS=0;
 
+
+DROP TABLE IF EXISTS `menu`;
+
+CREATE TABLE `menu` (
+  `menuid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `mid` int(11) DEFAULT NULL,
+  `menuname` varchar(64) DEFAULT NULL,
+  `actionkey` varchar(256) DEFAULT NULL,
+  `top` char(2) DEFAULT NULL,
+  `sortnum` int(11) DEFAULT NULL,
+  `parentmenuid` bigint(20) DEFAULT NULL,
+  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `creater` varchar(32) DEFAULT NULL,
+  `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `modifier` varchar(32) DEFAULT NULL,
+  `menutype` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`menuid`)
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
+
 -- ----------------------------
 -- Table structure for wonders_type
 -- ----------------------------
