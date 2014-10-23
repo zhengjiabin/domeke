@@ -35,26 +35,6 @@ CREATE TABLE `menu` (
 ) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for wonders_type
--- ----------------------------
-DROP TABLE IF EXISTS `wonders_type`;
-CREATE TABLE `wonders_type` (
-  `wonderstypeid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `title`  varchar(64) NOT NULL,
-  `content`  varchar(255) DEFAULT NULL,
-  `pid` bigint(20) DEFAULT '0',
-  `level` int(11) NOT NULL DEFAULT '1',
-  `position` int(11) DEFAULT '0',
-  `times` bigint(20) DEFAULT '0',
-  `status` varchar(4) DEFAULT '10',
-  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`wonderstypeid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
 -- Table structure for of_wonders
 -- ----------------------------
 DROP TABLE IF EXISTS `of_wonders`;
