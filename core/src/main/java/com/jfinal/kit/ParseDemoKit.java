@@ -53,7 +53,7 @@ public class ParseDemoKit {
 				map.put("creater", works.get("createtime"));
 				map.put("creatername", works.get("creatername"));
 				map.put("createtime", works.get("createtime"));
-				
+				map.put("maxnum", works.get("maxnum"));
 				map.put("modifier", works.get("modifier"));
 				map.put("modifiername", works.get("modifiername"));
 				map.put("updatetime", works.get("updatetime"));

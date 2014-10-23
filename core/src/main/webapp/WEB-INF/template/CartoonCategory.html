@@ -1,16 +1,20 @@
 <% layout("/cartoon/cartoon_layout.html"){	%>
 <script type="text/javascript">
 	$(document).ready(function(){
+		var max = $('.SortZoom a').length;
+		var i = 0;
 		$.extend({
 			loopplay:function(){
 				$('.SortZoom a').removeClass('select');
 				$curs = $('.SortZoom a:eq('+i+')').addClass('select');
 				var src = $('img',$curs).attr('src');
+				var play = $curs.attr('play');
+				$('.SortAD a.icon').attr('href',play);
 				var name = $($curs).attr('wname');
-				$('.SortAD img').attr('src',src);
+				$('.SortAD img[flag=update]').attr('src',src);
 				$('.SortAD .SortADFootbar span').html(name);
 				i++;
-				if(i > 8){
+				if(i > max){
 					i=0;
 				}
 			},
@@ -26,8 +30,10 @@
 			//停止定时器
 			window.clearInterval(timer);
 			var src = $('img',this).attr('src');
+			var play = $(this).attr('play');
 			var name = $(this).attr('wname');
 			$('.SortAD img[flag=update]').attr('src',src);
+			$('.SortAD a.icon').attr('href',play);
 			$('.SortAD .SortADFootbar span').html(name);
 		});
 		//鼠标移出事件
@@ -44,72 +50,56 @@
 		
 	});
 </script>
-<%
-for(wtypeCT in wtypeCTList){
-	var workstype = wtypeCT.codekey;
-	if("00"==workstype){
-%>
+<%if(workss0.~size > 0){%>
 <section class="WhiteBg">
 	<div class="SortAD">
 		<img flag="update" src="${allWorksMap[workstype][0].cover!}">
 		<div class="SortADFootbar">
-			<a href="#" class="icon"><img id="icon" src="images/icon_play.png"></a>
-			<span>${allWorksMap[workstype][0].worksname!}</span>
+			<a href="${workss0[0].playUrl!}" class="icon"><img id="icon" src="images/icon_play.png"></a>
+			<span>${workss0[0].worksname!}</span>
 		</div>
 	</div>
 	<div class="SortZoom">
 		<!-- 循环8个 -->
-		<% 
-		var index = 0;
-		for(works in allWorksMap[workstype]){ 
-			index = index + 1;
-			if(index <= 8){
-		%> 
-			<a href="cartoon/showDetail?id=${works.worksid!}" wname="${works.worksname!}"><img src="${works.cover!}"></a> 
-		<% }
-		} %>
+		<% for(works in workss0){
+			if(worksLP.index <= 8){%>
+			<a href="cartoon/showDetail?id=${works.worksid!}" wname="${works.worksname!}" play="${works.playUrl!}"><img src="${works.cover!}"></a> 
+			<%}%>
+		<% }%>
 	</div>
 </section>
 <div class="clear"></div>
+<%}%>
 
-<%	
-	}else if("10"==workstype && allWorksMap[workstype].~size >0 ){	
-%>
-
+<%if(workss1.~size > 0){%>
 <section>
-	<div class="CartoonTitleC">${wtypeCT.codevalue!}<a href="cartoon/showWorksList?wtype=${workstype!}">更多 &gt;&gt;</a></div>
+	<div class="CartoonTitleC">${workstype[workss1[0].workstype!]!}<a href="${workss1[0].typeUrl!}">更多&gt;&gt;</a></div>
     <div class="CartoonContent">
    	  <div class="HILeft">
    	  		<!-- 循环5个 -->
-        	<%	
-        	var index = 0;
-   	  		for(works in allWorksMap[workstype]){
-				index = index +1 ; 
-   	  			if(index <= 5){
-   	  		%>
+        	<%for(works in workss1){
+        	if(worksLP.index <= 5){%>
         	<div class="HISub">
         		<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
         		<a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
         	</div>
-        	<% }
-        	} %>
+        	<%}%>
+        	<%}%>
         </div>
         <div class="HIRight">
         	<div class="CartoonTitleC">大家爱看</div>
             <!-- 循环4个 -->
             <ul>
             <%
-            var index = 0;
-            for(works in olikeWorksList){
-            	index = index + 1;
-            	if(index <= 4){
+            	for(works in olikeWorksList){
+            	if(worksLP.index < 5){
             %>
             	<li>
-            		<span>${index!}</span>
+            		<span>${worksLP.index!}</span>
             			<a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
             	</li>
-            <%	
-            	}else if(index == 5){	
+            <%
+            	}else if(worksLP.index == 5){
             %>
             </ul>
             <div class="HIRightAD">
@@ -117,116 +107,87 @@ for(wtypeCT in wtypeCTList){
             	<a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
             </div>	
             <% }
-             } %>
+             }%>
         </div>
         <div class="clear"></div>
     </div>
 </section>
+<%}%>
 
-<%	
-	}else if("20"==workstype && allWorksMap[workstype].~size >0 ){	
-%>
-
-<!-- TODO 滚动条的现实 -->
+<%if(workss2.~size > 0){%>
+<!-- 循环6个 -->
 <section>
-	<div class="CartoonTitleC">${wtypeCT.codevalue!}<a href="cartoon/showWorksList?wtype=${workstype!}">更多 &gt;&gt;</a></div>
-    <div class="CartoonContent"><img src="http://www.dongmark.com/images/roll.png" width="1200" height="227"></div>
-</section>
-
-<%	
-	}else if("30"==workstype && allWorksMap[workstype].~size >0 ){	
-%>
-
-<section>
-	<div class="CartoonTitleC">${wtypeCT.codevalue!}<a href="cartoon/showWorksList?wtype=${workstype!}">更多 &gt;&gt;</a></div>
+	<div class="CartoonTitleC">${workstype[workss2[0].workstype!]!}<a href="${workss2[0].typeUrl!}">更多 &gt;&gt;</a></div>
     <div class="CartoonContent WhiteBg Guess">
-    <!-- 循环8个 -->
-    <%
-    var index = 0 ;
-    for(works in allWorksMap[workstype]){
-    	index = index + 1;
-    	if(index <= 8 ){
+    <% for(works in workss2){ 
+    	if(worksLP.index <= 6){
     %>
     	<div class="CartoonSub">
         	<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
             <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
         </div>
-    <% }
-    } %>
+        <%}%>
+	<%}%>
     </div>
 </section>
+<%}%>
 
-<%	
-	}else if("40"==workstype && allWorksMap[workstype].~size >0 ){	
-%>
-
+<%if(workss3.~size > 0){%>
 <section>
-	<div class="CartoonTitleC">${wtypeCT.codevalue!}<a href="cartoon/showWorksList?wtype=${workstype!}">更多 &gt;&gt;</a></div>
+	<div class="CartoonTitleC">${workstype[workss3[0].workstype!]!}<a href="${workss3[0].typeUrl!}">更多 &gt;&gt;</a></div>
+    <div class="CartoonContent WhiteBg Guess">
+    	<%for(works in workss3){
+    		if(worksLP.index <= 12){
+    	%>
+    	<div class="CartoonSub">
+        	<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"></a><br>
+            <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+        </div>
+        <%}%>
+        <%}%>
+    </div>
+</section>
+<%}%>
+
+<%if(workss4.~size > 0){%>
+<section>
+	<div class="CartoonTitleC">${workstype[workss4[0].workstype!]!}<a href="${workss4[0].typeUrl!}">更多 &gt;&gt;</a></div>
     <div class="CartoonContent WhiteBg">
-    <%
-    var index = 0 ;
-    for(works in allWorksMap[workstype]){
-    	index = index + 1;
-    	if(index == 1 ){
-    %>
-    	<div class="Sort2">
-        	<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
-        	<a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+	    	<div class="Sort2">
+	        	<a href="cartoon/showDetail?id=${workss4[0].worksid!}"><img src="${workss4[0].cover!}"></a><br>
+	        	<a href="cartoon/showDetail?id=${workss4[0].worksid!}">${workss4[0].worksname!}</a>
+	        </div>
+        <div class="Sort3960 Guess">
+        	<%for(works in workss4){
+	       		if(worksLP.index > 1 && worksLP.index <= 9){%>
+		        	<div class="CartoonSub">
+		                <a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br>
+		                <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+		            </div>
+           		<%}%>
+           	<%}%>
         </div>
-        <div class="Sort3 Guess">
-        	<!-- 循环6个 -->
-	<%
-		}else if(index <= 7){
-	%>
-        	<div class="CartoonSub">
-                <a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
-                <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
-            </div>
-	<%
-		}else if(index == 8){
-	%> 
-        </div>
-    <%	}
-    }
-    %>
-    	<!-- <div class="Sort1">
-        	<div class="CartoonTitleC">独家报道</div>
-            <div class="Sort1AD"><a href="#"><img src="../http://www.dongmark.com/images/pic_Cartoon8.png"></a></div>
-            <ul>
-            	<li><a href="#">冰果正传 特辑预告</a></li>
-                <li><a href="#">【疯狂的兔子】 预告</a></li>
-                <li><a href="#">画江湖之不良人</a></li>
-                <li><a href="#">冰果正传 特辑预告</a></li>
-                <li><a href="#">画江湖之不良人</a></li>
-            </ul>
-        </div> -->
         <div class="clear"></div>
     </div>
 </section>
+<%}%>
 
-<%	
-	}else if(allWorksMap[workstype].~size >0){	
-%>
-
+<%if(workss5.~size > 0){%>
+<!-- 循环6个 -->
 <section>
-	<div class="CartoonTitleC">${wtypeCT.codevalue!}<a href="cartoon/showWorksList?wtype=${workstype!}">更多 &gt;&gt;</a></div>
+	<div class="CartoonTitleC">${workstype[workss5[0].workstype!]!}<a href="${workss5[0].typeUrl!}">更多 &gt;&gt;</a></div>
     <div class="CartoonContent WhiteBg Guess">
-    <!-- 循环6个 -->
-    <%
-    var index = 0 ;
-    for(works in allWorksMap[workstype]){
-    	index = index + 1;
-    	if(index <= 6 ){
+    <% for(works in workss5){ 
+    	if(worksLP.index < 6){
     %>
     	<div class="CartoonSub">
         	<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
             <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
         </div>
-	<% }
-	} %>
+        <%}%>
+	<%}%>
     </div>
 </section>
+<%}%>
 
-<%	}
-}
-} %>
+<%}%>

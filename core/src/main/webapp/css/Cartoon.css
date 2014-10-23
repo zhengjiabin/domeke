@@ -829,6 +829,7 @@ a.icon{
 .SortZoom{
 	padding-left: 838px;
 	padding-bottom: 5px;
+	height: 429px;
 }
 .SortZoom a{
 	width: 165px;
@@ -869,6 +870,10 @@ a.icon{
 .Sort3{
 	float: left;
 	width: 600px;
+}
+.Sort3950{
+	float: left;
+	width: 950px;
 }
 .Sort1{
 	float: right;
