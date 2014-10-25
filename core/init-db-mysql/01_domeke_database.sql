@@ -523,6 +523,7 @@ CREATE TABLE `user` (
   `peas` bigint(20) DEFAULT '0',
   `point` bigint(20) DEFAULT '0',
   `imgurl` varchar(100) DEFAULT NULL,
+  `status` varchar(2) DEFAULT 'Y',
   PRIMARY KEY (`userid`),
   UNIQUE KEY `username_idx` (`username`),
   UNIQUE KEY `email` (`email`)
