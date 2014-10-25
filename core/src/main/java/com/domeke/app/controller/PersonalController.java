@@ -29,6 +29,10 @@ public class PersonalController extends Controller{
 		myDownLoad(mid);
 		myPlay(mid);
 		acctiveApply(mid);
+		activityPage(mid,userId);
+		postPage(mid,userId);
+		treasurePage(mid,userId);
+		ofWondersPage(mid,userId);
 		render("/personalCenter.html");
 	}
 	public void forMyProductionPage(){
@@ -42,10 +46,6 @@ public class PersonalController extends Controller{
 		myDownLoad(mid);
 		myPlay(mid);
 		acctiveApply(mid);
-		activityPage(mid,userId);
-		postPage(mid,userId);
-		treasurePage(mid,userId);
-		ofWondersPage(mid,userId);
 		if("14".equals(mid)){
 			render("/myApplyActive.html");
 		}else if("13".equals(mid)){

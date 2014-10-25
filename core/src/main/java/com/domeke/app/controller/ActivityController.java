@@ -9,6 +9,7 @@ import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.Comment;
 import com.domeke.app.model.Community;
 import com.domeke.app.model.User;
+import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
 import com.jfinal.aop.Before;
@@ -80,7 +81,6 @@ public class ActivityController extends Controller {
 		render("/admin/admin_activity.html");
 	}
 	
-	
 	/**
 	 * admin管理--跳转发表/修改主题
 	 * 请求 ./activity/skipUpdate?activityId=${activityId!}
@@ -140,6 +140,7 @@ public class ActivityController extends Controller {
 	
 	/**
 	 * admin管理--分页查询活动(不区分显示隐藏状态)
+	 * 请求 ./activity/findPageAll?pageNumber={pageNumber!}&pageSize={pageSize!}
 	 */
 	private void findPageAll() {
 		int pageNumber = getParaToInt("pageNumber", 1);
@@ -159,9 +160,9 @@ public class ActivityController extends Controller {
 		setActivity(activityId);
 		setCommunitys();
 		setActivityApplyPage(activityId);
-		keepPara("communityId");
 		
-		forwardComment(activityId);
+		String render = "/community/detailActivity.html";
+		forwardComment(activityId,render);
 	}
 	
 	/**
@@ -178,11 +179,87 @@ public class ActivityController extends Controller {
 	}
 	
 	/**
+	 * 个人会用中心（我发布的活动）--入口
+	 */
+	@Before(LoginInterceptor.class)
+	public void personalHome(){
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Object userId = getUserId();
+		Page<Activity> activityPage = Activity.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("activityPage", activityPage);
+		render("/personal/personal_activity.html");
+	}
+	
+	/**
+	 * 个人会员中心--查询用户发布的活动
+	 * 请求 activity/findByUserId
+	 */
+	@Before(LoginInterceptor.class)
+	public void findByUserId() {
+		Object userId = getUserId();
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Activity> activityPage = Activity.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("activityPage", activityPage);
+		render("/personal/personal_activityPage.html");
+	}
+	
+	/**
+	 * 个人会员中心--跳转修改主题
+	 * 请求 ./activity/skipUpdateForPersonal?activityId=${activityId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipUpdateForPersonal() {
+		Activity activity = null;
+		String activityId = getPara("activityId");
+		if(StrKit.notBlank(activityId)){
+			activity = Activity.dao.findInfoById(activityId);
+		}
+		setAttr("activity", activity);
+		render("/personal/personal_activityUpdate.html");
+	}
+	
+	/**
+	 * 个人会员中心--修改主题
+	 * 请求 ./activity/updateForPersonal
+	 */
+	@Before(LoginInterceptor.class)
+	public void updateForPersonal() {
+		try{
+			Activity activity = getModel(Activity.class);
+			activity.update();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		personalHome();
+	}
+	
+	/**
+	 * 个人会员中心--跳转主题明细
+	 * 请求 ./activity/findByIdForPersonal?activityId={activityId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipContain() {
+		String activityId = getPara("activityId");
+		Activity.dao.updateTimes(activityId);
+		
+		setActivity(activityId);
+		setCommunitys();
+		setCommunityList();
+		setActivityApplyPage(activityId);
+		setVentWall();
+		
+		String render = "/community/community_activityContain.html";
+		forwardComment(activityId,render);
+	}
+	
+	/**
 	 * 跳转回复控制器，设置回复信息
 	 */
-	private void forwardComment(Object targetId){
+	private void forwardComment(Object targetId,Object render){
 		String action = "/comment/setPage";
-		setAttr("render", "/community/detailActivity.html");
+		setAttr("render", render);
 		setAttr("targetId", targetId);
 		setAttr("idtype", IDTYPE);
 		forwardAction(action);
@@ -201,13 +278,26 @@ public class ActivityController extends Controller {
 	 * 设置版块信息
 	 */
 	private void setCommunitys(){
-		String communityId = getPara("communityId");
+		Object communityId = getCommunityId();
+		setAttr("communityId", communityId);
+		
 		Community communitySon = Community.dao.findById(communityId);
 		setAttr("communitySon", communitySon);
 		
 		Object pId = communitySon.get("pid");
 		Community communityFat = Community.dao.findById(pId);
 		setAttr("communityFat", communityFat);
+	}
+	
+	/**
+	 * 设置版块集合
+	 */
+	private void setCommunityList(){
+		List<Community> communityFatList = Community.dao.findFatList();
+		setAttr("communityFatList", communityFatList);
+		
+		List<Community> communitySonList = Community.dao.findSonList();
+		setAttr("communitySonList", communitySonList);
 	}
 	
 	/**
@@ -329,6 +419,20 @@ public class ActivityController extends Controller {
 	}
 	
 	/**
+	 * 获取版块Id
+	 */
+	private Object getCommunityId(){
+		Object communityId = getPara("communityId");
+		if(communityId == null || "".equals(communityId.toString().trim())){
+			Activity activity = getAttr("activity");
+			if(activity != null){
+				communityId = activity.get("communityid");
+			}
+		}
+		return communityId;
+	}
+	
+	/**
 	 * 设置码表
 	 * @param key
 	 * @param renderName
@@ -336,6 +440,14 @@ public class ActivityController extends Controller {
 	private void setCodeTableList(String key,String renderName){
 		List<CodeTable> list = CodeKit.getList(key);
 		setAttr(renderName, list);
+	}
+	
+	/**
+	 * 设置签到人数
+	 */
+	private void setVentWall(){
+		Object ventWallCount = VentWall.venWdao.getTodayCount();
+		setAttr("ventWallCount", ventWallCount);
 	}
 
 	/**

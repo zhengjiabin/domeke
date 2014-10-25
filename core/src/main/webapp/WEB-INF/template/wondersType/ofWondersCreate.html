@@ -21,7 +21,7 @@
        	   	}
         }
       	//主题图片验证
-        if($(this).is('#themeing')){
+        if($(this).is('#themeimg')){
         	if( this.value=="" ){
         	    var errorMsg = '主题图片不能为空';
         	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
@@ -50,7 +50,7 @@
                	 	<th>主题图片：</th>
                 	<td>
                 		<div id="preview"></div>
-                		<input id="themeing" name="ofWonders.themeing" type="file" class="input_Forum" value="${ofWonders.themeing!}" onchange="onUploadImgChange(this)" required="required">
+                		<input id="themeimg" name="ofWonders.themeimg" type="file" class="input_Forum" value="${ofWonders.themeimg!}" onchange="onUploadImgChange(this)" required="required">
                 	</td>
               	</tr>
             </table>

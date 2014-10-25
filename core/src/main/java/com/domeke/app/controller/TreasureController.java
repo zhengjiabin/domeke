@@ -9,6 +9,7 @@ import com.domeke.app.model.Comment;
 import com.domeke.app.model.Community;
 import com.domeke.app.model.Treasure;
 import com.domeke.app.model.User;
+import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -59,6 +60,21 @@ public class TreasureController extends Controller {
 		setPublishNumber(communityId);
 		
 		render("/community/treasure.html");
+	}
+	
+	/**
+	 * 查询指定宝贝信息
+	 * 请求 ./treasure/findById?targetId={targetId!}&communityId={communityId!}
+	 */
+	public void findById() {
+		String treasureId = getPara("targetId");
+		Treasure.dao.updateTimes(treasureId);
+		
+		setTreasure(treasureId);
+		setCommunitys();
+		
+		String render = "/community/detailTreasure.html";
+		forwardComment(treasureId,render);
 	}
 	
 	/**
@@ -149,12 +165,88 @@ public class TreasureController extends Controller {
 	
 	/**
 	 * admin管理--分页查询论坛(不区分显示隐藏状态)
+	 * 请求 ./treasure/findPageAll?pageNumber={pageNumber!}&pageSize={pageSize!}
 	 */
 	private void findPageAll() {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		Page<Treasure> treasurePage = Treasure.dao.findPageAll(pageNumber, pageSize);
 		setAttr("treasurePage", treasurePage);
+	}
+	
+	/**
+	 * 个人会用中心（我发布的宝贝）--入口
+	 */
+	@Before(LoginInterceptor.class)
+	public void personalHome(){
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Object userId = getUserId();
+		Page<Treasure> treasurePage = Treasure.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("treasurePage", treasurePage);
+		render("/personal/personal_treasure.html");
+	}
+	
+	/**
+	 * 个人会员中心--查询用户发布的宝贝
+	 * 请求 treasure/findByUserId
+	 */
+	@Before(LoginInterceptor.class)
+	public void findByUserId() {
+		Object userId = getUserId();
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Treasure> treasurePage = Treasure.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("treasurePage", treasurePage);
+		render("/personal/personal_treasurePage.html");
+	}
+	
+	/**
+	 * 个人会员中心--跳转修改主题
+	 * 请求 ./treasure/skipUpdateForPersonal?treasureId=${treasureId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipUpdateForPersonal() {
+		Treasure treasure = null;
+		String treasureId = getPara("treasureId");
+		if(StrKit.notBlank(treasureId)){
+			treasure = Treasure.dao.findInfoById(treasureId);
+		}
+		setAttr("treasure", treasure);
+		render("/personal/personal_treasureUpdate.html");
+	}
+	
+	/**
+	 * 个人会员中心--修改主题
+	 * 请求 ./treasure/updateForPersonal
+	 */
+	@Before(LoginInterceptor.class)
+	public void updateForPersonal() {
+		try{
+			Treasure treasure = getModel(Treasure.class);
+			treasure.update();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		personalHome();
+	}
+	
+	/**
+	 * 个人会员中心--跳转主题明细
+	 * 请求 ./treasure/findByIdForPersonal?treasureId={treasureId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipContain() {
+		String treasureId = getPara("treasureId");
+		Treasure.dao.updateTimes(treasureId);
+		
+		setTreasure(treasureId);
+		setCommunitys();
+		setCommunityList();
+		setVentWall();
+		
+		String render = "/community/community_treasureContain.html";
+		forwardComment(treasureId,render);
 	}
 
 	/**
@@ -213,45 +305,64 @@ public class TreasureController extends Controller {
 		treasure.update();
 		renderJson("true");
 	}
-
+	
 	/**
-	 * 查询指定宝贝信息
-	 * 
-	 * @return 指定宝贝信息
+	 * 设置签到人数
 	 */
-	public void findById() {
-		String treasureId = getPara("targetId");
-		Treasure.dao.updateTimes(treasureId);
-		
-		setTreasure(treasureId);
-		setCommunitys();
-		keepPara("communityId");
-		
-		forwardComment(treasureId);
+	private void setVentWall(){
+		Object ventWallCount = VentWall.venWdao.getTodayCount();
+		setAttr("ventWallCount", ventWallCount);
 	}
 	
 	/**
 	 * 跳转回复控制器，设置回复信息
 	 */
-	private void forwardComment(Object targetId){
+	private void forwardComment(Object targetId,Object render){
 		String action = "/comment/setPage";
-		setAttr("render", "/community/detailTreasure.html");
+		setAttr("render", render);
 		setAttr("targetId", targetId);
 		setAttr("idtype", IDTYPE);
 		forwardAction(action);
 	}
 	
 	/**
+	 * 获取版块Id
+	 */
+	private Object getCommunityId(){
+		Object communityId = getPara("communityId");
+		if(communityId == null || "".equals(communityId.toString().trim())){
+			Treasure treasure = getAttr("treasure");
+			if(treasure != null){
+				communityId = treasure.get("communityid");
+			}
+		}
+		return communityId;
+	}
+	
+	/**
 	 * 设置版块信息
 	 */
 	private void setCommunitys(){
-		String communityId = getPara("communityId");
+		Object communityId = getCommunityId();
+		setAttr("communityId", communityId);
+		
 		Community communitySon = Community.dao.findById(communityId);
 		setAttr("communitySon", communitySon);
 		
 		Object pId = communitySon.get("pid");
 		Community communityFat = Community.dao.findById(pId);
 		setAttr("communityFat", communityFat);
+	}
+	
+	/**
+	 * 设置版块集合
+	 */
+	private void setCommunityList(){
+		List<Community> communityFatList = Community.dao.findFatList();
+		setAttr("communityFatList", communityFatList);
+		
+		List<Community> communitySonList = Community.dao.findSonList();
+		setAttr("communitySonList", communitySonList);
 	}
 	
 	/**

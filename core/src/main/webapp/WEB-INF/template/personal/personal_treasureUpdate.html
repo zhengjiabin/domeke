@@ -1,73 +1,25 @@
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
-<form id="submitForm" class="form-horizontal" action="./treasure/update" method="post" onsubmit="submitForm(this)">
+<link href="${core}/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="${core}/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+	
+<script type="text/javascript" src="${core}/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="${core}/js/jquery.form.js"></script>
+
+<form id="submitForm" class="form-horizontal" action="./treasure/updateForPersonal" method="post" onsubmit="return submitForm(this)">
 	<fieldset>
-		<legend>论坛管理</legend>
+		<legend>宝贝管理</legend>
 		<input type="text" name="treasure.treasureid" value="${treasure.treasureid!}" style="display: none;">
 		
 		<div class="control-group">
 			<label class="control-label" for="disabledInput">版块</label>
 			<div class="controls">
-				<% if(isEmpty(treasure.communityid)) { %>
-					<select name="treasure.communityid" required="required" id="communityid">
-				<% } else { %>
-					<select name="treasure.communityid" required="required" disabled="disabled" id="communityid">
-				<% } %>
-					<% 
-						for(community in communityList) { 
-							if(community.communityid == treasure.communityid){
-					%>
-						<option value="${community.communityid!}" selected="selected">${community.title!}</option>
-					<% } else {%>
-						<option value="${community.communityid!}">${community.title!}</option>
-					<% } } %>
-					</select>
+				<input type="text" name="title" value="${treasure.title!}" readonly="readonly" >
 			</div>
 		</div>
 		
 		<div class="control-group warning">
 			<label class="control-label" for="inputError">标题</label>
 			<div class="controls">
-				<input type="text" name="treasure.subject"
-					value="${treasure.subject!}">
-			</div>
-		</div>
-		
-		<div class="control-group">
-			<label class="control-label" for="focusedInput">是否置顶</label>
-			<div class="controls">
-				<% if(treasure.top == 1) { %>
-					<input type="radio" name="treasure.top" value="0" >否
-					<input type="radio" name="treasure.top" value="1" checked="checked">是
-				<% } else { %>
-					<input type="radio" name="treasure.top" value="0" checked="checked">否
-					<input type="radio" name="treasure.top" value="1" >是
-				<% } %>
-			</div>
-		</div>
-		
-		<div class="control-group">
-			<label class="control-label" for="focusedInput">是否精华</label>
-			<div class="controls">
-				<% if(treasure.essence == 1) { %>
-					<input type="radio" name="treasure.essence" value="0" >否
-					<input type="radio" name="treasure.essence" value="1" checked="checked">是
-				<% } else { %>
-					<input type="radio" name="treasure.essence" value="0" checked="checked">否
-					<input type="radio" name="treasure.essence" value="1" >是
-				<% } %>
-			</div>
-		</div>
-		
-		<div class="control-group">
-			<label class="control-label" for="focusedInput">是否显示</label>
-			<div class="controls">
-				<% if(treasure.status == 20) { %>
-					<input type="radio" name="treasure.status" value="20" checked="checked">不显示
-					<input type="radio" name="treasure.status" value="10">显示
-				<% } else { %>
-					<input type="radio" name="treasure.status" value="20" >不显示
-					<input type="radio" name="treasure.status" value="10" checked="checked">显示
-				<% } %>
+				<input type="text" name="treasure.subject" value="${treasure.subject!}">
 			</div>
 		</div>
 
@@ -76,7 +28,7 @@
 			<div class="controls">
 				<textarea name="ckeditor" id="ckeditor">${treasure.message!}</textarea>
 				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
-				<input type="text" id="message" name="treasure.message" value="" style="display: none;"/>
+				<input type="text" id="message" name="treasure.message" style="display: none;"/>
 			</div>
 		</div>
 

@@ -9,6 +9,7 @@ import com.domeke.app.model.Comment;
 import com.domeke.app.model.Community;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
+import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -147,6 +148,96 @@ public class PostController extends Controller {
 		}
 		goToManager();
 	}
+	
+	/**
+	 * 个人会用中心（我发布的帖子）--入口
+	 */
+	@Before(LoginInterceptor.class)
+	public void personalHome(){
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Object userId = getUserId();
+		Page<Post> postPage = Post.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("postPage", postPage);
+		render("/personal/personal_post.html");
+	}
+	
+	/**
+	 * 个人会员中心--查询用户发布的帖子
+	 * 请求 post/findByUserId
+	 */
+	@Before(LoginInterceptor.class)
+	public void findByUserId() {
+		Object userId = getUserId();
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Post> postPage = Post.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("postPage", postPage);
+		render("/personal/personal_postPage.html");
+	}
+	
+	/**
+	 * 个人会员中心--跳转修改主题
+	 * 请求 ./post/skipUpdateForPersonal?postId=${postId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipUpdateForPersonal() {
+		Post post = null;
+		String postId = getPara("postId");
+		if(StrKit.notBlank(postId)){
+			post = Post.dao.findInfoById(postId);
+		}
+		setAttr("post", post);
+		render("/personal/personal_postUpdate.html");
+	}
+	
+	/**
+	 * 个人会员中心--修改主题
+	 * 请求 ./post/updateForPersonal
+	 */
+	@Before(LoginInterceptor.class)
+	public void updateForPersonal() {
+		try{
+			Post post = getModel(Post.class);
+			post.update();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		personalHome();
+	}
+	
+	/**
+	 * 个人会员中心--跳转主题明细
+	 * 请求 ./post/findByIdForPersonal?postId={postId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipContain() {
+		String postId = getPara("postId");
+		Post.dao.updateTimes(postId);
+		
+		setPost(postId);
+		setCommunitys();
+		setCommunityList();
+		setVentWall();
+		
+		String render = "/community/community_postContain.html";
+		forwardComment(postId,render);
+	}
+	
+	/**
+	 * 查询指定帖子信息
+	 * 请求  post/findById?communityId=${communityId!}&targetId=${targetId!}&idtype=${idtype!}
+	 */
+	public void findById() {
+		String postId = getPara("targetId");
+		Post.dao.updateTimes(postId);
+		
+		setPost(postId);
+		setCommunitys();
+		
+		String render = "/community/detailPost.html";
+		forwardComment(postId,render);
+	}
 
 	/**
 	 * 查询指定社区的分页帖子信息
@@ -204,28 +295,13 @@ public class PostController extends Controller {
 		post.update();
 		renderJson("true");
 	}
-
-	/**
-	 * 查询指定帖子信息
-	 * 请求  post/findById?communityId=${communityId!}&targetId=${targetId!}&idtype=${idtype!}
-	 */
-	public void findById() {
-		String postId = getPara("targetId");
-		Post.dao.updateTimes(postId);
-		
-		setPost(postId);
-		setCommunitys();
-		keepPara("communityId");
-		
-		forwardComment(postId);
-	}
 	
 	/**
 	 * 跳转回复控制器，设置回复信息
 	 */
-	private void forwardComment(Object targetId){
+	private void forwardComment(Object targetId,Object render){
 		String action = "/comment/setPage";
-		setAttr("render", "/community/detailPost.html");
+		setAttr("render", render);
 		setAttr("targetId", targetId);
 		setAttr("idtype", IDTYPE);
 		forwardAction(action);
@@ -235,7 +311,9 @@ public class PostController extends Controller {
 	 * 设置版块信息
 	 */
 	private void setCommunitys(){
-		String communityId = getPara("communityId");
+		Object communityId = getCommunityId();
+		setAttr("communityId", communityId);
+		
 		Community communitySon = Community.dao.findById(communityId);
 		setAttr("communitySon", communitySon);
 		
@@ -245,12 +323,45 @@ public class PostController extends Controller {
 	}
 	
 	/**
+	 * 设置版块集合
+	 */
+	private void setCommunityList(){
+		List<Community> communityFatList = Community.dao.findFatList();
+		setAttr("communityFatList", communityFatList);
+		
+		List<Community> communitySonList = Community.dao.findSonList();
+		setAttr("communitySonList", communitySonList);
+	}
+	
+	/**
+	 * 获取版块Id
+	 */
+	private Object getCommunityId(){
+		Object communityId = getPara("communityId");
+		if(communityId == null || "".equals(communityId.toString().trim())){
+			Post post = getAttr("post");
+			if(post != null){
+				communityId = post.get("communityid");
+			}
+		}
+		return communityId;
+	}
+	
+	/**
 	 * 设置版块信息
 	 */
 	private void setCommunity(){
 		String communityId = getPara("communityId");
 		Community community = Community.dao.findById(communityId);
 		setAttr("community", community);
+	}
+	
+	/**
+	 * 设置签到人数
+	 */
+	private void setVentWall(){
+		Object ventWallCount = VentWall.venWdao.getTodayCount();
+		setAttr("ventWallCount", ventWallCount);
 	}
 	
 	/**

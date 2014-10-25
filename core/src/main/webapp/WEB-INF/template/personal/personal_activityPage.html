@@ -6,28 +6,27 @@
 	   	<th>活动地点</th>
 	   	<th>操作</th>
 	</tr>
-	<% for(act in actPage.list!){%>
+	<% for(activity in activityPage.list!){%>
 		<tr>
-		   	<td><a href="#">${act.subject!}</a></td>
-		   	<td><a href="#">${act.starttimefrom!}</a></td>
-		  	<td>${act.starttimeto!}</td>
-		   	<td>${act.place!}</td>
+		   	<td><a href="./activity/skipContain?activityId=${activity.activityid!}">${activity.subject!}</a></td>
+		   	<td>${activity.starttimefrom!}</td>
+		  	<td>${activity.starttimeto!}</td>
+		   	<td>${activity.place!}</td>
 		   	<td>
-		   		<a href="personal/deleteMyPlay?actid=${act.activityid!}&menuId=${menuId}" onclick="return confirm('确定删除？')">删除</a>
+		   		<a href="javascript:void(0)" onclick="skipUpdateActivity(this,'${activity.activityid!}')">修改</a>
 	   		</td>
       	</tr>
 	<% } %>  
 </table>
 <div class="PageMore">
 	<% 
-		var menuId = menuId;
-        if(actPage != null){ 
+        if(activityPage != null){ 
 		layout(
 			"/common/page.html",
 			{
-			"page":actPage,
-			"pageAction":"./personal/forMyProductionPage?menuId="+menuId,
-			"fatherNode":"#personal"
+			"page":activityPage,
+			"pageAction":"./activity/findByUserId",
+			"fatherNode":"#page"
 			}
 		){} 
 	}%>

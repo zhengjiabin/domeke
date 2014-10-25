@@ -17,6 +17,17 @@ public class Treasure extends Model<Treasure> {
 	public static Treasure dao = new Treasure();
 	
 	/**
+	 * 查询宝贝明细信息
+	 * @return
+	 */
+	public Treasure findInfoById(Object treasureId){
+		StringBuffer sql = new StringBuffer("select t.*,u.username,u.imgurl,c.title ");
+		sql.append(" from treasure t,user u,community c where t.userid=u.userid  ");
+		sql.append(" and t.communityid=c.communityid and t.status='10' and t.treasureid=? ");
+		return this.findFirst(sql.toString(), treasureId);
+	}
+	
+	/**
 	 * 分页查询论坛，不区分状态
 	 * 
 	 * @param pageNumber

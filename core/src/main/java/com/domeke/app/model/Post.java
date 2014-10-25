@@ -13,7 +13,19 @@ public class Post extends Model<Post> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	public static Post dao = new Post();
+	
+	/**
+	 * 查询帖子明细信息
+	 * @return
+	 */
+	public Post findInfoById(Object postId){
+		StringBuffer sql = new StringBuffer("select p.*,u.username,u.imgurl,c.title ");
+		sql.append(" from post p,user u,community c where p.userid=u.userid  ");
+		sql.append(" and p.communityid=c.communityid and p.status='10' and p.postid=? ");
+		return this.findFirst(sql.toString(), postId);
+	}
 	
 	/**
 	 * 分页查询论坛，不区分状态

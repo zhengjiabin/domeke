@@ -15,6 +15,17 @@ public class OfWonders extends Model<OfWonders> {
 	public static OfWonders dao = new OfWonders();
 	
 	/**
+	 * 查询帖子明细信息
+	 * @return
+	 */
+	public OfWonders findInfoById(Object ofWondersId){
+		StringBuffer sql = new StringBuffer("select o.*,u.username,u.imgurl,w.title ");
+		sql.append(" from of_wonders o,user u,wonders_type w where o.userid=u.userid  ");
+		sql.append(" and o.wonderstypeid=w.wonderstypeid and o.status='10' and o.ofwondersid=? ");
+		return this.findFirst(sql.toString(), ofWondersId);
+	}
+	
+	/**
 	 * 分页查询论坛，不区分状态
 	 * 
 	 * @param pageNumber
