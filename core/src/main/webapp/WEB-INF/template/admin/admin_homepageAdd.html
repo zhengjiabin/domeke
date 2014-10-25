@@ -1,7 +1,7 @@
 <article class="MeArticle">
 	<form id="addHomepage" action="works/addHomepage" method="post" enctype="multipart/form-data">
 		<div class="MemberIndex">
-		<div class="MeCaption"><a href="javascript:showpage({'flag':0,'status':,'pageIndex':${pageIndex!}});">视频管理</a> --> <a href="javascript:showPage({'flag':10,'type':0,'pageIndex':${pageIndex!}});">添加视频</a></div>
+		<div class="MeCaption"><a href="javascript:showpage({'flag':0,'status':'${status!}','pageIndex':${pageIndex!}});">首页管理</a> --> <a href="javascript:showpage({'flag':1,'status':'${status!}','pageIndex':${pageIndex!}});">添加广告</a></div>
 		<div class="MeBlock">
 		<table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
 			<tbody><tr>
@@ -9,27 +9,35 @@
 				<td><input name="title" type="text" class="input_Member" required="required"></td>
 				</tr>
 				<tr>
-				<th><em style="color: red;"> * </em>封面：</th>
-				<td><input name="cover" type="file" class="input_Member" required="required"></td>
+				<th><em style="color: red;"> * </em>二级标题：</th>
+				<td>
+					<input name="subtitle" type="text" class="input_Member" required="required"></td>
 				</tr>
 				<tr>
-				<th>主角：</th>
+				<th><em style="color: red;"> * </em>广告图：</th>
+				<td><input name="img" type="file" class="input_Member" required="required"></td>
+				</tr>
+				<tr id="progressTr" style="display: none;">
+				<th><em style="color: red;"> * </em>进度：</th>
 				<td>
-					<input name="leadingrole" type="text" class="input_Member"></td>
-				</td>
+					<p><progress class="bar" value="0" max="100"></progress>
+					<div class="percent">0%</div >
+                </td>
+				</tr>
 				<tr>
 				<th>简介：</th>
 				<td>
 					<textarea name="des" style="padding:10px;" rows="8" cols="54"></textarea>
 				</td>
 				</tr>
-				<tr id="progressTr" style="display: none;">
-				<th><em style="color: red;"> * </em>进度：</th>
-				<td>
-					<p><progress class="bar" value="0" max="100"></progress>
-					<div class="percent">0%</div ></p>
-                </td>
-				</tr>
+				<tr>
+                <th></th>
+                <td>
+                	<button type="submit" >提交</button>
+                	&nbsp;&nbsp;&nbsp;
+                	<button type="button" onclick="showPage({'flag':1,'type':1,'pageIndex':${pageIndex!}})">取消</button>
+				</td>
+              </tr>
 			</tbody>
 		</table>
 		</div>
