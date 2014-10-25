@@ -144,7 +144,7 @@ public class CommunityController extends Controller {
 	@Before(LoginInterceptor.class)
 	public void skipCommunity(){
 		setCommunityFatList();
-		render("/community/selectCommunity.html");
+		render("/community/community_select.html");
 	}
 	
 	/**
@@ -156,7 +156,7 @@ public class CommunityController extends Controller {
 		if(pId != null && pId.length()>0){
 			setCommunitySonListByPid(pId);
 		}
-		render("/community/selectCommunitySon.html");
+		render("/community/community_selectDetail.html");
 	}
 	
 	/**
@@ -339,7 +339,7 @@ public class CommunityController extends Controller {
 		setAttr("community", community);
 		
 		setCommunityFatList();
-		render("/admin/admin_updateCommunity.html");
+		render("/admin/admin_communityUpdate.html");
 	}
 	
 	/**
@@ -405,7 +405,7 @@ public class CommunityController extends Controller {
 		
 		setCommunityFatList();
 		setCommunitySonList();
-		render("/admin/admin_detailCommunity.html");
+		render("/admin/admin_communityDetail.html");
 	}
 	
 	/**

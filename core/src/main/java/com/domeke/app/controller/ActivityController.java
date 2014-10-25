@@ -33,7 +33,7 @@ public class ActivityController extends Controller {
 		setPublishNumber(communityId);
 		setCommunity();
 		
-		render("/community/activity.html");
+		render("/community/community_activity.html");
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class ActivityController extends Controller {
 		setActivityPage(communityId);
 		setPublishNumber(communityId);
 		
-		render("/community/activity.html");
+		render("/community/community_activity.html");
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class ActivityController extends Controller {
 		List<Community> communitySonList = Community.dao.findSonList();
 		setAttr("communitySonList", communitySonList);
 		setPublishNumber(null);
-		render("/community/activityAll.html");
+		render("/community/community_activityAll.html");
 	}
 	
 	/**
@@ -135,7 +135,7 @@ public class ActivityController extends Controller {
 		Object communityId = getPara("communityId");
 		setActivityPage(communityId);
 		
-		render("/community/activityPage.html");
+		render("/community/community_activityPage.html");
 	}
 	
 	/**
@@ -161,7 +161,7 @@ public class ActivityController extends Controller {
 		setCommunitys();
 		setActivityApplyPage(activityId);
 		
-		String render = "/community/detailActivity.html";
+		String render = "/community/community_activityDetail.html";
 		forwardComment(activityId,render);
 	}
 	
@@ -355,18 +355,6 @@ public class ActivityController extends Controller {
 				.findByActivityId(activityId, pageNumber, pageSize);
 		setAttr("activityApplyPage", activityApplyPage);
 	}
-
-	/**
-	 * 查询修改的指定活动信息
-	 * 
-	 * @return 指定活动信息
-	 */
-	public void modifyById() {
-		String activityId = getPara("activityID");
-		Activity activity = Activity.dao.findById(activityId);
-		setAttr("activity", activity);
-		render("/community/modifyActivity.html");
-	}
 	
 	/**
 	 * 判断活动是否可报名
@@ -403,7 +391,7 @@ public class ActivityController extends Controller {
 		
 		keepPara("communityId");
 		setCodeTableList("gender", "genderList");
-		render("/community/createActivity.html");
+		render("/community/community_activityCreate.html");
 	}
 	
 	/**

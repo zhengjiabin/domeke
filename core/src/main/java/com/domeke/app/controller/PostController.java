@@ -32,7 +32,7 @@ public class PostController extends Controller {
 		setPublishNumber(communityId);
 		setCommunity();
 		
-		render("/community/post.html");
+		render("/community/community_post.html");
 	}
 
 	/**
@@ -60,7 +60,25 @@ public class PostController extends Controller {
 		setPostPage(communityId);
 		setPublishNumber(communityId);
 		
-		render("/community/post.html");
+		render("/community/community_post.html");
+	}
+	
+	/**
+	 * 跳转帖子申请
+	 * 请求 ./post/skipCreate?communityId={communityId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipCreate() {
+		String communityId = getPara("communityId");
+		Object userId = getUserId();
+		Object post = Post.dao.findHasPublish(communityId, userId);
+		if(post != null){
+			renderHtml("<script> alert('5分钟内只能发布一次同类型主题！');</script>");
+			return;
+		}
+		
+		keepPara("communityId");
+		render("/community/community_postCreate.html");
 	}
 	
 	/**
@@ -72,7 +90,7 @@ public class PostController extends Controller {
 		List<Community> communitySonList = Community.dao.findSonList();
 		setAttr("communitySonList", communitySonList);
 		setPublishNumber(null);
-		render("/community/postAll.html");
+		render("/community/community_postAll.html");
 	}
 	
 	/**
@@ -235,7 +253,7 @@ public class PostController extends Controller {
 		setPost(postId);
 		setCommunitys();
 		
-		String render = "/community/detailPost.html";
+		String render = "/community/community_postDetail.html";
 		forwardComment(postId,render);
 	}
 
@@ -248,18 +266,7 @@ public class PostController extends Controller {
 		String communityId = getPara("communityId");
 		setPostPage(communityId);
 		
-		render("/community/postPage.html");
-	}
-	
-	/**
-	 * 分页查询帖子
-	 */
-	public void findPage(){
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Page<Post> postPage = Post.dao.findPage(pageNumber, pageSize);
-		setAttr("postPage", postPage);
-		render("/admin/admin_postPage.html");
+		render("/community/community_postPage.html");
 	}
 	
 	/**
@@ -373,23 +380,6 @@ public class PostController extends Controller {
 		setAttr("post", post);
 	}
 
-	/**
-	 * 跳转帖子申请
-	 */
-	@Before(LoginInterceptor.class)
-	public void skipCreate() {
-		String communityId = getPara("communityId");
-		Object userId = getUserId();
-		Object post = Post.dao.findHasPublish(communityId, userId);
-		if(post != null){
-			renderHtml("<script> alert('5分钟内只能发布一次同类型主题！');</script>");
-			return;
-		}
-		
-		keepPara("communityId");
-		render("/community/createPost.html");
-	}
-	
 	/**
 	 * 获取用户Id
 	 * @return

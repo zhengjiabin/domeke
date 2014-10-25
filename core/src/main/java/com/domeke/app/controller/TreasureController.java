@@ -32,7 +32,24 @@ public class TreasureController extends Controller {
 		setPublishNumber(communityId);
 		setCommunity();
 		
-		render("/community/treasure.html");
+		render("/community/community_treasure.html");
+	}
+	
+	/**
+	 * 跳转宝贝申请
+	 * 请求 ./treasure/skipCreate?communityId={communityId!}
+	 */
+	public void skipCreate() {
+		String communityId = getPara("communityId");
+		Object userId = getUserId();
+		Object treasure = Treasure.dao.findHasPublish(communityId, userId);
+		if(treasure != null){
+			renderHtml("<script> alert('5分钟内只能发布一次同类型主题！');</script>");
+			return;
+		}
+		
+		keepPara("communityId");
+		render("/community/community_treasureCreate.html");
 	}
 	
 	/**
@@ -59,7 +76,7 @@ public class TreasureController extends Controller {
 		setTreasurePage(communityId);
 		setPublishNumber(communityId);
 		
-		render("/community/treasure.html");
+		render("/community/community_treasure.html");
 	}
 	
 	/**
@@ -73,7 +90,7 @@ public class TreasureController extends Controller {
 		setTreasure(treasureId);
 		setCommunitys();
 		
-		String render = "/community/detailTreasure.html";
+		String render = "/community/community_treasureDetail.html";
 		forwardComment(treasureId,render);
 	}
 	
@@ -86,7 +103,7 @@ public class TreasureController extends Controller {
 		List<Community> communitySonList = Community.dao.findSonList();
 		setAttr("communitySonList", communitySonList);
 		setPublishNumber(null);
-		render("/community/treasureAll.html");
+		render("/community/community_treasureAll.html");
 	}
 
 	/**
@@ -258,18 +275,7 @@ public class TreasureController extends Controller {
 		String communityId = getPara("communityId");
 		setTreasurePage(communityId);
 		
-		render("/community/treasurePage.html");
-	}
-	
-	/**
-	 * 分页查询宝贝
-	 */
-	public void findPage(){
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Page<Treasure> treasurePage = Treasure.dao.findPage(pageNumber, pageSize);
-		setAttr("treasurePage", treasurePage);
-		render("/admin/admin_detailtreasure.html");
+		render("/community/community_treasurePage.html");
 	}
 	
 	/**
@@ -383,22 +389,6 @@ public class TreasureController extends Controller {
 		setAttr("treasure", treasure);
 	}
 
-	/**
-	 * 跳转宝贝申请
-	 */
-	public void skipCreate() {
-		String communityId = getPara("communityId");
-		Object userId = getUserId();
-		Object treasure = Treasure.dao.findHasPublish(communityId, userId);
-		if(treasure != null){
-			renderHtml("<script> alert('5分钟内只能发布一次同类型主题！');</script>");
-			return;
-		}
-		
-		keepPara("communityId");
-		render("/community/createTreasure.html");
-	}
-	
 	/**
 	 * 获取用户Id
 	 * @return
