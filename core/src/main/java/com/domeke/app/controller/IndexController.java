@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.domeke.app.model.Goods;
+import com.domeke.app.model.Homepage;
 import com.domeke.app.model.Menu;
 import com.domeke.app.model.OfWonders;
 import com.domeke.app.model.Works;
@@ -31,27 +32,27 @@ public class IndexController extends Controller {
 		for (WorksType worksType : worksTypes) {
 			typeMap.put(worksType.get("id").toString(), worksType.get("name"));
 		}
-		//加载首页5个循环显示
-		List<Works> workss0Temp = worksDao.getHomePage(5);
-		List<Map<String, Object>> workss0 = Lists.newArrayList();
-		workss0 = ParseDemoKit.worksParse(workss0Temp);
+//		//加载首页 循环显示
+		Homepage homepageModel = getModel(Homepage.class);
+		List<Homepage> homepages = Lists.newArrayList();
+		homepages =	homepageModel.findHomepagesByStatusRank("1");
 		
 		//加载中间数据
-		List<Works> workss1temp = worksDao.getWorksInfoByType(worksTypes.get(0).get("id").toString(),7);
+		List<Works> workss0temp = worksDao.getWorksInfoByType(worksTypes.get(0).get("id").toString(),7);
+		List<Map<String, Object>> workss0 = Lists.newArrayList();
+		workss0 = ParseDemoKit.worksParse(workss0temp);
+		
+		List<Works> workss1temp = worksDao.getWorksInfoByType(worksTypes.get(1).get("id").toString(),5);
 		List<Map<String, Object>> workss1 = Lists.newArrayList();
 		workss1 = ParseDemoKit.worksParse(workss1temp);
 		
-		List<Works> workss2temp = worksDao.getWorksInfoByType(worksTypes.get(1).get("id").toString(),5);
+		List<Works> workss2temp = worksDao.getWorksInfoByType(worksTypes.get(2).get("id").toString(),5);
 		List<Map<String, Object>> workss2 = Lists.newArrayList();
 		workss2 = ParseDemoKit.worksParse(workss2temp);
 		
-		List<Works> workss3temp = worksDao.getWorksInfoByType(worksTypes.get(2).get("id").toString(),5);
+		List<Works> workss3temp = worksDao.getWorksInfoByType(worksTypes.get(3).get("id").toString(),10);
 		List<Map<String, Object>> workss3 = Lists.newArrayList();
 		workss3 = ParseDemoKit.worksParse(workss3temp);
-		
-		List<Works> workss4temp = worksDao.getWorksInfoByType(worksTypes.get(3).get("id").toString(),10);
-		List<Map<String, Object>> workss4 = Lists.newArrayList();
-		workss4 = ParseDemoKit.worksParse(workss4temp);
 		
 		List<OfWonders> ofWondersList = OfWonders.dao.findPic(10);
 		Menu wonderTypeMenu = Menu.menuDao.findById(3);
@@ -73,12 +74,12 @@ public class IndexController extends Controller {
 		
 		//返回数据
 		setAttr("menuid", menuid);
-		setAttr("workss0", workss0);
 		setAttr("workstype", typeMap);
+		setAttr("homepages", homepages);
+		setAttr("workss0", workss0);
 		setAttr("workss1", workss1);
 		setAttr("workss2", workss2);
 		setAttr("workss3", workss3);
-		setAttr("workss4", workss4);
 		setAttr("ofWondersList", ofWondersList);
 		setAttr("wonderTypeMenu", wonderTypeMenu);
 		setAttr("worksClickList", worksClickList);

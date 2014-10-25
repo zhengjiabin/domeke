@@ -44,44 +44,44 @@
 		});
 	});
 </script>
-<%if(workss0.~size > 0){%>
+<%if(homepages.~size > 0){%>
 <section>
 	<div class="AdSub">
     <ul>
-    	<%for(works in workss0){
-    		if(worksLP.index <= 5){%>
-    		<li src="${works.cover!}"><a href="${works.detailUrl!}">${works.worksname!}<span>${works.describle!}</span></a></li>
+    	<%for(homepage in homepages){
+    		if(homepageLP.index <= 5){%>
+    		<li src="${homepage.img!}"><a href="${homepage.url!}">${homepage.title!}<span>${homepage.subtitle!}</span></a></li>
     		<%}%>
     	<%}%>
     </ul>
     </div>
-    <div class="Adpic"><a href="${workss0[0].detailUrl!}"><img src="${workss0[0].cover!}"></a></div>
+    <div class="Adpic"><a href="${homepages[0].url!}"><img src="${homepages[0].img!}"></a></div>
     <div class="clear">&nbsp;</div>
 </section>
 <%}%>
 <section>
 	<article>
-		<%if(workss1.~size > 0){%>
+		<%if(workss0.~size > 0){%>
 		<section>
-        	<div class="CartoonTitle">${workstype[workss1[0].workstype!]!}<a href="${workss1[0].typeUrl!}">/更多</a></div>
+        	<div class="CartoonTitle">${workstype[workss0[0].workstype!]!}<a href="${workss0[0].typeUrl!}">/更多</a></div>
             <div class="CartoonContent">
             	<div class="Cartoon2" style="overflow: hidden; height:315px;">
                 	<div class="CartoonSubB">
-                			<a href="${workss1[0].detailUrl!}" style="display: block;">
-	                    		<img src="${workss1[0].cover!}">
+                			<a href="${workss0[0].detailUrl!}" style="display: block;">
+	                    		<img src="${workss0[0].cover!}">
 	                    	</a>
 	                    	<div class="CartoonSubBFootbar">
-	                        	<a class="icon" href="${workss1[0].playUrl!}">
+	                        	<a class="icon" href="${workss0[0].playUrl!}">
 	                        		<img id="icon"  src="http://www.dongmark.com/images/icon_play.png">
 	                        	</a>
-	                        	<a href="${workss1[0].detailUrl!}">
-	                            	<span>${workss1[0].worksname!}</span>
+	                        	<a href="${workss0[0].detailUrl!}">
+	                            	<span>${workss0[0].worksname!}</span>
 	                            </a>
 	                        </div>
                     </div>
                 </div>
                 <div class="Cartoon3">
-                	<% for(works in workss1){
+                	<% for(works in workss0){
                 		if(worksLP.index > 1 && worksLP.index <= 7){
                 	 %>
                     <div class="CartoonSub">
@@ -99,11 +99,11 @@
             </div>
         </section>
         <%}%>
-        <%if(workss2.~size > 0){%>
+        <%if(workss1.~size > 0){%>
         <section>
-        	<div class="CartoonTitle">${workstype[workss2[0].workstype!]!}<a href="${workss2[0].typeUrl!}">/更多</a></div>
+        	<div class="CartoonTitle">${workstype[workss1[0].workstype!]!}<a href="${workss1[0].typeUrl!}">/更多</a></div>
             <div class="CartoonContent">
-            	<%for(works in workss2){
+            	<%for(works in workss1){
             		if(worksLP.index <= 5){%>
 		            <div class="CartoonSub">
 		            	<a href="${works.detailUrl!}" style="display: block;">
@@ -121,11 +121,11 @@
             </div>
         </section>
         <%}%>
-         <%if(workss3.~size > 0){%>
+         <%if(workss2.~size > 0){%>
          <section>
-        	<div class="CartoonTitle">${workstype[workss3[0].workstype!]!}<a href="${workss3[0].typeUrl!}">/更多</a></div>
+        	<div class="CartoonTitle">${workstype[workss2[0].workstype!]!}<a href="${workss2[0].typeUrl!}">/更多</a></div>
             <div class="CartoonContent">
-            	<%for(works in workss3){
+            	<%for(works in workss2){
             		if(worksLP.index <= 5){%>
 		            <div class="CartoonSub">
 		            	<a href="${works.detailUrl!}" style="display: block;">
@@ -143,11 +143,11 @@
             </div>
         </section>
         <%}%>
-        <%if(workss4.~size > 0){%>
+        <%if(workss3.~size > 0){%>
          <section>
-        	<div class="CartoonTitle">${workstype[workss4[0].workstype!]!}<a href="${workss4[0].typeUrl!}">/更多</a></div>
+        	<div class="CartoonTitle">${workstype[workss3[0].workstype!]!}<a href="${workss3[0].typeUrl!}">/更多</a></div>
             <div class="CartoonContent">
-            	<%for(works in workss4){
+            	<%for(works in workss3){
             		if(worksLP.index <= 10){%>
 		            <div class="CartoonSub">
 		            	<a href="${works.detailUrl!}" style="display: block;">
