@@ -100,11 +100,19 @@ public class UserController extends Controller {
 	public void userManage(){
 		User user = getModel(User.class);
 		List<User> userList = user.getUser(null,null);
+		for(int i=0;i<userList.size();i++){
+			String status = userList.get(i).getStr("status");
+			if("Y".equals(status)){
+				userList.get(i).set("status", "正常");
+			}else{
+				userList.get(i).set("status", "冻结");
+			}
+		}
 		this.setAttr("userList", userList);
 	}
 	public void goUserUpdate(){
 		getUser();
-		render("/demo/userUpdate.html");
+		render("/admin/admin_updateUser.html");
 	}
 	public void getUser(){
 		User user = getModel(User.class);
@@ -121,6 +129,31 @@ public class UserController extends Controller {
 		user.deleteById(getParaToInt());
 		goUserManage();
 	}
+	
+	/**
+	 * 冻结用户操作
+	 */
+	public void freezeUser(){
+		User user = getModel(User.class);
+		String uid = getPara("uid");
+		user = user.findById(uid);
+		user.set("status","N");
+		user.update();
+		goUserManage();
+	}
+	
+	/**
+	 * 解除冻结用户操作
+	 */
+	public void removeFreezeUser(){
+		User user = getModel(User.class);
+		String uid = getPara("uid");
+		user = user.findById(uid);
+		user.set("status","Y");
+		user.update();
+		goUserManage();
+	}
+	
 	public void reset(){
 		User user = getModel(User.class);
 		String password = "111111";
