@@ -28,6 +28,7 @@
 											<td width="120">
 									<a href="order/upOrder?ordelid=${ord.orderid!}&ordid=${or.orderid!}"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>
 									<a href="order/deleteOrder?orderid=${ord.orderid!}" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">刪除</button></a>
+									<a href="order/sendOrder?ordid=${or.orderid!}" onclick="return confirm('确定发货？')"><button class="btn btn-danger btn-mini" lable="发货">发货</button></a>
 									</td>
 										<%}%>
 									<%}%>
