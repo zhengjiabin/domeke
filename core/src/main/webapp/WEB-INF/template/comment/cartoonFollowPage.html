@@ -1,7 +1,9 @@
 <% for (follow in followPage){
 	if(follow.pid!=comment.commentid){continue;}%>
 <div class="ArgumentSub">
-      	<div class="MemberHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
+      	<div class="MemberHead">
+      		<img src="${follow.imgurl!}">
+      	</div>
         <div class="ArgumentInfo">
         	<div class="MemberNick font_b">${follow.username!}</div>
        	 	<div class="ArgumentContent">

@@ -1,7 +1,7 @@
 <script src="${core}/js/comment.js" type="text/javascript"></script>
 <div class="LevelTitle">
 	<a href="javascript:void(0);" class="WArgument" onclick="showPublishHtml(this)">我来说两句</a>
-	<div id="publishHtml" >
+	<div id="publishHtml" class="WArgumentReply">
 		<%
 			layout(
 			"/common/publishFace.html",
@@ -17,12 +17,13 @@
 
 <% for (comment in commentPage.list){ %>
 <div class="ArgumentSub" id="commentContents">
-      	<div class="MemberHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
+      	<div class="MemberHead"><img src="${comment.imgurl!}"></div>
         <div class="ArgumentInfo">
        	 	<div class="MemberNick font_b">${comment.username!}</div>
        	 	<div class="ArgumentContent">${comment.message!}</div>
             <div class="ArgumentTime font_b" id="commentContent">
-            	<a href="#">有用</a><a href="javascript:void(0);" onclick="showPublishHtml(this)">回复</a>
+            	<a href="#">有用</a>
+            	<a href="javascript:void(0);" onclick="showPublishHtml(this)">回复</a>
             	<div id="publishHtml" >
 					<%
 						layout(

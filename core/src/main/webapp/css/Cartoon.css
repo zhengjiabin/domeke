@@ -815,7 +815,13 @@ a.icon{
 	color: #3184d4;
 	font-size: 12px;
 }
-
+.WArgumentReply{
+	float: right;
+	padding: 5px 20px;
+	border-radius: 3px;
+	color: #3184d4;
+	font-size: 12px;
+}
 
 .SortAD{
 	float: left;
@@ -1071,4 +1077,7 @@ a.icon{
 }	
 .font_w a:active { 
 	color: #fff;
+}
+.publishFaceReply{
+	border: 1px #00ffff solid;
 }
