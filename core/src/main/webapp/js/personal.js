@@ -38,6 +38,78 @@ function skipUpdateOfWonders(node,ofWondersId){
 	});
 }
 
+//更新活动主题
+function submitActivity(node){
+	canSubmit = true;
+	$("form :input").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	canSubmit = submitForm(node)
+    } else {
+    	if(content == ""){
+    		alert("内容不能为空！");
+    	}else{
+    		alert("提交失败，存在非规范内容，请检查！");
+    	}
+    }
+    return canSubmit;
+}
+
+//提交论坛主题
+function submitPost(node){
+	canSubmit = true;
+	$("form :input").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	canSubmit = submitForm(node)
+    } else {
+    	if(content == ""){
+    		alert("内容不能为空！");
+    	}else{
+    		alert("提交失败，存在非规范内容，请检查！");
+    	}
+    }
+    return canSubmit;
+}
+
+//提交宝贝主题
+function submitTreasure(node){
+	canSubmit = true;
+	$("form :input").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	canSubmit = submitForm(node)
+    } else {
+    	if(content == ""){
+    		alert("内容不能为空！");
+    	}else{
+    		alert("提交失败，存在非规范内容，请检查！");
+    	}
+    }
+    return canSubmit;
+}
+
 //更新主题
 function submitForm(node) {
 	var content = CKEDITOR.instances.ckeditor.getData();

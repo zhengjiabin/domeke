@@ -15,9 +15,12 @@
         	if( this.value=="" ){
         	    var errorMsg = '标题不能为空';
         	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if(this.value.length > 30){
+        		var errorMsg = '标题长度必须小于30个字';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else{
         	    var okMsg = '输入正确';
-             $parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
        	   	}
         }
       	//开始时间
@@ -40,7 +43,7 @@
         	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else{
         	    var okMsg = '输入正确';
-             $parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
        	   	}
         }
       	//结束时间
@@ -58,7 +61,7 @@
         	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else{
         	    var okMsg = '输入正确';
-             $parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
        	   	}
         }
       	//截止时间
@@ -76,8 +79,21 @@
         	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else{
         	    var okMsg = '输入正确';
-             $parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
        	   	}
+        }
+      //报名上限人数
+        if($(this).is('#number')){
+        	var reg = /^\d*$/;
+        	if(this.value == ""){
+        		
+        	}else if( !reg.test(this.value) ){
+        	    var errorMsg = '格式错误，请输入正整数！';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        		var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+        	}
         }
     });
 </script>
@@ -121,12 +137,14 @@
                 	</td>
               	</tr>
                	<tr>
-                	<th>上线报名人数：</th>
-                	<td><input name="activity.number" type="number" class="input_Forum" value="${activity.number!}"></td>
+                	<th>上限报名人数：</th>
+                	<td>
+                		<input id="number" name="activity.number" type="text" class="input_Forum" value="${activity.number!}" >
+                	</td>
               	</tr>
               <tr>
                 <th>报名截止日期：</th>
-                <td><input id="expiration" name="activity.expiration" type="text" class="input_Forum" value="${activity.expiration!}" required="required" onClick="WdatePicker()"></td>
+                <td><input id="expiration" name="activity.expiration" type="text" class="input_Forum" value="${activity.expiration!}" required="required" readonly="readonly" onClick="WdatePicker()"></td>
               </tr>
             </table>
             <div class="ForumInfoA font_str">活动详细内容：</div>

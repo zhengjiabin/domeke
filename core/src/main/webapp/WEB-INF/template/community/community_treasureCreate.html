@@ -11,14 +11,17 @@
     $('form :input').blur(function(){
        	var $parent = $(this).parent();
         $parent.find(".font_r").remove();
-      	//标题验证
+        //标题验证
         if($(this).is('#subject')){
         	if( this.value=="" ){
         	    var errorMsg = '标题不能为空';
         	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if(this.value.length > 30){
+        		var errorMsg = '标题长度必须小于30个字';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else{
         	    var okMsg = '输入正确';
-             $parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
        	   	}
         }
     });
