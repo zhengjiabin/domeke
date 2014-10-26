@@ -82,6 +82,8 @@ public class ParseDemoKit {
 				map.put("oldprice", goods.get("oldprice"));
 				map.put("amount", goods.get("amount"));
 				map.put("pic", goods.get("pic"));
+				map.put("goodsattr1", goods.get("goodsattr1"));
+				map.put("dougprice", goods.get("dougprice"));
 				String message = goods.get("message");
 				if(message.length() > 50){
 					message = message.substring(0, 50) + "...";
