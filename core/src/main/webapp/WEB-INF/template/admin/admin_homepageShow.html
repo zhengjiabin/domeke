@@ -1,3 +1,44 @@
+<script type="text/javascript">
+	function del(id){
+		if(confirm("确认删除吗？")){
+			$.ajax({
+				type:'post',
+				data:'id='+id,
+				url:'homepage/delete',
+				success:function(data){
+					showpage({'flag':0,'status':'${status!}','pageIndex':'${pageHomepage.pageNumber!}'});
+				}
+			});
+		}else{
+			return false;
+		}
+	}
+	function uptop(id){
+		$.ajax({
+			type:'post',
+			data:'id='+id,
+			url:'homepage/uptop',
+			success:function(data){
+				showpage({'flag':0,'status':'${status!}','pageIndex':'${pageHomepage.pageNumber!}'});
+			}
+		});
+	}
+	function upstatus(id,status){
+		$.ajax({
+			type:'post',
+			data:'id='+id+'&status='+status,
+			url:'homepage/upstatus',
+			success:function(data){
+				showpage({'flag':0,'status':'${status!}','pageIndex':'${pageHomepage.pageNumber!}'});
+			}
+		});
+	}
+	function selectChange(_self){
+		var id = $(_self).attr('flag');
+		var status = $(_self).val();
+		upstatus(id,status);
+	}
+</script>
 <article>
 	<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
         <tbody>
@@ -30,7 +71,7 @@
            </td>
            <td>
 	           	<!-- 状态 -->
-	           	<select style="width: 80px;" flag="${homepage.id!}">
+	           	<select style="width: 80px;" flag="${homepage.id!}" onchange="selectChange(this)">
 	           	<%if(homepage.status! == 0){%>
            			<option value="0">禁用</option>
            			<option value="1">启用</option>
@@ -43,8 +84,10 @@
            </td>
            <td>
 	           	<!-- 操作 -->
-	           	<a>修改</a>
-	           	<a>删除</a>
+	           	<a href="javascript:uptop(${homepage.id!});">置顶</a>
+	           	</br>
+	           	<a href="javascript:showpage({'flag':2,'status':'${status!}','pageIndex':'${pageHomepage.pageNumber!}','id':${homepage.id!}});">修改</a>
+	           	<a href="javascript:del(${homepage.id!});">删除</a>
            </td>
          </tr>
          <%}%>

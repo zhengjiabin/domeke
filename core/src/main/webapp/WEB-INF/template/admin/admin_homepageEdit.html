@@ -4,7 +4,7 @@
 		var percent = $('.percent');
 		var status = $('#status');
 		
-		$('#addhomepage').submit(function(){
+		$('#edithomepage').submit(function(){
 			$('button[type=submit]',this).attr('disabled',true);
 			$(this).ajaxSubmit({
 				beforeSend: function() {
@@ -20,39 +20,47 @@
 			    },
 				success:function(data){
 					if(data.success == 1){
-						alert("添加成功!");
+						alert("修改成功!");
 						showpage({'flag':0,'status':'${status!}','pageIndex':${pageIndex!}});
 					}else{
-						alert("添加失败  信息：" + data.message);
+						alert("修改失败  信息：" + data.message);
 						$('button[type=submit]',this).removeAttr('disabled');
 					}
-			}});
+				}
+		    });
 			return false;
 		});
 	});
 </script>
 <article class="MeArticle">
-	<form id="addhomepage" action="homepage/addHomepage" method="post" enctype="multipart/form-data">
+	<form id="edithomepage" action="homepage/editHomepage" method="post" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="${homepage.id!}"/>
 		<div class="MemberIndex">
 		<div class="MeCaption"><a href="javascript:showpage({'flag':0,'status':'${status!}','pageIndex':${pageIndex!}});">首页管理</a> --> <a href="javascript:showpage({'flag':1,'status':'${status!}','pageIndex':${pageIndex!}});">添加广告</a></div>
 		<div class="MeBlock">
 		<table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
 			<tbody><tr>
 				<th><em style="color: red;"> * </em>标题：</th>
-				<td><input name="title" type="text" class="input_Member" required="required"></td>
+				<td><input name="title" type="text" class="input_Member" required="required" value="${homepage.title!}"></td>
 				</tr>
 				<tr>
 				<th><em style="color: red;"> * </em>二级标题：</th>
 				<td>
-					<input name="subtitle" type="text" class="input_Member" required="required"></td>
+					<input name="subtitle" type="text" class="input_Member" required="required"  value="${homepage.subtitle!}"></td>
 				</tr>
 				<tr>
 				<th><em style="color: red;"> * </em>推广地址：</th>
-				<td><input name="url" type="text" class="input_Member" required="required"></td>
+				<td><input name="url" type="text" class="input_Member" required="required"  value="${homepage.url!}"></td>
 				</tr>
 				<tr>
-				<th><em style="color: red;"> * </em>广告图：</th>
-				<td><input name="img" type="file" class="input_Member" required="required"></td>
+                <th>广告图：</th>
+                <td>
+                	<img width="200px" height="100px" alt="${homepage.titile!}" src="${homepage.img!}" />
+                </td>
+              </tr>
+				<tr>
+				<th>修改广告：</th>
+				<td><input name="img" type="file" class="input_Member"></td>
 				</tr>
 				<tr id="progressTr" style="display: none;">
 				<th><em style="color: red;"> * </em>进度：</th>
@@ -64,7 +72,7 @@
 				<tr>
 				<th>简介：</th>
 				<td>
-					<textarea name="des" style="padding:10px;" rows="8" cols="70"></textarea>
+					<textarea name="des" style="padding:10px;" rows="8" cols="70">${homepage.des!}</textarea>
 				</td>
 				</tr>
 				<tr>

@@ -1,11 +1,11 @@
 <% layout("/admin/admin_layout.html"){ %>
 <link href="css/Member.css" rel="stylesheet" media="screen">
+<script src="js/jquery.form.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		//初始化
 		showpage({'flag':0,'status':'','pageIndex':1});
 	});
-	
 	function showpage(params){
 		var param = '';
 		$.each(params,function(key,value){

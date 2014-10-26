@@ -6,7 +6,7 @@ CREATE TABLE `homepage` (
   `img` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '图片',
   `url` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '广告地址',
   `des` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '描述',
-  `rank` tinyint(3) DEFAULT NULL COMMENT '排序 12345',
+  `rank` int(11) DEFAULT '0' COMMENT '排序，数值越大排名越靠前',
   `status` tinyint(3) DEFAULT NULL COMMENT '0禁用 1启用',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
