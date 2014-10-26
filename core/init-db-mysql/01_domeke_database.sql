@@ -324,7 +324,7 @@ CREATE TABLE `comment` (
   `level` int(11) NOT NULL DEFAULT '1',
   `idtype` varchar(20) NOT NULL,
   `userip` varchar(20) NOT NULL,
-  `dateline` int(14) unsigned NOT NULL DEFAULT '0',
+  `dateline` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `message` text NOT NULL,
   `status` varchar(4) NOT NULL DEFAULT '10',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
