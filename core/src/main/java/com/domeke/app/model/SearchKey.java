@@ -23,7 +23,7 @@ public class SearchKey extends Model<SearchKey>{
 	 * 查询关键字
 	 * @return 所有关键字
 	 */
-	public List<SearchKey> getVentWall(){
+	public List<SearchKey> getSearchKey(){
 		List<SearchKey> searchKeyList = searchdao.findByCache("searchKeyList", "key", "SELECT * FROM SEARCH_KEY");
 		return searchKeyList;	
 	}

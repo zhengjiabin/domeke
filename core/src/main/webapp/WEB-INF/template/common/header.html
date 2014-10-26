@@ -24,7 +24,9 @@
         	<input name="search" type="submit" class="SearchButton" value="搜索">
         	</form>
             <div class="SearchKey">
-            <span class="font_r"><a href="#">盆栽</a></span>|<span><a href="#">创意家居</a></span>|<span class="font_r"><a href="#">动漫</a></span>|<span><a href="#">盆栽</a></span>|<span class="font_r"><a href="#">动漫</a></span>|<span><a href="#">原创</a></span>
+            <% for(s in searchKeyList!){ %>
+            	<span class="font_r">${s.keyname}</span>|
+            <%}%>
             </div>
         </div>
     </div>

@@ -31,7 +31,7 @@ public class SearchKeyController extends Controller{
 	}
 	private void selectUtil() {
 		SearchKey.searchdao.removeCache();		
-		List<SearchKey> searchKeyList = SearchKey.searchdao.getVentWall();
+		List<SearchKey> searchKeyList = SearchKey.searchdao.getSearchKey();
 		setAttr("searchKeyList", searchKeyList);
 	}
 	public void index(){
