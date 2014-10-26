@@ -148,8 +148,12 @@ public class VentWallController extends Controller {
 		List<VentWall> ventWallList = VentWall.venWdao.getVentWall();
 		List<User> userList = new ArrayList<User>();
 		User user = getModel(User.class);
+		DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm"); 
+		String createTime = "";
 		for (VentWall vent : ventWallList){
 			user = user.findById(vent.get("userid"));
+			createTime = sdf.format(vent.get("createtime"));
+			vent.set("createtime", createTime);
 			userList.add(user);
 		}
 		setAttr("ventWallList", ventWallList);
