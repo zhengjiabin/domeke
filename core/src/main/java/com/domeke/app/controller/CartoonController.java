@@ -10,11 +10,14 @@ import com.domeke.app.interceptor.ActionInterceptor;
 import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
+import com.domeke.app.model.WorksType;
 import com.domeke.app.utils.CodeKit;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.ParseDemoKit;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 /**
@@ -27,22 +30,58 @@ public class CartoonController extends Controller {
 	private static String IDTYPE = "40";
 
 	public void index() {
-		setAttr("menuid", "2");
+		String menuid = getPara("menuid");
+		if(StrKit.isBlank(menuid)){
+			menuid = "2";
+		}
 		Works worksModel = getModel(Works.class);
-		List<CodeTable> wtypeCTList = CodeKit.getList("workstype");
-		setAttr("wtypeCTList", wtypeCTList);
+		WorksType worksTypeModel = getModel(WorksType.class);
+		List<WorksType> worksTypes = worksTypeModel.getWorksTypesByCartoonDesc(1);
+		
+		Map<String, Object> typeMap = Maps.newHashMap();
+		for (WorksType worksType : worksTypes) {
+			typeMap.put(worksType.get("id").toString(), worksType.get("name"));
+		}
+		
+		//加载首页8个循环显示
+		List<Works> workss0Temp = worksModel.getHomePage(8);
+		List<Map<String, Object>> workss0 = Lists.newArrayList();
+		workss0 = ParseDemoKit.worksParse(workss0Temp);
+		
+		//加载中间数据
+		List<Works> workss1temp = worksModel.getWorksInfoByType(worksTypes.get(0).get("id").toString(),5);
+		List<Map<String, Object>> workss1 = Lists.newArrayList();
+		workss1 = ParseDemoKit.worksParse(workss1temp);
+		
+		List<Works> workss2temp = worksModel.getWorksInfoByType(worksTypes.get(1).get("id").toString(),6);
+		List<Map<String, Object>> workss2 = Lists.newArrayList();
+		workss2 = ParseDemoKit.worksParse(workss2temp);
+		
+		List<Works> workss3temp = worksModel.getWorksInfoByType(worksTypes.get(2).get("id").toString(),12);
+		List<Map<String, Object>> workss3 = Lists.newArrayList();
+		workss3 = ParseDemoKit.worksParse(workss3temp);
+		
+		List<Works> workss4temp = worksModel.getWorksInfoByType(worksTypes.get(3).get("id").toString(),9);
+		List<Map<String, Object>> workss4 = Lists.newArrayList();
+		workss4 = ParseDemoKit.worksParse(workss4temp);
+		
+		List<Works> workss5temp = worksModel.getWorksInfoByType(worksTypes.get(4).get("id").toString(),6);
+		List<Map<String, Object>> workss5 = Lists.newArrayList();
+		workss5 = ParseDemoKit.worksParse(workss5temp);
+		
 		List<Works> worksList = Lists.newArrayList();
 		// 用于显示“大家都爱看”列表
 		worksList = worksModel.getWorksInfoByPageViewsLimit(5);
 		setAttr("olikeWorksList", worksList);
-		// 查出每一种类型的动漫作品
-		Map<String, List<Works>> allWorksMap = Maps.newHashMap();
-		for (CodeTable wtypeCT : wtypeCTList) {
-			String workstype = wtypeCT.get("codekey");
-			worksList = worksModel.getWorksInfoByType(workstype, 10);
-			allWorksMap.put(workstype, worksList);
-		}
-		setAttr("allWorksMap", allWorksMap);
+		setAttr("menuid", menuid);
+		setAttr("workstype", typeMap);
+		
+		setAttr("workss0", workss0);
+		setAttr("workss1", workss1);
+		setAttr("workss2", workss2);
+		setAttr("workss3", workss3);
+		setAttr("workss4", workss4);
+		setAttr("workss5", workss5);
 		render("/CartoonCategory.html");
 	}
 

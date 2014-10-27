@@ -76,7 +76,7 @@ public class OfWondersController extends FilesLoadController {
 	}
 
 	/**
-	 * 查询指定帖子信息
+	 * 查询指定宝贝信息
 	 * 请求  ofWonders/findById?wondersTypeId=${wondersTypeId!}&targetId=${targetId!}
 	 */
 	public void findById() {
@@ -143,7 +143,6 @@ public class OfWondersController extends FilesLoadController {
 	 */
 	public void skipContain(){
 		String ofWondersId = getPara("ofWondersId");
-		String render = "/wondersType/ofWondersContain.html";
 		OfWonders.dao.updateTimes(ofWondersId);
 		
 		setOfWonders(ofWondersId);
@@ -152,6 +151,7 @@ public class OfWondersController extends FilesLoadController {
 		setWondersTypes();
 		setVentWall();
 		
+		String render = "/wondersType/ofWondersContain.html";
 		forwardComment(ofWondersId,render);
 	}
 	
@@ -230,6 +230,63 @@ public class OfWondersController extends FilesLoadController {
 	}
 	
 	/**
+	 * 个人会用中心（我发布的宝贝）--入口
+	 */
+	@Before(LoginInterceptor.class)
+	public void personalHome(){
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Object userId = getUserId();
+		Page<OfWonders> ofWondersPage = OfWonders.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("ofWondersPage", ofWondersPage);
+		render("/personal/personal_ofWonders.html");
+	}
+	
+	/**
+	 * 个人会员中心--查询用户发布的宝贝
+	 * 请求 ofWonders/findByUserId
+	 */
+	@Before(LoginInterceptor.class)
+	public void findByUserId() {
+		Object userId = getUserId();
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<OfWonders> ofWondersPage = OfWonders.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("ofWondersPage", ofWondersPage);
+		render("/personal/personal_ofWondersPage.html");
+	}
+	
+	/**
+	 * 个人会员中心--跳转修改主题
+	 * 请求 ./ofWonders/skipUpdateForPersonal?ofWondersId=${ofWondersId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipUpdateForPersonal() {
+		OfWonders ofWonders = null;
+		String ofWondersId = getPara("ofWondersId");
+		if(StrKit.notBlank(ofWondersId)){
+			ofWonders = OfWonders.dao.findInfoById(ofWondersId);
+		}
+		setAttr("ofWonders", ofWonders);
+		render("/personal/personal_ofWondersUpdate.html");
+	}
+	
+	/**
+	 * 个人会员中心--修改主题
+	 * 请求 ./ofWonders/updateForPersonal
+	 */
+	@Before(LoginInterceptor.class)
+	public void updateForPersonal() {
+		try{
+			OfWonders ofWonders = getModel(OfWonders.class);
+			ofWonders.update();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		personalHome();
+	}
+	
+	/**
 	 * 设置父版块
 	 */
 	private void setWondersTypeFatList(){
@@ -272,9 +329,9 @@ public class OfWondersController extends FilesLoadController {
 	}
 	
 	/**
-	 * 查询指定社区的分页帖子信息
+	 * 查询指定社区的分页宝贝信息
 	 * 
-	 * @return 帖子信息
+	 * @return 宝贝信息
 	 */
 	public void find() {
 		String ofWondersId = getPara("ofWondersId");
@@ -284,7 +341,7 @@ public class OfWondersController extends FilesLoadController {
 	}
 	
 	/**
-	 * 分页查询帖子
+	 * 分页查询宝贝
 	 */
 	public void findPage(){
 		int pageNumber = getParaToInt("pageNumber", 1);
@@ -292,22 +349,6 @@ public class OfWondersController extends FilesLoadController {
 		Page<OfWonders> ofWondersPage = OfWonders.dao.findPage(pageNumber, pageSize);
 		setAttr("ofWondersPage", ofWondersPage);
 		render("/admin/admin_detailofWonders.html");
-	}
-
-	/**
-	 * 查询发帖人所有帖子信息
-	 * 
-	 * @return 帖子信息
-	 */
-	public void findByUserId() {
-		Object userId = getUserId();
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-
-		OfWonders ofWonders = getModel(OfWonders.class);
-		Page<OfWonders> page = ofWonders.findByUserId(userId, pageNumber, pageSize);
-		setAttr("page", page);
-		render("/ofWonders/myofWonders.html");
 	}
 	
 	/**
@@ -348,7 +389,7 @@ public class OfWondersController extends FilesLoadController {
 	}
 	
 	/**
-	 * 设置帖子信息
+	 * 设置宝贝信息
 	 * @param ofWondersId
 	 */
 	private void setOfWonders(Object ofWondersId){
@@ -357,9 +398,9 @@ public class OfWondersController extends FilesLoadController {
 	}
 
 	/**
-	 * 查询修改的帖子信息
+	 * 查询修改的宝贝信息
 	 * 
-	 * @return 帖子信息
+	 * @return 宝贝信息
 	 */
 	public void modifyById() {
 		String ofWondersId = getPara("ofWondersId");
@@ -369,7 +410,7 @@ public class OfWondersController extends FilesLoadController {
 	}
 
 	/**
-	 * 修改帖子信息
+	 * 修改宝贝信息
 	 */
 	@Before(LoginInterceptor.class)
 	public void modify() {
@@ -439,7 +480,7 @@ public class OfWondersController extends FilesLoadController {
 	}
 
 	/**
-	 * 设置分页帖子
+	 * 设置分页宝贝
 	 */
 	private void setOfWondersPage(Object wondersTypeId) {
 		int pageNumber = getParaToInt("pageNumber", 1);

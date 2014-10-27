@@ -15,13 +15,16 @@
         	if( this.value=="" ){
         	    var errorMsg = '标题不能为空';
         	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if(this.value.length > 30){
+        		var errorMsg = '标题长度必须小于30个字';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else{
         	    var okMsg = '输入正确';
-             $parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
        	   	}
         }
       	//主题图片验证
-        if($(this).is('#themeing')){
+        if($(this).is('#themeimg')){
         	if( this.value=="" ){
         	    var errorMsg = '主题图片不能为空';
         	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
@@ -50,7 +53,7 @@
                	 	<th>主题图片：</th>
                 	<td>
                 		<div id="preview"></div>
-                		<input id="themeing" name="ofWonders.themeing" type="file" class="input_Forum" value="${ofWonders.themeing!}" onchange="onUploadImgChange(this)" required="required">
+                		<input id="themeimg" name="ofWonders.themeimg" type="file" class="input_Forum" value="${ofWonders.themeimg!}" onchange="onUploadImgChange(this)" required="required">
                 	</td>
               	</tr>
             </table>

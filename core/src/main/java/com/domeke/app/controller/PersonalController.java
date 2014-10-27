@@ -6,7 +6,10 @@ import java.util.regex.Pattern;
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Activity;
 import com.domeke.app.model.DownLoad;
+import com.domeke.app.model.OfWonders;
 import com.domeke.app.model.PlayCount;
+import com.domeke.app.model.Post;
+import com.domeke.app.model.Treasure;
 import com.domeke.app.model.User;
 import com.domeke.app.utils.EncryptKit;
 import com.jfinal.aop.Before;
@@ -26,6 +29,10 @@ public class PersonalController extends Controller{
 		myDownLoad(mid);
 		myPlay(mid);
 		acctiveApply(mid);
+		activityPage(mid,userId);
+		postPage(mid,userId);
+		treasurePage(mid,userId);
+		ofWondersPage(mid,userId);
 		render("/personalCenter.html");
 	}
 	public void forMyProductionPage(){
@@ -48,6 +55,59 @@ public class PersonalController extends Controller{
 		}
 		
 	}
+	
+	/**
+	 * 加载我发布的活动
+	 */
+	private void activityPage(String minuId,Long userId){
+		if(!"15".equals(minuId)){
+			return;
+		}
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Activity> activityPage = Activity.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("activityPage", activityPage);
+	}
+	
+	/**
+	 * 加载我发布的帖子
+	 */
+	private void postPage(String minuId,Long userId){
+		if(!"16".equals(minuId)){
+			return;
+		}
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Post> postPage = Post.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("postPage", postPage);
+	}
+	
+	/**
+	 * 加载我发布的宝贝
+	 */
+	private void treasurePage(String minuId,Long userId){
+		if(!"17".equals(minuId)){
+			return;
+		}
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<Treasure> treasurePage = Treasure.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("treasurePage", treasurePage);
+	}
+	
+	/**
+	 * 加载我发布的无奇不有
+	 */
+	private void ofWondersPage(String minuId,Long userId){
+		if(!"18".equals(minuId)){
+			return;
+		}
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<OfWonders> ofWondersPage = OfWonders.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("ofWondersPage", ofWondersPage);
+	}
+	
 	
 	/**
 	 * 加载我的下载记录

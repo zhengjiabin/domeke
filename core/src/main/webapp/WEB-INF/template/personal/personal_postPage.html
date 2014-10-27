@@ -1,0 +1,29 @@
+<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+	<tr>
+	   	<th>帖子主题</th>
+	   	<th>发帖时间</th>
+	   	<th>操作</th>
+	</tr>
+	<% for(post in postPage.list!){%>
+		<tr>
+		   	<td><a href="./post/skipContain?postId=${post.postid!}">${post.subject!}</a></td>
+		   	<td>${post.dateline!}</td>
+		   	<td>
+		   		<a href="javascript:void(0)" onclick="skipUpdatePost(this,'${post.postid!}')">修改</a>
+	   		</td>
+      	</tr>
+	<% } %>  
+</table>
+<div class="PageMore">
+	<% 
+        if(postPage != null){ 
+		layout(
+			"/common/page.html",
+			{
+			"page":postPage,
+			"pageAction":"./post/findByUserId",
+			"fatherNode":"#page"
+			}
+		){} 
+	}%>
+</div>

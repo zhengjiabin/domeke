@@ -158,10 +158,8 @@ function showCommunity(node){
 
 //提交宝贝主题
 function submitTreasure(node,communityId){
-	createHtml = $(node).closest("#createHtml");
-	subject = createHtml.find("#subject").first();
 	canSubmit = true;
-	$("form :input[required=required]").trigger('blur');
+	$("form :input").trigger('blur');
     var numError = $('form .onError').length;
     if(numError){
     	canSubmit = false;
@@ -183,10 +181,8 @@ function submitTreasure(node,communityId){
 
 //提交论坛主题
 function submitPost(node,communityId){
-	createHtml = $(node).closest("#createHtml");
-	subject = createHtml.find("#subject").first();
 	canSubmit = true;
-	$("form :input[required=required]").trigger('blur');
+	$("form :input").trigger('blur');
     var numError = $('form .onError').length;
     if(numError){
     	canSubmit = false;
@@ -208,10 +204,8 @@ function submitPost(node,communityId){
 
 //提交活动主题
 function submitActivity(node,communityId){
-	createHtml = $(node).closest("#createHtml");
-	subject = createHtml.find("#subject").first();
 	canSubmit = true;
-	$("form :input[required=required]").trigger('blur');
+	$("form :input").trigger('blur');
     var numError = $('form .onError').length;
     if(numError){
     	canSubmit = false;

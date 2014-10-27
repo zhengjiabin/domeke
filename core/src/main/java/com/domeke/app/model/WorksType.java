@@ -25,12 +25,17 @@ public class WorksType extends Model<WorksType> {
 	private static final long serialVersionUID = 1L;
 	
 	public List<WorksType> getWorksTypes(Integer type){
-		String sql = "select * from works_type where type="+type+" order by istop desc";
+		String sql = "select * from works_type where type="+type+" order by indextop desc";
 		List<WorksType> worksTypes = this.find(sql);
 		return worksTypes;
 	}
-	public List<WorksType> getWorksTypes(){
-		String sql = "select * from works_type order by istop desc";
+//	public List<WorksType> getWorksTypes(){
+//		String sql = "select * from works_type order by indextop desc";
+//		List<WorksType> worksTypes = this.find(sql);
+//		return worksTypes;
+//	}
+	public List<WorksType> getWorksTypesByCartoonDesc(Integer type){
+		String sql = "select * from works_type where type="+type+" order by cartoontop desc";
 		List<WorksType> worksTypes = this.find(sql);
 		return worksTypes;
 	}

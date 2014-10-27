@@ -62,22 +62,42 @@ public class WorksController extends FilesLoadController {
 	}
 
 	public void deleteWork() {
-		int id = getParaToInt("id");
-		Work workModel = getModel(Work.class);
-		Work work = workModel.findById(id);
-		boolean bool = false;
-		if (work != null) {
-			bool = work.delete();
-		}
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (bool) {
-			map.put("success", "1");
-		} else {
+		try {
+			int id = getParaToInt("id");
+			Work workModel = getModel(Work.class);
+			workModel = workModel.findById(id);
+			boolean bool = false;
+			Works worksModel = getModel(Works.class);
+			if (workModel.isNotEmpty()) {
+				bool = workModel.delete();
+				if(bool) {
+					worksModel = worksModel.findById(workModel.get("worksid"));
+					Long maxnum = worksModel.getLong("maxnum");
+					if (maxnum != 0 && maxnum != null) {
+						maxnum = maxnum - 1;
+					}
+					worksModel.set("maxnum", maxnum);
+					worksModel.update();
+				}
+			}
+			
+			if (bool) {
+				map.put("success", "1");
+			} else {
+				map.put("success", "0");
+			}
+			renderJson(map);
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
 			map.put("success", "0");
+			renderJson(map);
+			return;
+			
 		}
-		renderJson(map);
+		
 	}
-
 
 	/**
 	 * 查询出所有作品
@@ -118,17 +138,19 @@ public class WorksController extends FilesLoadController {
 			pageSize = "5";
 		}
 		Works worksModel = getModel(Works.class);
-		Page<Works> workslist = worksModel.getWorksInfoPage(workstype, Integer.parseInt(pageIndex),
-				Integer.parseInt(pageSize));
+		Page<Works> workslist = worksModel.getWorksInfoPage(workstype,
+				Integer.parseInt(pageIndex), Integer.parseInt(pageSize));
 		renderJson(workslist);
 	}
 
 	/**
 	 * 根据作品类型分页获取作品信息
 	 */
-	public List<Works> getWorksInfoByTypePage(String workstype, Integer pageIndex, Integer pageSize) {
+	public List<Works> getWorksInfoByTypePage(String workstype,
+			Integer pageIndex, Integer pageSize) {
 		Works worksModel = getModel(Works.class);
-		List<Works> workslist = worksModel.getWorksInfoByTypePage(workstype, pageIndex, pageSize);
+		List<Works> workslist = worksModel.getWorksInfoByTypePage(workstype,
+				pageIndex, pageSize);
 		return workslist;
 	}
 
@@ -137,8 +159,9 @@ public class WorksController extends FilesLoadController {
 		User user = getSessionAttr("user");
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
-		
-		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
+
+		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024,
+				"utf-8");
 		String comicPath = upLoadVideo("comic", "", 2000 * 1024 * 1024, "utf-8");
 		String title = getPara("title");
 		String des = getPara("des");
@@ -202,12 +225,13 @@ public class WorksController extends FilesLoadController {
 		renderJson(map);
 	}
 
-	public void addZhuanji(){
+	public void addZhuanji() {
 		User user = getSessionAttr("user");
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
-		
-		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
+
+		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024,
+				"utf-8");
 		String title = getPara("title");
 		String des = getPara("des");
 		String type = getPara("type");
@@ -251,27 +275,27 @@ public class WorksController extends FilesLoadController {
 		}
 		renderJson(map);
 	}
-	
-	public void uploadShipin(){
+
+	public void uploadShipin() {
 		Map<String, Object> map = Maps.newHashMap();
 		User user = getSessionAttr("user");
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
-		
-		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
+
+		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024,
+				"utf-8");
 		String comicPath = upLoadVideo("comic", "", 2000 * 1024 * 1024, "utf-8");
 		String title = getPara("title");
 		String des = getPara("des");
 		String ispublic = getPara("ispublic");
 		String worksid = getPara("worksid");
-		
+
 		Works worksModel = getModel(Works.class).findById(worksid);
 		Work workModel = getModel(Work.class);
 		boolean bool = false;
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		System.out.println(worksModel.get("maxnum"));
 		String maxnum = String.valueOf(worksModel.get("maxnum"));
-		if(StrKit.isBlank(maxnum)){
+		if (StrKit.isBlank(maxnum)) {
 			maxnum = "0";
 		}
 		worksModel.set("maxnum", Integer.parseInt(maxnum) + 1);
@@ -322,8 +346,9 @@ public class WorksController extends FilesLoadController {
 		User user = getSessionAttr("user");
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
-		
-		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
+
+		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024,
+				"utf-8");
 		String worksid = getPara("worksid");
 		String title = getPara("title");
 		String leadingrole = getPara("leadingrole");
@@ -332,45 +357,45 @@ public class WorksController extends FilesLoadController {
 		Works worksModel = getModel(Works.class).findById(worksid);
 		Work workModel = getModel(Work.class);
 		List<Work> works = getModel(Work.class).getWorkByWorksID(worksid);
-		if(!works.isEmpty()){
+		if (!works.isEmpty()) {
 			workModel = works.get(0);
 		}
 		boolean bool = false;
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		if(!StrKit.isBlank(coverPath)){
+		if (!StrKit.isBlank(coverPath)) {
 			String oldcover = worksModel.get("cover");
 			File coverFile = new File(oldcover);
-			if(coverFile.exists()){
+			if (coverFile.exists()) {
 				coverFile.delete();
 			}
 			worksModel.set("cover", coverPath);
-			
+
 			String oldcover1 = workModel.get("cover");
 			File coverFile1 = new File(oldcover1);
-			if(coverFile1.exists()){
+			if (coverFile1.exists()) {
 				coverFile1.delete();
 			}
 			workModel.set("cover", coverPath);
 		}
-		if(!StrKit.isBlank(title)){
+		if (!StrKit.isBlank(title)) {
 			worksModel.set("worksname", title);
 			workModel.set("workname", title);
 		}
-		if(!StrKit.isBlank(leadingrole)){
+		if (!StrKit.isBlank(leadingrole)) {
 			worksModel.set("leadingrole", leadingrole);
 		}
 		worksModel.set("describle", des);
 		workModel.set("workdes", des);
-		if(!StrKit.isBlank(ispublic)){
+		if (!StrKit.isBlank(ispublic)) {
 			worksModel.set("ispublic", ispublic);
 			workModel.set("isdisable", ispublic);
 		}
 		worksModel.set("modifier", userId);
 		worksModel.set("modifiername", userName);
 		worksModel.set("modifytime", timestamp);
-		
+
 		bool = worksModel.update();
-		if(!bool){
+		if (!bool) {
 			map.put("success", 0);
 			map.put("message", "服务器错误！");
 			renderJson(map);
@@ -390,14 +415,15 @@ public class WorksController extends FilesLoadController {
 		renderJson(map);
 		return;
 	}
-	
-	public void editZhuanji(){
+
+	public void editZhuanji() {
 		Map<String, Object> map = Maps.newHashMap();
 		User user = getSessionAttr("user");
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
-		
-		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
+
+		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024,
+				"utf-8");
 		String worksid = getPara("worksid");
 		String title = getPara("title");
 		String leadingrole = getPara("leadingrole");
@@ -406,22 +432,22 @@ public class WorksController extends FilesLoadController {
 		Works worksModel = getModel(Works.class).findById(worksid);
 		boolean bool = false;
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		if(!StrKit.isBlank(coverPath)){
+		if (!StrKit.isBlank(coverPath)) {
 			String oldcover = worksModel.get("cover");
 			File coverFile = new File(oldcover);
-			if(coverFile.exists()){
+			if (coverFile.exists()) {
 				coverFile.delete();
 			}
 			worksModel.set("cover", coverPath);
 		}
-		if(!StrKit.isBlank(title)){
+		if (!StrKit.isBlank(title)) {
 			worksModel.set("worksname", title);
 		}
-		if(!StrKit.isBlank(leadingrole)){
+		if (!StrKit.isBlank(leadingrole)) {
 			worksModel.set("leadingrole", leadingrole);
 		}
 		worksModel.set("describle", des);
-		if(!StrKit.isBlank(ispublic)){
+		if (!StrKit.isBlank(ispublic)) {
 			worksModel.set("ispublic", ispublic);
 		}
 		worksModel.set("modifier", userId);
@@ -438,39 +464,41 @@ public class WorksController extends FilesLoadController {
 		renderJson(map);
 		return;
 	}
-	
-	public void editZhuanjiShipin(){
-		
+
+	public void editZhuanjiShipin() {
+
 		Map<String, Object> map = Maps.newHashMap();
 		boolean bool = false;
 		try {
 			User user = getSessionAttr("user");
-			Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
+			Integer userId = Integer
+					.parseInt(String.valueOf(user.get("userid")));
 			String userName = user.get("username");
-			
-			String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024, "utf-8");
+
+			String coverPath = upLoadFileDealPath("cover", "",
+					2000 * 1024 * 1024, "utf-8");
 			String workid = getPara("workid");
 			String title = getPara("title");
 			String des = getPara("des");
 			String ispublic = getPara("ispublic");
-			
+
 			Work workModel = getModel(Work.class).findById(workid);
 			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-			if(!StrKit.isBlank(coverPath)){
+			if (!StrKit.isBlank(coverPath)) {
 				String oldcover1 = workModel.get("cover");
-				if(!StrKit.isBlank(oldcover1)){
+				if (!StrKit.isBlank(oldcover1)) {
 					File coverFile1 = new File(oldcover1);
-					if(coverFile1.exists()){
+					if (coverFile1.exists()) {
 						coverFile1.delete();
 					}
 				}
 				workModel.set("cover", coverPath);
 			}
-			if(!StrKit.isBlank(title)){
+			if (!StrKit.isBlank(title)) {
 				workModel.set("workname", title);
 			}
 			workModel.set("workdes", des);
-			if(!StrKit.isBlank(ispublic)){
+			if (!StrKit.isBlank(ispublic)) {
 				workModel.set("isdisable", ispublic);
 			}
 			workModel.set("modifier", userId);
@@ -493,10 +521,8 @@ public class WorksController extends FilesLoadController {
 			renderJson(map);
 			return;
 		}
-		
-		
-	}
 
+	}
 
 	/**
 	 * 根据作品ID获取某作品
@@ -518,151 +544,166 @@ public class WorksController extends FilesLoadController {
 		render("/works/editWork.htm");
 	}
 
-	
 	public void showPage() {
-		User user = getSessionAttr("user");
-		String flag = getPara("flag");
-		String type = getPara("type");
-		String workstype = getPara("workstype");
-		String pageIndexStr = getPara("pageIndex");
-		Integer pageIndex = 1;
-		if (!StrKit.isBlank(pageIndexStr)) {
-			pageIndex = Integer.parseInt(pageIndexStr);
-		}
-		String pageSizeStr = getPara("pageSize");
-		Integer pageSize = 10;
-		if (!StrKit.isBlank(pageSizeStr)) {
-			pageSize = Integer.parseInt(pageSizeStr);
-		}
-		if(StrKit.isBlank(flag)){
-			flag = type;
-		}
-		WorksType worksTypeModel = getModel(WorksType.class);
-		Works worksModel = getModel(Works.class);
-		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(Integer.parseInt(type));
-		if ("0".equals(flag)) {
-			// 0是跳转视频管理
-			Page<Works> page = worksModel.getWorksInfoPage(workstype, type, user.get("creater"), pageIndex, pageSize);
-			List<Map<String, Object>> data = ParseDemoKit.worksParse(page.getList());
-			Page<List<Map<String, Object>>> pageWorks = new Page(data, page.getPageNumber(), page.getPageSize(),page.getTotalPage(), page.getTotalRow());
-			setAttr("workstype", workstype);
-			setAttr("worksTypes", worksTypes);
-			setAttr("pageWorks", pageWorks);
-			render("/worksManage/shipinManage.html");
-		}else if ("1".equals(flag)) {
-			//1是跳转专辑管理
-			Page<Works> page = worksModel.getWorksInfoPage(workstype, type, user.get("creater"), pageIndex, pageSize);
-			List<Map<String, Object>> data = ParseDemoKit.worksParse(page.getList());
-			Page<List<Map<String, Object>>> pageWorks = new Page(data, page.getPageNumber(), page.getPageSize(),
-					page.getTotalPage(), page.getTotalRow());
-			setAttr("workstype", workstype);
-			setAttr("worksTypes", worksTypes);
-			setAttr("pageWorks", pageWorks);
-			render("/worksManage/zhuanjiManage.html");
-		}else if("10".equals(flag)){
-			//10 是跳转 添加视频页面
-			setAttr("type", type);
-			setAttr("worksTypes", worksTypes);
-			setAttr("workstype", workstype);
-			setAttr("pageIndex", pageIndex);
-			render("/worksManage/addshipin.html");
-		}else if("11".equals(flag)){
-			//11 是跳转 添加专辑页面
-			setAttr("type", type);
-			setAttr("worksTypes", worksTypes);
-			setAttr("workstype", workstype);
-			setAttr("pageIndex", pageIndex);
-			render("/worksManage/addzhuanji.html");
-		}else if("20".equals(flag)){
-			//20 是跳转 编辑视频页面
-			String worksid = getPara("worksid");
-			worksModel = worksModel.findById(worksid);
-			Work workModel = getModel(Work.class);
-			List<Work> works = workModel.getWorkByWorksID(worksid);
-			worksTypeModel = worksTypeModel.findById(worksModel.get("workstype"));
-			if(!works.isEmpty()){
-				workModel = works.get(0);
+		try {
+			User user = getSessionAttr("user");
+			String flag = getPara("flag");
+			String type = getPara("type");
+			String workstype = getPara("workstype");
+			String pageIndexStr = getPara("pageIndex");
+			Integer pageIndex = 1;
+			if (!StrKit.isBlank(pageIndexStr)) {
+				pageIndex = Integer.parseInt(pageIndexStr);
 			}
-			setAttr("type", type);
-			setAttr("pageIndex", pageIndex);
-			setAttr("worksType", worksTypeModel);
-			setAttr("workstype", workstype);
-			setAttr("works", worksModel);
-			setAttr("work", workModel);
-			
-			render("/worksManage/editshipin.html");
-		}else if("21".equals(flag)){
-			//21 是跳转 专辑详细页面
-			String worksid = getPara("worksid");
-			String workpageIndexStr = getPara("workpageIndex");
-			Integer workpageIndex = 1;
-			if (!StrKit.isBlank(workpageIndexStr)) {
-				workpageIndex = Integer.parseInt(workpageIndexStr);
+			String pageSizeStr = getPara("pageSize");
+			Integer pageSize = 10;
+			if (!StrKit.isBlank(pageSizeStr)) {
+				pageSize = Integer.parseInt(pageSizeStr);
 			}
-			worksModel = worksModel.findById(Integer.parseInt(worksid));
-			worksTypeModel = worksTypeModel.findById(worksModel.get("workstype"));
-			Page<Work> pageWork = getModel(Work.class).getWorkByWorksID(Integer.parseInt(worksid), workpageIndex, pageSize);
-			setAttr("type", type);
-			setAttr("workstype", workstype);
-			setAttr("pageIndex", pageIndex);
-			setAttr("works", worksModel);
-			setAttr("worksType", worksTypeModel);
-			setAttr("pageWork", pageWork);
-			render("/worksManage/detailzhuanji.html");
-		}else if("22".equals(flag)){
-			//22 是跳转 编辑专辑页面
-			String worksid = getPara("worksid");
-			String workpageIndexStr = getPara("workpageIndex");
-			Integer workpageIndex = 1;
-			if (!StrKit.isBlank(workpageIndexStr)) {
-				workpageIndex = Integer.parseInt(workpageIndexStr);
+			if (StrKit.isBlank(flag)) {
+				flag = type;
 			}
-			worksModel = worksModel.findById(Integer.parseInt(worksid));
-			worksTypeModel = worksTypeModel.findById(worksModel.get("workstype"));
-			setAttr("type", type);
-			setAttr("workstype", workstype);
-			setAttr("pageIndex", pageIndex);
-			setAttr("workpageIndex", workpageIndex);
-			
-			setAttr("works", worksModel);
-			setAttr("worksType", worksTypeModel);
-			render("/worksManage/editzhuanji.html");
-		}else if("23".equals(flag)){
-			//23 是跳转 编辑专辑-->视频页面
-			String workpageIndexStr = getPara("workpageIndex");
-			Integer workpageIndex = 1;
-			if (!StrKit.isBlank(workpageIndexStr)) {
-				workpageIndex = Integer.parseInt(workpageIndexStr);
+			WorksType worksTypeModel = getModel(WorksType.class);
+			Works worksModel = getModel(Works.class);
+			List<WorksType> worksTypes = worksTypeModel.getWorksTypes(Integer
+					.parseInt(type));
+			if ("0".equals(flag)) {
+				// 0是跳转视频管理
+				Page<Works> page = worksModel.getWorksInfoPage(workstype, type,
+						user.get("creater"), pageIndex, pageSize);
+				List<Map<String, Object>> data = ParseDemoKit.worksParse(page
+						.getList());
+				Page<List<Map<String, Object>>> pageWorks = new Page(data,
+						page.getPageNumber(), page.getPageSize(),
+						page.getTotalPage(), page.getTotalRow());
+				setAttr("workstype", workstype);
+				setAttr("worksTypes", worksTypes);
+				setAttr("pageWorks", pageWorks);
+				render("/worksManage/shipinManage.html");
+			} else if ("1".equals(flag)) {
+				// 1是跳转专辑管理
+				Page<Works> page = worksModel.getWorksInfoPage(workstype, type,
+						user.get("creater"), pageIndex, pageSize);
+				List<Map<String, Object>> data = ParseDemoKit.worksParse(page
+						.getList());
+				Page<List<Map<String, Object>>> pageWorks = new Page(data,
+						page.getPageNumber(), page.getPageSize(),
+						page.getTotalPage(), page.getTotalRow());
+				setAttr("workstype", workstype);
+				setAttr("worksTypes", worksTypes);
+				setAttr("pageWorks", pageWorks);
+				render("/worksManage/zhuanjiManage.html");
+			} else if ("10".equals(flag)) {
+				// 10 是跳转 添加视频页面
+				setAttr("type", type);
+				setAttr("worksTypes", worksTypes);
+				setAttr("workstype", workstype);
+				setAttr("pageIndex", pageIndex);
+				render("/worksManage/addshipin.html");
+			} else if ("11".equals(flag)) {
+				// 11 是跳转 添加专辑页面
+				setAttr("type", type);
+				setAttr("worksTypes", worksTypes);
+				setAttr("workstype", workstype);
+				setAttr("pageIndex", pageIndex);
+				render("/worksManage/addzhuanji.html");
+			} else if ("20".equals(flag)) {
+				// 20 是跳转 编辑视频页面
+				String worksid = getPara("worksid");
+				worksModel = worksModel.findById(worksid);
+				Work workModel = getModel(Work.class);
+				List<Work> works = workModel.getWorkByWorksID(worksid);
+				worksTypeModel = worksTypeModel.findById(worksModel
+						.get("workstype"));
+				if (!works.isEmpty()) {
+					workModel = works.get(0);
+				}
+				setAttr("type", type);
+				setAttr("pageIndex", pageIndex);
+				setAttr("worksType", worksTypeModel);
+				setAttr("workstype", workstype);
+				setAttr("works", worksModel);
+				setAttr("work", workModel);
+	
+				render("/worksManage/editshipin.html");
+			} else if ("21".equals(flag)) {
+				// 21 是跳转 专辑详细页面
+				String worksid = getPara("worksid");
+				String workpageIndexStr = getPara("workpageIndex");
+				Integer workpageIndex = 1;
+				if (!StrKit.isBlank(workpageIndexStr)) {
+					workpageIndex = Integer.parseInt(workpageIndexStr);
+				}
+				worksModel = worksModel.findById(Integer.parseInt(worksid));
+				worksTypeModel = worksTypeModel.findById(worksModel
+						.get("workstype"));
+				Page<Work> pageWork = getModel(Work.class).getWorkByWorksID(
+						Integer.parseInt(worksid), workpageIndex, pageSize);
+				setAttr("type", type);
+				setAttr("workstype", workstype);
+				setAttr("pageIndex", pageIndex);
+				setAttr("works", worksModel);
+				setAttr("worksType", worksTypeModel);
+				setAttr("pageWork", pageWork);
+				render("/worksManage/detailzhuanji.html");
+			} else if ("22".equals(flag)) {
+				// 22 是跳转 编辑专辑页面
+				String worksid = getPara("worksid");
+				String workpageIndexStr = getPara("workpageIndex");
+				Integer workpageIndex = 1;
+				if (!StrKit.isBlank(workpageIndexStr)) {
+					workpageIndex = Integer.parseInt(workpageIndexStr);
+				}
+				worksModel = worksModel.findById(Integer.parseInt(worksid));
+				worksTypeModel = worksTypeModel.findById(worksModel
+						.get("workstype"));
+				setAttr("type", type);
+				setAttr("workstype", workstype);
+				setAttr("pageIndex", pageIndex);
+				setAttr("workpageIndex", workpageIndex);
+	
+				setAttr("works", worksModel);
+				setAttr("worksType", worksTypeModel);
+				render("/worksManage/editzhuanji.html");
+			} else if ("23".equals(flag)) {
+				// 23 是跳转 编辑专辑-->视频页面
+				String workpageIndexStr = getPara("workpageIndex");
+				Integer workpageIndex = 1;
+				if (!StrKit.isBlank(workpageIndexStr)) {
+					workpageIndex = Integer.parseInt(workpageIndexStr);
+				}
+				String worksid = getPara("worksid");
+				String workid = getPara("workid");
+				Work workModel = getModel(Work.class).findById(workid);
+	
+				setAttr("type", type);
+				setAttr("workpageIndex", workpageIndex);
+				setAttr("pageIndex", pageIndex);
+				setAttr("worksid", worksid);
+	
+				setAttr("work", workModel);
+				render("/worksManage/editzhuanjishipin.html");
+			} else if ("24".equals(flag)) {
+				// 23 是跳转 添加专辑->视频 页面
+				String workpageIndexStr = getPara("workpageIndex");
+				Integer workpageIndex = 1;
+				if (!StrKit.isBlank(workpageIndexStr)) {
+					workpageIndex = Integer.parseInt(workpageIndexStr);
+				}
+				String worksid = getPara("worksid");
+				setAttr("type", type);
+				setAttr("workstype", workstype);
+				setAttr("workpageIndex", workpageIndex);
+				setAttr("pageIndex", pageIndex);
+				setAttr("worksid", worksid);
+				render("/worksManage/uploadshipin.html");
 			}
-			String worksid = getPara("worksid");
-			String workid = getPara("workid");
-			Work workModel = getModel(Work.class).findById(workid);
-			
-			setAttr("type", type);
-			setAttr("workpageIndex", workpageIndex);
-			setAttr("pageIndex", pageIndex);
-			setAttr("worksid", worksid);
-			
-			setAttr("work", workModel);
-			render("/worksManage/editzhuanjishipin.html");
-		}else if("24".equals(flag)){
-			//23 是跳转 添加专辑->视频 页面
-			String workpageIndexStr = getPara("workpageIndex");
-			Integer workpageIndex = 1;
-			if (!StrKit.isBlank(workpageIndexStr)) {
-				workpageIndex = Integer.parseInt(workpageIndexStr);
-			}
-			String worksid = getPara("worksid");
-			setAttr("type", type);
-			setAttr("workstype", workstype);
-			setAttr("workpageIndex", workpageIndex);
-			setAttr("pageIndex", pageIndex);
-			setAttr("worksid", worksid);
-			render("/worksManage/uploadshipin.html");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
-	
-	public void showAdminPage(){
+
+	public void showAdminPage() {
 		String type = getPara("type");
 		String flag = getPara("flag");
 		String workstype = getPara("workstype");
@@ -678,30 +719,40 @@ public class WorksController extends FilesLoadController {
 		}
 		WorksType worksTypeModel = getModel(WorksType.class);
 		Works worksModel = getModel(Works.class);
-		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(Integer.parseInt(type));
-		if("0".equals(flag)){
-			//查询未审核的
-			Page<Works> pagedata = worksModel.getWorksNotCheck(workstype, pageIndex, pageSize);
-			Page<List<Map<String, Object>>> pageWorks = new Page(parseAdminZhuanji(pagedata.getList()),pageIndex,pageSize,pagedata.getTotalPage(),pagedata.getTotalRow());
+		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(Integer
+				.parseInt(type));
+		if ("0".equals(flag)) {
+			// 查询未审核的
+			Page<Works> pagedata = worksModel.getWorksNotCheck(workstype,
+					pageIndex, pageSize);
+			Page<List<Map<String, Object>>> pageWorks = new Page(
+					parseAdminZhuanji(pagedata.getList()), pageIndex, pageSize,
+					pagedata.getTotalPage(), pagedata.getTotalRow());
 			setAttr("pageWorks", pageWorks);
 			setAttr("worksTypes", worksTypes);
 			setAttr("workstype", workstype);
 			setAttr("flag", flag);
 			render("/admin/admin_works_zhuanji.html");
 			return;
-		}else if("1".equals(flag)){
-			//查询首页5个轮播
-			Page<Works> pagedata = worksModel.getHomePage(workstype, pageIndex, pageSize);
-			Page<List<Map<String, Object>>> pageWorks = new Page(parseAdminZhuanji(pagedata.getList()),pageIndex,pageSize,pagedata.getTotalPage(),pagedata.getTotalRow());
+		} else if ("1".equals(flag)) {
+			// 查询首页5个轮播
+			Page<Works> pagedata = worksModel.getHomePage(workstype, pageIndex,
+					pageSize);
+			Page<List<Map<String, Object>>> pageWorks = new Page(
+					parseAdminZhuanji(pagedata.getList()), pageIndex, pageSize,
+					pagedata.getTotalPage(), pagedata.getTotalRow());
 			setAttr("pageWorks", pageWorks);
 			setAttr("worksTypes", worksTypes);
 			setAttr("workstype", workstype);
 			setAttr("flag", flag);
 			render("/admin/admin_works_zhuanji.html");
-		}else if("2".equals(flag)){
-			//查询 全部
-			Page<Works> pagedata = worksModel.getWorksInfoPage(workstype, type, pageIndex, pageSize);
-			Page<List<Map<String, Object>>> pageWorks = new Page(parseAdminZhuanji(pagedata.getList()),pageIndex,pageSize,pagedata.getTotalPage(),pagedata.getTotalRow());
+		} else if ("2".equals(flag)) {
+			// 查询 全部
+			Page<Works> pagedata = worksModel.getWorksInfoPage(workstype, type,
+					pageIndex, pageSize);
+			Page<List<Map<String, Object>>> pageWorks = new Page(
+					parseAdminZhuanji(pagedata.getList()), pageIndex, pageSize,
+					pagedata.getTotalPage(), pagedata.getTotalRow());
 			setAttr("pageWorks", pageWorks);
 			setAttr("worksTypes", worksTypes);
 			setAttr("workstype", workstype);
@@ -709,15 +760,15 @@ public class WorksController extends FilesLoadController {
 			render("/admin/admin_works_zhuanji.html");
 		}
 	}
-	
-	public void yesChecked(){
+
+	public void yesChecked() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String ids = getPara("ids");
 			String[] idsStr = ids.split(",");
 			for (String id : idsStr) {
 				Work workModel = getModel(Work.class).findById(id);
-				if(workModel.isNotEmpty()){
+				if (workModel.isNotEmpty()) {
 					workModel.set("ischeck", 1);
 					workModel.update();
 				}
@@ -730,31 +781,32 @@ public class WorksController extends FilesLoadController {
 		renderJson(map);
 		return;
 	}
-	public void yesCheckWorks(){
+
+	public void yesCheckWorks() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String worksid = getPara("worksid");
-			if(StrKit.isBlank(worksid)){
+			if (StrKit.isBlank(worksid)) {
 				map.put("success", 0);
 				map.put("message", "参数为空！");
 				renderJson(map);
 				return;
 			}
 			Works worksModel = getModel(Works.class).findById(worksid);
-			if(!worksModel.isNotEmpty()){
+			if (!worksModel.isNotEmpty()) {
 				map.put("success", 0);
 				map.put("message", "找不到对象");
 				renderJson(map);
 				return;
 			}
-			
+
 			worksModel.set("ischeck", 1);
 			boolean bool = worksModel.update();
-			if(bool){
+			if (bool) {
 				map.put("success", 1);
 				renderJson(map);
 				return;
-			}else {
+			} else {
 				map.put("success", 0);
 				map.put("message", "审核失败");
 				renderJson(map);
@@ -768,33 +820,33 @@ public class WorksController extends FilesLoadController {
 			return;
 		}
 	}
-	
-	public void upranking(){
+
+	public void upranking() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			String type = getPara("type");
 			String flag = getPara("flag");
 			String worksid = getPara("worksid");
 			Works worksModel = getModel(Works.class).findById(worksid);
-			if(!worksModel.isNotEmpty()){
+			if (!worksModel.isNotEmpty()) {
 				map.put("success", 0);
 				renderJson(map);
 				return;
 			}
-			if("0".equals(flag)){
-				//首页置顶
+			if ("0".equals(flag)) {
+				// 首页置顶
 				Integer homepage = worksModel.getMaxHomePageValue(type);
 				worksModel.set("homepage", homepage + 1);
 			}
-			if("1".equals(flag)){
-				//类型置顶
+			if ("1".equals(flag)) {
+				// 类型置顶
 				Integer istop = worksModel.getMaxTopValue(type);
 				worksModel.set("istop", istop + 1);
 			}
-			if("10".equals(flag)){
+			if ("10".equals(flag)) {
 				worksModel.set("homepage", 0);
 			}
-			if("11".equals(flag)){
+			if ("11".equals(flag)) {
 				worksModel.set("istop", 0);
 			}
 			worksModel.update();
@@ -806,19 +858,19 @@ public class WorksController extends FilesLoadController {
 		renderJson(map);
 		return;
 	}
-	
-	private List<Map<String, Object>> parseAdminZhuanji(List<Works> workss){
+
+	private List<Map<String, Object>> parseAdminZhuanji(List<Works> workss) {
 		List<Map<String, Object>> resultMap = Lists.newArrayList();
 		try {
 			for (Works works : workss) {
-				if(works == null)
+				if (works == null)
 					continue;
 				Map<String, Object> map = new HashMap<String, Object>();
 				Object worksid = works.get("worksid");
 				map.put("worksid", worksid);
 				String worksname = works.get("worksname");
-				if(worksname.length() > 12){
-					worksname = worksname.substring(0,12);
+				if (worksname.length() > 12) {
+					worksname = worksname.substring(0, 12);
 				}
 				map.put("worksname", worksname);
 				map.put("workstype", works.get("workstype"));
@@ -834,31 +886,33 @@ public class WorksController extends FilesLoadController {
 				String playUrl = "";
 				String detailUrl = "";
 				Integer type = works.getInt("type");
-				if(type == 1){
-					//0专辑 
-					playUrl = "cartoon/playVideo?id="+worksid;
-					detailUrl = "cartoon/showDetail?id="+worksid;
-				}else if(type == 0){
-					 //视频
-					playUrl = "cartoon/playVideo?id="+worksid;
+				if (type == 1) {
+					// 0专辑
+					playUrl = "cartoon/playVideo?id=" + worksid;
+					detailUrl = "cartoon/showDetail?id=" + worksid;
+				} else if (type == 0) {
+					// 视频
+					playUrl = "cartoon/playVideo?id=" + worksid;
 					detailUrl = playUrl;
 				}
-				map.put("playUrl",playUrl);
-				map.put("detailUrl",detailUrl);
-				String typeUrl = "cartoon/showWorksList?wtype="+works.get("workstype");
-				map.put("typeUrl",typeUrl);
+				map.put("playUrl", playUrl);
+				map.put("detailUrl", detailUrl);
+				String typeUrl = "cartoon/showWorksList?wtype="
+						+ works.get("workstype");
+				map.put("typeUrl", typeUrl);
 				String describle = works.get("describle");
-				if(describle.length() > 20){
+				if (describle.length() > 20) {
 					describle = describle.substring(0, 20) + "...";
 				}
-				map.put("describle",describle);
+				map.put("describle", describle);
 				map.put("creater", works.get("createtime"));
 				map.put("creatername", works.get("creatername"));
 				map.put("createtime", works.get("createtime"));
 				map.put("modifier", works.get("modifier"));
 				map.put("modifiername", works.get("modifiername"));
 				map.put("updatetime", works.get("updatetime"));
-				List<Work> workList = getModel(Work.class).getNotCheckWork(works.get("worksid"));
+				List<Work> workList = getModel(Work.class).getNotCheckWork(
+						works.get("worksid"));
 				map.put("workNotCheck", workList);
 				resultMap.add(map);
 			}
@@ -867,10 +921,12 @@ public class WorksController extends FilesLoadController {
 		}
 		return resultMap;
 	}
-	public void getWorksTypes(){
+
+	public void getWorksTypes() {
 		String type = getPara("type");
 		WorksType worksTypeModel = getModel(WorksType.class);
-		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(Integer.parseInt(type));
+		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(Integer
+				.parseInt(type));
 		renderJson(worksTypes);
 	}
 }

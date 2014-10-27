@@ -53,7 +53,7 @@ public class ParseDemoKit {
 				map.put("creater", works.get("createtime"));
 				map.put("creatername", works.get("creatername"));
 				map.put("createtime", works.get("createtime"));
-				
+				map.put("maxnum", works.get("maxnum"));
 				map.put("modifier", works.get("modifier"));
 				map.put("modifiername", works.get("modifiername"));
 				map.put("updatetime", works.get("updatetime"));
@@ -82,6 +82,8 @@ public class ParseDemoKit {
 				map.put("oldprice", goods.get("oldprice"));
 				map.put("amount", goods.get("amount"));
 				map.put("pic", goods.get("pic"));
+				map.put("goodsattr1", goods.get("goodsattr1"));
+				map.put("dougprice", goods.get("dougprice"));
 				String message = goods.get("message");
 				if(message.length() > 50){
 					message = message.substring(0, 50) + "...";

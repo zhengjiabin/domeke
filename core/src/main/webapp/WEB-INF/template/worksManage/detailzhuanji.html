@@ -1,9 +1,6 @@
 <script type="text/javascript">
 	var workstype = '${workstype}';
 	$(document).ready(function(){
-		$('#workstypesel').change(function(){
-			showPage({'flag':1,'type':1,'pageIndex':1});
-		});
 	});
 	if(workstype != ''){
 		$('#workstypesel').val(workstype);
@@ -19,7 +16,7 @@
 					}else{
 						alert("删除失败");
 					}
-					showPage({'flag':21,'type':1,'pageIndex':'${pageIndex!}'});
+					showPage({'flag':21,'type':1,'pageIndex':'${pageIndex!}','workpageIndex':'${pageWork.pageNumber!}','worksid':'${works.worksid!}'});
 				}
 			});
 		}else{
@@ -65,7 +62,7 @@
                 <td>${work.createtime!}</td>
                 <td>${work.creatername!}</td>
                 <td>播放：${work.playtimes!}</td>
-                <td><a href="javascript:showPage({'flag':23,'type':1,'pageIndex':${pageIndex!},'worksid':${work.worksid!},'workid':${work.workid!},'workpageIndex':${pageWork.pageNumber!}});">编辑视频</a><a href="javascript:;">删除</a></td>
+                <td><a href="javascript:showPage({'flag':23,'type':1,'pageIndex':${pageIndex!},'worksid':${work.worksid!},'workid':${work.workid!},'workpageIndex':${pageWork.pageNumber!}});">编辑视频</a><a href="javascript:del(${work.workid!});">删除</a></td>
             </tr>
             <%}%>
             </tbody>

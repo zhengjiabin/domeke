@@ -26,7 +26,7 @@ public class SearchKeyValidator extends Validator {
 	protected void handleError(Controller c) {
 		c.keepPara();
 		SearchKey.searchdao.removeCache();		
-		List<SearchKey> searchKeyList = SearchKey.searchdao.getVentWall();
+		List<SearchKey> searchKeyList = SearchKey.searchdao.getSearchKey();
 		c.setAttr("searchKeyList", searchKeyList);
 		c.render("/admin/admin_keywordsManage.html");
 	}

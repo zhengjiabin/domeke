@@ -1,4 +1,5 @@
 <% layout("/common/personalLayout.html"){ %>
+<script src="js/personal.js"></script>
 <div id="personal">
 	<% if(menuId! == null) {%>
 		<% include("/test1.html"){} %>
@@ -51,5 +52,14 @@
 	<% if(menuId! == '12') {%>
 		<% include("/updateUserMsg.html"){} %>
 	<% } %>
+	<% if(menuId! == '15') {%>
+		<% include("/personal/personal_activity.html"){} %>
+	<% } else if (menuId! == '16') { %>
+		<% include("/personal/personal_post.html"){} %>
+	<% } else if (menuId! == '17') { %>	
+		<% include("/personal/personal_treasure.html"){} %>
+	<% } else if (menuId! == '18') { %>	
+		<% include("/personal/personal_ofWonders.html"){} %>
+	<% } %>		
 </div>
 <% } %> 

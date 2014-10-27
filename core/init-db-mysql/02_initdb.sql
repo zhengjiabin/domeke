@@ -49,6 +49,61 @@ INSERT INTO `code_table` VALUES ('30', '2', 'level', '二级', '二级', '20', '
 INSERT INTO `code_table` VALUES ('31', '3', 'level', '三级', '三级', '30', '2014-10-20 19:49:34', null, '2014-10-20 19:49:34', null, '0');
 
 
+INSERT INTO `menu` VALUES (1, 10, '首页', 'index', '1', 100000000, NULL, '2014-9-13 11:13:02', NULL, '2014-9-13 11:13:02', NULL, '1');
+INSERT INTO `menu` VALUES (2, 20, '动漫', 'cartoon', '1', 200000000, NULL, '2014-9-13 14:43:09', NULL, '2014-9-13 14:43:09', NULL, '1');
+INSERT INTO `menu` VALUES (3, 30, '无奇不有', 'wondersType', '1', 300000000, NULL, '2014-10-18 11:56:12', NULL, '2014-10-18 11:56:12', NULL, '1');
+INSERT INTO `menu` VALUES (4, 40, '商城', 'goods/shop', '1', 400000000, NULL, '2014-9-13 14:20:08', NULL, '2014-9-13 14:20:08', NULL, '1');
+INSERT INTO `menu` VALUES (5, 50, 'HIGH豆社区', 'forum', '1', 500000000, NULL, '2014-9-13 14:20:13', NULL, '2014-9-13 14:20:13', NULL, '1');
+INSERT INTO `menu` VALUES (6, 60, '签到发泄墙', 'ventwall', '1', 600000000, NULL, '2014-9-13 11:13:10', NULL, '2014-9-13 11:13:10', NULL, '1');
+INSERT INTO `menu` VALUES (8, 20020, '个人中心', '#', '1', 200010000, NULL, '2014-9-13 12:51:46', NULL, '2014-9-13 12:51:46', NULL, '2');
+INSERT INTO `menu` VALUES (15, NULL, '我的作品', 'personal/forMyProduction?menuId=1', '2', 200010010, 8, '2014-9-16 13:23:35', NULL, '2014-9-16 13:23:35', NULL, '2');
+INSERT INTO `menu` VALUES (16, NULL, '播放记录', 'personal/forMyProduction?menuId=2', '2', 200010020, 8, '2014-9-16 13:23:39', NULL, '2014-9-16 13:23:39', NULL, '2');
+INSERT INTO `menu` VALUES (17, NULL, '我的下载', 'personal/forMyProduction?menuId=13', '2', 200010030, 8, '2014-9-13 12:52:05', NULL, '2014-9-13 12:52:05', NULL, '2');
+INSERT INTO `menu` VALUES (18, NULL, '参与的活动', 'personal/forMyProduction?menuId=14', '2', 200010040, 8, '2014-9-13 12:52:06', NULL, '2014-9-13 12:52:06', NULL, '2');
+INSERT INTO `menu` VALUES (19, NULL, '会员等级', 'personal/forMyProduction?menuId=3', '2', 200010050, 8, '2014-9-16 13:23:58', NULL, '2014-9-16 13:23:58', NULL, '2');
+INSERT INTO `menu` VALUES (20, NULL, '会员积分', 'personal/forMyProduction?menuId=3', '2', 200010060, 8, '2014-9-16 13:24:02', NULL, '2014-9-16 13:24:02', NULL, '2');
+INSERT INTO `menu` VALUES (21, NULL, '动画收藏', '#', '2', 200010070, 8, '2014-9-13 12:52:09', NULL, '2014-9-13 12:52:09', NULL, '2');
+INSERT INTO `menu` VALUES (37, NULL, '社区', 'community', '1', 200000000, NULL, '2014-9-21 09:38:36', NULL, '2014-9-21 09:38:36', NULL, '3');
+INSERT INTO `menu` VALUES (38, NULL, '论坛', 'post/home', '1', 300000000, NULL, '2014-9-21 09:38:14', NULL, '2014-9-21 09:38:14', NULL, '3');
+INSERT INTO `menu` VALUES (39, NULL, '活动', 'activity/home', '1', 400000000, NULL, '2014-9-21 09:38:02', NULL, '2014-9-21 09:38:02', NULL, '3');
+INSERT INTO `menu` VALUES (40, NULL, '宝贝', 'treasure/home', '1', 500000000, NULL, '2014-9-21 09:37:50', NULL, '2014-9-21 09:37:50', NULL, '3');
+INSERT INTO `menu` VALUES (42, NULL, '全部商品分类', '#', '1', 100000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (43, NULL, '创意生活', '#', '1', 200000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (44, NULL, '无土栽培', '#', '1', 300000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (45, NULL, ' 进口食品', '#', '1', 400000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (46, NULL, '母婴用品', '#', '1', 500000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (47, NULL, '动漫周边', '#', '1', 600000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (48, NULL, '图书音像', '#', '1', 700000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (49, NULL, '跳蚤市场', '#', '1', 800000000, NULL, NULL, NULL, NULL, NULL, '4');
+INSERT INTO `menu` VALUES (50, NULL, '修改密码', 'personal/forMyProduction?menuId=4', '2', 200010080, 8, NULL, NULL, NULL, NULL, '2');
+INSERT INTO `menu` VALUES (51, NULL, '站内留言', 'um/forLeaveMsg?menuId=5', '2', 200010005, 8, NULL, NULL, NULL, NULL, '2');
+INSERT INTO `menu` VALUES (52, NULL, '首页', '#', '1', 100000000, NULL, '2014-9-21 09:37:21', NULL, '2014-9-21 09:37:21', NULL, '3');
+INSERT INTO `menu` VALUES (53,NULL,'资料修改','personal/forMyProduction?menuId=12','2',200010075,8,NULL,NULL,NULL,NULL,'2');
+INSERT INTO `menu` VALUES (54,NULL,'发布的活动','personal/forMyProduction?menuId=15','2',200010041,8,NULL,NULL,NULL,NULL,'2');
+INSERT INTO `menu` VALUES (55,NULL,'发布的帖子','personal/forMyProduction?menuId=16','2',200010042,8,NULL,NULL,NULL,NULL,'2');
+INSERT INTO `menu` VALUES (56,NULL,'发布的宝贝','personal/forMyProduction?menuId=17','2',200010043,8,NULL,NULL,NULL,NULL,'2');
+INSERT INTO `menu` VALUES (57,NULL,'我的无奇不有','personal/forMyProduction?menuId=18','2',200010070,8,NULL,NULL,NULL,NULL,'2');
 
+INSERT INTO `goods_type` VALUES ('1', '家用电器', '#', '1', '10000000', null, '1');
+INSERT INTO `goods_type` VALUES ('2', '大家电', '#', '2', '10100000', '1', '1');
+INSERT INTO `goods_type` VALUES ('3', '生活电器', '#', '2', '10200000', '1', '1');
+INSERT INTO `goods_type` VALUES ('4', '厨房电器', '#', '2', '10300000', '1', '1');
+INSERT INTO `goods_type` VALUES ('5', '五金家装', '#', '2', '10400000', '1', '1');
+INSERT INTO `goods_type` VALUES ('6', '平板电脑', '#', '3', '10101000', '2', '1');
+INSERT INTO `goods_type` VALUES ('7', '空调', '#', '3', '10102000', '2', '1');
+INSERT INTO `goods_type` VALUES ('8', '冰箱', '#', '3', '10103000', '2', '1');
+INSERT INTO `goods_type` VALUES ('9', '电风扇', '#', '3', '10201000', '3', '1');
+INSERT INTO `goods_type` VALUES ('10', '插座', '#', '3', '10202000', '3', '1');
+INSERT INTO `goods_type` VALUES ('11', '电压力锅', '#', '3', '10301000', '4', '1');
+INSERT INTO `goods_type` VALUES ('12', '电磁炉', '#', '3', '10302000', '4', '1');
+INSERT INTO `goods_type` VALUES ('13', '电动工具', '#', '3', '10401000', '5', '1');
+INSERT INTO `goods_type` VALUES ('14', '手动工具', '#', '3', '10402000', '5', '1');
 
-
+INSERT INTO `works_type` VALUES ('10', '原创动漫', '1', '99', '原创动漫');
+INSERT INTO `works_type` VALUES ('20', '亲子动漫', '1', '98', '亲子动漫');
+INSERT INTO `works_type` VALUES ('30', 'HIGH动漫', '1', '97', 'HIGH动漫');
+INSERT INTO `works_type` VALUES ('40', 'HI豆推荐', '1', '96', 'HI豆推荐');
+INSERT INTO `works_type` VALUES ('50', '原创精选', '1', '95', '原创精选');
+INSERT INTO `works_type` VALUES ('60', '人气作品', '1', '94', '人气作品');
+INSERT INTO `works_type` VALUES ('61', '新作预告', '1', '93', '新作预告');
+INSERT INTO `works_type` VALUES ('70', '搞笑视频', '0', '92', '搞笑视频');

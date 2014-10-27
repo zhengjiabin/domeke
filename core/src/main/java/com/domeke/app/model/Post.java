@@ -13,7 +13,19 @@ public class Post extends Model<Post> {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
 	public static Post dao = new Post();
+	
+	/**
+	 * 查询帖子明细信息
+	 * @return
+	 */
+	public Post findInfoById(Object postId){
+		StringBuffer sql = new StringBuffer("select p.*,u.username,u.imgurl,c.title ");
+		sql.append(" from post p,user u,community c where p.userid=u.userid  ");
+		sql.append(" and p.communityid=c.communityid and p.status='10' and p.postid=? ");
+		return this.findFirst(sql.toString(), postId);
+	}
 	
 	/**
 	 * 分页查询论坛，不区分状态
@@ -27,8 +39,26 @@ public class Post extends Model<Post> {
 	public Page<Post> findPageAll(int pageNumber, int pageSize) {
 		String select = "select p.*,u.username,u.imgurl";
 		StringBuffer sqlExceptSelect = new StringBuffer("from post p,user u where p.userid=u.userid ");
-		sqlExceptSelect.append("  order by to_days(createtime) desc,top desc,essence desc ");
+		sqlExceptSelect.append("  order by to_days(p.createtime) desc,p.top desc,p.essence desc ");
 		Page<Post> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
+		return page;
+	}
+	
+	/**
+	 * 分页查询指定发帖人的帖子
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Post> findByUserId(Object userId, int pageNumber, int pageSize) {
+		String select = "select p.*,u.username,u.imgurl";
+		StringBuffer sqlExceptSelect = new StringBuffer("from post p,user u where p.userid=u.userid ");
+		sqlExceptSelect.append(" and p.userid=? and p.status='10' ");
+		sqlExceptSelect.append(" order by to_days(p.createtime) desc,p.top desc,p.essence desc ");
+		Page<Post> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(), userId);
 		return page;
 	}
 
@@ -66,21 +96,6 @@ public class Post extends Model<Post> {
 		sqlExceptSelect.append(" and p.communityid=? ");
 		sqlExceptSelect.append(" order by to_days(p.createtime) desc,p.top desc,p.essence desc ");
 		Page<Post> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),communityId);
-		return page;
-	}
-
-	/**
-	 * 分页查询指定发帖人的帖子
-	 * 
-	 * @param pageNumber
-	 *            页号
-	 * @param pageSize
-	 *            页数
-	 * @return
-	 */
-	public Page<Post> findByUserId(Object userId, int pageNumber, int pageSize) {
-		Page<Post> page = this.paginate(pageNumber, pageSize, "select *",
-				"from post where userid=? order by to_days(createtime) desc,top desc,essence desc", userId);
 		return page;
 	}
 

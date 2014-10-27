@@ -1,0 +1,33 @@
+<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+	<tr>
+	   	<th>活动主题</th>
+	   	<th>开始时间</th>
+	   	<th>结束时间</th>
+	   	<th>活动地点</th>
+	   	<th>操作</th>
+	</tr>
+	<% for(activity in activityPage.list!){%>
+		<tr>
+		   	<td><a href="./activity/skipContain?activityId=${activity.activityid!}">${activity.subject!}</a></td>
+		   	<td>${activity.starttimefrom!}</td>
+		  	<td>${activity.starttimeto!}</td>
+		   	<td>${activity.place!}</td>
+		   	<td>
+		   		<a href="javascript:void(0)" onclick="skipUpdateActivity(this,'${activity.activityid!}')">修改</a>
+	   		</td>
+      	</tr>
+	<% } %>  
+</table>
+<div class="PageMore">
+	<% 
+        if(activityPage != null){ 
+		layout(
+			"/common/page.html",
+			{
+			"page":activityPage,
+			"pageAction":"./activity/findByUserId",
+			"fatherNode":"#page"
+			}
+		){} 
+	}%>
+</div>

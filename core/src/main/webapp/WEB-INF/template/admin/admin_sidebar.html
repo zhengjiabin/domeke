@@ -14,13 +14,25 @@
             	</ul>
 		</li>
 		<li>
-			<a href="javascript:void(0)" onclick="goToManage('/community/goToManager')"><i class="icon-chevron-right"></i> 社区管理</a>
+			<a href="javascript:void(0)" onclick="showForum(this)"><i class="icon-chevron-right"></i> 社区管理</a>
+			<ul style="display: none" id="secForum">
+					<li><a href="javascript:void(0)" onclick="goToManage('/community/goToManager')"><i class="icon-chevron-right"></i> 版块管理</a></li>
+					<li><a href="javascript:void(0)" onclick="goToManage('/post/goToManager')"><i class="icon-chevron-right"></i> 论坛管理</a></li>
+					<li><a href="javascript:void(0)" onclick="goToManage('/activity/goToManager')"><i class="icon-chevron-right"></i> 活动管理</a></li>
+					<li><a href="javascript:void(0)" onclick="goToManage('/treasure/goToManager')"><i class="icon-chevron-right"></i> 宝贝管理</a></li>
+            </ul>
 		</li>
 		<li>
 			<a href="javascript:void(0)" onclick="goToManage('/ventwall/goToManager')"><i class="icon-chevron-right"></i> 发泄墙管理</a>
 		</li>
 		<li>
+			<a href="javascript:void(0)" onclick="goToManage('/order/renderOrder')"><i class="icon-chevron-right"></i> 订单管理</a>
+		</li>
+		<li>
 			<a href="javascript:void(0)" onclick="goToManage('/user/goUserManage')"><i class="icon-chevron-right"></i> 用户管理</a>
+		</li>
+		<li>
+			<a href="javascript:void(0)" onclick="goToManage('/count/goUserCount')"><i class="icon-chevron-right"></i> 用户统计</a>
 		</li>
 		<li>
 			<a href="javascript:void(0)" onclick="goToManage('/menu/goToManager')"><i class="icon-chevron-right"></i> 菜单管理</a>
@@ -30,6 +42,9 @@
 		</li>
 		<li>
 			<a href="javascript:void(0)" onclick="goToManage('/works/goToManager')"><i class="icon-chevron-right"></i> 作品管理</a>
+		</li>
+		<li>
+			<a href="javascript:void(0)" onclick="goToManage('/homepage/goToManager')"><i class="icon-chevron-right"></i> 首页管理</a>
 		</li>
 	</ul>
 </div>

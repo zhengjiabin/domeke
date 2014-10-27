@@ -15,7 +15,52 @@ public class Treasure extends Model<Treasure> {
 	private static final long serialVersionUID = 1L;
 
 	public static Treasure dao = new Treasure();
+	
+	/**
+	 * 查询宝贝明细信息
+	 * @return
+	 */
+	public Treasure findInfoById(Object treasureId){
+		StringBuffer sql = new StringBuffer("select t.*,u.username,u.imgurl,c.title ");
+		sql.append(" from treasure t,user u,community c where t.userid=u.userid  ");
+		sql.append(" and t.communityid=c.communityid and t.status='10' and t.treasureid=? ");
+		return this.findFirst(sql.toString(), treasureId);
+	}
+	
+	/**
+	 * 分页查询论坛，不区分状态
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Treasure> findPageAll(int pageNumber, int pageSize) {
+		String select = "select t.*,u.username,u.imgurl";
+		StringBuffer sqlExceptSelect = new StringBuffer("from treasure t,user u where t.userid=u.userid ");
+		sqlExceptSelect.append("  order by to_days(t.createtime) desc,t.top desc,t.essence desc ");
+		Page<Treasure> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
+		return page;
+	}
 
+	/**
+	 * 分页查询指定用户的宝贝
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Treasure> findByUserId(Object userId, int pageNumber, int pageSize) {
+		String select = "select t.*,u.username,u.imgurl";
+		StringBuffer sqlExceptSelect = new StringBuffer("from treasure t,user u where t.userid=u.userid ");
+		sqlExceptSelect.append(" and t.userid=? and t.status='10' ");
+		sqlExceptSelect.append(" order by to_days(t.createtime) desc,t.top desc,t.essence desc ");
+		Page<Treasure> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(), userId);
+		return page;
+	}
 
 	/**
 	 * 分页查询宝贝
@@ -50,21 +95,6 @@ public class Treasure extends Model<Treasure> {
 		sqlExceptSelect.append(" on t.treasureid=cm.targetid where u.userid=t.userid and t.status='10' and t.communityid=? ");
 		sqlExceptSelect.append(" order by to_days(t.createtime) desc,t.top desc,t.essence desc");
 		Page<Treasure> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),communityId);
-		return page;
-	}
-
-	/**
-	 * 分页查询指定用户的宝贝
-	 * 
-	 * @param pageNumber
-	 *            页号
-	 * @param pageSize
-	 *            页数
-	 * @return
-	 */
-	public Page<Treasure> findByUserId(Object userId, int pageNumber, int pageSize) {
-		Page<Treasure> page = this.paginate(pageNumber, pageSize, "select *",
-				"from treasure where userid=? order by to_days(createtime) desc,top desc,essence desc", userId);
 		return page;
 	}
 

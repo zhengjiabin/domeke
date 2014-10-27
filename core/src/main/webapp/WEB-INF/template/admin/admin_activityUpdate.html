@@ -1,0 +1,150 @@
+<script type="text/javascript" src="${core}/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="${core}/My97DatePicker/WdatePicker.js"></script>
+<form id="submitForm" class="form-horizontal" action="./activity/update" method="post" onsubmit="submitForm(this)">
+	<fieldset>
+		<legend>活动管理</legend>
+		<input type="text" name="activity.activityid" value="${activity.activityid!}" style="display: none;">
+		
+		<div class="control-group">
+			<label class="control-label" for="disabledInput">版块</label>
+			<div class="controls">
+				<% if(isEmpty(activity.communityid)) { %>
+					<select name="activity.communityid" required="required" id="communityid">
+				<% } else { %>
+					<select name="activity.communityid" required="required" disabled="disabled" id="communityid">
+				<% } %>
+					<% 
+						for(community in communityList) { 
+							if(community.communityid == activity.communityid){
+					%>
+						<option value="${community.communityid!}" selected="selected">${community.title!}</option>
+					<% } else {%>
+						<option value="${community.communityid!}">${community.title!}</option>
+					<% } } %>
+					</select>
+			</div>
+		</div>
+		
+		<div class="control-group warning">
+			<label class="control-label" for="inputError">标题</label>
+			<div class="controls">
+				<input type="text" name="activity.subject"
+					value="${activity.subject!}">
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">开始时间</label>
+			<div class="controls">
+				<input type="text" name="activity.starttimefrom" value="${activity.starttimefrom!}" id="starttimefrom" readonly="readonly" onClick="WdatePicker()"/>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">结束时间</label>
+			<div class="controls">
+				<input type="text" name="activity.starttimeto" value="${activity.starttimeto!}" id="starttimeto" readonly="readonly" onClick="WdatePicker()"/>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">地点</label>
+			<div class="controls">
+				<input type="text" name="activity.place" value="${activity.place!}" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">类别</label>
+			<div class="controls">
+				 <input type="text" name="activity.classtype" value="${activity.classtype!}" />
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">性别要求</label>
+			<div class="controls">
+				 <% if(activity.gender == 0) { %>
+					<input type="radio" name="activity.gender" value="0" checked="checked"/>男
+					<input type="radio" name="activity.gender" value="1" />女
+					<input type="radio" name="activity.gender" value="2" />无
+				<% 	} else if (activity.gender == 1) { %>
+					<input type="radio" name="activity.gender" value="0" />男
+					<input type="radio" name="activity.gender" value="1" checked="checked"/>女
+					<input type="radio" name="activity.gender" value="2" />无
+				<% 	} else { %>
+					<input type="radio" name="activity.gender" value="0" />男
+					<input type="radio" name="activity.gender" value="1" />女
+					<input type="radio" name="activity.gender" value="2" checked="checked"/>无
+				<% 	} %>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">上线人数</label>
+			<div class="controls">
+				<input type="number" name="activity.number" value="${activity.number!}"/>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">报名截止日期</label>
+			<div class="controls">
+				<input type="text" name="activity.expiration" id="expiration" value="${activity.expiration!}" readonly="readonly" onClick="WdatePicker()"/>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">是否置顶</label>
+			<div class="controls">
+				<% if(activity.top == 1) { %>
+					<input type="radio" name="activity.top" value="0" >否
+					<input type="radio" name="activity.top" value="1" checked="checked">是
+				<% } else { %>
+					<input type="radio" name="activity.top" value="0" checked="checked">否
+					<input type="radio" name="activity.top" value="1" >是
+				<% } %>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">是否精华</label>
+			<div class="controls">
+				<% if(activity.essence == 1) { %>
+					<input type="radio" name="activity.essence" value="0" >否
+					<input type="radio" name="activity.essence" value="1" checked="checked">是
+				<% } else { %>
+					<input type="radio" name="activity.essence" value="0" checked="checked">否
+					<input type="radio" name="activity.essence" value="1" >是
+				<% } %>
+			</div>
+		</div>
+		
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">是否显示</label>
+			<div class="controls">
+				<% if(activity.status == 20) { %>
+					<input type="radio" name="activity.status" value="20" checked="checked">不显示
+					<input type="radio" name="activity.status" value="10">显示
+				<% } else { %>
+					<input type="radio" name="activity.status" value="20" >不显示
+					<input type="radio" name="activity.status" value="10" checked="checked">显示
+				<% } %>
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">内容</label>
+			<div class="controls">
+				<textarea name="ckeditor" id="ckeditor">${activity.message!}</textarea>
+				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
+				<input type="text" id="message" name="activity.message" style="display: none;"/>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">提交</button>
+			<button type="reset" class="btn">取消</button>
+		</div>
+	</fieldset>
+</form>

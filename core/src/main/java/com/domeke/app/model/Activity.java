@@ -17,6 +17,17 @@ public class Activity extends Model<Activity> {
 	public static Activity dao = new Activity();
 	
 	/**
+	 * 查询活动明细信息
+	 * @return
+	 */
+	public Activity findInfoById(Object activityId){
+		StringBuffer sql = new StringBuffer("select aty.*,u.username,u.imgurl,c.title ");
+		sql.append(" from activity aty,user u,community c where aty.userid=u.userid  ");
+		sql.append(" and aty.communityid=c.communityid and aty.status='10' and aty.activityid=? ");
+		return this.findFirst(sql.toString(), activityId);
+	}
+	
+	/**
 	 * 分页查询活动，不区分状态
 	 * 
 	 * @param pageNumber
@@ -28,8 +39,26 @@ public class Activity extends Model<Activity> {
 	public Page<Activity> findPageAll(int pageNumber, int pageSize) {
 		String select = "select aty.*,u.username,u.imgurl";
 		StringBuffer sqlExceptSelect = new StringBuffer("from activity aty,user u where aty.userid=u.userid ");
-		sqlExceptSelect.append("  order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc ");
+		sqlExceptSelect.append(" order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc ");
 		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
+		return page;
+	}
+	
+	/**
+	 * 分页查询指定发起人的活动
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @return
+	 */
+	public Page<Activity> findByUserId(Object userId, int pageNumber, int pageSize) {
+		String select = "select aty.*,u.username,u.imgurl";
+		StringBuffer sqlExceptSelect = new StringBuffer("from activity aty,user u where aty.userid=u.userid ");
+		sqlExceptSelect.append(" and aty.userid=? and aty.status='10' ");
+		sqlExceptSelect.append(" order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc ");
+		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),userId);
 		return page;
 	}
 
@@ -73,23 +102,6 @@ public class Activity extends Model<Activity> {
 		return page;
 	}
 
-	/**
-	 * 分页查询指定发起人的活动
-	 * 
-	 * @param pageNumber
-	 *            页号
-	 * @param pageSize
-	 *            页数
-	 * @return
-	 */
-	public Page<Activity> findByUserId(Object userId, int pageNumber,
-			int pageSize) {
-		Page<Activity> page = this.paginate(pageNumber, pageSize, "select *",
-				"from activity where userid=? order by to_days(createtime) desc,top desc,essence desc",
-				userId);
-		return page;
-	}
-	
 	/**
 	 * 浏览次数+1
 	 */

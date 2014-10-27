@@ -1,0 +1,21 @@
+<div class="CartoonContent">
+	<% 
+		for (worksvo in worksVOPage.list){ 
+	%>
+	   <div class="CartoonSub"> 
+	       <a href="cartoon/showDetail?id=${worksvo.id!}"><img src="${worksvo.cover!}"></a>
+	       <div class="CartoonName">${worksvo.worksname!}</div>
+	   </div>
+   <% } %>
+</div> 
+<% if(has(worksVOPage)){
+	var pageAction = "./search/searchPage?queryKey=" + queryKey;
+	layout(
+		"/common/page.html",
+		{
+			"page":worksVOPage,
+			"pageAction":pageAction,
+			"fatherNode":"#page"
+		}
+	){} 
+}%>

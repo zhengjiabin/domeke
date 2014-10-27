@@ -1,0 +1,50 @@
+<link href="${core}/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+<link href="${core}/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+	
+<script type="text/javascript" src="${core}/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="${core}/js/jquery.form.js"></script>
+
+<form id="submitForm" class="form-horizontal" action="./ofWonders/updateForPersonal" method="post" onsubmit="return submitForm(this)">
+	<fieldset>
+		<legend>无奇不有管理</legend>
+		<input type="text" name="ofWonders.ofwondersid" value="${ofWonders.ofwondersid!}" style="display: none;">
+		
+		<div class="control-group">
+			<label class="control-label" for="disabledInput">版块</label>
+			<div class="controls">
+				<input type="text" name="title" value="${ofWonders.title!}" readonly="readonly" >
+			</div>
+		</div>
+		
+		<div class="control-group warning">
+			<label class="control-label" for="inputError">主题</label>
+			<div class="controls">
+				<input type="text" name="ofWonders.subject" value="${ofWonders.subject!}">
+			</div>
+		</div>
+		
+		<div class="control-group warning">
+			<label class="control-label" for="inputError">主题图片</label>
+			<div class="controls">
+				<div id="preview">
+					<img src="${ofWonders.themeimg!}">
+				</div>
+				<input id="themeimg" name="ofWonders.themeimg" type="file" class="input_Forum" value="${ofWonders.themeimg!}" onchange="onUploadImgChange(this)" required="required">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">内容</label>
+			<div class="controls">
+				<textarea name="ckeditor" id="ckeditor">${ofWonders.message!}</textarea>
+				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
+				<input type="text" id="message" name="ofWonders.message" style="display: none;"/>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">提交</button>
+			<button type="reset" class="btn">取消</button>
+		</div>
+	</fieldset>
+</form>

@@ -1,6 +1,8 @@
 <% for (comment in commentPage.list){ %>
 <div class="ForumReply" id="commentContents">
-	<div class="ReplyHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
+	<div class="ReplyHead">
+		<img src="${comment.imgurl!}">
+	</div>
     <div class="ReplyBody">
 	    <div class="ReplyTop">
 			<span class="ReplyID font_ye"><a href="#">${comment.username!}</a></span>
@@ -43,8 +45,8 @@
 				</div>
 			</span>
 		</div>
-     </div>
-     <div class="clear"></div>
+	</div>
+    <div class="clear"></div>
 </div> 
 <% } %>
 <div class="PageMore White">

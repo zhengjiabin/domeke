@@ -15,25 +15,24 @@ Date: 2014-09-09 22:07:29
 
 SET FOREIGN_KEY_CHECKS=0;
 
--- ----------------------------
--- Table structure for wonders_type
--- ----------------------------
-DROP TABLE IF EXISTS `wonders_type`;
-CREATE TABLE `wonders_type` (
-  `wonderstypeid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `title`  varchar(64) NOT NULL,
-  `content`  varchar(255) DEFAULT NULL,
-  `pid` bigint(20) DEFAULT '0',
-  `level` int(11) NOT NULL DEFAULT '1',
-  `position` int(11) DEFAULT '0',
-  `times` bigint(20) DEFAULT '0',
-  `status` varchar(4) DEFAULT '10',
-  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`wonderstypeid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `menu`;
+
+CREATE TABLE `menu` (
+  `menuid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `mid` int(11) DEFAULT NULL,
+  `menuname` varchar(64) DEFAULT NULL,
+  `actionkey` varchar(256) DEFAULT NULL,
+  `top` char(2) DEFAULT NULL,
+  `sortnum` int(11) DEFAULT NULL,
+  `parentmenuid` bigint(20) DEFAULT NULL,
+  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `creater` varchar(32) DEFAULT NULL,
+  `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `modifier` varchar(32) DEFAULT NULL,
+  `menutype` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`menuid`)
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for of_wonders
@@ -325,7 +324,7 @@ CREATE TABLE `comment` (
   `level` int(11) NOT NULL DEFAULT '1',
   `idtype` varchar(20) NOT NULL,
   `userip` varchar(20) NOT NULL,
-  `dateline` int(14) unsigned NOT NULL DEFAULT '0',
+  `dateline` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `message` text NOT NULL,
   `status` varchar(4) NOT NULL DEFAULT '10',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -524,6 +523,7 @@ CREATE TABLE `user` (
   `peas` bigint(20) DEFAULT '0',
   `point` bigint(20) DEFAULT '0',
   `imgurl` varchar(100) DEFAULT NULL,
+  `status` varchar(2) DEFAULT 'Y',
   PRIMARY KEY (`userid`),
   UNIQUE KEY `username_idx` (`username`),
   UNIQUE KEY `email` (`email`)
@@ -622,3 +622,41 @@ CREATE TABLE `goods_type` (
   `goodstype` int(2) NOT NULL,
   PRIMARY KEY (`goodstypeid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `order_detail`;
+
+CREATE TABLE `order_detail` (
+  `orderdetailid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `orderid` bigint(20) NOT NULL COMMENT '订单主键',
+  `ordernum` varchar(32) NOT NULL COMMENT '订单编号',
+  `goodsid` bigint(20) DEFAULT NULL,
+  `goodsname` varchar(255) DEFAULT NULL,
+  `goodsprice` decimal(13,2) DEFAULT NULL,
+  `goodsnum` decimal(7,2) DEFAULT NULL,
+  `paytype` varchar(4) DEFAULT NULL COMMENT '支付类型：金钱，豆豆，优惠券',
+  PRIMARY KEY (`orderdetailid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `orders`;
+
+CREATE TABLE `orders` (
+  `orderid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ordernum` varchar(32) NOT NULL COMMENT '订单编号',
+  `order` bigint(20) DEFAULT NULL COMMENT '订单人编号',
+  `orderPay` varchar(4) DEFAULT NULL COMMENT '支付方式',
+  `isPay` varchar(4) DEFAULT NULL COMMENT '是否支付',
+  `isDelivery` varchar(4) DEFAULT NULL COMMENT '是否发货',
+  `orderAddr` varchar(256) DEFAULT NULL COMMENT '收货地址',
+  `orderPhone` varchar(32) DEFAULT NULL COMMENT '收货人电话',
+  `postage` float(7,2) DEFAULT NULL COMMENT '邮费',
+  `creater` bigint(20) NOT NULL,
+  `creattime` timestamp NULL DEFAULT NULL,
+  `updater` bigint(20) DEFAULT NULL,
+  `updatetime` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`orderid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
