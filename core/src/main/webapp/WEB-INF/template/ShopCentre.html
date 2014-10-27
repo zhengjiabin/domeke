@@ -26,8 +26,10 @@ function test(){
 		return;
 	}
 	$.showView(obj,url);
-	jAlert('您已经兑换成功！', '提示对话框');
-	console.log("您今天已经签到！"+goodsattr1);
+	var peasNum = $("#peasNum").val();
+	var peasNum1 = (peasNum-0)-(dougprice-0);
+	jAlert('您已经兑换成功！当前商品扣减豆豆：'+dougprice+'个，您豆豆剩余：'+peasNum1, '提示对话框');
+	console.log("您今天已经签到！");
 }  
 $.extend({
 	showView:function(obj,url){
