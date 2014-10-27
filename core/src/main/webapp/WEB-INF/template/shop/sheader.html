@@ -19,12 +19,20 @@
     </div>
 </div>
 <header>
+<script type="text/javascript">
+function search(self){
+ 	$("#searchInput").val(self);
+	console.log("您今天已经签到！"+self);
+}  
+</script>
 	<div class="HeadTop">
     	<div class="Logo"><a href="index"><img src="http://www.dongmark.com/images/logo.png"></a></div>
         <div class="Search">
-        	<input name="" type="text" class="SearchInput"><input name="" type="button" class="SearchButton" value="搜索">
+        	<input id="searchInput" name="" type="text" class="SearchInput"><input name="" type="button" class="SearchButton" value="搜索">
             <div class="SearchKey">
-            <span class="font_r"><a href="#">盆栽</a></span>|<span><a href="#">创意家居</a></span>|<span class="font_r"><a href="#">动漫</a></span>|<span><a href="#">盆栽</a></span>|<span class="font_r"><a href="#">动漫</a></span>|<span><a href="#">原创</a></span>
+            <% for(s in searchKeyList!){ %>
+            	<span class="font_r"><a id="keyname" href="javascript:search('${s.keyname!}');">${s.keyname}</a></span>|
+            <%}%>
             </div>
         </div>
     </div>
