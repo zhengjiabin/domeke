@@ -92,13 +92,13 @@ public class GoodsController extends FilesLoadController {
 			files = new String[fs.length];
 			for (int i = 0; i < fs.length; i++) {
 				files[i] = fs[i].getAbsolutePath();
-				if (fs[i].isDirectory()) {
-					try {
-						showAllFiles(fs[i]);
-					} catch (Exception e) {
-						System.out.println(e);
-					}
-				}
+//				if (fs[i].isDirectory()) {
+//					try {
+//						showAllFiles(fs[i]);
+//					} catch (Exception e) {
+//						System.out.println(e);
+//					}
+//				}
 			}
 		}
 		return files;
@@ -110,12 +110,15 @@ public class GoodsController extends FilesLoadController {
 	 * @return 返回指定路径下的所有文件域路径数组
 	 */
 	public List<String> getFileUrls(String url){
+		url =getDomainNameFilePath(url);
 		File dir = new File(url);
 		List<String> fileUrls = new ArrayList<String>();
 		String[] files = this.showAllFiles(dir);
-		for (int i =0; i < files.length; i ++) {
-//			fileUrls.add(getDomainNameFilePath(files[i]));
-			fileUrls.add(files[i]);
+		if (files != null){
+			for (int i =0; i < files.length; i ++) {
+//				fileUrls.add(getDomainNameFilePath(files[i]));
+				fileUrls.add(files[i]);
+			}
 		}
 		return fileUrls;
 	}
