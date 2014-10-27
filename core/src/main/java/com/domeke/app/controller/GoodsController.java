@@ -423,6 +423,7 @@ public class GoodsController extends FilesLoadController {
 		if (changeMap != null){
 			isChange = (String)changeMap.get("isChange");	
 			setAttr("userId", changeMap.get("userId"));
+			setAttr("peas", changeMap.get("peas"));
 		}
 		setAttr("isChange", isChange);
 		render("/ShopCentre.html");
@@ -473,6 +474,7 @@ public class GoodsController extends FilesLoadController {
 		setAttr("goodsTypes", goodsTypes);
 		setAttr("goods", goods);	
 		setAttr("isChange", isChange);
+		setAttr("peas", peas);
 		setAttr("userId", changeMap.get("userId"));
 		render("/ShopDtl.html");
 	}
