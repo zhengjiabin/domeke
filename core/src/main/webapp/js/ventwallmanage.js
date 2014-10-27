@@ -9,6 +9,7 @@ $(function(){
           var obj = {"ventWall.creater":selectnum,"ventWall.ventwallid":ventwallid};
           var url = "ventwall/updateById/"+num;
           $.showView(obj,url); 
+          jAlert('修改发泄墙状态成功！', '提示对话框');
       });
         $("button[lable='删除']").click(function(){
           var $self = $(this);
@@ -31,7 +32,7 @@ $(function(){
                     	$('#content').html(data);
                     },   
                     error:function(){ 
-                        alert("error");
+                        console.info("error");
                     }   
                 });
            	}
