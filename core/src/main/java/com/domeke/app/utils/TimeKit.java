@@ -16,7 +16,7 @@ public class TimeKit {
 	}
 
 	/**
-	 * 获取下周最后一天日期
+	 * 获取上周最后一天日期
 	 * @return
 	 */
 	public static LocalDate getLastWeekEnd() {

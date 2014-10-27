@@ -1,0 +1,89 @@
+<script type="text/javascript">
+	var workstype = '${workstype!}';
+	$(document).ready(function(){
+	});
+	if(workstype != ''){
+		$('#workstypesel').val(workstype);
+	}
+	function del(worksid){
+		if(confirm("确认删除吗？")){
+			$.ajax({
+				url:'works/deleteWork',
+				data:'id='+worksid,
+				success:function(data){
+					if(data.success == 1){
+						alert("删除成功!");
+					}else{
+						alert("删除失败");
+					}
+					showPage({'flag':12,'type':2,'pageIndex':'${pageIndex!}','workpageIndex':'${pageWork.pageNumber!}','worksid':'${works.worksid!}'});
+				}
+			});
+		}else{
+			return false;
+		}
+	}
+</script>
+<div class="MemberIndex">
+          <div class="MeCaption"><a href="javascript:showPage({'flag':2,'type':2,'pageIndex':${pageIndex!}});">漫画管理</a> --> <a href="javascript:showPage({'flag':12,'type':2,'pageIndex':${pageIndex!},'workpageIndex':${pageWork.pageNumber!},'worksid':${works.worksid!}});">编辑漫画</a></div>
+          <div class="AlbumInfo">
+          	<div class="AlbumButton font_b"><a href="javascript:showPage({'flag':14,'type':2,'pageIndex':${pageIndex!},'workpageIndex':${pageWork.pageNumber!},'worksid':${works.worksid!}});">编辑漫画信息</a><a href="javascript:showPage({'flag':15,'type':2,'pageIndex':${pageIndex!},'workpageIndex':${pageWork.pageNumber!},'worksid':${works.worksid!}});">+ 上传章节</a></div>
+            <div class="AlbumContent">
+            	<div class="AlbumPic"><img src="${works.cover!}"></div>
+                <div class="AlbumDtl">
+                	<ul>
+                	<li class="font_str">${works.worksname!}</li>
+                    <li>章节数：<span class="font_r">${works.maxnum!}</span></li>
+                    <li>观看数：<span class="font_r">${works.pageviews!}</span></li>
+                    <li>分类：${worksType.name!}</li>
+                    <li>简介：${works.describle!}</li>
+                </ul>
+                </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+          </br>
+          <div class="AlbumBlock">
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tbody><tr>
+                <th style="width: 60px; text-align: center;">排序</th>
+                <th>视频</th>
+                <th></th>
+                <th>添加时间</th>
+                <th>上传者</th>
+                <th>热度</th>
+                <th>操作</th>
+              </tr>
+              <%for(work in pageWork.list){%>
+              <tr>
+                <td class="center">${workLP.index}</td>
+                <td><img src="${work.cover!}"></td>
+                <td><a href="#">${work.workname!}</a></td>
+                <td>${work.createtime!}</td>
+                <td>${work.creatername!}</td>
+                <td>观看：${work.playtimes!}</td>
+                <td><a href="javascript:showPage({'flag':16,'type':2,'pageIndex':${pageIndex!},'worksid':${work.worksid!},'workid':${work.workid!},'workpageIndex':'${pageWork.pageNumber!}'});">编辑章节</a><a href="javascript:del(${work.workid!});">删除</a></td>
+            </tr>
+            <%}%>
+            </tbody>
+            </table>
+			<div class="PageMore">
+            <a href="javascript:showPage({'flag':12,'type':2,'pageIndex':'${pageIndex!}','workpageIndex':${pageWork.pageUp!},'worksid':${works.worksid!}});">上一页</a>
+             <% for(var i=0; i < pageWork.totalPage; i++)
+             {
+             	if(i+1 == pageWork.pageNumber){
+             %>
+             	
+          		<a style="background-color:#ccc;" href="javascript:showPage({'flag':12,'type':2,'pageIndex':${pageIndex!},'workpageIndex':${i+1},'worksid':${works.worksid!}});">${i+1}</a>
+          	<% 
+          		}
+          		else{
+          	%>
+          		<a href="javascript:showPage({'flag':12,'type':2,'pageIndex':'${pageIndex!}','workpageIndex':${i+1},'worksid':'${works.worksid!}'});">${i+1}</a>
+          	<%	
+          		}
+          	}%>
+            <a href="javascript:showPage({'flag':12,'type':2,'pageIndex':'${pageIndex!}','workpageIndex':'${pageWork.pageDown!}','worksid':'${works.worksid!}'});">下一页</a>
+            </div>
+          </div>
+        </div>

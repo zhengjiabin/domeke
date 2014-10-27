@@ -276,6 +276,56 @@ public class WorksController extends FilesLoadController {
 		renderJson(map);
 	}
 
+	public void addManhua() {
+		User user = getSessionAttr("user");
+		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
+		String userName = user.get("username");
+
+		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024,"utf-8");
+		String title = getPara("title");
+		String des = getPara("des");
+		String type = getPara("type");
+		String leadingrole = getPara("leadingrole");
+		String ispublic = getPara("ispublic");
+		Works worksModel = getModel(Works.class);
+		boolean bool = false;
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		worksModel.set("worksname", title);
+		worksModel.set("workstype", type);
+		worksModel.set("creativeprocess", 0);
+		worksModel.set("type", 2);
+		worksModel.set("ischeck", 0);
+		worksModel.set("cover", coverPath);
+		worksModel.set("leadingrole", leadingrole);
+		worksModel.set("describle", des);
+		worksModel.set("homepage", 0);
+		worksModel.set("istop", 0);
+		worksModel.set("ispublic", ispublic);
+		worksModel.set("comment", 0);
+		worksModel.set("pageviews", 0);
+		worksModel.set("collection", 0);
+		worksModel.set("praise", 0);
+		worksModel.set("maxnum", 0);
+		worksModel.set("releasedate", timestamp);
+		worksModel.set("creater", userId);
+		worksModel.set("creatername", userName);
+		worksModel.set("createtime", timestamp);
+		worksModel.set("modifier", userId);
+		worksModel.set("modifiername", userName);
+		worksModel.set("modifytime", timestamp);
+		bool = worksModel.save();
+		Map<String, Object> map = Maps.newHashMap();
+		if (bool) {
+			// 成功
+			map.put("success", 1);
+			map.put("worksid", String.valueOf(worksModel.get("worksid")));
+		} else {
+			map.put("success", 0);
+			map.put("message", "服务器错误！");
+		}
+		renderJson(map);
+	}
+	
 	public void uploadShipin() {
 		Map<String, Object> map = Maps.newHashMap();
 		User user = getSessionAttr("user");
@@ -340,7 +390,69 @@ public class WorksController extends FilesLoadController {
 		renderJson(map);
 		return;
 	}
+	public void uploadZhangjie() {
+		Map<String, Object> map = Maps.newHashMap();
+		User user = getSessionAttr("user");
+		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
+		String userName = user.get("username");
 
+		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024,"utf-8");
+		String comicPath = upLoadVideo("comic", "", 2000 * 1024 * 1024, "utf-8");
+		String title = getPara("title");
+		String des = getPara("des");
+		String ispublic = getPara("ispublic");
+		String worksid = getPara("worksid");
+
+		Works worksModel = getModel(Works.class).findById(worksid);
+		Work workModel = getModel(Work.class);
+		boolean bool = false;
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		String maxnum = String.valueOf(worksModel.get("maxnum"));
+		if (StrKit.isBlank(maxnum)) {
+			maxnum = "0";
+		}
+		worksModel.set("maxnum", Integer.parseInt(maxnum) + 1);
+		worksModel.set("updatetime", timestamp);
+		worksModel.set("releasedate", timestamp);
+		worksModel.set("modifier", userId);
+		worksModel.set("modifiername", userName);
+		worksModel.set("modifytime", timestamp);
+		bool = worksModel.update();
+		if (!bool) {
+			// 失败
+			map.put("success", 0);
+			map.put("message", "服务器错误！");
+			renderJson(map);
+			return;
+		}
+		workModel.set("worksid", worksModel.get("worksid"));
+		workModel.set("worknum", Integer.parseInt(maxnum));
+		workModel.set("workname", title);
+		workModel.set("workdes", des);
+		workModel.set("ischeck", 0);
+		workModel.set("cover", coverPath);
+		workModel.set("comic", comicPath);
+		workModel.set("times", 0);
+		workModel.set("timesdes", "00:00");
+		workModel.set("isdisable", ispublic);
+		workModel.set("playtimes", 0);
+		workModel.set("creater", userId);
+		workModel.set("creatername", userName);
+		workModel.set("createtime", timestamp);
+		workModel.set("modifier", userId);
+		workModel.set("modifiername", userName);
+		workModel.set("modifytime", timestamp);
+		bool = workModel.save();
+		if (bool) {
+			// 成功
+			map.put("success", 1);
+		} else {
+			map.put("success", 0);
+			map.put("message", "服务器错误！");
+		}
+		renderJson(map);
+		return;
+	}
 	public void editShipin() {
 		Map<String, Object> map = Maps.newHashMap();
 		User user = getSessionAttr("user");
@@ -523,7 +635,63 @@ public class WorksController extends FilesLoadController {
 		}
 
 	}
+	public void editZhangjie() {
+		Map<String, Object> map = Maps.newHashMap();
+		boolean bool = false;
+		try {
+			User user = getSessionAttr("user");
+			Integer userId = Integer
+					.parseInt(String.valueOf(user.get("userid")));
+			String userName = user.get("username");
 
+			String coverPath = upLoadFileDealPath("cover", "",
+					2000 * 1024 * 1024, "utf-8");
+			String workid = getPara("workid");
+			String title = getPara("title");
+			String des = getPara("des");
+			String ispublic = getPara("ispublic");
+
+			Work workModel = getModel(Work.class).findById(workid);
+			Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+			if (!StrKit.isBlank(coverPath)) {
+				String oldcover1 = workModel.get("cover");
+				if (!StrKit.isBlank(oldcover1)) {
+					File coverFile1 = new File(oldcover1);
+					if (coverFile1.exists()) {
+						coverFile1.delete();
+					}
+				}
+				workModel.set("cover", coverPath);
+			}
+			if (!StrKit.isBlank(title)) {
+				workModel.set("workname", title);
+			}
+			workModel.set("workdes", des);
+			if (!StrKit.isBlank(ispublic)) {
+				workModel.set("isdisable", ispublic);
+			}
+			workModel.set("modifier", userId);
+			workModel.set("modifiername", userName);
+			workModel.set("modifytime", timestamp);
+			bool = workModel.update();
+			if (bool) {
+				// 成功
+				map.put("success", 1);
+			} else {
+				map.put("success", 0);
+				map.put("message", "服务器错误！");
+			}
+			renderJson(map);
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+			map.put("success", 0);
+			map.put("message", "服务器错误！");
+			renderJson(map);
+			return;
+		}
+
+	}
 	/**
 	 * 根据作品ID获取某作品
 	 */
@@ -593,7 +761,93 @@ public class WorksController extends FilesLoadController {
 				setAttr("worksTypes", worksTypes);
 				setAttr("pageWorks", pageWorks);
 				render("/worksManage/zhuanjiManage.html");
-			} else if ("10".equals(flag)) {
+			} else if ("2".equals(flag)) {
+				// 2是跳转漫画管理
+				Page<Works> page = worksModel.getWorksInfoPage(workstype, type,user.get("creater"), pageIndex, pageSize);
+				List<Map<String, Object>> data = ParseDemoKit.worksParse(page.getList());
+				Page<List<Map<String, Object>>> pageWorks = new Page(data,page.getPageNumber(), page.getPageSize(),page.getTotalPage(), page.getTotalRow());
+				setAttr("workstype", workstype);
+				setAttr("worksTypes", worksTypes);
+				setAttr("pageWorks", pageWorks);
+				render("/worksManage/manhuaManage.html");
+			} else if ("12".equals(flag)) {
+				// 12漫画详细页
+				String worksid = getPara("worksid");
+				String workpageIndexStr = getPara("workpageIndex");
+				Integer workpageIndex = 1;
+				if (!StrKit.isBlank(workpageIndexStr)) {
+					workpageIndex = Integer.parseInt(workpageIndexStr);
+				}
+				worksModel = worksModel.findById(Integer.parseInt(worksid));
+				worksTypeModel = worksTypeModel.findById(worksModel
+						.get("workstype"));
+				Page<Work> pageWork = getModel(Work.class).getWorkByWorksID(
+						Integer.parseInt(worksid), workpageIndex, pageSize);
+				setAttr("type", type);
+				setAttr("workstype", workstype);
+				setAttr("pageIndex", pageIndex);
+				setAttr("works", worksModel);
+				setAttr("worksType", worksTypeModel);
+				setAttr("pageWork", pageWork);
+				render("/worksManage/detailmanhua.html");
+			} else if ("13".equals(flag)) {
+				// 11 是跳转 添加漫画页面
+				setAttr("type", type);
+				setAttr("worksTypes", worksTypes);
+				setAttr("workstype", workstype);
+				setAttr("pageIndex", pageIndex);
+				render("/worksManage/addmanhua.html");
+			} else if ("14".equals(flag)) {
+				// 14 是跳转  修改漫画页面
+				String worksid = getPara("worksid");
+				String workpageIndexStr = getPara("workpageIndex");
+				Integer workpageIndex = 1;
+				if (!StrKit.isBlank(workpageIndexStr)) {
+					workpageIndex = Integer.parseInt(workpageIndexStr);
+				}
+				worksModel = worksModel.findById(Integer.parseInt(worksid));
+				worksTypeModel = worksTypeModel.findById(worksModel.get("workstype"));
+				setAttr("type", type);
+				setAttr("workstype", workstype);
+				setAttr("pageIndex", pageIndex);
+				setAttr("workpageIndex", workpageIndex);
+	
+				setAttr("works", worksModel);
+				setAttr("worksType", worksTypeModel);
+				render("/worksManage/editmanhua.html");
+			} else if ("15".equals(flag)) {
+				// 15是跳转 上传章节页面
+				String workpageIndexStr = getPara("workpageIndex");
+				Integer workpageIndex = 1;
+				if (!StrKit.isBlank(workpageIndexStr)) {
+					workpageIndex = Integer.parseInt(workpageIndexStr);
+				}
+				String worksid = getPara("worksid");
+				setAttr("type", type);
+				setAttr("workstype", workstype);
+				setAttr("workpageIndex", workpageIndex);
+				setAttr("pageIndex", pageIndex);
+				setAttr("worksid", worksid);
+				render("/worksManage/uploadzhangjie.html");
+			} else if("16".equals(flag)){
+				// 16 是跳转 修改章节页面
+				String workpageIndexStr = getPara("workpageIndex");
+				Integer workpageIndex = 1;
+				if (!StrKit.isBlank(workpageIndexStr)) {
+					workpageIndex = Integer.parseInt(workpageIndexStr);
+				}
+				String worksid = getPara("worksid");
+				String workid = getPara("workid");
+				Work workModel = getModel(Work.class).findById(workid);
+	
+				setAttr("type", type);
+				setAttr("workpageIndex", workpageIndex);
+				setAttr("pageIndex", pageIndex);
+				setAttr("worksid", worksid);
+	
+				setAttr("work", workModel);
+				render("/worksManage/editzhangjie.html");
+			}else if ("10".equals(flag)) {
 				// 10 是跳转 添加视频页面
 				setAttr("type", type);
 				setAttr("worksTypes", worksTypes);
@@ -624,7 +878,6 @@ public class WorksController extends FilesLoadController {
 				setAttr("workstype", workstype);
 				setAttr("works", worksModel);
 				setAttr("work", workModel);
-	
 				render("/worksManage/editshipin.html");
 			} else if ("21".equals(flag)) {
 				// 21 是跳转 专辑详细页面
