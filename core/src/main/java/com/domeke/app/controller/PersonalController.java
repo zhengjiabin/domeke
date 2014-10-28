@@ -13,10 +13,15 @@ import com.domeke.app.model.Treasure;
 import com.domeke.app.model.User;
 import com.domeke.app.utils.EncryptKit;
 import com.jfinal.aop.Before;
-import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
-public class PersonalController extends Controller{
+public class PersonalController extends  FilesLoadController{
+	
+	private static String saveFolderName = "/person";
+	private static String parameterName = "user.imgurl";
+	private static int maxPostSize = 2 * 1024 * 1024;
+	private static String encoding = "UTF-8";
+	
 	@Before(LoginInterceptor.class)
 	public void forMyProduction(){
 		String mid = getPara("menuId");
@@ -210,7 +215,9 @@ public class PersonalController extends Controller{
 	 *  资料修改
 	 */
 	public void upUser(){
+		String imgPath = upLoadFileDealPath(parameterName, saveFolderName, maxPostSize, encoding);
 		User user  = getModel(User.class);
+		user.set("imgurl", imgPath);
 		user.update();
 		setAttr("menuId", "12");
 		setAttr("menuid", "1");
