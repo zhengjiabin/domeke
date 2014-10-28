@@ -659,22 +659,53 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `history`;
-CREATE TABLE `history` (
-  `hid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `workid` bigint(20) NOT NULL,
-  `workname` varchar(255) NOT NULL,
-  `cover` varchar(255) DEFAULT NULL,
-  `comic` varchar(255) NOT NULL,
-  `fromtime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '点击周期-开始',
-  `totime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '点击周期-结束',
-  `count` bigint(8) DEFAULT NULL COMMENT '点击次数',
-  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `creater` bigint(8) DEFAULT NULL,
-  `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modifier` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`hid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+package com.domeke.app.model;
+
+import java.time.LocalDate;
+
+import com.jfinal.plugin.activerecord.Model;
+
+public class History extends Model<History> {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4311228884712502862L;
+	public static History dao = new History();
+
+	public void saveOrUpdateHitory(Work work) {
+		History history = new History();
+		history.set("workid", work.get("workid"));
+		history.set("worksid", work.get("worksid"));
+		history.set("workname", work.get("workname"));
+		history.set("cover", work.get("cover"));
+		history.set("comic", work.get("comic"));
+		LocalDate now = LocalDate.now();
+
+		Works dao = new Works();
+		Works works = dao.findById(work.get("worksid"));
+		works.set("pageviews", works.getLong("pageviews") + 1);
+		works.update();
+		history = getWeekHistory(work, now);
+		if (history != null && history.getLong("count") > 0) {
+			Long count = history.getLong("count") + 1;
+			history.set("count", count);
+			history.update();
+		} else {
+			history.set("count", 1);
+			history.save();
+		}
+	}
+
+	private History getWeekHistory(Work work, LocalDate now) {
+		StringBuffer buffer = new StringBuffer("select *  from history  ");
+		buffer.append(" where fromtime <= to_date(?,'yyyy-MM-dd') and totime >= to_date(?,'yyyy-MM-dd') ");
+		buffer.append(" and workid = ?");
+		History find = dao.findFirst(buffer.toString(), now.toString(), now.toString(), work.get("workid"));
+		return find;
+	}
+}
+
 
 
 
