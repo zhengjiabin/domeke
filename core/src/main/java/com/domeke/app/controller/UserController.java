@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Random;
 
 import com.domeke.app.message.impl.DomekeMaiSenderImpl;
+import com.domeke.app.model.LoginPic;
 import com.domeke.app.model.User;
 import com.domeke.app.model.UserRole;
 import com.domeke.app.utils.EncryptKit;
@@ -49,6 +50,8 @@ public class UserController extends Controller {
 	public void goLogin(){
 		User user = getModel(User.class);
 		setAttr("msg", "");
+		String url = LoginPic.lpDao.getPicUrl();
+		setAttr("url", url);
 		render("/Login.html");
 	}
 	public void member(){
