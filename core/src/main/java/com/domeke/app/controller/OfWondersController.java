@@ -22,7 +22,7 @@ public class OfWondersController extends FilesLoadController {
 	private static String IDTYPE = "50";
 	
 	private static String saveFolderName = "/wondersType";
-	private static String parameterName = "ofWonders.themeing";
+	private static String parameterName = "ofWonders.themeimg";
 	private static int maxPostSize = 2 * 1024 * 1024;
 	private static String encoding = "UTF-8";
 
@@ -38,6 +38,24 @@ public class OfWondersController extends FilesLoadController {
 		
 		render("/wondersType/ofWonders.html");
 	}
+	
+	/**
+	 * 跳转主题申请
+	 * 请求 ./ofWonders/skipCreate?wondersTypeId={wondersTypeId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipCreate() {
+		String wondersTypeId = getPara("wondersTypeId");
+		Object userId = getUserId();
+		Object ofWonders = OfWonders.dao.findHasPublish(wondersTypeId, userId);
+		if(ofWonders != null){
+			renderJson(2);
+			return;
+		}
+		
+		keepPara("wondersTypeId");
+		render("/wondersType/ofWondersCreate.html");
+	}
 
 	/**
 	 * 创建主题
@@ -47,6 +65,7 @@ public class OfWondersController extends FilesLoadController {
 	public void create() {
 		String imgPath = dealUploadImg();
 		if(StrKit.isBlank(imgPath)){
+			renderJson(1);
 			return;
 		}
 		OfWonders ofWonders = getModel(OfWonders.class);
@@ -55,16 +74,10 @@ public class OfWondersController extends FilesLoadController {
 		Object wondersTypeId = getPara("wondersTypeId");
 		ofWonders.set("wonderstypeid", wondersTypeId);
 		
-		Object userId = getUserId();
-		Object ofWondersOld = OfWonders.dao.findHasPublish(wondersTypeId, userId);
-		if(ofWondersOld != null){
-			renderJson(false);
-			return;
-		}
-		
 		HttpServletRequest request = getRequest();
 		String remoteIp = request.getRemoteAddr();
 
+		Object userId = getUserId();
 		ofWonders.set("userid", userId);
 		ofWonders.set("userip", remoteIp);
 		ofWonders.save();
@@ -107,16 +120,20 @@ public class OfWondersController extends FilesLoadController {
 	 */
 	@Before(LoginInterceptor.class)
 	public void setTop(){
+		if(!isAdmin()){
+			renderJson(1);
+			return;
+		}
 		String ofWondersId = getPara("targetId");
 		if(StrKit.isBlank(ofWondersId)){
-			renderJson("false");
+			renderJson(2);
 			return;
 		}
 		OfWonders ofWonders = getModel(OfWonders.class);
 		ofWonders.set("ofwondersid", ofWondersId);
 		ofWonders.set("top", 1);
 		ofWonders.update();
-		renderJson("true");
+		renderJson(3);
 	}
 	
 	/**
@@ -125,16 +142,20 @@ public class OfWondersController extends FilesLoadController {
 	 */
 	@Before(LoginInterceptor.class)
 	public void setEssence(){
+		if(!isAdmin()){
+			renderJson(1);
+			return;
+		}
 		String ofWondersId = getPara("targetId");
 		if(StrKit.isBlank(ofWondersId)){
-			renderJson("false");
+			renderJson(2);
 			return;
 		}
 		OfWonders ofWonders = getModel(OfWonders.class);
 		ofWonders.set("ofwondersid", ofWondersId);
 		ofWonders.set("essence", 1);
 		ofWonders.update();
-		renderJson("true");
+		renderJson(3);
 	}
 	
 	/**
@@ -320,9 +341,9 @@ public class OfWondersController extends FilesLoadController {
 		try {
 			imgPath = upLoadFileDealPath(parameterName, saveFolderName, maxPostSize, encoding);
 		} catch (RuntimeException e) {
-			renderHtml("<script type=\"text/javascript\">alert(\"上传的文件有误，请重新上传。\");</script>");
+			renderJson(1);
 		} catch (Exception e) {
-			renderHtml("<script type=\"text/javascript\">alert(\"上传文件失败，请联系管理员。\");</script>");
+			renderJson(2);
 		} finally{
 			return imgPath;
 		}
@@ -421,23 +442,6 @@ public class OfWondersController extends FilesLoadController {
 	}
 
 	/**
-	 * 跳转主题申请
-	 */
-	@Before(LoginInterceptor.class)
-	public void skipCreate() {
-		String wondersTypeId = getPara("wondersTypeId");
-		Object userId = getUserId();
-		Object ofWonders = OfWonders.dao.findHasPublish(wondersTypeId, userId);
-		if(ofWonders != null){
-			renderHtml("<script> alert('5分钟内只能发布一次同类型主题！');</script>");
-			return;
-		}
-		
-		keepPara("wondersTypeId");
-		render("/wondersType/ofWondersCreate.html");
-	}
-	
-	/**
 	 * 获取用户Id
 	 * @return
 	 */
@@ -503,5 +507,16 @@ public class OfWondersController extends FilesLoadController {
 	private User getUser() {
 		User user = getSessionAttr("user");
 		return user;
+	}
+	
+	/**
+	 * 判断当前用户是否管理员
+	 * 
+	 * @return 是否管理员
+	 */
+	private boolean isAdmin() {
+		User user = getUser();
+		Long userId = user.getLong("userid");
+		return userId.equals(new Long(1));
 	}
 }
