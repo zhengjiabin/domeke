@@ -38,7 +38,7 @@ public class History extends Model<History> {
 
 	private History getWeekHistory(Work work, LocalDate now) {
 		StringBuffer buffer = new StringBuffer("select *  from history  ");
-		buffer.append(" where fromtime <= to_date(?,'yyyy-MM-dd') and totime >= to_date(?,'yyyy-MM-dd') ");
+		buffer.append(" where fromtime <= str_to_date(?,''%Y-%m-%d') and totime >= str_to_date(?,''%Y-%m-%d') ");
 		buffer.append(" and workid = ?");
 		History find = dao.findFirst(buffer.toString(), now.toString(), now.toString(), work.get("workid"));
 		return find;
