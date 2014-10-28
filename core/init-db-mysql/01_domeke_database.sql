@@ -659,4 +659,23 @@ CREATE TABLE `orders` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `history`;
+
+CREATE TABLE `history` (
+  `hid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `workid` bigint(20) NOT NULL,
+  `workname` bigint(60) NOT NULL,
+  `cover` varchar(255) NOT NULL,
+  `comic` varchar(255) NOT NULL,
+  `fromtime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '点击周期-开始',
+  `totime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '点击周期-结束',
+  `count` bigint(8) DEFAULT NULL COMMENT '点击次数',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(8) DEFAULT NULL,
+  `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`hid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 
