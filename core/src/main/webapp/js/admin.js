@@ -48,6 +48,101 @@ function skipUpdateOfWonders(node,ofWondersId){
 	});
 }
 
+//更新活动主题
+function submitActivity(node){
+	canSubmit = true;
+	$("form :input").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	canSubmit = submitForm(node)
+    } else {
+    	if(content == ""){
+    		alert("内容不能为空！");
+    	}else{
+    		alert("提交失败，存在非规范内容，请检查！");
+    	}
+    }
+    return canSubmit;
+}
+
+//提交论坛主题
+function submitPost(node){
+	canSubmit = true;
+	$("form :input").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	canSubmit = submitForm(node)
+    } else {
+    	if(content == ""){
+    		alert("内容不能为空！");
+    	}else{
+    		alert("提交失败，存在非规范内容，请检查！");
+    	}
+    }
+    return canSubmit;
+}
+
+//提交宝贝主题
+function submitTreasure(node){
+	canSubmit = true;
+	$("form :input").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	canSubmit = submitForm(node)
+    } else {
+    	if(content == ""){
+    		alert("内容不能为空！");
+    	}else{
+    		alert("提交失败，存在非规范内容，请检查！");
+    	}
+    }
+    return canSubmit;
+}
+
+//提交无奇不有
+function submitOfWonders(node,wondersTypeId){
+	canSubmit = true;
+	$("form :input[required=required]").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	submitCreate(node,wondersTypeId)
+    } else {
+    	if(content == ""){
+    		alert("内容不能为空！");
+    	}else{
+    		alert("提交失败，存在非规范内容，请检查！");
+    	}
+    }
+}
+
 //更新主题
 function submitForm(node) {
 	var content = CKEDITOR.instances.ckeditor.getData();
@@ -105,4 +200,26 @@ function goToManage(render) {
 function showForum(node){
 	var secForum = $(node).find("#secForum").first();
 	secForum.attr("style","display: block");
+}
+
+//显示上传图片
+function onUploadImgChange(node){
+	var fatherNode = $(node).closest("#submitForm");
+	var preview = fatherNode.find("#preview").first();
+	if(node.value == null || node.value ==''){
+		preview.html("");
+		return false;
+	}else if( !node.value.match( /.jpg|.gif|.png|.bmp/i ) ){
+		preview.html("");
+        return false;
+    }
+    if (node.files && node.files[0]){  
+    	var reader = new FileReader();  
+    	reader.onload = function(evt){
+    		preview.html('<img src="' + evt.target.result + '" />');
+    	}
+    	reader.readAsDataURL(node.files[0]);
+    }else{
+    	preview.html('<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + node.value + '\'"></div>');
+    }  
 }

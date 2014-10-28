@@ -160,7 +160,6 @@ function showWondersType(node){
 
 //提交主题
 function submitOfWonders(node,wondersTypeId){
-	createHtml = $(node).closest("#createHtml");
 	canSubmit = true;
 	$("form :input[required=required]").trigger('blur');
     var numError = $('form .onError').length;

@@ -110,6 +110,29 @@ function submitTreasure(node){
     return canSubmit;
 }
 
+//提交无奇不有
+function submitOfWonders(node,wondersTypeId){
+	canSubmit = true;
+	$("form :input[required=required]").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	submitCreate(node,wondersTypeId)
+    } else {
+    	if(content == ""){
+    		alert("内容不能为空！");
+    	}else{
+    		alert("提交失败，存在非规范内容，请检查！");
+    	}
+    }
+}
+
 //更新主题
 function submitForm(node) {
 	var content = CKEDITOR.instances.ckeditor.getData();

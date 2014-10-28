@@ -212,3 +212,8 @@ body {
   font-size: 12px;
   padding-left: 2px;
 }
+
+.imgCss img{
+	max-width:300px;
+	_width:300px;
+}

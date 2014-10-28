@@ -3,8 +3,47 @@
 	
 <script type="text/javascript" src="${core}/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="${core}/js/jquery.form.js"></script>
-
-<form id="submitForm" class="form-horizontal" action="./ofWonders/updateForPersonal" method="post" onsubmit="return submitForm(this)">
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('form :input[required=required]').each(function(){
+	        var $required = $("<span class='font_r' style=\"color: red\"> *</span>"); //创建元素
+	        $(this).parent().append($required); //然后将它追加到文档中
+	    });
+	});
+	
+	 //文本框失去焦点后
+    $('form :input').blur(function(){
+       	var $parent = $(this).parent();
+        $parent.find(".font_r").remove();
+      	//标题验证
+        if($(this).is('#subject')){
+        	if( this.value=="" ){
+        	    var errorMsg = '标题不能为空';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if(this.value.length > 30){
+        		var errorMsg = '标题长度必须小于30个字';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+      	//主题图片验证
+        if($(this).is('#themeimg')){
+        	if( this.value=="" ){
+        	    var errorMsg = '主题图片不能为空';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if(!this.value.match( /.jpg|.gif|.png|.bmp/i )){
+        		var errorMsg = '图片格式无效';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+    });
+</script>
+<form id="submitForm" class="form-horizontal" action="./ofWonders/updateForPersonal" method="post" onsubmit="return submitOfWonders(this)">
 	<fieldset>
 		<legend>无奇不有管理</legend>
 		<input type="text" name="ofWonders.ofwondersid" value="${ofWonders.ofwondersid!}" style="display: none;">
@@ -19,7 +58,7 @@
 		<div class="control-group warning">
 			<label class="control-label" for="inputError">主题</label>
 			<div class="controls">
-				<input type="text" name="ofWonders.subject" value="${ofWonders.subject!}">
+				<input type="text" id="subject" name="ofWonders.subject" value="${ofWonders.subject!}">
 			</div>
 		</div>
 		

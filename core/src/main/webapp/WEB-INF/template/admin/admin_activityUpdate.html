@@ -1,6 +1,105 @@
 <script type="text/javascript" src="${core}/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="${core}/My97DatePicker/WdatePicker.js"></script>
-<form id="submitForm" class="form-horizontal" action="./activity/update" method="post" onsubmit="submitForm(this)">
+<script type="text/javascript">
+	$(document).ready(function() {   
+		$('form :input[required=required]').each(function(){
+	        var $required = $("<span class='font_r' style=\"color: red\"> *</span>"); //创建元素
+	        $(this).parent().append($required); //然后将它追加到文档中
+	    });
+	});
+	
+	 //文本框失去焦点后
+    $('form :input').blur(function(){
+       	var $parent = $(this).parent();
+        $parent.find(".font_r").remove();
+      	//标题验证
+        if($(this).is('#subject')){
+        	if( this.value=="" ){
+        	    var errorMsg = '标题不能为空';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if(this.value.length > 30){
+        		var errorMsg = '标题长度必须小于30个字';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+      	//开始时间
+        if($(this).is('#starttimefrom')){
+        	fatherNode = $(this).closest("#submitForm");
+    		starttimefrom = fatherNode.find("#starttimefrom").first().val();
+    		starttimeto = fatherNode.find("#starttimeto").first().val();
+    		expiration = fatherNode.find("#expiration").first().val();
+    		starttimefrom = new Date(parseInt(Date.parse(starttimefrom),10));
+    		starttimeto = new Date(parseInt(Date.parse(starttimeto),10));
+    		expiration = new Date(parseInt(Date.parse(expiration),10));
+        	if( this.value=="" ){
+        	    var errorMsg = '开始时间不能为空';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if (starttimefrom > starttimeto){
+        		var errorMsg = '开始时间不能大于结束时间';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if (starttimefrom < expiration){
+        		var errorMsg = '开始时间不能小于报名截止时间';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+      	//结束时间
+        if($(this).is('#starttimeto')){
+        	fatherNode = $(this).closest("#submitForm");
+    		starttimefrom = fatherNode.find("#starttimefrom").first().val();
+    		starttimeto = fatherNode.find("#starttimeto").first().val();
+    		starttimefrom = new Date(parseInt(Date.parse(starttimefrom),10));
+    		starttimeto = new Date(parseInt(Date.parse(starttimeto),10));
+        	if( this.value==""){
+        	    var errorMsg = '结束时间不能为空';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if (starttimefrom > starttimeto){
+        		var errorMsg = '结束时间不能小于开始时间';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+      	//截止时间
+        if($(this).is('#expiration')){
+        	fatherNode = $(this).closest("#submitForm");
+    		starttimefrom = fatherNode.find("#starttimefrom").first().val();
+    		expiration = fatherNode.find("#expiration").first().val();
+    		starttimefrom = new Date(parseInt(Date.parse(starttimefrom),10));
+    		expiration = new Date(parseInt(Date.parse(expiration),10));
+        	if( this.value=="" ){
+        	    var errorMsg = '报名截止时间不能为空';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if (starttimefrom < expiration){
+        		var errorMsg = '报名截止时间不能大于开始时间';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+      //报名上限人数
+        if($(this).is('#number')){
+        	var reg = /^\d*$/;
+        	if(this.value == ""){
+        		
+        	}else if( !reg.test(this.value) ){
+        	    var errorMsg = '格式错误，请输入正整数！';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        		var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+        	}
+        }
+    });
+</script>
+<form id="submitForm" class="form-horizontal" action="./activity/update" method="post" onsubmit="return submitActivity(this)">
 	<fieldset>
 		<legend>活动管理</legend>
 		<input type="text" name="activity.activityid" value="${activity.activityid!}" style="display: none;">
@@ -28,8 +127,7 @@
 		<div class="control-group warning">
 			<label class="control-label" for="inputError">标题</label>
 			<div class="controls">
-				<input type="text" name="activity.subject"
-					value="${activity.subject!}">
+				<input type="text" id="subject" name="activity.subject" value="${activity.subject!}">
 			</div>
 		</div>
 		
@@ -83,7 +181,7 @@
 		<div class="control-group">
 			<label class="control-label" for="focusedInput">上线人数</label>
 			<div class="controls">
-				<input type="number" name="activity.number" value="${activity.number!}"/>
+				<input type="text" id="number" name="activity.number" value="${activity.number!}"/>
 			</div>
 		</div>
 
