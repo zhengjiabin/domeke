@@ -73,6 +73,42 @@ public class ActivityController extends Controller {
 	}
 	
 	/**
+	 * 置顶功能
+	 * 请求 ./activity/setTop?targetId={targetId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void setTop(){
+		String activityId = getPara("targetId");
+		if(activityId == null || activityId.length()<=0){
+			renderJson(2);
+			return;
+		}
+		Activity activity = getModel(Activity.class);
+		activity.set("activityid", activityId);
+		activity.set("top", 1);
+		activity.update();
+		renderJson(3);
+	}
+	
+	/**
+	 * 精华功能
+	 * 请求 ./activity/setEssence?targetId={targetId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void setEssence(){
+		String activityId = getPara("targetId");
+		if(activityId == null || activityId.length()<=0){
+			renderJson(2);
+			return;
+		}
+		Activity activity = getModel(Activity.class);
+		activity.set("activityid", activityId);
+		activity.set("essence", 1);
+		activity.update();
+		renderJson(3);
+	}
+	
+	/**
 	 * admin管理--入口
 	 * 请求 ./activity/goToManager
 	 */
@@ -301,45 +337,11 @@ public class ActivityController extends Controller {
 	}
 	
 	/**
-	 * 置顶功能
-	 */
-	@Before(LoginInterceptor.class)
-	public void setTop(){
-		String activityId = getPara("targetId");
-		if(activityId == null || activityId.length()<=0){
-			renderJson("false");
-			return;
-		}
-		Activity activity = getModel(Activity.class);
-		activity.set("activityid", activityId);
-		activity.set("top", 1);
-		activity.update();
-		renderJson("true");
-	}
-	
-	/**
-	 * 精华功能
-	 */
-	@Before(LoginInterceptor.class)
-	public void setEssence(){
-		String activityId = getPara("targetId");
-		if(activityId == null || activityId.length()<=0){
-			renderJson("false");
-			return;
-		}
-		Activity activity = getModel(Activity.class);
-		activity.set("activityid", activityId);
-		activity.set("essence", 1);
-		activity.update();
-		renderJson("true");
-	}
-	
-	/**
 	 * 设置活动信息
 	 * @param activityId
 	 */
 	private void setActivity(Object activityId){
-		Activity activity = Activity.dao.findById(activityId);
+		Activity activity = Activity.dao.findInfoById(activityId);
 		setAttr("activity", activity);
 	}
 	
@@ -385,7 +387,7 @@ public class ActivityController extends Controller {
 		Object userId = getUserId();
 		Object activity = Activity.dao.findHasPublish(communityId, userId);
 		if(activity != null){
-			renderHtml("<script> alert('5分钟内只能发布一次同类型主题！');</script>");
+			renderJson(1);
 			return;
 		}
 		

@@ -27,33 +27,45 @@ function findById(node,targetId,communityId) {
 }
 
 //置顶功能
-function setTop(node,targetId){
-	var baseCommunity = $(node).closest("#baseCommunity");
-	var communityId = baseCommunity.find("#communityId").first().val();
-	
-	var url = "./community/setTop?communityId="+communityId;
-	$.post(url,{
-		targetId : targetId
-	}, function(data) {
-		if(data == true){
-			alert("设置置顶成功");
-		}
-	});
+function setTop(node,userId,targetId){
+	if("1" != userId){
+		alert("非管理员，设置无效！");
+	}else{
+		var baseCommunity = $(node).closest("#baseCommunity");
+		var communityId = baseCommunity.find("#communityId").first().val();
+		
+		var url = "./community/setTop?communityId="+communityId;
+		$.post(url,{
+			targetId : targetId
+		}, function(data) {
+			if(data == 1){
+				alert('非管理员禁止操作！');
+			}else if(data == 2){
+				alert('设置失败！');
+			}else{
+				alert('设置成功！');
+			}
+		});
+	}
 }
 
 //精华功能
-function setEssence(node,targetId){
-	var baseCommunity = $(node).closest("#baseCommunity");
-	var communityId = baseCommunity.find("#communityId").first().val();
-	
-	var url = "./community/setEssence?communityId="+communityId;
-	$.post(url,{
-		targetId : targetId
-	}, function(data) {
-		if(data == true){
-			alert("设置精华成功");
-		}
-	});
+function setEssence(node,userId,targetId){
+	if("1" != userId){
+		alert("非管理员，设置无效！");
+	}else{
+		var baseCommunity = $(node).closest("#baseCommunity");
+		var communityId = baseCommunity.find("#communityId").first().val();
+		
+		var url = "./community/setEssence?communityId="+communityId;
+		$.post(url,{
+			targetId : targetId
+		}, function(data) {
+			if(data == true){
+				baseCommunity.html(data);
+			}
+		});
+	}
 }
 
 //跳转指定版块
@@ -127,7 +139,11 @@ function skipCommunity(node) {
 	$.post(url, {
 		communityId :communityId
 	}, function(data) {
-		baseCommunity.html(data);
+		if(data == 1){
+			alert('5分钟内只能发布一次同类型主题！');
+		}else{
+			baseCommunity.html(data);
+		}
 	});
 }
 
@@ -150,9 +166,13 @@ function showCommunity(node){
 	$.post("./community/goToCommunity", {
 		communityId :firstVal
 	}, function(data) {
-		var detailCommuntiyHtml = $(node).closest("#selectCommuntiyHtml");
-		var showCommunity = detailCommuntiyHtml.find("#showCommunity").first();
-		showCommunity.html(data);
+		if(data == 1){
+			alert('5分钟内只能发布一次同类型主题！');
+		}else{
+			var detailCommuntiyHtml = $(node).closest("#selectCommuntiyHtml");
+			var showCommunity = detailCommuntiyHtml.find("#showCommunity").first();
+			showCommunity.html(data);
+		}
 	});
 }
 

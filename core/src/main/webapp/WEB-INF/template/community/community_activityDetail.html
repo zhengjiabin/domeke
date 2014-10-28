@@ -10,11 +10,11 @@
             	<span><a href="#">楼主：${activity.username!}</a></span>
                 <span>开始时间：${activity.starttimefrom!}</span>
                 <span>结束时间：${activity.starttimeto!}</span>
-                <% if(activity.top == 0){ %>
-                	<span><a href="javascript:void(0)" onclick="setTop(this,${activity.activityid!})">置顶</a></span>
+                <% if(activity.top == 0 && 1 == session.user.userid!){ %>
+                	<span><a href="javascript:void(0)" onclick="setTop(this,'${session.user.userid}',${activity.activityid!})">置顶</a></span>
                 <% } %>
-                <% if(activity.essence == 0){ %>
-                	<span><a href="javascript:void(0)" onclick="setEssence(this,${activity.activityid!})">精华</a></span>
+                <% if(activity.essence == 0 && 1 == session.user.userid!){ %>
+                	<span><a href="javascript:void(0)" onclick="setEssence(this,'${session.user.userid}',${activity.activityid!})">精华</a></span>
                 <% } %>	
             </div>
 	</div>
