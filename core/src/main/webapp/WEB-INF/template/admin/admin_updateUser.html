@@ -1,0 +1,41 @@
+<% layout("/admin/admin_layout.html"){ %>
+<section>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<div class="span9" id="content">
+	<div class="row-fluid">
+		<div class="block">
+			<div class="navbar navbar-inner block-header">
+				<div class="muted pull-left">用户资料修改：</div>
+			</div>
+			<div class="block-content collapse in">
+				<div class="span12">
+     <form class="form-signin" action="user/update" id="user_regist" class="form-horizontal" method="post">
+        	<input  type="hidden" name="user.userid" value="${user.userid!}" />
+        	
+        	<label class="control-label">真实姓名：：</label>
+        	<input name="user.realname" value="${user.realname!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">性别：</label>
+        	<input name="user.sex" value="${user.sex!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">年龄：</label>
+        	<input name="user.age" value="${user.age!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">QQ：</label>
+        	<input name="user.QQ" value="${user.QQ!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">住址：</label>
+        	<input name="user.address" value="${user.address!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">电话：</label>
+        	<input name="user.mobile" value="${user.mobile!}" type="text" class="span6 m-wrap" /><br>        	        	        	        	
+        <button class="btn btn-large btn-primary" type="submit" >保存</button>
+        <a href="user/goUserManage" class="btn btn-large btn-primary" >返回</a>
+      </form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section> 
+<% } %> 
