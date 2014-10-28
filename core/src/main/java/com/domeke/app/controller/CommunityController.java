@@ -52,6 +52,48 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
+	 * 跳转置顶功能
+	 * 请求 ./community/setTop?communityId={communityId!}&targetId={targetId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void setTop(){
+		if(!isAdmin()){
+			renderJson(1);
+			return;
+		}
+		String communityId = getPara("communityId");
+		if(communityId == null || communityId.length()<=0){
+			renderJson(2);
+			return;
+		}
+		Community community = Community.dao.findById(communityId);
+		String actionKey = community.getStr("actionkey");
+		actionKey = actionKey + "/setTop";
+		forwardAction(actionKey);
+	}
+	
+	/**
+	 * 跳转精华功能
+	 * 请求 ./community/setEssence?communityId={communityId!}&targetId={targetId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void setEssence(){
+		if(!isAdmin()){
+			renderJson(1);
+			return;
+		}
+		String communityId = getPara("communityId");
+		if(communityId == null || communityId.length()<=0){
+			renderJson(2);
+			return;
+		}
+		Community community = Community.dao.findById(communityId);
+		String actionKey = community.getStr("actionkey");
+		actionKey = actionKey + "/setEssence";
+		forwardAction(actionKey);
+	}
+	
+	/**
 	 * admin管理入口
 	 * 请求 ./community/goToManger
 	 */
@@ -231,38 +273,6 @@ public class CommunityController extends Controller {
 		Community community = Community.dao.findById(communityId);
 		String actionKey = community.getStr("actionkey");
 		actionKey = actionKey + "/findById";
-		forwardAction(actionKey);
-	}
-	
-	/**
-	 * 跳转置顶功能
-	 */
-	@Before(LoginInterceptor.class)
-	public void setTop(){
-		String communityId = getPara("communityId");
-		if(communityId == null || communityId.length()<=0){
-			renderJson("false");
-			return;
-		}
-		Community community = Community.dao.findById(communityId);
-		String actionKey = community.getStr("actionkey");
-		actionKey = actionKey + "/setTop";
-		forwardAction(actionKey);
-	}
-	
-	/**
-	 * 跳转精华功能
-	 */
-	@Before(LoginInterceptor.class)
-	public void setEssence(){
-		String communityId = getPara("communityId");
-		if(communityId == null || communityId.length()<=0){
-			renderJson("false");
-			return;
-		}
-		Community community = Community.dao.findById(communityId);
-		String actionKey = community.getStr("actionkey");
-		actionKey = actionKey + "/setEssence";
 		forwardAction(actionKey);
 	}
 	
@@ -481,5 +491,16 @@ public class CommunityController extends Controller {
 	private User getUser() {
 		User user = getSessionAttr("user");
 		return user;
+	}
+	
+	/**
+	 * 判断当前用户是否管理员
+	 * 
+	 * @return 是否管理员
+	 */
+	private boolean isAdmin() {
+		User user = getUser();
+		Long userId = user.getLong("userid");
+		return userId.equals(new Long(1));
 	}
 }

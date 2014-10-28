@@ -15,14 +15,14 @@
 				<a href="#">楼主：${treasure.username!}</a>
 			</span> 
 			<span>发表时间：${treasure.dateline!}</span>
-			<% if(treasure.top == 0){ %> 
+			<% if(treasure.top == 0 && "1" == session.user.userid){ %> 
 				<span>
-					<a href="javascript:void(0)" onclick="setTop(this,${treasure.treasureid!})">置顶</a>
+					<a href="javascript:void(0)" onclick="setTop(this,'${session.user.userid}','${treasure.treasureid!}')">置顶</a>
 				</span> 
 			<% } %> 
-			<% if(treasure.essence == 0){ %> 
+			<% if(treasure.essence == 0 && "1" == session.user.userid){ %> 
 				<span>
-					<a href="javascript:void(0)" onclick="setEssence(this,${treasure.treasureid!})">精华</a>
+					<a href="javascript:void(0)" onclick="setEssence(this,'${session.user.userid}','${treasure.treasureid!}')">精华</a>
 				</span> 
 			<% } %>
 		</div>

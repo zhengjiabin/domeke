@@ -73,7 +73,7 @@ public class PostController extends Controller {
 		Object userId = getUserId();
 		Object post = Post.dao.findHasPublish(communityId, userId);
 		if(post != null){
-			renderHtml("<script> alert('5分钟内只能发布一次同类型主题！');</script>");
+			renderJson(1);
 			return;
 		}
 		
@@ -91,6 +91,42 @@ public class PostController extends Controller {
 		setAttr("communitySonList", communitySonList);
 		setPublishNumber(null);
 		render("/community/community_postAll.html");
+	}
+	
+	/**
+	 * 置顶功能
+	 * 请求 ./post/setTop?targetId={targetId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void setTop(){
+		String postId = getPara("targetId");
+		if(postId == null || postId.length()<=0){
+			renderJson(2);
+			return;
+		}
+		Post post = getModel(Post.class);
+		post.set("postid", postId);
+		post.set("top", 1);
+		post.update();
+		renderJson(3);
+	}
+	
+	/**
+	 * 精华功能
+	 * 请求 ./post/setEssence?targetId={targetId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void setEssence(){
+		String postId = getPara("targetId");
+		if(postId == null || postId.length()<=0){
+			renderJson(2);
+			return;
+		}
+		Post post = getModel(Post.class);
+		post.set("postid", postId);
+		post.set("essence", 1);
+		post.update();
+		renderJson(3);
 	}
 	
 	/**
@@ -270,40 +306,6 @@ public class PostController extends Controller {
 	}
 	
 	/**
-	 * 置顶功能
-	 */
-	@Before(LoginInterceptor.class)
-	public void setTop(){
-		String postId = getPara("targetId");
-		if(postId == null || postId.length()<=0){
-			renderJson("false");
-			return;
-		}
-		Post post = getModel(Post.class);
-		post.set("postid", postId);
-		post.set("top", 1);
-		post.update();
-		renderJson("true");
-	}
-	
-	/**
-	 * 精华功能
-	 */
-	@Before(LoginInterceptor.class)
-	public void setEssence(){
-		String postId = getPara("targetId");
-		if(postId == null || postId.length()<=0){
-			renderJson("false");
-			return;
-		}
-		Post post = getModel(Post.class);
-		post.set("postid", postId);
-		post.set("essence", 1);
-		post.update();
-		renderJson("true");
-	}
-	
-	/**
 	 * 跳转回复控制器，设置回复信息
 	 */
 	private void forwardComment(Object targetId,Object render){
@@ -376,7 +378,7 @@ public class PostController extends Controller {
 	 * @param postId
 	 */
 	private void setPost(Object postId){
-		Post post = Post.dao.findById(postId);
+		Post post = Post.dao.findInfoById(postId);
 		setAttr("post", post);
 	}
 
