@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.domeke.app.interceptor.ActionInterceptor;
 import com.domeke.app.model.CodeTable;
+import com.domeke.app.model.History;
 import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.model.WorksType;
@@ -140,12 +141,17 @@ public class CartoonController extends Controller {
 		Work workModel = getModel(Work.class);
 		Integer workid = getParaToInt("gid");
 		Work workData = null;
+		
+		
 		// 如果没有传动漫作品集数的ID则取第一集播放
 		if (workid == null) {
 			workData = workModel.getFirstWork(worksid);
 		} else {
 			workData = workModel.findById(workid);
 		}
+		//播放数加1
+		History historyModel = getModel(History.class);
+		historyModel.saveOrUpdateHitory(workData);
 		this.setAttr("work", workData);
 		render("/CartoonPlay.html");
 	}

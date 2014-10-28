@@ -25,7 +25,7 @@ public class History extends Model<History> {
 
 		Works dao = new Works();
 		Works works = dao.findById(work.get("worksid"));
-		works.set("pageviews", works.getInt("works") + 1);
+		works.set("pageviews", works.getLong("pageviews") + 1);
 		works.update();
 		if (TimeKit.isBetween(now, weekStart, weekEnd)) {
 			history = getWeekHistory(work, weekStart, weekEnd);
