@@ -110,7 +110,7 @@ public class GoodsController extends FilesLoadController {
 	 * @return 返回指定路径下的所有文件域路径数组
 	 */
 	public List<String> getFileUrls(String url){
-		url =getDomainNameFilePath(url);
+//		url =getDomainNameFilePath(url);
 		File dir = new File(url);
 		List<String> fileUrls = new ArrayList<String>();
 		String[] files = this.showAllFiles(dir);
