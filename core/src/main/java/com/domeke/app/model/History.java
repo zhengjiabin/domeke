@@ -22,6 +22,11 @@ public class History extends Model<History> {
 		LocalDate now = LocalDate.now();
 		LocalDate weekEnd = TimeKit.getCurrernWeekEnd();
 		LocalDate weekStart = TimeKit.getCurrernWeekStart();
+
+		Works dao = new Works();
+		Works works = dao.findById(work.get("worksid"));
+		works.set("pageviews", works.getInt("works") + 1);
+		works.update();
 		if (TimeKit.isBetween(now, weekStart, weekEnd)) {
 			history = getWeekHistory(work, weekStart, weekEnd);
 			if (history != null && history.getLong("count") > 0) {
