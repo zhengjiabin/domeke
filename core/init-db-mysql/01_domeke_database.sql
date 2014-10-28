@@ -660,14 +660,16 @@ CREATE TABLE `orders` (
 
 
 DROP TABLE IF EXISTS `history`;
+
 CREATE TABLE `history` (
   `hid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `worksid` bigint(20) NOT NULL,
   `workid` bigint(20) NOT NULL,
   `workname` varchar(255) NOT NULL,
   `cover` varchar(255) DEFAULT NULL,
   `comic` varchar(255) NOT NULL,
-  `fromtime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '点击周期-开始',
-  `totime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '点击周期-结束',
+  `fromtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '点击周期-开始',
+  `totime` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '点击周期-结束',
   `count` bigint(8) DEFAULT NULL COMMENT '点击次数',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(8) DEFAULT NULL,
