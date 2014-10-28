@@ -12,3 +12,24 @@
 <script src="vendors/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 <script src="js/jquery-1.11.1.min.js"></script>
 <script src="js/index.js"></script>
+<script src="js/goods.js"></script>
+<<script type="text/javascript">
+function onUploadImgChange(node){
+	var preview = createHtml.find("#userImg").first();
+	if(node.value == null || node.value ==''){
+		preview.html("");
+		return false;
+	}else if( !node.value.match( /.jpg|.gif|.png|.bmp/i ) ){
+		preview.html("");
+        return false;
+    }
+    if (node.files && node.files[0]){  
+    	var reader = new FileReader();  
+    	reader.onload = function(evt){
+    		preview.html('<img src="' + evt.target.result + '" />');
+    	}
+    	reader.readAsDataURL(node.files[0]);
+    }else{
+    	preview.html('<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + node.value + '\'"></div>');
+    }  
+</script>
