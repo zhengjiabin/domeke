@@ -44,7 +44,7 @@ public class TreasureController extends Controller {
 		Object userId = getUserId();
 		Object treasure = Treasure.dao.findHasPublish(communityId, userId);
 		if(treasure != null){
-			renderHtml("<script> alert('5分钟内只能发布一次同类型主题！');</script>");
+			renderJson(1);
 			return;
 		}
 		
@@ -104,6 +104,42 @@ public class TreasureController extends Controller {
 		setAttr("communitySonList", communitySonList);
 		setPublishNumber(null);
 		render("/community/community_treasureAll.html");
+	}
+	
+	/**
+	 * 置顶功能
+	 * 请求 ./treasure/setTop?targetId={targetId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void setTop(){
+		String treasureId = getPara("targetId");
+		if(treasureId == null || treasureId.length()<=0){
+			renderJson(2);
+			return;
+		}
+		Treasure treasure = getModel(Treasure.class);
+		treasure.set("treasureid", treasureId);
+		treasure.set("top", 1);
+		treasure.update();
+		renderJson(3);
+	}
+	
+	/**
+	 * 精华功能
+	 * 请求 ./treasure/setEssence?targetId={targetId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void setEssence(){
+		String treasureId = getPara("targetId");
+		if(treasureId == null || treasureId.length()<=0){
+			renderJson(2);
+			return;
+		}
+		Treasure treasure = getModel(Treasure.class);
+		treasure.set("treasureid", treasureId);
+		treasure.set("essence", 1);
+		treasure.update();
+		renderJson(3);
 	}
 
 	/**
@@ -279,40 +315,6 @@ public class TreasureController extends Controller {
 	}
 	
 	/**
-	 * 置顶功能
-	 */
-	@Before(LoginInterceptor.class)
-	public void setTop(){
-		String treasureId = getPara("targetId");
-		if(treasureId == null || treasureId.length()<=0){
-			renderJson("false");
-			return;
-		}
-		Treasure treasure = getModel(Treasure.class);
-		treasure.set("treasureid", treasureId);
-		treasure.set("top", 1);
-		treasure.update();
-		renderJson("true");
-	}
-	
-	/**
-	 * 精华功能
-	 */
-	@Before(LoginInterceptor.class)
-	public void setEssence(){
-		String treasureId = getPara("targetId");
-		if(treasureId == null || treasureId.length()<=0){
-			renderJson("false");
-			return;
-		}
-		Treasure treasure = getModel(Treasure.class);
-		treasure.set("treasureid", treasureId);
-		treasure.set("essence", 1);
-		treasure.update();
-		renderJson("true");
-	}
-	
-	/**
 	 * 设置签到人数
 	 */
 	private void setVentWall(){
@@ -385,7 +387,7 @@ public class TreasureController extends Controller {
 	 * @param treasureId
 	 */
 	private void setTreasure(Object treasureId){
-		Treasure treasure = Treasure.dao.findById(treasureId);
+		Treasure treasure = Treasure.dao.findInfoById(treasureId);
 		setAttr("treasure", treasure);
 	}
 

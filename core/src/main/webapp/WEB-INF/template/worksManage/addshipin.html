@@ -19,13 +19,13 @@
 			        percent.html(percentVal);
 			    },
 				success:function(data){
-				if(data.success == 1){
-					alert("添加成功!");
-					showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}});
-				}else{
-					alert("添加失败  信息：" + data.message);
-					$('button[type=submit]',this).removeAttr('disabled');
-				}
+					if(data.success == 1){
+						alert("添加成功!");
+						showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}});
+					}else{
+						alert("添加失败  信息：" + data.message);
+						$('button[type=submit]',this).removeAttr('disabled');
+					}
 			}});
 			return false;
 		});

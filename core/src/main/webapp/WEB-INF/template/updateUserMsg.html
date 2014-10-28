@@ -2,12 +2,19 @@
         <div class="MemberIndex">
           <div class="MeCaption">资料修改：</div>
           <div class="MeBlock">
-          <form action="personal/upUser" id="user_regist" class="form-horizontal" method="post">
+          <form action="personal/upUser"  method="post" id="createHtml" enctype="multipart/form-data" class="form-horizontal">
           <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
           	  <input name="user.userid" type="hidden" value="${user.userid!}"/>
           	  <tr>
 	     		<td style="text-align: right;color: red;">${msg!}</td>
 	     	  </tr>
+	     	  <tr>
+                <th>用户头像：</th>
+                <td>
+                <div id="userImg" class="imgCss"></div>
+                <input id="themeimg" name="user.imgurl" type="file" class="input_Forum" value="${user.imgurl!}" onchange="onUploadImgChange(this)" required="required">
+                </td>
+              </tr>
               <tr>
                 <th>真实姓名：</th>
                 <td><input  name="user.realname" value="${user.realname!}" type="text" class="input_Member"></td>

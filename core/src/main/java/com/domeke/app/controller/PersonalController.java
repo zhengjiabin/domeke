@@ -33,6 +33,7 @@ public class PersonalController extends  FilesLoadController{
 		uploadMsg(mid);
 		myDownLoad(mid);
 		myPlay(mid);
+		loadPoint(mid,userId);
 		acctiveApply(mid);
 		activityPage(mid,userId);
 		postPage(mid,userId);
@@ -49,6 +50,7 @@ public class PersonalController extends  FilesLoadController{
 		setAttr("menuid", "1");
 		uploadMsg(mid);
 		myDownLoad(mid);
+		loadPoint(mid,userId);
 		myPlay(mid);
 		acctiveApply(mid);
 		if("14".equals(mid)){
@@ -74,6 +76,17 @@ public class PersonalController extends  FilesLoadController{
 		setAttr("activityPage", activityPage);
 	}
 	
+	/**
+	 * 加载会员信息等级
+	 */
+	public void loadPoint(String minuId,Long userId){
+		if("3".equals(minuId)){
+			User user = getModel(User.class);
+			user = user.findById(userId);
+			setAttr("user", user);
+		}
+	}
+		
 	/**
 	 * 加载我发布的帖子
 	 */
