@@ -1,0 +1,43 @@
+<article>
+					<table cellpadding="0" cellspacing="0" border="0"
+						class="table table-striped table-bordered" id="example2">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>图片</th>
+								<th>名称</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+								<% 
+									var index = 0 ;
+									for(lp in lpList!){
+									index = index + 1 ;				
+								%>
+							<tr class="odd gradeX">
+									<td>${index!}</td>
+									<td>${lp.picurl!}</td>
+									<td>${lp.picname!}</td>
+									<td>${lp.status!}</td>
+					
+									<a href="loginpic/updateLoginPic?picid=${lp.picid!}"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>
+									<a href="loginpic/deleteLoginPic?picid=${lp.picid!}" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">刪除</button></a>
+									</td>
+							</tr>
+								<% } %>		
+						</tbody>
+					</table>
+			<% if(has(lpList)){
+				var pageAction = "./loginpic/find,"fatherNode";
+				layout(
+					"/common/page.html",
+					{
+						"page":lpList,
+						"pageAction":pageAction,
+						"fatherNode":"#loginPicPage"
+					}
+			){} 
+			}%>
+</article>

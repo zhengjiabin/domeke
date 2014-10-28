@@ -1,0 +1,36 @@
+<% layout("/admin/admin_layout.html"){ %>
+<section> 
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="js/menu.js"></script>
+<div class="span9" id="content">
+	<div class="row-fluid">
+		<div class="block">
+			<div class="navbar navbar-inner block-header">
+				<div class="muted pull-left">新增登录界面图片</div>
+			</div>
+			<div class="block-content collapse in">
+				<div class="span12">
+      <form  id="uploadForm" class="form-signin" action="loginpic/saveLoginPic" method="post" align="center">
+      		商品主图：<input id="fileImage" type="file" size="30" name="picurl"/>
+      		<span class='font_r' style="color: red"> *</span><br>
+      		
+        	图片名称：<input id="picname" name="loginpic.picname" value="${loginpic.picname!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	
+        	图片状态：<input id="status" name="loginpic.status" value="${loginpic.status!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        			
+        <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>
+      </form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section> 
+<% } %> 
