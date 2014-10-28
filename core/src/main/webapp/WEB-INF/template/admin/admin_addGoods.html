@@ -38,7 +38,24 @@
         	<label class="control-label">商品子图</label>
         	<div id="previews"></div>
         	<input id="fileImage" type="file" size="30" name="headimg" onchange="onUploadImgChanges(this)" required="required" multiple /><br>
-        	
+        	商品类别1：<select id="goodsattr1" name="goods.goodsattr1" class="span6 m-wrap" > 
+        		<option value="" selected="selected">请选择======</option>
+        		<% for(gt in goodsType!){ %>
+        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% } %>
+        	</select><br>
+        	商品类别2：<select id="goodsattr2" name="goods.goodsattr2" class="span6 m-wrap" > 
+        		<option value="" selected="selected">请选择======</option>
+        		<% for(gt in goodsType!){ %>
+        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% } %>
+        	</select><br>
+        	商品类别3：<select id="goodsattr3" name="goods.goodsattr3" class="span6 m-wrap" > 
+        		<option value="" selected="selected">请选择======</option>
+        		<% for(gt in goodsType!){ %>
+        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% } %>
+        	</select><br>
         <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>
       </form>
 				</div>

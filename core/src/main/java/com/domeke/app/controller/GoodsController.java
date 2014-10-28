@@ -156,6 +156,8 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	public void addGoods() {
+		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
+		setAttr("goodsType", goodsType);
 		render("/admin/admin_addGoods.html");
 	}
 
@@ -170,6 +172,8 @@ public class GoodsController extends FilesLoadController {
 		if (headimg != null && !"".equals(headimg)) {
 			headimgs = this.getFileUrls(headimg);	
 		}
+		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
+		setAttr("goodsType", goodsType);
 		setAttr("headimgs", headimgs);
 		setAttr("goods", goods);
 		render("/admin/admin_goodsMsg.html");

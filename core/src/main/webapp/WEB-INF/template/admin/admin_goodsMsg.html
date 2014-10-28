@@ -62,7 +62,60 @@
         	<label class="control-label">商品子图</label>
         	<div id="previews"></div>
         	<input id="fileImage" type="file" size="30" name="addheadimg" onchange="onUploadImgChanges(this)"  multiple /><br>
-        	
+        	商品类别1：<select id="goodsattr1" name="goods.goodsattr1" class="span6 m-wrap" > 
+        		<option value="">请选择======</option>
+        		<% 
+        		var goodsattr1 = 0;
+        		if (goods.goodsattr1!=null){
+        			goodsattr1 = parseInt(goods.goodsattr1);
+        		}
+        		for(gt in goodsType!){ 
+        			var goodstypeid = parseInt(gt.goodstypeid);
+        			if(goodsattr1 == goodstypeid){
+        		%>
+        			<option value="${gt.goodstypeid!}" selected="selected">${gt.typename!}</option>
+        		<%
+        			}
+        		%>
+        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% } %>
+        	</select><br>
+        	商品类别2：<select id="goodsattr2" name="goods.goodsattr2" class="span6 m-wrap" > 
+        		<option value="">请选择======</option>
+        		<% 
+        		var goodsattr2 = 0;
+        		if (goods.goodsattr2!=null){
+        			goodsattr2 = parseInt(goods.goodsattr2);
+        		}
+        		for(gt in goodsType!){ 
+        			var goodstypeid = parseInt(gt.goodstypeid);
+        			if(goodsattr2 == goodstypeid){
+        		%>
+        			<option value="${gt.goodstypeid!}" selected="selected">${gt.typename!}</option>
+        		<%
+        			}
+        		%>
+        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% } %>
+        	</select><br>
+        	 商品类别3：<select id="goodsattr3" name="goods.goodsattr3" class="span6 m-wrap" > 
+        		<option value="">请选择======</option>
+        		<% 
+        		var goodsattr3 = 0;
+        		if (goods.goodsattr3!=null){
+        			goodsattr3 = parseInt(goods.goodsattr3);
+        		}
+        		for(gt in goodsType!){ 
+        			var goodstypeid = parseInt(gt.goodstypeid);
+        			if(goodsattr3 == goodstypeid){
+        		%>
+        			<option value="${gt.goodstypeid!}" selected="selected">${gt.typename!}</option>
+        		<%
+        			}
+        		%>
+        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% } %>
+        	</select><br> 
 			<button class="btn btn-large btn-primary" onclick="return upchecknull(this)" type="submit" >编辑</button>
 			<a href="goods/goToManager" class="btn btn-large btn-primary" >返回</a>
       </form>
