@@ -13,14 +13,14 @@
 		<div class="font_9">
 			<span><a href="#">楼主：${ofWonders.username!}</a></span> 
 			<span>发表时间：${ofWonders.dateline!}</span>
-			<% if(ofWonders.top == 0){ %> 
+			<% if(ofWonders.top == 0 && 1 == session.user.userid!){ %> 
 				<span>
-					<a href="javascript:void(0)" onclick="setTop(this,${ofWonders.ofwondersid!})">置顶</a>
+					<a href="javascript:void(0)" onclick="setTop(this,'${session.user.userid}','${ofWonders.ofwondersid!}')">置顶</a>
 				</span>
 			 <% } %> 
-			 <% if(ofWonders.essence == 0){ %> 
+			 <% if(ofWonders.essence == 0 && 1 == session.user.userid!){ %> 
 			 	<span>
-			 		<a href="javascript:void(0)" onclick="setEssence(this,${ofWonders.ofwondersid!})">精华</a>
+			 		<a href="javascript:void(0)" onclick="setEssence(this,'${session.user.userid}','${ofWonders.ofwondersid!}')">精华</a>
 			 	</span> 
 			 <% } %>
 		</div>

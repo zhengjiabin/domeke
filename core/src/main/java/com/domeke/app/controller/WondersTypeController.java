@@ -59,7 +59,7 @@ public class WondersTypeController extends Controller {
 	public void goToWondersType(){
 		String wondersTypeId = getPara("wondersTypeId");
 		if(StrKit.isBlank(wondersTypeId)){
-			renderNull();
+			renderJson(1);
 			return;
 		}
 		String actionKey = "/ofWonders/skipCreate";

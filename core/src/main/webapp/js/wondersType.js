@@ -29,25 +29,39 @@ function findById(node,targetId,wondersTypeId) {
 }
 
 //置顶功能
-function setTop(node,targetId){
+function setTop(node,userId,targetId){
+	if("1" != userId){
+		alert("非管理员，设置无效！");
+	}
 	var url = "./ofWonders/setTop";
 	$.post(url,{
 		targetId : targetId
 	}, function(data) {
-		if(data == true){
-			alert("设置置顶成功");
+		if(data == 1){
+			alert('非管理员禁止操作！');
+		}else if(data == 2){
+			alert('设置失败！');
+		}else{
+			alert('设置成功！');
 		}
 	});
 }
 
 //精华功能
-function setEssence(node,targetId){
+function setEssence(node,userId,targetId){
+	if("1" != userId){
+		alert("非管理员，设置无效！");
+	}
 	var url = "./ofWonders/setEssence";
 	$.post(url,{
 		targetId : targetId
 	}, function(data) {
-		if(data == true){
-			alert("设置精华成功");
+		if(data == 1){
+			alert('非管理员禁止操作！');
+		}else if(data == 2){
+			alert('设置失败！');
+		}else{
+			alert('设置成功！');
 		}
 	});
 }
@@ -148,7 +162,9 @@ function showWondersType(node){
 	$.post("./wondersType/goToWondersType", {
 		wondersTypeId :firstVal
 	}, function(data) {
-		if(data == false){
+		if(data == 1){
+			alert("跳转主题申请失败！");
+		}else if(data == 2){
 			alert("5分钟内只能发布一次同类型主题！");
 		}else{
 			var wondersTypeSelectHtml = $(node).closest("#wondersTypeSelectHtml");
@@ -199,7 +215,13 @@ function onSubmitCreate(node,wondersTypeId){
 		type:"post",
 		url:"./ofWonders/create?wondersTypeId="+wondersTypeId,
 		success:function(data) {
-			baseWondersType.html(data);
+			if(data == 1){
+				alert("上传的文件有误，请重新上传");
+			}else if(data == 2){
+				alert("上传文件失败，请联系管理员");
+			}else{
+				baseWondersType.html(data);
+			}
 		}
 	});
 	return false;
