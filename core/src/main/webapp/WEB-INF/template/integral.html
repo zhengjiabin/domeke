@@ -1,11 +1,34 @@
-<div class="MeBlock">
-       <div class="MeHead"><img src="http://www.dongmark.com/images/qq4.jpg" ></div>
-          <div class="MeSummary">
-               <div class="MeNick">疯狂的兔子   下午好，</div>
-                   <div>
-                    <span>账号安全级别：<img src="http://www.dongmark.com/images/icon15.png">普通</span>|
-                     <span><img src="http://www.dongmark.com/images/dou2.png">积分：300</span>|
-                     <span><img src="http://www.dongmark.com/images/dou1.png">等级：豆皇</span>
-           </div>
+   <article class="MeArticle">
+        <div class="MemberIndex">
+          <div class="MeCaption">资料修改：</div>
+          <div class="MeBlock">
+         
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
+          	  <input name="user.userid" type="hidden" value="${user.userid!}"/>
+          	  <tr>
+	     		<td style="text-align: right;color: red;">${msg!}</td>
+	     	  </tr>
+	     	  
+              <tr>
+                <th>真实姓名：</th>
+                <td>${user.realname!}</td>
+              </tr>
+              <tr>
+                <th>昵称：</th>
+                <td>${user.nickname!}</td>
+              </tr>
+              <tr>
+                <th>豆子：</th>
+                <td>${user.peas!}</td>
+              </tr>
+             <tr>
+                <th>积分：</th>
+                <td>${user.point!}</td>
+              </tr>
+            </table>
+			
           </div>
-  </div>
+        </div>
+        
+    </article>
+    <div class="clear"></div>
