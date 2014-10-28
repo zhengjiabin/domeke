@@ -27,9 +27,14 @@
             <div class="GButton font_w">
             	<a href="http://detail.tmall.com/item.htm?spm=a230r.1.14.1.8jNRgD&id=37652444734&ad_id=&am_id=&cm_id=140105335569ed55e27b&pm_id=" class="BuyNow" target="_blank" >去 购 买</a>
             	<% if(goods.dougprice!=0 && isChange!="") { %>
-            		<a id="peas"  name="${isChange!}" href="javascript:test();" class="BuyNow" >豆豆兑换</a>
+            		<a id="peas"  name="${isChange!}" href="javascript:changeGoods();" class="BuyNow" >豆豆兑换</a>
                 <%}%>
-                <span class="Loves"><img src="images/icon11.png">喜 欢（26）</span>
+                <% if(flag==0) { %>
+                	<button id="btnLoves" name="" class="Loves"  type="button" style="width: 180px; height: 50px;" onclick="loveGoods()"><img src="images/icon11.png">喜 欢(${sumLove!})</button>
+                <%}%>
+                <% if(flag==1) { %>
+                	<button name="" class="Loves"  type="button" style="width: 180px; height: 50px;" style="display:none;"><img src="images/icon11.png">喜 欢(${sumLove!})</button>
+                <%}%>
                 <input id="goodsid" type="hidden" name="goodsid" value="${goods.goodsid!}"/>
                 <input id="goodsattr1" type="hidden" name="goodsattr1" value="${goods.goodsattr1!}"/>
                 <input id="dougprice" type="hidden" name="dougprice" value="${goods.dougprice!}"/>

@@ -419,6 +419,13 @@ public class GoodsController extends FilesLoadController {
 	 * 商品明细
 	 */
 	public void getGoodsDetail(){
+		goodsUtil();
+		render("/ShopCentre.html");
+	}
+	/**
+	 * 商品信息拼装
+	 */
+	public void goodsUtil(){
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
 		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
@@ -434,8 +441,27 @@ public class GoodsController extends FilesLoadController {
 			setAttr("userId", changeMap.get("userId"));
 			setAttr("peas", changeMap.get("peas"));
 		}
+		int sumLove = Goods.dao.getSumLove(getParaToInt("goodsid"));
+		setAttr("sumLove", sumLove);
 		setAttr("isChange", isChange);
-		render("/ShopCentre.html");
+		int key = 0;
+		if (getSessionAttr(getParaToInt("goodsid")+"") != null){
+			key = getSessionAttr(getParaToInt("goodsid")+"");
+		}
+		int flag = 0;
+		if (key == getParaToInt("goodsid")){
+			flag = 1;
+		}
+		setAttr("flag", flag);
+	}
+	public void loveCount(){
+		int goodsId = getParaToInt("goodsid");
+		Goods.dao.updateLoveCount(goodsId);
+		int sumLove = Goods.dao.getSumLove(goodsId);
+		setSessionAttr(goodsId+"", goodsId);
+		setAttr("sumLove", sumLove);
+		goodsUtil();
+		render("/ShopDtl.html");
 	}
 
 	/**

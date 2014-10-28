@@ -139,4 +139,20 @@ public class Goods extends Model<Goods> {
 	public String getHeadImg(String goodsId) {
 		return Db.queryStr("select headimg from goods where goodsid = " + goodsId);
 	}
+	/**
+	 * 更新商品喜欢次数
+	 * @param goodsId
+	 */
+	public void updateLoveCount(int goodsId){
+		String sql="update goods set sumlove=sumlove+1 where goodsid='"+goodsId+"'";
+		Db.update(sql);
+	}
+	/**
+	 * 获得商品喜欢次数
+	 * @param goodsId
+	 * @return
+	 */
+	public int getSumLove(int goodsId) {
+		return Db.queryInt("select sumlove from goods where goodsid = '" + goodsId+"'");
+	}
 }
