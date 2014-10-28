@@ -422,8 +422,10 @@ public class GoodsController extends FilesLoadController {
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
 		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
-		List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
-		setAttr("goodsTypes", goodsTypes);
+		if ("".equals(goodsattr) || goodsattr == null){
+			List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
+			setAttr("goodsTypes", goodsTypes);
+		}
 		setAttr("goods", goods);
 		Map<String,Object> changeMap = getPeas();
 		String isChange = "";
