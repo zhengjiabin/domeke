@@ -18,7 +18,7 @@
 		workstype = $('#workstype-sel').val();
 		type = $('#page-title [name=selected]').attr('value');
 		//初始化 作品类型
-		showWorksType({'type':1});
+		showWorksType({'type':2});
 		//初始化 数据表格
 		showData({'flag':flag,'type':type,'workstype':workstype,'pageIndex':1});
 		
@@ -77,9 +77,9 @@
 	<div class="row-fluid">
 		<div class="block">
 			<div class="navbar navbar-inner block-header" id="page-title">
-				<div class="muted pull-left" name="selected" value="1">专辑管理</div>
+				<div class="muted pull-left"><a href="works/goToManager?flag=1">专辑管理</a></div>
 				<div class="muted pull-left">&nbsp;&nbsp;|&nbsp;&nbsp;</div>
-				<div class="muted pull-left"><a href="works/goToManager?flag=2">漫画管理</a></div>
+				<div class="muted pull-left" name="selected" value="2">漫画管理</div>
 			</div>
 			<div class="block-content collapse in">
 				<div class="span12">
@@ -87,8 +87,7 @@
 						<lable>查询条件：
 							<select id="flag-sel">
 								<option value="2">全部</option>
-								<option value="0">未审核</option>
-								<option value="1">动漫首页</option>
+								<option value="0">待审核</option>
 							</select>
 						</lable>
 						&nbsp;&nbsp;&nbsp;&nbsp;

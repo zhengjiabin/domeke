@@ -21,7 +21,7 @@
 				success:function(data){
 					if(data.success == 1){
 						alert("上传章节成功!");
-						showPage({'flag':15,'type':2,'pageIndex':'${pageIndex!}','worksid':'${worksid!}','workpageIndex':'${workpageIndex!}'});
+						showPage({'flag':12,'type':2,'pageIndex':'${pageIndex!}','worksid':'${worksid!}','workpageIndex':'${workpageIndex!}'});
 					}else{
 						alert("上传章节失败  信息：" + data.message);
 						$('button[type=submit]',this).removeAttr('disabled');

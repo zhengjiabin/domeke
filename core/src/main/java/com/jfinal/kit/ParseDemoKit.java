@@ -1,6 +1,9 @@
 package com.jfinal.kit;
 
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,10 +32,6 @@ public class ParseDemoKit {
 				map.put("comment", works.get("comment"));
 				map.put("pageviews", works.get("pageviews"));
 				String cover = works.get("cover");
-				File file = new File(cover);
-				if(!file.exists()){
-					cover = "http://www.dongmark.com/images/default.png";
-				}
 				map.put("cover", cover);
 				String playUrl = "";
 				String detailUrl = "";

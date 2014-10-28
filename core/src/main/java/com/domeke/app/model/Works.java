@@ -81,14 +81,22 @@ public class Works extends Model<Works> {
 		return workss;
 	}
 	
-	public Page<Works> getWorksNotCheck(String workstype,Integer pageIndex,Integer pageSize){
-		
-		String querySql = "from works t1 inner join work t2 on t2.worksid = t1.worksid where t1.ischeck = 0 or t2.ischeck = 0";
-		if(!StrKit.isBlank(workstype)){
-			querySql = "from works t1 inner join work t2 on t2.worksid = t1.worksid where (t1.ischeck = 0 or t2.ischeck = 0) and t1.workstype = " + workstype;
+	public Page<Works> getWorksNotCheck(String workstype,String type,Integer pageIndex,Integer pageSize){
+		try {
+			StringBuffer querySql = new StringBuffer();
+			querySql.append("from works t1 inner join work t2 on t2.worksid = t1.worksid where (t1.ischeck = 0 or t2.ischeck = 0)");
+			if(!StrKit.isBlank(workstype)){
+				querySql.append(" and t1.workstype = " + workstype);
+			}
+			if(!StrKit.isBlank(type)){
+				querySql.append(" and t1.type = " + type);
+			}
+			Page<Works> workss = this.paginate(pageIndex, pageSize, "select DISTINCT t1.*", querySql.toString());
+			return workss;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		Page<Works> workss = this.paginate(pageIndex, pageSize, "select t1.*", querySql);
-		return workss;
 	}
 	
 	/**

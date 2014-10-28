@@ -37,7 +37,14 @@ public class WorksController extends FilesLoadController {
 	 * to管理界面
 	 */
 	public void goToManager() {
-		render("/admin/admin_works.html");
+		String flag = getPara("flag");
+		if("2".equals(flag)){
+			render("/admin/admin_manhua.html");
+			return;
+		}else {
+			render("/admin/admin_works.html");
+			return;
+		}
 	}
 
 	/**
@@ -576,7 +583,54 @@ public class WorksController extends FilesLoadController {
 		renderJson(map);
 		return;
 	}
+	public void editManhua() {
+		Map<String, Object> map = Maps.newHashMap();
+		User user = getSessionAttr("user");
+		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
+		String userName = user.get("username");
 
+		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024,
+				"utf-8");
+		String worksid = getPara("worksid");
+		String title = getPara("title");
+		String leadingrole = getPara("leadingrole");
+		String des = getPara("des");
+		String ispublic = getPara("ispublic");
+		Works worksModel = getModel(Works.class).findById(worksid);
+		boolean bool = false;
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		if (!StrKit.isBlank(coverPath)) {
+			String oldcover = worksModel.get("cover");
+			File coverFile = new File(oldcover);
+			if (coverFile.exists()) {
+				coverFile.delete();
+			}
+			worksModel.set("cover", coverPath);
+		}
+		if (!StrKit.isBlank(title)) {
+			worksModel.set("worksname", title);
+		}
+		if (!StrKit.isBlank(leadingrole)) {
+			worksModel.set("leadingrole", leadingrole);
+		}
+		worksModel.set("describle", des);
+		if (!StrKit.isBlank(ispublic)) {
+			worksModel.set("ispublic", ispublic);
+		}
+		worksModel.set("modifier", userId);
+		worksModel.set("modifiername", userName);
+		worksModel.set("modifytime", timestamp);
+		bool = worksModel.update();
+		if (bool) {
+			// 成功
+			map.put("success", 1);
+		} else {
+			map.put("success", 0);
+			map.put("message", "服务器错误！");
+		}
+		renderJson(map);
+		return;
+	}
 	public void editZhuanjiShipin() {
 
 		Map<String, Object> map = Maps.newHashMap();
@@ -976,8 +1030,7 @@ public class WorksController extends FilesLoadController {
 				.parseInt(type));
 		if ("0".equals(flag)) {
 			// 查询未审核的
-			Page<Works> pagedata = worksModel.getWorksNotCheck(workstype,
-					pageIndex, pageSize);
+			Page<Works> pagedata = worksModel.getWorksNotCheck(workstype, type, pageIndex, pageSize);
 			Page<List<Map<String, Object>>> pageWorks = new Page(
 					parseAdminZhuanji(pagedata.getList()), pageIndex, pageSize,
 					pagedata.getTotalPage(), pagedata.getTotalRow());
@@ -985,12 +1038,16 @@ public class WorksController extends FilesLoadController {
 			setAttr("worksTypes", worksTypes);
 			setAttr("workstype", workstype);
 			setAttr("flag", flag);
-			render("/admin/admin_works_zhuanji.html");
-			return;
+			if("2".equals(type)){
+				render("/admin/admin_works_manhua.html");
+				return;
+			}else {
+				render("/admin/admin_works_zhuanji.html");
+				return;
+			}
 		} else if ("1".equals(flag)) {
 			// 查询首页5个轮播
-			Page<Works> pagedata = worksModel.getHomePage(workstype, pageIndex,
-					pageSize);
+			Page<Works> pagedata = worksModel.getHomePage(workstype, pageIndex, pageSize);
 			Page<List<Map<String, Object>>> pageWorks = new Page(
 					parseAdminZhuanji(pagedata.getList()), pageIndex, pageSize,
 					pagedata.getTotalPage(), pagedata.getTotalRow());
@@ -1010,7 +1067,13 @@ public class WorksController extends FilesLoadController {
 			setAttr("worksTypes", worksTypes);
 			setAttr("workstype", workstype);
 			setAttr("flag", flag);
-			render("/admin/admin_works_zhuanji.html");
+			if("2".equals(type)){
+				render("/admin/admin_works_manhua.html");
+				return;
+			}else {
+				render("/admin/admin_works_zhuanji.html");
+				return;
+			}
 		}
 	}
 
