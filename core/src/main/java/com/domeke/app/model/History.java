@@ -5,7 +5,8 @@ import java.util.Date;
 
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
-@TableBind(tableName="history", pkName="hid")
+
+@TableBind(tableName = "history", pkName = "hid")
 public class History extends Model<History> {
 
 	/**
@@ -16,12 +17,16 @@ public class History extends Model<History> {
 
 	public void saveOrUpdateHitory(Work work) {
 		History history = new History();
-	
+
 		LocalDate now = LocalDate.now();
 
 		Works dao = new Works();
 		Works works = dao.findById(work.get("worksid"));
-		works.set("pageviews", works.getLong("pageviews") + 1);
+		Long pageviews = new Long(0);
+		if (works.getLong("pageviews") != null) {
+			pageviews = works.getLong("pageviews");
+		}
+		works.set("pageviews", pageviews + 1);
 		works.update();
 		history = getDayHistory(work, now);
 		if (history.isNotEmpty() && history.getLong("count") > 0) {
@@ -35,8 +40,8 @@ public class History extends Model<History> {
 			history.set("cover", work.get("cover"));
 			history.set("comic", work.get("comic"));
 			history.set("count", 1);
-			history.set("fromtime",new Date());
-			history.set("totime",new Date());
+			history.set("fromtime", new Date());
+			history.set("totime", new Date());
 			history.save();
 		}
 	}
@@ -46,6 +51,6 @@ public class History extends Model<History> {
 		buffer.append(" where  date_format(fromtime,'%Y-%m-%d') = ? ");
 		buffer.append(" and workid = ?");
 		History find = dao.findFirst(buffer.toString(), now.toString(), work.get("workid"));
-		return find == null ?  new History():find;
+		return find == null ? new History() : find;
 	}
 }
