@@ -23,26 +23,38 @@ function publishCkeditor(node,targetId,idtype,render) {
 		});
 }
 
+//跳转显示回复框信息
+function skipPublish(node){
+	var fatherNode = $(node).closest("#commentHtml");
+	var publishNode = fatherNode.find("#skipPublish").first();
+	
+	var editor = publishNode.find("#editor").first();
+	editor.attr("contenteditable", "true");
+	var showEditor = publishNode.find("#showEditor").first();
+	showEditor.show();
+}
+
 // 显示回复框信息
 function showPublishHtml(node) {
-	var publishHtml = $(node).next("#publishHtml");
-	var editor = publishHtml.find("#editor").first();
+	var fatherNode = $(node).closest("#commentContent");
+	var publishNode = fatherNode.find("#publishHtml").first();
+	var editor = publishNode.find("#editor").first();
 	editor.attr("contenteditable", "true");
 
-	var showEditor = publishHtml.find("#showEditor").first();
+	var showEditor = publishNode.find("#showEditor").first();
 	showEditor.show();
 }
 
 // 打开表情窗口
 function showFace(img) {
-	var commentForm = $(img).closest("#commentForm");
-	var face = commentForm.find("#face").first();
+	var fatherNode = $(img).closest("#showEditor");
+	var face = fatherNode.find("#face").first();
 	face.show();
 
 	face.click(function() {
 		face.hide();
 	});
-	var editor = commentForm.find("#editor").first();
+	var editor = fatherNode.find("#editor").first();
 	editor.click(function() {
 		face.hide();
 	});
@@ -50,8 +62,8 @@ function showFace(img) {
 
 // 插入图片
 function insertFace(img) {
-	var commentForm = $(img).closest("#commentForm");
-	var editor = commentForm.find("#editor").first();
+	var fatherNode = $(img).closest("#showEditor");
+	var editor = fatherNode.find("#editor").first();
 	var image = "<img src='" + img.src + "' />";
 	var val = editor.html() + image;
 	editor.html(val);
@@ -79,8 +91,7 @@ function publish(node,targetId,idtype,pId,toUserId,render) {
 		message : message.text(),
 		render : render
 	}, function(data) {
-		var commentForm = $(node).closest("#commentForm");
-		var showEditor = commentForm.find("#showEditor").first();
+		var showEditor = $(node).closest("#showEditor");
 		showEditor.hide();
 		var editor = showEditor.find("#editor").first();
 		editor.html("");

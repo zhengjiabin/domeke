@@ -47,7 +47,12 @@
 		$('.SortAD img').mouseout(function(){
 			timer = window.setInterval($.loopplay,3000);
 		});
-		
+		$('img').error(function(){
+			if(this.src != 'http://www.dongmark.com/images/default.png'){
+				this.src='http://www.dongmark.com/images/default.png';
+			}
+			return false;
+		});
 	});
 </script>
 <%if(workss0.~size > 0){%>
