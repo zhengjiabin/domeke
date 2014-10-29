@@ -680,4 +680,19 @@ CREATE TABLE `history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `record`;
+CREATE TABLE `record` (
+  `recordid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `userid` bigint(20) unsigned NOT NULL DEFAULT '0',
+  `userip` varchar(15) NOT NULL,
+  `commentid` varchar(100) DEFAULT NULL COMMENT '评论id',
+  `recordtype` bigint(20) NOT NULL  COMMENT '记录类型',
+  `message` text NOT NULL COMMENT '留言',
+  `status` varchar(4) NOT NULL DEFAULT '10',
+  `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` bigint(20) DEFAULT NULL,
+  `modifier` bigint(20) DEFAULT NULL,
+  `modifytime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`recordid`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
