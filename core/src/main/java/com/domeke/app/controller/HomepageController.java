@@ -3,15 +3,18 @@ package com.domeke.app.controller;
 import java.io.File;
 import java.util.Map;
 
+import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Homepage;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.google.common.collect.Maps;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "/homepage")
+@Before(LoginInterceptor.class)
 public class HomepageController extends FilesLoadController{
 	public void goToManager(){
 		render("/admin/admin_homepageManager.html");

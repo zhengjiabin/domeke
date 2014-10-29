@@ -29,6 +29,12 @@ public class WorksType extends Model<WorksType> {
 		List<WorksType> worksTypes = this.find(sql);
 		return worksTypes;
 	}
+	public Page<WorksType> getWorksTypes(Integer type,Integer pageIndex, Integer pageSize){
+		String sql = "from works_type where type="+type+" order by indextop desc";
+		Page<WorksType> worksTypes = this.paginate(pageIndex, pageSize, "select *", sql);
+		return worksTypes;
+	}
+	
 //	public List<WorksType> getWorksTypes(){
 //		String sql = "select * from works_type order by indextop desc";
 //		List<WorksType> worksTypes = this.find(sql);
@@ -37,6 +43,11 @@ public class WorksType extends Model<WorksType> {
 	public List<WorksType> getWorksTypesByCartoonDesc(Integer type){
 		String sql = "select * from works_type where type="+type+" order by cartoontop desc";
 		List<WorksType> worksTypes = this.find(sql);
+		return worksTypes;
+	}
+	public Page<WorksType> getWorksTypesByCartoonDesc(Integer type,Integer pageIndex, Integer pageSize){
+		String sql = "select * from works_type where type="+type+" order by cartoontop desc";
+		Page<WorksType> worksTypes = this.paginate(pageIndex, pageSize, "select *", sql);
 		return worksTypes;
 	}
 }
