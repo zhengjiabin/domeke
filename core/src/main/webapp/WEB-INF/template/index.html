@@ -42,7 +42,15 @@
 		$('.Adpic img').mouseout(function(){
 			timer = window.setInterval($.loopplay,3000);
 		});
+		
+		$('img').error(function(){
+			if(this.src != 'http://www.dongmark.com/images/default.png'){
+				this.src='http://www.dongmark.com/images/default.png';
+			}
+			return false;
+		});
 	});
+	
 </script>
 <%if(homepages.~size > 0){%>
 <section>
@@ -55,7 +63,7 @@
     	<%}%>
     </ul>
     </div>
-    <div class="Adpic"><a href="${homepages[0].url!}"><img src="${homepages[0].img!}"></a></div>
+    <div class="Adpic"><a href="${homepages[0].url!}"><img  src="${homepages[0].img!}" ></a></div>
     <div class="clear">&nbsp;</div>
 </section>
 <%}%>
@@ -68,11 +76,11 @@
             	<div class="Cartoon2" style="overflow: hidden; height:315px;">
                 	<div class="CartoonSubB">
                 			<a href="${workss0[0].detailUrl!}" style="display: block;">
-	                    		<img src="${workss0[0].cover!}">
+	                    		<img src="${workss0[0].cover!}"  >
 	                    	</a>
 	                    	<div class="CartoonSubBFootbar">
 	                        	<a class="icon" href="${workss0[0].playUrl!}">
-	                        		<img id="icon"  src="http://www.dongmark.com/images/icon_play.png">
+	                        		<img id="icon"  src="http://www.dongmark.com/images/icon_play.png" >
 	                        	</a>
 	                        	<a href="${workss0[0].detailUrl!}">
 	                            	<span>${workss0[0].worksname!}</span>
@@ -85,7 +93,7 @@
                 		if(worksLP.index > 1 && worksLP.index <= 7){
                 	 %>
                     <div class="CartoonSub">
-                   		<a href="${works.detailUrl!}" style="display: block;"><img src="${works.cover!}"></a>
+                   		<a href="${works.detailUrl!}" style="display: block;"><img src="${works.cover!}"  ></a>
                         <a href="${works.detailUrl!}" style="display: block;"><div class="CartoonName">${works.worksname!}></div></a>
                         <div class="CartoonInfo">
                         	<span class="FloatL">${works.pageviews!}</span>
@@ -107,7 +115,7 @@
             		if(worksLP.index <= 5){%>
 		            <div class="CartoonSub">
 		            	<a href="${works.detailUrl!}" style="display: block;">
-		                <img src="${works.cover!}">
+		                <img src="${works.cover!}" >
 		                <div class="CartoonName"><a href="${works.detailUrl!}">${works.worksname!}</a></div>
 		                </a>
 		                <div class="CartoonInfo">
@@ -129,7 +137,7 @@
             		if(worksLP.index <= 5){%>
 		            <div class="CartoonSub">
 		            	<a href="${works.detailUrl!}" style="display: block;">
-			                <img src="${works.cover!}">
+			                <img src="${works.cover!}"  >
 			                <div class="CartoonName"><a href="${works.detailUrl!}">${works.worksname!}</a></div>
 		                </a>
 		                <div class="CartoonInfo">
@@ -151,7 +159,7 @@
             		if(worksLP.index <= 10){%>
 		            <div class="CartoonSub">
 		            	<a href="${works.detailUrl!}" style="display: block;">
-			                <img src="${works.cover}">
+			                <img src="${works.cover}"  >
 			                <div class="CartoonName"><a href="${works.detailUrl!}">${works.worksname!}</a></div>
 		                </a>
 		                <div class="CartoonInfo">
@@ -170,7 +178,7 @@
             <div class="CartoonContent">
             	<%for(ofWonders in ofWondersList){%>
 		            <div class="CartoonSub">
-			                <img src="${ofWonders.themeimg!}">
+			                <img src="${ofWonders.themeimg!}" >
 			                <div class="CartoonName">
 			                	<a href="javascript:void(0)" onclick="skipOfWonders('${ofWonders.ofwondersid!}')">${ofWonders.subject!}</a>
 			                </div>
@@ -193,7 +201,7 @@
 	            <ul class="LiVline">
 	               <li class="LiHeightB">
 	               		<a href="${worksClickList[i].detailUrl!}">  		
-	                    	<div class="LiPicB"><img src="${worksClickList[i].cover!}"></div>
+	                    	<div class="LiPicB"><img src="${worksClickList[i].cover!}"  ></div>
 	                    </a>
 	                    <div class="LiContentB">
 	                    	<a href="${worksClickList[i].detailUrl!}">${worksClickList[i].worksname!}</a>
@@ -230,14 +238,14 @@
     	if(goodsLP.index <= 4){%>
         <figure>
         	<a href="${goods.detailUrl!}">
-        	<div class="GoodsPic"><a href="goods/getGoodsDetail?goodsid=${goods.goodsid!}&goodsattr=${goods.goodsattr1!}&dougprice=${goods.dougprice!}&tamllurl=${goods.tamllurl!}"><img src="${goods.pic!}"></a></div>
+        	<div class="GoodsPic"><a href="goods/getGoodsDetail?goodsid=${goods.goodsid!}&goodsattr=${goods.goodsattr1!}&dougprice=${goods.dougprice!}&tamllurl=${goods.tamllurl!}"><img src="${goods.pic!}"  ></a></div>
         	</a>
        	 	 <figcaption>
                 <div class="GoodsName font_r">
                 <a href="goods/getGoodsDetail?goodsid=${goods.goodsid!}&goodsattr=${goods.goodsattr1!}&dougprice=${goods.dougprice!}&tamllurl=${goods.tamllurl!}">${goods.goodsname!}</a>
                 <span class="GoodsPrice">￥：${goods.price!}</span>
                 </div>
-              	<div class="GoodsAuthor"><img src="${goods.headimg!}"><span class="font_ye"><a>${goods.username!}</a></span>发布${goods.dougprice!}</div>
+              	<div class="GoodsAuthor"><img src="${goods.headimg!}"  ><span class="font_ye"><a>${goods.username!}</a></span>发布${goods.dougprice!}</div>
                 <div class="GoodsInfo">${goods.message!}</div>
                 <div class="GoodsItems">
               	<span>加入收藏  20</span>

@@ -1,4 +1,29 @@
 <% layout("/admin/admin_layout.html"){ %>
+<script type="text/javascript">
+	var flag = '';
+	var workstype = '';
+	var type = '';
+	$(documnt).ready(function(){
+		
+		
+	});
+	
+	function showData(params){
+		var data = '';
+		$.each(params,function(key,value){
+			data = data + key + "=" + value + "&";
+		});
+		data = data.substring(0,data.length - 1);
+		$.ajax({
+			type:'post',
+			data:data,
+			url : 'worksType/showPage',
+			success : function(data){
+				$('#showpage').html(data);
+			}
+		});
+	}
+</script>
 <div class="span9" id="content">
 	<div class="row-fluid">
 		<div class="block">
@@ -7,30 +32,22 @@
 			</div>
 			<div class="block-content collapse in">
 				<div class="span12">
-					<div class="table-toolbar">
-						<div class="btn-group">
-							<a href="menu/addMenu"><button class="btn btn-success">
-									新增菜单 <i class="icon-plus icon-white"></i>
-								</button></a>
-						</div>
-					</div>
-					
 					<div class="table-toolbar" style="height: 50px;">
 						<div>							
-        					<label>菜单模块：</label>
-        					<select id="menuType" name="menutype">  
-        						<option value="" selected="selected"></option>
-        						<option value="1">首页</option>
-        						<option value="2">个人中心</option>
-        						<option value="3">社区</option>
-        						<option value="4">商城</option>
-   							</select> 
-   							<input class="btn btn-success" type="button" value="查询" onclick="msearch()">						
+        					作品类型：
+        					<select id="workstypeSel" >
+        						<option value="1">视频</option>
+        						<option value="2">漫画</option>
+   							</select>
+   							
+   							<a href="menu/addMenu" style="float: right;">
+								<button class="btn btn-success">
+									添加作品类型<i class="icon-plus icon-white"></i>
+								</button>
+							</a>
 						</div>
 					</div>
-					<div id="page">
-					<% if(menuList != null){
-						layout("/admin/admin_page.html"){} }%>
+					<div id="pageview">
 					</div>
 				</div>
 			</div>
