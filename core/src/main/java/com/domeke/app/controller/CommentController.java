@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Comment;
+import com.domeke.app.model.Record;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.aop.Before;
@@ -47,6 +48,90 @@ public class CommentController extends Controller {
 		String render = getPara("render");
 		render(render);
 	}
+	
+	/**
+	 * 设置分页回复信息
+	 * 请求 comment/setPage
+	 */
+	public void setPage() {
+		Object targetId = getAttr("targetId");
+		Object idtype = getAttr("idtype");
+		setCommentPage(targetId, idtype);
+		setFollowList(targetId, idtype);
+
+		String render = getAttr("render");
+		render(render);
+	}
+	
+	/**
+	 * 添加反对次数
+	 * 请求 ./comment/addOppose?commentId={commentId!}&recordType={recordType!}
+	 */
+	public void addOppose(){
+		String commentId = getPara("commentId");
+		String recordType = getPara("recordType");
+		boolean isExists = checkHasRecord(commentId, recordType);
+		if(isExists){
+			renderJson(1);
+			return;
+		}
+		saveRecord(commentId, recordType);
+		Long number = getRecordNumber(commentId, recordType);
+		renderJson("number",number);
+	}
+	
+	/**
+	 * 添加支持次数
+	 * 请求 ./comment/addSupport?commentId={commentId!}&recordType={recordType!}
+	 */
+	public void addSupport(){
+		String commentId = getPara("commentId");
+		String recordType = getPara("recordType");
+		boolean isExists = checkHasRecord(commentId, recordType);
+		if(isExists){
+			renderJson(1);
+			return;
+		}
+		saveRecord(commentId, recordType);
+		Long number = getRecordNumber(commentId, recordType);
+		renderJson("number",number);
+	}
+	
+	/**
+	 * 查询是否已经记录过
+	 * @return true/false
+	 */
+	public boolean checkHasRecord(Object commentId,Object recordType){
+		Object userId = getUserId();
+		Record record = Record.dao.getRecordsOfComment(userId, commentId, recordType);
+		if(record != null){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 添加计数记录
+	 */
+	public void saveRecord(Object commentId,Object recordType){
+		Object userId = getUserId();
+		HttpServletRequest request = getRequest();
+		String remoteIp = request.getRemoteAddr();
+		
+		Record record = getModel(Record.class);
+		record.set("commentid", commentId);
+		record.set("recordtype", recordType);
+		record.set("userid", userId);
+		record.set("userip", remoteIp);
+		record.save();
+	}
+
+	/**
+	 * 统计记录次数
+	 */
+	public Long getRecordNumber(Object commentId, Object recordType) {
+		return Record.dao.getRecordsNumberOfComment(commentId, recordType);
+	}
 
 	/**
 	 * 添加主回复信息
@@ -72,20 +157,6 @@ public class CommentController extends Controller {
 
 		String pId = getPara("pId");
 		setComment(pId);
-	}
-
-	/**
-	 * 设置分页回复信息
-	 * 请求 comment/setPage
-	 */
-	public void setPage() {
-		Object targetId = getAttr("targetId");
-		Object idtype = getAttr("idtype");
-		setCommentPage(targetId, idtype);
-		setFollowList(targetId, idtype);
-
-		String render = getAttr("render");
-		render(render);
 	}
 
 	/**

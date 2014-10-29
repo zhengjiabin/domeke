@@ -687,7 +687,7 @@ CREATE TABLE `record` (
   `userip` varchar(15) NOT NULL,
   `commentid` varchar(100) DEFAULT NULL COMMENT '评论id',
   `recordtype` bigint(20) NOT NULL  COMMENT '记录类型',
-  `message` text NOT NULL COMMENT '留言',
+  `message` text DEFAULT NULL COMMENT '留言',
   `status` varchar(4) NOT NULL DEFAULT '10',
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) DEFAULT NULL,

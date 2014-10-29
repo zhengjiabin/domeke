@@ -101,3 +101,33 @@ function publish(node,targetId,idtype,pId,toUserId,render) {
 		fartherNode.html(data);
 	});
 }
+
+//添加支持
+function addSupport(node,commentId,recordType){
+	$.post("./comment/addSupport", {
+		commentId : commentId,
+		recordType : recordType
+	}, function(data) {
+		if(data == 1){
+			alert("已支持，禁止重复操作！");
+		}else{
+			var number = data.number;
+			$(node).text("支持(" + number + ")");
+		}
+	});
+}
+
+//添加反对
+function addSupport(node,commentId,recordType){
+	$.post("./comment/addOpponse", {
+		commentId : commentId,
+		recordType : recordType
+	}, function(data) {
+		if(data == 1){
+			alert("已支持，禁止重复操作！");
+		}else{
+			var number = data.number;
+			$(node).text("支持(" + number + ")");
+		}
+	});
+}
