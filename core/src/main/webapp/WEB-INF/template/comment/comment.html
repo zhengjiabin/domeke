@@ -27,23 +27,23 @@
 			</div>
 		</div>
 	         
-		<div class="ReplyBottom font_9">
+		<div class="ReplyBottom font_9" id="commentContent">
 	    	<span class="FL">
 				<a href="javascript:void(0);" onclick="showPublishHtml(this)">回复</a>
-				<div id="publishHtml">
-			    	<%
-						layout(
-							"/common/publishFace.html",
-							{
-								"targetId":targetId,
-								"idtype":idtype,
-								"pId":comment.commentid,
-								"render":"/comment/followPage.html"
-							}
-						){}
-					%>
-				</div>
 			</span>
+			<div id="publishHtml">
+		    	<%
+					layout(
+						"/common/publishFace.html",
+						{
+							"targetId":targetId,
+							"idtype":idtype,
+							"pId":comment.commentid,
+							"render":"/comment/followPage.html"
+						}
+					){}
+				%>
+			</div>
 		</div>
 	</div>
     <div class="clear"></div>

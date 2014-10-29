@@ -815,13 +815,6 @@ a.icon{
 	color: #3184d4;
 	font-size: 12px;
 }
-.WArgumentReply{
-	float: right;
-	padding: 5px 20px;
-	border-radius: 3px;
-	color: #3184d4;
-	font-size: 12px;
-}
 
 .SortAD{
 	float: left;
@@ -972,11 +965,30 @@ a.icon{
 	height: 80px;
 	margin-bottom: 5px;
 }
-
-
-
-
-
+.ArgumentReply{
+	background: #f9f9f9;
+	padding: 10px;
+	margin-top: 10px;
+	border: 1px #f1f2f6 solid;
+}
+.ReplyButton{
+	text-align: right;
+}
+.ReplyButton a{
+	display: inline-block;
+	width: 100px;
+	text-align:center;
+	padding: 5px;
+	background: #f0f8f5;
+	border: 1px #ddd solid;
+}
+.ReplyTxt{
+	border: 1px #ddd solid;
+	width: 97%;
+	padding: 10px;
+	height: 50px;
+	margin: 10px 0px;
+}
 
 
 
@@ -1077,9 +1089,6 @@ a.icon{
 }	
 .font_w a:active { 
 	color: #fff;
-}
-.publishFaceReply{
-	border: 1px #00ffff solid;
 }
 .imgCss img{
 	max-width:300px;
