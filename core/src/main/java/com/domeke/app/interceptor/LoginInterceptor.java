@@ -9,7 +9,7 @@ public class LoginInterceptor implements Interceptor {
 		Controller controller = ai.getController();
 		if (controller.getSessionAttr("user") == null) {
 			controller.setAttr("msg", "需要登录才可以进行该操作！");
-			controller.renderHtml("<script> window.location.href = './user/goLogin';</script>");
+			controller.renderHtml("<script> window.location.href = '../user/goLogin';</script>");
 			return;
 		}
 
