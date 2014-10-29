@@ -42,8 +42,12 @@ public class LoginPic extends Model<LoginPic> {
 	 * 修改状态
 	 * @param status
 	 */
-	public void updateLoginPic(String picid, String status) {
-		Db.update("update login_pic set status = '" + status + "' where picid = '" + picid + "'");
+	public void updateLoginPic(String picId, String picName, String status) {
+		Db.update("update login_pic set picname = '" + picName + "', status = '" + status + "' where picid = '" + picId + "'");
+	}
+	
+	public void upLoginPic(){
+		this.update();
 	}
 	
 	/**
@@ -58,5 +62,10 @@ public class LoginPic extends Model<LoginPic> {
 	public Page<LoginPic> findPage(int pageNumber, int pageSize) {
 		Page<LoginPic> loginPicPage = this.paginate(pageNumber, pageSize, "select *", "from login_pic");
 		return loginPicPage;
+	}
+	
+	public LoginPic findLoginPicById(int picId) {
+		LoginPic loginPic = this.findById(picId);		
+		return loginPic;
 	}
 }

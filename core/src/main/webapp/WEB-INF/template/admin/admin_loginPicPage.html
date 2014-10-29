@@ -13,7 +13,7 @@
 						<tbody>
 								<% 
 									var index = 0 ;
-									for(lp in lpList!){
+									for(lp in lpList.list){
 									index = index + 1 ;				
 								%>
 							<tr class="odd gradeX">
@@ -21,23 +21,17 @@
 									<td>${lp.picurl!}</td>
 									<td>${lp.picname!}</td>
 									<td>${lp.status!}</td>
-					
-									<a href="loginpic/updateLoginPic?picid=${lp.picid!}"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>
-									<a href="loginpic/deleteLoginPic?picid=${lp.picid!}" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">刪除</button></a>
+									<td>
+									<a href="loginpic/upPic?picId=${lp.picid!}"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>
+									<a href="loginpic/deletePic?picId=${lp.picid!}" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">刪除</button></a>
 									</td>
 							</tr>
 								<% } %>		
 						</tbody>
 					</table>
-			<% if(has(lpList)){
-				var pageAction = "./loginpic/find,"fatherNode";
-				layout(
-					"/common/page.html",
-					{
-						"page":lpList,
-						"pageAction":pageAction,
-						"fatherNode":"#loginPicPage"
-					}
-			){} 
-			}%>
+			
+			<% 
+			if(lpList != null){ layout("/common/page.html",
+			{"page":lpList,"pageAction":"./loginpic/find","fatherNode":"#loginPicPage"}
+			){} }%>
 </article>
