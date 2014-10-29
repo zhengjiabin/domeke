@@ -97,6 +97,7 @@ public class CartoonController extends Controller {
 		Integer pageNum = getParaToInt("pnum", 1);
 		Page<Works> list = works.getWorksInfoPage(workstype, pageNum, 14);
 		setAttr("workstypevalue", getWtypeCodeTable().get(workstype));
+		setAttr("menuid", "2");
 		setAttr("pageList", list);
 		render("/CartoonSubModule.html");
 	}
