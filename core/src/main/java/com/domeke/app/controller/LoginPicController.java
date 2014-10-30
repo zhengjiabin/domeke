@@ -12,7 +12,7 @@ import com.jfinal.plugin.activerecord.Page;
 @ControllerBind(controllerKey="loginpic")
 public class LoginPicController extends FilesLoadController {
 	
-	public void goToManager(){
+	public void renderLoginPic(){
 		setPicPage();
 		render("/admin/admin_loginPic.html");
 	}
@@ -52,7 +52,7 @@ public class LoginPicController extends FilesLoadController {
 		LoginPic loginPic = getModel(LoginPic.class);
 		loginPic.set("picurl", strs[leng - 1]);
 		loginPic.saveLoginPic();
-		goToManager();
+		redirect("/loginpic/renderLoginPic");
 	}
 	
 	/**
@@ -61,7 +61,7 @@ public class LoginPicController extends FilesLoadController {
 	public void deletePic() {
 		LoginPic loginPic = getModel(LoginPic.class);
 		loginPic.deleteById(getParaToInt("picId"));
-		goToManager();
+		redirect("/loginpic/renderLoginPic");
 	}
 	
 	/**
@@ -79,6 +79,6 @@ public class LoginPicController extends FilesLoadController {
 	public void updatePic() {
 		LoginPic loginPic = getModel(LoginPic.class);
 		loginPic.upLoginPic();
-		goToManager();
+		redirect("/loginpic/renderLoginPic");
 	}
 }
