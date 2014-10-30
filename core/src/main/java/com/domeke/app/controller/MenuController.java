@@ -17,7 +17,7 @@ import com.jfinal.plugin.activerecord.Page;
 @Before(GlobalInterceptor.class)
 public class MenuController extends Controller {
 	
-	public void goToManager(){
+	public void renderMenu(){
 		setMenuPage(null);
 		render("/admin/admin_menu.html");
 	}
@@ -38,7 +38,7 @@ public class MenuController extends Controller {
 	public void saveMenu() {
 		Menu menu = getModel(Menu.class);
 		menu.saveMenu();
-		goToManager();
+		redirect("/menu/renderMenu");
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class MenuController extends Controller {
 		Menu menu = getModel(Menu.class);
 		int menuid = getParaToInt();
 		menu.deleteMenu(menuid);
-		goToManager();
+		redirect("/menu/renderMenu");
 	}
 	
 	/**
@@ -69,7 +69,7 @@ public class MenuController extends Controller {
 	public void updateMenu() {
 		Menu menu = getModel(Menu.class);
 		menu.updateMenu();
-		goToManager();
+		redirect("/menu/renderMenu");
 	}
 	
 	/**
