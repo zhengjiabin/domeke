@@ -18,9 +18,7 @@
      <form class="form-signin" action="goods/updateGoods?goodsId=${goods.goodsid!}" method="post" id="createHtml" enctype="multipart/form-data">
      	
      		<input name="goods.goodsid" value="${goods.goodsid!}" type="text" class="span6 m-wrap" style="display:none"/><br>
-         	商品类型：<input id="goods" name="goods.goods" value="${goods.goods!}" type="text" class="span6 m-wrap" />
-         	<span class='font_r' style="color: red"> *</span><br>
-        	商品名称：<input id="goodsname" name="goods.goodsname" value="${goods.goodsname!}" type="text" class="span6 m-wrap" />
+         	商品名称：<input id="goodsname" name="goods.goodsname" value="${goods.goodsname!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
         	商品价格：<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
@@ -117,7 +115,7 @@
         		<% } %>
         	</select><br> 
 			<button class="btn btn-large btn-primary" onclick="return upchecknull(this)" type="submit" >编辑</button>
-			<a href="goods/goToManager" class="btn btn-large btn-primary" >返回</a>
+			<a href="goods/renderGoods" class="btn btn-large btn-primary" >返回</a>
       </form>
 				</div>
 			</div>

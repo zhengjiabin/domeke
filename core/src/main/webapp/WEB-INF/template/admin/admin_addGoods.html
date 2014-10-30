@@ -17,9 +17,6 @@
 			<div class="block-content collapse in">
 				<div class="span12">
       <form class="form-signin" action="goods/saveGoods" id="createHtml" method="post" align="center" enctype="multipart/form-data">
-        	
-        	<span>商品类型：</span><input id="goods" name="goods.goods" value="${goods.goods!}" type="text" class="span6 m-wrap"/>
-        	<span class='font_r' style="color: red"> *</span><br>
         	商品名称：<input id="goodsname" name="goods.goodsname" value="${goods.goodsname!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
         	商品价格：<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" />
@@ -37,7 +34,8 @@
         	<span class='font_r' style="color: red"> *</span><br>  
         	<label class="control-label">商品子图</label>
         	<div id="previews"></div>
-        	<input id="fileImage" type="file" size="30" name="headimg" onchange="onUploadImgChanges(this)" required="required" multiple /><br>
+        	<input id="fileImage" type="file" size="30" name="headimg" onchange="onUploadImgChanges(this)" required="required" multiple />
+        	<span class='font_r' style="color: red"> *</span><br>
         	商品类别1：<select id="goodsattr1" name="goods.goodsattr1" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择======</option>
         		<% for(gt in goodsType!){ %>

@@ -30,7 +30,7 @@ public class GoodsController extends FilesLoadController {
 	/**
 	 * to管理界面
 	 */
-	public void goToManager() {
+	public void renderGoods() {
 		setGoodsPage(null);
 		render("/admin/admin_goods.html");
 	}
@@ -42,12 +42,8 @@ public class GoodsController extends FilesLoadController {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		Page<Goods> goodsList = null;
-		// if ("".equals(menuType) || "0".equals(menuType) || menuType == null){
 		goodsList = Goods.dao.findPage(pageNumber, pageSize);
 		goods = "0";
-		// }else {
-		// goodsList = Goods.dao.findPage(pageNumber, pageSize, menuType);
-		// }
 		setAttr("goods", goods);
 		setAttr("goodsList", goodsList);
 	}
@@ -75,7 +71,7 @@ public class GoodsController extends FilesLoadController {
 			goods.set("creater", 111111);
 			goods.set("modifier", 111111);
 			goods.saveGoodsInfo();
-			goToManager();
+			redirect("/goods/renderGoods");
 		} catch (Exception e) {
 			e.printStackTrace();
 			render("/admin/admin_addGoods.html");
@@ -178,14 +174,14 @@ public class GoodsController extends FilesLoadController {
 		setAttr("goods", goods);
 		render("/admin/admin_goodsMsg.html");
 	}
-
+	
 	/**
 	 * 删除商品
 	 */
 	public void deleteGoods() {
 		Goods goods = getModel(Goods.class);
 		goods.deleteById(getParaToInt("goodsId"));
-		goToManager();
+		redirect("/goods/renderGoods");
 	}
 
 	/**
@@ -207,7 +203,7 @@ public class GoodsController extends FilesLoadController {
 		}
 		if (headimg2 != null) {
 			gs.updateGoodsInfo();
-			goToManager();
+			redirect("/goods/renderGoods");
 		} else {
 			Goods goods = gs.findById(goodsId);
 			String hg = goods.getStr("headimg");
@@ -216,33 +212,6 @@ public class GoodsController extends FilesLoadController {
 			setAttr("goods", goods);
 			render("/admin/admin_goodsMsg.html");
 		}
-		/*
-		String goodsId = Long.toString(gs.getLong("goodsid"));		
-		String headimg = gs.getHeadImg(goodsId);
-		String[] headimgs2 = headimg.split("/");
-		String fileName = headimgs2[headimgs2.length - 1];
-		String picturePath = upLoadFileNotDealPath("pic", fileName, 200 * 1024 * 1024, "utf-8");
-		String[] strs = picturePath.split("/");
-		int leng = strs.length;
-		gs.set("pic", strs[leng - 1]);
-		String headimg2 = upLoadFilesNotDealPath(fileName, 200 * 1024 * 1024, "utf-8");
-		
-//		int row = headimg.lastIndexOf("/") + 1; 
-//		headimg = headimg.substring(row, headimg.length()-1);
-//		String headimg2 = upLoadFilesNotDealPath(headimg, 200 * 1024 * 1024, "utf-8");
-		
-		if (headimg2 != null) {
-			gs.updateGoodsInfo();
-			goToManager();
-		} else {
-			Goods goods = gs.findById(goodsId);
-			String hg = goods.getStr("headimg");
-			List<String> headimgs = this.getFileUrls(hg);		
-			setAttr("headimgs", headimgs);
-			setAttr("goods", goods);
-			render("/admin/admin_goodsMsg.html");
-		}
-		*/
 	}
 
 	/**

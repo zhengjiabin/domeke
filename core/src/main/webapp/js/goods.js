@@ -1,13 +1,7 @@
 
 //goods判空
 function checknull(obj) {
-	var fn=document.getElementById("goods").value
-	var count = fn.length;
-	if(count == 0) {
-		alert("[商品类型]必填!");
-		document.getElementById("goods").focus();
-		return false;
-	} else if (document.getElementById("goodsname").value.length == 0) {
+	if (document.getElementById("goodsname").value.length == 0) {
 		alert("[商品名称]必填!");
 		document.getElementById("goodsname").focus();
 		return false;
@@ -36,13 +30,7 @@ function checknull(obj) {
 }
 
 function upchecknull(obj) {
-	var fn=document.getElementById("goods").value
-	var count = fn.length;
-	if(count == 0) {
-		alert("[商品类型]必填!");
-		document.getElementById("goods").focus();
-		return false;
-	} else if (document.getElementById("goodsname").value.length == 0) {
+	if (document.getElementById("goodsname").value.length == 0) {
 		alert("[商品名称]必填!");
 		document.getElementById("goodsname").focus();
 		return false;

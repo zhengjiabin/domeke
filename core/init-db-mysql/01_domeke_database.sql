@@ -376,10 +376,9 @@ CREATE TABLE `favourite` (
 DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods` (
   `goodsid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `goods` varchar(50) NOT NULL,
   `goodsname` varchar(255) NOT NULL,
   `price` float(7,2) unsigned NOT NULL COMMENT '现价',
-  `dougprice` bigint(20)  DEFAULT '0',
+  `dougprice` bigint(20) DEFAULT '0',
   `oldprice` float(7,2) DEFAULT NULL COMMENT '原价',
   `amount` int(10) unsigned NOT NULL DEFAULT '0',
   `pic` varchar(255) NOT NULL,
