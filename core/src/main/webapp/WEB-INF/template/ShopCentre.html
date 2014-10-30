@@ -15,9 +15,16 @@ function changeGoods(){
 	var goodsattr1 = $("#goodsattr1").val();
 	var dougprice = $("#dougprice").val();
 	var ischange = $("#isChange").val();
+	var goodsnum = $("#goodsnum").val();
+	if (""==goodsnum){
+		jAlert('商品购买数量一定要填写！', '警告对话框');
+		return;
+	}
 	var obj ="";
-	var url = "goods/peasChange?dougprice="+dougprice+"&goodsid="+goodsid+"&goodsattr="+goodsattr1;
-	if (ischange=="0"){
+	var url = "goods/peasChange?dougprice="+dougprice+"&goodsid="+goodsid+"&goodsattr="+goodsattr1+"&goodsnum="+goodsnum;
+	var peasNum = $("#peasNum").val();
+	var peasNum1 = (peasNum-0)-(dougprice-0)*(goodsnum-0);
+	if (peasNum1<0){
 		jAlert('您的豆豆不够兑换哦！', '警告对话框');
 		return;
 	}
@@ -28,7 +35,7 @@ function changeGoods(){
 	$.showView(obj,url);
 	var peasNum = $("#peasNum").val();
 	var peasNum1 = (peasNum-0)-(dougprice-0);
-	jAlert('您已经兑换成功！当前商品扣减豆豆：'+dougprice+'个，您豆豆剩余：'+peasNum1, '提示对话框');
+	//jAlert('您已经兑换成功！当前商品扣减豆豆：'+dougprice+'个，您豆豆剩余：'+peasNum1, '提示对话框');
 	console.log("您今天已经签到！");
 }  
 function loveGoods(){

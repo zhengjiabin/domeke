@@ -155,4 +155,9 @@ public class Goods extends Model<Goods> {
 	public int getSumLove(int goodsId) {
 		return Db.queryInt("select sumlove from goods where goodsid = '" + goodsId+"'");
 	}
+	public Goods getUserForId(Long goodsid){
+		String sql = "select * from goods where goodsid = '"+goodsid+"'";
+		Goods goods = dao.findFirst(sql);
+		return goods;
+	}
 }

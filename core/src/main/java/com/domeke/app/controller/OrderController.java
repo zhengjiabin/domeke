@@ -74,7 +74,8 @@ public class OrderController extends Controller{
 	 * @param orderdetail 订单详细
 	 */
 	public void byGoods(String goodsId,Orders orders,OrderDetail orderdetail){
-		Goods goods = getModel(Goods.class);
+		Goods goods = getAttr("goods");
+		//Goods goods = getModel(Goods.class);
 		goods = goods.findById(goodsId);
 		//获取商品的豆豆兑换价格
 		Long point = goods.getLong("point");
@@ -91,7 +92,7 @@ public class OrderController extends Controller{
 			orders.save();
 			orderdetail.save();
 		}
-		
+		render("/shop.html");
 		
 	}
 }

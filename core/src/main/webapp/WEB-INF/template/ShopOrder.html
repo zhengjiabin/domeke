@@ -1,0 +1,54 @@
+<article class="MeArticle">
+        <div class="MemberIndex" style="margin-left:280px">
+          <div class="MeCaption">相关信息修改：</div>
+          <div class="MeBlock">
+          <form action="goods/saveOrderDetail"  method="post" id="createHtml" class="form-horizontal">
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
+          	 <input name="user.userid" type="hidden" value="${user.userid!}"/>
+          	 <input name="user.username" type="hidden" value="${user.username!}"/>
+          	 <input name="goods.goodsid" type="hidden" value="${goods.goodsid!}"/>
+          	 <input id="goodsid" type="hidden" name="goodsid" value="${goods.goodsid!}"/>
+          	 <input id="goodsattr1" type="hidden" name="goodsattr" value="${goods.goodsattr1!}"/>
+          	 <input id="dougprice" type="hidden" name="dougprice" value="${goods.dougprice!}"/>
+	     	  <tr>
+                <th>商品名称：</th>
+                <td><input id="goodsname" name="goods.goodsname" value="${goods.goodsname!}" type="text" class="input_Member" readonly="true"></td>
+              </tr>
+              <tr>
+                <th>商品价格：</th>
+                <td><input  name="goods.dougprice" value="${goods.dougprice!}" type="text" class="input_Member" readonly="true"></td>
+              </tr>
+              <tr>
+                <th>商品豆豆价：</th>
+                <td><input  name="goods.dougprice" value="${goods.dougprice!}" type="text" class="input_Member" readonly="true"></td>
+              </tr>
+              <tr>
+                <th>您当前剩余豆豆：</th>
+              	<td><input  name="peas" value="${peas!}" type="text" class="input_Member" readonly="true"></td>
+              </tr>
+              <tr>
+                <th>购买数量：</th>
+                <td><input  name="goodsnum" value="${goodsnum!}" type="text" class="input_Member" readonly="true"></td>
+              </tr>
+              <tr>
+                <th>真实姓名：</th>
+                <td><input id="realname"  name="user.realname" value="${user.realname!}" type="text" class="input_Member"><a style="color:#F00">*${realnameMsg!}</a></td>
+              </tr>
+              <tr>
+                <th>住址：</th>
+                <td><input name="user.address" value="${user.address!}" type="text" class="input_Member"><a style="color:#F00">*${addressMsg!}</a></td>
+              </tr>
+              <tr>
+                <th>电话：</th>
+                <td><input name="user.mobile" value="${user.mobile!}" type="text" class="input_Member"><a style="color:#F00">*${mobileMsg2!}</a></td>
+              </tr>
+              <tr>
+                <th></th>
+                <td><input name="" type="submit" class="Button" value="保存修改" onclick="check()"></td>
+              </tr>
+            </table>
+			</form>
+          </div>
+        </div>       
+    </article>
+<div class="clear"></div>
