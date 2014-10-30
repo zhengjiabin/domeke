@@ -11,9 +11,13 @@ import java.util.Set;
 
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.GoodsType;
+import com.domeke.app.model.OrderDetail;
+import com.domeke.app.model.Orders;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
+import com.domeke.app.validator.OrderValidator;
 import com.google.common.collect.Lists;
+import com.jfinal.aop.Before;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
@@ -398,12 +402,13 @@ public class GoodsController extends FilesLoadController {
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
 		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
-		if ("".equals(goodsattr) || goodsattr == null){
+		if (!"".equals(goodsattr) || goodsattr != null){
 			List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
 			setAttr("goodsTypes", goodsTypes);
 		}
 		setAttr("goods", goods);
-		Map<String,Object> changeMap = getPeas();
+		Long dougprice = getParaToLong("dougprice");
+		Map<String,Object> changeMap = getPeas(dougprice);
 		String isChange = "";
 		if (changeMap != null){
 			isChange = (String)changeMap.get("isChange");	
@@ -448,9 +453,10 @@ public class GoodsController extends FilesLoadController {
 	 * 豆豆兑换
 	 */
 	public void peasChange(){
-		Map<String,Object> changeMap = getPeas();
+		Long dougprice = getParaToLong("dougprice");
+		int goodsnum = getParaToInt("goodsnum");
+		Map<String,Object> changeMap = getPeas(dougprice);
 		String isChange = (String)changeMap.get("isChange");
-		int dougprice = (int)changeMap.get("dougprice");
 		User user = getSessionAttr("user");
 		if(user == null){
 			return;
@@ -459,35 +465,45 @@ public class GoodsController extends FilesLoadController {
 		user = user.findById(userId);
 		//豆子
 		Long peas = (Long)changeMap.get("peas");
-		if (dougprice <= peas){
-			isChange = "1"; 
-		}
-		if (isChange == "1" || "1".equals(isChange)){
-			peas = peas - dougprice;
-			User.dao.updatePeas(userId, peas);
-			if (peas<=0)
-			isChange = "0";
-		}
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
 		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
 		List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
-//		String tamllurl = getPara("tamllurl");
-//		List<String> headimgs = this.getFileUrls(tamllurl);
-//		setAttr("images", headimgs);
+	//	String tamllurl = getPara("tamllurl");
+	//	List<String> headimgs = this.getFileUrls(tamllurl);
+	//	setAttr("images", headimgs);
 		setAttr("goodsTypes", goodsTypes);
 		setAttr("goods", goods);	
 		setAttr("isChange", isChange);
 		setAttr("peas", peas);
 		setAttr("userId", changeMap.get("userId"));
-		render("/ShopDtl.html");
+		setAttr("user", user);
+		setAttr("goodsnum", goodsnum);
+		//render("/ShopDtl.html");
+		render("/ShopOrder.html");
+	}
+	public void reducePeas(Map<String,Object> changeMap){
+		String isChange = (String)changeMap.get("isChange");
+		Long dougprice = (Long)changeMap.get("dougprice");
+		Long userId = (Long)changeMap.get("userId");
+		//豆子
+		Long peas = (Long)changeMap.get("peas");
+		if (isChange == "1" || "1".equals(isChange)){
+			peas = peas - dougprice;
+			User.dao.updatePeas(userId, peas);
+			if (peas <= 0)
+			isChange = "0";
+		}
 	}
 
 	/**
-	 * 获得豆豆
-	 */
-	public Map<String, Object> getPeas() {
-		int dougprice = getParaToInt("dougprice");
+	* 获得豆豆
+	*/
+	public Map<String, Object> getPeas(Long dougprice) {
+		int goodsnum = 0;
+		if (getParaToInt("goodsnum") != null){
+			goodsnum = getParaToInt("goodsnum");
+		} 
 		User user = getSessionAttr("user");
 		if(user == null){
 			return null;
@@ -497,8 +513,10 @@ public class GoodsController extends FilesLoadController {
 		String isChange = "0";
 		// 豆子
 		Long peas = user.get("peas");
-		if (dougprice <= peas) {
-			isChange = "1";
+		if (goodsnum != 0){
+			if ((dougprice*goodsnum) <= peas) {
+				isChange = "1";
+			}			
 		}
 		Map<String, Object> changeMap = new HashMap<String, Object>();
 		changeMap.put("isChange", isChange);
@@ -507,7 +525,40 @@ public class GoodsController extends FilesLoadController {
 		changeMap.put("userId", userId);
 		return changeMap;
 	}
-
+	/**
+	* 保存订单
+	*/
+	@Before({OrderValidator.class})
+	public void saveOrderDetail(){
+		Goods goodsModel = getModel(Goods.class);
+		User userModel = getModel(User.class);
+		int goodsNum = getParaToInt("goodsnum");
+		String goodsId = String.valueOf(goodsModel.get("goodsid"));
+		Orders orders = getModel(Orders.class);
+		orders.set("orderAddr", userModel.get("address"));
+		orders.set("orderPhone", userModel.get("mobile"));
+		orders.set("realname", userModel.get("realname"));
+		orders.set("creater", userModel.get("userid"));
+		orders.save();
+		Long orderId = orders.getLong("orderid");
+		OrderDetail orderDetail = getModel(OrderDetail.class);
+		orderDetail.set("orderid", orderId);
+		orderDetail.set("goodsnum", goodsNum);
+		orderDetail.set("goodsname", goodsModel.get("goodsname"));
+		orderDetail.set("goodsid", goodsModel.get("goodsid"));
+		orderDetail.set("goodsprice", goodsModel.get("dougprice"));
+		userModel.update();
+		setAttr("orders", orders);
+		setAttr("goods", goodsModel);
+		setAttr("userModel", userModel);
+		orderDetail.save();
+		Long dougprice = goodsModel.get("dougprice");
+		Map<String,Object> changeMap = getPeas(dougprice);
+		reducePeas(changeMap);
+		goodsUtil();
+		render("/ShopCentre.html");
+		//redirect("/orders/byGoods");
+	}
 	private List<Map<String, Object>> goodsParse(List<Goods> goodss) {
 		List<Map<String, Object>> resultMap = Lists.newArrayList();
 		try {
