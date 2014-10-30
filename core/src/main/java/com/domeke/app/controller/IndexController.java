@@ -25,7 +25,7 @@ public class IndexController extends Controller {
 			menuid = "1";
 		}
 		WorksType worksTypeModel = getModel(WorksType.class);
-		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(1);
+		List<WorksType> worksTypes = worksTypeModel.getWorksTypes("1");
 		
 		Works worksDao = getModel(Works.class);
 		Map<String, Object> typeMap = Maps.newHashMap();

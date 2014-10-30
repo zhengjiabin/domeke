@@ -787,8 +787,7 @@ public class WorksController extends FilesLoadController {
 			}
 			WorksType worksTypeModel = getModel(WorksType.class);
 			Works worksModel = getModel(Works.class);
-			List<WorksType> worksTypes = worksTypeModel.getWorksTypes(Integer
-					.parseInt(type));
+			List<WorksType> worksTypes = worksTypeModel.getWorksTypes(type);
 			if ("0".equals(flag)) {
 				// 0是跳转视频管理
 				Page<Works> page = worksModel.getWorksInfoPage(workstype, type,
@@ -1026,8 +1025,7 @@ public class WorksController extends FilesLoadController {
 		}
 		WorksType worksTypeModel = getModel(WorksType.class);
 		Works worksModel = getModel(Works.class);
-		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(Integer
-				.parseInt(type));
+		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(type);
 		if ("0".equals(flag)) {
 			// 查询未审核的
 			Page<Works> pagedata = worksModel.getWorksNotCheck(workstype, type, pageIndex, pageSize);
@@ -1241,8 +1239,7 @@ public class WorksController extends FilesLoadController {
 	public void getWorksTypes() {
 		String type = getPara("type");
 		WorksType worksTypeModel = getModel(WorksType.class);
-		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(Integer
-				.parseInt(type));
+		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(type);
 		renderJson(worksTypes);
 	}
 }

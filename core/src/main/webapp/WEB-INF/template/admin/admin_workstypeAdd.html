@@ -1,0 +1,57 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#addworkstype').submit(function(){
+			$('button[type=submit]',this).attr('disabled',true);
+			$(this).ajaxSubmit({
+				success:function(data){
+					if(data.success == 1){
+						alert("添加成功!");
+						showData({'flag':0});
+					}else{
+						alert("添加失败  信息：" + data.message);
+						$('button[type=submit]',this).removeAttr('disabled');
+					}
+			}});
+			return false;
+		});
+	});
+</script>
+<article class="MeArticle">
+	<form id="addworkstype" action="worksType/addWorksType" method="post" enctype="application/x-www-form-urlencoded">
+		<div class="MemberIndex">
+		<div class="MeCaption"><a href="javascript:showData({'flag':0});">类型管理</a> --> <a href="javascript:showData({'flag':5});">添加类型</a></div>
+		<div class="MeBlock">
+		<table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
+			<tbody><tr>
+				<th><em style="color: red;"> * </em>名称：</th>
+				<td><input name="name" type="text" class="input_Member" required="required"></td>
+				</tr>
+				<tr>
+	               <th><em style="color: red;"> * </em>类型：</th>
+	                <td>
+	                	<select name="type" class="input_Member">
+	                		<option value="1">视频</option>
+	                		<option value="2">漫画</option>
+	                	</select>
+	                </td>
+	            </tr>
+				<tr>
+				<th>简介：</th>
+				<td>
+					<textarea name="des" style="padding:10px;" rows="8" cols="70"></textarea>
+				</td>
+				</tr>
+				<tr>
+                <th></th>
+                <td>
+                	<button type="submit" >提交</button>
+                	&nbsp;&nbsp;&nbsp;
+                	<button type="button" onclick="showData({'flag':0})">取消</button>
+				</td>
+              </tr>
+			</tbody>
+		</table>
+		</div>
+        </div>
+	</form>
+</article>

@@ -37,7 +37,7 @@ public class CartoonController extends Controller {
 		}
 		Works worksModel = getModel(Works.class);
 		WorksType worksTypeModel = getModel(WorksType.class);
-		List<WorksType> worksTypes = worksTypeModel.getWorksTypesByCartoonDesc(1);
+		List<WorksType> worksTypes = worksTypeModel.getWorksTypesByCartoonDesc("1");
 		
 		Map<String, Object> typeMap = Maps.newHashMap();
 		for (WorksType worksType : worksTypes) {

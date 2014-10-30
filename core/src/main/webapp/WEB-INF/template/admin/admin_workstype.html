@@ -1,11 +1,20 @@
 <% layout("/admin/admin_layout.html"){ %>
+<link href="css/Member.css" rel="stylesheet" media="screen">
+<script src="js/jquery.form.js"></script>
 <script type="text/javascript">
-	var flag = '';
+	var flag = '0';
 	var workstype = '';
-	var type = '';
-	$(documnt).ready(function(){
-		
-		
+	var pageIndex = '1';
+	$(document).ready(function(){
+		//初始化数据表
+		showData({'flag':flag});
+		$('#flagSel').change(function(){
+			flag = $(this).val();
+			showData({'flag':flag});
+		});
+		$('#addWorksType').click(function(){
+			showData({'flag':5});
+		});
 	});
 	
 	function showData(params){
@@ -23,6 +32,7 @@
 			}
 		});
 	}
+	
 </script>
 <div class="span9" id="content">
 	<div class="row-fluid">
@@ -34,17 +44,18 @@
 				<div class="span12">
 					<div class="table-toolbar" style="height: 50px;">
 						<div>							
-        					作品类型：
-        					<select id="workstypeSel" >
+        					筛选：
+        					<select id="flagSel" >
+        						<option value="0">全部</option>
         						<option value="1">视频</option>
         						<option value="2">漫画</option>
+        						<option value="3">首页排序</option>
+        						<option value="4">动漫页排序</option>
    							</select>
-   							
-   							<a href="menu/addMenu" style="float: right;">
-								<button class="btn btn-success">
-									添加作品类型<i class="icon-plus icon-white"></i>
-								</button>
-							</a>
+   							&nbsp;&nbsp;&nbsp;&nbsp;
+							<button id="addWorksType" style="float: right;" class="btn btn-success">
+								添加作品类型<i class="icon-plus icon-white"></i>
+							</button>
 						</div>
 					</div>
 					<div id="showpage">
