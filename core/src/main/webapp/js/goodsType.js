@@ -5,10 +5,6 @@ function checknull(obj) {
 		alert("[类型名称]必填!");
 		document.getElementById("typename").focus();
 		return false;
-	} else if (document.getElementById("actionkey").value.length == 0) {
-		alert("[actionkey]必填!");
-		document.getElementById("actionkey").focus();
-		return false;
 	} else if (document.getElementById("level").value.length == 0) {
 		alert("[类型级别]必填!");
 		document.getElementById("level").focus();

@@ -16,7 +16,7 @@ import com.jfinal.plugin.activerecord.Page;
 @ControllerBind(controllerKey="goodstype")
 public class GoodsTypeController extends Controller {
 	
-	public void goToManager() {
+	public void renderGoodsType() {
 		setMenuPage(null);
 		render("/admin/admin_goodstype.html");
 	}
@@ -68,7 +68,7 @@ public class GoodsTypeController extends Controller {
 	public void saveGoodsType(){
 		GoodsType goodsType = getModel(GoodsType.class);
 		goodsType.saveGoodsType();
-		goToManager();
+		redirect("/goodstype/renderGoodsType");
 	}
 	
 	/**
@@ -91,7 +91,7 @@ public class GoodsTypeController extends Controller {
 	public void updateGoodsType(){
 		GoodsType goodsType = getModel(GoodsType.class);
 		goodsType.updateGoodsType();
-		goToManager();
+		redirect("/goodstype/renderGoodsType");
 	}
 	
 	/**
@@ -100,6 +100,6 @@ public class GoodsTypeController extends Controller {
 	public void deleteGoodsType() {
 		int goodsTypeId = getParaToInt("goodsTypeId");
 		GoodsType.gtDao.deleteGoodsType(goodsTypeId);
-		goToManager();
+		redirect("/goodstype/renderGoodsType");
 	}
 }

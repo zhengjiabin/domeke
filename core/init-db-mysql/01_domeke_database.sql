@@ -615,14 +615,12 @@ DROP TABLE IF EXISTS `goods_type`;
 CREATE TABLE `goods_type` (
   `goodstypeid` bigint(11) NOT NULL AUTO_INCREMENT,
   `typename` varchar(64) NOT NULL,
-  `actionkey` varchar(64) NOT NULL,
   `level` int(2) NOT NULL,
   `sortnum` int(11) NOT NULL,
   `parenttypeid` int(11) DEFAULT NULL,
   `goodstype` int(2) NOT NULL,
   PRIMARY KEY (`goodstypeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `order_detail`;
 
