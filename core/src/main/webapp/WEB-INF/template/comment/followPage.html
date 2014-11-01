@@ -17,6 +17,34 @@
 		</div>
        	<div class="ReplyBottom font_9" id="commentContent">
          	<a href="javascript:void(0);" onclick="showPublishHtml(this)">回复</a>
+         	<a href="javascript:void(0);" onclick="addSupport(this,'${follow.commentid!}','10')">
+				支持
+				<% 
+					if(!isEmpty(recordDetailMap)){
+						var groupKey = follow.commentid + ",10";
+						if(!isEmpty(@recordDetailMap.get(groupKey))){
+							var record = @recordDetailMap.get(groupKey);
+				%>
+							(+${record.number!})
+				<%
+						}
+					}
+				%>
+			</a>
+			<a href="javascript:void(0);" onclick="addOppose(this,'${follow.commentid!}','20')">
+				反对
+				<% 
+					if(!isEmpty(recordDetailMap)){
+						var groupKey = follow.commentid + ",20";
+						if(!isEmpty(@recordDetailMap.get(groupKey))){
+							var record = @recordDetailMap.get(groupKey);
+				%>
+							(+${record.number!})
+				<%
+						}
+					}
+				%>
+			</a>
          	<div id="publishHtml">
 				<%
 					layout(

@@ -1,6 +1,7 @@
 package com.domeke.app.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,6 +10,7 @@ import com.domeke.app.model.Comment;
 import com.domeke.app.model.Record;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
+import com.domeke.app.utils.CollectionKit;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
@@ -58,33 +60,19 @@ public class CommentController extends Controller {
 		Object idtype = getAttr("idtype");
 		setCommentPage(targetId, idtype);
 		setFollowList(targetId, idtype);
+		setRecords(targetId, idtype);
+		setRecordsDetail(targetId, idtype);
 
 		String render = getAttr("render");
 		render(render);
 	}
 	
 	/**
-	 * 添加反对次数
-	 * 请求 ./comment/addOppose?commentId={commentId!}&recordType={recordType!}
+	 * 添加记录次数
+	 * 请求 ./comment/addRecord?commentId={commentId!}&recordType={recordType!}
 	 */
-	public void addOppose(){
-		String commentId = getPara("commentId");
-		String recordType = getPara("recordType");
-		boolean isExists = checkHasRecord(commentId, recordType);
-		if(isExists){
-			renderJson(1);
-			return;
-		}
-		saveRecord(commentId, recordType);
-		Long number = getRecordNumber(commentId, recordType);
-		renderJson("number",number);
-	}
-	
-	/**
-	 * 添加支持次数
-	 * 请求 ./comment/addSupport?commentId={commentId!}&recordType={recordType!}
-	 */
-	public void addSupport(){
+	@Before(LoginInterceptor.class)
+	public void addRecord(){
 		String commentId = getPara("commentId");
 		String recordType = getPara("recordType");
 		boolean isExists = checkHasRecord(commentId, recordType);
@@ -153,10 +141,10 @@ public class CommentController extends Controller {
 
 		String targetId = getPara("targetId");
 		String idtype = getPara("idtype");
-		setFollowList(targetId, idtype);
-
 		String pId = getPara("pId");
 		setComment(pId);
+		setFollowListByPid(targetId, idtype, pId);
+
 	}
 
 	/**
@@ -173,8 +161,49 @@ public class CommentController extends Controller {
 	 * 设置子回复信息
 	 */
 	public void setFollowList(Object targetId, Object idtype) {
-		List<Comment> followPage = Comment.dao.findFollowByTargetId(targetId,idtype);
+		Page<Comment> commentPage =getAttr("commentPage");
+		List<Comment> commentList = commentPage.getList();
+		if(CollectionKit.isBlank(commentList)){
+			return;
+		}
+		List<Object> commentIdList = CollectionKit.getFieldValueList(commentList, "commentid", Object.class);
+		List<Comment> followPage = Comment.dao.findFollow(targetId,idtype,commentIdList);
 		setAttr("followPage", followPage);
+	}
+	
+	/**
+	 * 设置子回复信息
+	 */
+	public void setFollowListByPid(Object targetId, Object idtype, String pId) {
+		List<Comment> followPage = Comment.dao.findFollow(targetId, idtype, pId);
+		setAttr("followPage", followPage);
+	}
+	
+	/**
+	 * 设置记录次数
+	 */
+	public void setRecords(Object targetId, Object idtype) {
+		Page<Comment> commentPage = getAttr("commentPage");
+		List<Comment> commentList = commentPage.getList();
+		if(CollectionKit.isBlank(commentList)){
+			return;
+		}
+		List<Object> commentIdList = CollectionKit.getFieldValueList(commentList, "commentid", Object.class);
+		Map<String, Record> recordMap = Record.dao.getRecordsGroupOfComment(targetId, idtype, commentIdList);
+		setAttr("recordMap", recordMap);
+	}
+	
+	/**
+	 * 设置子记录次数
+	 */
+	public void setRecordsDetail(Object targetId, Object idtype) {
+		List<Comment> followPage = getAttr("followPage");
+		if(CollectionKit.isBlank(followPage)){
+			return;
+		}
+		List<Object> commentIdList = CollectionKit.getFieldValueList(followPage, "commentid", Object.class);
+		Map<String, Record> recordMap = Record.dao.getRecordsGroupOfComment(targetId, idtype, commentIdList);
+		setAttr("recordDetailMap", recordMap);
 	}
 
 	/**

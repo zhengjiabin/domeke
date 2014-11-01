@@ -3,6 +3,7 @@ package com.domeke.app.model;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
+import com.domeke.app.utils.DbSqlKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -22,10 +23,39 @@ public class Comment extends Model<Comment> {
 	 * 
 	 * @return
 	 */
-	public List<Comment> findFollowByTargetId(Object targetId,Object idtype) {
+	public List<Comment> findFollow(Object targetId,Object idtype,List<Object> commentIdList) {
 		StringBuffer sql = new StringBuffer("select u.username,u.imgurl,t.username as tousername,t.imgurl as toimgurl,c.* ");
 		sql.append(" from comment c left join user t on c.touserid = t.userid,user u where c.userid=u.userid ");
-		sql.append(" and c.status='10' and c.idtype=? and c.level=2 and c.targetid =? order by c.createtime");
+		sql.append(" and c.status='10' and c.targetid =? and c.idtype=? and c.level=2  ");
+		
+		StringBuffer filter = new StringBuffer();
+		int size = commentIdList.size();
+		for(int i = 0; i<size;i++){
+			if(i == 0 ){
+				filter.append("?");
+			}else{
+				filter.append(",?");
+			}
+		}
+		sql.append(" and c.pid in ( ");
+		sql.append(filter);
+		sql.append(" ) order by c.createtime");
+		return DbSqlKit.findList(Comment.class, sql.toString(), targetId,idtype,commentIdList);
+	}
+	
+	/**
+	 * 根据targetId查询子回复信息
+	 * 
+	 * @param targetId 回复目标
+	 * @param idtype 10:帖子，20:活动，30:宝贝，40:动漫
+	 * 
+	 * @return
+	 */
+	public List<Comment> findFollow(Object targetId,Object idtype,Object pId) {
+		StringBuffer sql = new StringBuffer("select u.username,u.imgurl,t.username as tousername,t.imgurl as toimgurl,c.* ");
+		sql.append(" from comment c left join user t on c.touserid = t.userid,user u where c.userid=u.userid ");
+		sql.append(" and c.status='10' and c.idtype=? and c.level=2 and c.targetid =? and c.pid=? ");
+		sql.append(" order by c.createtime");
 		List<Comment> list = this.find(sql.toString(), idtype,targetId);
 		return list;
 	}
