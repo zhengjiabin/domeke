@@ -36,7 +36,27 @@
         	<span class='font_r' style="color: red"> *</span><br>
         	是否放首页：<input name="goods.istop" value="${goods.istop!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
-        	商品状态：<input id="status" name="goods.status" value="${goods.status!}" type="text" class="span6 m-wrap" />
+        	商品状态：<select id="status" name="goods.status" value="${goods.status!}" class="span6 m-wrap">
+        		<option value="0">请选择======</option>        		
+        							<%
+										var status =parseInt(goods.status);
+										for(s in statusList) {
+										var codekey = parseInt(s.codekey);
+											if (codekey == status) {
+									%>
+												<option value="${s.codekey!}" selected="selected">${s.codename!}</option>
+									<%
+											} else {
+									%>
+												<option value="${s.codekey!}">${s.codename!}</option>
+									<%
+											}
+										}
+									%>
+        		
+        		
+        	</select>
+        	<!-- 商品状态：<input id="status" name="goods.status" value="${goods.status!}" type="text" class="span6 m-wrap" /> -->
         	<span class='font_r' style="color: red"> *</span><br>
         	上传用户：<input name="goods.username" value="${goods.username!}" type="text" class="span6 m-wrap" readonly = "readonly "/><br>
         	

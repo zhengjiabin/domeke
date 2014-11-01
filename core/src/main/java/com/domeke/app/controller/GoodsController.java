@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.GoodsType;
 import com.domeke.app.model.OrderDetail;
 import com.domeke.app.model.Orders;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
+import com.domeke.app.utils.CodeKit;
 import com.domeke.app.validator.OrderValidator;
 import com.google.common.collect.Lists;
 import com.jfinal.aop.Before;
@@ -78,6 +80,11 @@ public class GoodsController extends FilesLoadController {
 			redirect("/goods/renderGoods");
 		} catch (Exception e) {
 			e.printStackTrace();
+			List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
+			setAttr("goodsType", goodsType);
+			List<CodeTable> statusList = CodeKit.getList("status");
+			setAttr("statusList", statusList);
+			setAttr("msg", "保存失败！");
 			render("/admin/admin_addGoods.html");
 		}
 	}
@@ -157,6 +164,8 @@ public class GoodsController extends FilesLoadController {
 
 	public void addGoods() {
 		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
+		List<CodeTable> statusList = CodeKit.getList("status");
+		setAttr("statusList", statusList);
 		setAttr("goodsType", goodsType);
 		render("/admin/admin_addGoods.html");
 	}
@@ -173,6 +182,8 @@ public class GoodsController extends FilesLoadController {
 			headimgs = this.getFileUrls(headimg);	
 		}
 		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
+		List<CodeTable> statusList = CodeKit.getList("status");
+		setAttr("statusList", statusList);
 		setAttr("goodsType", goodsType);
 		setAttr("headimgs", headimgs);
 		setAttr("goods", goods);
