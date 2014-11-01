@@ -22,8 +22,8 @@
         	<span class='font_r' style="color: red"> *</span><br>
         	商品价格：<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
-        	豆豆价格：<input id="price" name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
-			历史价格：<input name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>        	 
+        	豆豆价格：<input id="dougprice" name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
+			历史价格：<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>        	 
         	
         	商品主图：<div id="preview"></div>
         	<input id="fileImage" type="file" size="30" name="pic" name="goods.pic" onchange="onUploadImgChange(this)" />
@@ -34,19 +34,29 @@
         	
         	商城链接：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
-        	是否放首页：<select id ="istop" name="goods.istop">
-        		<option value="">请选择======</option>
+        	是否放首页：<select id ="istop" name="goods.istop" class="span6 m-wrap">
+        		
         		<%
+        		if (goods.istop != null && goods.istop != ""){ 
         		var istop =parseInt(goods.istop);
         		if (istop == 1) {
         		%>
+        			<option value="">请选择======</option>
         			<option value="1" selected="selected">是</option>
         			<option value="0">否</option>
           		<%
         		} else if (istop == 0) {
         		%>
+        			<option value="">请选择======</option>
         			<option value="1">是</option>
         			<option value="0"  selected="selected">否</option>
+        		<%
+        		}
+        		}else {
+        		%>
+        			<option value="" selected="selected">请选择======</option>
+        			<option value="1">是</option>
+        			<option value="0" >否</option>
         		<%
         		}
         		%>
