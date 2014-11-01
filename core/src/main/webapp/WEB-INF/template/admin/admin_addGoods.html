@@ -29,7 +29,12 @@
         	<span class='font_r' style="color: red"> *</span><br>
         	淘宝地址：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>        			
-       		是否放首页：<input id="istop" name="goods.istop" value="${goods.istop!}" type="text" class="span6 m-wrap" /><br> 
+       		是否放首页：<select id ="istop" name="goods.istop" class="span6 m-wrap">
+        			<option value="" selected="selected">请选择======</option>
+        			<option value="1">是</option>
+        			<option value="0">否</option>
+        	</select>
+       		<!-- <input id="istop" name="goods.istop" value="${goods.istop!}" type="text" class="span6 m-wrap" /> --><br> 
         	商品状态：<select id="status" name="goods.status" class="span6 m-wrap">
         		<option value="">请选择======</option>
         		<% for(s in statusList!){ %>

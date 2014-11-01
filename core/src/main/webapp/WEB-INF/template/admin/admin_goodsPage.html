@@ -11,9 +11,9 @@
 								<th>数量</th>
 								<th>图片</th>
 								<!-- <th>商品信息</th>
-								<th>tamllurl</th>
-								<th>istop</th>
-								<th>状态</th>
+								<th>tamllurl</th> -->
+								<th>是否放首页</th>
+								<!-- <th>状态</th>
 								<th>用户名</th>
 								<th>headimg</th> -->
 								<th>操作</th>
@@ -37,9 +37,25 @@
 										<img src="${g.pic!}" alt="" ref1="${g.pic!}" ref2="${g.pic!}" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/>
 									</div></td>
 									<!-- <td>${g.message!}</td>
-									<td>${g.tamllurl!}</td>
-									<td>${g.istop!}</td>
-									<td>${g.status!}</td>
+									<td>${g.tamllurl!}</td> -->
+									<td>
+									<%
+									var ist = g.istop;
+									if (ist != null && ist != ""){
+									var istop =parseInt(g.istop);
+									if (istop == 1) {
+									%>
+										是
+									<%
+									} else {
+									%>
+										否
+									<%
+									}
+									}
+									%>
+									</td>
+									<!-- <td>${g.status!}</td>
 									<td>${g.username!}</td>
 									<td>${g.headimg!}</td> -->
 									<td width="120">

@@ -34,10 +34,28 @@
         	
         	商城链接：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
-        	是否放首页：<input name="goods.istop" value="${goods.istop!}" type="text" class="span6 m-wrap" />
+        	是否放首页：<select id ="istop" name="goods.istop">
+        		<option value="">请选择======</option>
+        		<%
+        		var istop =parseInt(goods.istop);
+        		if (istop == 1) {
+        		%>
+        			<option value="1" selected="selected">是</option>
+        			<option value="0">否</option>
+          		<%
+        		} else if (istop == 0) {
+        		%>
+        			<option value="1">是</option>
+        			<option value="0"  selected="selected">否</option>
+        		<%
+        		}
+        		%>
+        	</select>
+        	
+        	<!-- <input name="goods.istop" value="${goods.istop!}" type="text" class="span6 m-wrap" /> -->
         	<span class='font_r' style="color: red"> *</span><br>
         	商品状态：<select id="status" name="goods.status" value="${goods.status!}" class="span6 m-wrap">
-        		<option value="0">请选择======</option>        		
+        		<option value="">请选择======</option>        		
         							<%
 										var status =parseInt(goods.status);
 										for(s in statusList) {
