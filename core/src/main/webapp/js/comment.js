@@ -110,9 +110,11 @@ function addSupport(node,commentId,recordType){
 	}, function(data) {
 		if(data == 1){
 			alert("已支持，禁止重复操作！");
-		}else{
+		}else if(data.number  != null){
 			var number = data.number;
 			$(node).text("支持(+" + number + ")");
+		}else{
+			$(node).html(data);
 		}
 	});
 }
@@ -125,14 +127,16 @@ function addOppose(node,commentId,recordType){
 	}, function(data) {
 		if(data == 1){
 			alert("已反对，禁止重复操作！");
-		}else{
+		}else if(data.number  != null){
 			var number = data.number;
-			$(node).text("反对(+" + number + ")");
+			$(node).html("反对(+" + number + ")");
+		}else{
+			$(node).html(data);
 		}
 	});
 }
 
-//添加反对
+//添加有用
 function addUseful(node,commentId,recordType){
 	$.post("./comment/addRecord", {
 		commentId : commentId,
@@ -140,9 +144,11 @@ function addUseful(node,commentId,recordType){
 	}, function(data) {
 		if(data == 1){
 			alert("已点击，禁止重复操作！");
-		}else{
+		}else if(data.number != null){
 			var number = data.number;
-			$(node).text("有用(+" + number + ")");
+			$(node).html("有用(+" + number + ")");
+		}else{
+			$(node).html(data);
 		}
 	});
 }

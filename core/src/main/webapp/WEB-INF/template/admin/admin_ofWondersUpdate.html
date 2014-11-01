@@ -16,8 +16,8 @@
         	if( this.value=="" ){
         	    var errorMsg = '标题不能为空';
         	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
-        	}else if(this.value.length > 30){
-        		var errorMsg = '标题长度必须小于30个字';
+        	}else if(this.value.length > 11){
+        		var errorMsg = '标题长度必须小于11个字';
         	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else{
         	    var okMsg = '输入正确';
