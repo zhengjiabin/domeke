@@ -478,7 +478,9 @@ public class GoodsController extends FilesLoadController {
 		Long peas = (Long)changeMap.get("peas");
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
-		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
+		Long sumDougprice = goods.getLong("dougprice")*goodsnum;
+		Long surplus = peas-sumDougprice;
+ 		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
 		List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
 	//	String tamllurl = getPara("tamllurl");
 	//	List<String> headimgs = this.getFileUrls(tamllurl);
@@ -490,6 +492,8 @@ public class GoodsController extends FilesLoadController {
 		setAttr("userId", changeMap.get("userId"));
 		setAttr("user", user);
 		setAttr("goodsnum", goodsnum);
+		setAttr("sumDougprice", sumDougprice);
+		setAttr("surplus", surplus);
 		//render("/ShopDtl.html");
 		render("/ShopOrder.html");
 	}

@@ -28,13 +28,15 @@ public class OrderValidator extends Validator{
 	@Override
 	protected void handleError(Controller c) {
 		c.keepModel(User.class);
-		String peas = c.getPara("peas");
-		String goodsnum = c.getPara("goodsnum");
+		Long peas = c.getParaToLong("peas");
+		Long goodsnum = c.getParaToLong("goodsnum");
 		Long goodsid = c.getParaToLong("goods.goodsid");
 		Goods goodsModel = Goods.dao.getUserForId(goodsid);
 		Long userid = c.getParaToLong("user.userid");
 		User user = User.dao.getUserForId(userid);
 		String realname = c.getPara("user.realname");
+		Long sumDougprice = goodsModel.getLong("dougprice")*goodsnum;
+		Long surplus = peas-sumDougprice;
 		if (StrKit.isBlank(realname)){
 			user.set("realname", realname);
 		}
@@ -50,6 +52,8 @@ public class OrderValidator extends Validator{
 		c.setAttr("goodsnum", goodsnum);
 		c.setAttr("goods", goodsModel);
 		c.setAttr("user", user);
+		c.setAttr("sumDougprice", sumDougprice);
+		c.setAttr("surplus", surplus);
 		c.render("/ShopOderLayout.html");
 	}
 

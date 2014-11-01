@@ -16,15 +16,23 @@
               </tr>
               <tr>
                 <th>商品价格：</th>
+                <td><input  name="goods.dougprice" value="${goods.oldprice!}" type="text" class="input_Member" readonly="true"></td>
+              </tr>
+              <tr>
+                <th>商品豆豆单价：</th>
                 <td><input  name="goods.dougprice" value="${goods.dougprice!}" type="text" class="input_Member" readonly="true"></td>
               </tr>
               <tr>
-                <th>商品豆豆价：</th>
-                <td><input  name="goods.dougprice" value="${goods.dougprice!}" type="text" class="input_Member" readonly="true"></td>
+                <th>商品豆豆总价：</th>
+                <td><input  name="sumDougprice" value="${sumDougprice!}" type="text" class="input_Member" readonly="true"></td>
               </tr>
               <tr>
                 <th>您当前剩余豆豆：</th>
               	<td><input  name="peas" value="${peas!}" type="text" class="input_Member" readonly="true"></td>
+              </tr>
+              <tr>
+                <th>扣除后剩余豆豆：</th>
+              	<td><input  name="surplus" value="${surplus!}" type="text" class="input_Member" readonly="true"></td>
               </tr>
               <tr>
                 <th>购买数量：</th>
@@ -44,7 +52,7 @@
               </tr>
               <tr>
                 <th></th>
-                <td><input name="" type="submit" class="Button" value="保存修改" onclick="check()"></td>
+                <td><input name="" type="submit" class="Button" value="提交订单" onclick="check()"></td>
               </tr>
             </table>
 			</form>
