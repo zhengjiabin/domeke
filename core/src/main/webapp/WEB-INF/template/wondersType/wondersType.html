@@ -25,12 +25,17 @@
 		<div class="PicBlock">
 			<% for(ofWonders in ofWondersPicList) { %>
 	        	<div class="CartoonSub">
-	                <img src="${ofWonders.themeimg!}">
+	        		<a href="javascript:void(0);" onclick="skipDetail(this,'${ofWonders.ofwondersid!}')">
+		                <img src="${ofWonders.themeimg!}">
+	        		</a>
 	                <div class="CartoonName">
-	                	<a href="javascript:void(0)" onclick="skipDetail(this,'${ofWonders.ofwondersid!}')">${ofWonders.subject!}</a>
+	                	<span class="FloatL">${ofWonders.times!}</span>
+	                    <span class="FloatR">${ofWonders.viewcount!}</span>
 	                </div>
-	                <div class="CartoonSubFootbar">${ofWonders.subject!}</div>
-	             </div>
+	                <a class="CartoonSubFootbar" href="javascript:void(0);" onclick="skipDetail(this,'${ofWonders.ofwondersid!}')">
+	                    ${ofWonders.subject!}
+	                </a>
+	        	</div>
         	<% } %>
 	    </div>
 		<% layout(

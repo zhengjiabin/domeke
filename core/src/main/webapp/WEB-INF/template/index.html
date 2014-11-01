@@ -178,16 +178,17 @@
             <div class="CartoonContent">
             	<%for(ofWonders in ofWondersList){%>
 		            <div class="CartoonSub">
-			                <img src="${ofWonders.themeimg!}" >
-			                <div class="CartoonName">
-			                	<a href="javascript:void(0)" onclick="skipOfWonders('${ofWonders.ofwondersid!}')">${ofWonders.subject!}</a>
-			                </div>
-		                <div class="CartoonInfo">
+		        		<a href="javascript:void(0);" onclick="skipOfWonders('${ofWonders.ofwondersid!}')">
+			                <img src="${ofWonders.themeimg!}">
+		        		</a>
+		                <div class="CartoonName">
 		                	<span class="FloatL">${ofWonders.times!}</span>
 		                    <span class="FloatR">${ofWonders.viewcount!}</span>
 		                </div>
-		                <div class="CartoonSubFootbar">${ofWonders.subject!}</div>
-		            </div>
+		                <a class="CartoonSubFootbar" href="javascript:void(0);" onclick="skipOfWonders('${ofWonders.ofwondersid!}')">
+		                    ${ofWonders.subject!}
+		                </a>
+		        	</div>
 	            <%}%>
             </div>
         </section>
