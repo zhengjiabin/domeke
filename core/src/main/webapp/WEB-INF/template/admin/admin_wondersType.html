@@ -11,24 +11,22 @@
 				<div class="span12"id="admin_wondersType">
 					<div class="table-toolbar">
 						<div class="btn-group">
-							<a href="javascript:void(0);" onclick="skipModify(this)">
+							<!-- <a href="javascript:void(0);" onclick="skipUpdateWondersType(this)">
 								<button class="btn btn-success">添加区域版块 <i class="icon-plus icon-white"></i></button>
-							</a>
+							</a> -->
 						</div>
 					</div>
-					
-					<div id="adminWondersTypeForumHtml">
-					<% 
-						layout(
-							"/admin/admin_wondersTypeForum.html", 
-							{
-								"wondersTypeFatList":wondersTypeFatList,
-								"wondersTypeSonList":wondersTypeSonList
-							}
-						){} 
-					%>	
+					<div id="page">
+						<% 
+							layout(
+								"/admin/admin_wondersTypeForum.html", 
+								{
+									"wondersTypeFatList":wondersTypeFatList,
+									"wondersTypeSonList":wondersTypeSonList
+								}
+							){} 
+						%>	
 					</div>	
-					
 				</div>
 			</div>
 		</div>

@@ -1,8 +1,4 @@
-<link href="${core}/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-<link href="${core}/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-	
-<script type="text/javascript" src="${core}/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="${core}/js/jquery.form.js"></script>
+<script src="js/jquery.form.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('form :input[required=required]').each(function(){
@@ -28,12 +24,14 @@
              	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
        	   	}
         }
-      	//主题图片验证
-        if($(this).is('#themeimg')){
-        	if( this.value=="" ){
+      //主题图片验证
+        if($(this).is('#themeimgBtn')){
+        	var fatherNode = $(this).closest("#submitForm");
+        	var path = fatherNode.find("#themeimgPath").first().text();
+        	if( path=="" ){
         	    var errorMsg = '主题图片不能为空';
         	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
-        	}else if(!this.value.match( /.jpg|.gif|.png|.bmp/i )){
+        	}else if(!path.match( /.jpg|.gif|.png|.bmp/i )){
         		var errorMsg = '图片格式无效';
         	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
         	}else{
@@ -43,7 +41,7 @@
         }
     });
 </script>
-<form id="submitForm" class="form-horizontal" action="./ofWonders/updateForPersonal" method="post" onsubmit="return submitOfWonders(this)">
+<form id="submitForm" class="form-horizontal" action="#" method="post" enctype="multipart/form-data" onsubmit="return submitOfWonders(this);">
 	<fieldset>
 		<legend>无奇不有管理</legend>
 		<input type="text" name="ofWonders.ofwondersid" value="${ofWonders.ofwondersid!}" style="display: none;">
@@ -68,7 +66,18 @@
 				<div id="preview" class="imgCss">
 					<img src="${ofWonders.themeimg!}">
 				</div>
-				<input id="themeimg" name="ofWonders.themeimg" type="file" class="input_Forum" value="${ofWonders.themeimg!}" onchange="onUploadImgChange(this)" required="required">
+				<label id="themeimgPath">
+					<%
+						var themeimgPath = null;
+						if(!isEmpty(ofWonders) && !isEmpty(ofWonders.themeimg)){
+							var filePath = strutil.replace(ofWonders.themeimg,"\\\\","/");
+							themeimgPath = strutil.subStringTo(filePath,@filePath.lastIndexOf("/")+1,strutil.length(filePath));
+						}
+					%>
+					${themeimgPath!}
+				</label>
+				<input id="themeimgBtn" type="button" class="btn btn-warning btn-mini" onclick="themeimg.click()" value="请选择图片" required="required">
+				<input id="themeimg" name="ofWonders.themeimg" type="file" class="fileCss" value="${ofWonders.themeimg!}" onchange="onUploadImgChange(this)" style="display: none">
 			</div>
 		</div>
 
@@ -82,7 +91,7 @@
 		</div>
 
 		<div class="form-actions">
-			<button type="submit" class="btn btn-primary">提交</button>
+			<button type="submit" class="btn btn-primary" >提交</button>
 			<button type="reset" class="btn">取消</button>
 		</div>
 	</fieldset>

@@ -1,4 +1,4 @@
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<script src="js/jquery.form.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('form :input[required=required]').each(function(){
@@ -28,7 +28,7 @@
 </script>
 <form id="submitForm" class="form-horizontal" action="./treasure/update" method="post" onsubmit="return submitTreasure(this)">
 	<fieldset>
-		<legend>论坛管理</legend>
+		<legend>修改宝贝</legend>
 		<input type="text" name="treasure.treasureid" value="${treasure.treasureid!}" style="display: none;">
 		
 		<div class="control-group">

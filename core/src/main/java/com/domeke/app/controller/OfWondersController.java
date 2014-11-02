@@ -63,25 +63,11 @@ public class OfWondersController extends FilesLoadController {
 	 */
 	@Before(LoginInterceptor.class)
 	public void create() {
-		String imgPath = dealUploadImg();
-		if(StrKit.isBlank(imgPath)){
-			renderJson(1);
+		boolean isSucceed = dealOfWonders();
+		if(!isSucceed){
 			return;
 		}
-		OfWonders ofWonders = getModel(OfWonders.class);
-		ofWonders.set("themeimg", imgPath);
-		
 		Object wondersTypeId = getPara("wondersTypeId");
-		ofWonders.set("wonderstypeid", wondersTypeId);
-		
-		HttpServletRequest request = getRequest();
-		String remoteIp = request.getRemoteAddr();
-
-		Object userId = getUserId();
-		ofWonders.set("userid", userId);
-		ofWonders.set("userip", remoteIp);
-		ofWonders.save();
-
 		setOfWondersPage(wondersTypeId);
 		setPublishNumber(wondersTypeId);
 		
@@ -225,20 +211,12 @@ public class OfWondersController extends FilesLoadController {
 	 */
 	@Before(LoginInterceptor.class)
 	public void update() {
-		OfWonders ofWonders = getModel(OfWonders.class);
-		Object ofWondersId = ofWonders.get("ofwondersid");
-		if (ofWondersId == null) {
-			Object userId = getUserId();
-			HttpServletRequest request = getRequest();
-			String remoteIp = request.getRemoteAddr();
-
-			ofWonders.set("userid", userId);
-			ofWonders.set("userip", remoteIp);
-			ofWonders.save();
-		} else {
-			ofWonders.update();
+		boolean isSucceed = dealOfWonders();
+		if(!isSucceed){
+			return;
 		}
-		goToManager();
+		findPageAll();
+		render("/admin/admin_ofWondersPage.html");
 	}
 	
 	/**
@@ -298,11 +276,9 @@ public class OfWondersController extends FilesLoadController {
 	 */
 	@Before(LoginInterceptor.class)
 	public void updateForPersonal() {
-		try{
-			OfWonders ofWonders = getModel(OfWonders.class);
-			ofWonders.update();
-		}catch(Exception e){
-			e.printStackTrace();
+		boolean isSucceed = dealOfWonders();
+		if(!isSucceed){
+			return;
 		}
 		personalHome();
 	}
@@ -335,18 +311,58 @@ public class OfWondersController extends FilesLoadController {
 	 * 处理图片上传
 	 * @return 是否上传成功
 	 */
-	@SuppressWarnings("finally")
-	private String dealUploadImg(){
-		String imgPath = null;
+	private boolean dealUploadImg(StringBuffer imgPath){
 		try {
-			imgPath = upLoadFileDealPath(parameterName, saveFolderName, maxPostSize, encoding);
+			String path = upLoadFileDealPath(parameterName, saveFolderName, maxPostSize, encoding);
+			if(StrKit.isBlank(path)){
+				OfWonders ofWonders = getModel(OfWonders.class);
+				Object ofWondersId = ofWonders.get("ofwondersid");
+				if(ofWondersId  == null){
+					renderJson(1);
+					return false;
+				}
+				OfWonders ofWondersOld = OfWonders.dao.findById(ofWondersId);
+				path = ofWondersOld.getStr("themeimg");
+			}
+			imgPath.append(path);
+			return true;
 		} catch (RuntimeException e) {
 			renderJson(1);
 		} catch (Exception e) {
 			renderJson(2);
-		} finally{
-			return imgPath;
+		} 
+		return false;
+	}
+	
+	/**
+	 * 处理创建/修改无奇不有
+	 * @return 是否保存成功
+	 * 
+	 */
+	private boolean dealOfWonders(){
+		StringBuffer imgPath = new StringBuffer();
+		boolean isSucceed = dealUploadImg(imgPath);
+		if(!isSucceed){
+			return isSucceed;
 		}
+		OfWonders ofWonders = getModel(OfWonders.class);
+		ofWonders.set("themeimg", imgPath.toString());
+		Object ofWondersId = ofWonders.get("ofwondersid");
+		if (ofWondersId == null) {
+			Object userId = getUserId();
+			HttpServletRequest request = getRequest();
+			String remoteIp = request.getRemoteAddr();
+			
+			Object wondersTypeId = getPara("wondersTypeId");
+			ofWonders.set("wonderstypeid", wondersTypeId);
+
+			ofWonders.set("userid", userId);
+			ofWonders.set("userip", remoteIp);
+			ofWonders.save();
+		} else {
+			ofWonders.update();
+		}
+		return isSucceed;
 	}
 	
 	/**

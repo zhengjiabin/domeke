@@ -1,5 +1,4 @@
 <% layout("/admin/admin_layout.html"){ %>
-<script src="${core}/js/community.js" type="text/javascript"></script>
 <div class="span9" id="content">
 	<div class="row-fluid">
 		<!-- block -->
@@ -11,24 +10,22 @@
 				<div class="span12"id="admin_Community">
 					<div class="table-toolbar">
 						<div class="btn-group">
-							<a href="javascript:void(0);" onclick="skipModify(this)"><button class="btn btn-success">
+							<!-- <a href="javascript:void(0);" onclick="skipUpdateCommunity(this)"><button class="btn btn-success">
 									添加区域版块 <i class="icon-plus icon-white"></i>
-								</button></a>
+								</button></a> -->
 						</div>
 					</div>
-					
-					<div id="detail_CommunityHtml">
-					<% 
-						layout(
-							"/admin/admin_communityDetail.html", 
-							{
-								"communityFatList":communityFatList,
-								"communitySonList":communitySonList
-							}
-						){} 
-					%>	
+					<div id="page">
+						<% 
+							layout(
+								"/admin/admin_communityForum.html", 
+								{
+									"communityFatList":communityFatList,
+									"communitySonList":communitySonList
+								}
+							){} 
+						%>	
 					</div>	
-					
 				</div>
 			</div>
 		</div>

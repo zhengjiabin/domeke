@@ -1,4 +1,5 @@
-<form id="wondersTypeForm" class="form-horizontal" action="./wondersType/updateWondersType" method="post" onsubmit="submitForm(this)">
+<script src="js/jquery.form.js"></script>
+<form id="submitForm" class="form-horizontal" action="./wondersType/updateWondersType" method="post" onsubmit="return submitWondersType(this);">
 	<fieldset>
 		<legend>版块管理</legend>
 		<input type="text" name="wondersType.wonderstypeid" value="${wondersType.wonderstypeid!}" style="display: none;">

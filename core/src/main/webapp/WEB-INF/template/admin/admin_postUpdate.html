@@ -1,4 +1,4 @@
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<script src="js/jquery.form.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('form :input[required=required]').each(function(){
@@ -26,9 +26,9 @@
         }
     });
 </script>
-<form id="submitForm" class="form-horizontal" action="./post/update" method="post" onsubmit="return submitPost(this)">
+<form id="submitForm" class="form-horizontal" action="./post/update" method="post" onsubmit="return submitPost(this);">
 	<fieldset>
-		<legend>论坛管理</legend>
+		<legend>修改帖子</legend>
 		<input type="text" name="post.postid" value="${post.postid!}" style="display: none;">
 		
 		<div class="control-group">

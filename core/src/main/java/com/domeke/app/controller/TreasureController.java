@@ -213,7 +213,8 @@ public class TreasureController extends Controller {
 		} else {
 			treasure.update();
 		}
-		goToManager();
+		findPageAll();
+		render("/admin/admin_treasurePage.html");
 	}
 	
 	/**

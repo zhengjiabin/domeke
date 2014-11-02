@@ -100,7 +100,6 @@ public class WondersTypeController extends Controller {
 			wondersType = addWondersType();
 		}
 		setAttr("wondersType", wondersType);
-		
 		setWondersTypeFatList();
 		render("/admin/admin_wondersTypeUpdate.html");
 	}
@@ -118,7 +117,9 @@ public class WondersTypeController extends Controller {
 		} else {
 			wondersType.update();
 		}
-		goToManager();
+		setWondersTypeFatList();
+		setWondersTypeSonList();
+		render("/admin/admin_wondersTypeForum.html");
 	}
 	
 	/**

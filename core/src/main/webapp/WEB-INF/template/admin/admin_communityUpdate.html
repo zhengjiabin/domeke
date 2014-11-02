@@ -1,4 +1,5 @@
-<form id="updateCommunityForm" class="form-horizontal" action="./community/updateCommunity" method="post" onsubmit="submitForm(this)">
+<script src="js/jquery.form.js"></script>
+<form id="submitForm" class="form-horizontal" action="./community/updateCommunity" method="post" onsubmit="return submitCommunity(this);">
 	<fieldset>
 		<legend>版块管理</legend>
 		<input type="text" name="community.communityid" value="${community.communityid!}" style="display: none;">

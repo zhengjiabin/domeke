@@ -48,13 +48,13 @@
 	</tbody>
 </table>
 <% if(has(postPage)){
-				var pageAction = "./post/findByAdminPage";
-				layout(
-					"/common/page.html",
-					{
-						"page":postPage,
-						"pageAction":pageAction,
-						"fatherNode":"#page"
-					}
-			){} 
+	var pageAction = "./post/findByAdminPage";
+	layout(
+		"/common/page.html",
+		{
+			"page":postPage,
+			"pageAction":pageAction,
+			"fatherNode":"#page"
+		}
+	){} 
 }%>

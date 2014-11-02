@@ -104,6 +104,77 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
+	 * admin管理--更新社区版块
+	 * 请求 ./community/updateCommunity
+	 */
+	@Before(LoginInterceptor.class)
+	public void updateCommunity() {
+		Community community = getModel(Community.class);
+		Object communityId = community.get("communityid");
+		if (communityId == null) {
+			community.save();
+		} else {
+			community.update();
+		}
+		setCommunityFatList();
+		setCommunitySonList();
+		render("/admin/admin_communityForum.html");
+	}
+	
+	/**
+	 * admin管理--删除版块
+	 * 请求 ./community/deleteSon?communityId={communityId!}&pId={pId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void deleteSon(){
+		String communityId = getPara("communityId");
+		if(communityId != null && communityId.length() > 0){
+			Community.dao.deleteById(communityId);
+		}
+		
+		Object pId = getPara("pId");
+		Community community = Community.dao.findById(pId);
+		setAttr("communityFat", community);
+		setCommunitySonListByPid(pId);
+		render("/admin/admin_communityDetail.html");
+	}
+	
+	/**
+	 * admin管理--删除区域版块
+	 * 请求 ./community/deleteFat?communityId={communityId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void deleteFat(){
+		String communityId = getPara("communityId");
+		if(communityId != null && communityId.length() > 0){
+			Community.dao.deleteFatAndSonByCommunityId(communityId);
+		}
+		
+		setCommunityFatList();
+		setCommunitySonList();
+		render("/admin/admin_communityForum.html");
+	}
+	
+	/**
+	 * admin管理--跳转修改社区版块页面
+	 * 请求 ./community/skipModify?communityId={communityId!}&pId={pId!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipModify(){
+		Community community = null;
+		String communityId = getPara("communityId");
+		if(StrKit.notBlank(communityId)){
+			community = Community.dao.findById(communityId);
+		}else {
+			community = addCommunity();
+		}
+		setAttr("community", community);
+		
+		setCommunityFatList();
+		render("/admin/admin_communityUpdate.html");
+	}
+	
+	/**
 	 * 设置各子版块帖子数
 	 * @param <T>
 	 */
@@ -293,7 +364,7 @@ public class CommunityController extends Controller {
 		Community communityFat = Community.dao.findById(pId);
 		setAttr("communityFat", communityFat);
 		setCommunitySonListByPid(pId);
-		render("/admin/admin_communityFat.html");
+		render("/admin/admin_communityDetail.html");
 	}
 	
 	/**
@@ -311,7 +382,7 @@ public class CommunityController extends Controller {
 			insertCommunity(community);
 			setAttr("communityFat", community);
 		}
-		render("/admin/admin_communityFat.html");
+		render("/admin/admin_communityForum.html");
 	}
 	
 	private void setCommunityFat(Object pId){
@@ -335,25 +406,7 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
-	 * admin管理--跳转修改社区版块页面
-	 */
-	@Before(LoginInterceptor.class)
-	public void skipModify(){
-		Community community = null;
-		String communityId = getPara("communityId");
-		if(StrKit.notBlank(communityId)){
-			community = Community.dao.findById(communityId);
-		}else {
-			community = addCommunity();
-		}
-		setAttr("community", community);
-		
-		setCommunityFatList();
-		render("/admin/admin_communityUpdate.html");
-	}
-	
-	/**
-	 * admin--设置更新版块信息
+	 * 设置更新版块信息
 	 */
 	@Before(LoginInterceptor.class)
 	private Community addCommunity() {
@@ -368,54 +421,6 @@ public class CommunityController extends Controller {
 			community.set("level", 2);
 		}
 		return community;
-	}
-	
-	/**
-	 * admin管理--更新社区版块
-	 */
-	@Before(LoginInterceptor.class)
-	public void updateCommunity() {
-		Community community = getModel(Community.class);
-		Object communityId = community.get("communityid");
-		if (communityId == null) {
-			community.save();
-		} else {
-			community.update();
-		}
-
-		goToManager();
-	}
-	
-	/**
-	 * admin管理--删除版块
-	 */
-	@Before(LoginInterceptor.class)
-	public void deleteSon(){
-		String communityId = getPara("communityId");
-		if(communityId != null && communityId.length() > 0){
-			Community.dao.deleteById(communityId);
-		}
-		
-		Object pId = getPara("pId");
-		Community community = Community.dao.findById(pId);
-		setAttr("communityFat", community);
-		setCommunitySonListByPid(pId);
-		render("/admin/admin_communityFat.html");
-	}
-	
-	/**
-	 * admin管理--删除区域版块
-	 */
-	@Before(LoginInterceptor.class)
-	public void deleteFat(){
-		String communityId = getPara("communityId");
-		if(communityId != null && communityId.length() > 0){
-			Community.dao.deleteFatAndSonByCommunityId(communityId);
-		}
-		
-		setCommunityFatList();
-		setCommunitySonList();
-		render("/admin/admin_communityDetail.html");
 	}
 	
 	/**

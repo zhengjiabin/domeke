@@ -151,7 +151,8 @@ public class ActivityController extends Controller {
 		} else {
 			activity.update();
 		}
-		goToManager();
+		findPageAll();
+		render("/admin/admin_activityPage.html");
 	}
 	
 	/**

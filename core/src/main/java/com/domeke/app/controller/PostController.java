@@ -200,7 +200,8 @@ public class PostController extends Controller {
 		} else {
 			post.update();
 		}
-		goToManager();
+		findPageAll();
+		render("/admin/admin_postPage.html");
 	}
 	
 	/**

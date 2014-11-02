@@ -84,49 +84,6 @@ function goToHomeForum(actionKey){
 	window.location.href=actionKey;
 }
 
-//admin 跳转修改社区版块
-function skipModify(node,communityId,pId){
-	$.post("./community/skipModify", {
-		communityId : communityId,
-		pId : pId
-	}, function(data) {
-		var adminCommunityHtml = $(node).closest("#adminCommunityHtml");
-		adminCommunityHtml.html(data);
-	});
-}
-
-//admin 提交创建/修改版块
-function submitForm(node) {
-	var updateCommunityForm = $(node).closest("#updateCommunityForm");
-	var pid = updateCommunityForm.find("#pid").first();
-	pid.attr("disabled",false);
-}
-
-function deleteSon(node,communityId,pId){
-	var result = confirm("确定删除？");
-	if(result){
-		$.post("./community/deleteSon", {
-			communityId : communityId,
-			pId : pId
-		}, function(data) {
-			var fatherNode = $(node).closest("#detailCommunity");
-			fatherNode.html(data);
-		});
-	}
-}
-
-function deleteFat(node,communityId){
-	var result = confirm("确定删除？");
-	if(result){
-		$.post("./community/deleteFat", {
-			communityId : communityId
-		}, function(data) {
-			var fatherNode = $(node).closest("#detail_CommunityHtml");
-			fatherNode.html(data);
-		});
-	}
-}
-
 //点击发表主题按钮事件
 function skipCommunity(node) {
 	var communityLayout = $(node).closest("#communityLayout");
