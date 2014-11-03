@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.GoodsType;
@@ -31,6 +32,7 @@ import com.jfinal.upload.UploadFile;
  *
  */
 @ControllerBind(controllerKey = "/goods")
+@Before(LoginInterceptor.class)
 public class GoodsController extends FilesLoadController {
 
 	/**

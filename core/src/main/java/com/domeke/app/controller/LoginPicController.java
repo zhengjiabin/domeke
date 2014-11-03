@@ -2,10 +2,12 @@ package com.domeke.app.controller;
 
 import java.util.List;
 
+import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.LoginPic;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -14,6 +16,7 @@ import com.jfinal.plugin.activerecord.Page;
  *
  */
 @ControllerBind(controllerKey="loginpic")
+@Before(LoginInterceptor.class)
 public class LoginPicController extends FilesLoadController {
 	
 	public void renderLoginPic(){

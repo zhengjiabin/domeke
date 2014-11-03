@@ -1,10 +1,10 @@
 package com.domeke.app.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.domeke.app.interceptor.GlobalInterceptor;
+import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Menu;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -16,7 +16,7 @@ import com.jfinal.plugin.activerecord.Page;
  */
 @Before(GlobalInterceptor.class)
 public class MenuController extends Controller {
-	
+	@Before(LoginInterceptor.class)
 	public void renderMenu(){
 		setMenuPage(null);
 		render("/admin/admin_menu.html");
@@ -25,6 +25,7 @@ public class MenuController extends Controller {
 	/**
 	 * 新增菜单入口
 	 */
+	@Before(LoginInterceptor.class)
 	public void addMenu() {		
 		Menu menu = getModel(Menu.class);
 		List<Menu> menuList = menu.selectMenu();
@@ -35,6 +36,7 @@ public class MenuController extends Controller {
 	/**
 	 * 新增菜单
 	 */
+	@Before(LoginInterceptor.class)
 	public void saveMenu() {
 		Menu menu = getModel(Menu.class);
 		menu.saveMenu();
@@ -44,6 +46,7 @@ public class MenuController extends Controller {
 	/**
 	 * 删除菜单
 	 */
+	@Before(LoginInterceptor.class)
 	public void deleteMenu() {
 		Menu menu = getModel(Menu.class);
 		int menuid = getParaToInt();
@@ -54,6 +57,7 @@ public class MenuController extends Controller {
 	/**
 	 * 根据menuid查询菜单
 	 */
+	@Before(LoginInterceptor.class)
 	public void selectMenuById() {
 		int menuid = getParaToInt();
 		Menu menu = Menu.menuDao.selectMenuById(menuid);
@@ -66,6 +70,7 @@ public class MenuController extends Controller {
 	/**
 	 * 更新菜单
 	 */
+	@Before(LoginInterceptor.class)
 	public void updateMenu() {
 		Menu menu = getModel(Menu.class);
 		menu.updateMenu();
@@ -85,6 +90,7 @@ public class MenuController extends Controller {
 	/**
 	 * 按菜单模块查询
 	 */
+	@Before(LoginInterceptor.class)
 	public void menuTypeForName(){
 		//Menu menu = getModel(Menu.class);
 		//List<Menu> menuList = new ArrayList<Menu>();
@@ -104,6 +110,7 @@ public class MenuController extends Controller {
 	/**
 	 * 分页查询
 	 */
+	@Before(LoginInterceptor.class)
 	public void setMenuPage(String menuType){
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
@@ -123,6 +130,7 @@ public class MenuController extends Controller {
 	/**
 	 * 分页查询
 	 */
+	@Before(LoginInterceptor.class)
 	public void find() {
 		String menuType = getPara("menuType");
 		setMenuPage(menuType);

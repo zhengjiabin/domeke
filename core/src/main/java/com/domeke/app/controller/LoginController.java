@@ -10,6 +10,7 @@ import org.apache.shiro.subject.Subject;
 
 import com.domeke.app.base.config.DomekeConstants;
 import com.domeke.app.interceptor.ActionInterceptor;
+import com.domeke.app.model.LoginPic;
 import com.domeke.app.model.User;
 import com.domeke.app.model.UserRole;
 import com.domeke.app.route.ControllerBind;
@@ -84,6 +85,8 @@ public class LoginController extends Controller {
 	public void logout() {
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();
+		String url = LoginPic.lpDao.getPicUrl();
+		setAttr("url", url);
 		render("/Login.html");
 	}
 

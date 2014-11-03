@@ -254,6 +254,8 @@ public class UserController extends Controller {
 			email = encry.decrypt(email);
 			User user = getModel(User.class);
 			user.updateUserMsg(email,"activation","Y");
+			String url = LoginPic.lpDao.getPicUrl();
+			setAttr("url", url);
 			render("/Login.html");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
