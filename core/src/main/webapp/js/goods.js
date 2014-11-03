@@ -1,4 +1,3 @@
-
 //goods判空
 function checknull(obj) {
 	if (document.getElementById("goodsname").value.length == 0) {
@@ -42,17 +41,18 @@ function checknull(obj) {
 		return false;
 	}
 	
-	var money = "(?!^0\d+|.*0$)^[0-9]{1,16}(\.[0-9]{1,4})?$|^0$";
+	var money = "^([0-9]+|[0-9]{1,3}(,[0-9]{3})*)(.[0-9]{1,2})?$";
 	var my = new RegExp(money);
 	if (!my.test(document.getElementById("price").value)){
 		alert("价格输入有误！");
 		return false;
 	}
-	if (!my.test(document.getElementById("dougprice").value)){
-		alert("豆豆价格输入有误！");
+	var doug = new RegExp("^[0-9]*[1-9][0-9]*$");
+	if (document.getElementById("dougprice").value != 0 && (document.getElementById("dougprice").value!=null && document.getElementById("dougprice").value!="" && !doug.test(document.getElementById("dougprice").value))){
+		alert("豆豆价格输入有误,必须为正整数！");
 		return false;
 	}
-	if (!my.test(document.getElementById("oldprice").value)){
+	if (document.getElementById("oldprice").value!=null && document.getElementById("oldprice").value!="" && !my.test(document.getElementById("oldprice").value)){
 		alert("历史价格输入有误！");
 		return false;
 	}
@@ -76,17 +76,18 @@ function upchecknull(obj) {
 		return false;
 	}
 	
-	var money = "(?!^0\d+|.*0$)^[0-9]{1,16}(\.[0-9]{1,4})?$|^0$";
+	var money = "^([0-9]+|[0-9]{1,3}(,[0-9]{3})*)(.[0-9]{1,2})?$";
 	var my = new RegExp(money);
 	if (!my.test(document.getElementById("price").value)){
 		alert("价格输入有误！");
 		return false;
 	}
-	if (!my.test(document.getElementById("dougprice").value)){
-		alert("豆豆价格输入有误！");
+	var doug = new RegExp("^[0-9]*[1-9][0-9]*$");
+	if (document.getElementById("dougprice").value != 0 && (document.getElementById("dougprice").value!=null && document.getElementById("dougprice").value!="" && !doug.test(document.getElementById("dougprice").value))){
+		alert("豆豆价格输入有误,必须为正整数！");
 		return false;
 	}
-	if (!my.test(document.getElementById("oldprice").value)){
+	if (document.getElementById("oldprice").value!=null && document.getElementById("oldprice").value!="" && !my.test(document.getElementById("oldprice").value)){
 		alert("历史价格输入有误！");
 		return false;
 	}
