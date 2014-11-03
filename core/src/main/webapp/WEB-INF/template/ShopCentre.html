@@ -20,6 +20,10 @@ function changeGoods(){
 		jAlert('商品购买数量一定要填写！', '警告对话框');
 		return;
 	}
+	if ("0"==goodsnum){
+		jAlert('商品购买数量不能等于0！', '警告对话框');
+		return;
+	}
 	var obj ="";
 	var url = "goods/peasChange?dougprice="+dougprice+"&goodsid="+goodsid+"&goodsattr="+goodsattr1+"&goodsnum="+goodsnum;
 	var peasNum = $("#peasNum").val();
