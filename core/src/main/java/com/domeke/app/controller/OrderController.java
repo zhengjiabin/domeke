@@ -89,6 +89,10 @@ public class OrderController extends Controller{
 			String orderMsg = "对不起你当请的豆豆总数不足";
 			//页面处理
 		}else{
+			//减去用户用掉的豆豆
+			Long p = userPoint-point;
+			user.set("point", p);
+			user.update();
 			orders.save();
 			orderdetail.save();
 		}
