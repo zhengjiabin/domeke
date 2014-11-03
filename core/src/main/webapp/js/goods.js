@@ -49,17 +49,47 @@ function checknull(obj) {
 		return false;
 	}
 	if (!my.test(document.getElementById("dougprice").value)){
-		alert("价格输入有误！");
+		alert("豆豆价格输入有误！");
 		return false;
 	}
 	if (!my.test(document.getElementById("oldprice").value)){
-		alert("价格输入有误！");
+		alert("历史价格输入有误！");
 		return false;
 	}
 	form.submit();
 }
 
 function upchecknull(obj) {
+	var strRegex = "^((https|http|ftp|rtsp|mms)?://)"
+        + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@
+        + "(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP形式的URL- 199.194.52.184
+        + "|" // 允许IP和DOMAIN（域名）
+        + "([0-9a-z_!~*'()-]+\.)*" // 域名- www.
+        + "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // 二级域名
+        + "[a-z]{2,6})" // first level domain- .com or .museum
+        + "(:[0-9]{1,4})?" // 端口- :80
+        + "((/?)|" // a slash isn't required if there is no file name
+        + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
+	var re = new RegExp(strRegex);
+	if (!re.test(document.getElementById("tamllurl").value)){
+		alert("地址格式不整确！");
+		return false;
+	}
+	
+	var money = "(?!^0\d+|.*0$)^[0-9]{1,16}(\.[0-9]{1,4})?$|^0$";
+	var my = new RegExp(money);
+	if (!my.test(document.getElementById("price").value)){
+		alert("价格输入有误！");
+		return false;
+	}
+	if (!my.test(document.getElementById("dougprice").value)){
+		alert("豆豆价格输入有误！");
+		return false;
+	}
+	if (!my.test(document.getElementById("oldprice").value)){
+		alert("历史价格输入有误！");
+		return false;
+	}
 	if (document.getElementById("goodsname").value.length == 0) {
 		alert("[商品名称]必填!");
 		document.getElementById("goodsname").focus();
@@ -81,21 +111,7 @@ function upchecknull(obj) {
 		document.getElementById("message").focus();
 		return false;
 	}
-	var strRegex = "^((https|http|ftp|rtsp|mms)?://)"
-        + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@
-        + "(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP形式的URL- 199.194.52.184
-        + "|" // 允许IP和DOMAIN（域名）
-        + "([0-9a-z_!~*'()-]+\.)*" // 域名- www.
-        + "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // 二级域名
-        + "[a-z]{2,6})" // first level domain- .com or .museum
-        + "(:[0-9]{1,4})?" // 端口- :80
-        + "((/?)|" // a slash isn't required if there is no file name
-        + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
-	var re = new RegExp(strRegex);
-	if (!re.test(document.getElementById("tamllurl").value)){
-		alert("地址格式不整确！");
-		return false;
-	}
+	
 	form.submit();
 }
 
