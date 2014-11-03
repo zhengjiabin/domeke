@@ -76,20 +76,45 @@ public class OfWonders extends Model<OfWonders> {
 		Page<OfWonders> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
 		return page;
 	}
+	
 	/**
-	 * 分页查询帖子
+	 * 根据版块明细分页查询帖子
 	 * 
 	 * @param pageNumber
 	 *            页号
 	 * @param pageSize
 	 *            页数
+	 * @param wondersTypeId
+	 * 			     版块明细
 	 * @return
 	 */
-	public Page<OfWonders> findPageByOfWondersId(int pageNumber, int pageSize,Object wondersTypeId) {
+	public Page<OfWonders> findPageByWondersTypeId(int pageNumber, int pageSize,Object wondersTypeId) {
 		String select = "select u.username,u.imgurl,p.*,c.number as viewcount";
 		StringBuffer sqlExceptSelect = new StringBuffer("from user u,of_wonders p left join ");
 		sqlExceptSelect.append("(select count(1) as number,targetid from comment where status='10' and idtype='50' group by targetid) c ");
 		sqlExceptSelect.append(" on p.ofwondersid=c.targetid where u.userid=p.userid and p.status='10' and p.wonderstypeid=? ");
+		sqlExceptSelect.append(" order by to_days(p.createtime) desc,p.top desc,p.essence desc");
+		Page<OfWonders> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),wondersTypeId);
+		return page;
+	}
+	
+	/**
+	 * 根据版块分页查询帖子
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @param wondersTypeId
+	 * 			     版块
+	 * @return
+	 */
+	public Page<OfWonders> findPageByWondersTypePid(int pageNumber, int pageSize,Object wondersTypeId) {
+		String select = "select u.username,u.imgurl,p.*,c.number as viewcount";
+		StringBuffer sqlExceptSelect = new StringBuffer("from user u,wonders_type w,of_wonders p left join ");
+		sqlExceptSelect.append("(select count(1) as number,targetid from comment where status='10' and idtype='50' group by targetid) c ");
+		sqlExceptSelect.append(" on p.ofwondersid=c.targetid where u.userid=p.userid and w.wonderstypeid = p.wonderstypeid ");
+		sqlExceptSelect.append(" and p.status='10' and w.pid=? ");
 		sqlExceptSelect.append(" order by to_days(p.createtime) desc,p.top desc,p.essence desc");
 		Page<OfWonders> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),wondersTypeId);
 		return page;
@@ -104,12 +129,24 @@ public class OfWonders extends Model<OfWonders> {
 	}
 	
 	/**
-     * 今日发帖数
+     * 根据版块明细查询今日发帖数
      * @return 汇总数
      */
     public Long getTodayCountByWondersTypeId(Object wondersTypeId){
     	String sql ="select count(1) from of_wonders where status='10' and wonderstypeid=? and to_days(createtime)=to_days(now())";
     	Long count = Db.queryLong(sql,wondersTypeId);
+    	return count;
+    }
+    
+	/**
+     * 根据版块查询今日发帖数
+     * @return 汇总数
+     */
+    public Long getTodayCountByWondersTypePid(Object wondersTypeId){
+    	StringBuffer sql = new StringBuffer("select count(1) as number ");
+    	sql.append(" from of_wonders o,wonders_type w ");
+    	sql.append(" where o.wonderstypeid=w.wonderstypeid and o.status='10' and w.pid=? and to_days(o.createtime)=to_days(now())");
+    	Long count = Db.queryLong(sql.toString(),wondersTypeId);
     	return count;
     }
     
@@ -124,12 +161,25 @@ public class OfWonders extends Model<OfWonders> {
     }
     
     /**
-     * 昨日发帖数
+     * 根据版块明细查昨日发帖数
      * @return 汇总数
      */
     public Long getYesterdayCountByWondersTypeId(Object wondersTypeId){
     	String sql ="select count(1) from of_wonders where status='10' and wonderstypeid=? and date(createtime) = date_sub(curdate(),interval 1 day)";
     	Long count = Db.queryLong(sql,wondersTypeId);
+    	return count;
+    }
+    
+    /**
+     * 根据版块查查询昨日发帖数
+     * @return 汇总数
+     */
+    public Long getYesterdayCountByWondersTypePid(Object wondersTypeId){
+    	StringBuffer sql = new StringBuffer("select count(1) as number ");
+    	sql.append(" from of_wonders o,wonders_type w ");
+    	sql.append(" where o.wonderstypeid=w.wonderstypeid and o.status='10' and w.pid=? ");
+    	sql.append(" and date(o.createtime) = date_sub(curdate(),interval 1 day) ");
+    	Long count = Db.queryLong(sql.toString(),wondersTypeId);
     	return count;
     }
     
@@ -144,11 +194,23 @@ public class OfWonders extends Model<OfWonders> {
     }
     
     /**
-     * 总发帖数
+     * 根据版块明细查询总发帖数
      * @return 汇总数
      */
     public Long getCountByWondersTypeId(Object wondersTypeId){
     	Long count = Db.queryLong("select count(1) from of_Wonders where status='10' and wonderstypeid=?",wondersTypeId);
+    	return count;
+    }
+    
+    /**
+     * 根据版块查询总发帖数
+     * @return 汇总数
+     */
+    public Long getCountByWondersTypePid(Object wondersTypeId){
+    	StringBuffer sql = new StringBuffer("select count(1) as number ");
+    	sql.append(" from of_Wonders o,wonders_type w ");
+    	sql.append(" where o.wonderstypeid=w.wonderstypeid and o.status='10' and w.pid=? ");
+    	Long count = Db.queryLong(sql.toString(),wondersTypeId);
     	return count;
     }
     
@@ -173,11 +235,23 @@ public class OfWonders extends Model<OfWonders> {
     }
     
     /**
-     * 当前登录人总发帖数
+     * 根据版块明细查询当前登录人总发帖数
      * @return 汇总数
      */
     public Long getCountByTypeAndUser(Object wondersTypeId,Object userId){
     	Long count = Db.queryLong("select count(1) from of_wonders where status='10' and wonderstypeid=? and userid=?",wondersTypeId,userId);
+    	return count;
+    }
+    
+    /**
+     * 根据版块查询当前登录人总发帖数
+     * @return 汇总数
+     */
+    public Long getCountByTypePidAndUser(Object wondersTypeId,Object userId){
+    	StringBuffer sql = new StringBuffer("select count(1) as number ");
+    	sql.append(" from of_wonders o,wonders_type w ");
+    	sql.append(" where o.wonderstypeid=w.wonderstypeid and o.status='10' and w.pid=? and o.userid=? ");
+    	Long count = Db.queryLong(sql.toString(),wondersTypeId,userId);
     	return count;
     }
     

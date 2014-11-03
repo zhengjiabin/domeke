@@ -28,7 +28,7 @@ public class PostController extends Controller {
 	 */
 	public void index() {
 		String communityId = getPara("communityId");
-		setPostPage(communityId);
+		setPage(communityId);
 		setPublishNumber(communityId);
 		setCommunity();
 		
@@ -57,7 +57,7 @@ public class PostController extends Controller {
 		post.set("userip", remoteIp);
 		post.save();
 
-		setPostPage(communityId);
+		setPage(communityId);
 		setPublishNumber(communityId);
 		
 		render("/community/community_post.html");
@@ -86,7 +86,7 @@ public class PostController extends Controller {
 	 * 请求 ./post/home
 	 */
 	public void home(){
-		setPostPage(null);
+		setPage(null);
 		List<Community> communitySonList = Community.dao.findSonList();
 		setAttr("communitySonList", communitySonList);
 		setPublishNumber(null);
@@ -206,28 +206,21 @@ public class PostController extends Controller {
 	
 	/**
 	 * 个人会用中心（我发布的帖子）--入口
+	 * 请求  ./post/personalHome
 	 */
 	@Before(LoginInterceptor.class)
 	public void personalHome(){
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Object userId = getUserId();
-		Page<Post> postPage = Post.dao.findByUserId(userId, pageNumber, pageSize);
-		setAttr("postPage", postPage);
+		setPageByUser();
 		render("/personal/personal_post.html");
 	}
-	
+
 	/**
 	 * 个人会员中心--查询用户发布的帖子
-	 * 请求 post/findByUserId
+	 * 请求  ./post/findByUserId
 	 */
 	@Before(LoginInterceptor.class)
 	public void findByUserId() {
-		Object userId = getUserId();
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Page<Post> postPage = Post.dao.findByUserId(userId, pageNumber, pageSize);
-		setAttr("postPage", postPage);
+		setPageByUser();
 		render("/personal/personal_postPage.html");
 	}
 	
@@ -301,7 +294,7 @@ public class PostController extends Controller {
 	 */
 	public void find() {
 		String communityId = getPara("communityId");
-		setPostPage(communityId);
+		setPage(communityId);
 		
 		render("/community/community_postPage.html");
 	}
@@ -446,7 +439,7 @@ public class PostController extends Controller {
 	/**
 	 * 设置分页帖子
 	 */
-	private void setPostPage(Object communityId) {
+	private void setPage(Object communityId) {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		Page<Post> postPage = null;
@@ -457,6 +450,17 @@ public class PostController extends Controller {
 		}
 		setAttr("postPage", postPage);
 		setAttr("communityId", communityId);
+	}
+	
+	/**
+	 * 根据用户设置分页
+	 */
+	private void setPageByUser() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Object userId = getUserId();
+		Page<Post> postPage = Post.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("postPage", postPage);
 	}
 
 	/**

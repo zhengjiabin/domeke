@@ -29,7 +29,7 @@ public class ActivityController extends Controller {
 	 */
 	public void index() {
 		String communityId = getPara("communityId");
-		setActivityPage(communityId);
+		setPage(communityId);
 		setPublishNumber(communityId);
 		setCommunity();
 		
@@ -54,7 +54,7 @@ public class ActivityController extends Controller {
 		activity.set("userid", userId);
 		activity.save();
 
-		setActivityPage(communityId);
+		setPage(communityId);
 		setPublishNumber(communityId);
 		
 		render("/community/community_activity.html");
@@ -65,11 +65,22 @@ public class ActivityController extends Controller {
 	 * 请求 ./activity/home
 	 */
 	public void home(){
-		setActivityPage(null);
+		setPage(null);
 		List<Community> communitySonList = Community.dao.findSonList();
 		setAttr("communitySonList", communitySonList);
 		setPublishNumber(null);
 		render("/community/community_activityAll.html");
+	}
+	
+	/**
+	 * 分页查询指定社区的活动
+	 * 请求 activity/find?communityId=${communityId!}
+	 */
+	public void find() {
+		Object communityId = getPara("communityId");
+		setPage(communityId);
+		
+		render("/community/community_activityPage.html");
 	}
 	
 	/**
@@ -165,17 +176,6 @@ public class ActivityController extends Controller {
 	}
 
 	/**
-	 * 分页查询指定社区的活动
-	 * 请求 activity/find?communityId=${communityId!}
-	 */
-	public void find() {
-		Object communityId = getPara("communityId");
-		setActivityPage(communityId);
-		
-		render("/community/community_activityPage.html");
-	}
-	
-	/**
 	 * admin管理--分页查询活动(不区分显示隐藏状态)
 	 * 请求 ./activity/findPageAll?pageNumber={pageNumber!}&pageSize={pageSize!}
 	 */
@@ -217,28 +217,21 @@ public class ActivityController extends Controller {
 	
 	/**
 	 * 个人会用中心（我发布的活动）--入口
+	 * 请求 ./activity/personalHome
 	 */
 	@Before(LoginInterceptor.class)
 	public void personalHome(){
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Object userId = getUserId();
-		Page<Activity> activityPage = Activity.dao.findByUserId(userId, pageNumber, pageSize);
-		setAttr("activityPage", activityPage);
+		setPageByUser();
 		render("/personal/personal_activity.html");
 	}
-	
+
 	/**
 	 * 个人会员中心--查询用户发布的活动
 	 * 请求 activity/findByUserId
 	 */
 	@Before(LoginInterceptor.class)
 	public void findByUserId() {
-		Object userId = getUserId();
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Page<Activity> activityPage = Activity.dao.findByUserId(userId, pageNumber, pageSize);
-		setAttr("activityPage", activityPage);
+		setPageByUser();
 		render("/personal/personal_activityPage.html");
 	}
 	
@@ -472,7 +465,7 @@ public class ActivityController extends Controller {
 	 * 分页查询指定社区模块的活动
 	 * @param communityId
 	 */
-	public void setActivityPage(Object communityId){
+	public void setPage(Object communityId){
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		
@@ -484,6 +477,17 @@ public class ActivityController extends Controller {
 		}
 		setAttr("activityPage", activityPage);
 		setAttr("communityId", communityId);
+	}
+	
+	/**
+	 * 根据用户分页查询
+	 */
+	private void setPageByUser() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Object userId = getUserId();
+		Page<Activity> activityPage = Activity.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("activityPage", activityPage);
 	}
 
 	/**

@@ -3,17 +3,27 @@ function goToVentWall(){
 	window.location.href="./ventwall?menuid=6";
 }
 
-//显示更多版块
-function showMoreWondersType(node,wondersTypeList){
-	var asideHtml = $(node).closest("#asideHtml");
-	var showMore = asideHtml.find("#showMore").first();
-	showMore.attr("hidden","block");
-	
-	$.post("./wondersType/showMoreWondersType", function(data) {
-		var showMoreHtml = asideHtml.find("#showMoreHtml").first();
-		showMoreHtml.html(data);
+//跳转指定版块
+function goToOrderForum(node,wondersTypeId) {
+	var url = "./ofWonders?wondersTypeId=" + wondersTypeId;
+	$.post(url, function(data) {
+		var wondersTypeLayout = $(node).closest("#wondersTypeLayout");
+		var baseWondersType = wondersTypeLayout.find("#baseWondersType").first();
+		baseWondersType.html(data);
 	});
+}
 
+//跳转到版块根目录
+function goToHomeForum(node,wondersTypeId,wondersTypePid){
+	var url = "./ofWonders/find";
+	$.post(url, {
+		wondersTypeId:wondersTypeId,
+		wondersTypePid:wondersTypePid
+	}, function(data) {
+		var layout = $(node).closest("#wondersTypeLayout");
+		var fatherNode = layout.find("#detailContentHtml").first();
+		fatherNode.html(data);
+	});
 }
 
 //跳转版块明细
@@ -26,6 +36,30 @@ function findById(node,targetId,wondersTypeId) {
 		var detailContentHtml = baseWondersType.find("#detailContentHtml").first();
 		detailContentHtml.html(data);
 	});
+}
+
+//跳转指定版块--取消发布
+function skipEntry(node,wondersTypeId){
+	var url = "./ofWonders";
+	$.post(url, {
+		wondersTypeId:wondersTypeId
+	}, function(data) {
+		var fatherNode = $(node).closest("#baseWondersType");
+		fatherNode.html(data);
+	});
+}
+
+//显示更多版块
+function showMoreWondersType(node,wondersTypeList){
+	var asideHtml = $(node).closest("#asideHtml");
+	var showMore = asideHtml.find("#showMore").first();
+	showMore.attr("hidden","block");
+	
+	$.post("./wondersType/showMoreWondersType", function(data) {
+		var showMoreHtml = asideHtml.find("#showMoreHtml").first();
+		showMoreHtml.html(data);
+	});
+
 }
 
 //置顶功能
@@ -64,21 +98,6 @@ function setEssence(node,userId,targetId){
 			alert('设置成功！');
 		}
 	});
-}
-
-//跳转指定版块
-function goToOrderForum(node,wondersTypeId) {
-	var url = "./ofWonders?wondersTypeId=" + wondersTypeId;
-	$.post(url, function(data) {
-		var wondersTypeLayout = $(node).closest("#wondersTypeLayout");
-		var baseWondersType = wondersTypeLayout.find("#baseWondersType").first();
-		baseWondersType.html(data);
-	});
-}
-
-//跳转到版块根目录
-function goToHomeForum(){
-	window.location.href="./ofWonders/home";
 }
 
 //点击发表主题按钮事件

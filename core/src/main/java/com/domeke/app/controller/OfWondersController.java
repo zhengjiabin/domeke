@@ -32,11 +32,29 @@ public class OfWondersController extends FilesLoadController {
 	 */
 	public void index() {
 		String wondersTypeId = getPara("wondersTypeId");
-		setOfWondersPage(wondersTypeId);
+		setPage(wondersTypeId);
 		setPublishNumber(wondersTypeId);
-		setWondersType();
-		
+		setWondersType(wondersTypeId);
 		render("/wondersType/ofWonders.html");
+	}
+	
+	/**
+	 * 版块根目录
+	 * 请求 /ofWonders/find?wondersTypeId={wondersTypeId!}$wondersTypePid={wondersTypePid!}
+	 */
+	public void find(){
+		String wondersTypeId = getPara("wondersTypeId");
+		String wondersTypePid = getPara("wondersTypePid");
+		if(StrKit.notBlank(wondersTypeId)){
+			setPage(wondersTypeId);
+			setPublishNumber(wondersTypeId);
+			setWondersType(wondersTypeId);
+		}else if(StrKit.notBlank(wondersTypePid)){
+			setPageByWondersTypePid(wondersTypePid);
+			setPublishNumberByWondersTypePid(wondersTypePid);
+			setWondersType(wondersTypePid);
+		}
+		render("/wondersType/ofWondersPage.html");
 	}
 	
 	/**
@@ -68,14 +86,14 @@ public class OfWondersController extends FilesLoadController {
 			return;
 		}
 		Object wondersTypeId = getPara("wondersTypeId");
-		setOfWondersPage(wondersTypeId);
+		setPage(wondersTypeId);
 		setPublishNumber(wondersTypeId);
 		
 		render("/wondersType/ofWonders.html");
 	}
 
 	/**
-	 * 查询指定宝贝信息
+	 * 查询指定主题信息
 	 * 请求  ofWonders/findById?wondersTypeId=${wondersTypeId!}&targetId=${targetId!}
 	 */
 	public void findById() {
@@ -87,17 +105,6 @@ public class OfWondersController extends FilesLoadController {
 		keepPara("wondersTypeId");
 		String render = "/wondersType/ofWondersDetail.html";
 		forwardComment(ofWondersId, render);
-	}
-	
-	/**
-	 * 版块根目录
-	 * 请求 /ofWonders/home
-	 */
-	public void home(){
-		setOfWondersPage(null);
-		List<WondersType> wondersTypeSonList =  WondersType.dao.findSonList();
-		setAttr("wondersTypeSonList", wondersTypeSonList);
-		render("/wondersType/ofWondersForum.html");
 	}
 	
 	/**
@@ -229,29 +236,22 @@ public class OfWondersController extends FilesLoadController {
 	}
 	
 	/**
-	 * 个人会用中心（我发布的宝贝）--入口
+	 * 个人会员中心（我发布的主题）--入口
+	 * 请求 ./ofWonders/personalHome
 	 */
 	@Before(LoginInterceptor.class)
 	public void personalHome(){
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Object userId = getUserId();
-		Page<OfWonders> ofWondersPage = OfWonders.dao.findByUserId(userId, pageNumber, pageSize);
-		setAttr("ofWondersPage", ofWondersPage);
+		setPageByUser();
 		render("/personal/personal_ofWonders.html");
 	}
 	
 	/**
-	 * 个人会员中心--查询用户发布的宝贝
+	 * 个人会员中心--查询用户发布的主题
 	 * 请求 ofWonders/findByUserId
 	 */
 	@Before(LoginInterceptor.class)
 	public void findByUserId() {
-		Object userId = getUserId();
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Page<OfWonders> ofWondersPage = OfWonders.dao.findByUserId(userId, pageNumber, pageSize);
-		setAttr("ofWondersPage", ofWondersPage);
+		setPageByUser();
 		render("/personal/personal_ofWondersPage.html");
 	}
 	
@@ -366,19 +366,7 @@ public class OfWondersController extends FilesLoadController {
 	}
 	
 	/**
-	 * 查询指定社区的分页宝贝信息
-	 * 
-	 * @return 宝贝信息
-	 */
-	public void find() {
-		String ofWondersId = getPara("ofWondersId");
-		setOfWondersPage(ofWondersId);
-		
-		render("/ofWonders/ofWondersPage.html");
-	}
-	
-	/**
-	 * 分页查询宝贝
+	 * 分页查询主题
 	 */
 	public void findPage(){
 		int pageNumber = getParaToInt("pageNumber", 1);
@@ -419,14 +407,13 @@ public class OfWondersController extends FilesLoadController {
 	/**
 	 * 设置版块信息
 	 */
-	private void setWondersType(){
-		Object wondersTypeId = getPara("wondersTypeId");
+	private void setWondersType(Object wondersTypeId){
 		WondersType wondersType = WondersType.dao.findById(wondersTypeId);
 		setAttr("wondersType", wondersType);
 	}
 	
 	/**
-	 * 设置宝贝信息
+	 * 设置主题信息
 	 * @param ofWondersId
 	 */
 	private void setOfWonders(Object ofWondersId){
@@ -435,9 +422,9 @@ public class OfWondersController extends FilesLoadController {
 	}
 
 	/**
-	 * 查询修改的宝贝信息
+	 * 查询修改的主题信息
 	 * 
-	 * @return 宝贝信息
+	 * @return 主题信息
 	 */
 	public void modifyById() {
 		String ofWondersId = getPara("ofWondersId");
@@ -447,7 +434,7 @@ public class OfWondersController extends FilesLoadController {
 	}
 
 	/**
-	 * 修改宝贝信息
+	 * 修改主题信息
 	 */
 	@Before(LoginInterceptor.class)
 	public void modify() {
@@ -490,6 +477,28 @@ public class OfWondersController extends FilesLoadController {
 	}
 	
 	/**
+	 * 设置发帖数
+	 */
+	private void setPublishNumberByWondersTypePid(Object wondersTypeId){
+		// 当前登录人发帖数
+		Object userId = getUserId();
+		if(userId != null){
+			Long userofWondersCount = OfWonders.dao.getCountByTypePidAndUser(wondersTypeId, userId);
+			setAttr("userCount", userofWondersCount);
+		}
+		
+		//今日发帖数
+		Long ofWondersTodayCount = OfWonders.dao.getTodayCountByWondersTypePid(wondersTypeId);
+		setAttr("todayCount", ofWondersTodayCount);
+		//昨日发帖数
+		Long ofWondersYesCount = OfWonders.dao.getYesterdayCountByWondersTypePid(wondersTypeId);
+		setAttr("yesCount", ofWondersYesCount);
+		//总发帖数
+		Long ofWondersCount = OfWonders.dao.getCountByWondersTypePid(wondersTypeId);
+		setAttr("count", ofWondersCount);
+	}
+	
+	/**
 	 * admin管理--分页查询论坛(不区分显示隐藏状态)
 	 */
 	private void findPageAll() {
@@ -500,19 +509,41 @@ public class OfWondersController extends FilesLoadController {
 	}
 
 	/**
-	 * 设置分页宝贝
+	 * 设置分页主题
 	 */
-	private void setOfWondersPage(Object wondersTypeId) {
+	private void setPage(Object wondersTypeId) {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		Page<OfWonders> ofWondersPage = null;
 		if(wondersTypeId == null){
 			ofWondersPage =OfWonders.dao.findPage(pageNumber, pageSize);
 		}else{
-			ofWondersPage = OfWonders.dao.findPageByOfWondersId(pageNumber, pageSize, wondersTypeId);
+			ofWondersPage = OfWonders.dao.findPageByWondersTypeId(pageNumber, pageSize, wondersTypeId);
 		}
 		setAttr("ofWondersPage", ofWondersPage);
 		setAttr("wondersTypeId", wondersTypeId);
+	}
+	
+	/**
+	 * 设置分页主题
+	 */
+	private void setPageByWondersTypePid(Object wondersTypePid) {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<OfWonders>	ofWondersPage = OfWonders.dao.findPageByWondersTypePid(pageNumber, pageSize, wondersTypePid);
+		setAttr("ofWondersPage", ofWondersPage);
+		setAttr("wondersTypePid", wondersTypePid);
+	}
+	
+	/**
+	 * 根据用户分页设置主题
+	 */
+	private void setPageByUser() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Object userId = getUserId();
+		Page<OfWonders> ofWondersPage = OfWonders.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("ofWondersPage", ofWondersPage);
 	}
 
 	/**

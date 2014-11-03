@@ -28,7 +28,7 @@ public class TreasureController extends Controller {
 	 */
 	public void index() {
 		String communityId = getPara("communityId");
-		setTreasurePage(communityId);
+		setPage(communityId);
 		setPublishNumber(communityId);
 		setCommunity();
 		
@@ -73,7 +73,7 @@ public class TreasureController extends Controller {
 		treasure.set("userip", remoteIp);
 		treasure.save();
 
-		setTreasurePage(communityId);
+		setPage(communityId);
 		setPublishNumber(communityId);
 		
 		render("/community/community_treasure.html");
@@ -99,7 +99,7 @@ public class TreasureController extends Controller {
 	 * 请求 ./treasure/home
 	 */
 	public void home(){
-		setTreasurePage(null);
+		setPage(null);
 		List<Community> communitySonList = Community.dao.findSonList();
 		setAttr("communitySonList", communitySonList);
 		setPublishNumber(null);
@@ -233,11 +233,7 @@ public class TreasureController extends Controller {
 	 */
 	@Before(LoginInterceptor.class)
 	public void personalHome(){
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Object userId = getUserId();
-		Page<Treasure> treasurePage = Treasure.dao.findByUserId(userId, pageNumber, pageSize);
-		setAttr("treasurePage", treasurePage);
+		setPageByUser();
 		render("/personal/personal_treasure.html");
 	}
 	
@@ -247,11 +243,7 @@ public class TreasureController extends Controller {
 	 */
 	@Before(LoginInterceptor.class)
 	public void findByUserId() {
-		Object userId = getUserId();
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Page<Treasure> treasurePage = Treasure.dao.findByUserId(userId, pageNumber, pageSize);
-		setAttr("treasurePage", treasurePage);
+		setPageByUser();
 		render("/personal/personal_treasurePage.html");
 	}
 	
@@ -310,7 +302,7 @@ public class TreasureController extends Controller {
 	 */
 	public void find() {
 		String communityId = getPara("communityId");
-		setTreasurePage(communityId);
+		setPage(communityId);
 		
 		render("/community/community_treasurePage.html");
 	}
@@ -444,7 +436,7 @@ public class TreasureController extends Controller {
 	/**
 	 * 设置分页宝贝
 	 */
-	private void setTreasurePage(Object communityId) {
+	private void setPage(Object communityId) {
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		Page<Treasure> treasurePage = null;
@@ -457,6 +449,17 @@ public class TreasureController extends Controller {
 		setAttr("communityId", communityId);
 	}
 
+	/**
+	 * 根据用户设置分页
+	 */
+	private void setPageByUser() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Object userId = getUserId();
+		Page<Treasure> treasurePage = Treasure.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("treasurePage", treasurePage);
+	}
+	
 	/**
 	 * 获取登录User对象
 	 * 

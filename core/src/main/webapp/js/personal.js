@@ -38,6 +38,14 @@ function skipUpdateOfWonders(node,ofWondersId){
 	});
 }
 
+//跳转页面入口
+function skipEntry(node,url){
+	$.post(url, function(data) {
+		var fatherNode = $(node).closest("#page");
+		fatherNode.html(data);
+	});
+}
+
 //更新活动主题
 function submitActivity(node){
 	var canSubmit = submitBeforeCheck(node);
