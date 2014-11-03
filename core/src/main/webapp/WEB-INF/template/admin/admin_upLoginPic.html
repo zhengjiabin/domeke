@@ -22,27 +22,22 @@
         	图片名称：<input id="picname" name="loginPic.picname" value="${loginPic.picname!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
         	
-        	图片状态：<select id="status" name="loginPic.status" value="${loginPic.status!}" class="span6 m-wrap">
-        		<option value="0">请选择======</option>        		
-        							<%
-										var status =parseInt(loginPic.status);
-										for(s in statusList) {
-										var codekey = parseInt(s.codekey);
-											if (codekey == status) {
-									%>
-												<option value="${s.codekey!}" selected="selected">${s.codename!}</option>
-									<%
-											} else {
-									%>
-												<option value="${s.codekey!}">${s.codename!}</option>
-									<%
-											}
-										}
-									%>        		
-        	</select>
-        	<!-- <input id="status" name="loginPic.status" value="${loginPic.status!}" type="text" class="span6 m-wrap" /> -->
-        	<span class='font_r' style="color: red"> *</span><br>
-        			
+        	图片状态：
+        	<%
+        	var status =parseInt(loginPic.status);
+        	if (status == "70") {
+        	%>
+        		<input type="radio" name="loginPic.status" value="10"/>停用
+				<input type="radio" checked="checked" name="loginPic.status" value="70"/>启用<br> 
+        	<%
+        	} else {
+        	%>
+        		<input type="radio" checked="checked" name="loginPic.status" value="10"/>停用
+				<input type="radio" name="loginPic.status" value="70"/>启用<br> 
+        	<%
+        	}
+        	%>
+        	
         <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >编辑</button>
         <span class='font_r' style="color: red">${msg!}</span><br>
       </form>

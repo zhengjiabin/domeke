@@ -22,15 +22,9 @@
         	图片名称：<input id="picname" name="loginPic.picname" value="${loginPic.picname!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
         	
-        	图片状态：<select id="status" name="loginPic.status" class="span6 m-wrap">
-        		<option value="">请选择======</option>
-        		<% for(s in statusList!){ %>
-        			<option value="${s.codekey!}">${s.codename!}</option>
-        		<% } %>
-        	</select>
-        	
-        	<!-- <input id="status" name="loginPic.status" value="${loginPic.status!}" type="text" class="span6 m-wrap" /> -->
-        	<span class='font_r' style="color: red"> *</span><br>
+        	图片状态：
+        	<input type="radio" checked="checked" name="loginPic.status" value="10"/>停用
+			<input type="radio" name="loginPic.status" value="70"/>启用<br> 
         			
         <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>
         <span class='font_r' style="color: red">${msg!}</span><br>
