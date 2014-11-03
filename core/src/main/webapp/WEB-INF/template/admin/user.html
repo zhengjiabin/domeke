@@ -20,6 +20,7 @@
 						<thead>
 							<tr>
 								<th>用户Id</th>
+								<th>头像</th>
 								<th>用户名</th>
 								<th>邮箱</th>
 								<th>电话</th>
@@ -32,6 +33,9 @@
 							<% for(user in userList){%>
 							<tr> 
 								<td>${user.userid!}</td>
+								<td><div style="width:60px; height:60px;">
+									<img src="${user.imgurl!}" alt="" ref1="${user.imgurl!}" ref2="${user.imgurl!}" class="Picture40"/>
+								</div></td>
 								<td>${user.username!}</td>
 								<td>${user.email!}</td>
 								<td>${user.mobile!}</td>
@@ -42,7 +46,7 @@
 									<a href="user/delete/${user.userid!}" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">删除</button></a>
 									<a href="user/freezeUser?uid=${user.userid!}" onclick="return confirm('确定冻结？')"><button class="btn btn-danger btn-mini" lable="冻结">冻结</button></a>
 									<a href="user/removeFreezeUser?uid=${user.userid!}" onclick="return confirm('解除冻结？')"><button class="btn btn-danger btn-mini" lable="解冻">解冻</button></a>
-									
+									<a href="user/resetPassword?uid=${user.userid!}" onclick="return confirm('密码重置？')"><button class="btn btn-danger btn-mini" lable="密码重置">密码重置</button></a>
 								</td>
 							</tr>
 							<% } %>
