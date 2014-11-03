@@ -144,7 +144,19 @@ public class UserController extends Controller {
 		user.update();
 		goUserManage();
 	}
-	
+	/**
+	 * 密码重置
+	 */
+	public void resetPassword(){
+		User user = getModel(User.class);
+		String uid = getPara("uid");
+		user = user.findById(uid);
+		String password1  = "111111";
+		String password = EncryptKit.encryptMd5(password1);
+		user.set("password",password);
+		user.update();
+		goUserManage();
+	}
 	/**
 	 * 解除冻结用户操作
 	 */
