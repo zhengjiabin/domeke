@@ -28,11 +28,30 @@ public class TreasureController extends Controller {
 	 */
 	public void index() {
 		String communityId = getPara("communityId");
-		setPage(communityId);
-		setPublishNumber(communityId);
-		setCommunity();
-		
+		setEntryData(communityId);
 		render("/community/community_treasure.html");
+	}
+	
+	/**
+	 * 查询指定社区的分页宝贝信息
+	 * 
+	 * @return 宝贝信息
+	 */
+	public void find() {
+		String communityId = getPara("communityId");
+		setEntryData(communityId);
+		render("/community/community_treasurePage.html");
+	}
+	
+	/**
+	 * 版块入口
+	 * 请求 ./treasure/home
+	 */
+	public void home(){
+		List<Community> communitySonList = Community.dao.findSonList();
+		setAttr("communitySonList", communitySonList);
+		setEntryData(null);
+		render("/community/community_treasureAll.html");
 	}
 	
 	/**
@@ -92,18 +111,6 @@ public class TreasureController extends Controller {
 		
 		String render = "/community/community_treasureDetail.html";
 		forwardComment(treasureId,render);
-	}
-	
-	/**
-	 * 版块入口
-	 * 请求 ./treasure/home
-	 */
-	public void home(){
-		setPage(null);
-		List<Community> communitySonList = Community.dao.findSonList();
-		setAttr("communitySonList", communitySonList);
-		setPublishNumber(null);
-		render("/community/community_treasureAll.html");
 	}
 	
 	/**
@@ -294,17 +301,15 @@ public class TreasureController extends Controller {
 		String render = "/community/community_treasureContain.html";
 		forwardComment(treasureId,render);
 	}
-
+	
 	/**
-	 * 查询指定社区的分页宝贝信息
-	 * 
-	 * @return 宝贝信息
+	 * 设置入口所需数据
+	 * @param communityId
 	 */
-	public void find() {
-		String communityId = getPara("communityId");
+	private void setEntryData(Object communityId) {
 		setPage(communityId);
-		
-		render("/community/community_treasurePage.html");
+		setPublishNumber(communityId);
+		setCommunity();
 	}
 	
 	/**

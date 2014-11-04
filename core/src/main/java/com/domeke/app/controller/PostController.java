@@ -28,11 +28,30 @@ public class PostController extends Controller {
 	 */
 	public void index() {
 		String communityId = getPara("communityId");
-		setPage(communityId);
-		setPublishNumber(communityId);
-		setCommunity();
-		
+		setEntryData(communityId);
 		render("/community/community_post.html");
+	}
+	
+	/**
+	 * 查询指定社区的分页帖子信息
+	 * 
+	 * @return 帖子信息
+	 */
+	public void find() {
+		String communityId = getPara("communityId");
+		setEntryData(communityId);
+		render("/community/community_postPage.html");
+	}
+	
+	/**
+	 * 版块入口
+	 * 请求 ./post/home
+	 */
+	public void home(){
+		List<Community> communitySonList = Community.dao.findSonList();
+		setAttr("communitySonList", communitySonList);
+		setEntryData(null);
+		render("/community/community_postAll.html");
 	}
 
 	/**
@@ -79,18 +98,6 @@ public class PostController extends Controller {
 		
 		keepPara("communityId");
 		render("/community/community_postCreate.html");
-	}
-	
-	/**
-	 * 版块入口
-	 * 请求 ./post/home
-	 */
-	public void home(){
-		setPage(null);
-		List<Community> communitySonList = Community.dao.findSonList();
-		setAttr("communitySonList", communitySonList);
-		setPublishNumber(null);
-		render("/community/community_postAll.html");
 	}
 	
 	/**
@@ -286,17 +293,15 @@ public class PostController extends Controller {
 		String render = "/community/community_postDetail.html";
 		forwardComment(postId,render);
 	}
-
+	
 	/**
-	 * 查询指定社区的分页帖子信息
-	 * 
-	 * @return 帖子信息
+	 * 设置入口所需数据
+	 * @param communityId
 	 */
-	public void find() {
-		String communityId = getPara("communityId");
+	private void setEntryData(Object communityId) {
 		setPage(communityId);
-		
-		render("/community/community_postPage.html");
+		setPublishNumber(communityId);
+		setCommunity();
 	}
 	
 	/**

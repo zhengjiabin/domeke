@@ -29,11 +29,29 @@ public class ActivityController extends Controller {
 	 */
 	public void index() {
 		String communityId = getPara("communityId");
-		setPage(communityId);
-		setPublishNumber(communityId);
-		setCommunity();
-		
+		setEntryData(communityId);
 		render("/community/community_activity.html");
+	}
+	
+	/**
+	 * 分页查询指定社区的活动
+	 * 请求 activity/find?communityId=${communityId!}
+	 */
+	public void find() {
+		Object communityId = getPara("communityId");
+		setEntryData(communityId);
+		render("/community/community_activityPage.html");
+	}
+	
+	/**
+	 * 版块入口
+	 * 请求 ./activity/home
+	 */
+	public void home(){
+		List<Community> communitySonList = Community.dao.findSonList();
+		setAttr("communitySonList", communitySonList);
+		setEntryData(null);
+		render("/community/community_activityAll.html");
 	}
 
 	/**
@@ -58,29 +76,6 @@ public class ActivityController extends Controller {
 		setPublishNumber(communityId);
 		
 		render("/community/community_activity.html");
-	}
-	
-	/**
-	 * 版块入口
-	 * 请求 ./activity/home
-	 */
-	public void home(){
-		setPage(null);
-		List<Community> communitySonList = Community.dao.findSonList();
-		setAttr("communitySonList", communitySonList);
-		setPublishNumber(null);
-		render("/community/community_activityAll.html");
-	}
-	
-	/**
-	 * 分页查询指定社区的活动
-	 * 请求 activity/find?communityId=${communityId!}
-	 */
-	public void find() {
-		Object communityId = getPara("communityId");
-		setPage(communityId);
-		
-		render("/community/community_activityPage.html");
 	}
 	
 	/**
@@ -298,8 +293,7 @@ public class ActivityController extends Controller {
 	/**
 	 * 设置版块信息
 	 */
-	private void setCommunity(){
-		String communityId = getPara("communityId");
+	private void setCommunity(Object communityId){
 		Community community = Community.dao.findById(communityId);
 		setAttr("community", community);
 	}
@@ -388,6 +382,16 @@ public class ActivityController extends Controller {
 		keepPara("communityId");
 		setCodeTableList("gender", "genderList");
 		render("/community/community_activityCreate.html");
+	}
+	
+	/**
+	 * 设置入口所需数据
+	 * @param communityId
+	 */
+	private void setEntryData(Object communityId) {
+		setPage(communityId);
+		setPublishNumber(communityId);
+		setCommunity(communityId);
 	}
 	
 	/**

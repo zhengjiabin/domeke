@@ -26,6 +26,24 @@ function findById(node,targetId,communityId) {
 	});
 }
 
+//跳转指定版块
+function goToOrderForum(node,communityId) {
+	var url = "./community/goToOrderForum";
+	$.post(url, {
+		communityId:communityId
+	}, function(data) {
+		var baseCommunity = $(node).closest("#communityLayout");
+		var communityLayout = baseCommunity.find("#baseCommunity").first();
+		communityLayout.html(data);
+	});
+}
+
+//跳转到版块根目录
+function goToHomeForum(actionKey){
+	actionKey = '.' + actionKey + "/home";
+	window.location.href=actionKey;
+}
+
 //置顶功能
 function setTop(node,userId,targetId){
 	if("1" != userId){
@@ -66,22 +84,6 @@ function setEssence(node,userId,targetId){
 			}
 		});
 	}
-}
-
-//跳转指定版块
-function goToOrderForum(node,communityId) {
-	var url = "./community/goToOrderForum?communityId=" + communityId;
-	$.post(url, function(data) {
-		var baseCommunity = $(node).closest("#communityLayout");
-		var communityLayout = baseCommunity.find("#baseCommunity").first();
-		communityLayout.html(data);
-	});
-}
-
-//跳转到版块根目录
-function goToHomeForum(actionKey){
-	actionKey = '.' + actionKey + "/home";
-	window.location.href=actionKey;
 }
 
 //点击发表主题按钮事件
