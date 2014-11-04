@@ -137,6 +137,11 @@ function submitOfWonders(node){
 //提交无奇不有版块
 function submitWondersType(node){
 	var canSubmit = true;
+	$("form :input[required=required]").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
     if(canSubmit){
     	var fatherNode = $(node).closest("#submitForm");
     	var targetNode = fatherNode.find("#pid").first();
@@ -151,6 +156,11 @@ function submitWondersType(node){
 //提交社区版块
 function submitCommunity(node) {
 	var canSubmit = true;
+	$("form :input[required=required]").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
     if(canSubmit){
     	var fatherNode = $(node).closest("#submitForm");
     	var targetNode = fatherNode.find("#pid").first();
