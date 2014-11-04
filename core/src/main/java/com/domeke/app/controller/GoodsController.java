@@ -576,6 +576,15 @@ public class GoodsController extends FilesLoadController {
 		render("/ShopCentre.html");
 		//redirect("/orders/byGoods");
 	}
+	/**
+	 * 商品上架下架
+	 */
+	public void goodsShow(){
+		String goodsId = getPara("goodsId");
+		int flag = getParaToInt("flag");
+		Goods.dao.updateShowFlag(goodsId, flag);
+		redirect("/goods/renderGoods");
+	}
 	private List<Map<String, Object>> goodsParse(List<Goods> goodss) {
 		List<Map<String, Object>> resultMap = Lists.newArrayList();
 		try {

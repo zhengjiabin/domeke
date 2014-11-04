@@ -398,7 +398,8 @@ CREATE TABLE `goods` (
   `goodsattr3` int(4) DEFAULT NULL,
   `goodsattr4` int(4) DEFAULT NULL,
   `goodsattr5` int(4) DEFAULT NULL,
-  `sumlove` int(4) DEFAULT NULL DEFAULT '0',
+  `sumlove` int(4) DEFAULT '0',
+  `showflag` int(4) DEFAULT '1',
   PRIMARY KEY (`goodsid`,`dougprice`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 

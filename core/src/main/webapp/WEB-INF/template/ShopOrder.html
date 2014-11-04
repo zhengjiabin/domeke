@@ -48,7 +48,7 @@
               </tr>
               <tr>
                 <th>电话：</th>
-                <td><input name="user.mobile" value="${user.mobile!}" type="text" class="input_Member"><a style="color:#F00">*${mobileMsg2!}</a></td>
+                <td><input name="user.mobile" value="${user.mobile!}" type="text" class="input_Member" style="ime-mode:Disabled;" onKeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))"  AUTOCOMPLETE="off"><a style="color:#F00">*${mobileMsg2!}</a></td>
               </tr>
               <tr>
                 <th></th>

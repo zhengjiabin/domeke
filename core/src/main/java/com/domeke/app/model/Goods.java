@@ -160,4 +160,13 @@ public class Goods extends Model<Goods> {
 		Goods goods = dao.findFirst(sql);
 		return goods;
 	}
+	/**
+	 * 商品上下架修改
+	 * @param goodsId
+	 * @param flag 上下架标识
+	 */
+	public void updateShowFlag(String goodsId, int flag) {
+		String sql="update goods set showflag=" + flag + " where goodsid = "+goodsId;
+		Db.update(sql);
+	}
 }
