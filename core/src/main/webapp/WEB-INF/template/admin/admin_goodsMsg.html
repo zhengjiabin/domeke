@@ -34,55 +34,45 @@
         	
         	商城链接：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
-        	是否放首页：<select id ="istop" name="goods.istop" class="span6 m-wrap">
+        	是否放首页：
         		
         		<%
         		if (goods.istop != null && goods.istop != ""){ 
         		var istop =parseInt(goods.istop);
         		if (istop == 1) {
         		%>
-        			<option value="">请选择======</option>
-        			<option value="1" selected="selected">是</option>
-        			<option value="0">否</option>
+        			<input type="radio" name="goods.istop" value="0"/>否&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" checked="checked" name="goods.istop" value="1"/>是<br>
+
           		<%
         		} else if (istop == 0) {
         		%>
-        			<option value="">请选择======</option>
-        			<option value="1">是</option>
-        			<option value="0"  selected="selected">否</option>
+        			<input type="radio" checked="checked" name="goods.istop" value="0"/>否&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="goods.istop" value="1"/>是
         		<%
         		}
-        		}else {
-        		%>
-        			<option value="" selected="selected">请选择======</option>
-        			<option value="1">是</option>
-        			<option value="0" >否</option>
-        		<%
         		}
         		%>
-        	</select>
         	
         	<!-- <input name="goods.istop" value="${goods.istop!}" type="text" class="span6 m-wrap" /> -->
-        	<span class='font_r' style="color: red"> *</span><br>
-        	商品状态：<select id="status" name="goods.status" value="${goods.status!}" class="span6 m-wrap">
-        		<option value="">请选择======</option>        		
-        							<%
-										var status =parseInt(goods.status);
-										for(s in statusList) {
-										var codekey = parseInt(s.codekey);
-											if (codekey == status) {
-									%>
-												<option value="${s.codekey!}" selected="selected">${s.codename!}</option>
-									<%
-											} else {
-									%>
-												<option value="${s.codekey!}">${s.codename!}</option>
-									<%
-											}
-										}
-									%>        		
-        	</select>
-        	<!-- 商品状态：<input id="status" name="goods.status" value="${goods.status!}" type="text" class="span6 m-wrap" /> -->
+        	<span class='font_r' style="color: red"> &nbsp;&nbsp;&nbsp;*</span><br>
+        	商品状态：
+        	<%
+        		if (goods.status != null && goods.status != ""){ 
+        		var status =parseInt(goods.status);
+        		if (status == 70) {
+        		%>
+        			&nbsp;&nbsp;&nbsp;<input type="radio" name="goods.status" value="10"/>停用&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" checked="checked" name="goods.status" value="70"/>启用
+          		<%
+        		} else if (status == 10) {
+        		%>
+        			&nbsp;&nbsp;&nbsp;<input type="radio" checked="checked" name="goods.status" value="10"/>停用&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="goods.status" value="70"/>启用
+        		<%
+        		}
+        		}
+        	%>
         	<span class='font_r' style="color: red"> *</span><br>
         	上传用户：<input name="goods.username" value="${goods.username!}" type="text" class="span6 m-wrap" readonly = "readonly "/><br>
         	
