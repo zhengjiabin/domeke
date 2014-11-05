@@ -10,6 +10,7 @@ import com.domeke.app.utils.EncryptKit;
 import com.domeke.app.utils.HtmlTagKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
 /**
@@ -96,7 +97,18 @@ public class User extends Model<User> {
 		List<User> list = dao.find(sql);
 		return list;
 	}
-	
+	public Page<User> getUserPage(String colm,String param,int pageNumber,int pageSize){
+		String sql="";
+		Page<User> page = null;
+		if(colm == null || param == null){
+			 page = this.paginate(pageNumber, pageSize, "select * ", "from user");
+		}else {
+			 sql = "select * from user where "+colm+" LIKE '%"+param+"%'";
+			 page = this.paginate(pageNumber, pageSize, "select * ", "from user where "+colm+" LIKE '%"+param+"%'");
+		}
+		
+		return page;
+	}
 	public void updateReset(int userid,String pass){
 		String sql="update user set password='"+pass+"' where userid='"+userid+"'";
 		Db.update(sql);

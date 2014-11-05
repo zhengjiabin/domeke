@@ -19,6 +19,7 @@ import com.domeke.app.utils.MyCaptchaRender;
 import com.domeke.app.validator.RegistValidator;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.spring.Inject;
 import com.jfinal.plugin.spring.IocInterceptor;
 
@@ -100,17 +101,24 @@ public class UserController extends Controller {
 		render("/admin/user.html");
 	}
 	
+	public void goUserManages(){
+		userManage();
+		render("/admin/admin_user.html");
+	}
 	public void userManage(){
+		//分页码
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
 		User user = getModel(User.class);
-		List<User> userList = user.getUser(null,null);
-		for(int i=0;i<userList.size();i++){
-			String status = userList.get(i).getStr("status");
-			if("Y".equals(status)){
-				userList.get(i).set("status", "正常");
-			}else{
-				userList.get(i).set("status", "冻结");
-			}
-		}
+		Page<User> userList = user.getUserPage(null,null,pageNumber,pageSize);
+//		for(int i=0;i<userList.size();i++){
+//			String status = userList.get(i).getStr("status");
+//			if("Y".equals(status)){
+//				userList.get(i).set("status", "正常");
+//			}else{
+//				userList.get(i).set("status", "冻结");
+//			}
+//		}
 		this.setAttr("userList", userList);
 	}
 	public void goUserUpdate(){
@@ -185,12 +193,16 @@ public class UserController extends Controller {
 	
 	public void sechUserForName(){
 		User user = getModel(User.class);
-		List<User> userList = new ArrayList<User>();
+		//List<User> userList = new ArrayList<User>();
+		//分页码
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
 		try {
 			this.getRequest().setCharacterEncoding("utf-8");
 			String userSearch = this.getRequest().getParameter("userSearch");
 			userSearch =  new String(userSearch.getBytes("ISO-8859-1"),"UTF-8");
-			userList = user.getUser("username", userSearch);
+			Page<User> userList = user.getUserPage("username",userSearch,pageNumber,pageSize);;
+			
 			this.setAttr("userList", userList);
 			render("/admin/user.html");
 			
