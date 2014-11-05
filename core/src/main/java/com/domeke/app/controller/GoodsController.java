@@ -31,7 +31,7 @@ import com.jfinal.upload.UploadFile;
  * @author chenhailin
  *
  */
-@ControllerBind(controllerKey = "/goods")
+@ControllerBind(controllerKey = "goods")
 @Before(LoginInterceptor.class)
 public class GoodsController extends FilesLoadController {
 
