@@ -176,6 +176,16 @@ public class VentWallController extends Controller {
 		}
 		int pageSize = getParaToInt("pageSize", 5);
 		Page<VentWall> ventWallList = VentWall.venWdao.findPage(pageNumber,pageSize);
+		List<VentWall> ventWalls = VentWall.venWdao.getVentWall();
+		List<User> userList = new ArrayList<User>();
+		User user = getModel(User.class);
+		DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm"); 
+		String createTime = "";
+		for (VentWall vent : ventWalls){
+			user = user.findById(vent.get("userid"));
+			userList.add(user);
+		}
+		setAttr("userList", userList);
 		setAttr("pageNumber", pageNumber);
 		setAttr("ventWallList", ventWallList);
 	}

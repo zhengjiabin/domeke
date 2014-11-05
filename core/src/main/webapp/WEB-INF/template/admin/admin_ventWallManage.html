@@ -17,6 +17,8 @@
 					<tr>
 						<th>表情</th>
 						<th>留言内容</th>
+						<th>留言人</th>
+						<th>留言时间</th>
 						<th>是否可见</th>
 						<th>操作</th>
 					</tr>
@@ -25,8 +27,14 @@
 				<% for(v in ventWallList.list){%>
 					<tr class="odd gradeX">
 						<td width="80"><img src="http://www.dongmark.com/images/${v.moodid!}"/></td>
-						<td width="600">${v.message!}</td>
-						<td><select name="select" id="select" style="width:55px;">   
+						<td width="400">${v.message!}</td>
+						<td width="60"><% for(u in userList!){
+            	 	  			if (v.userid == u.userid){%>
+            	 					${u.username!}
+            	 				<% break;}}%>
+            	 		</td>
+            	 		<td width="70">${v.createtime!}</td>
+						<td width="40"><select name="select" id="select" style="width:55px;">   
        							<option value="1" <% if ( v.creater == 1 ) {%> selected="true"<%}%>>是</option> 
         						<option value="2" <% if ( v.creater == 2 ) {%> selected="true"<%}%>>否</option></select></td>
 						<td width="100">
