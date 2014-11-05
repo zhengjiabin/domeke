@@ -27,7 +27,7 @@
         			<option value="${t.codekey!}">${t.codename!}</option> 
     			<% } %>
    			</select> <span class='font_r' style="color: red"> *</span><br>
-        	类型排序：<input id="sortnum" name="goodsType.sortnum" value="${goodsType.sortnum!}" type="text" class="span6 m-wrap" />
+        	类型排序：<input id="sortnum" onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " name="goodsType.sortnum" value="${goodsType.sortnum!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
         	父级类型：<select name="goodsType.parenttypeid" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择---------</option>        		
