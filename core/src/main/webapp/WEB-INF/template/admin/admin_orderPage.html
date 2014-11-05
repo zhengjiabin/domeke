@@ -14,14 +14,14 @@
 							</tr>
 						</thead>
 						<tbody>
-						<% for(ord in ordetailList!) {%>
+						<% for(ord in ordetailList.list!) {%>
 							<tr class="odd gradeX">
 									<td>${ordLP.index!}</td>
 									<td>${ord.ordernum!}</td>
 									<td>${ord.goodsname!}</td>
 									<td>${ord.goodsprice!}</td>
 									<td>${ord.goodsnum!}</td>
-									<%for(or in ordList){%>
+									<%for(or in ordList.list){%>
 										<% if(ord.orderid == or.orderid){ %>
 											<td>${or.isPay!}</td>
 											<td>${or.isDelivery!}</td>
@@ -34,8 +34,21 @@
 									<%}%>
 									
 							</tr>
-						<% } %>		
+						<% } %>	
+						
 						</tbody>
+			
 					</table>
+								 <% 
+		            if(ordetailList != null){ 
+						layout(
+						"/common/page.html",
+						{
+							"page":ordetailList,
+							"pageAction":"./order/renderOrders",
+							"fatherNode":"#ordpag"
+						}
+						){} 
+					}%>	
 			
 </article>

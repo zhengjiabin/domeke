@@ -1,32 +1,40 @@
 package com.domeke.app.controller;
 
-import java.util.List;
-
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.OrderDetail;
 import com.domeke.app.model.Orders;
 import com.domeke.app.model.User;
-import com.jfinal.core.Controller;
+import com.jfinal.plugin.activerecord.Page;
 
-public class OrderController extends Controller{
+public class OrderController extends FilesLoadController{
 	public void renderOrder(){
 		orderManage();
 		render("/admin/admin_order.html");
 	}
 	
+	public void renderOrders(){
+		orderManage();
+		render("/admin/admin_orderPage.html");
+	}
 	public void orderManage(){
+	
+		//分页码
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		//订单主表分页
 		Orders orders = getModel(Orders.class);
-		List<Orders> ordersList = orders.getAllOrders();
+		Page<Orders> ordersList = orders.getAllOrders(pageNumber,pageSize);
+		//订单详细表分页
 		OrderDetail orderdetail = getModel(OrderDetail.class);
-		List<OrderDetail> orderDetailList = orderdetail.getAllOrder(null, null);
-		for(int i=0;i<ordersList.size();i++){
-			String isDelivery = ordersList.get(i).getStr("isDelivery");
-			if("Y".equals(isDelivery)){
-				ordersList.get(i).set("isDelivery", "已发货");
-			}else{
-				ordersList.get(i).set("isDelivery", "未发货");
-			}
-		}
+		Page<OrderDetail> orderDetailList = orderdetail.getAllOrder(null, null,pageNumber,pageSize);
+//		for(int i=0;i<ordersList.size();i++){
+//			String isDelivery = ordersList.get(i).getStr("isDelivery");
+//			if("Y".equals(isDelivery)){
+//				ordersList.get(i).set("isDelivery", "已发货");
+//			}else{
+//				ordersList.get(i).set("isDelivery", "未发货");
+//			}
+//		}
 		setAttr("ordList", ordersList);
 		setAttr("ordetailList", orderDetailList);
 	}

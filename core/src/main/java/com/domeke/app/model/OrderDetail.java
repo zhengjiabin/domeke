@@ -1,18 +1,16 @@
 package com.domeke.app.model;
 
-import java.util.List;
-
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 
 @TableBind(tableName = "order_detail", pkName = "orderdetailid")
 public class OrderDetail extends Model<OrderDetail>{
 	private static OrderDetail order = new OrderDetail();
 	
-	public List<OrderDetail> getAllOrder(Long orderid,String param){
-		String sql = "select * from order_detail";
-		List<OrderDetail> orderList = order.find(sql);
-		return orderList;
+	public Page<OrderDetail> getAllOrder(Long orderid,String param,int pageNumber,int pageSize){
+		Page<OrderDetail> page = this.paginate(pageNumber, pageSize, "select * ", "from order_detail");
+		return page;
 	}
 	
 	public void deleteOrd(String ordId){
