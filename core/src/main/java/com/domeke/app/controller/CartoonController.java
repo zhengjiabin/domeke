@@ -72,7 +72,7 @@ public class CartoonController extends Controller {
 		
 		List<Works> worksList = Lists.newArrayList();
 		// 用于显示“大家都爱看”列表
-		worksList = worksModel.getWorksInfoByPageViewsLimit(5);
+		worksList = worksModel.getlastWeekByPageViewsLimit(5);
 		setAttr("olikeWorksList", worksList);
 		setAttr("menuid", menuid);
 		setAttr("workstype", typeMap);

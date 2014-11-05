@@ -89,6 +89,8 @@ public class WorksTypeController extends Controller{
 			worksTypeModel.set("name", name);
 			worksTypeModel.set("type", type);
 			worksTypeModel.set("des", des);
+			worksTypeModel.set("indextop", 0);
+			worksTypeModel.set("cartoontop", 0);
 			boolean bool = worksTypeModel.save();
 			if (bool) {
 				// 成功

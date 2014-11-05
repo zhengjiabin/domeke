@@ -13,10 +13,10 @@
 			return false;
 		}
 	}
-	function uptop(id){
+	function uptop(id,state){
 		$.ajax({
 			type:'post',
-			data:'id='+id,
+			data:'id='+id+'&state='+state,
 			url:'homepage/uptop',
 			success:function(data){
 				showpage({'flag':0,'status':'${status!}','pageIndex':'${pageHomepage.pageNumber!}'});
@@ -84,7 +84,10 @@
            </td>
            <td>
 	           	<!-- 操作 -->
-	           	<a href="javascript:uptop(${homepage.id!});">置顶</a>
+	           	<a href="javascript:uptop(${homepage.id!},1);">置顶</a>
+	           	<%if(homepage.rank > 0){%>
+	           	<a href="javascript:uptop(${homepage.id!},0);">取消置顶</a>
+	           	<%}%>
 	           	</br>
 	           	<a href="javascript:showpage({'flag':2,'status':'${status!}','pageIndex':'${pageHomepage.pageNumber!}','id':${homepage.id!}});">修改</a>
 	           	<a href="javascript:del(${homepage.id!});">删除</a>

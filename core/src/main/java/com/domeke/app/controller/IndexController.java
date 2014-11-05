@@ -1,9 +1,11 @@
 package com.domeke.app.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
 import com.domeke.app.model.Goods;
+import com.domeke.app.model.History;
 import com.domeke.app.model.Homepage;
 import com.domeke.app.model.Menu;
 import com.domeke.app.model.OfWonders;
@@ -56,9 +58,19 @@ public class IndexController extends Controller {
 		
 		List<OfWonders> ofWondersList = OfWonders.dao.findPic(10);
 		Menu wonderTypeMenu = Menu.menuDao.findById(3);
-		
 		//加载右边列表
-		List<Works> worksClickListTemp = worksDao.getWorksInfoByPageViewsLimit(9);
+		History historyModel = getModel(History.class);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String startTime = dateFormat.format(historyModel.getLastMonday());
+		String endTime = dateFormat.format(historyModel.getLastSunday());
+		List<History> historys = historyModel.getLastWeekClickRank(9, startTime, endTime);
+		List<Works> worksClickListTemp = Lists.newArrayList();
+		for (History history : historys) {
+			Object hid = history.get("hid");
+			if(hid != null){
+				worksClickListTemp.add(worksDao.findById(hid));
+			}
+		}
 		List<Map<String, Object>> worksClickList = Lists.newArrayList();
 		worksClickList = ParseDemoKit.worksParse(worksClickListTemp);
 		

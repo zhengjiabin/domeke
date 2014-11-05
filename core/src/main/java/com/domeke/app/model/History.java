@@ -1,10 +1,14 @@
 package com.domeke.app.model;
 
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
+import com.google.common.collect.Lists;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 
 @TableBind(tableName = "history", pkName = "hid")
 public class History extends Model<History> {
@@ -45,9 +49,45 @@ public class History extends Model<History> {
 			history.save();
 		}
 	}
-
+	/**
+	 * 获取上周1时间
+	 * @return
+	 */
+	public Date getLastMonday(){
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DATE, -7);
+		calendar.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+		return calendar.getTime();
+	}
+	/**
+	 * 获取上周日时间
+	 * @return
+	 */
+	public Date getLastSunday(){
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
+		return calendar.getTime();
+	}
+	
+	/**
+	 * 上周点击排行
+	 * @return
+	 */
+	public List<History> getLastWeekClickRank(Integer limit,String startTime,String endTime){
+		List<History> historys = Lists.newArrayList();
+		try {
+			StringBuffer sql = new StringBuffer("select * from history ");
+			sql.append(" where  date_format(fromtime,'%Y-%m-%d') between '"+startTime+"' and '"+endTime+"'");
+			historys = this.find(sql.toString());
+			return historys;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return historys;
+		}
+	}
+	
 	private History getDayHistory(Work work, LocalDate now) {
-		StringBuffer buffer = new StringBuffer("select *  from history  ");
+		StringBuffer buffer = new StringBuffer("select * from history ");
 		buffer.append(" where  date_format(fromtime,'%Y-%m-%d') = ? ");
 		buffer.append(" and workid = ?");
 		History find = dao.findFirst(buffer.toString(), now.toString(), work.get("workid"));

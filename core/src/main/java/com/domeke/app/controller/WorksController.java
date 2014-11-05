@@ -1235,7 +1235,19 @@ public class WorksController extends FilesLoadController {
 		}
 		return resultMap;
 	}
-
+	
+	public void downloadFile(){
+		try {
+			String url = getPara("url");
+			if(!StrKit.isBlank(url)){
+				FilesLoadController controller = new FilesLoadController();
+				controller.download(url);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void getWorksTypes() {
 		String type = getPara("type");
 		WorksType worksTypeModel = getModel(WorksType.class);

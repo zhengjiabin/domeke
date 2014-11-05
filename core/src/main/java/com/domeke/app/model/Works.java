@@ -1,6 +1,12 @@
 package com.domeke.app.model;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.lang.time.DateUtils;
 
 import com.domeke.app.tablebind.TableBind;
 import com.google.common.collect.Lists;
@@ -211,11 +217,11 @@ public class Works extends Model<Works> {
 	}
 	
 	/**
-	 * 按点击排名
+	 * 上周点击击排名
 	 * @param limit
 	 * @return
 	 */
-	public List<Works> getWorksInfoByPageViewsLimit(Integer limit){
+	public List<Works> getlastWeekByPageViewsLimit(Integer limit){
 		List<Works> workss = null;
 		workss = this.find("select * from works where ischeck = 1 order by pageviews desc limit ?", limit);
 		return workss;

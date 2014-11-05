@@ -23,11 +23,20 @@ public class HomepageController extends FilesLoadController{
 		Map<String, Object> map = Maps.newHashMap();
 		try {
 			String id = getPara("id");
+			String state = getPara("state");
 			boolean bool = false;
 			Homepage homepageModel = getModel(Homepage.class).findById(id);
 			if(homepageModel.isNotEmpty()){
-				Integer maxRank = homepageModel.getMaxRank();
-				homepageModel.set("rank", maxRank + 1);
+				if("0".equals(state)){
+					//取消
+					Integer maxRank = homepageModel.getMaxRank();
+					homepageModel.set("rank", 0);
+				}else {
+					//1置顶
+					Integer maxRank = homepageModel.getMaxRank();
+					homepageModel.set("rank", maxRank + 1);
+					bool = homepageModel.update();
+				}
 				bool = homepageModel.update();
 			}
 			if (bool) {
