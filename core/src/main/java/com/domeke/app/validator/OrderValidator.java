@@ -37,17 +37,11 @@ public class OrderValidator extends Validator{
 		String realname = c.getPara("user.realname");
 		Long sumDougprice = goodsModel.getLong("dougprice")*goodsnum;
 		Long surplus = peas-sumDougprice;
-		if (StrKit.isBlank(realname)){
-			user.set("realname", realname);
-		}
+		user.set("realname", realname);
 		String address = c.getPara("user.address");
-		if (StrKit.isBlank(address)){
-			user.set("address", address);
-		}
+		user.set("address", address);
 		String mobile = c.getPara("user.mobile");
-		if (StrKit.isBlank(mobile)){
-			user.set("mobile", mobile);
-		}
+		user.set("mobile", mobile);
 		c.setAttr("peas", peas);
 		c.setAttr("goodsnum", goodsnum);
 		c.setAttr("goods", goodsModel);
