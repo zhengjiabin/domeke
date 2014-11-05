@@ -112,4 +112,31 @@ public class LoginPicController extends FilesLoadController {
 			redirect("/loginpic/renderLoginPic");
 		}
 	}
+	
+	/**
+	 * 启用
+	 */
+	public void enable() {
+		String picId = getPara("picId");
+		String status = LoginPic.lpDao.getPicUrl();
+		if (!"".equals(status) && status != null) {
+			setAttr("loginPic", LoginPic.lpDao.findLoginPicEnable());
+			setAttr("msg", "系统已存在启用图片,请先停用此图！");
+			List<CodeTable> statusList = CodeKit.getList("status");
+			setAttr("statusList", statusList);
+			render("/admin/admin_upLoginPic.html");
+		} else {
+			LoginPic.lpDao.upLoginPicStatus(picId, "70");
+			redirect("/loginpic/renderLoginPic");
+		}
+	}
+	
+	/**
+	 * 停用
+	 */
+	public void disable() {
+		String picId = getPara("picId");
+		LoginPic.lpDao.upLoginPicStatus(picId, "10");
+		redirect("/loginpic/renderLoginPic");
+	}
 }

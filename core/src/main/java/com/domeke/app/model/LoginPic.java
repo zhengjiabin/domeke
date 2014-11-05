@@ -39,13 +39,16 @@ public class LoginPic extends Model<LoginPic> {
 	}
 	
 	/**
-	 * 修改状态
+	 * 修改状态及名称
 	 * @param status
 	 */
 	public void updateLoginPic(String picId, String picName, String status) {
 		Db.update("update login_pic set picname = '" + picName + "', status = '" + status + "' where picid = '" + picId + "'");
 	}
 	
+	public void upLoginPicStatus(String picId, String status) {
+		Db.update("update login_pic set status = '" + status + "' where picid = '" + picId + "'");
+	}
 	public void upLoginPic(){
 		this.update();
 	}
@@ -66,6 +69,11 @@ public class LoginPic extends Model<LoginPic> {
 	
 	public LoginPic findLoginPicById(int picId) {
 		LoginPic loginPic = this.findById(picId);		
+		return loginPic;
+	}
+	
+	public LoginPic findLoginPicEnable(){
+		LoginPic loginPic = this.findFirst("select * from login_pic where status='70'");
 		return loginPic;
 	}
 }
