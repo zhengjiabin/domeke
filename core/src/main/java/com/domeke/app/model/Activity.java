@@ -1,8 +1,9 @@
 package com.domeke.app.model;
 
-import java.util.List;
+import java.util.Map;
 
 import com.domeke.app.tablebind.TableBind;
+import com.domeke.app.utils.DbSqlKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -188,13 +189,12 @@ public class Activity extends Model<Activity> {
      * 根据版块统计活动数
      * @return 汇总数
      */
-    public List<Activity> getCountByCommunityPid(Object pid){
+    public Map<String, Activity> getCountByCommunityPid(Object pid){
     	StringBuffer sql = new StringBuffer();
     	sql.append("select count(1) as number,aty.communityid from activity aty,community son ");
     	sql.append(" where aty.communityid = son.communityid and aty.status='10' and son.pid = ? ");
     	sql.append(" group by aty.communityid ");
-    	List<Activity> activityList = this.find(sql.toString(), pid);
-    	return activityList;
+    	return DbSqlKit.findMap(Activity.class, sql.toString(), "communityid", pid);
     }
     
     /**

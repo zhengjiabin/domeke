@@ -79,13 +79,25 @@ public class DbSqlKit<M> extends Db{
 	
 	/**
 	 * 根据groupKeys分组查询
+	 * @param modelClass
+	 * @param sql
+	 * @param groupKeys 分组名，多个以逗号分隔
+	 * @return
+	 */
+	public static <T> Map<String, List<T>> findMapList(Class<? extends Model<?>> modelClass, String sql, String groupKeys){
+		List<Object> list = new ArrayList<Object>();
+		return findMapList(modelClass, sql, groupKeys, list);
+	}
+	
+	/**
+	 * 根据groupKeys分组查询
 	 * @param <T>
 	 * @param sql
 	 * @param groupKeys 分组名，多个以逗号分隔
 	 * @param paras object/list<Object>
 	 * @return
 	 */
-	public static <T> Map<String, List<T>> findListMap(Class<? extends Model<?>> modelClass, String sql, String groupKeys, Object... paras) {
+	public static <T> Map<String, List<T>> findMapList(Class<? extends Model<?>> modelClass, String sql, String groupKeys, Object... paras) {
 		if(StrKit.isBlank(groupKeys)){
 			return null;
 		}
@@ -105,7 +117,7 @@ public class DbSqlKit<M> extends Db{
 				dataList = new ArrayList<T>();
 				data.put(groupKey, dataList);
 			}
-			list.add(record);
+			dataList.add(record);
 		}
 		return data;
 	}

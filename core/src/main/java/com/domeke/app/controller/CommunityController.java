@@ -1,19 +1,16 @@
 package com.domeke.app.controller;
 
 import java.lang.reflect.Method;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.domeke.app.interceptor.LoginInterceptor;
-import com.domeke.app.model.Activity;
 import com.domeke.app.model.Community;
-import com.domeke.app.model.Post;
 import com.domeke.app.model.User;
 import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
-import com.google.common.collect.Lists;
+import com.domeke.app.utils.CollectionKit;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
@@ -91,6 +88,21 @@ public class CommunityController extends Controller {
 		String actionKey = community.getStr("actionkey");
 		actionKey = actionKey + "/setEssence";
 		forwardAction(actionKey);
+	}
+	
+	/**
+	 * 显示更多的版块
+	 * 请求 ./community/showMoreCommunity
+	 */
+	public void showMoreCommunity(){
+		setCommunitySonList();
+		setAttr("communitySize", 81);
+		render("/community/community_showMore.html");
+	}
+	
+	private void setVentWall(){
+		Object ventWallCount = VentWall.venWdao.getTodayCount();
+		setAttr("ventWallCount", ventWallCount);
 	}
 	
 	/**
@@ -178,20 +190,20 @@ public class CommunityController extends Controller {
 	 * 设置各子版块帖子数
 	 * @param <T>
 	 */
+	@SuppressWarnings("unchecked")
 	private <T> void setForumCount(){
 		List<Community> communityFatList = getAttr("communityFatList");
 
-		List<T> list = null;
-		BigInteger communityId = null;
-		String className = null;
+		Map<String,T> map = null;
+		String className = null,communityId = null;
 		String methodName = "getCountByCommunityPid";
-		Map<Object,List<T>> forumCountMap = new HashMap<Object,List<T>>(); 
+		Map<String,Map<String,T>> forumCountMap = new HashMap<String,Map<String,T>>(); 
 		for(Community community : communityFatList){
 			className = getClassName(community);
-			communityId = community.getBigInteger("communityid");
+			communityId = community.get("communityid").toString();
 			
-			list = refrectMethod(className,methodName, communityId);
-			forumCountMap.put(communityId, list);
+			map = (Map<String,T>)refrectMethod(className,methodName, communityId);
+			forumCountMap.put(communityId, map);
 		}
 		setAttr("forumCountMap", forumCountMap);
 	}
@@ -217,22 +229,25 @@ public class CommunityController extends Controller {
 	
 	/**
 	 * 反射加载指定方法
-	 * @param <T>
 	 */
-	@SuppressWarnings("unchecked")
-	private <T> List<T> refrectMethod(String className,String methodName,Object param ){
-		List<T> list = Lists.newArrayList();
+	private Object refrectMethod(String className,String methodName,Object param ){
 		if(StrKit.isBlank(className) || StrKit.isBlank(methodName)){
-			return list;
+			return null;
 		}
 		try {
             Object object=Class.forName(className).newInstance();
-            Method method=object.getClass().getMethod(methodName, Object.class);
-            list = (List<T>)method.invoke(object, param);
+            Method method= null;
+            if(param == null){
+            	method=object.getClass().getMethod(methodName);
+            	return method.invoke(object);
+            }else{
+            	method=object.getClass().getMethod(methodName,Object.class);
+            	return method.invoke(object, param);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-		return list; 
+		return null;
 	}
 	
 	/**
@@ -273,51 +288,101 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
-	 * 显示更多的版块
+	 * 设置发帖数
 	 */
-	public void showMoreCommunity(){
-		setCommunitySonList();
-		setAttr("communitySize", 81);
-		render("/community/community_showMore.html");
-	}
-	
-	private void setVentWall(){
-		Object ventWallCount = VentWall.venWdao.getTodayCount();
-		setAttr("ventWallCount", ventWallCount);
+	private void setPublishNumber() {
+		// 当前登录人发帖数
+		setUserCount();
+		// 今日发帖数
+		setTodayCount();
+		// 昨日发帖数
+		setYseCount();
+		// 总发帖数
+		setCount();
 	}
 	
 	/**
-	 * 设置发帖数
+	 * 当前登录人发帖数
 	 */
-	private void setPublishNumber(){
-		//当前登录人发帖数
-		User user = getUser();
-		if (user != null){
-			Long userId = user.get("userid");
-			Long userPostCount = Post.dao.getCountByUserId(userId);
-			Long userActivityCount = Activity.dao.getCountByUserId(userId);
-			Long userCount = userPostCount + userActivityCount;
-			setAttr("userCount", userCount);
+	private void setUserCount(){
+		Object userId = getUserId();
+		if (userId == null) {
+			return;
 		}
-		
-		//今日发帖数
-		Long postTodayCount = Post.dao.getTodayCount();
-		Long activityTodayCount = Activity.dao.getTodayCount();
-		Long todayCount = postTodayCount + activityTodayCount;
+		List<Community> communityFatList = getAttr("communityFatList");
+		String className = null;
+		String methodName = "getCountByUserId";
+		Long userCount = new Long(0),count = null;
+		for(Community community : communityFatList){
+			className = getClassName(community);
+			
+			count = (Long)refrectMethod(className,methodName, userId);
+			userCount = userCount + count;
+		}
+		setAttr("userCount", userCount);
+	}
+	
+	/**
+	 * 今日发帖数
+	 */
+	private void setTodayCount() {
+		List<Community> communityFatList = getAttr("communityFatList");
+		String className = null;
+		String methodName = "getTodayCount";
+		Long todayCount = new Long(0);
+		Object count = null;
+		for (Community community : communityFatList) {
+			className = getClassName(community);
+
+			count = refrectMethod(className, methodName, null);
+			if(count == null){
+				continue;
+			}
+			todayCount = todayCount + (Long)count;
+		}
 		setAttr("todayCount", todayCount);
-		
-		//昨日发帖数
-		Long postYesCount = Post.dao.getYesterdayCount();
-		Long activityYesCount = Activity.dao.getYesterdayCount();
-		Long yesCount = postYesCount + activityYesCount;
+	}
+	
+	/**
+	 * 昨日发帖数
+	 */
+	private void setYseCount() {
+		List<Community> communityFatList = getAttr("communityFatList");
+		String className = null;
+		String methodName = "getYesterdayCount";
+		Long yesCount = new Long(0);
+		Object count = null;
+		for (Community community : communityFatList) {
+			className = getClassName(community);
+			
+			count = refrectMethod(className, methodName, null);
+			if(count == null){
+				continue;
+			}
+			yesCount = yesCount + (Long)count;
+		}
 		setAttr("yesCount", yesCount);
-		
-		//总发帖数
-		Long postCount = Post.dao.getCount();
-		Long activityCount = Activity.dao.getCount();
-		Long count = postCount + activityCount;
-		
-		setAttr("count", count);
+	}
+	
+	/**
+	 * 总发帖数
+	 */
+	private void setCount() {
+		List<Community> communityFatList = getAttr("communityFatList");
+		String className = null;
+		String methodName = "getCount";
+		Long counts = new Long(0);
+		Object count = null;
+		for (Community community : communityFatList) {
+			className = getClassName(community);
+			
+			count = refrectMethod(className, methodName, null);
+			if(count == null){
+				continue;
+			}
+			counts = counts + (Long)count;
+		}
+		setAttr("count", counts);
 	}
 
 	/**
@@ -388,6 +453,14 @@ public class CommunityController extends Controller {
 	private void setCommunityFat(Object pId){
 		Community communityFat = Community.dao.findById(pId);
 		setAttr("communityFat", communityFat);
+	}
+	
+	/**
+	 * 设置子版块
+	 */
+	private void setCommunitySonList(){
+		List<Community> communitySonList = Community.dao.findSonList();
+		setAttr("communitySonList", communitySonList);
 	}
 	
 	/**
@@ -473,11 +546,13 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
-	 * 设置子版块
+	 * 设置版块明细
 	 */
-	private void setCommunitySonList(){
-		List<Community> communitySonList = Community.dao.findSonList();
-		setAttr("communitySonList", communitySonList);
+	private void setCommunitySonMap(){
+		List<Community> communityFatList = getAttr("communityFatList");
+		List<Object> list = CollectionKit.getFieldValueList(communityFatList, "communityid", Object.class);
+		Map<String,List<Community>> communitySonMapList = Community.dao.findSonMapList(list);
+		setAttr("communitySonMapList", communitySonMapList);
 	}
 	
 	/**
@@ -496,6 +571,18 @@ public class CommunityController extends Controller {
 	private User getUser() {
 		User user = getSessionAttr("user");
 		return user;
+	}
+	
+	/**
+	 * 获取登录User对象的id
+	 * @return
+	 */
+	private Object getUserId(){
+		User user = getSessionAttr("user");
+		if(user == null){
+			return null;
+		}
+		return user.get("userid");
 	}
 	
 	/**

@@ -2,6 +2,7 @@ function goToVentWall(){
 	window.location.href="./ventwall?menuid=6";
 }
 
+//显示更多版块明细
 function showMoreCommunity(node,communityList){
 	var asideHtml = $(node).closest("#asideHtml");
 	var showMore = asideHtml.find("#showMore").first();

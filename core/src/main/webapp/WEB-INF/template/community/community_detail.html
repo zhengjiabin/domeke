@@ -4,7 +4,7 @@
 	</div>
 	<div class="ArticleContent">
 		<% 
-			for(communitySon in communitySonList){ 
+			for(communitySon in communitySonList){
 				if(communitySon.pid != communityFat.communityid){
 					continue;
 				}
@@ -19,14 +19,16 @@
 				</span>
 				<span class="ForumIntro">${communitySon.content!}<br />
 					<% 
-						var forumCountList = @forumCountMap.get(communityFat.communityid); %>
-					<%	for(forumCount in forumCountList) {
-							if(forumCount.communityid != communitySon.communityid){
-								continue;
-							}
+						if(!isEmpty(forumCountMap)){
+							var forumCount = @forumCountMap.get(communityFat.communityid + "");
+							if(!isEmpty(forumCountMap)){
+								var forum = @forumCount.get(communitySon.communityid + "");
 					%>
-						<span>帖数：${forumCount.number!}</span>
-					<% }  %>
+						<span>帖数：${forum.number!}</span>
+					<% 		
+							}  
+						}
+					%>
 				</span>
 			</div>
 		</div>
