@@ -1,6 +1,6 @@
 <% layout("/common/layout.html"){ %>
 <section class="List" id="page">
-    <% if(worksVOPage != null){
+    <% if(!isEmpty(worksVOPage)){
 		layout("/searchPage.html", {"worksVOPage":worksVOPage} ){} 
 	}%>
 </section>

@@ -6,6 +6,7 @@ import com.domeke.app.model.vo.WorksVO;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.solr.utils.SolrKit;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 /**
@@ -37,16 +38,17 @@ public class SearchController extends Controller {
 	/**
 	 * 设置分页
 	 */
-	@SuppressWarnings("unchecked")
 	private void setPage(){
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 30);
 		Page<WorksVO> page = new Page<WorksVO>(null, pageNumber, pageSize, 0, 0);
 		String queryKey = getPara("queryKey");
-		WorksVO worksVO = new WorksVO();
+		if(StrKit.isBlank(queryKey)){
+			return;
+		}
 		try {
 			String[] tags = new String[] { "worksname", "desc", "cover" };
-			Page<WorksVO> worksVOPage = SolrKit.query(tags, queryKey, worksVO, page);
+			Page<WorksVO> worksVOPage = SolrKit.query(tags, queryKey, WorksVO.class, page);
 			setAttr("worksVOPage", worksVOPage);
 			keepPara("queryKey");
 		} catch (SolrServerException e) {
