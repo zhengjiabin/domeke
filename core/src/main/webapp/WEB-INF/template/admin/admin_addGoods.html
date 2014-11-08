@@ -40,21 +40,66 @@
         	<span class='font_r' style="color: red"> *</span><br>
         	商品类别1：<select id="goodsattr1" name="goods.goodsattr1" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择======</option>
-        		<% for(gt in goodsType!){ %>
-        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
-        		<% } %>
+        		<% 
+        		for(gt in goodsType!){
+        			if (gt.level == 2){
+        		%>
+        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 	} else if (gt.level == 3) {
+        		%>
+        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 	} else if (gt.level == 4) {
+        		%>
+        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<%
+        			} else {
+        			%>
+        			<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
+        			<%
+        			}
+        		} %>
         	</select><br>
         	商品类别2：<select id="goodsattr2" name="goods.goodsattr2" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择======</option>
-        		<% for(gt in goodsType!){ %>
-        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
-        		<% } %>
+        		<% 
+        		for(gt in goodsType!){
+        			if (gt.level == 2){
+        		%>
+        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 	} else if (gt.level == 3) {
+        		%>
+        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 	} else if (gt.level == 4) {
+        		%>
+        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<%
+        			} else {
+        			%>
+        			<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
+        			<%
+        			}
+        		} %>
         	</select><br>
         	商品类别3：<select id="goodsattr3" name="goods.goodsattr3" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择======</option>
-        		<% for(gt in goodsType!){ %>
-        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
-        		<% } %>
+        		<% 
+        		for(gt in goodsType!){
+        			if (gt.level == 2){
+        		%>
+        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 	} else if (gt.level == 3) {
+        		%>
+        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 	} else if (gt.level == 4) {
+        		%>
+        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<%
+        			} else {
+        			%>
+        			<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
+        			<%
+        			}
+        		} %>
         	</select><br>
         <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>
         <span class='font_r' style="color: red">${msg!}</span>

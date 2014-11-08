@@ -106,13 +106,42 @@
         		for(gt in goodsType!){ 
         			var goodstypeid = parseInt(gt.goodstypeid);
         			if(goodsattr1 == goodstypeid){
+        			
+        			if (gt.level == 2){
         		%>
-        			<option value="${gt.goodstypeid!}" selected="selected">${gt.typename!}</option>
+        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 	} else if (gt.level == 3) {
+        		%>
+        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 	} else if (gt.level == 4) {
+        		%>
+        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
         		<%
+        			} else {
+        			%>
+        			<option value="${gt.goodstypeid!}" selected="selected">${gt.level!}.${gt.typename!}</option>
+        			<%
         			}
+        			
+        			} else {
+        			
+        				if (gt.level == 2){
         		%>
-        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
-        		<% } %>
+        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 		} else if (gt.level == 3) {
+        		%>
+        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 		} else if (gt.level == 4) {
+        		%>
+        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<%
+        				} else {
+        			%>
+        				<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
+        			<%
+        				}
+        			}
+        		} %>
         	</select><br>
         	商品类别2：<select id="goodsattr2" name="goods.goodsattr2" class="span6 m-wrap" > 
         		<option value="">请选择======</option>
@@ -124,13 +153,41 @@
         		for(gt in goodsType!){ 
         			var goodstypeid = parseInt(gt.goodstypeid);
         			if(goodsattr2 == goodstypeid){
+        		if (gt.level == 2){
         		%>
-        			<option value="${gt.goodstypeid!}" selected="selected">${gt.typename!}</option>
+        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 	} else if (gt.level == 3) {
+        		%>
+        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 	} else if (gt.level == 4) {
+        		%>
+        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
         		<%
+        			} else {
+        			%>
+        			<option value="${gt.goodstypeid!}" selected="selected">${gt.level!}.${gt.typename!}</option>
+        			<%
         			}
+        			
+        			} else {
+        			
+        				if (gt.level == 2){
         		%>
-        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
-        		<% } %>
+        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 		} else if (gt.level == 3) {
+        		%>
+        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 		} else if (gt.level == 4) {
+        		%>
+        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<%
+        				} else {
+        			%>
+        				<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
+        			<%
+        				}
+        			}
+        		} %>
         	</select><br>
         	 商品类别3：<select id="goodsattr3" name="goods.goodsattr3" class="span6 m-wrap" > 
         		<option value="">请选择======</option>
@@ -142,13 +199,41 @@
         		for(gt in goodsType!){ 
         			var goodstypeid = parseInt(gt.goodstypeid);
         			if(goodsattr3 == goodstypeid){
+        		if (gt.level == 2){
         		%>
-        			<option value="${gt.goodstypeid!}" selected="selected">${gt.typename!}</option>
+        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 	} else if (gt.level == 3) {
+        		%>
+        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 	} else if (gt.level == 4) {
+        		%>
+        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
         		<%
+        			} else {
+        			%>
+        			<option value="${gt.goodstypeid!}" selected="selected">${gt.level!}.${gt.typename!}</option>
+        			<%
         			}
+        			
+        			} else {
+        			
+        				if (gt.level == 2){
         		%>
-        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
-        		<% } %>
+        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 		} else if (gt.level == 3) {
+        		%>
+        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<% 		} else if (gt.level == 4) {
+        		%>
+        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
+        		<%
+        				} else {
+        			%>
+        				<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
+        			<%
+        				}
+        			}
+        		} %>
         	</select><br> 
 			<button class="btn btn-large btn-primary" onclick="return upchecknull(this)" type="submit" >编辑</button>
 			<a href="goods/renderGoods" class="btn btn-large btn-primary" >返回</a>

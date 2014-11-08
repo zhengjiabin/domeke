@@ -159,7 +159,7 @@ public class GoodsType extends Model<GoodsType> {
 	}
 	
 	public List<GoodsType> getGoodsTypeList() {
-		List<GoodsType> goodsTypeList = this.find("select * from goods_type");
+		List<GoodsType> goodsTypeList = this.find("select * from goods_type order by sortnum");
 		return goodsTypeList;
 	}
 }
