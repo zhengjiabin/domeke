@@ -25,9 +25,29 @@
         	豆豆价格：<input id="dougprice" name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
 			历史价格：<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>        	 
         	
-        	商品主图：<div id="preview"></div>
-        	<input id="fileImage" type="file" size="30" name="pic" name="goods.pic" onchange="onUploadImgChange(this)" />
-        	<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${goods.pic!}"/><br>
+        	商品主图：
+        	<div class="controls">
+				<div id="preview" class="imgCss">
+					<img src="${goods.pic!}">
+				</div>
+				<label id="picPath">
+					<%
+						var picPath = null;
+						if(!isEmpty(goods) && !isEmpty(goods.pic)){
+							var filePath = strutil.replace(goods.pic,"\\\\","/");
+							picPath = strutil.subStringTo(filePath,@filePath.lastIndexOf("/")+1,strutil.length(filePath));
+						}
+					%>
+					${picPath!}
+				</label>
+				<input id="themeimgBtn" type="button" onclick="pic.click()" value="请选择图片" required="required">
+				<input id="pic" name="pic" type="file" class="fileCss" value="${goods.pic!}" onchange="onUploadImgChange(this)" style="display: none">
+			</div>
+        	
+        	
+        	<!-- <div id="preview"></div>
+        	<input id="fileImage" type="file" size="30" name="pic" onchange="onUploadImgChange(this)" />
+        	<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${goods.pic!}"/><br> -->
         	
         	商品信息：<input name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
