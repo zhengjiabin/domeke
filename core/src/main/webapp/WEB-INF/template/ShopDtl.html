@@ -26,7 +26,7 @@
         	<%}%>
         	<div class="GPrice">购&nbsp;买&nbsp;数&nbsp;量：<input id="goodsnum"  name="goodsnum" value="1" type="text" class="input_Member" style="width:30px;ime-mode:Disabled;" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" ></div>
             <div class="GButton font_w">
-            	<a href="http://detail.tmall.com/item.htm?spm=a230r.1.14.1.8jNRgD&id=37652444734&ad_id=&am_id=&cm_id=140105335569ed55e27b&pm_id=" class="BuyNow" target="_blank" >去 购 买</a>
+            	<a href="${goods.tamllurl!}" class="BuyNow" target="_blank" >去 购 买</a>
             	<% if(goods.dougprice!=0 && isChange!="") { %>
             		<a id="peas"  name="${isChange!}" href="javascript:changeGoods();" class="BuyNow" >豆豆兑换</a>
                 <%}%>

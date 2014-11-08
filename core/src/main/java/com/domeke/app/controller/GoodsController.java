@@ -420,6 +420,9 @@ public class GoodsController extends FilesLoadController {
 			setAttr("goodsTypes", goodsTypes);
 		}
 		setAttr("goods", goods);
+//		String headimg = goods.getStr("headimg");
+//		List<String> headimgs = this.getFileUrls(headimg);
+//		setAttr("images", headimgs);
 		Long dougprice = getParaToLong("dougprice");
 		Map<String,Object> changeMap = getPeas(dougprice);
 		String isChange = "";
@@ -484,9 +487,6 @@ public class GoodsController extends FilesLoadController {
 		Long surplus = peas-sumDougprice;
  		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
 		List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
-	//	String tamllurl = getPara("tamllurl");
-	//	List<String> headimgs = this.getFileUrls(tamllurl);
-	//	setAttr("images", headimgs);
 		setAttr("goodsTypes", goodsTypes);
 		setAttr("goods", goods);	
 		setAttr("isChange", isChange);

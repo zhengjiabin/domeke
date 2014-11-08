@@ -240,18 +240,18 @@
     	if(goodsLP.index <= 4){%>
         <figure>
         	<a href="${goods.detailUrl!}">
-        	<div class="GoodsPic"><a href="goods/getGoodsDetail?goodsid=${goods.goodsid!}&goodsattr=${goods.goodsattr1!}&dougprice=${goods.dougprice!}&tamllurl=${goods.tamllurl!}"><img src="${goods.pic!}"  ></a></div>
+        	<div class="GoodsPic"><a href="goods/getGoodsDetail?goodsid=${goods.goodsid!}&goodsattr=${goods.goodsattr1!}&dougprice=${goods.dougprice!}&headimg=${goods.headimg!}"><img src="${goods.pic!}"  ></a></div>
         	</a>
        	 	 <figcaption>
                 <div class="GoodsName font_r">
-                <a href="goods/getGoodsDetail?goodsid=${goods.goodsid!}&goodsattr=${goods.goodsattr1!}&dougprice=${goods.dougprice!}&tamllurl=${goods.tamllurl!}">${goods.goodsname!}</a>
+                <a href="goods/getGoodsDetail?goodsid=${goods.goodsid!}&goodsattr=${goods.goodsattr1!}&dougprice=${goods.dougprice!}&headimg=${goods.headimg!}">${goods.goodsname!}</a>
                 <span class="GoodsPrice">￥：${goods.price!}</span>
                 </div>
               	<div class="GoodsAuthor"><img src="${goods.headimg!}"  ><span class="font_ye"><a>${goods.username!}</a></span>发布${goods.dougprice!}</div>
                 <div class="GoodsInfo">${goods.message!}</div>
                 <div class="GoodsItems">
               	<span>加入收藏  20</span>
-                <span>喜欢  30</span>
+                <span>喜欢 ${goods.sumlove!}</span>
              	</div>
             </figcaption>
         </figure>

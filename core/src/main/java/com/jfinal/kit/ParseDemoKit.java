@@ -96,7 +96,8 @@ public class ParseDemoKit {
 				map.put("submitdate", goods.get("submitdate"));
 				map.put("username", goods.get("username"));
 				map.put("headimg", goods.get("headimg"));
-				String detailUrl = "goods/getGoodsDetail?goodsid="+goods.get("goodsid")+"&goodsattr="+goods.get("goodsattr1")+"&dougprice="+goods.get("dougprice");
+				map.put("sumlove", goods.get("sumlove"));
+				String detailUrl = "goods/getGoodsDetail?goodsid="+goods.get("goodsid")+"&goodsattr="+goods.get("goodsattr1")+"&dougprice="+goods.get("dougprice")+"&headimg="+goods.get("headimg");
 				map.put("detailUrl", detailUrl);
 				resultMap.add(map);
 			}
