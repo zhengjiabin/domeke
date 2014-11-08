@@ -181,13 +181,14 @@
 		        		<a href="javascript:void(0);" onclick="skipOfWonders('${ofWonders.ofwondersid!}')">
 			                <img src="${ofWonders.themeimg!}">
 		        		</a>
-		                <div class="CartoonName">
+			            <div class="CartoonName">
+			            	<a href="javascript:void(0);" onclick="skipOfWonders('${ofWonders.ofwondersid!}')">${ofWonders.subject!}</a>
+			           	</div>
+		                <div class="CartoonInfo">
 		                	<span class="FloatL">${ofWonders.times!}</span>
 		                    <span class="FloatR">${ofWonders.viewcount!}</span>
 		                </div>
-		                <a class="CartoonSubFootbar" href="javascript:void(0);" onclick="skipOfWonders('${ofWonders.ofwondersid!}')">
-		                    ${ofWonders.subject!}
-		                </a>
+		                <!-- <div class="CartoonSubFootbar" onclick="skipOfWonders('${ofWonders.ofwondersid!}')"></div> -->
 		        	</div>
 	            <%}%>
             </div>
