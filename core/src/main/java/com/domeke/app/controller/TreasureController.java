@@ -288,7 +288,6 @@ public class TreasureController extends Controller {
 	 * 个人会员中心--跳转主题明细
 	 * 请求 ./treasure/findByIdForPersonal?treasureId={treasureId!}
 	 */
-	@Before(LoginInterceptor.class)
 	public void skipContain() {
 		String treasureId = getPara("treasureId");
 		Treasure.dao.updateTimes(treasureId);

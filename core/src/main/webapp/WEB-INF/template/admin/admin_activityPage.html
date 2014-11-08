@@ -12,36 +12,38 @@
 	</thead>
 	<tbody>
 		<% for(activity in activityPage.list){ %>
-		<tr class="odd gradeX">
-			<td id="subject">${activity.subject!}</td>
-			<td id="username">${activity.username!}</td>
-			<td id="top">
-				<% if(activity.top == 1) { %>
-					置顶
-				<% } else { %>
-					正常
-				<% } %>
-			</td>
-			<td id="essence">
-				<% if(activity.essence == 1) { %>
-					精品
-				<% } else { %>
-					正常
-				<% } %>
-			</td>
-			<td id="status">
-				<% if(activity.status == "10") { %>
-					显示
-				<% } else { %>
-					不显示
-				<% } %>
-			</td>
-			<td>
-				<button class="btn btn-warning btn-mini" onclick="skipUpdateActivity(this,'${activity.activityid!}')">修改</button>
-				<button class="btn btn-danger btn-mini"
-					onclick="deleteActivity(this,'${activity.activityid!}')">刪除</button>
-			</td>
-		</tr>
+			<tr class="odd gradeX">
+				<td id="subject">
+					<a href="./activity/skipContain?activityId=${activity.activityid!}">${activity.subject!}</a>
+				</td>
+				<td id="username">${activity.username!}</td>
+				<td id="top">
+					<% if(activity.top == 1) { %>
+						置顶
+					<% } else { %>
+						正常
+					<% } %>
+				</td>
+				<td id="essence">
+					<% if(activity.essence == 1) { %>
+						精品
+					<% } else { %>
+						正常
+					<% } %>
+				</td>
+				<td id="status">
+					<% if(activity.status == "10") { %>
+						显示
+					<% } else { %>
+						不显示
+					<% } %>
+				</td>
+				<td>
+					<button class="btn btn-warning btn-mini" onclick="skipUpdateActivity(this,'${activity.activityid!}')">修改</button>
+					<button class="btn btn-danger btn-mini"
+						onclick="deleteActivity(this,'${activity.activityid!}')">刪除</button>
+				</td>
+			</tr>
 		<% } %>
 	</tbody>
 </table>

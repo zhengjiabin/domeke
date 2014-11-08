@@ -13,36 +13,38 @@
 	</thead>
 	<tbody>
 		<% for(ofWonders in ofWondersPage.list){ %>
-		<tr class="odd gradeX">
-			<td id="subject">${ofWonders.subject!}</td>
-			<td id="username">${ofWonders.username!}</td>
-			<td id="dateline">${ofWonders.dateline!}</td>
-			<td id="top">
-				<% if(ofWonders.top == 1) { %>
-					置顶
-				<% } else { %>
-					正常
-				<% } %>
-			</td>
-			<td id="essence">
-				<% if(ofWonders.essence == 1) { %>
-					精品
-				<% } else { %>
-					正常
-				<% } %>
-			</td>
-			<td id="status">
-				<% if(ofWonders.status == "10") { %>
-					显示
-				<% } else { %>
-					不显示
-				<% } %>
-			</td>
-			<td>
-				<button class="btn btn-warning btn-mini" onclick="skipUpdateOfWonders(this,'${ofWonders.ofwondersid!}')">修改</button>
-				<button class="btn btn-danger btn-mini" onclick="deleteOfWonders(this,'${ofWonders.ofwondersid!}')">刪除</button>
-			</td>
-		</tr>
+			<tr class="odd gradeX">
+				<td id="subject">
+					<a href="./ofWonders/skipContain?ofWondersId=${ofWonders.ofwondersid!}">${ofWonders.subject!}</a>
+				</td>
+				<td id="username">${ofWonders.username!}</td>
+				<td id="dateline">${ofWonders.dateline!}</td>
+				<td id="top">
+					<% if(ofWonders.top == 1) { %>
+						置顶
+					<% } else { %>
+						正常
+					<% } %>
+				</td>
+				<td id="essence">
+					<% if(ofWonders.essence == 1) { %>
+						精品
+					<% } else { %>
+						正常
+					<% } %>
+				</td>
+				<td id="status">
+					<% if(ofWonders.status == "10") { %>
+						显示
+					<% } else { %>
+						不显示
+					<% } %>
+				</td>
+				<td>
+					<button class="btn btn-warning btn-mini" onclick="skipUpdateOfWonders(this,'${ofWonders.ofwondersid!}')">修改</button>
+					<button class="btn btn-danger btn-mini" onclick="deleteOfWonders(this,'${ofWonders.ofwondersid!}')">刪除</button>
+				</td>
+			</tr>
 		<% } %>
 	</tbody>
 </table>

@@ -13,37 +13,39 @@
 	</thead>
 	<tbody>
 		<% for(treasure in treasurePage.list){ %>
-		<tr class="odd gradeX">
-			<td id="subject">${treasure.subject!}</td>
-			<td id="username">${treasure.username!}</td>
-			<td id="dateline">${treasure.dateline!}</td>
-			<td id="top">
-				<% if(treasure.top == 1) { %>
-					置顶
-				<% } else { %>
-					正常
-				<% } %>
-			</td>
-			<td id="essence">
-				<% if(treasure.essence == 1) { %>
-					精品
-				<% } else { %>
-					正常
-				<% } %>
-			</td>
-			<td id="status">
-				<% if(treasure.status == "10") { %>
-					显示
-				<% } else { %>
-					不显示
-				<% } %>
-			</td>
-			<td>
-				<button class="btn btn-warning btn-mini" onclick="skipUpdateTreasure(this,'${treasure.treasureid!}')">修改</button>
-				<button class="btn btn-danger btn-mini"
-					onclick="deleteTreasure(this,'${treasure.treasureid!}')">刪除</button>
-			</td>
-		</tr>
+			<tr class="odd gradeX">
+				<td id="subject">
+					<a href="./treasure/skipContain?treasureId=${treasure.treasureid!}">${treasure.subject!}</a>
+				</td>
+				<td id="username">${treasure.username!}</td>
+				<td id="dateline">${treasure.dateline!}</td>
+				<td id="top">
+					<% if(treasure.top == 1) { %>
+						置顶
+					<% } else { %>
+						正常
+					<% } %>
+				</td>
+				<td id="essence">
+					<% if(treasure.essence == 1) { %>
+						精品
+					<% } else { %>
+						正常
+					<% } %>
+				</td>
+				<td id="status">
+					<% if(treasure.status == "10") { %>
+						显示
+					<% } else { %>
+						不显示
+					<% } %>
+				</td>
+				<td>
+					<button class="btn btn-warning btn-mini" onclick="skipUpdateTreasure(this,'${treasure.treasureid!}')">修改</button>
+					<button class="btn btn-danger btn-mini"
+						onclick="deleteTreasure(this,'${treasure.treasureid!}')">刪除</button>
+				</td>
+			</tr>
 		<% } %>
 	</tbody>
 </table>

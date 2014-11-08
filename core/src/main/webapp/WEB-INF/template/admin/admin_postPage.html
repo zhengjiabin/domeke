@@ -13,37 +13,39 @@
 	</thead>
 	<tbody>
 		<% for(post in postPage.list){ %>
-		<tr class="odd gradeX">
-			<td id="subject">${post.subject!}</td>
-			<td id="username">${post.username!}</td>
-			<td id="dateline">${post.dateline!}</td>
-			<td id="top">
-				<% if(post.top == 1) { %>
-					置顶
-				<% } else { %>
-					正常
-				<% } %>
-			</td>
-			<td id="essence">
-				<% if(post.essence == 1) { %>
-					精品
-				<% } else { %>
-					正常
-				<% } %>
-			</td>
-			<td id="status">
-				<% if(post.status == "10") { %>
-					显示
-				<% } else { %>
-					不显示
-				<% } %>
-			</td>
-			<td>
-				<button class="btn btn-warning btn-mini" onclick="skipUpdatePost(this,'${post.postid!}')">修改</button>
-				<button class="btn btn-danger btn-mini"
-					onclick="deletePost(this,'${post.postid!}')">刪除</button>
-			</td>
-		</tr>
+			<tr class="odd gradeX">
+				<td id="subject">
+					<a href="./post/skipContain?postId=${post.postid!}">${post.subject!}</a>
+				</td>
+				<td id="username">${post.username!}</td>
+				<td id="dateline">${post.dateline!}</td>
+				<td id="top">
+					<% if(post.top == 1) { %>
+						置顶
+					<% } else { %>
+						正常
+					<% } %>
+				</td>
+				<td id="essence">
+					<% if(post.essence == 1) { %>
+						精品
+					<% } else { %>
+						正常
+					<% } %>
+				</td>
+				<td id="status">
+					<% if(post.status == "10") { %>
+						显示
+					<% } else { %>
+						不显示
+					<% } %>
+				</td>
+				<td>
+					<button class="btn btn-warning btn-mini" onclick="skipUpdatePost(this,'${post.postid!}')">修改</button>
+					<button class="btn btn-danger btn-mini"
+						onclick="deletePost(this,'${post.postid!}')">刪除</button>
+				</td>
+			</tr>
 		<% } %>
 	</tbody>
 </table>

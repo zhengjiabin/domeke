@@ -265,7 +265,6 @@ public class PostController extends Controller {
 	 * 个人会员中心--跳转主题明细
 	 * 请求 ./post/findByIdForPersonal?postId={postId!}
 	 */
-	@Before(LoginInterceptor.class)
 	public void skipContain() {
 		String postId = getPara("postId");
 		Post.dao.updateTimes(postId);

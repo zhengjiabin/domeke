@@ -264,7 +264,6 @@ public class ActivityController extends Controller {
 	 * 个人会员中心--跳转主题明细
 	 * 请求 ./activity/findByIdForPersonal?activityId={activityId!}
 	 */
-	@Before(LoginInterceptor.class)
 	public void skipContain() {
 		String activityId = getPara("activityId");
 		Activity.dao.updateTimes(activityId);
