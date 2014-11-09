@@ -18,17 +18,25 @@
         	<input name="orderDetail.orderdetailid" value="${orderdetail.orderdetailid!}" type="hidden" class="span6 m-wrap" style="display:none"/><br>
         	<input name="orders.orderid" value="${orders.orderid!}" type="hidden" class="span6 m-wrap" style="display:none"/><br>
         	<label class="control-label">订单编号：</label>
-        	<input name="orderDetail.ordernum" value="${orderdetail.ordernum!}" type="text" class="span6 m-wrap" /><br>        	
+        	<input name="orderDetail.ordernum" value="${orderdetail.ordernum!}" type="text" class="span6 m-wrap" readonly="true"/><br>        	
         	<label class="control-label">商品名称：</label>
-        	<input name="orderDetail.goodsname" value="${orderdetail.goodsname!}" type="text" class="span6 m-wrap" /><br>
+        	<input name="orderDetail.goodsname" value="${orderdetail.goodsname!}" type="text" class="span6 m-wrap" readonly="true"/><br>
         	<label class="control-label">商品价格：</label>
-        	<input name="orderDetail.goodsprice" value="${orderdetail.goodsprice!}" type="text" class="span6 m-wrap" /><br>
-        	<label class="control-label">商品总数：</label>
-        	<input name="orderDetail.goodsnum" value="${orderdetail.goodsnum!}" type="text" class="span6 m-wrap" /><br>
+        	<input name="orderDetail.goodsprice" value="${orderdetail.goodsprice!}" type="text" class="span6 m-wrap" readonly="true"/><br>
+        	<label class="control-label">购买数量：</label>
+        	<input name="orderDetail.goodsnum" value="${orderdetail.goodsnum!}" type="text" class="span6 m-wrap" style="ime-mode:Disabled;" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/><br>
         	<label class="control-label">是否支付：</label>
-        	<input name="orders.isPay" value="${orders.isPay!}" type="text" class="span6 m-wrap" /><br>
+        	<select name="orders.isPay" id="select1" style="width:55px;">   
+       			<option value="Y" <% if ( orders.isPay == "Y" ) {%> selected="true"<%}%>>是</option> 
+        		<option value="N" <% if ( orders.isPay == "N" ) {%> selected="true"<%}%>>否</option>
+        	</select><br>
+        	<!-- <input name="orders.isPay" value="${orders.isPay!}" type="text" class="span6 m-wrap" /> -->
         	<label class="control-label">是否发货：</label>
-        	<input name="orders.isDelivery" value="${orders.isDelivery!}" type="text" class="span6 m-wrap" /><br>        	        	
+        	<select name="orders.isDelivery" id="select2" style="width:55px;">   
+       			<option value="Y" <% if ( orders.isDelivery == "Y" ) {%> selected="true"<%}%>>是</option> 
+        		<option value="N" <% if ( orders.isDelivery == "N" ) {%> selected="true"<%}%>>否</option>
+        	</select><br>
+        	<!--<input name="orders.isDelivery" value="${orders.isDelivery!}" type="text" class="span6 m-wrap" /><br>     -->   	        	
         <button class="btn btn-large btn-primary" type="submit" >保存</button>
       </form>
 				</div>

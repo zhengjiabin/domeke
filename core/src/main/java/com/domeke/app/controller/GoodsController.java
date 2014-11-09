@@ -551,7 +551,11 @@ public class GoodsController extends FilesLoadController {
 		User userModel = getModel(User.class);
 		int goodsNum = getParaToInt("goodsnum");
 		String goodsId = String.valueOf(goodsModel.get("goodsid"));
+		String orderNum = getOrderNum();
 		Orders orders = getModel(Orders.class);
+		orders.set("ordernum", orderNum);
+		orders.set("isPay", "Y");
+		orders.set("isDelivery", "N");
 		orders.set("orderAddr", userModel.get("address"));
 		orders.set("orderPhone", userModel.get("mobile"));
 		orders.set("realname", userModel.get("realname"));
@@ -560,6 +564,7 @@ public class GoodsController extends FilesLoadController {
 		Long orderId = orders.getLong("orderid");
 		OrderDetail orderDetail = getModel(OrderDetail.class);
 		orderDetail.set("orderid", orderId);
+		orderDetail.set("ordernum", orderNum);
 		orderDetail.set("goodsnum", goodsNum);
 		orderDetail.set("goodsname", goodsModel.get("goodsname"));
 		orderDetail.set("goodsid", goodsModel.get("goodsid"));
@@ -584,6 +589,14 @@ public class GoodsController extends FilesLoadController {
 		int flag = getParaToInt("flag");
 		Goods.dao.updateShowFlag(goodsId, flag);
 		redirect("/goods/renderGoods");
+	}
+	
+	public String getOrderNum(){
+		int r1=(int)(Math.random()*(10));//产生2个0-9的随机数
+		int r2=(int)(Math.random()*(10));
+		long now = System.currentTimeMillis();//一个13位的时间戳
+		String paymentID =String.valueOf(r1)+String.valueOf(r2)+String.valueOf(now);// 订单ID
+		return  paymentID;
 	}
 	private List<Map<String, Object>> goodsParse(List<Goods> goodss) {
 		List<Map<String, Object>> resultMap = Lists.newArrayList();

@@ -631,7 +631,7 @@ CREATE TABLE `order_detail` (
   `goodsid` bigint(20) DEFAULT NULL,
   `goodsname` varchar(255) DEFAULT NULL,
   `goodsprice` decimal(13,2) DEFAULT NULL,
-  `goodsnum` decimal(7,2) DEFAULT NULL,
+  `goodsnum` bigint(20) DEFAULT NULL,
   `paytype` varchar(4) DEFAULT NULL COMMENT '支付类型：金钱，豆豆，优惠券',
   PRIMARY KEY (`orderdetailid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;

@@ -1,5 +1,7 @@
 package com.domeke.app.controller;
 
+import java.util.List;
+
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.OrderDetail;
 import com.domeke.app.model.Orders;
@@ -35,8 +37,10 @@ public class OrderController extends FilesLoadController{
 //				ordersList.get(i).set("isDelivery", "未发货");
 //			}
 //		}
+		List<Goods> goodsList = Goods.dao.queryAllGoodsInfo();
 		setAttr("ordList", ordersList);
 		setAttr("ordetailList", orderDetailList);
+		setAttr("goodsList", goodsList);
 	}
 	
 	public void deleteOrder(){
