@@ -63,9 +63,6 @@
                 <td>${work.creatername!}</td>
                 <td>播放：${work.playtimes!}</td>
                 <td>
-                	<%if(work.comic != null && work.comic != ''){%>
-                	<a href="works/downloadFile?url=${work.comic!}">下载</a>
-                	<%}%>
 	                <a href="javascript:showPage({'flag':23,'type':1,'pageIndex':${pageIndex!},'worksid':${work.worksid!},'workid':${work.workid!},'workpageIndex':${pageWork.pageNumber!}});">编辑</a>
 	                <a href="javascript:del(${work.workid!});">删除</a>
                 </td>

@@ -14,6 +14,26 @@
 			$('a',this).css({'background':'url(http://www.dongmark.com/images/icon11.png) left center no-repeat'});
 		});
 	});
+	function fileExists(workid){
+		$.ajax({
+			type:'post',
+			url:'works/fileExists',
+			data:'workid='+workid,
+			success:function(data){
+				if(data.success == 1){
+					//可以下载
+					window.location.href = 'works/downloadFile?workid='+workid;
+					return;
+				}else if(data.success == 0){
+					alert('下载失败，文件不存在！');
+					return;
+				}else{
+					alert('请登录后再下载！');
+					return;
+				}
+			}
+		});
+	}
 </script>
 <section>
 	<div class="CartoonTitle">${works.worksname!}-${work.workname!}</div>
@@ -28,6 +48,7 @@
       <div class="PlayControl"> 
         <span class="Good" pid="${works.worksid!}"><a>点赞</a></span>
         <span class="Argument"><a href="#">评论</a></span>
+        <a href="javascript:fileExists(${work.workid!});" style="float: right;">下载</a>
       </div>
       <div class="bshare-custom" align="right"><div class="bsPromo bsPromo2"></div><a title="分享到微信" class="bshare-weixin" href="javascript:void(0);"></a><a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"></a><a title="分享到腾讯微博" class="bshare-qqmb"></a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span class="BSHARE_COUNT bshare-share-count" style="float: none;">32.6K</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>  
       

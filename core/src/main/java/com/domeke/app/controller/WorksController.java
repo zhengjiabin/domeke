@@ -1235,14 +1235,41 @@ public class WorksController extends FilesLoadController {
 		}
 		return resultMap;
 	}
-	
+	public void fileExists(){
+		String workid = getPara("workid");
+		Work workModel = getModel(Work.class).findById(workid);
+		if(!workModel.isNotEmpty()){
+			renderJson("success", 0);
+			return;
+		}
+		String url = workModel.get("comic");
+		File file = new File(url);
+		if(!file.exists()){
+			renderJson("success", 0);
+			return;
+		}
+		renderJson("success", 1);
+		return;
+	}
 	public void downloadFile(){
 		try {
-			String url = getPara("url");
-			if(!StrKit.isBlank(url)){
-				FilesLoadController controller = new FilesLoadController();
-				controller.download(url);
+			User user = getSessionAttr("user");
+			Integer userId = Integer
+					.parseInt(String.valueOf(user.get("userid")));
+			String userName = user.get("username");
+			
+			String workid = getPara("workid");
+			Work workModel = getModel(Work.class).findById(workid);
+			if(!workModel.isNotEmpty()){
+				return;
 			}
+			String url = workModel.get("comic");
+			File file = new File(url);
+			if(!file.exists()){
+				return;
+			}
+			FilesLoadController controller = new FilesLoadController();
+			controller.download(url);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

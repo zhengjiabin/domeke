@@ -77,7 +77,7 @@ public class History extends Model<History> {
 		List<History> historys = Lists.newArrayList();
 		try {
 			StringBuffer sql = new StringBuffer("select * from history ");
-			sql.append(" where  date_format(fromtime,'%Y-%m-%d') between '"+startTime+"' and '"+endTime+"'");
+			sql.append(" where  date_format(fromtime,'%Y-%m-%d') between '"+startTime+"' and '"+endTime+"' limit "+limit);
 			historys = this.find(sql.toString());
 			return historys;
 		} catch (Exception e) {
