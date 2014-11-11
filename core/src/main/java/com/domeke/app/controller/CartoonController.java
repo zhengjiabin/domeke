@@ -37,7 +37,7 @@ public class CartoonController extends Controller {
 		}
 		Works worksModel = getModel(Works.class);
 		WorksType worksTypeModel = getModel(WorksType.class);
-		List<WorksType> worksTypes = worksTypeModel.getWorksTypesByCartoonDesc("1");
+		List<WorksType> worksTypes = worksTypeModel.getWorksTypesByCartoonDesc("");
 		
 		Map<String, Object> typeMap = Maps.newHashMap();
 		for (WorksType worksType : worksTypes) {
@@ -115,7 +115,7 @@ public class CartoonController extends Controller {
 		// 取该动漫的集数
 		List<Work> workList = workModel.getWorkByWorksID(worksId);
 		// 取精彩推荐的动漫作品
-		List<Works> wonderfulWorksList = worksModel.getWonderfulRecommend(worksId, 5);
+		List<Works> wonderfulWorksList = worksModel.getNewestWorks(worksId, 1, 5);
 		
 		this.setAttr("works", works);
 		this.setAttr("workList", workList);

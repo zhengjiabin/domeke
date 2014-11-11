@@ -68,7 +68,7 @@
 		<!-- 循环8个 -->
 		<% for(works in workss0){
 			if(worksLP.index <= 8){%>
-			<a href="cartoon/showDetail?id=${works.worksid!}" wname="${works.worksname!}" play="${works.playUrl!}"><img src="${works.cover!}"></a> 
+			<a href="${works.detailUrl!}" wname="${works.worksname!}" play="${works.playUrl!}"><img src="${works.cover!}"></a> 
 			<%}%>
 		<% }%>
 	</div>
@@ -85,8 +85,8 @@
         	<%for(works in workss1){
         	if(worksLP.index <= 5){%>
         	<div class="HISub">
-        		<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
-        		<a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+        		<a href="${works.detailUrl!}"><img src="${works.cover!}"><br/></a>
+        		<a href="${works.detailUrl!}">${works.worksname!}</a>
         	</div>
         	<%}%>
         	<%}%>
@@ -101,15 +101,15 @@
             %>
             	<li>
             		<span>${worksLP.index!}</span>
-            			<a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+            			<a href="${works.detailUrl!}">${works.worksname!}</a>
             	</li>
             <%
             	}else if(worksLP.index == 5){
             %>
             </ul>
             <div class="HIRightAD">
-            	<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"></a>
-            	<a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+            	<a href="${works.detailUrl!}"><img src="${works.cover!}"></a>
+            	<a href="${works.detailUrl!}">${works.worksname!}</a>
             </div>	
             <% }
              }%>
@@ -128,8 +128,8 @@
     	if(worksLP.index <= 6){
     %>
     	<div class="CartoonSub">
-        	<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
-            <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+        	<a href="${works.detailUrl!}"><img src="${works.cover!}"><br/></a>
+            <a href="${works.detailUrl!}">${works.worksname!}</a>
         </div>
         <%}%>
 	<%}%>
@@ -145,8 +145,8 @@
     		if(worksLP.index <= 12){
     	%>
     	<div class="CartoonSub">
-        	<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"></a><br>
-            <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+        	<a href="${works.detailUrl!}"><img src="${works.cover!}"></a><br>
+            <a href="${works.detailUrl!}">${works.worksname!}</a>
         </div>
         <%}%>
         <%}%>
@@ -159,15 +159,15 @@
 	<div class="CartoonTitleC">${workstype[workss4[0].workstype!]!}<a href="${workss4[0].typeUrl!}">更多 &gt;&gt;</a></div>
     <div class="CartoonContent WhiteBg">
 	    	<div class="Sort2">
-	        	<a href="cartoon/showDetail?id=${workss4[0].worksid!}"><img src="${workss4[0].cover!}"></a><br>
-	        	<a href="cartoon/showDetail?id=${workss4[0].worksid!}">${workss4[0].worksname!}</a>
+	        	<a href="${workss4[0].detailUrl!}"><img src="${workss4[0].cover!}"></a><br>
+	        	<a href="${workss4[0].detailUrl!}">${workss4[0].worksname!}</a>
 	        </div>
         <div class="Sort3960 Guess">
         	<%for(works in workss4){
 	       		if(worksLP.index > 1 && worksLP.index <= 9){%>
 		        	<div class="CartoonSub">
-		                <a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br>
-		                <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+		                <a href="${works.detailUrl!}"><img src="${works.cover!}"><br>
+		                <a href="${works.detailUrl!}">${works.worksname!}</a>
 		            </div>
            		<%}%>
            	<%}%>
@@ -186,8 +186,8 @@
     	if(worksLP.index < 6){
     %>
     	<div class="CartoonSub">
-        	<a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"><br/></a>
-            <a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a>
+        	<a href="${works.detailUrl!}"><img src="${works.cover!}"><br/></a>
+            <a href="${works.detailUrl!}">${works.worksname!}</a>
         </div>
         <%}%>
 	<%}%>

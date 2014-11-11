@@ -237,16 +237,16 @@ public class Works extends Model<Works> {
 	}
 
 	/**
-	 * 根据点赞、收藏优先级顺序排序，可用于“精彩推荐”
+	 * 查询最新的作品
 	 * 
 	 * @param limit
 	 *            限制前几个
 	 * @return 返回精彩推荐的动漫作品
 	 */
-	public List<Works> getWonderfulRecommend(Object worksid, Integer limit) {
+	public List<Works> getNewestWorks(Object worksid,Integer type, Integer limit) {
 		List<Works> workss = null;
-		String querySql = "select * from works where worksid <> ? and ischeck = 1 order by (praise + collection) desc limit ?";
-		workss = this.find(querySql, worksid, limit);
+		String querySql = "select * from works where worksid <> ? and type = ? and ischeck = 1 order by createtime desc limit ?";
+		workss = this.find(querySql, worksid, type, limit);
 		return workss;
 	}
 

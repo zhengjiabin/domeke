@@ -1,0 +1,85 @@
+<% layout("/common/layout.html"){ %>
+<section>
+	<article>
+        <section class="CartonDtl">
+            <div class="CartoonTitle">${works.worksname!}</div>
+            <div class="CartoonDtlInfo">
+            	<div class="CartoonPic"><img src="${works.cover!}"></div>
+              <div class="CartoonProperties"> 
+              	<div class="CartoonPropertiesR">
+                	<!-- <div class="CartoonScore">
+                		<span class="Font_Score">7.1</span>分&nbsp;&nbsp;&nbsp;&nbsp;评分：<img src="http://www.dongmark.com/images/icon_star.png">
+                	</div> -->
+                  <div class="CartoonInfo">
+                       <span class="FloatL">${works.pageviews!}</span>
+                       <span class="FloatR">${works.comment!}</span>
+                  </div>
+                  <div class="CartoonA font_b">
+                        <div class="bshare-custom"><a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"></a><a title="分享到人人网" class="bshare-renren"></a><a title="分享到腾讯微博" class="bshare-qqmb"></a><a title="分享到网易微博" class="bshare-neteasemb"></a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span class="BSHARE_COUNT bshare-share-count">0</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+                    </div>
+                </div>
+                <div class="CartoonPropertiesL">
+                <ul>
+                	<li>  </li>
+                	<li>主角：${works.leadingrole!}</li>
+                    <li>上映日期：${works.releasedate!}</li>
+                    <li>剧集：${works.maxnum!}</li>
+                    <li>  </li>
+                </ul>
+                <!-- <div>
+                	<a href="cartoon/playVideo?id=${works.worksid!}"><img src="http://www.dongmark.com/images/icon09.png"></a></div>
+                </div> -->
+              </div>
+            </div>
+            <div class="CartoonIntroduction">${works.describle!}</div>
+            <div class="CartoonSet">
+            	<div class="SetTitle">章节列表</div>
+                <div class="SetContent">
+                <% 
+                	var index = 0;
+                	for(work in workList){
+                		index = index + 1; 
+                %>
+                	<a href="manhua/playVideo?id=${works.worksid!}&gid=${work.workid!}">${index!}</a>
+                <% } %>
+                </div>
+            </div>
+            <div class="ArgumentZoom" id = "commentHtml">
+      			<% if(commentPage != null && works.worksid != null){ 
+					layout(
+					"/comment/cartoonComment.html",
+					{
+						"commentPage":commentPage,
+						"targetId":works.worksid,
+						"idtype":"40"
+					}
+					){}
+				}%>
+			</div>
+        </section>
+    </article>
+    <aside>
+    <section>
+    	<div class="CartoonTitle">精彩推荐</div>
+        <div class="CartoonContent">
+        	<%
+        		for(wonderfulWorks in wonderfulWorksList){
+        	%>
+	   		<div class="CartoonSub"> 
+               <img src="${works.cover!}">
+               <div class="CartoonName">
+               		<a href="cartoon/showDetail?id=${wonderfulWorks.worksid!}">${wonderfulWorks.worksname!}</a>
+               </div>
+               <div class="CartoonInfo">
+                      <span class="FloatL">${wonderfulWorks.pageviews!}</span>
+                      <span class="FloatR">${wonderfulWorks.comment!}</span>
+               </div>
+               <!-- <div class="CartoonSubFootbar">${wonderfulWorks.worksname!}</div> -->
+	        </div>
+	        <% } %>
+        </div>
+    </section>
+	</aside>
+    <div class="clear">&nbsp;</div>
+</section>
+<% } %>

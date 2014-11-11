@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.CodeTable;
+import com.domeke.app.model.DownLoad;
 import com.domeke.app.model.User;
 import com.domeke.app.model.UserRole;
 import com.domeke.app.model.Work;
@@ -19,6 +20,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.jfinal.aop.Before;
 import com.jfinal.kit.ParseDemoKit;
+import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -404,7 +406,7 @@ public class WorksController extends FilesLoadController {
 		String userName = user.get("username");
 
 		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024,"utf-8");
-		String comicPath = upLoadVideo("comic", "", 2000 * 1024 * 1024, "utf-8");
+		String comicPath = upLoadFileDealPath("comic", "", 2000 * 1024 * 1024, "utf-8");
 		String title = getPara("title");
 		String des = getPara("des");
 		String ispublic = getPara("ispublic");
@@ -1243,7 +1245,10 @@ public class WorksController extends FilesLoadController {
 			return;
 		}
 		String url = workModel.get("comic");
-		File file = new File(url);
+		int indexOf = url.indexOf(".com");
+		String filepath = url.substring(indexOf + 4);
+		filepath = PropKit.getString("base_path") + filepath;
+		File file = new File(filepath);
 		if(!file.exists()){
 			renderJson("success", 0);
 			return;
@@ -1264,12 +1269,31 @@ public class WorksController extends FilesLoadController {
 				return;
 			}
 			String url = workModel.get("comic");
-			File file = new File(url);
+			int indexOf = url.indexOf(".com");
+			String filepath = url.substring(indexOf + 4);
+			filepath = PropKit.getString("base_path") + filepath;
+			File file = new File(filepath);
 			if(!file.exists()){
 				return;
 			}
+			DownLoad downloadModel = getModel(DownLoad.class);
+			Works worksModel = getModel(Works.class).findById(workModel.get("worksid"));
+			if(worksModel.isNotEmpty()){
+				Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+				downloadModel.set("userid", userId);
+				downloadModel.set("cartoon_name", worksModel.get("worksname"));
+				downloadModel.set("cartoon_id", worksModel.get("worksid"));
+				downloadModel.set("section_name", workModel.get("workname"));
+				downloadModel.set("download_count", 1);
+				downloadModel.set("create_time", timestamp);
+				downloadModel.set("creater", userId);
+				downloadModel.set("modify_time", timestamp);
+				downloadModel.set("modifier", userId);
+				downloadModel.save();
+			}
 			FilesLoadController controller = new FilesLoadController();
 			controller.download(url);
+			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,9 +1,5 @@
 package com.jfinal.kit;
 
-import java.io.File;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,10 +36,10 @@ public class ParseDemoKit {
 					//0专辑 
 					playUrl = "cartoon/playVideo?id="+worksid;
 					detailUrl = "cartoon/showDetail?id="+worksid;
-				}else if(type == 0){
+				}else if(type == 2){
 					 //视频
-					playUrl = "cartoon/playVideo?id="+worksid;
-					detailUrl = playUrl;
+					playUrl = "manhua/playVideo?id="+worksid;
+					detailUrl = "manhua/showDetail?id="+worksid;
 				}
 				map.put("playUrl",playUrl);
 				map.put("detailUrl",detailUrl);
