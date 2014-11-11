@@ -590,7 +590,19 @@ public class GoodsController extends FilesLoadController {
 		Goods.dao.updateShowFlag(goodsId, flag);
 		redirect("/goods/renderGoods");
 	}
-	
+	/**
+	 * 商品是否放首页
+	 */
+	public void goodsIndex(){
+		String goodsId = getPara("goodsId");
+		int result = Goods.dao.getSelectIstop(goodsId);
+		int flag = 0;
+		if (result == 0){
+			flag = 1;
+		}
+		Goods.dao.updateIndexShow(goodsId, flag);
+		redirect("/goods/renderGoods");
+	}
 	public String getOrderNum(){
 		int r1=(int)(Math.random()*(10));//产生2个0-9的随机数
 		int r2=(int)(Math.random()*(10));
