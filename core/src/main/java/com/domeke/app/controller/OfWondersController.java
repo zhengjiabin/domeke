@@ -11,12 +11,14 @@ import com.domeke.app.model.User;
 import com.domeke.app.model.VentWall;
 import com.domeke.app.model.WondersType;
 import com.domeke.app.route.ControllerBind;
+import com.domeke.app.utils.FileLoadKit;
 import com.jfinal.aop.Before;
+import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "ofWonders")
-public class OfWondersController extends FilesLoadController {
+public class OfWondersController extends Controller {
 	
 	/** 回复类型 */
 	private static String IDTYPE = "50";
@@ -313,7 +315,7 @@ public class OfWondersController extends FilesLoadController {
 	 */
 	private boolean dealUploadImg(StringBuffer imgPath){
 		try {
-			String path = upLoadFileDealPath(parameterName, saveFolderName, maxPostSize, encoding);
+			String path = FileLoadKit.uploadImg(this, parameterName, saveFolderName, maxPostSize, encoding);
 			if(StrKit.isBlank(path)){
 				OfWonders ofWonders = getModel(OfWonders.class);
 				Object ofWondersId = ofWonders.get("ofwondersid");
