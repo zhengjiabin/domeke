@@ -57,16 +57,16 @@ public class FileLoadKit {
 					fileUploadKit = new FileLoadKit();
 					fileUploadKit.setLogger(LoggerFactory.getLogger(FileLoadKit.class));
 					
-					String baseDirectory = PropKit.getString("baseDirectory");
+					String baseDirectory = PropKit.getString("basePath");
 					fileUploadKit.setBaseDirectory(baseDirectory);
 
-					String imageDirectory = PropKit.getString("imageDirectory");
+					String imageDirectory = PropKit.getString("imagePath");
 					fileUploadKit.setImageDirectory(imageDirectory);
 
-					String videoDirectory = PropKit.getString("videoDirectory");
+					String videoDirectory = PropKit.getString("videoPath");
 					fileUploadKit.setVideoDirectory(videoDirectory);
 
-					String fileDirectory = PropKit.getString("fileDirectory");
+					String fileDirectory = PropKit.getString("filePath");
 					fileUploadKit.setFileDirectory(fileDirectory);
 				}
 			}
