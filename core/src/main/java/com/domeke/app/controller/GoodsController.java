@@ -406,7 +406,7 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public void getGoodsDetail(){
 		goodsUtil();
-		render("/ShopCentre.html");
+		//render("/ShopCentre.html");
 	}
 	/**
 	 * 商品信息拼装
@@ -443,6 +443,11 @@ public class GoodsController extends FilesLoadController {
 			flag = 1;
 		}
 		setAttr("flag", flag);
+		String action = "/comment/setPage";
+		setAttr("render", "/ShopCentre.html");
+		setAttr("targetId", getParaToInt("goodsid"));
+		setAttr("idtype", "60");
+		forwardAction(action);
 	}
 	public void loveCount(){
 		int goodsId = getParaToInt("goodsid");

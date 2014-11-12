@@ -53,7 +53,18 @@
     	商品详细介绍<br /><br /><br />
 		${goods.message!}
     </div>
-    
+                <div class="ArgumentZoom" id = "commentHtml">
+      			<% if(commentPage != null && goods.goodsid != null){ 
+					layout(
+					"/comment/cartoonComment.html",
+					{
+						"commentPage":commentPage,
+						"targetId":goods.goodsid,
+						"idtype":"60"
+					}
+					){}
+				}%>
+			</div>
 </section>
 <div class="clear"></div>
 <section>
