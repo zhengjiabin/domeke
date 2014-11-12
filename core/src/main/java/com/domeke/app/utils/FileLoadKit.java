@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import com.domeke.app.cos.multipart.FilePart;
 import com.domeke.app.model.User;
 import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
 import com.jfinal.kit.FileKit;
 import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
@@ -31,6 +32,9 @@ public class FileLoadKit {
 
 	/** 文件上传的本地根目录 */
 	private String baseDirectory;
+	
+	/** 文件上传的本地备份根目录 */
+	private String backupsDirectory;
 
 	/** 图片上传的临时目录 */
 	private String imageDirectory;
@@ -59,6 +63,9 @@ public class FileLoadKit {
 					
 					String baseDirectory = PropKit.getString("basePath");
 					fileUploadKit.setBaseDirectory(baseDirectory);
+					
+					String backupsDirectory = PropKit.getString("backupsPath");
+					fileUploadKit.setBackupsDirectory(backupsDirectory);
 
 					String imageDirectory = PropKit.getString("imagePath");
 					fileUploadKit.setImageDirectory(imageDirectory);
@@ -100,12 +107,14 @@ public class FileLoadKit {
 		FileLoadKit fileUploadKit = FileLoadKit.getInstance();
 		fileUploadKit.initProgress(ctrl);
 		String imgDirectory = fileUploadKit.getImageDirectory();
-		imgDirectory = fileUploadKit.getTempDirectory(imgDirectory, saveFolderName, ctrl);
+		String serverDirectory = fileUploadKit.getServerDirectory(imgDirectory, saveFolderName, ctrl);
+		String tempDirectory = fileUploadKit.getTempDirectory(serverDirectory);
+		String discDirectory = fileUploadKit.getDiscDirectory(serverDirectory);
 		
 		Map<String,String> fileDirectory = new HashMap<String, String>();
 		File file = null;
-		String basePath = null,virtualPath = null,parameterName = null;
-		List<UploadFile> uploadFiles = ctrl.getFiles(imgDirectory, maxPostSize, encoding);
+		String virtualPath = null,parameterName = null;
+		List<UploadFile> uploadFiles = ctrl.getFiles(tempDirectory, maxPostSize, encoding);
 		if(CollectionKit.isBlank(uploadFiles)){
 			return null;
 		}
@@ -116,10 +125,9 @@ public class FileLoadKit {
 				FileKit.delete(file);
 				continue;
 			}
-			fileUploadKit.fileCopy(fileUploadKit.getBaseDirectory() + imgDirectory,file);
-			basePath = fileUploadKit.getBasePath(ctrl.getRequest());
-			virtualPath = fileUploadKit.getDirectory(basePath, imgDirectory);
-			virtualPath = fileUploadKit.getDirectory(virtualPath, file.getName());
+			
+			fileUploadKit.fileCopy(discDirectory ,file);
+			virtualPath = fileUploadKit.getVirtualDirectory(serverDirectory, file.getName(), ctrl);
 			parameterName = uploadFile.getParameterName();
 			fileDirectory.put(parameterName, virtualPath);
 		}
@@ -146,12 +154,14 @@ public class FileLoadKit {
 		FileLoadKit fileUploadKit = FileLoadKit.getInstance();
 		fileUploadKit.initProgress(ctrl);
 		String videoDirectory = fileUploadKit.getVideoDirectory();
-		videoDirectory = fileUploadKit.getTempDirectory(videoDirectory, saveFolderName, ctrl);
+		String serverDirectory = fileUploadKit.getServerDirectory(videoDirectory, saveFolderName, ctrl);
+		String tempDirectory = fileUploadKit.getTempDirectory(serverDirectory);
+		String discDirectory = fileUploadKit.getDiscDirectory(serverDirectory);
 		
 		Map<String,String> fileDirectory = new HashMap<String, String>();
-		File file = null;
-		String basePath = null,virtualPath = null,parameterName = null;
-		List<UploadFile> uploadFiles = ctrl.getFiles(videoDirectory, maxPostSize, encoding);
+		File file = null,newFile = null;
+		String virtualPath = null,parameterName = null;
+		List<UploadFile> uploadFiles = ctrl.getFiles(tempDirectory, maxPostSize, encoding);
 		if(CollectionKit.isBlank(uploadFiles)){
 			return null;
 		}
@@ -162,9 +172,8 @@ public class FileLoadKit {
 				FileKit.delete(file);
 				continue;
 			}
-			File newFile = fileUploadKit.fileCopy(fileUploadKit.getBaseDirectory() + videoDirectory,file);
-			basePath = fileUploadKit.getBasePath(ctrl.getRequest());
-			virtualPath = fileUploadKit.getDirectory(basePath, videoDirectory);
+			newFile = fileUploadKit.fileCopy(discDirectory, file);
+			virtualPath = fileUploadKit.getVirtualDirectory(serverDirectory, file.getName(), ctrl);
 			virtualPath = VideoKit.compressVideo(newFile, virtualPath);
 			
 			parameterName = uploadFile.getParameterName();
@@ -174,16 +183,68 @@ public class FileLoadKit {
 	}
 	
 	/**
-	 * 获取临时上传路径
+	 * 获取虚拟上传路径
 	 */
-	private String getTempDirectory(String directory, String saveFolderName, Controller ctrl){
-		directory = fileUploadKit.spliceDirectory(directory,ctrl.getSessionAttr("user"));
-		directory = fileUploadKit.getDirectory(directory, saveFolderName);
+	private String getVirtualDirectory(String directory, String saveFolderName, Controller ctrl){
+		String basePath = getBasePath(ctrl.getRequest());
+		directory = getDirectory(basePath, directory);
+		directory = getDirectory(directory, saveFolderName);
 		return directory;
 	}
 	
 	/**
-	 * 获取根路径
+	 * 获取临时上传路径
+	 */
+	private String getTempDirectory(String directory){
+		//开发模式下，本地服务器作为临时根目录
+		boolean isDevMode = JFinal.me().getConstants().getDevMode();
+		if(!isDevMode){
+			String baseDirectory = getBackupsDirectory();
+			directory = getDirectory(baseDirectory, directory);
+		}
+		return directory;
+	}
+	
+	/**
+	 * 获取物理上传路径
+	 */
+	private String getDiscDirectory(String directory){
+		String baseDirectory = getBaseDirectory();
+		directory = getDirectory(baseDirectory, directory);
+		return directory;
+	}
+	
+	/**
+	 * 获取服务器存储路径
+	 * 
+	 * @return
+	 */
+	private String getServerDirectory(String directory, String saveFolderName, Controller ctrl) {
+		User user = ctrl.getSessionAttr("user");
+		String userName = user.getStr("username");
+		directory = directory.replaceAll("<username>", userName);
+		directory = getDirectory(directory, saveFolderName);
+		return directory;
+	}
+
+	/**
+	 * 拼接路径路径
+	 * 
+	 * @return
+	 */
+	private String getDirectory(String directory, String saveFolderName) {
+		directory = directory.replaceAll("\\\\", "/");
+		saveFolderName = saveFolderName.replaceAll("\\\\", "/");
+		if(directory.endsWith("/") && saveFolderName.startsWith("/")){
+			saveFolderName = saveFolderName.replaceFirst("/", "");
+		}else if(!directory.endsWith("/") && !saveFolderName.startsWith("/")){
+			saveFolderName = "/" + saveFolderName;
+		}
+		return directory + saveFolderName;
+	}
+	
+	/**
+	 * 获取浏览地址根路径
 	 * @param request
 	 * @return
 	 */
@@ -275,32 +336,6 @@ public class FileLoadKit {
 	}
 
 	/**
-	 * 获取临时根目录
-	 * 
-	 * @return
-	 */
-	private String spliceDirectory(String directory, User user) {
-		String userName = user.getStr("username");
-		return directory.replaceAll("<username>", userName);
-	}
-
-	/**
-	 * 获取上传路径
-	 * 
-	 * @return
-	 */
-	private String getDirectory(String directory, String saveFolderName) {
-		directory = directory.replaceAll("\\\\", "/");
-		saveFolderName = saveFolderName.replaceAll("\\\\", "/");
-		if(directory.endsWith("/") && saveFolderName.startsWith("/")){
-			saveFolderName = saveFolderName.replaceFirst("/", "");
-		}else if(!directory.endsWith("/") && !saveFolderName.startsWith("/")){
-			saveFolderName = "/" + saveFolderName;
-		}
-		return directory + saveFolderName;
-	}
-
-	/**
 	 * 初始化进度条
 	 */
 	private void initProgress(Controller ctrl) {
@@ -362,4 +397,14 @@ public class FileLoadKit {
 	private void setFileDirectory(String fileDirectory) {
 		this.fileDirectory = fileDirectory;
 	}
+
+	private String getBackupsDirectory() {
+		return backupsDirectory;
+	}
+
+	private void setBackupsDirectory(String backupsDirectory) {
+		this.backupsDirectory = backupsDirectory;
+	}
+	
+	
 }

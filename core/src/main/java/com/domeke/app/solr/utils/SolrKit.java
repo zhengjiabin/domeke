@@ -52,7 +52,6 @@ public class SolrKit<T> {
 		if(query == null){
 			return null;
 		}
-		System.out.println(query.toString());
 		QueryResponse response = null;
 		try {
 			SolrServer server = SolrServerClient.getInstance().getServer();
