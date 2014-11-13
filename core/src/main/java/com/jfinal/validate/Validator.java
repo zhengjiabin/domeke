@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2014, James Zhan 詹波 (jfinal@126.com).
+ * Copyright (c) 2011-2015, James Zhan 詹波 (jfinal@126.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.ActionInvocation;
 import com.jfinal.core.Controller;
@@ -120,7 +119,7 @@ public abstract class Validator implements Interceptor {
 	protected void validateRequired(String field, String errorKey, String errorMessage) {
 		String value = controller.getPara(field);
 		if (value == null || "".equals(value))	// 经测试,无输入时值为"",跳格键值为"\t",输入空格则为空格" "
-			addError("msg", errorMessage);
+			addError(errorKey, errorMessage);
 	}
 	
 	/**

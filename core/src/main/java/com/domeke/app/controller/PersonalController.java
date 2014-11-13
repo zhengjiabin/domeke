@@ -243,7 +243,7 @@ public class PersonalController extends  FilesLoadController{
 		Long userid = user.getLong("userid");
 		String password = user.getStr("password");
 		if(password != null){
-			password = EncryptKit.encryptMd5(password);
+			password = EncryptKit.EncryptMd5(password);
 		}
 		String newPassword = getPara("newPassword");
 		String repeatPassword = getPara("repeatPassword");
@@ -275,7 +275,7 @@ public class PersonalController extends  FilesLoadController{
 	    	
 	    }
 	    if(isOk){
-	    	newPassword = EncryptKit.encryptMd5(newPassword);
+	    	newPassword = password = EncryptKit.EncryptMd5(newPassword);
 	    	user.updatePassword(userid,newPassword);
 	    	setAttr("nullMsg", "密码修改成功");
 			

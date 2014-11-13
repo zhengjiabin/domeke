@@ -160,7 +160,7 @@ public class UserController extends Controller {
 		String uid = getPara("uid");
 		user = user.findById(uid);
 		String password1  = "111111";
-		String password = EncryptKit.encryptMd5(password1);
+		String password = EncryptKit.EncryptMd5(password1);
 		user.set("password",password);
 		user.update();
 		goUserManage();
@@ -181,7 +181,7 @@ public class UserController extends Controller {
 		User user = getModel(User.class);
 		String password = "111111";
 		int userid = getParaToInt();
-		password = EncryptKit.encryptMd5(password);
+		password = EncryptKit.EncryptMd5(password);
 		user.updateReset(userid, password);
 		goUserManage();
 	}
@@ -227,7 +227,7 @@ public class UserController extends Controller {
 			List<Map<String,Object>> params = new ArrayList<Map<String,Object>>();
 			String[] to = new String[]{email};
 			String password1  = getRandomString(6);
-			String password = EncryptKit.encryptMd5(password1);
+			String password = EncryptKit.EncryptMd5(password1);
 			user.updatePassword(user.get("userid"),password);
 			String msg = "你好你的密码已重置为："+password1+"，请及时登录 系统修改";
 			domekeMailSender.send("testehr@126.com", to, null, msg, params);

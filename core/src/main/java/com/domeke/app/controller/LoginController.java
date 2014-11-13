@@ -26,7 +26,7 @@ public class LoginController extends Controller {
 	public void forIndex() {
 		String username = getPara("username");
 		String password = getPara("password");
-		password = EncryptKit.encryptMd5(password);
+		password = EncryptKit.EncryptMd5(password);
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 		Subject currentUser = SecurityUtils.getSubject();
 		try {

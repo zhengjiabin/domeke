@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2014, James Zhan 詹波 (jfinal@126.com).
+ * Copyright (c) 2011-2015, James Zhan 詹波 (jfinal@126.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,11 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 import com.jfinal.core.Const;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
+import com.jfinal.log.ILoggerFactory;
+import com.jfinal.log.Logger;
 import com.jfinal.render.IErrorRenderFactory;
 import com.jfinal.render.IMainRenderFactory;
 import com.jfinal.render.RenderFactory;
@@ -307,6 +308,11 @@ final public class Constants {
 		RenderFactory.setMainRenderFactory(mainRenderFactory);
 	}
 	
+	public void setLoggerFactory(ILoggerFactory loggerFactory) {
+		if (loggerFactory == null)
+			throw new IllegalArgumentException("loggerFactory can not be null.");
+		Logger.setLoggerFactory(loggerFactory);
+	}
 	
 	public void setErrorRenderFactory(IErrorRenderFactory errorRenderFactory) {
 		if (errorRenderFactory == null)

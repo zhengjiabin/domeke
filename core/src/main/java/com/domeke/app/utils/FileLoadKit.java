@@ -19,7 +19,6 @@ import com.domeke.app.model.User;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.FileKit;
-import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.upload.UploadFile;
 

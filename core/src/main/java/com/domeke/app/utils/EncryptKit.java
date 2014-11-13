@@ -11,7 +11,7 @@ import org.apache.shiro.crypto.hash.Md5Hash;
  */
 public class EncryptKit {
 
-	public static String encryptMd5(String data) {
+	public static String EncryptMd5(String data) {
 		String md5 = new Md5Hash(data).toBase64();
 		return md5;
 	}

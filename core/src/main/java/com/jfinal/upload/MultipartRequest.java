@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2014, James Zhan 詹波 (jfinal@126.com).
+ * Copyright (c) 2011-2015, James Zhan 詹波 (jfinal@126.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +27,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import com.domeke.app.cos.multipart.FileRenamePolicy;
-import com.domeke.app.cos.multipart.FileRenamePolicyByTime;
+import com.domeke.app.cos.multipart.DefaultFileRenamePolicy;
 
 /**
  * MultipartRequest.
@@ -40,8 +39,7 @@ public class MultipartRequest extends HttpServletRequestWrapper {
 	private static int maxPostSize;
 	private static String encoding;
 	private static boolean isMultipartSupported = false;
-	// chenhailin add modify
-	private static final FileRenamePolicy fileRenamePolicy = new FileRenamePolicyByTime();
+	private static final DefaultFileRenamePolicy fileRenamePolicy = new DefaultFileRenamePolicy();
 	
 	private List<UploadFile> uploadFiles;
 	private com.domeke.app.cos.MultipartRequest multipartRequest;
@@ -106,8 +104,7 @@ public class MultipartRequest extends HttpServletRequestWrapper {
         uploadFiles = new ArrayList<UploadFile>();
 		
 		try {
-			multipartRequest = new com.domeke.app.cos.MultipartRequest(request,
-					saveDirectory, maxPostSize, encoding, fileRenamePolicy);
+			multipartRequest = new  com.domeke.app.cos.MultipartRequest(request, saveDirectory, maxPostSize, encoding, fileRenamePolicy);
 			Enumeration files = multipartRequest.getFileNames();
 			while (files.hasMoreElements()) {
 				String name = (String)files.nextElement();

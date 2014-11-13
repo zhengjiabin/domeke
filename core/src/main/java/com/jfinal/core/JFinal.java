@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2014, James Zhan 詹波 (jfinal@126.com).
+ * Copyright (c) 2011-2015, James Zhan 詹波 (jfinal@126.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +18,7 @@ package com.jfinal.core;
 
 import java.io.File;
 import java.util.List;
-
 import javax.servlet.ServletContext;
-
 import com.jfinal.config.Constants;
 import com.jfinal.config.JFinalConfig;
 import com.jfinal.handler.Handler;
@@ -29,6 +27,7 @@ import com.jfinal.i18n.I18N;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.IPlugin;
 import com.jfinal.render.RenderFactory;
+import com.jfinal.server.IServer;
 import com.jfinal.token.ITokenCache;
 import com.jfinal.token.TokenManager;
 import com.jfinal.upload.OreillyCos;
@@ -37,72 +36,72 @@ import com.jfinal.upload.OreillyCos;
  * JFinal
  */
 public final class JFinal {
-
+	
 	private Constants constants;
 	private ActionMapping actionMapping;
 	private Handler handler;
 	private ServletContext servletContext;
+	private static IServer server;
 	private String contextPath = "";
-
+	
 	Handler getHandler() {
 		return handler;
 	}
-
+	
 	private static final JFinal me = new JFinal();
-
+	
 	private JFinal() {
 	}
-
+	
 	public static JFinal me() {
 		return me;
 	}
-
+	
 	boolean init(JFinalConfig jfinalConfig, ServletContext servletContext) {
 		this.servletContext = servletContext;
 		this.contextPath = servletContext.getContextPath();
-
+		
 		initPathUtil();
-
-		Config.configJFinal(jfinalConfig); // start plugin and init logger
-											// factory in this method
+		
+		Config.configJFinal(jfinalConfig);	// start plugin and init logger factory in this method
 		constants = Config.getConstants();
-
+		
 		initActionMapping();
 		initHandler();
 		initRender();
-		initOreillyCosMySelf();
+		initOreillyCos();
 		initI18n();
 		initTokenManager();
-
+		
 		return true;
 	}
-
+	
 	private void initTokenManager() {
 		ITokenCache tokenCache = constants.getTokenCache();
 		if (tokenCache != null)
 			TokenManager.init(tokenCache);
 	}
-
+	
 	private void initI18n() {
 		String i18nResourceBaseName = constants.getI18nResourceBaseName();
 		if (i18nResourceBaseName != null) {
 			I18N.init(i18nResourceBaseName, constants.getI18nDefaultLocale(), constants.getI18nMaxAgeOfCookie());
 		}
 	}
-
+	
 	private void initHandler() {
 		Handler actionHandler = new ActionHandler(actionMapping, constants);
 		handler = HandlerFactory.getHandler(Config.getHandlers().getHandlerList(), actionHandler);
 	}
-
-	private void initOreillyCosMySelf() {
+	
+	private void initOreillyCos() {
 		Constants ct = constants;
 		if (OreillyCos.isMultipartSupported()) {
 			String uploadedFileSaveDirectory = ct.getUploadedFileSaveDirectory();
 			if (uploadedFileSaveDirectory == null || "".equals(uploadedFileSaveDirectory.trim())) {
-				uploadedFileSaveDirectory = PathKit.getWebRootPath() + File.separator ;
+				uploadedFileSaveDirectory = PathKit.getWebRootPath() + File.separator + "upload" + File.separator;
 				ct.setUploadedFileSaveDirectory(uploadedFileSaveDirectory);
-
+				
 				/*File file = new File(uploadedFileSaveDirectory);
 				if (!file.exists())
 					file.mkdirs();*/
@@ -110,30 +109,31 @@ public final class JFinal {
 			OreillyCos.init(uploadedFileSaveDirectory, ct.getMaxPostSize(), ct.getEncoding());
 		}
 	}
-
+	
 	private void initPathUtil() {
 		String path = servletContext.getRealPath("/");
 		PathKit.setWebRootPath(path);
 	}
-
+	
 	private void initRender() {
 		RenderFactory renderFactory = RenderFactory.me();
 		renderFactory.init(constants, servletContext);
 	}
-
+	
 	private void initActionMapping() {
 		actionMapping = new ActionMapping(Config.getRoutes(), Config.getInterceptors());
 		actionMapping.buildActionMapping();
 	}
-
+	
 	void stopPlugins() {
 		List<IPlugin> plugins = Config.getPlugins().getPluginList();
 		if (plugins != null) {
-			for (int i = plugins.size() - 1; i >= 0; i--) { // stop plugins
+			for (int i=plugins.size()-1; i >= 0; i--) {		// stop plugins
 				boolean success = false;
 				try {
 					success = plugins.get(i).stop();
-				} catch (Exception e) {
+				} 
+				catch (Exception e) {
 					success = false;
 					e.printStackTrace();
 				}
@@ -143,24 +143,40 @@ public final class JFinal {
 			}
 		}
 	}
-
+	
 	public ServletContext getServletContext() {
 		return this.servletContext;
 	}
-
+	
+	
+	public static void stop() {
+		server.stop();
+	}
+	
+	
 	public List<String> getAllActionKeys() {
 		return actionMapping.getAllActionKeys();
 	}
-
+	
 	public Constants getConstants() {
 		return Config.getConstants();
 	}
-
+	
 	public Action getAction(String url, String[] urlPara) {
 		return actionMapping.getAction(url, urlPara);
 	}
-
+	
 	public String getContextPath() {
 		return contextPath;
 	}
 }
+
+
+
+
+
+
+
+
+
+

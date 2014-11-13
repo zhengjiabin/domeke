@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.jfinal.kit.PropKit;
 
 /**
  * @author lijiasen@domeke.com

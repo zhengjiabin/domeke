@@ -44,7 +44,7 @@ public class User extends Model<User> {
 
 	public void saveUser() {
 		HtmlTagKit.processHtmlSpecialTag(this, "username", "email", "mobile");
-		String pasword = EncryptKit.encryptMd5(this.getStr("password"));
+		String pasword = EncryptKit.EncryptMd5(this.getStr("password"));
 		this.set("password", pasword);
 		this.save();
 	}

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2014, James Zhan 詹波 (jfinal@126.com).
+ * Copyright (c) 2011-2015, James Zhan 詹波 (jfinal@126.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,8 +38,7 @@ public class OreillyCos {
 	
 	private static void detectOreillyCos() {
 		try {
-//			Class.forName("com.oreilly.servlet.MultipartRequest");
-			Class.forName("com.domeke.app.cos.MultipartRequest");
+			Class.forName("com.oreilly.servlet.MultipartRequest");
 			isMultipartSupported = true;
 		} catch (ClassNotFoundException e) {
 			isMultipartSupported = false;

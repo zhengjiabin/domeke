@@ -6,7 +6,6 @@ import com.domeke.app.model.Action;
 import com.domeke.app.model.User;
 import com.domeke.app.model.UserAction;
 import com.domeke.app.utils.CodeKit;
-import com.domeke.app.utils.EncryptKit;
 import com.jfinal.aop.Interceptor;
 import com.jfinal.core.ActionInvocation;
 import com.jfinal.core.Controller;

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2014, James Zhan 詹波 (jfinal@126.com).
+ * Copyright (c) 2011-2015, James Zhan 詹波 (jfinal@126.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,41 +20,47 @@ package com.jfinal.kit;
  * StrKit.
  */
 public class StrKit {
-
+	
 	/**
 	 * 首字母变小写
 	 */
 	public static String firstCharToLowerCase(String str) {
-		Character firstChar = str.charAt(0);
-		String tail = str.substring(1);
-		str = Character.toLowerCase(firstChar) + tail;
+		char firstChar = str.charAt(0);
+		if (firstChar >= 'A' && firstChar <= 'Z') {
+			char[] arr = str.toCharArray();
+			arr[0] += ('a' - 'A');
+			return new String(arr);
+		}
 		return str;
 	}
-
+	
 	/**
 	 * 首字母变大写
 	 */
 	public static String firstCharToUpperCase(String str) {
-		Character firstChar = str.charAt(0);
-		String tail = str.substring(1);
-		str = Character.toUpperCase(firstChar) + tail;
+		char firstChar = str.charAt(0);
+		if (firstChar >= 'a' && firstChar <= 'z') {
+			char[] arr = str.toCharArray();
+			arr[0] -= ('a' - 'A');
+			return new String(arr);
+		}
 		return str;
 	}
-
+	
 	/**
 	 * 字符串为 null 或者为  "" 时返回 true
 	 */
 	public static boolean isBlank(String str) {
-		return str == null || "".equals(str.trim()) || "null".equals(str.trim()) ? true : false;
+		return str == null || "".equals(str.trim()) ? true : false;
 	}
-
+	
 	/**
 	 * 字符串不为 null 而且不为  "" 时返回 true
 	 */
 	public static boolean notBlank(String str) {
 		return str == null || "".equals(str.trim()) ? false : true;
 	}
-
+	
 	public static boolean notBlank(String... strings) {
 		if (strings == null)
 			return false;
@@ -63,7 +69,7 @@ public class StrKit {
 				return false;
 		return true;
 	}
-
+	
 	public static boolean notNull(Object... paras) {
 		if (paras == null)
 			return false;
@@ -72,7 +78,7 @@ public class StrKit {
 				return false;
 		return true;
 	}
-
+	
 	public static String replace(String s, String sub, String with) {
 		int c = 0;
 		int i = s.indexOf(sub, c);
@@ -94,3 +100,7 @@ public class StrKit {
 
 	}
 }
+
+
+
+

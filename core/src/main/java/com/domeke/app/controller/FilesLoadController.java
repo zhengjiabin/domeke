@@ -14,10 +14,10 @@ import org.slf4j.LoggerFactory;
 
 import com.domeke.app.cos.multipart.FilePart;
 import com.domeke.app.model.User;
+import com.domeke.app.utils.PropKit;
 import com.domeke.app.utils.VideoKit;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
-import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.upload.UploadFile;
 
