@@ -25,7 +25,10 @@
         	历史价格：<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
         	<div id="preview"></div>
         	商品主图：<input id="fileImage" type="file" size="30" name="pic" onchange="onUploadImgChange(this)" required="required" /><span class='font_r' style="color: red"> *</span><br>
-        	商品描述：<input id="message" name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" />
+        	商品描述：<textarea id="message" name="goods.message" value="${goods.message!}" rows="3" class="span6 m-wrap" ></textarea>
+        	
+               	
+        	<!-- <input id="message" name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" /> -->
         	<span class='font_r' style="color: red"> *</span><br>
         	商城地址：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>        			
