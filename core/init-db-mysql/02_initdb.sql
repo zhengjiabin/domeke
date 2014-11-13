@@ -16,6 +16,7 @@ INSERT INTO `code_type` VALUES ('4', 'grade', '等级', null, '2014-09-23 21:38:
 INSERT INTO `code_type` VALUES ('5', 'gender', '性别', null, '2014-9-25 19:42:24', '1', '2014-9-25 19:42:30', '1');
 INSERT INTO `code_type` VALUES ('6', 'papers', '证件类型', null, '2014-9-27 10:43:26', '1', '2014-9-27 10:43:33', '1');
 INSERT INTO `code_type` VALUES ('7', 'level', '级别', null, '2014-10-18 17:37:57', '1', '2014-10-18 17:37:57', '1');
+INSERT INTO `code_type` VALUES ('8', 'status', '状态', null, '2014-10-30 00:05:47', '1', '2014-10-30 00:05:47', '1');
 
 INSERT INTO `code_table` VALUES ('1', '00', 'workstype', '首页推荐', '首页推荐', '1', '2014-09-18 19:28:54', null, '2014-09-18 19:28:54', null, '0');
 INSERT INTO `code_table` VALUES ('2', '10', 'workstype', '原创动漫', '原创动漫', '2', '2014-09-18 19:28:31', null, '2014-09-18 19:28:31', null, '0');
@@ -47,7 +48,8 @@ INSERT INTO `code_table` VALUES ('28', '4', 'papers', '驾驶证', '驾驶证', 
 INSERT INTO `code_table` VALUES ('29', '1', 'level', '一级', '一级', '10', '2014-10-20 19:49:32', null, '2014-10-20 19:49:32', null, '0');
 INSERT INTO `code_table` VALUES ('30', '2', 'level', '二级', '二级', '20', '2014-10-20 19:49:33', null, '2014-10-20 19:49:33', null, '0');
 INSERT INTO `code_table` VALUES ('31', '3', 'level', '三级', '三级', '30', '2014-10-20 19:49:34', null, '2014-10-20 19:49:34', null, '0');
-
+INSERT INTO `code_table` VALUES ('32', '10', 'status', '停用', '停用', '10', '2014-10-30 00:09:10', '1', '2014-10-30 00:09:10', '1', '0');
+INSERT INTO `code_table` VALUES ('33', '70', 'status', '启用', '启用', '20', '2014-10-30 00:09:02', '1', '2014-10-30 00:09:02', '1', '0');
 
 INSERT INTO `menu` VALUES (1, 10, '首页', 'index', '1', 100000000, NULL, '2014-9-13 11:13:02', NULL, '2014-9-13 11:13:02', NULL, '1');
 INSERT INTO `menu` VALUES (2, 20, '动漫', 'cartoon', '1', 200000000, NULL, '2014-9-13 14:43:09', NULL, '2014-9-13 14:43:09', NULL, '1');
