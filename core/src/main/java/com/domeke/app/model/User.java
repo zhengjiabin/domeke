@@ -139,4 +139,47 @@ public class User extends Model<User> {
 		Db.update(sql);
 	}
 	
+	/**
+	 * @param clomname
+	 * @param param
+	 * @returnt统计用户的注册情况
+	 */
+	public Long countUser(String clomname,String param){
+		String sql = "";
+		if(clomname !=null && param!=null){
+			 sql = "select count(userid) from user where "+clomname+" = '"+param+"'";
+		}else{
+			 sql = "select count(userid) from user";
+		}
+		Long count = Db.queryLong(sql);
+		return count;
+	}
+	
+	/**
+	 * @param starPeas 
+	 * @param endPeas
+	 * @return统计用户的豆子数
+	 */
+	public Long countPeas(String starPeas,String endPeas){
+		String sql = "";
+		if(starPeas !=null && endPeas!=null){
+			 sql = "select count(userid) from user where peas BETWEEN '"+starPeas+"' and '"+endPeas+"'";
+		}
+		Long count = Db.queryLong(sql);
+		return count;
+	}
+	
+	/**
+	 * @param starPeas 
+	 * @param endPeas
+	 * @return统计用户的积分数
+	 */
+	public Long countPoint(String starPeas,String endPeas){
+		String sql = "";
+		if(starPeas !=null && endPeas!=null){
+			 sql = "select count(userid) from user where point BETWEEN '"+starPeas+"' and '"+endPeas+"'";
+		}
+		Long count = Db.queryLong(sql);
+		return count;
+	}
 }
