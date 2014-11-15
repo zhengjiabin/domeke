@@ -405,13 +405,13 @@ public class GoodsController extends FilesLoadController {
 	 * 鍟嗗搧鏄庣粏
 	 */
 	public void getGoodsDetail(){
-		goodsUtil();
+		goodsUtil("/ShopCentre.html");
 		//render("/ShopCentre.html");
 	}
 	/**
 	 * 鍟嗗搧淇℃伅鎷艰
 	 */
-	public void goodsUtil(){
+	public void goodsUtil(String url){
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
 		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
@@ -444,7 +444,7 @@ public class GoodsController extends FilesLoadController {
 		}
 		setAttr("flag", flag);
 		String action = "/comment/setPage";
-		setAttr("render", "/ShopCentre.html");
+		setAttr("render", url);
 		setAttr("targetId", getParaToInt("goodsid"));
 		setAttr("idtype", "60");
 		forwardAction(action);
@@ -455,8 +455,9 @@ public class GoodsController extends FilesLoadController {
 		int sumLove = Goods.dao.getSumLove(goodsId);
 		setSessionAttr(goodsId+"", goodsId);
 		setAttr("sumLove", sumLove);
-		goodsUtil();
-		render("/ShopDtl.html");
+		String url = "/ShopDtl.html";
+		goodsUtil(url);
+		//render("/ShopDtl.html");
 	}
 
 	/**
@@ -582,7 +583,7 @@ public class GoodsController extends FilesLoadController {
 		Long dougprice = goodsModel.get("dougprice");
 		Map<String,Object> changeMap = getPeas(dougprice);
 		reducePeas(changeMap);
-		goodsUtil();
+		goodsUtil("/ShopCentre.html");
 		//render("/ShopCentre.html");
 		//redirect("/orders/byGoods");
 	}
