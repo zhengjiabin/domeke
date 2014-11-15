@@ -47,11 +47,6 @@ function checknull(obj) {
 		alert("价格输入有误！");
 		return false;
 	}
-	var doug = new RegExp("^[0-9]*[1-9][0-9]*$");
-	if (document.getElementById("dougprice").value != 0 && (document.getElementById("dougprice").value!=null && document.getElementById("dougprice").value!="" && !doug.test(document.getElementById("dougprice").value))){
-		alert("豆豆价格输入有误,必须为正整数！");
-		return false;
-	}
 	if (document.getElementById("oldprice").value!=null && document.getElementById("oldprice").value!="" && !my.test(document.getElementById("oldprice").value)){
 		alert("历史价格输入有误！");
 		return false;
@@ -80,11 +75,6 @@ function upchecknull(obj) {
 	var my = new RegExp(money);
 	if (!my.test(document.getElementById("price").value)){
 		alert("价格输入有误！");
-		return false;
-	}
-	var doug = new RegExp("^[0-9]*[1-9][0-9]*$");
-	if (document.getElementById("dougprice").value != 0 && (document.getElementById("dougprice").value!=null && document.getElementById("dougprice").value!="" && !doug.test(document.getElementById("dougprice").value))){
-		alert("豆豆价格输入有误,必须为正整数！");
 		return false;
 	}
 	if (document.getElementById("oldprice").value!=null && document.getElementById("oldprice").value!="" && !my.test(document.getElementById("oldprice").value)){

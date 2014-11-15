@@ -21,7 +21,7 @@
         	<span class='font_r' style="color: red"> *</span><br>
         	商品价格：<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
-        	豆豆价格：<input id="dougprice" name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
+        	豆豆价格：<input id="dougprice" onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
         	历史价格：<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
         	<div id="preview"></div>
         	商品主图：<input id="fileImage" type="file" size="30" name="pic" onchange="onUploadImgChange(this)" required="required" /><span class='font_r' style="color: red"> *</span><br>
@@ -44,64 +44,28 @@
         	商品类别1：<select id="goodsattr1" name="goods.goodsattr1" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择======</option>
         		<% 
-        		for(gt in goodsType!){
-        			if (gt.level == 2){
+        		for(gt in goodsType1!){
         		%>
-        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 	} else if (gt.level == 3) {
-        		%>
-        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 	} else if (gt.level == 4) {
-        		%>
-        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<%
-        			} else {
-        			%>
         			<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
-        			<%
-        			}
+        		<% 
         		} %>
         	</select><br>
         	商品类别2：<select id="goodsattr2" name="goods.goodsattr2" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择======</option>
         		<% 
-        		for(gt in goodsType!){
-        			if (gt.level == 2){
+        		for(gt in goodsType2!){
         		%>
-        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 	} else if (gt.level == 3) {
-        		%>
-        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 	} else if (gt.level == 4) {
-        		%>
-        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<%
-        			} else {
-        			%>
         			<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
-        			<%
-        			}
+        		<% 
         		} %>
         	</select><br>
         	商品类别3：<select id="goodsattr3" name="goods.goodsattr3" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择======</option>
         		<% 
-        		for(gt in goodsType!){
-        			if (gt.level == 2){
+        		for(gt in goodsType3!){
         		%>
-        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 	} else if (gt.level == 3) {
-        		%>
-        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 	} else if (gt.level == 4) {
-        		%>
-        			<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<%
-        			} else {
-        			%>
         			<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
-        			<%
-        			}
+        		<% 	
         		} %>
         	</select><br>
         <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>

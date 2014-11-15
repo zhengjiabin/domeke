@@ -165,10 +165,14 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	public void addGoods() {
-		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
 		List<CodeTable> statusList = CodeKit.getList("status");
 		setAttr("statusList", statusList);
-		setAttr("goodsType", goodsType);
+		List<GoodsType> goodsType1 = GoodsType.gtDao.getLevelGoodsType("1");
+		List<GoodsType> goodsType2 = GoodsType.gtDao.getLevelGoodsType("2");
+		List<GoodsType> goodsType3 = GoodsType.gtDao.getLevelGoodsType("3");
+		setAttr("goodsType1", goodsType1);
+		setAttr("goodsType2", goodsType2);
+		setAttr("goodsType3", goodsType3);
 		render("/admin/admin_addGoods.html");
 	}
 
@@ -183,10 +187,14 @@ public class GoodsController extends FilesLoadController {
 		if (headimg != null && !"".equals(headimg)) {
 			headimgs = this.getFileUrls(headimg);	
 		}
-		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
 		List<CodeTable> statusList = CodeKit.getList("status");
 		setAttr("statusList", statusList);
-		setAttr("goodsType", goodsType);
+		List<GoodsType> goodsType1 = GoodsType.gtDao.getLevelGoodsType("1");
+		List<GoodsType> goodsType2 = GoodsType.gtDao.getLevelGoodsType("2");
+		List<GoodsType> goodsType3 = GoodsType.gtDao.getLevelGoodsType("3");
+		setAttr("goodsType1", goodsType1);
+		setAttr("goodsType2", goodsType2);
+		setAttr("goodsType3", goodsType3);
 		setAttr("headimgs", headimgs);
 		setAttr("goods", goods);
 		render("/admin/admin_goodsMsg.html");
