@@ -21,10 +21,12 @@
         	<input name="orderDetail.ordernum" value="${orderdetail.ordernum!}" type="text" class="span6 m-wrap" readonly="true"/><br>        	
         	<label class="control-label">商品名称：</label>
         	<input name="orderDetail.goodsname" value="${orderdetail.goodsname!}" type="text" class="span6 m-wrap" readonly="true"/><br>
-        	<label class="control-label">商品价格：</label>
+        	<label class="control-label">商品单价：</label>
         	<input name="orderDetail.goodsprice" value="${orderdetail.goodsprice!}" type="text" class="span6 m-wrap" readonly="true"/><br>
         	<label class="control-label">购买数量：</label>
         	<input name="orderDetail.goodsnum" value="${orderdetail.goodsnum!}" type="text" class="span6 m-wrap" style="ime-mode:Disabled;" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/><br>
+        	<label class="control-label">商品总价：</label>
+        	<input name="orderDetail.goodsprice" value="${orderdetail.goodsprice!*orderdetail.goodsnum!}" type="text" class="span6 m-wrap" readonly="true"/><br>
         	<label class="control-label">收件人：</label>
         	<input name="orders.realname" value="${orders.realname!}" type="text" class="span6 m-wrap"/><br>
         	<label class="control-label">收件地址：</label>

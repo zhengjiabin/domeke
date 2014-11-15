@@ -6,8 +6,9 @@
 								<th>序号</th>
 								<th>订单编号</th>
 								<th>商品名称</th>
-								<th>商品价格</th>
+								<th>商品单价</th>
 								<th>商品总数</th>
+								<th>商品总价</th>
 								<th>是否支付</th>
 								<th>是否发货</th>
 								<th>操作</th>
@@ -24,6 +25,7 @@
 									<%}}%>
 									<td>${ord.goodsprice!}</td>
 									<td>${ord.goodsnum!}</td>
+									<td>${ord.goodsprice!*ord.goodsnum!}</td>
 									<%for(or in ordList.list){%>
 										<% if(ord.orderid == or.orderid){ %>
 											<% if(or.isPay=="Y") { %>
