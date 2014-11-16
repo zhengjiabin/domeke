@@ -588,6 +588,7 @@ public class GoodsController extends FilesLoadController {
 		orderDetail.set("goodsname", goodsModel.get("goodsname"));
 		orderDetail.set("goodsid", goodsModel.get("goodsid"));
 		orderDetail.set("goodsprice", goodsModel.get("dougprice"));
+		orderDetail.set("userid", userModel.get("userid"));
 		userModel.update();
 		setAttr("orders", orders);
 		setAttr("goods", goodsModel);

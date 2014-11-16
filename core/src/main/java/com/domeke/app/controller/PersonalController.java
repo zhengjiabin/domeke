@@ -1,12 +1,16 @@
 package com.domeke.app.controller;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Activity;
 import com.domeke.app.model.DownLoad;
+import com.domeke.app.model.Goods;
 import com.domeke.app.model.OfWonders;
+import com.domeke.app.model.OrderDetail;
+import com.domeke.app.model.Orders;
 import com.domeke.app.model.PlayCount;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.Treasure;
@@ -39,6 +43,7 @@ public class PersonalController extends  FilesLoadController{
 		postPage(mid,userId);
 		treasurePage(mid,userId);
 		ofWondersPage(mid,userId);
+		myOrdersPage(mid,userId);
 		render("/personalCenter.html");
 	}
 	public void forMyProductionPage(){
@@ -112,7 +117,43 @@ public class PersonalController extends  FilesLoadController{
 		Page<Treasure> treasurePage = Treasure.dao.findByUserId(userId, pageNumber, pageSize);
 		setAttr("treasurePage", treasurePage);
 	}
-	
+	/**
+	 * 加载我发布的宝贝
+	 */
+	private void myOrdersPage(String minuId,Long userId){
+		if(!"19".equals(minuId)){
+			return;
+		}
+		//分页码
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		//订单主表分页
+		Orders orders = getModel(Orders.class);
+		Page<Orders> ordersList = orders.getAllOrders(pageNumber,pageSize);
+		//订单详细表分页
+		OrderDetail orderdetail = getModel(OrderDetail.class);
+		Page<OrderDetail> orderDetailList = orderdetail.getOrdersByUserId(null, null,pageNumber,pageSize,userId);
+		List<Goods> goodsList = Goods.dao.queryAllGoodsInfo();
+		setAttr("ordList", ordersList);
+		setAttr("ordetailList", orderDetailList);
+		setAttr("goodsList", goodsList);
+	}
+	public void upIsReceipt(){
+		Orders orders = getModel(Orders.class);
+		String isReceipt = getPara("isreceipt");
+		String orderId = getPara("orderid");
+		if ("N".equals(isReceipt)){
+			isReceipt = "Y";
+		}else{
+			isReceipt = "N";
+		}
+		orders.updateIsreceipt(orderId, isReceipt);;
+		String menuId = "19";
+		User user = getSessionAttr("user");
+		Long userId = user.getLong("userid");
+		myOrdersPage(menuId, userId);
+		renderPersonal(menuId);	
+	}
 	/**
 	 * 加载我发布的无奇不有
 	 */

@@ -12,6 +12,10 @@ public class OrderDetail extends Model<OrderDetail>{
 		Page<OrderDetail> page = this.paginate(pageNumber, pageSize, "select * ", "from order_detail");
 		return page;
 	}
+	public Page<OrderDetail> getOrdersByUserId(Long orderid,String param,int pageNumber,int pageSize,Long userId){
+		Page<OrderDetail> page = this.paginate(pageNumber, pageSize, "select * ", "from order_detail where userid = " + userId);
+		return page;
+	}
 	
 	public void deleteOrd(String ordId){
 		String sql = "select orderdetailid from order_detail where orderid='"+ordId+"'";

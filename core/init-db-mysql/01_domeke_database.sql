@@ -633,6 +633,7 @@ CREATE TABLE `order_detail` (
   `goodsprice` decimal(13,2) DEFAULT NULL,
   `goodsnum` bigint(20) DEFAULT NULL,
   `paytype` varchar(4) DEFAULT NULL COMMENT '支付类型：金钱，豆豆，优惠券',
+  `userid` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`orderdetailid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
@@ -649,10 +650,11 @@ CREATE TABLE `orders` (
   `orderPhone` varchar(32) DEFAULT NULL COMMENT '收货人电话',
   `postage` float(7,2) DEFAULT NULL COMMENT '邮费',
   `creater` bigint(20) DEFAULT NULL,
-  `creattime` timestamp NULL DEFAULT NULL,
+  `creattime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updater` bigint(20) DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL,
   `realname` varchar(12) DEFAULT NULL COMMENT '收件人',
+  `isreceipt` varchar(4) DEFAULT 'N' COMMENT '是否收货',
   PRIMARY KEY (`orderid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
