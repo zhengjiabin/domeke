@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.CodeTable;
@@ -18,6 +19,7 @@ import com.domeke.app.model.Orders;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
+import com.domeke.app.utils.FileLoadKit;
 import com.domeke.app.validator.OrderValidator;
 import com.google.common.collect.Lists;
 import com.jfinal.aop.Before;
@@ -34,6 +36,10 @@ import com.jfinal.upload.UploadFile;
 @ControllerBind(controllerKey = "goods")
 @Before(LoginInterceptor.class)
 public class GoodsController extends FilesLoadController {
+	
+	private static String saveFolderName = "/goods";
+	private static int maxPostSize = 200 * 1024 * 1024;
+	private static String encoding = "UTF-8";
 
 	/**
 	 * to绠＄悊鐣岄潰
@@ -66,14 +72,13 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public void saveGoods() {
 		try {
-			long timeMillis = System.currentTimeMillis();
-			String fileNmae = Long.toString(timeMillis);
-			String picturePath = upLoadFileNotDealPath("pic", fileNmae, 200 * 1024 * 1024, "utf-8");
-			String[] strs = picturePath.split("\\\\");
-			int leng = strs.length;
-			String headimg = upLoadFilesNotDealPath(fileNmae, 200 * 1024 * 1024, "utf-8");
+			UUID uuid = UUID.randomUUID();
+			String saveDirectory = saveFolderName + "/" + uuid.toString();
+			Map<String, String> uploadPath = FileLoadKit.uploadImgs(this, saveDirectory, maxPostSize, encoding);
+			String pic = uploadPath.get("pic");
+			String headimg = uploadPath.get("headimg");
 			Goods goods = getModel(Goods.class);
-			goods.set("pic", strs[leng - 1]);
+			goods.set("pic", pic);
 			goods.set("headimg", headimg);
 			// 鍙敼涓鸿幏鍙栧綋鍓嶇敤鎴风殑鍚嶅瓧鎴栬�匢D
 			goods.set("creater", 111111);

@@ -38,7 +38,8 @@ public class OreillyCos {
 	
 	private static void detectOreillyCos() {
 		try {
-			Class.forName("com.oreilly.servlet.MultipartRequest");
+//			Class.forName("com.oreilly.servlet.MultipartRequest");
+			Class.forName("com.domeke.app.cos.MultipartRequest");
 			isMultipartSupported = true;
 		} catch (ClassNotFoundException e) {
 			isMultipartSupported = false;

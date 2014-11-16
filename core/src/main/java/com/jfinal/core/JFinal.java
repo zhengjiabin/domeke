@@ -18,7 +18,9 @@ package com.jfinal.core;
 
 import java.io.File;
 import java.util.List;
+
 import javax.servlet.ServletContext;
+
 import com.jfinal.config.Constants;
 import com.jfinal.config.JFinalConfig;
 import com.jfinal.handler.Handler;
@@ -99,7 +101,7 @@ public final class JFinal {
 		if (OreillyCos.isMultipartSupported()) {
 			String uploadedFileSaveDirectory = ct.getUploadedFileSaveDirectory();
 			if (uploadedFileSaveDirectory == null || "".equals(uploadedFileSaveDirectory.trim())) {
-				uploadedFileSaveDirectory = PathKit.getWebRootPath() + File.separator + "upload" + File.separator;
+				uploadedFileSaveDirectory = PathKit.getWebRootPath() + File.separator;
 				ct.setUploadedFileSaveDirectory(uploadedFileSaveDirectory);
 				
 				/*File file = new File(uploadedFileSaveDirectory);

@@ -21,7 +21,7 @@ import java.io.File;
 /**
  * UploadFile.
  */
-public class UploadFile {
+public class UploadFile implements FileloadInterface{
 	
 	private String parameterName;
 	

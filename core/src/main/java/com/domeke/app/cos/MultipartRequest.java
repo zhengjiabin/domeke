@@ -6,19 +6,25 @@ package com.domeke.app.cos;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpUtils;
 
+import com.domeke.app.cos.multipart.DefaultFileRenamePolicy;
 import com.domeke.app.cos.multipart.FilePart;
-import com.domeke.app.cos.multipart.FileRenamePolicy;
 import com.domeke.app.cos.multipart.MultipartParser;
 import com.domeke.app.cos.multipart.ParamPart;
 import com.domeke.app.cos.multipart.Part;
+import com.jfinal.upload.FileloadInterface;
+import com.jfinal.upload.RequestParse;
 
 /**
  * A utility class to handle <code>multipart/form-data</code> requests, the kind
@@ -67,13 +73,14 @@ import com.domeke.app.cos.multipart.Part;
  * @version 1.0, 1998/09/18<br>
  */
 @SuppressWarnings("deprecation")
-public class MultipartRequest {
+public class MultipartRequest implements RequestParse{
 
 	private static final int DEFAULT_MAX_POST_SIZE = 1024 * 1024; // 1 Meg
+	private static final DefaultFileRenamePolicy policy = new DefaultFileRenamePolicy();
 
-	protected Hashtable parameters = new Hashtable(); // name - Vector of values
-	protected Hashtable files = new Hashtable(); // name - UploadedFile
-
+	protected Map<String, Vector<String>> parameters = new Hashtable<String,Vector<String>>(); // name - Vector of values
+	protected Collection<FileloadInterface> files = new ArrayList<FileloadInterface>(); // name - UploadedFile
+	
 	/**
 	 * Constructs a new MultipartRequest to handle the specified request, saving
 	 * any uploaded files to the given directory, and limiting the upload size
@@ -107,30 +114,6 @@ public class MultipartRequest {
 	 *            the servlet request.
 	 * @param saveDirectory
 	 *            the directory in which to save any uploaded files.
-	 * @param maxPostSize
-	 *            the maximum size of the POST content.
-	 * @exception IOException
-	 *                if the uploaded content is larger than
-	 *                <tt>maxPostSize</tt> or there's a problem reading or
-	 *                parsing the request.
-	 */
-	public MultipartRequest(HttpServletRequest request, String saveDirectory,
-			int maxPostSize) throws IOException {
-		this(request, saveDirectory, maxPostSize, null, null);
-	}
-
-	/**
-	 * Constructs a new MultipartRequest to handle the specified request, saving
-	 * any uploaded files to the given directory, and limiting the upload size
-	 * to the specified length. If the content is too large, an IOException is
-	 * thrown. This constructor actually parses the <tt>multipart/form-data</tt>
-	 * and throws an IOException if there's any problem reading or parsing the
-	 * request.
-	 *
-	 * @param request
-	 *            the servlet request.
-	 * @param saveDirectory
-	 *            the directory in which to save any uploaded files.
 	 * @param encoding
 	 *            the encoding of the response, such as ISO-8859-1
 	 * @exception IOException
@@ -139,7 +122,7 @@ public class MultipartRequest {
 	 */
 	public MultipartRequest(HttpServletRequest request, String saveDirectory,
 			String encoding) throws IOException {
-		this(request, saveDirectory, DEFAULT_MAX_POST_SIZE, encoding, null);
+		this(request, saveDirectory, DEFAULT_MAX_POST_SIZE, encoding);
 	}
 
 	/**
@@ -164,34 +147,34 @@ public class MultipartRequest {
 	 *                parsing the request.
 	 */
 	public MultipartRequest(HttpServletRequest request, String saveDirectory,
-			int maxPostSize, FileRenamePolicy policy) throws IOException {
-		this(request, saveDirectory, maxPostSize, null, policy);
+			int maxPostSize) throws IOException {
+		this(request, saveDirectory, maxPostSize, null);
+	}
+	
+	/**
+	 * Constructor with an old signature, kept for backward compatibility.
+	 * Without this constructor, a servlet compiled against a previous version
+	 * of this class (pre 1.4) would have to be recompiled to link with this
+	 * version. This constructor supports the linking via the old signature.
+	 * Callers must simply be careful to pass in an HttpServletRequest.
+	 * 
+	 */
+	public MultipartRequest(ServletRequest request, String saveDirectory)
+			throws IOException {
+		this((HttpServletRequest) request, saveDirectory);
 	}
 
 	/**
-	 * Constructs a new MultipartRequest to handle the specified request, saving
-	 * any uploaded files to the given directory, and limiting the upload size
-	 * to the specified length. If the content is too large, an IOException is
-	 * thrown. This constructor actually parses the <tt>multipart/form-data</tt>
-	 * and throws an IOException if there's any problem reading or parsing the
-	 * request.
-	 *
-	 * @param request
-	 *            the servlet request.
-	 * @param saveDirectory
-	 *            the directory in which to save any uploaded files.
-	 * @param maxPostSize
-	 *            the maximum size of the POST content.
-	 * @param encoding
-	 *            the encoding of the response, such as ISO-8859-1
-	 * @exception IOException
-	 *                if the uploaded content is larger than
-	 *                <tt>maxPostSize</tt> or there's a problem reading or
-	 *                parsing the request.
+	 * Constructor with an old signature, kept for backward compatibility.
+	 * Without this constructor, a servlet compiled against a previous version
+	 * of this class (pre 1.4) would have to be recompiled to link with this
+	 * version. This constructor supports the linking via the old signature.
+	 * Callers must simply be careful to pass in an HttpServletRequest.
+	 * 
 	 */
-	public MultipartRequest(HttpServletRequest request, String saveDirectory,
-			int maxPostSize, String encoding) throws IOException {
-		this(request, saveDirectory, maxPostSize, encoding, null);
+	public MultipartRequest(ServletRequest request, String saveDirectory,
+			int maxPostSize) throws IOException {
+		this((HttpServletRequest) request, saveDirectory, maxPostSize);
 	}
 
 	/**
@@ -220,291 +203,190 @@ public class MultipartRequest {
 	 *                <tt>maxPostSize</tt> or there's a problem reading or
 	 *                parsing the request.
 	 */
-	public MultipartRequest(HttpServletRequest request, String saveDirectory,
-			int maxPostSize, String encoding, FileRenamePolicy policy)
-			throws IOException {
-		// Sanity check values
-		if (request == null)
+	public MultipartRequest(HttpServletRequest request, String saveDirectory, int maxPostSize, String encoding) throws IOException {
+		parseRequest(request, saveDirectory, maxPostSize, encoding);
+	}
+	
+	/**
+	 * 判断参数是否规范
+	 */
+	private void parseBeforeCheck(HttpServletRequest request, String saveDirectory, int maxPostSize){
+		if (request == null){
 			throw new IllegalArgumentException("request cannot be null");
-		if (saveDirectory == null)
+		}
+		if (saveDirectory == null){
 			throw new IllegalArgumentException("saveDirectory cannot be null");
+		}
 		if (maxPostSize <= 0) {
 			throw new IllegalArgumentException("maxPostSize must be positive");
 		}
-
-		// Save the dir
 		File dir = new File(saveDirectory);
-
-		// Check saveDirectory is truly a directory
-		if (!dir.isDirectory())
-			throw new IllegalArgumentException("Not a directory: "
-					+ saveDirectory);
-
-		// Check saveDirectory is writable
-		if (!dir.canWrite())
+		if (!dir.isDirectory()){
+			throw new IllegalArgumentException("Not a directory: " + saveDirectory);
+		}
+		if (!dir.canWrite()){
 			throw new IllegalArgumentException("Not writable: " + saveDirectory);
-
-		// Parse the incoming multipart, storing files in the dir provided,
-		// and populate the meta objects which describe what we found
-		MultipartParser parser = new MultipartParser(request, maxPostSize,
-				true, true, encoding);
-
-		// Some people like to fetch query string parameters from
-		// MultipartRequest, so here we make that possible. Thanks to
-		// Ben Johnson, ben.johnson@merrillcorp.com, for the idea.
+		}
+	}
+	
+	/**
+	 * 处理请求参数
+	 * @param parser
+	 */
+	private void parseQuery(HttpServletRequest request, MultipartParser parser){
 		if (request.getQueryString() != null) {
 			// Let HttpUtils create a name->String[] structure
-			Hashtable queryParameters = HttpUtils.parseQueryString(request
-					.getQueryString());
+			Hashtable<String, String[]> queryParameters = HttpUtils.parseQueryString(request.getQueryString());
 			// For our own use, name it a name->Vector structure
-			Enumeration queryParameterNames = queryParameters.keys();
+			Enumeration<String> queryParameterNames = queryParameters.keys();
+			String paramName = null;
 			while (queryParameterNames.hasMoreElements()) {
-				Object paramName = queryParameterNames.nextElement();
+				paramName = queryParameterNames.nextElement();
 				String[] values = (String[]) queryParameters.get(paramName);
-				Vector newValues = new Vector();
+				Vector<String> newValues = new Vector<String>();
 				for (int i = 0; i < values.length; i++) {
 					newValues.add(values[i]);
 				}
 				parameters.put(paramName, newValues);
 			}
 		}
-
+	}
+	
+	/**
+	 * 处理请求信息
+	 * @throws IOException 
+	 * @throws UnsupportedEncodingException 
+	 */
+	private void parsePart(MultipartParser parser, String saveDirectory) throws IOException{
+		File dir = new File(saveDirectory);
 		Part part;
 		while ((part = parser.readNextPart()) != null) {
 			String name = part.getName();
 			if (name == null) {
-				throw new IOException(
-						"Malformed input: parameter name missing (known Opera 7 bug)");
+				throw new IOException("Malformed input: parameter name missing (known Opera 7 bug)");
 			}
-			if (part.isParam()) {
-				// It's a parameter part, add it to the vector of values
-				ParamPart paramPart = (ParamPart) part;
-				String value = paramPart.getStringValue();
-				Vector existingValues = (Vector) parameters.get(name);
-				if (existingValues == null) {
-					existingValues = new Vector();
-					parameters.put(name, existingValues);
-				}
-				existingValues.addElement(value);
-			} else if (part.isFile()) {
-				// It's a file part
-				FilePart filePart = (FilePart) part;
-				String fileName = filePart.getFileName();
-				if (fileName != null) {
-					filePart.setRenamePolicy(policy); // null policy is OK
-					// The part actually contained a file
-					filePart.writeTo(dir);
-					files.put(
-							name,
-							new UploadedFile(dir.toString(), filePart
-									.getFileName(), fileName, filePart
-									.getContentType()));
-				} else {
-					// The field did not contain a file
-					files.put(name, new UploadedFile(null, null, null, null));
-				}
-			}
+			parseParam(part, name);
+			parseFiles(part, dir, name);
 		}
 	}
-
+	
 	/**
-	 * Constructor with an old signature, kept for backward compatibility.
-	 * Without this constructor, a servlet compiled against a previous version
-	 * of this class (pre 1.4) would have to be recompiled to link with this
-	 * version. This constructor supports the linking via the old signature.
-	 * Callers must simply be careful to pass in an HttpServletRequest.
-	 * 
+	 * 解析参数
+	 * @param part
+	 * @throws UnsupportedEncodingException 
 	 */
-	public MultipartRequest(ServletRequest request, String saveDirectory)
-			throws IOException {
-		this((HttpServletRequest) request, saveDirectory);
-	}
-
-	/**
-	 * Constructor with an old signature, kept for backward compatibility.
-	 * Without this constructor, a servlet compiled against a previous version
-	 * of this class (pre 1.4) would have to be recompiled to link with this
-	 * version. This constructor supports the linking via the old signature.
-	 * Callers must simply be careful to pass in an HttpServletRequest.
-	 * 
-	 */
-	public MultipartRequest(ServletRequest request, String saveDirectory,
-			int maxPostSize) throws IOException {
-		this((HttpServletRequest) request, saveDirectory, maxPostSize);
-	}
-
-	/**
-	 * Returns the names of all the parameters as an Enumeration of Strings. It
-	 * returns an empty Enumeration if there are no parameters.
-	 *
-	 * @return the names of all the parameters as an Enumeration of Strings.
-	 */
-	public Enumeration getParameterNames() {
-		return parameters.keys();
-	}
-
-	/**
-	 * Returns the names of all the uploaded files as an Enumeration of Strings.
-	 * It returns an empty Enumeration if there are no file input fields on the
-	 * form. Any file input field that's left empty will result in a FilePart
-	 * with null contents. Each file name is the name specified by the form, not
-	 * by the user.
-	 *
-	 * @return the names of all the uploaded files as an Enumeration of Strings.
-	 */
-	public Enumeration getFileNames() {
-		return files.keys();
-	}
-
-	/**
-	 * Returns the value of the named parameter as a String, or null if the
-	 * parameter was not sent or was sent without a value. The value is
-	 * guaranteed to be in its normal, decoded form. If the parameter has
-	 * multiple values, only the last one is returned (for backward
-	 * compatibility). For parameters with multiple values, it's possible the
-	 * last "value" may be null.
-	 *
-	 * @param name
-	 *            the parameter name.
-	 * @return the parameter value.
-	 */
-	public String getParameter(String name) {
-		try {
-			Vector values = (Vector) parameters.get(name);
-			if (values == null || values.size() == 0) {
-				return null;
-			}
-			String value = (String) values.elementAt(values.size() - 1);
-			return value;
-		} catch (Exception e) {
-			return null;
+	private void parseParam(Part part, String name) throws UnsupportedEncodingException{
+		if (!part.isParam()) {
+			return;
 		}
+		ParamPart paramPart = (ParamPart) part;
+		String value = paramPart.getStringValue();
+		Vector<String> existingValues = parameters.get(name);
+		if (existingValues == null) {
+			existingValues = new Vector<String>();
+			parameters.put(name, existingValues);
+		}
+		existingValues.addElement(value);
+	}
+	
+	/**
+	 * 解析文件
+	 * @throws IOException 
+	 */
+	private void parseFiles(Part part, File dir, String name) throws IOException{
+		if (!part.isFile()) {
+			return;
+		}
+		FilePart filePart = (FilePart) part;
+		String fileName = filePart.getFileName();
+		FileloadInterface fileload = null;
+		if (fileName != null) {
+			filePart.setRenamePolicy(policy);
+			filePart.writeTo(dir);
+			fileload = new UploadedFile(name, dir.toString(), filePart.getFileName(), fileName, filePart.getContentType());
+		} else {
+			fileload = new UploadedFile(name, null, null, null, null);
+		}
+		files.add(fileload);
+	}
+	
+	/**
+	 * 解析请求
+	 * @param request
+	 * @param saveDirectory
+	 * @param maxPostSize
+	 * @param encoding
+	 */
+	private void  parseRequest(HttpServletRequest request, String saveDirectory, int maxPostSize, String encoding) throws IOException{
+		parseBeforeCheck(request, saveDirectory, maxPostSize);
+		MultipartParser parser = new MultipartParser(request, maxPostSize, true, true, encoding);
+		parseQuery(request, parser);
+		parsePart(parser, saveDirectory);
 	}
 
-	/**
-	 * Returns the values of the named parameter as a String array, or null if
-	 * the parameter was not sent. The array has one entry for each parameter
-	 * field sent. If any field was sent without a value that entry is stored in
-	 * the array as a null. The values are guaranteed to be in their normal,
-	 * decoded form. A single value is returned as a one-element array.
-	 *
-	 * @param name
-	 *            the parameter name.
-	 * @return the parameter values.
-	 */
-	public String[] getParameterValues(String name) {
-		try {
-			Vector values = (Vector) parameters.get(name);
-			if (values == null || values.size() == 0) {
-				return null;
-			}
-			String[] valuesArray = new String[values.size()];
-			values.copyInto(valuesArray);
-			return valuesArray;
-		} catch (Exception e) {
-			return null;
-		}
+	@Override
+	public Collection<FileloadInterface> getFiles() {
+		return files;
 	}
 
-	/**
-	 * Returns the filesystem name of the specified file, or null if the file
-	 * was not included in the upload. A filesystem name is the name specified
-	 * by the user. It is also the name under which the file is actually saved.
-	 *
-	 * @param name
-	 *            the html page's file parameter name.
-	 * @return the filesystem name of the file.
-	 */
-	public String getFilesystemName(String name) {
-		try {
-			UploadedFile file = (UploadedFile) files.get(name);
-			return file.getFilesystemName(); // may be null
-		} catch (Exception e) {
-			return null;
+	@Override
+	public Map<String, String[]> getParameters() {
+		Map<String, String[]> params = new Hashtable<String, String[]>();
+		Vector<String> values = null;
+		String[] paramValues = null;
+		for(String key:parameters.keySet()){
+			values = parameters.get(key);
+			paramValues = new String[values.size()];
+			values.copyInto(paramValues);
+			params.put(key, paramValues);
 		}
-	}
-
-	/**
-	 * Returns the original filesystem name of the specified file (before any
-	 * renaming policy was applied), or null if the file was not included in the
-	 * upload. A filesystem name is the name specified by the user.
-	 *
-	 * @param name
-	 *            the html page's file parameter name.
-	 * @return the original file name of the file.
-	 */
-	public String getOriginalFileName(String name) {
-		try {
-			UploadedFile file = (UploadedFile) files.get(name);
-			return file.getOriginalFileName(); // may be null
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 * Returns the content type of the specified file (as supplied by the client
-	 * browser), or null if the file was not included in the upload.
-	 *
-	 * @param name
-	 *            the html page's file parameter name.
-	 * @return the content type of the file.
-	 */
-	public String getContentType(String name) {
-		try {
-			UploadedFile file = (UploadedFile) files.get(name);
-			return file.getContentType(); // may be null
-		} catch (Exception e) {
-			return null;
-		}
-	}
-
-	/**
-	 * Returns a File object for the specified file saved on the server's
-	 * filesystem, or null if the file was not included in the upload.
-	 *
-	 * @param name
-	 *            the html page's file parameter name.
-	 * @return a File object for the named file.
-	 */
-	public File getFile(String name) {
-		try {
-			UploadedFile file = (UploadedFile) files.get(name);
-			return file.getFile(); // may be null
-		} catch (Exception e) {
-			return null;
-		}
+		return params;
 	}
 }
 
-// A class to hold information about an uploaded file.
-//
-class UploadedFile {
+class UploadedFile implements FileloadInterface{
 
 	private String dir;
+	private String parameterName;
+	private String saveDirectory;
 	private String filename;
 	private String original;
 	private String type;
 
-	UploadedFile(String dir, String filename, String original, String type) {
+	UploadedFile(String parameterName, String dir, String filename, String original, String type) {
+		this.parameterName = parameterName;
 		this.dir = dir;
 		this.filename = filename;
 		this.original = original;
 		this.type = type;
 	}
 
-	public String getContentType() {
-		return type;
+	@Override
+	public String getParameterName() {
+		return parameterName;
 	}
 
-	public String getFilesystemName() {
+	@Override
+	public String getFileName() {
 		return filename;
 	}
 
+	@Override
+	public String getSaveDirectory() {
+		return saveDirectory;
+	}
+
+	@Override
 	public String getOriginalFileName() {
 		return original;
 	}
 
+	@Override
+	public String getContentType() {
+		return type;
+	}
+
+	@Override
 	public File getFile() {
 		if (dir == null || filename == null) {
 			return null;
