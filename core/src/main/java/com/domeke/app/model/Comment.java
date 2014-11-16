@@ -19,7 +19,7 @@ public class Comment extends Model<Comment> {
 	 * 根据targetId查询子回复信息
 	 * 
 	 * @param targetId 回复目标
-	 * @param idtype 10:帖子，20:活动，30:宝贝，40:动漫
+	 * @param idtype 10:帖子，20:活动，30:宝贝，40:动漫，50:商城
 	 * 
 	 * @return
 	 */
@@ -47,7 +47,7 @@ public class Comment extends Model<Comment> {
 	 * 根据targetId查询子回复信息
 	 * 
 	 * @param targetId 回复目标
-	 * @param idtype 10:帖子，20:活动，30:宝贝，40:动漫
+	 * @param idtype 10:帖子，20:活动，30:宝贝，40:动漫，50:商城
 	 * 
 	 * @return
 	 */
@@ -56,7 +56,7 @@ public class Comment extends Model<Comment> {
 		sql.append(" from comment c left join user t on c.touserid = t.userid,user u where c.userid=u.userid ");
 		sql.append(" and c.status='10' and c.idtype=? and c.level=2 and c.targetid =? and c.pid=? ");
 		sql.append(" order by c.createtime");
-		List<Comment> list = this.find(sql.toString(), idtype,targetId);
+		List<Comment> list = this.find(sql.toString(), idtype,targetId,pId);
 		return list;
 	}
 
