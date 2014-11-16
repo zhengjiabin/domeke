@@ -85,6 +85,7 @@ INSERT INTO `menu` VALUES (54,NULL,'发布的活动','personal/forMyProduction?m
 INSERT INTO `menu` VALUES (55,NULL,'发布的帖子','personal/forMyProduction?menuId=16','2',200010042,8,NULL,NULL,NULL,NULL,'2');
 INSERT INTO `menu` VALUES (56,NULL,'发布的宝贝','personal/forMyProduction?menuId=17','2',200010043,8,NULL,NULL,NULL,NULL,'2');
 INSERT INTO `menu` VALUES (57,NULL,'我的无奇不有','personal/forMyProduction?menuId=18','2',200010070,8,NULL,NULL,NULL,NULL,'2');
+INSERT INTO `menu` VALUES (58,NULL,'我的订单','personal/forMyProduction?menuId=19','2',200010045,8,NULL,NULL,NULL,NULL,'2');
 
 INSERT INTO `goods_type` VALUES ('1', '家用电器', '#', '1', '10000000', null, '1');
 INSERT INTO `goods_type` VALUES ('2', '大家电', '#', '2', '10100000', '1', '1');
