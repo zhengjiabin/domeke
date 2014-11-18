@@ -31,11 +31,11 @@
 											<% if(or.isPay=="Y") { %>
 												<td>是</td>
 											<%}else{%>
-												<td>否</td>
+												<td style="color:#F00;font-weight:bold;">否</td>
 											<%}if(or.isDelivery=="Y"){%>
 												<td>是</td>
 											<%}else{%>
-												<td>否</td>
+												<td style="color:#F00;font-weight:bold;">否</td>
 											<%}%>
 											<td width="120">
 									<a href="order/upOrder?ordelid=${ord.orderdetailid!}&ordid=${or.orderid!}"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>
