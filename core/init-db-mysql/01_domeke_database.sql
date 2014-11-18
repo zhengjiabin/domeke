@@ -78,7 +78,7 @@ CREATE TABLE `work` (
   `worksid` bigint(20) NOT NULL COMMENT '父类ID',
   `worknum` int(10) DEFAULT '1' COMMENT '第几集',
   `workname` varchar(20) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '名称',
-  `workdes` varchar(255) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '简介',
+  `workdes` varchar(1024) COLLATE utf8_unicode_ci DEFAULT '' COMMENT '简介',
   `ischeck` tinyint(3) DEFAULT '0' COMMENT '0未审核 1已审核',
   `cover` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '每一集的封面',
   `comic` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '资源地址',

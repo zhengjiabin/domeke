@@ -212,6 +212,7 @@ public class Works extends Model<Works> {
 		if(!StrKit.isBlank(creater)){
 			form = form + " and creater = "+creater;
 		}
+		form = form + " order by createtime desc";
 		workslist = this.paginate(pageNum, pageSize, "select *", form);
 		return workslist;
 	}
