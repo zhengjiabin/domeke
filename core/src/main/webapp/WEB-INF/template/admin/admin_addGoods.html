@@ -133,9 +133,9 @@ function galevel2(str)
         	</select>
         	
         	商品类别1：<select id="goodsattr1" name="goods.goodsattr1" class="span6 m-wrap" onchange="galevel1(this.value)"> 
-        		<option value="" selected="selected">请选择======</option>
+        		<option value="">请选择======</option>
         		<% 
-        		for(gt in goodsType1!){
+        		for(gt in goodsType!){
         			if (gt.level == 1) {
         		%>
         			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
