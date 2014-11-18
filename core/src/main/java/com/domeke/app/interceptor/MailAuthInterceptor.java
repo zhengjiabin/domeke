@@ -29,8 +29,9 @@ public class MailAuthInterceptor implements Interceptor {
 	 @return
 	 */
 	private String getValidateCode(String email) {
-		String validateCode = EncryptKit.encryptMd5(email);
+		String validateCode = EncryptKit.EncryptMd5(email);
 		return validateCode;
+		
 	}
 
 	private void sendMail(Controller c) {

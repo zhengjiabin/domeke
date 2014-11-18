@@ -162,4 +162,23 @@ public class GoodsType extends Model<GoodsType> {
 		List<GoodsType> goodsTypeList = this.find("select * from goods_type order by sortnum");
 		return goodsTypeList;
 	}
+	
+	/**
+	 * 根据类型级次查询类型
+	 * @param level
+	 * @return
+	 */
+	public List<GoodsType> getLevelGoodsType(String level){
+		List<GoodsType> goodsTypeList = this
+				.find("select * from goods_type where level = '" + level
+						+ "' order by sortnum");
+		return goodsTypeList;
+	}
+	
+	public List<GoodsType> getptGoodsType(String parenttypeid) {
+		List<GoodsType> goodsTypeList = this
+				.find("select * from goods_type where parenttypeid = '"
+						+ parenttypeid + "'");
+		return goodsTypeList;
+	}
 }

@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.CodeTable;
@@ -18,6 +19,7 @@ import com.domeke.app.model.Orders;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
+import com.domeke.app.utils.FileLoadKit;
 import com.domeke.app.validator.OrderValidator;
 import com.google.common.collect.Lists;
 import com.jfinal.aop.Before;
@@ -26,7 +28,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
 
 /**
- * 商品model控制器
+ * 鍟嗗搧model鎺у埗鍣�
  * 
  * @author chenhailin
  *
@@ -34,9 +36,13 @@ import com.jfinal.upload.UploadFile;
 @ControllerBind(controllerKey = "goods")
 @Before(LoginInterceptor.class)
 public class GoodsController extends FilesLoadController {
+	
+	private static String saveFolderName = "/goods";
+	private static int maxPostSize = 200 * 1024 * 1024;
+	private static String encoding = "UTF-8";
 
 	/**
-	 * to管理界面
+	 * to绠＄悊鐣岄潰
 	 */
 	public void renderGoods() {
 		setGoodsPage(null);
@@ -44,7 +50,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 分页查询
+	 * 鍒嗛〉鏌ヨ
 	 */
 	public void setGoodsPage(String goods) {
 		int pageNumber = getParaToInt("pageNumber", 1);
@@ -62,20 +68,19 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 新增商品
+	 * 鏂板鍟嗗搧
 	 */
 	public void saveGoods() {
 		try {
-			long timeMillis = System.currentTimeMillis();
-			String fileNmae = Long.toString(timeMillis);
-			String picturePath = upLoadFileNotDealPath("pic", fileNmae, 200 * 1024 * 1024, "utf-8");
-			String[] strs = picturePath.split("\\\\");
-			int leng = strs.length;
-			String headimg = upLoadFilesNotDealPath(fileNmae, 200 * 1024 * 1024, "utf-8");
+			UUID uuid = UUID.randomUUID();
+			String saveDirectory = saveFolderName + "/" + uuid.toString();
+			Map<String, String> uploadPath = FileLoadKit.uploadImgs(this, saveDirectory, maxPostSize, encoding);
+			String pic = uploadPath.get("pic");
+			String headimg = uploadPath.get("headimg");
 			Goods goods = getModel(Goods.class);
-			goods.set("pic", strs[leng - 1]);
+			goods.set("pic", pic);
 			goods.set("headimg", headimg);
-			// 可改为获取当前用户的名字或者ID
+			// 鍙敼涓鸿幏鍙栧綋鍓嶇敤鎴风殑鍚嶅瓧鎴栬�匢D
 			goods.set("creater", 111111);
 			goods.set("modifier", 111111);
 			goods.saveGoodsInfo();
@@ -86,13 +91,13 @@ public class GoodsController extends FilesLoadController {
 			setAttr("goodsType", goodsType);
 			List<CodeTable> statusList = CodeKit.getList("status");
 			setAttr("statusList", statusList);
-			setAttr("msg", "保存失败！");
+			setAttr("msg", "淇濆瓨澶辫触锛�");
 			render("/admin/admin_addGoods.html");
 		}
 	}
 
 	/**
-	 * 遍历文件夹下的图片
+	 * 閬嶅巻鏂囦欢澶逛笅鐨勫浘鐗�
 	 */
 	final static String[] showAllFiles(File dir) {
 		File[] fs = dir.listFiles();
@@ -114,9 +119,9 @@ public class GoodsController extends FilesLoadController {
 	}
 	
 	/**
-	 * 获取指定路径下的所有文件域路径
-	 * @param url 指定文件夹路径
-	 * @return 返回指定路径下的所有文件域路径数组
+	 * 鑾峰彇鎸囧畾璺緞涓嬬殑鎵�鏈夋枃浠跺煙璺緞
+	 * @param url 鎸囧畾鏂囦欢澶硅矾寰�
+	 * @return 杩斿洖鎸囧畾璺緞涓嬬殑鎵�鏈夋枃浠跺煙璺緞鏁扮粍
 	 */
 	public List<String> getFileUrls(String url){
 //		url =getDomainNameFilePath(url);
@@ -133,9 +138,9 @@ public class GoodsController extends FilesLoadController {
 	}
 	
 	/**
-	 * 删除指定文件夹下的指定文件
-	 * @param url 文件夹路径
-	 * @param fileName 文件名称
+	 * 鍒犻櫎鎸囧畾鏂囦欢澶逛笅鐨勬寚瀹氭枃浠�
+	 * @param url 鏂囦欢澶硅矾寰�
+	 * @param fileName 鏂囦欢鍚嶇О
 	 */
 	public void deleteFile(String url, String fileName){
 		File folder = new File(url);
@@ -148,7 +153,7 @@ public class GoodsController extends FilesLoadController {
 	}
 	
 	/**
-	 * 删除图片
+	 * 鍒犻櫎鍥剧墖
 	 */
 	public void deleteImg() {
 		String url = getPara("url");
@@ -165,15 +170,21 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	public void addGoods() {
-		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
 		List<CodeTable> statusList = CodeKit.getList("status");
 		setAttr("statusList", statusList);
+		List<GoodsType> goodsType1 = GoodsType.gtDao.getLevelGoodsType("1");
+		List<GoodsType> goodsType2 = GoodsType.gtDao.getLevelGoodsType("2");
+		List<GoodsType> goodsType3 = GoodsType.gtDao.getLevelGoodsType("3");
+		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
 		setAttr("goodsType", goodsType);
+		setAttr("goodsType1", goodsType1);
+		setAttr("goodsType2", goodsType2);
+		setAttr("goodsType3", goodsType3);
 		render("/admin/admin_addGoods.html");
 	}
 
 	/**
-	 * 商品详情
+	 * 鍟嗗搧璇︽儏
 	 */
 	public void goodsMessage() {
 		Goods goodsModel = getModel(Goods.class);
@@ -183,17 +194,23 @@ public class GoodsController extends FilesLoadController {
 		if (headimg != null && !"".equals(headimg)) {
 			headimgs = this.getFileUrls(headimg);	
 		}
-		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
 		List<CodeTable> statusList = CodeKit.getList("status");
 		setAttr("statusList", statusList);
+		List<GoodsType> goodsType1 = GoodsType.gtDao.getLevelGoodsType("1");
+		List<GoodsType> goodsType2 = GoodsType.gtDao.getLevelGoodsType("2");
+		List<GoodsType> goodsType3 = GoodsType.gtDao.getLevelGoodsType("3");
+		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
 		setAttr("goodsType", goodsType);
+		setAttr("goodsType1", goodsType1);
+		setAttr("goodsType2", goodsType2);
+		setAttr("goodsType3", goodsType3);
 		setAttr("headimgs", headimgs);
 		setAttr("goods", goods);
 		render("/admin/admin_goodsMsg.html");
 	}
 	
 	/**
-	 * 删除商品
+	 * 鍒犻櫎鍟嗗搧
 	 */
 	public void deleteGoods() {
 		Goods goods = getModel(Goods.class);
@@ -202,7 +219,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 编辑商品
+	 * 缂栬緫鍟嗗搧
 	 */
 	public void updateGoods() {
 		String goodsId = getPara("goodsId");
@@ -232,8 +249,8 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 获取类型为types的叶子商品
-	 * @param params key=字段名，value=参赛值
+	 * 鑾峰彇绫诲瀷涓簍ypes鐨勫彾瀛愬晢鍝�
+	 * @param params key=瀛楁鍚嶏紝value=鍙傝禌鍊�
 	 * @return
 	 */
 	public List<Goods> getGoodsType(Map<String, Object> params) {
@@ -259,7 +276,7 @@ public class GoodsController extends FilesLoadController {
 			pageSize = 25;
 		}
 
-		// 获取类型集合
+		// 鑾峰彇绫诲瀷闆嗗悎
 		List<GoodsType> goodsTypeStack = Lists.newArrayList();
 		List<GoodsType> goodsTypeList = Lists.newArrayList();
 		GoodsType goodsTypeModel = getModel(GoodsType.class);
@@ -283,7 +300,7 @@ public class GoodsController extends FilesLoadController {
 			goodsTypeList = goodsTypeModel.getGoodsTypeByParId("");
 		}
 
-		// 按类型获取商品分类
+		// 鎸夌被鍨嬭幏鍙栧晢鍝佸垎绫�
 		Page<Goods> goodss = getModel(Goods.class).getGoodsPageByType(goodstype, pageNumber, pageSize);
 		List<Map<String, Object>> datas = goodsParse(goodss.getList());
 		Page<List<Map<String, Object>>> pageMap = new Page(datas, goodss.getPageNumber(), goodss.getPageSize(),
@@ -296,7 +313,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 跳转商品管理界面
+	 * 璺宠浆鍟嗗搧绠＄悊鐣岄潰
 	 */
 	public void goGoodsMan() {
 		String goodsType = getPara("type");
@@ -309,22 +326,22 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 跳转添加商品界面
+	 * 璺宠浆娣诲姞鍟嗗搧鐣岄潰
 	 */
 	public void goAddGoods() {
 		render("/demo/addgoods.html");
 	}
 
 	/**
-	 * 保存商品信息<br>
-	 * 注：// 图片上传后，以会员的名字作为文件名，路径\core\ upload\goodspic\XXXX\XXXXX.jpg
+	 * 淇濆瓨鍟嗗搧淇℃伅<br>
+	 * 娉細// 鍥剧墖涓婁紶鍚庯紝浠ヤ細鍛樼殑鍚嶅瓧浣滀负鏂囦欢鍚嶏紝璺緞\core\ upload\goodspic\XXXX\XXXXX.jpg
 	 */
 	public void save() {
 		try {
 			String picturePath = upLoadFileNotDealPath("pictrue", "", 200 * 1024 * 1024, "utf-8");
 			Goods goodsModel = getModel(Goods.class);
 			goodsModel.set("pic", picturePath);
-			// 可改为获取当前用户的名字或者ID
+			// 鍙敼涓鸿幏鍙栧綋鍓嶇敤鎴风殑鍚嶅瓧鎴栬�匢D
 			goodsModel.set("creater", 111111);
 			goodsModel.set("modifier", 111111);
 			goodsModel.saveGoodsInfo();
@@ -336,7 +353,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 更新已修的商品
+	 * 鏇存柊宸蹭慨鐨勫晢鍝�
 	 */
 	public void update() {
 		String picturePath = upLoadFileNotDealPath("pictrue", "", 200 * 1024 * 1024, "utf-8");
@@ -346,14 +363,14 @@ public class GoodsController extends FilesLoadController {
 		} else {
 			goodsModel.remove("pic");
 		}
-		// 可改为获取当前用户的名字或者ID
+		// 鍙敼涓鸿幏鍙栧綋鍓嶇敤鎴风殑鍚嶅瓧鎴栬�匢D
 		goodsModel.set("modifier", 111111);
 		goodsModel.update();
 		redirect("/goods/goGoodsMan");
 	}
 
 	/**
-	 * 删除商品信息
+	 * 鍒犻櫎鍟嗗搧淇℃伅
 	 */
 	public void delete() {
 		Goods goodsModel = getModel(Goods.class);
@@ -362,7 +379,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 查询出所有商品
+	 * 鏌ヨ鍑烘墍鏈夊晢鍝�
 	 */
 	public void queryAllGoodsInfo() {
 		Goods goodsModel = getModel(Goods.class);
@@ -371,7 +388,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 根据商品ID获取某商品
+	 * 鏍规嵁鍟嗗搧ID鑾峰彇鏌愬晢鍝�
 	 */
 	public void getGoodsById() {
 		Goods goodsModel = getModel(Goods.class);
@@ -381,7 +398,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 根据商品类型获取商品信息
+	 * 鏍规嵁鍟嗗搧绫诲瀷鑾峰彇鍟嗗搧淇℃伅
 	 */
 	public void getGoodsInfoByType(String goodsType) {
 		Goods goodsModel = getModel(Goods.class);
@@ -390,7 +407,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 通过商品名字模糊查询商品信息
+	 * 閫氳繃鍟嗗搧鍚嶅瓧妯＄硦鏌ヨ鍟嗗搧淇℃伅
 	 * 
 	 * @param goodsName
 	 * @return
@@ -402,16 +419,16 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 商品明细
+	 * 鍟嗗搧鏄庣粏
 	 */
 	public void getGoodsDetail(){
-		goodsUtil();
-		render("/ShopCentre.html");
+		goodsUtil("/ShopCentre.html");
+		//render("/ShopCentre.html");
 	}
 	/**
-	 * 商品信息拼装
+	 * 鍟嗗搧淇℃伅鎷艰
 	 */
-	public void goodsUtil(){
+	public void goodsUtil(String url){
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
 		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
@@ -443,6 +460,11 @@ public class GoodsController extends FilesLoadController {
 			flag = 1;
 		}
 		setAttr("flag", flag);
+		String action = "/comment/setPage";
+		setAttr("render", url);
+		setAttr("targetId", getParaToInt("goodsid"));
+		setAttr("idtype", "60");
+		forwardAction(action);
 	}
 	public void loveCount(){
 		int goodsId = getParaToInt("goodsid");
@@ -450,8 +472,9 @@ public class GoodsController extends FilesLoadController {
 		int sumLove = Goods.dao.getSumLove(goodsId);
 		setSessionAttr(goodsId+"", goodsId);
 		setAttr("sumLove", sumLove);
-		goodsUtil();
-		render("/ShopDtl.html");
+		String url = "/ShopDtl.html";
+		goodsUtil(url);
+		//render("/ShopDtl.html");
 	}
 
 	/**
@@ -466,7 +489,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 豆豆兑换
+	 * 璞嗚眴鍏戞崲
 	 */
 	public void peasChange(){
 		Long dougprice = getParaToLong("dougprice");
@@ -479,7 +502,7 @@ public class GoodsController extends FilesLoadController {
 		} 
 		Long userId = user.get("userid");
 		user = user.findById(userId);
-		//豆子
+		//璞嗗瓙
 		Long peas = (Long)changeMap.get("peas");
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
@@ -503,7 +526,7 @@ public class GoodsController extends FilesLoadController {
 		String isChange = (String)changeMap.get("isChange");
 		Long dougprice = (Long)changeMap.get("dougprice");
 		Long userId = (Long)changeMap.get("userId");
-		//豆子
+		//璞嗗瓙
 		Long peas = (Long)changeMap.get("peas");
 		if (isChange == "1" || "1".equals(isChange)){
 			peas = peas - dougprice;
@@ -514,7 +537,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	* 获得豆豆
+	* 鑾峰緱璞嗚眴
 	*/
 	public Map<String, Object> getPeas(Long dougprice) {
 		int goodsnum = 0;
@@ -528,7 +551,7 @@ public class GoodsController extends FilesLoadController {
 		Long userId = user.get("userid");
 		user = user.findById(userId);
 		String isChange = "0";
-		// 豆子
+		// 璞嗗瓙
 		Long peas = user.get("peas");
 		if (goodsnum != 0){
 			if ((dougprice*goodsnum) <= peas) {
@@ -543,7 +566,7 @@ public class GoodsController extends FilesLoadController {
 		return changeMap;
 	}
 	/**
-	* 保存订单
+	* 淇濆瓨璁㈠崟
 	*/
 	@Before({OrderValidator.class})
 	public void saveOrderDetail(){
@@ -569,6 +592,7 @@ public class GoodsController extends FilesLoadController {
 		orderDetail.set("goodsname", goodsModel.get("goodsname"));
 		orderDetail.set("goodsid", goodsModel.get("goodsid"));
 		orderDetail.set("goodsprice", goodsModel.get("dougprice"));
+		orderDetail.set("userid", userModel.get("userid"));
 		userModel.update();
 		setAttr("orders", orders);
 		setAttr("goods", goodsModel);
@@ -577,12 +601,12 @@ public class GoodsController extends FilesLoadController {
 		Long dougprice = goodsModel.get("dougprice");
 		Map<String,Object> changeMap = getPeas(dougprice);
 		reducePeas(changeMap);
-		goodsUtil();
-		render("/ShopCentre.html");
+		goodsUtil("/ShopCentre.html");
+		//render("/ShopCentre.html");
 		//redirect("/orders/byGoods");
 	}
 	/**
-	 * 商品上架下架
+	 * 鍟嗗搧涓婃灦涓嬫灦
 	 */
 	public void goodsShow(){
 		String goodsId = getPara("goodsId");
@@ -590,12 +614,24 @@ public class GoodsController extends FilesLoadController {
 		Goods.dao.updateShowFlag(goodsId, flag);
 		redirect("/goods/renderGoods");
 	}
-	
+	/**
+	 * 鍟嗗搧鏄惁鏀鹃椤�
+	 */
+	public void goodsIndex(){
+		String goodsId = getPara("goodsId");
+		int result = Goods.dao.getSelectIstop(goodsId);
+		int flag = 0;
+		if (result == 0){
+			flag = 1;
+		}
+		Goods.dao.updateIndexShow(goodsId, flag);
+		redirect("/goods/renderGoods");
+	}
 	public String getOrderNum(){
-		int r1=(int)(Math.random()*(10));//产生2个0-9的随机数
+		int r1=(int)(Math.random()*(10));//浜х敓2涓�0-9鐨勯殢鏈烘暟
 		int r2=(int)(Math.random()*(10));
-		long now = System.currentTimeMillis();//一个13位的时间戳
-		String paymentID =String.valueOf(r1)+String.valueOf(r2)+String.valueOf(now);// 订单ID
+		long now = System.currentTimeMillis();//涓�涓�13浣嶇殑鏃堕棿鎴�
+		String paymentID =String.valueOf(r1)+String.valueOf(r2)+String.valueOf(now);// 璁㈠崟ID
 		return  paymentID;
 	}
 	private List<Map<String, Object>> goodsParse(List<Goods> goodss) {

@@ -206,6 +206,7 @@ CREATE TABLE `activity` (
   `expiration` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `message` text NOT NULL,
   `status` varchar(4) DEFAULT '10',
+  `progress` varchar(4) DEFAULT '10' COMMENT '跟进状态',
   `times` bigint(20) DEFAULT '0',
   `top` tinyint(2) NOT NULL DEFAULT '0',
   `essence` tinyint(2) NOT NULL DEFAULT '0',
@@ -456,6 +457,7 @@ CREATE TABLE `post` (
   `top` tinyint(2) NOT NULL DEFAULT '0',
   `essence` tinyint(2) NOT NULL DEFAULT '0',
   `status` varchar(4) NOT NULL DEFAULT '10',
+  `progress` varchar(4) DEFAULT '10' COMMENT '跟进状态',
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) DEFAULT NULL,
   `modifier` bigint(20) DEFAULT NULL,
@@ -493,6 +495,7 @@ CREATE TABLE `treasure` (
   `top` tinyint(2) NOT NULL DEFAULT '0',
   `essence` tinyint(2) NOT NULL DEFAULT '0',
   `status` varchar(4) NOT NULL DEFAULT '10',
+  `progress` varchar(4) DEFAULT '10' COMMENT '跟进状态',
   `communityid` bigint(20) unsigned NOT NULL DEFAULT '0',
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) DEFAULT NULL,
@@ -633,6 +636,7 @@ CREATE TABLE `order_detail` (
   `goodsprice` decimal(13,2) DEFAULT NULL,
   `goodsnum` bigint(20) DEFAULT NULL,
   `paytype` varchar(4) DEFAULT NULL COMMENT '支付类型：金钱，豆豆，优惠券',
+  `userid` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`orderdetailid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
@@ -649,10 +653,11 @@ CREATE TABLE `orders` (
   `orderPhone` varchar(32) DEFAULT NULL COMMENT '收货人电话',
   `postage` float(7,2) DEFAULT NULL COMMENT '邮费',
   `creater` bigint(20) DEFAULT NULL,
-  `creattime` timestamp NULL DEFAULT NULL,
+  `creattime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updater` bigint(20) DEFAULT NULL,
   `updatetime` timestamp NULL DEFAULT NULL,
   `realname` varchar(12) DEFAULT NULL COMMENT '收件人',
+  `isreceipt` varchar(4) DEFAULT 'N' COMMENT '是否收货',
   PRIMARY KEY (`orderid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 

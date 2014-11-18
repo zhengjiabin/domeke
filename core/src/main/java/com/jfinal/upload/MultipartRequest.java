@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2014, James Zhan 詹波 (jfinal@126.com).
+ * Copyright (c) 2011-2015, James Zhan 詹波 (jfinal@126.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,32 +19,29 @@ package com.jfinal.upload;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
-import com.domeke.app.cos.multipart.FileRenamePolicy;
-import com.domeke.app.cos.multipart.FileRenamePolicyByTime;
-
 /**
  * MultipartRequest.
  */
-@SuppressWarnings({"rawtypes", "unchecked"})
 public class MultipartRequest extends HttpServletRequestWrapper {
 	
 	private static String saveDirectory;
 	private static int maxPostSize;
 	private static String encoding;
 	private static boolean isMultipartSupported = false;
-	// chenhailin add modify
-	private static final FileRenamePolicy fileRenamePolicy = new FileRenamePolicyByTime();
 	
 	private List<UploadFile> uploadFiles;
-	private com.domeke.app.cos.MultipartRequest multipartRequest;
+	private Map<String, String[]> parameters;
+	private RequestParse multipartRequest;
 	
 	static void init(String saveDirectory, int maxPostSize, String encoding) {
 		MultipartRequest.saveDirectory = saveDirectory;
@@ -86,44 +83,39 @@ public class MultipartRequest extends HttpServletRequestWrapper {
 	}
 	
 	private void wrapMultipartRequest(HttpServletRequest request, String saveDirectory, int maxPostSize, String encoding) {
-		if (! isMultipartSupported)
+		if (!isMultipartSupported)
 			throw new RuntimeException("Oreilly cos.jar is not found, Multipart post can not be supported.");
-		
+
 		saveDirectory = handleSaveDirectory(saveDirectory);
-		
+
 		File dir = new File(saveDirectory);
-		if ( !dir.exists()) {
+		if (!dir.exists()) {
 			if (!dir.mkdirs()) {
 				throw new RuntimeException("Directory " + saveDirectory + " not exists and can not create directory.");
 			}
 		}
-		
-//		String content_type = request.getContentType();
-//        if (content_type == null || content_type.indexOf("multipart/form-data") == -1) {
-//        	throw new RuntimeException("Not multipart request, enctype=\"multipart/form-data\" is not found of form.");
-//        }
-		
-        uploadFiles = new ArrayList<UploadFile>();
-		
 		try {
-			multipartRequest = new com.domeke.app.cos.MultipartRequest(request,
-					saveDirectory, maxPostSize, encoding, fileRenamePolicy);
-			Enumeration files = multipartRequest.getFileNames();
-			while (files.hasMoreElements()) {
-				String name = (String)files.nextElement();
-				String filesystemName = multipartRequest.getFilesystemName(name);
-				
-				// 文件没有上传则不生成 UploadFile, 这与 cos的解决方案不一样
-				if (filesystemName != null) {
-					String originalFileName = multipartRequest.getOriginalFileName(name);
-					String contentType = multipartRequest.getContentType(name);
-					UploadFile uploadFile = new UploadFile(name, saveDirectory, filesystemName, originalFileName, contentType);
-					if (isSafeFile(uploadFile))
-						uploadFiles.add(uploadFile);
-				}
-			}
+			multipartRequest = new com.domeke.app.cos.MultipartRequest(request, saveDirectory, maxPostSize, encoding);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			e.printStackTrace();
+		}
+		parameters = new HashMap<String, String[]>(multipartRequest.getParameters());
+		uploadFiles = new ArrayList<UploadFile>();
+		Collection<FileloadInterface> files = multipartRequest.getFiles();
+		if(files == null){
+			return;
+		}
+		UploadFile uploadFile = null;
+		String fileRequestName = null, fileName = null, originalFileName = null, contentType = null;
+		for (FileloadInterface file : files) {
+			fileRequestName = file.getParameterName();
+			fileName = file.getFileName();
+			originalFileName = file.getOriginalFileName();
+			contentType = file.getContentType();
+			uploadFile = new UploadFile(fileRequestName, saveDirectory, fileName, originalFileName, contentType);
+			if (isSafeFile(uploadFile)){
+				uploadFiles.add(uploadFile);
+			}
 		}
 	}
 	
@@ -142,26 +134,35 @@ public class MultipartRequest extends HttpServletRequestWrapper {
 	/**
 	 * Methods to replace HttpServletRequest methods
 	 */
-	public Enumeration getParameterNames() {
-		return multipartRequest.getParameterNames();
+	public Enumeration<String> getParameterNames() {
+		if(parameters == null){
+			return null;
+		}
+		Hashtable<String, String[]> table = new Hashtable<String, String[]>(parameters);
+		return table.keys();
 	}
 	
 	public String getParameter(String name) {
-		return multipartRequest.getParameter(name);
+		if(parameters == null){
+			return null;
+		}
+		String[] values= parameters.get(name);
+		if(values == null || values.length<=0){
+			return null;
+		}
+		return values[values.length-1];
 	}
 	
 	public String[] getParameterValues(String name) {
-		return multipartRequest.getParameterValues(name);
+		if (parameters == null) {
+			return null;
+		}
+		String[] values= parameters.get(name);
+		return values;
 	}
 	
-	public Map getParameterMap() {
-		Map map = new HashMap();
-		Enumeration enumm = getParameterNames();
-		while (enumm.hasMoreElements()) {
-			String name = (String) enumm.nextElement();
-			map.put(name, multipartRequest.getParameterValues(name));
-		}
-		return map;
+	public Map<String, String[]> getParameterMap() {
+		return parameters;
 	}
 }
 

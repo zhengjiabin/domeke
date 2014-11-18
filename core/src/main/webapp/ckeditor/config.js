@@ -37,9 +37,9 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeDialogTabs = 'image:advanced;link:advanced';
 	
 	// set upload
-	config.filebrowserImageBrowseUrl = './editor/uploadImage?Type=http://www.dongmark.com/images/images';
+	config.filebrowserImageBrowseUrl = './editor/uploadImage?Type=Images';
 	config.filebrowserFlashBrowseUrl = './editor/uploadImage?Type=Flash';
 	config.filebrowserUploadUrl = './editor/uploadImage?type=Files';
-	config.filebrowserImageUploadUrl = './editor/uploadImage?type=http://www.dongmark.com/images/images';
+	config.filebrowserImageUploadUrl = './editor/uploadImage?type=Images';
 	config.filebrowserFlashUploadUrl = './editor/uploadImage?type=Flash';
 };

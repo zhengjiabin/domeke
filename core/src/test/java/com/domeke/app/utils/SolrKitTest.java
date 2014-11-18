@@ -15,7 +15,7 @@ public class SolrKitTest {
 	public void test() {
 		Page page = new Page(null, 1, 2, 0, 0);
 		try {
-			page = SolrKit.query(new String[] { "worksname", "desc" }, "变形", new WorksVO(), page);
+			page = SolrKit.query(new String[] { "worksname", "desc" }, "变形", WorksVO.class, page);
 			assertEquals(1, page.getPageNumber());
 		} catch (SolrServerException e) {
 			e.printStackTrace();

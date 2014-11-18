@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011-2014, James Zhan 詹波 (jfinal@126.com).
+ * Copyright (c) 2011-2015, James Zhan 詹波 (jfinal@126.com).
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,12 @@
 
 package com.jfinal.render;
 
-import static com.jfinal.core.Const.DEFAULT_FILE_RENDER_BASE_PATH;
-
 import java.io.File;
 import java.util.Locale;
-
 import javax.servlet.ServletContext;
-
 import com.jfinal.config.Constants;
 import com.jfinal.kit.PathKit;
+import static com.jfinal.core.Const.DEFAULT_FILE_RENDER_BASE_PATH;
 
 /**
  * RenderFactory.
@@ -67,6 +64,7 @@ public class RenderFactory {
 		// init Render
 		Render.init(constants.getEncoding(), constants.getDevMode());
 		initFreeMarkerRender(servletContext);
+		initJspRender(servletContext);
 		initFileRender(servletContext);
 		
 		// create mainRenderFactory
@@ -95,7 +93,16 @@ public class RenderFactory {
 		}
 	}
 	
-
+	
+	private void initJspRender(ServletContext servletContext) {
+		try {
+			Class.forName("javax.el.ELResolver");
+			com.jfinal.plugin.activerecord.ModelRecordElResolver.init(servletContext);
+		}
+		catch (ClassNotFoundException e) {
+			// System.out.println("Jsp or JSTL can not be supported!");
+		}
+	}
 	
 	private void initFileRender(ServletContext servletContext) {
 		FileRender.init(getFileRenderPath(), servletContext);
@@ -156,6 +163,10 @@ public class RenderFactory {
 		return new TextRender(text, contentType);
 	}
 	
+	public Render getTextRender(String text, ContentType contentType) {
+		return new TextRender(text, contentType);
+	}
+	
 	public Render getDefaultRender(String view) {
 		ViewType viewType = constants.getViewType();
 		if (viewType == ViewType.FREE_MARKER) {
@@ -213,6 +224,10 @@ public class RenderFactory {
 		return new HtmlRender(htmlText);
 	}
 	
+	public Render getXmlRender(String view) {
+		return new XmlRender(view);
+	}
+	
 	// --------
 	private static final class FreeMarkerRenderFactory implements IMainRenderFactory {
 		public Render getRender(String view) {
@@ -231,8 +246,6 @@ public class RenderFactory {
 			return ".jsp";
 		}
 	}
-	
-	
 	
 	private static final class ErrorRenderFactory implements IErrorRenderFactory {
 		public Render getRender(int errorCode, String view) {

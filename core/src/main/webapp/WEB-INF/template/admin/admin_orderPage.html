@@ -6,8 +6,9 @@
 								<th>序号</th>
 								<th>订单编号</th>
 								<th>商品名称</th>
-								<th>商品价格</th>
+								<th>商品单价</th>
 								<th>商品总数</th>
+								<th>商品总价</th>
 								<th>是否支付</th>
 								<th>是否发货</th>
 								<th>操作</th>
@@ -24,16 +25,17 @@
 									<%}}%>
 									<td>${ord.goodsprice!}</td>
 									<td>${ord.goodsnum!}</td>
+									<td>${ord.goodsprice!*ord.goodsnum!}</td>
 									<%for(or in ordList.list){%>
 										<% if(ord.orderid == or.orderid){ %>
 											<% if(or.isPay=="Y") { %>
 												<td>是</td>
 											<%}else{%>
-												<td>否</td>
+												<td style="color:#F00;font-weight:bold;">否</td>
 											<%}if(or.isDelivery=="Y"){%>
 												<td>是</td>
 											<%}else{%>
-												<td>否</td>
+												<td style="color:#F00;font-weight:bold;">否</td>
 											<%}%>
 											<td width="120">
 									<a href="order/upOrder?ordelid=${ord.orderdetailid!}&ordid=${or.orderid!}"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>

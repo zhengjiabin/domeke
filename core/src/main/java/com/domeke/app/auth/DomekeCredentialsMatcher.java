@@ -13,7 +13,7 @@ public class DomekeCredentialsMatcher extends HashedCredentialsMatcher {
 	public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
 		UsernamePasswordToken upToken = (UsernamePasswordToken) token;
 		setHashAlgorithmName(DomekeConstants.HASH_ALGORITHM_NAME);
-		String password = EncryptKit.encryptMd5(String.valueOf(upToken.getPassword()));
+		String password = EncryptKit.EncryptMd5(String.valueOf(upToken.getPassword()));
 		Object credentials = getCredentials(info);
 		return equals(password, credentials);
 	}

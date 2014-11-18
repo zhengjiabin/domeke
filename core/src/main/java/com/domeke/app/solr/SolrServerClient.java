@@ -2,7 +2,8 @@ package com.domeke.app.solr;
 
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
 
-import com.jfinal.kit.PropKit;
+import com.domeke.app.utils.PropKit;
+
 
 public class SolrServerClient {
 

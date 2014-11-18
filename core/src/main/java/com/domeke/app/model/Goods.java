@@ -169,4 +169,21 @@ public class Goods extends Model<Goods> {
 		String sql="update goods set showflag=" + flag + " where goodsid = "+goodsId;
 		Db.update(sql);
 	}
+	/**
+	 * 查询商品放首页状态
+	 * @param goodsId
+	 * @return 是否放首页
+	 */
+	public int getSelectIstop(String goodsId) {
+		return Db.queryInt("select istop from goods where goodsid = " + goodsId);
+	}
+	/**
+	 * 商品上放首页修改
+	 * @param goodsId
+	 * @param 
+	 */
+	public void updateIndexShow(String goodsId, int flag) {
+		String sql="update goods set istop=" + flag + " where goodsid = "+goodsId;
+		Db.update(sql);
+	}
 }

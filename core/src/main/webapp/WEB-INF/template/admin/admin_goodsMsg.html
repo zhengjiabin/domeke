@@ -7,6 +7,55 @@
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 <script src="js/goods.js"></script>
+<script language="JavaScript">
+function galevel1(str) 
+{   
+	if (str == ""){
+		$("#goodsattr2").find("option").remove();
+		$("#goodsattr3").find("option").remove();
+		jQuery("#goodsattr2").append("<option value='' selected='selected'>请选择======</option>"); 
+		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+	} else {	
+			$("#goodsattr2").find("option").remove();
+			$("#goodsattr3").find("option").remove();
+			jQuery("#goodsattr2").append("<option value='' selected='selected'>请选择======</option>"); 
+			jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+			$(document).ready(function(){
+				var gtarray = new Array();
+			    var array = new Array(); //定义数组
+			    $("#mi_name option").each(function(){ //遍历全部option
+			        var txt = $(this).text(); //获取option的内容
+			        gtarray = txt.split(",");
+			        if (gtarray[2] == str) {
+			        	jQuery("#goodsattr2").append("<option value='"+gtarray[0]+"'>"+gtarray[1]+"</option>"); 
+			        }
+			    });
+			});
+	}	
+}
+function galevel2(str) 
+{  
+	if (str == ""){
+		$("#goodsattr3").find("option").remove();
+		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+	} else {	
+		$("#goodsattr3").find("option").remove();
+		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+			$(document).ready(function(){
+				var gtarray = new Array();
+			    var array = new Array(); //定义数组
+			    $("#mi_name option").each(function(){ //遍历全部option
+			        var txt = $(this).text(); //获取option的内容
+			        var gtarray = txt.split(",");
+			        if (gtarray[2] == str) {
+			        	jQuery("#goodsattr3").append("<option value='"+gtarray[0]+"'>"+gtarray[1]+"</option>"); 
+			        }
+			    });
+			});
+	}	
+	
+}
+</script>
 <div class="span9" id="content">
 	<div class="row-fluid"> 
 		<div class="block">
@@ -22,7 +71,7 @@
         	<span class='font_r' style="color: red"> *</span><br>
         	商品价格：<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
-        	豆豆价格：<input id="dougprice" name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
+        	豆豆价格：<input id="dougprice" name="goods.dougprice" onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
 			历史价格：<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>        	 
         	
         	商品主图：
@@ -116,145 +165,66 @@
         	<label class="control-label">商品子图</label>
         	<div id="previews"></div>
         	<input id="fileImage" type="file" size="30" name="addheadimg" onchange="onUploadImgChanges(this)"  multiple /><br>
-        	商品类别1：<select id="goodsattr1" name="goods.goodsattr1" class="span6 m-wrap" > 
-        		<option value="">请选择======</option>
+        	
+        	<select id="mi_name" style="display:none"> 
         		<% 
-        		var goodsattr1 = 0;
-        		if (goods.goodsattr1!=null){
-        			goodsattr1 = parseInt(goods.goodsattr1);
-        		}
-        		for(gt in goodsType!){ 
-        			var goodstypeid = parseInt(gt.goodstypeid);
-        			if(goodsattr1 == goodstypeid){
-        			
-        			if (gt.level == 2){
+        		for(gt in goodsType!){
         		%>
-        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 	} else if (gt.level == 3) {
-        		%>
-        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 	} else if (gt.level == 4) {
-        		%>
-        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<%
-        			} else {
-        			%>
-        			<option value="${gt.goodstypeid!}" selected="selected">${gt.level!}.${gt.typename!}</option>
-        			<%
-        			}
-        			
-        			} else {
-        			
-        				if (gt.level == 2){
-        		%>
-        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 		} else if (gt.level == 3) {
-        		%>
-        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 		} else if (gt.level == 4) {
-        		%>
-        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<%
+        			<option value="${gt.goodstypeid!}">${gt.goodstypeid!},${gt.typename!},${gt.parenttypeid!}</option>
+        		<% 
+        		} %>
+        	</select>
+        	
+        	商品类别1：<select id="goodsattr1" name="goods.goodsattr1" class="span6 m-wrap" onchange="galevel1(this.value)"> 
+        		<option value="" selected="selected">请选择======</option>
+        		<% 
+        		for(gt in goodsType!){
+        			if (gt.level == 1) {
+        				if (goods.goodsattr1 == gt.goodstypeid) {
+        				%>
+        					<option value="${gt.goodstypeid!}" selected="selected">${gt.typename!}</option>
+        				<%
         				} else {
-        			%>
-        				<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
-        			<%
-        				}
+        		%>
+        					<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% 		}
         			}
         		} %>
         	</select><br>
-        	商品类别2：<select id="goodsattr2" name="goods.goodsattr2" class="span6 m-wrap" > 
+        	商品类别2：<select id="goodsattr2" name="goodsattr2" class="span6 m-wrap" onchange="galevel2(this.value)"> 
         		<option value="">请选择======</option>
         		<% 
-        		var goodsattr2 = 0;
-        		if (goods.goodsattr2!=null){
-        			goodsattr2 = parseInt(goods.goodsattr2);
-        		}
-        		for(gt in goodsType!){ 
-        			var goodstypeid = parseInt(gt.goodstypeid);
-        			if(goodsattr2 == goodstypeid){
-        		if (gt.level == 2){
+        		for(gt in goodsType!){
+        			if (gt.level == 2) {
+        				if (goods.goodsattr2 == gt.goodstypeid) {
+        				%>
+        					<option value="${gt.goodstypeid!}" selected="selected">${gt.typename!}</option>
+        				<%
+        				} 
+						if (goods.goodsattr1 == gt.parenttypeid) {
         		%>
-        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 	} else if (gt.level == 3) {
-        		%>
-        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 	} else if (gt.level == 4) {
-        		%>
-        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<%
-        			} else {
-        			%>
-        			<option value="${gt.goodstypeid!}" selected="selected">${gt.level!}.${gt.typename!}</option>
-        			<%
-        			}
-        			
-        			} else {
-        			
-        				if (gt.level == 2){
-        		%>
-        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 		} else if (gt.level == 3) {
-        		%>
-        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 		} else if (gt.level == 4) {
-        		%>
-        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<%
-        				} else {
-        			%>
-        				<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
-        			<%
-        				}
+        					<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% 		}
         			}
         		} %>
         	</select><br>
-        	 商品类别3：<select id="goodsattr3" name="goods.goodsattr3" class="span6 m-wrap" > 
+        	商品类别3：<select id="goodsattr3" name="goods.goodsattr3" class="span6 m-wrap" > 
         		<option value="">请选择======</option>
         		<% 
-        		var goodsattr3 = 0;
-        		if (goods.goodsattr3!=null){
-        			goodsattr3 = parseInt(goods.goodsattr3);
-        		}
-        		for(gt in goodsType!){ 
-        			var goodstypeid = parseInt(gt.goodstypeid);
-        			if(goodsattr3 == goodstypeid){
-        		if (gt.level == 2){
+        		for(gt in goodsType!){
+        			if (gt.level == 3) {
+        				if (goods.goodsattr3 == gt.goodstypeid) {
+        				%>
+        					<option value="${gt.goodstypeid!}" selected="selected">${gt.typename!}</option>
+        				<%
+        				} 
+						if (goods.goodsattr2 == gt.parenttypeid) {
         		%>
-        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 	} else if (gt.level == 3) {
-        		%>
-        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 	} else if (gt.level == 4) {
-        		%>
-        			<option value="${gt.goodstypeid!}" selected="selected">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<%
-        			} else {
-        			%>
-        			<option value="${gt.goodstypeid!}" selected="selected">${gt.level!}.${gt.typename!}</option>
-        			<%
-        			}
-        			
-        			} else {
-        			
-        				if (gt.level == 2){
-        		%>
-        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 		} else if (gt.level == 3) {
-        		%>
-        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<% 		} else if (gt.level == 4) {
-        		%>
-        				<option value="${gt.goodstypeid!}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${gt.level!}.${gt.typename!}</option>
-        		<%
-        				} else {
-        			%>
-        				<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
-        			<%
-        				}
+        					<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% 		}
         			}
         		} %>
-        	</select><br> 
+        	</select><br>
 			<button class="btn btn-large btn-primary" onclick="return upchecknull(this)" type="submit" >编辑</button>
 			<a href="goods/renderGoods" class="btn btn-large btn-primary" >返回</a>
       </form>
