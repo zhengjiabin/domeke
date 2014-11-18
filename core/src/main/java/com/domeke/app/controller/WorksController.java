@@ -341,8 +341,7 @@ public class WorksController extends FilesLoadController {
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
 
-		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024,
-				"utf-8");
+		String coverPath = "";
 		String comicPath = upLoadVideo("comic", "", 2000 * 1024 * 1024, "utf-8");
 		String title = getPara("title");
 		String des = getPara("des");
@@ -793,7 +792,7 @@ public class WorksController extends FilesLoadController {
 			if ("0".equals(flag)) {
 				// 0是跳转视频管理
 				Page<Works> page = worksModel.getWorksInfoPage(workstype, type,
-						user.get("creater"), pageIndex, pageSize);
+						String.valueOf(user.get("userid")), pageIndex, pageSize);
 				List<Map<String, Object>> data = ParseDemoKit.worksParse(page
 						.getList());
 				Page<List<Map<String, Object>>> pageWorks = new Page(data,
@@ -806,7 +805,7 @@ public class WorksController extends FilesLoadController {
 			} else if ("1".equals(flag)) {
 				// 1是跳转专辑管理
 				Page<Works> page = worksModel.getWorksInfoPage(workstype, type,
-						user.get("creater"), pageIndex, pageSize);
+						String.valueOf(user.get("userid")), pageIndex, pageSize);
 				List<Map<String, Object>> data = ParseDemoKit.worksParse(page
 						.getList());
 				Page<List<Map<String, Object>>> pageWorks = new Page(data,
@@ -818,7 +817,7 @@ public class WorksController extends FilesLoadController {
 				render("/worksManage/zhuanjiManage.html");
 			} else if ("2".equals(flag)) {
 				// 2是跳转漫画管理
-				Page<Works> page = worksModel.getWorksInfoPage(workstype, type,user.get("creater"), pageIndex, pageSize);
+				Page<Works> page = worksModel.getWorksInfoPage(workstype, type,String.valueOf(user.get("userid")), pageIndex, pageSize);
 				List<Map<String, Object>> data = ParseDemoKit.worksParse(page.getList());
 				Page<List<Map<String, Object>>> pageWorks = new Page(data,page.getPageNumber(), page.getPageSize(),page.getTotalPage(), page.getTotalRow());
 				setAttr("workstype", workstype);
