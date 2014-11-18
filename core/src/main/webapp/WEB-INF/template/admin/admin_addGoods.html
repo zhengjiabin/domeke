@@ -22,28 +22,11 @@ function galevel1(str)
 			jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
 			$(document).ready(function(){
 				var gtarray = new Array();
-			    var array = new Array(); //定义数组
 			    $("#mi_name option").each(function(){ //遍历全部option
 			        var txt = $(this).text(); //获取option的内容
-			        var gt1 = txt.split("{");
-			        var gt2 = gt1[1].split("}");
-			        var gt3 = gt2[0].split(":");
-			        var gt4 = new Array();
-			        var i = 0;
-			        for (var j=0; j < gt3.length; j++) {
-			        	if (j > 0) {
-			        		if (j != 6){
-			        			gt4 = gt3[j].split(",");
-			        			gtarray[i]=gt4[0];
-			        		}
-			        		if (j == 6) {
-			        			gtarray[i]=gt3[6];
-			        		}
-			        		i = i + 1;
-			        	}
-			        }
+			        var gtarray = txt.split(",");
 			        if (gtarray[2] == str) {
-			        	jQuery("#goodsattr2").append("<option value='"+gtarray[0]+"'>"+gtarray[4]+"</option>"); 
+			        	jQuery("#goodsattr2").append("<option value='"+gtarray[0]+"'>"+gtarray[1]+"</option>"); 
 			        }
 			    });
 			});
@@ -59,28 +42,11 @@ function galevel2(str)
 		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
 			$(document).ready(function(){
 				var gtarray = new Array();
-			    var array = new Array(); //定义数组
 			    $("#mi_name option").each(function(){ //遍历全部option
 			        var txt = $(this).text(); //获取option的内容
-			        var gt1 = txt.split("{");
-			        var gt2 = gt1[1].split("}");
-			        var gt3 = gt2[0].split(":");
-			        var gt4 = new Array();
-			        var i = 0;
-			        for (var j=0; j < gt3.length; j++) {
-			        	if (j > 0) {
-			        		if (j != 6){
-			        			gt4 = gt3[j].split(",");
-			        			gtarray[i]=gt4[0];
-			        		}
-			        		if (j == 6) {
-			        			gtarray[i]=gt3[6];
-			        		}
-			        		i = i + 1;
-			        	}
-			        }
+			        var gtarray = txt.split(",");
 			        if (gtarray[2] == str) {
-			        	jQuery("#goodsattr3").append("<option value='"+gtarray[0]+"'>"+gtarray[4]+"</option>"); 
+			        	jQuery("#goodsattr3").append("<option value='"+gtarray[0]+"'>"+gtarray[1]+"</option>"); 
 			        }
 			    });
 			});
@@ -127,7 +93,7 @@ function galevel2(str)
         		<% 
         		for(gt in goodsType!){
         		%>
-        			<option value="${gt.goodstypeid!}">${gt!}</option>
+        			<option value="${gt.goodstypeid!}">${gt.goodstypeid!},${gt.typename!},${gt.parenttypeid!}</option>
         		<% 
         		} %>
         	</select>
