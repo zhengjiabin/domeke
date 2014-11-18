@@ -175,6 +175,8 @@ public class GoodsController extends FilesLoadController {
 		List<GoodsType> goodsType1 = GoodsType.gtDao.getLevelGoodsType("1");
 		List<GoodsType> goodsType2 = GoodsType.gtDao.getLevelGoodsType("2");
 		List<GoodsType> goodsType3 = GoodsType.gtDao.getLevelGoodsType("3");
+		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
+		setAttr("goodsType", goodsType);
 		setAttr("goodsType1", goodsType1);
 		setAttr("goodsType2", goodsType2);
 		setAttr("goodsType3", goodsType3);
@@ -197,6 +199,8 @@ public class GoodsController extends FilesLoadController {
 		List<GoodsType> goodsType1 = GoodsType.gtDao.getLevelGoodsType("1");
 		List<GoodsType> goodsType2 = GoodsType.gtDao.getLevelGoodsType("2");
 		List<GoodsType> goodsType3 = GoodsType.gtDao.getLevelGoodsType("3");
+		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
+		setAttr("goodsType", goodsType);
 		setAttr("goodsType1", goodsType1);
 		setAttr("goodsType2", goodsType2);
 		setAttr("goodsType3", goodsType3);

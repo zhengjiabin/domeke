@@ -7,6 +7,87 @@
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 <script src="js/goods.js"></script>
+<script language="JavaScript">
+function galevel1(str) 
+{   
+	if (str == ""){
+		$("#goodsattr2").find("option").remove();
+		$("#goodsattr3").find("option").remove();
+		jQuery("#goodsattr2").append("<option value='' selected='selected'>请选择======</option>"); 
+		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+	} else {	
+			$("#goodsattr2").find("option").remove();
+			$("#goodsattr3").find("option").remove();
+			jQuery("#goodsattr2").append("<option value='' selected='selected'>请选择======</option>"); 
+			jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+			$(document).ready(function(){
+				var gtarray = new Array();
+			    var array = new Array(); //定义数组
+			    $("#mi_name option").each(function(){ //遍历全部option
+			        var txt = $(this).text(); //获取option的内容
+			        var gt1 = txt.split("{");
+			        var gt2 = gt1[1].split("}");
+			        var gt3 = gt2[0].split(":");
+			        var gt4 = new Array();
+			        var i = 0;
+			        for (var j=0; j < gt3.length; j++) {
+			        	if (j > 0) {
+			        		if (j != 6){
+			        			gt4 = gt3[j].split(",");
+			        			gtarray[i]=gt4[0];
+			        		}
+			        		if (j == 6) {
+			        			gtarray[i]=gt3[6];
+			        		}
+			        		i = i + 1;
+			        	}
+			        }
+			        if (gtarray[2] == str) {
+			        	jQuery("#goodsattr2").append("<option value='"+gtarray[0]+"'>"+gtarray[4]+"</option>"); 
+			        }
+			    });
+			});
+	}	
+}
+function galevel2(str) 
+{  
+	if (str == ""){
+		$("#goodsattr3").find("option").remove();
+		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+	} else {	
+		$("#goodsattr3").find("option").remove();
+		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+			$(document).ready(function(){
+				var gtarray = new Array();
+			    var array = new Array(); //定义数组
+			    $("#mi_name option").each(function(){ //遍历全部option
+			        var txt = $(this).text(); //获取option的内容
+			        var gt1 = txt.split("{");
+			        var gt2 = gt1[1].split("}");
+			        var gt3 = gt2[0].split(":");
+			        var gt4 = new Array();
+			        var i = 0;
+			        for (var j=0; j < gt3.length; j++) {
+			        	if (j > 0) {
+			        		if (j != 6){
+			        			gt4 = gt3[j].split(",");
+			        			gtarray[i]=gt4[0];
+			        		}
+			        		if (j == 6) {
+			        			gtarray[i]=gt3[6];
+			        		}
+			        		i = i + 1;
+			        	}
+			        }
+			        if (gtarray[2] == str) {
+			        	jQuery("#goodsattr3").append("<option value='"+gtarray[0]+"'>"+gtarray[4]+"</option>"); 
+			        }
+			    });
+			});
+	}	
+	
+}
+</script>
 
 <div class="span9" id="content">
 	<div class="row-fluid">
@@ -16,7 +97,7 @@
 			</div>
 			<div class="block-content collapse in">
 				<div class="span12">
-      <form class="form-signin" action="goods/saveGoods" id="createHtml" method="post" align="center" enctype="multipart/form-data">
+      <form class="form-signin" action="goods/saveGoods" id="createHtml" name="reg_testdate" method="post" align="center" enctype="multipart/form-data">
         	商品名称：<input id="goodsname" name="goods.goodsname" value="${goods.goodsname!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
         	商品价格：<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" />
@@ -41,33 +122,34 @@
         	<div id="previews"></div>
         	<input id="fileImage" type="file" size="30" name="headimg" onchange="onUploadImgChanges(this)" required="required" multiple />
         	<span class='font_r' style="color: red"> *</span><br>
-        	商品类别1：<select id="goodsattr1" name="goods.goodsattr1" class="span6 m-wrap" > 
+        	
+        	<select id="mi_name" style="display:none"> 
+        		<% 
+        		for(gt in goodsType!){
+        		%>
+        			<option value="${gt.goodstypeid!}">${gt!}</option>
+        		<% 
+        		} %>
+        	</select>
+        	
+        	商品类别1：<select id="goodsattr1" name="goods.goodsattr1" class="span6 m-wrap" onchange="galevel1(this.value)"> 
         		<option value="" selected="selected">请选择======</option>
         		<% 
         		for(gt in goodsType1!){
+        			if (gt.level == 1) {
         		%>
-        			<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
-        		<% 
+        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% }
         		} %>
         	</select><br>
-        	商品类别2：<select id="goodsattr2" name="goods.goodsattr2" class="span6 m-wrap" > 
+        	商品类别2：<select id="goodsattr2" name="goodsattr2" class="span6 m-wrap" onchange="galevel2(this.value)"> 
         		<option value="" selected="selected">请选择======</option>
-        		<% 
-        		for(gt in goodsType2!){
-        		%>
-        			<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
-        		<% 
-        		} %>
+        		
         	</select><br>
         	商品类别3：<select id="goodsattr3" name="goods.goodsattr3" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择======</option>
-        		<% 
-        		for(gt in goodsType3!){
-        		%>
-        			<option value="${gt.goodstypeid!}">${gt.level!}.${gt.typename!}</option>
-        		<% 	
-        		} %>
         	</select><br>
+        	
         <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>
         <span class='font_r' style="color: red">${msg!}</span>
         <a href="goods/renderGoods" class="btn btn-large btn-primary" >返回</a>

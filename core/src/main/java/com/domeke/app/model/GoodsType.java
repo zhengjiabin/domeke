@@ -174,4 +174,11 @@ public class GoodsType extends Model<GoodsType> {
 						+ "' order by sortnum");
 		return goodsTypeList;
 	}
+	
+	public List<GoodsType> getptGoodsType(String parenttypeid) {
+		List<GoodsType> goodsTypeList = this
+				.find("select * from goods_type where parenttypeid = '"
+						+ parenttypeid + "'");
+		return goodsTypeList;
+	}
 }
