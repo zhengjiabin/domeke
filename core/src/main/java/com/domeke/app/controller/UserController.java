@@ -78,6 +78,14 @@ public class UserController extends Controller {
 			render("/register2.html");
 			return;
         }
+        //较验用户是否同意注册协议
+        String checkbox = getPara("check");
+        if(checkbox == null){
+        	this.setAttr("user", user);
+        	setAttr("xieyi", "未同意注册协议!");
+			render("/register2.html");
+			return;
+        }
 		user.saveUser();
 		UserRole userrole = getModel(UserRole.class);
 		userrole.set("roleid", 0);
