@@ -67,7 +67,7 @@ public class Goods extends Model<Goods> {
 	}
 	
 	public List<Goods> getGoodsByNewLimit(Integer limit) {
-		String querySql = "select * from goods order by istop limit "+limit;
+		String querySql = "select * from goods where showflag=1 and istop=1 order by istop limit "+limit;
 		List<Goods> goodsList = this.find(querySql);
 		return goodsList == null ? Lists.newArrayList() : goodsList;
 	}
@@ -90,10 +90,10 @@ public class Goods extends Model<Goods> {
 		String querySql = "";
 		Page<Goods> goodss;
 		if(StrKit.isBlank(goodstype)){
-			querySql = "from goods order by istop desc";
+			querySql = "from goods where showflag=1 order by istop desc";
 			goodss = this.paginate(pageNumber, pageSize, "select *", querySql);
 		}else {
-			querySql = "from goods where goods=? order by istop desc";
+			querySql = "from goods where goods=? and showflag=1 order by istop desc";
 			goodss = this.paginate(pageNumber, pageSize, "select *", querySql,goodstype);
 		}
 		return goodss;

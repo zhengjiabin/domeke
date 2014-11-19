@@ -26,8 +26,12 @@
         	<%}%>
         	<div class="GPrice">购&nbsp;买&nbsp;数&nbsp;量：<input id="goodsnum"  name="goodsnum" value="1" type="text" class="input_Member" style="width:30px;ime-mode:Disabled;" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" AUTOCOMPLETE="off"></div>
             <div class="GButton font_w">
-            	<a href="${goods.tamllurl!}" class="BuyNow" target="_blank" >去 购 买</a>
-            	<% if(goods.dougprice!=0 && isChange!="") { %>
+            	<% if(goods.showflag!=0) { %>
+            		<a href="${goods.tamllurl!}" class="BuyNow" target="_blank" >去 购 买</a>
+            	<%}else{%>
+            		<a style="color:#F00;font-weight:bold;font-size:22px;">商品已下架</a>
+            	<%}%>
+            	<% if(goods.dougprice!=0 && isChange!="" && goods.showflag!=0) { %>
             		<a id="peas"  name="${isChange!}" href="javascript:changeGoods();" class="BuyNow" >豆豆兑换</a>
                 <%}%>
                 <% if(flag==0) { %>
