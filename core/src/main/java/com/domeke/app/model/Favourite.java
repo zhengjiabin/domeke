@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Model;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
 
 /**
@@ -75,5 +76,10 @@ public class Favourite extends Model<Favourite> {
 	public void removeCache(){
 		CacheKit.removeAll("Favourite");
 		CacheKit.removeAll("favouriteList");
-	}	
+	}
+	
+	public Page<Favourite> getFavouriteByUid(Long uid,int pageNumber,int pageSize){
+		Page<Favourite> page = this.paginate(pageNumber, pageSize, "select * ", "from favourite where userid=?",uid);
+		return page;
+	}
 }
