@@ -1,6 +1,26 @@
 <script type="text/javascript">
 	var workstype = '${workstype}';
 	$(document).ready(function(){
+		$('img').each(function(){
+			$(this).error(function(){
+				if (this.src != 'http://www.dongmark.com/images/default.png') {
+					this.src = 'http://www.dongmark.com/images/default.png';
+					var width = $(this).width();
+					var height = $(this).height();
+					$(this).jqthumb({
+						width:width,
+						height:height
+					});
+					return false;
+				}
+			});
+			var width = $(this).width();
+			var height = $(this).height();
+			$(this).jqthumb({
+				width:width,
+				height:height
+			});
+		});
 		$('#workstypesel').change(function(){
 			showPage({'flag':0,'type':0,'pageIndex':1});
 		});

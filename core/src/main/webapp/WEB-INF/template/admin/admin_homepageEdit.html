@@ -30,6 +30,27 @@
 		    });
 			return false;
 		});
+		
+		$('img').each(function(){
+			$(this).error(function(){
+				if (this.src != 'http://www.dongmark.com/images/default.png') {
+					this.src = 'http://www.dongmark.com/images/default.png';
+					var width = $(this).width();
+					var height = $(this).height();
+					$(this).jqthumb({
+						width:width,
+						height:height
+					});
+					return false;
+				}
+			});
+			var width = $(this).width();
+			var height = $(this).height();
+			$(this).jqthumb({
+				width:width,
+				height:height
+			});
+		});
 	});
 </script>
 <article class="MeArticle">
