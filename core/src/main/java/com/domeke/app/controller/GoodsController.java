@@ -77,6 +77,11 @@ public class GoodsController extends FilesLoadController {
 			Map<String, String> uploadPath = FileLoadKit.uploadImgs(this, saveDirectory, maxPostSize, encoding);
 			String pic = uploadPath.get("pic");
 			String headimg = uploadPath.get("headimg");
+			String str = headimg.substring(headimg.indexOf(saveDirectory) + saveDirectory.length(), headimg.length());
+			String[] headimgs = headimg.split(",");
+			if (str.length() > 0) {
+				headimg = headimg.substring(0, headimg.lastIndexOf("/"));
+			}
 			Goods goods = getModel(Goods.class);
 			goods.set("pic", pic);
 			goods.set("headimg", headimg);
@@ -105,7 +110,11 @@ public class GoodsController extends FilesLoadController {
 		if (fs != null) {
 			files = new String[fs.length];
 			for (int i = 0; i < fs.length; i++) {
-				files[i] = fs[i].getAbsolutePath();
+				//files[i] = fs[i].getAbsolutePath();
+				//转换域名格式
+				FilesLoadController fileslc = new FilesLoadController();
+				files[i] = fileslc.getDomainNameFilePath(fs[i].toString());
+
 //				if (fs[i].isDirectory()) {
 //					try {
 //						showAllFiles(fs[i]);
@@ -125,6 +134,14 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public List<String> getFileUrls(String url){
 //		url =getDomainNameFilePath(url);
+		String sub1 = "http://www.dongmark.com/";
+		String sub2 = "http://127.0.0.1:8080/core/";
+		if (url.indexOf(sub1) >= 0) {
+			url = url.substring(sub1.length(), url.length());
+		}
+		if (url.indexOf(sub2) >= 0) {
+			url = url.substring(sub2.length(), url.length());
+		}
 		File dir = new File(url);
 		List<String> fileUrls = new ArrayList<String>();
 		String[] files = this.showAllFiles(dir);
@@ -224,21 +241,18 @@ public class GoodsController extends FilesLoadController {
 	public void updateGoods() {
 		String goodsId = getPara("goodsId");
 		String headimg = Goods.dao.getHeadImg(goodsId);
-		String[] headimgs2 = headimg.split("/");
-		String fileName = headimgs2[headimgs2.length - 1];
-		String picturePath = upLoadFileNotDealPath("pic", fileName, 200 * 1024 * 1024, "utf-8");
-		String[] strs = picturePath.split("/");
-		int leng = strs.length;
-		String headimg2 = upLoadFilesNotDealPath(fileName, 200 * 1024 * 1024, "utf-8");
+		String saveDirectory = headimg.substring(headimg.lastIndexOf("/") + 1, headimg.length());
+		Map<String, String> uploadPath = FileLoadKit.uploadImgs(this, saveDirectory, maxPostSize, encoding);
+		String pic = uploadPath.get("pic");
+		
 		UploadFile file = getFile();
 		Goods gs = getModel(Goods.class);
-		if (leng > 1) {
-			gs.set("pic", strs[leng - 1]);
-		}
-		if (headimg2 != null) {
+		gs.set("pic", pic);
+		try{
 			gs.updateGoodsInfo();
 			redirect("/goods/renderGoods");
-		} else {
+		} catch (Exception e) {
+			e.printStackTrace();
 			Goods goods = gs.findById(goodsId);
 			String hg = goods.getStr("headimg");
 			List<String> headimgs = this.getFileUrls(hg);		
@@ -246,6 +260,31 @@ public class GoodsController extends FilesLoadController {
 			setAttr("goods", goods);
 			render("/admin/admin_goodsMsg.html");
 		}
+		
+//		String goodsId = getPara("goodsId");
+//		String headimg = Goods.dao.getHeadImg(goodsId);
+//		String[] headimgs2 = headimg.split("/");
+//		String fileName = headimgs2[headimgs2.length - 1];
+//		String picturePath = upLoadFileNotDealPath("pic", fileName, 200 * 1024 * 1024, "utf-8");
+//		String[] strs = picturePath.split("/");
+//		int leng = strs.length;
+//		String headimg2 = upLoadFilesNotDealPath(fileName, 200 * 1024 * 1024, "utf-8");
+//		UploadFile file = getFile();
+//		Goods gs = getModel(Goods.class);
+//		if (leng > 1) {
+//			gs.set("pic", strs[leng - 1]);
+//		}
+//		if (headimg2 != null) {
+//			gs.updateGoodsInfo();
+//			redirect("/goods/renderGoods");
+//		} else {
+//			Goods goods = gs.findById(goodsId);
+//			String hg = goods.getStr("headimg");
+//			List<String> headimgs = this.getFileUrls(hg);		
+//			setAttr("headimgs", headimgs);
+//			setAttr("goods", goods);
+//			render("/admin/admin_goodsMsg.html");
+//		}
 	}
 
 	/**

@@ -389,7 +389,7 @@ CREATE TABLE `goods` (
   `istop` int(11) DEFAULT '0' COMMENT '是否置顶0否 大于1置顶并降序排列',
   `status` varchar(4) NOT NULL DEFAULT '10',
   `username` varchar(64) DEFAULT NULL,
-  `headimg` varchar(64) DEFAULT NULL,
+  `headimg` varchar(255) DEFAULT NULL,
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `creater` bigint(20) NOT NULL,
   `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

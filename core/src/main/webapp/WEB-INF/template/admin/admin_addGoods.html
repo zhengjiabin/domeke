@@ -72,7 +72,7 @@ function galevel2(str)
         	历史价格：<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
         	<div id="preview"></div>
         	商品主图：<input id="fileImage" type="file" size="30" name="pic" onchange="onUploadImgChange(this)" required="required" /><span class='font_r' style="color: red"> *</span><br>
-        	商品描述：<textarea id="message" name="goods.message" value="${goods.message!}" rows="3" class="span6 m-wrap" ></textarea>
+        	商品描述：<textarea id="message" name="goods.message" value="${goods.message!}" rows="5" class="span6 m-wrap" ></textarea>
         	
                	
         	<!-- <input id="message" name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" /> -->
@@ -108,7 +108,7 @@ function galevel2(str)
         		<% }
         		} %>
         	</select><br>
-        	商品类别2：<select id="goodsattr2" name="goodsattr2" class="span6 m-wrap" onchange="galevel2(this.value)"> 
+        	商品类别2：<select id="goodsattr2" name="goods.goodsattr2" class="span6 m-wrap" onchange="galevel2(this.value)"> 
         		<option value="" selected="selected">请选择======</option>
         		
         	</select><br>
