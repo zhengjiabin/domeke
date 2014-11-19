@@ -4,14 +4,20 @@
 <link href="css/jquery.alerts.css" rel="stylesheet" type="text/css" media="screen" />
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript">
-function check(){
+/* function check(){
 		jAlert('您已经兑换成功！', '提示对话框');
-}
+		
+} onsubmit="return check();"*/
+$(document).ready(function(){
+	  $("form").submit(function(e){
+	    alert("您已经兑换成功！");
+	  });
+});
 </script>
         <div class="MemberIndex" style="margin-left:280px">
           <div class="MeCaption">相关信息修改：</div>
           <div class="MeBlock">
-          <form action="goods/saveOrderDetail"  method="post" id="createHtml" class="form-horizontal" onsubmit="return check();">
+          <!--  --><form id="form" name="form" action="goods/saveOrderDetail"  method="post" class="form-horizontal" >
           <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
           	 <input name="user.userid" type="hidden" value="${user.userid!}"/>
           	 <input name="user.username" type="hidden" value="${user.username!}"/>
@@ -61,7 +67,7 @@ function check(){
               </tr>
               <tr>
                 <th></th>
-                <td><input name="" type="submit" class="Button" value="提交订单"></td>
+                <td><input name="submit" type="submit" class="Button" value="提交订单"></td>
               </tr>
             </table>
 			</form>
