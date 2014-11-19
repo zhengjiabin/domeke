@@ -3,58 +3,214 @@
           <div class="MeCaption">等级积分：</div>
           <div class="MeBlock">
          
-          <table border="0" cellspacing="0" cellpadding="0"  class="Table_Member">
+          <table border="1" cellspacing="0" cellpadding="0"  class="Table_Member">
+          ${msg!}
           	  <input name="user.userid" type="hidden" value="${user.userid!}"/>
-          	  <tr>
-	     		<td style="text-align: right;color: red;">${msg!}</td>
-	     	  </tr>
-	     	  
               <tr>
                 <th>真实姓名：</th>
-                <td width="90px;">${user.realname!}</td>
+                <td width="120px;">${user.realname!}</td>
                 <th>昵称：</th>
-                <td width="90px;">${user.nickname!}</td>
+                <td width="120px;">${user.nickname!}</td>
                  <th>豆子：</th>
-                <td width="90px;">${user.peas!}</td>
+                <td width="120px;">${user.peas!}</td>
                  <th>积分：</th>
-                <td width="90px;">${user.point!}</td>
+                <td width="120px;">${user.point!}</td>
               </tr>
-              <tr>
-                 <th>等级</th>
-                <td width="90px;">积分</td>
-              </tr>
-                <tr>
-                 <th>豆米粒</th>
-                <td width="90px;">0</td>
-              </tr>
-                <tr>
-                 <th>豆芽棒</th>
-                <td width="90px;">100</td>
-              </tr>
-                <tr>
-                 <th>豆瓣花</th>
-                <td width="90px;">500</td>
-              </tr>
-                <tr>
-                 <th>小弯豆</th>
-                <td width="90px;">1500</td>
-              </tr>
-                <tr>
-                 <th>豆青</th>
-                <td width="90px;">4000</td>
-              </tr>
-               </tr>
-                <tr>
-                 <th>豆爷</th>
-                <td width="90px;">20000</td>
-              </tr>
-               </tr>
-                <tr>
-                 <th>豆皇</th>
-                <td width="90px;">50000</td>
-              </tr>
+             </table>
+             <div>
+             <table border="1">
+              	<tr>
+	                 <td width="250px;" style="border: 1px solid red;">等级说明:</td>
+	              </tr>
+	              <tr>
+	                 <th>等级</th>
+	                <td width="100px;">积分</td>
+	              </tr>
+	                <tr>
+	                 <th>豆米粒</th>
+	                <td width="100px;">0</td>
+	              </tr>
+	                <tr>
+	                 <th>豆芽棒</th>
+	                <td width="100px;">100</td>
+	              </tr>
+	                <tr>
+	                 <th>豆瓣花</th>
+	                <td width="100px;">500</td>
+	              </tr>
+	                <tr>
+	                 <th>小弯豆</th>
+	                <td width="100px;">1500</td>
+	              </tr>
+	                <tr>
+	                 <th>豆青</th>
+	                <td width="100px;">4000</td>
+	              </tr>
+	               </tr>
+	                <tr>
+	                 <th>豆爷</th>
+	                <td width="120px;">20000</td>
+	              </tr>
+	              
+	                <tr>
+	                 <th>豆皇</th>
+	                <td width="150px;">50000</td>
+	              </tr>
             </table>
-			
+            </div>
+            <div >
+			<table border="1">
+				<tr>
+				<td style="border: 1px solid red;">积分获取规则:</td>
+				</tr>
+				<tr>
+					<td  width="180px;">动作名称</td>
+					<td width="180px;">周期范围</td>
+					<td width="180px;">周期内最多奖励次数</td>
+					<td width="180px;">豆豆</td>
+					<td width="180px;">积分</td>
+				</tr>
+				<tr>
+					<td  width="180px;">参与投票</td>
+					<td width="180px;">每天</td>
+					<td width="180px;">10</td>
+					<td width="180px;">+1</td>
+					<td width="180px;">+2</td>
+				</tr>
+					<tr>
+					<td  width="180px;">每天登录</td>
+					<td width="180px;">每天</td>
+					<td width="180px;">1</td>
+					<td width="180px;">+1</td>
+					<td width="180px;">+2</td>
+				</tr>
+					<tr>
+					<td  width="180px;">设置头像</td>
+					<td width="180px;">一次性</td>
+					<td width="180px;">1</td>
+					<td width="180px;">+5</td>
+					<td width="180px;">+10</td>
+				</tr>
+					<tr>
+					<td  width="180px;">邮箱认证</td>
+					<td width="180px;">一次性</td>
+					<td width="180px;">1</td>
+					<td width="180px;">+10</td>
+					<td width="180px;">+20</td>
+				</tr>
+					<tr>
+					<td  width="180px;">注册推广</td>
+					<td width="180px;">不限周期</td>
+					<td width="180px;">不限次数</td>
+					<td width="180px;">+5</td>
+					<td width="180px;">+10</td>
+				</tr>
+					<tr>
+					<td  width="180px;">发短消息</td>
+					<td width="180px;">不限周期</td>
+					<td width="180px;">不限次数</td>
+					<td width="180px;">0</td>
+					<td width="180px;">-1</td>
+				</tr>
+					<tr>
+					<td  width="180px;">下载附件</td>
+					<td width="180px;">不限周期</td>
+					<td width="180px;">不限次数</td>
+					<td width="180px;">-1</td>
+					<td width="180px;">0</td>
+				</tr>
+					<tr>
+					<td  width="180px;">加精华</td>
+					<td width="180px;">不限周期</td>
+					<td width="180px;">不限次数</td>
+					<td width="180px;">+10</td>
+					<td width="180px;">+20</td>
+				</tr>
+					<tr>
+					<td  width="180px;">发表回复/评论</td>
+					<td width="180px;">每天</td>
+					<td width="180px;">20</td>
+					<td width="180px;">+1</td>
+					<td width="180px;">+2</td>
+				</tr>
+					<tr>
+					<td  width="180px;">发表主题</td>
+					<td width="180px;">每天</td>
+					<td width="180px;">20</td>
+					<td width="180px;">+2</td>
+					<td width="180px;">+4</td>
+				</tr>
+					<tr>
+					<td  width="180px;">每日签到（不发表心情）</td>
+					<td width="180px;">每天</td>
+					<td width="180px;">1</td>
+					<td width="180px;">+2</td>
+					<td width="180px;">+4</td>
+				</tr>
+					<tr>
+					<td  width="180px;">签到+发表心情</td>
+					<td width="180px;">每天</td>
+					<td width="180px;">1</td>
+					<td width="180px;">+5</td>
+					<td width="180px;">+10</td>
+				</tr>
+					<tr>
+					<td  width="180px;">点赞</td>
+					<td width="180px;">每天</td>
+					<td width="180px;">3</td>
+					<td width="180px;">+3</td>
+					<td width="180px;">+6</td>
+				</tr>
+					<tr>
+					<td  width="180px;">点播视频</td>
+					<td width="180px;">每天</td>
+					<td width="180px;">5</td>
+					<td width="180px;">+5</td>
+					<td width="180px;">+10</td>
+				</tr>
+					<tr>
+					<td  width="180px;">在线时间（累计）</td>
+					<td width="180px;">每天（0-30分钟）</td>
+					<td width="180px;">1</td>
+					<td width="180px;">+2</td>
+					<td width="180px;">+4</td>
+				</tr>
+				</tr>
+					<tr>
+					<td  width="180px;">在线时间（累计）</td>
+					<td width="180px;">每天（30-60分钟）</td>
+					<td width="180px;">1</td>
+					<td width="180px;">+3</td>
+					<td width="180px;">+6</td>
+				</tr>
+				</tr>
+					<tr>
+					<td  width="180px;">在线时间（累计）</td>
+					<td width="180px;">每天（60-120分钟）</td>
+					<td width="180px;">1</td>
+					<td width="180px;">+4</td>
+					<td width="180px;">+8</td>
+				</tr>
+				</tr>
+					<tr>
+					<td  width="180px;">在线时间（累计）</td>
+					<td width="180px;">每天（120-240分钟）</td>
+					<td width="180px;">1</td>
+					<td width="180px;">+10</td>
+					<td width="180px;">+20</td>
+				</tr>
+				</tr>
+					<tr>
+					<td  width="180px;">在线时间（累计）</td>
+					<td width="180px;">每天（240-1440分钟）</td>
+					<td width="180px;">1</td>
+					<td width="180px;">+15</td>
+					<td width="180px;">+30</td>
+				</tr>
+				
+				
+			</table>
+			</div>
           </div>
         </div>
         
