@@ -320,12 +320,11 @@ nav li{
 .CartoonSubBFootbar,.SortADFootbar{
 	position: relative;
 	bottom: 56px;
-	/*
-	bottom: -259px\9;*/
 	height: 50px;
 	width: 350px;
 	background:  rgba(0,0,0,0.3);
 }
+
 .SortADFootbar{
 	width: 	822px;
 }
@@ -343,9 +342,11 @@ a.icon{
 }
 .CartoonSubBFootbar span,.SortADFootbar span{
 	display: inline-block;
+	position:absolute;
 	color: #fff;
 	font-size: 16px;
 	line-height: 15px;
+	margin-top: 15px;
 }
 .CartoonSubBFootbar span span{	
 	font-size: 12px;
@@ -817,6 +818,7 @@ a.icon{
 
 .SortAD{
 	float: left;
+	height:405px;
 	width: 822px;
 	padding: 10px 5px 8px 10px;
 }

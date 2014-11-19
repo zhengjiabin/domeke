@@ -19,8 +19,8 @@ public class ParseDemoKit {
 				Object worksid = works.get("worksid");
 				map.put("worksid", worksid);
 				String worksname = works.get("worksname");
-				if(worksname.length() > 12){
-					worksname = worksname.substring(0,12);
+				if(worksname.length() > 10){
+					worksname = worksname.substring(0,10);
 				}
 				map.put("worksname", worksname);
 				map.put("workstype", works.get("workstype"));
@@ -46,8 +46,11 @@ public class ParseDemoKit {
 				String typeUrl = "cartoon/showWorksList?wtype="+works.get("workstype");
 				map.put("typeUrl",typeUrl);
 				String describle = works.get("describle");
-				if(describle.length() > 12){
-					describle = describle.substring(0, 12) + "...";
+				if(describle.length() > 10){
+					describle = describle.substring(0, 10) + "...";
+				}
+				if(StrKit.isBlank(describle)){
+					describle = "";
 				}
 				map.put("describle",describle);
 				map.put("creater", works.get("createtime"));
