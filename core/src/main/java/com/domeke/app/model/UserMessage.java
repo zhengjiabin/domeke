@@ -74,4 +74,10 @@ public class UserMessage extends Model<UserMessage> {
 		List<UserMessage> userMessageList = this.find(sql);
 		return userMessageList;
 	}
+	
+	public List<UserMessage> getAllLeaveMsg(String colmParam){
+		String sql="select * from user_message where fromuser='"+colmParam+"' or touser='"+colmParam+"' or sendtype='1'";
+		List<UserMessage> userMessageList = this.find(sql);
+		return userMessageList;
+	}
 }

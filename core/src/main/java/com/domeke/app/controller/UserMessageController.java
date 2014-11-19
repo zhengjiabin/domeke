@@ -101,7 +101,7 @@ public class UserMessageController extends Controller {
 		List<UserMessage> msgList = new ArrayList<UserMessage>();
 		if("5".equals(msgType)){
 			//所有留言
-			msgList = msg.getLeaveMsg("touser", user.getStr("username"), null,null,null);
+			msgList = msg.getAllLeaveMsg(user.getStr("username"));
 		}else if("6".equals(msgType)){
 			//用户留言
 			msgList = msg.getLeaveMsg("touser", user.getStr("username"), null,"sendtype","0");
