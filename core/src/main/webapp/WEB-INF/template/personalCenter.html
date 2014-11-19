@@ -61,6 +61,9 @@
 		<% include("/personal/personal_ofWonders.html"){} %>
 	<% } else if (menuId! == '19') { %>	
 		<% include("/personal/personal_myOrders.html"){} %>
-	<% } %>		
+	<% } %>	
+	<% if(menuId! == '20') {%>
+		<% include("/favourite.html"){} %>
+	<% } %>	
 </div>
 <% } %> 

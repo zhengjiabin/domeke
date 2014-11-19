@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Activity;
 import com.domeke.app.model.DownLoad;
+import com.domeke.app.model.Favourite;
 import com.domeke.app.model.Goods;
 import com.domeke.app.model.OfWonders;
 import com.domeke.app.model.OrderDetail;
@@ -44,6 +45,7 @@ public class PersonalController extends  FilesLoadController{
 		treasurePage(mid,userId);
 		ofWondersPage(mid,userId);
 		myOrdersPage(mid,userId);
+		myFavourite(mid);
 		render("/personalCenter.html");
 	}
 	public void forMyProductionPage(){
@@ -57,6 +59,7 @@ public class PersonalController extends  FilesLoadController{
 		myDownLoad(mid);
 		loadPoint(mid,userId);
 		myPlay(mid);
+		myFavourite(mid);
 		acctiveApply(mid);
 		if("14".equals(mid)){
 			render("/myApplyActive.html");
@@ -64,6 +67,8 @@ public class PersonalController extends  FilesLoadController{
 			render("/mydowload.html");
 		}else if("2".equals(mid)){
 			render("/playRecord.html");
+		}else if("20".equals(mid)){
+			render("/favourite.html");
 		}
 		
 	}
@@ -181,6 +186,22 @@ public class PersonalController extends  FilesLoadController{
 			int pageSize = getParaToInt("pageSize", 10);
 			Page<DownLoad> downPage = down.getByUserId(userid, pageNumber, pageSize);
 			setAttr("downPage", downPage);
+		}
+	}
+	
+	/**
+	 * 加载我的动漫收藏
+	 */
+	public void myFavourite(String minuId){
+		if("20".equals(minuId)){
+			User user = getModel(User.class);
+			Favourite fav = getModel(Favourite.class);
+			user = getSessionAttr("user");
+			Long userid = user.getLong("userid");
+			int pageNumber = getParaToInt("pageNumber", 1);
+			int pageSize = getParaToInt("pageSize", 10);
+			Page<Favourite> favPage = fav.getFavouriteByUid(userid, pageNumber, pageSize);
+			setAttr("favPage", favPage);
 		}
 	}
 	/**
