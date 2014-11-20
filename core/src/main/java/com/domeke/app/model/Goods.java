@@ -1,5 +1,6 @@
 package com.domeke.app.model;
 
+import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,7 @@ public class Goods extends Model<Goods> {
 	}
 	
 	public List<Goods> getGoodsByNewLimit(Integer limit) {
-		String querySql = "select * from goods where showflag=1 and istop=1 order by istop limit "+limit;
+		String querySql = "select * from goods where showflag=1 and istop=1 order by modifytime desc limit "+limit;
 		List<Goods> goodsList = this.find(querySql);
 		return goodsList == null ? Lists.newArrayList() : goodsList;
 	}
@@ -182,8 +183,8 @@ public class Goods extends Model<Goods> {
 	 * @param goodsId
 	 * @param 
 	 */
-	public void updateIndexShow(String goodsId, int flag) {
-		String sql="update goods set istop=" + flag + " where goodsid = "+goodsId;
+	public void updateIndexShow(String goodsId, int flag, Timestamp newdate) {
+		String sql="update goods set istop=" + flag + ",modifytime='" + newdate + "' where goodsid = "+goodsId;
 		Db.update(sql);
 	}
 }

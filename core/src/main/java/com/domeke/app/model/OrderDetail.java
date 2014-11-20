@@ -9,11 +9,11 @@ public class OrderDetail extends Model<OrderDetail>{
 	private static OrderDetail order = new OrderDetail();
 	
 	public Page<OrderDetail> getAllOrder(Long orderid,String param,int pageNumber,int pageSize){
-		Page<OrderDetail> page = this.paginate(pageNumber, pageSize, "select * ", "from order_detail");
+		Page<OrderDetail> page = this.paginate(pageNumber, pageSize, "select od.* ", "from orders o ,order_detail od where o.orderid=od.orderid order by creattime desc");
 		return page;
 	}
 	public Page<OrderDetail> getOrdersByUserId(Long orderid,String param,int pageNumber,int pageSize,Long userId){
-		Page<OrderDetail> page = this.paginate(pageNumber, pageSize, "select * ", "from order_detail where userid = " + userId);
+		Page<OrderDetail> page = this.paginate(pageNumber, pageSize, "select od.* ", "from orders o ,order_detail od where o.orderid=od.orderid and userid = " + userId + " order by creattime desc");
 		return page;
 	}
 	

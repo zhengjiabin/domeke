@@ -26,6 +26,7 @@ public class OrderController extends FilesLoadController{
 		//订单主表分页
 		Orders orders = getModel(Orders.class);
 		Page<Orders> ordersList = orders.getAllOrders(pageNumber,pageSize);
+		//List<Orders> ordersList = orders.getOrders();
 		//订单详细表分页
 		OrderDetail orderdetail = getModel(OrderDetail.class);
 		Page<OrderDetail> orderDetailList = orderdetail.getAllOrder(null, null,pageNumber,pageSize);
