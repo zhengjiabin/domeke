@@ -72,9 +72,8 @@ function galevel2(str)
         	历史价格：<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
         	<div id="preview"></div>
         	商品主图：<input id="fileImage" type="file" size="30" name="pic" onchange="onUploadImgChange(this)" required="required" /><span class='font_r' style="color: red"> *</span><br>
-        	商品描述：<textarea id="message" name="goods.message" value="${goods.message!}" rows="5" class="span6 m-wrap" ></textarea>
+        	<!-- 商品描述：<textarea id="message" name="goods.message" value="${goods.message!}" rows="5" class="span6 m-wrap" ></textarea> -->
         	
-               	
         	<!-- <input id="message" name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" /> -->
         	<span class='font_r' style="color: red"> *</span><br>
         	商城地址：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
@@ -115,6 +114,13 @@ function galevel2(str)
         	商品类别3：<select id="goodsattr3" name="goods.goodsattr3" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择======</option>
         	</select><br>
+        	
+        	<div class="ForumInfoA font_str">商品描述：</div>
+      		<div class="WhiteBg" style="height: 300px;padding:10px;">
+      			<textarea name="ckeditor" id="ckeditor"></textarea>
+				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
+				<input type="text" name="goods.message" id="message" value="${goods.message!}" hidden="block" style="display:none"/>
+      		</div> 
         	
         <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>
         <span class='font_r' style="color: red">${msg!}</span>

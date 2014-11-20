@@ -140,8 +140,16 @@ function onUploadImgChanges(node){
         return false;
     }
 	var array = node.files
+	var leng = array.length;
+	if (leng > 5) {
+		leng = 0;
+		file = $("#fileImage");   
+		file.after(file.clone());   
+		file.remove();
+		alert("上传图片不能超过5张！");
+	}
 	$("#previews").empty();
-	for (var i = 0; i < array.length; i ++) {
+	for (var i = 0; i < leng; i ++) {
 		if (node.files && node.files[i]){  
 	    	var reader = new FileReader();  
     		var imgId = i + 1;
