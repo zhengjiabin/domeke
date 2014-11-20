@@ -1,6 +1,7 @@
 <% layout("/admin/admin_layout.html"){ %>
 <link href="css/Member.css" rel="stylesheet" media="screen">
 <script src="js/jquery.form.js"></script>
+<script src="js/jqthumb.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		//初始化
@@ -9,7 +10,26 @@
 			var status = $('#flag-sel').val();
 			showpage({'flag':0,'status':status,'pageIndex':1});
 		});
-		
+		$('img').each(function(){
+			$(this).error(function(){
+				if (this.src != 'http://www.dongmark.com/images/default.png') {
+					this.src = 'http://www.dongmark.com/images/default.png';
+					var width = $(this).width();
+					var height = $(this).height();
+					$(this).jqthumb({
+						width:width,
+						height:height
+					});
+					return false;
+				}
+			});
+			var width = $(this).width();
+			var height = $(this).height();
+			$(this).jqthumb({
+				width:width,
+				height:height
+			});
+		});
 	});
 	function showpage(params){
 		var param = '';

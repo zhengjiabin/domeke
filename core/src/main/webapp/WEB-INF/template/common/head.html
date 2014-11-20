@@ -24,7 +24,7 @@ function onUploadImgChange(node){
 		preview.html("");
         return false;
     }
-    if (node.files && node.files[0]){  
+    if (node.files && node.files[0]){
     	var reader = new FileReader();  
     	reader.onload = function(evt){
     		preview.html('<img src="' + evt.target.result + '" />');

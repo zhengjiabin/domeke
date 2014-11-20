@@ -22,7 +22,7 @@
 			<td>${ord.goodsprice!}</td>
 			<td>${ord.goodsnum!}</td>
 			<td>${ord.goodsprice!*ord.goodsnum!}</td>
-			<%for(or in ordList.list){%>
+			<%for(or in ordList.list!){%>
 				<% if(ord.orderid == or.orderid){ %>
 					<% if(or.isPay=="Y") { %>
 						<td>是</td>

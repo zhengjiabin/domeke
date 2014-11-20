@@ -6,6 +6,9 @@
  function changImg(){
 	 window.location="user/captcha";
  }
+ function openwin() { 
+	  window.open ("warninng.html", "newwindow", "height=518, width=650, toolbar =0, menubar=no, scrollbars=no, resizable=no, location=no, status=no")
+	} 
  </script>
 </head>
 
@@ -72,12 +75,23 @@
         </td>
       </tr>
       <tr>
-        <th>&nbsp;</th>
-        <td><input  type="submit" class="BtReg" value="立即注册"></td>
+       <th>&nbsp;</th>
+        <td><input  type="checkbox" style="border:0px" name="check" value="01">
+        <font> <a href="javascript:void(0)" onclick="openwin()">我已阅读并同意《动漫方舟网注册协议》</a> </font>
+        <div>
+	       <a style="color:#F00">${xieyi!}</a>
+	    </div>
+        </td>
       </tr>
       <tr>
         <th>&nbsp;</th>
-        <td>点击“立即注册”，即表示您同意并愿意遵守动漫方舟<span class="font_r"><a href="#">用户协议</a></span>和<span class="font_r"><a href="#">隐私政策</a></span></td>
+        <td><input  type="submit" class="BtReg" value="立即注册">
+        
+        </td>
+      </tr>
+      <tr>
+        <th>&nbsp;</th>
+        <td>点击“立即注册”，即表示您同意并愿意遵守动漫方舟<span class="font_r"><a href="#">用户协议</a></span>和<span class="font_r"><a>隐私政策</a></span></td>
       </tr>
     </table>
   </form>

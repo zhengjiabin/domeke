@@ -23,6 +23,28 @@
 			return false;
 		}
 	}
+	$(document).ready(function(){
+		$('img').each(function(){
+			$(this).error(function(){
+				if (this.src != 'http://www.dongmark.com/images/default.png') {
+					this.src = 'http://www.dongmark.com/images/default.png';
+					var width = $(this).width();
+					var height = $(this).height();
+					$(this).jqthumb({
+						width:width,
+						height:height
+					});
+					return false;
+				}
+			});
+			var width = $(this).width();
+			var height = $(this).height();
+			$(this).jqthumb({
+				width:width,
+				height:height
+			});
+		});
+	});
 </script>
 <div class="MemberIndex">
           <div class="MeCaption"><a href="javascript:showPage({'flag':1,'type':1,'pageIndex':${pageIndex!}});">专辑管理</a> --> <a href="javascript:showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${pageWork.pageNumber!},'worksid':${works.worksid!}});">编辑专辑</a></div>
