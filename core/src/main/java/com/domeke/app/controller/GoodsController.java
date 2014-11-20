@@ -1,8 +1,11 @@
 package com.domeke.app.controller;
 
 import java.io.File;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -658,7 +661,10 @@ public class GoodsController extends FilesLoadController {
 		if (result == 0){
 			flag = 1;
 		}
-		Goods.dao.updateIndexShow(goodsId, flag);
+		Date date = new Date();
+		String nowTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
+		Timestamp newdate = Timestamp.valueOf(nowTime);
+		Goods.dao.updateIndexShow(goodsId, flag, newdate);
 		redirect("/goods/renderGoods");
 	}
 	public String getOrderNum(){
