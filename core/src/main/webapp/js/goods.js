@@ -1,3 +1,4 @@
+
 //goods判空
 function checknull(obj) {
 	if (document.getElementById("goodsname").value.length == 0) {
@@ -127,7 +128,7 @@ function onUploadImgChange(node){
     	preview.html('<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + node.value + '\'"></div>');
     }  
 }
-
+//显示上传前的本地图片（多图）
 function onUploadImgChanges(node){
 	var createHtml = $(node).closest("#createHtml");
 	var preview = createHtml.find("#previews").first();
@@ -138,13 +139,21 @@ function onUploadImgChanges(node){
 		preview.html("");
         return false;
     }
-    if (node.files && node.files[0]){  
-    	var reader = new FileReader();  
-    	reader.onload = function(evt){
-    		preview.html('<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="' + evt.target.result + '" />');
-    	}
-    	reader.readAsDataURL(node.files[0]);
-    }else{
-    	preview.html('<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + node.value + '\'"></div>');
-    }  
+	var array = node.files
+	$("#previews").empty();
+	for (var i = 0; i < array.length; i ++) {
+		if (node.files && node.files[i]){  
+	    	var reader = new FileReader();  
+    		var imgId = i + 1;
+	    	reader.onload = function(evt){
+	    		$("#previews").prepend('<img id="'+imgId+'" data-src="holder.js/260x180" alt="107x72" style="width: 107px; height: 72px;" src="' + evt.target.result + '" />');
+	    		//preview.html('<img id="'+aa+'" data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="' + evt.target.result + '" />');
+	    	}
+	    	reader.readAsDataURL(node.files[i]);
+	    }
+		//else{
+	    //	preview.html('<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + node.value + '\'"></div>');
+	    //}  
+	}
+    
 }

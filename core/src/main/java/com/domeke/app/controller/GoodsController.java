@@ -186,6 +186,7 @@ public class GoodsController extends FilesLoadController {
 		String url = getPara("url");
 		FileLoadKit.deleteFiles(this, url);
 		Goods goods = Goods.dao.findById(getParaToInt("goodsId"));
+		url = url.substring(0, url.lastIndexOf("/"));
 		List<String> headimgs = FileLoadKit.getFilesVirtualDirectory(this, url);
 				
 		setAttr("headimgs", headimgs);
