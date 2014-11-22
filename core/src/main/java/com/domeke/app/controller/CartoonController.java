@@ -95,7 +95,7 @@ public class CartoonController extends Controller {
 		Works works = getModel(Works.class);
 		String workstype = getPara("wtype", "10");
 		Integer pageNum = getParaToInt("pnum", 1);
-		Page<Works> list = works.getWorksInfoPage(workstype, pageNum, 14);
+		Page<Works> list = works.getWorksInfoByTypePage(workstype, pageNum, 10);
 		setAttr("workstypevalue", getWtypeCodeTable().get(workstype));
 		setAttr("menuid", "2");
 		setAttr("pageList", list);
@@ -113,7 +113,7 @@ public class CartoonController extends Controller {
 		// 取某一部动漫
 		Works works = worksModel.findById(worksId);
 		// 取该动漫的集数
-		List<Work> workList = workModel.getWorkByWorksID(worksId);
+		List<Work> workList = workModel.getWorkByWorksIdCheck(worksId);
 		// 取精彩推荐的动漫作品
 		List<Works> wonderfulWorksList = worksModel.getNewestWorks(worksId, 1, 5);
 		

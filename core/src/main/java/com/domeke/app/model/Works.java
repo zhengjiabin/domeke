@@ -1,13 +1,6 @@
 package com.domeke.app.model;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-
-import org.apache.commons.lang.time.DateUtils;
-
 import com.domeke.app.tablebind.TableBind;
 import com.google.common.collect.Lists;
 import com.jfinal.kit.StrKit;
@@ -27,7 +20,7 @@ public class Works extends Model<Works> {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6887430065087508156L;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 保存数据信息到数据库
@@ -43,15 +36,25 @@ public class Works extends Model<Works> {
 		this.update();
 	}
 	
+	/**
+	 * 获取动漫页 8个轮播
+	 * @param type
+	 * @return
+	 */
 	public int getMaxHomePageValue(String type){
 		String sql = "select * from works order by homepage desc  limit 1";
 		if(!StrKit.isBlank(type)){
-			sql = "select * from works where type="+type+" order by homepage desc  limit 1";
+			sql = "select * from works where type="+type+" order by homepage desc limit 1";
 		}
 		Works works = this.findFirst(sql);
 		return works.get("homepage");
 	}
 	
+	/**
+	 * 按类型查询   按istop 排名 desc
+	 * @param type
+	 * @return
+	 */
 	public int getMaxTopValue(String type){
 		String sql = "select * from works order by istop desc  limit 1";
 		if(!StrKit.isBlank(type)){
@@ -61,23 +64,35 @@ public class Works extends Model<Works> {
 		return works.get("istop");
 	}
 	
-	/**
-	 * 获取所有商品信息
-	 * 
-	 * @return 返回所有商品信息
-	 */
-	public List<Works> queryAllWorksInfo() {
-		String querySql = "select * from works";
-		List<Works> workslist = this.find(querySql);
-		return workslist == null ? Lists.newArrayList() : workslist;
-	}
+//	/**
+//	 * 获取所有信息
+//	 * 
+//	 * @return 返回所有商品信息
+//	 */
+//	public List<Works> queryAllWorksInfo() {
+//		String querySql = "select * from works";
+//		List<Works> workslist = this.find(querySql);
+//		return workslist == null ? Lists.newArrayList() : workslist;
+//	}
 	
+	/**
+	 * 获取动漫首页轮播
+	 * @param limit
+	 * @return
+	 */
 	public List<Works> getHomePage(Integer limit){
-		String querySql = "select * from works where homepage > 0 and ischeck = 1 order by homepage desc limit "+limit;
+		String querySql = "select * from works where homepage > 0 and ischeck = 1 and ispublic = 1 order by homepage desc limit "+limit;
 		List<Works> workss = this.find(querySql);
 		return workss;
 	}
 	
+	/**
+	 * 分页获取动漫首页轮播
+	 * @param workstype
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
 	public Page<Works> getHomePage(String workstype,Integer pageIndex,Integer pageSize){
 		String querySql = "from works where homepage > 0 order by homepage desc";
 		if(!StrKit.isBlank(workstype)){
@@ -87,17 +102,26 @@ public class Works extends Model<Works> {
 		return workss;
 	}
 	
+	/**
+	 * 获取还未审核的works
+	 * @param workstype
+	 * @param type
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
+	 */
 	public Page<Works> getWorksNotCheck(String workstype,String type,Integer pageIndex,Integer pageSize){
 		try {
 			StringBuffer querySql = new StringBuffer();
-			querySql.append("from works t1 inner join work t2 on t2.worksid = t1.worksid where (t1.ischeck = 0 or t2.ischeck = 0)");
+			querySql.append("from work t1 left join works t2 on t2.worksid = t1.worksid where t1.ischeck = 0");
 			if(!StrKit.isBlank(workstype)){
-				querySql.append(" and t1.workstype = " + workstype);
+				querySql.append(" and t2.workstype = " + workstype);
 			}
 			if(!StrKit.isBlank(type)){
-				querySql.append(" and t1.type = " + type);
+				querySql.append(" and t2.type = " + type);
 			}
-			Page<Works> workss = this.paginate(pageIndex, pageSize, "select DISTINCT t1.*", querySql.toString());
+			querySql.append(" order by t2.createtime desc");
+			Page<Works> workss = this.paginate(pageIndex, pageSize, "select DISTINCT t2.*", querySql.toString());
 			return workss;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -126,79 +150,87 @@ public class Works extends Model<Works> {
 	 * @return 返回对应类型的作品信息
 	 */
 	public List<Works> getWorksInfoByType(String worksType,Integer limit) {
-		String querySql = "select * from works where workstype=? and ischeck = 1 and maxnum > 0 order by istop desc limit "+limit;
+		String querySql = "select * from works where workstype=? and ischeck = 1 and ispublic = 1 and maxnum > 0 order by istop desc limit "+limit;
 		List<Works> workslist = this.find(querySql, worksType);
 		return workslist == null ? Lists.newArrayList() : workslist;
 	}
 
 	/**
-	 * 根据商品类型返回商品信息
-	 * 
+	 * 前台， 获取Works信息  需要 确认审核、确认公开
 	 * @param worksType
-	 *            商品类型
-	 * @return 返回对应类型的商品信息
+	 * @param pageIndex
+	 * @param pageSize
+	 * @return
 	 */
-	public List<Works> getWorksInfoByTypePage(String worksType, Integer pageIndex, Integer pageSize) {
-		List<Works> workslist = null;
+	public Page<Works> getWorksInfoByTypePage(String worksType, Integer pageIndex, Integer pageSize) {
+		Page<Works> workslist = null;
 		if (!StrKit.isBlank(worksType)) {
-			workslist = this.paginate(pageIndex, pageSize, "select *", "from works where workstype = ?", worksType)
-					.getList();
+			workslist = this.paginate(pageIndex, pageSize, "select *", "from works where ischeck = 1 and ispublic = 1 and workstype = ? order by istop desc", worksType);
 		}
 		return workslist;
 	}
 
-	/**
-	 * 
-	 * @param worksName
-	 * @return
-	 */
-	public List<Works> getWorksInfoByName(String worksName) {
-		String querySql = "select * from works where worksname like '" + worksName + "'";
-		List<Works> worklist = this.find(querySql);
-		return worklist == null ? Lists.newArrayList() : worklist;
-	}
+//	/**
+//	 * 
+//	 * @param worksName
+//	 * @return
+//	 */
+//	public List<Works> getWorksInfoByName(String worksName) {
+//		String querySql = "select * from works where worksname like '" + worksName + "'";
+//		List<Works> worklist = this.find(querySql);
+//		return worklist == null ? Lists.newArrayList() : worklist;
+//	}
 
 	/**
-	 * 分页
-	 * @param worksType 动漫类型
-	 * @param pageNum 第几页
-	 * @param pageSize 一页多少记录
-	 * @return 
+	 * 后台， 获取所以Works信息  不判断审核、公开
+	 * @param worksType
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
 	 */
 	public Page<Works> getWorksInfoPage(String worksType, Integer pageNum, Integer pageSize) {
 		Page<Works> workslist = null;
 		if (!StrKit.isBlank(worksType)) {
-			workslist = this.paginate(pageNum, pageSize, "select *", "from works where workstype = ?", worksType);
+			workslist = this.paginate(pageNum, pageSize, "select *", "from works where workstype = ? order by createtime desc", worksType);
 		}else {
-			workslist = this.paginate(pageNum, pageSize, "select *", "from works");
+			workslist = this.paginate(pageNum, pageSize, "select *", "from works order by createtime desc");
 		}
 		return workslist;
 	}
+	
 	/**
-	 * 分页
+	 * 后台 按类型查询
 	 * @param worksType 动漫类型
 	 * @param pageNum 第几页
 	 * @param pageSize 一页多少记录
 	 * @return 
 	 */
 	public Page<Works> getWorksInfoPage(String worksType, String type, Integer pageNum, Integer pageSize) {
-		Page<Works> workslist = null;
-		String form = "from works where 1=1";
-		if (!StrKit.isBlank(worksType)) {
-			form = form + " and workstype = "+worksType;
+		try {
+			StringBuffer querySql = new StringBuffer();
+			querySql.append("from work t1 left join works t2 on t2.worksid = t1.worksid where t1.ischeck = 0");
+			if(!StrKit.isBlank(worksType)){
+				querySql.append(" and t2.workstype = " + worksType);
+			}
+			if(!StrKit.isBlank(type)){
+				querySql.append(" and t2.type = " + type);
+			}
+			querySql.append(" order by t2.createtime desc");
+			Page<Works> workss = this.paginate(pageNum, pageSize, "select DISTINCT t2.*", querySql.toString());
+			return workss;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		if (!StrKit.isBlank(type)) {
-			form = form + " and type = "+type;
-		}
-		workslist = this.paginate(pageNum, pageSize, "select *", form);
-		return workslist;
 	}
 	/**
-	 * 分页
-	 * @param worksType 动漫类型
-	 * @param pageNum 第几页
-	 * @param pageSize 一页多少记录
-	 * @return 
+	 * 个人中心 按用户查询，自能看见自己上传的
+	 * @param worksType
+	 * @param type
+	 * @param creater
+	 * @param pageNum
+	 * @param pageSize
+	 * @return
 	 */
 	public Page<Works> getWorksInfoPage(String worksType, String type, String creater, Integer pageNum, Integer pageSize) {
 		Page<Works> workslist = null;
@@ -224,16 +256,17 @@ public class Works extends Model<Works> {
 	 */
 	public List<Works> getlastWeekByPageViewsLimit(Integer limit){
 		List<Works> workss = null;
-		workss = this.find("select * from works where ischeck = 1 order by pageviews desc limit ?", limit);
+		workss = this.find("select * from works where ischeck = 1 and ispublic = 1 order by pageviews desc limit ?", limit);
 		return workss;
 	}
+	
 	/**
 	 * 最近更新
 	 * @return
 	 */
 	public List<Works> getWorksInfoByUpdateLimit(Integer limit){
 		List<Works> workss = null;
-		workss = this.find("select * from works where ischeck = 1 order by updatetime desc limit ?", limit);
+		workss = this.find("select * from works where ischeck = 1 and ispublic = 1 order by updatetime desc limit ?", limit);
 		return workss;
 	}
 
@@ -246,7 +279,7 @@ public class Works extends Model<Works> {
 	 */
 	public List<Works> getNewestWorks(Object worksid,Integer type, Integer limit) {
 		List<Works> workss = null;
-		String querySql = "select * from works where worksid <> ? and type = ? and ischeck = 1 order by createtime desc limit ?";
+		String querySql = "select * from works where worksid <> ? and type = ? and ischeck = 1 and ispublic = 1 order by createtime desc limit ?";
 		workss = this.find(querySql, worksid, type, limit);
 		return workss;
 	}

@@ -23,14 +23,20 @@ public class History extends Model<History> {
 		History history = new History();
 
 		LocalDate now = LocalDate.now();
-
+		
 		Works dao = new Works();
 		Works works = dao.findById(work.get("worksid"));
 		Long pageviews = new Long(0);
+		Integer playtimes = 0;
 		if (works.getLong("pageviews") != null) {
 			pageviews = works.getLong("pageviews");
 		}
+		if(work.getInt("playtimes") != null){
+			playtimes = work.getInt("playtimes");
+		}
 		works.set("pageviews", pageviews + 1);
+		work.set("playtimes", playtimes + 1);
+		work.update();
 		works.update();
 		history = getDayHistory(work, now);
 		if (history.isNotEmpty() && history.getLong("count") > 0) {

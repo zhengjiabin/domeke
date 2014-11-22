@@ -12,6 +12,7 @@
 				$('.SortAD a.icon').attr('href',play);
 				var name = $($curs).attr('wname');
 				$('.SortAD img[flag=update]').attr('src',src);
+				resizeImg('.SortAD img');
 				$('.SortAD .SortADFootbar span').html(name);
 				i++;
 				if(i > max){
@@ -33,6 +34,7 @@
 			var play = $(this).attr('play');
 			var name = $(this).attr('wname');
 			$('.SortAD img[flag=update]').attr('src',src);
+			resizeImg('.SortAD img');
 			$('.SortAD a.icon').attr('href',play);
 			$('.SortAD .SortADFootbar span').html(name);
 		});
@@ -47,32 +49,18 @@
 		$('.SortAD img').mouseout(function(){
 			timer = window.setInterval($.loopplay,3000);
 		});
-		$('img').each(function(){
-			$(this).error(function(){
-				if (this.src != 'http://www.dongmark.com/images/default.png') {
-					this.src = 'http://www.dongmark.com/images/default.png';
-					var width = $(this).width();
-					var height = $(this).height();
-					$(this).jqthumb({
-						width:width,
-						height:height
-					});
-					return false;
-				}
-			});
-			var width = $(this).width();
-			var height = $(this).height();
-			$(this).jqthumb({
-				width:width,
-				height:height
-			});
-		});
+		
+		resizeImg('.SortZoom img');
+		resizeImg('.container.clearfix section:eq(1) img');
+		resizeImg('.container.clearfix section:eq(2) img');
+		resizeImg('.container.clearfix section:eq(3) img');
+		resizeImg('.container.clearfix section:eq(4) img');
 	});
 </script>
 <%if(workss0.~size > 0){%>
 <section class="WhiteBg">
 	<div class="SortAD">
-		<img flag="update" src="${allWorksMap[workstype][0].cover!}">
+		<img flag="update" src="${workss0[0].cover!}">
 		<div class="SortADFootbar">
 			<a href="${workss0[0].playUrl!}" class="icon"><img id="icon" src="images/icon_play.png"></a>
 			<span>${workss0[0].worksname!}</span>

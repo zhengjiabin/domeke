@@ -39,6 +39,7 @@ public class AppBaseConfig extends JFinalConfig {
 		constants.setMainRenderFactory(new DomekeBeetlRenderFactory());
 		constants.setError404View("/common/404.html");
 		constants.setError500View("/common/500.html");
+		constants.setDevMode(true);
 	}
 
 	@Override

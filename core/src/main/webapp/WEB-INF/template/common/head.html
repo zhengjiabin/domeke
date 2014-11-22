@@ -15,6 +15,32 @@
 <script src="js/goods.js"></script>
 <script src="js/jqthumb.min.js"></script>
 <script type="text/javascript">
+	function resizeImage(el,width,height){
+		if(width==''||typeof(width)=='undefined'){
+			 width = $(el).width();
+		}
+		if(height==''||typeof(height)=='undefined'){
+			 height = $(el).height();
+		}
+		$(el).jqthumb({
+			width:width,
+			height:height
+		});
+	}
+	
+	function resizeImg(clazz,width,height) {
+		$(clazz).each(function(){
+			$(this).error(function(){
+				if (this.src != 'http://www.dongmark.com/images/default.png') {
+					this.src = 'http://www.dongmark.com/images/default.png';
+					resizeImage(this,width,height);
+					return false;
+				}
+			});
+			resizeImage(this,width,height);
+		});
+	}
+	
 function onUploadImgChange(node){
 	var preview = createHtml.find("#userImg").first();
 	if(node.value == null || node.value ==''){

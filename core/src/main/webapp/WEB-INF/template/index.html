@@ -8,6 +8,7 @@
 				$curs = $('.AdSub ul li:eq(' + i + ')').addClass('select');
 				var src = $curs.attr('src');
 				$('.Adpic img').attr('src', src);
+				resizeImg('.Adpic img');
 				var href = $('a', $curs).attr('href');
 				$('.Adpic a').attr('href', href);
 				i++;
@@ -29,6 +30,7 @@
 			window.clearInterval(timer);
 			var src = $(this).attr('src');
 			$('.Adpic img').attr('src', src);
+			resizeImg('.Adpic img');
 			var href = $('a', this).attr('href');
 			$('.Adpic a').attr('href', href);
 		});
@@ -43,27 +45,8 @@
 			timer = window.setInterval($.loopplay, 3000);
 		});
 		
-		$('img').each(function(){
-			$(this).error(function(){
-				if (this.src != 'http://www.dongmark.com/images/default.png') {
-					this.src = 'http://www.dongmark.com/images/default.png';
-					var width = $(this).width();
-					var height = $(this).height();
-					$(this).jqthumb({
-						width:width,
-						height:height
-					});
-					return false;
-				}
-			});
-			var width = $(this).width();
-			var height = $(this).height();
-			$(this).jqthumb({
-				width:width,
-				height:height
-			});
-		});
-		 
+		resizeImg('section:eq(1) img');
+		resizeImg('aside section:eq(0) img');
 	});
 </script>
 <%if(homepages.~size > 0){%>
