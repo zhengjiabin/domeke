@@ -7,15 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.domeke.app.interceptor.LoginInterceptor;
-import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.DownLoad;
 import com.domeke.app.model.User;
-import com.domeke.app.model.UserRole;
 import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.model.WorksType;
 import com.domeke.app.route.ControllerBind;
-import com.domeke.app.utils.CodeKit;
+import com.domeke.app.utils.FileLoadKit;
+import com.domeke.app.utils.MapKit;
 import com.domeke.app.utils.PropKit;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -169,9 +168,16 @@ public class WorksController extends FilesLoadController {
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
 
-		String coverPath = upLoadFileDealPath("cover", "", 2000 * 1024 * 1024,
-				"utf-8");
-		String comicPath = upLoadVideo("comic", "", 2000 * 1024 * 1024, "utf-8");
+		Map<String, String> directory = FileLoadKit.uploadFiles(this, "works", 2000 * 1024 * 1024,"utf-8");
+		if(MapKit.isBlank(directory)){
+			Map<String, Object> map = Maps.newHashMap();
+			map.put("success", 0);
+			map.put("message", "上传失败！");
+			renderJson(map);
+			return;
+		}
+		String coverPath = directory.get("cover");
+		String comicPath = directory.get("comic");
 		String title = getPara("title");
 		String des = getPara("des");
 		String type = getPara("type");
@@ -341,8 +347,15 @@ public class WorksController extends FilesLoadController {
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
 
-		String coverPath = "";
-		String comicPath = upLoadVideo("comic", "", 2000 * 1024 * 1024, "utf-8");
+		Map<String, String> directory = FileLoadKit.uploadFiles(this, "works", 2000 * 1024 * 1024,"utf-8");
+		if(MapKit.isBlank(directory)){
+			map.put("success", 0);
+			map.put("message", "上传失败！");
+			renderJson(map);
+			return;
+		}
+		String coverPath = directory.get("cover");
+		String comicPath = directory.get("comic");
 		String title = getPara("title");
 		String des = getPara("des");
 		String ispublic = getPara("ispublic");

@@ -19,7 +19,7 @@ public class Comment extends Model<Comment> {
 	 * 根据targetId查询子回复信息
 	 * 
 	 * @param targetId 回复目标
-	 * @param idtype 10:帖子，20:活动，30:宝贝，40:动漫，50:商城
+	 * @param idtype 10:帖子，20:活动，30:宝贝，40:动漫，50:无奇不有，60:商城
 	 * 
 	 * @return
 	 */
@@ -47,7 +47,7 @@ public class Comment extends Model<Comment> {
 	 * 根据targetId查询子回复信息
 	 * 
 	 * @param targetId 回复目标
-	 * @param idtype 10:帖子，20:活动，30:宝贝，40:动漫，50:商城
+	 * @param idtype 10:帖子，20:活动，30:宝贝，40:动漫，50:无奇不有，60:商城
 	 * 
 	 * @return
 	 */
