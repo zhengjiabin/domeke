@@ -5,6 +5,7 @@
 							<tr>
 								<th>序号</th>
 								<th>商品名称</th>
+								<th>数量</th>
 								<th>价格</th>
 								<th>豆豆价格</th>
 								<th>历史价格</th>
@@ -29,6 +30,7 @@
 							<tr class="odd gradeX">
 									<td>${index!}</td>
 									<td><a href="goods/getGoodsDetail?goodsid=${g.goodsid!}&goodsattr=${g.goodsattr1!}&dougprice=${g.dougprice!}&tamllurl=${g.tamllurl!}">${g.goodsname!}</a></td>
+									<td>${g.goodsnumber!}</td>
 									<td>${g.price!}</td>
 									<td>${g.dougprice!}</td>
 									<td>${g.oldprice!}</td>

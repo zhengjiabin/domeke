@@ -57,12 +57,14 @@ function checknull(obj) {
 	if (!my.test(document.getElementById("price").value)){
 		alert("价格输入有误！");
 		return false;
-	}
+	} else if (!my.test(document.getElementById("goodsnumber").value)) {
+		alert("商品数量输入有误！");
+		return false;
+	} 
 	if (document.getElementById("oldprice").value!=null && document.getElementById("oldprice").value!="" && !my.test(document.getElementById("oldprice").value)){
 		alert("历史价格输入有误！");
 		return false;
 	}
-	
 	form.submit();
 }
 
@@ -95,7 +97,10 @@ function upchecknull(obj) {
 	if (!my.test(document.getElementById("price").value)){
 		alert("价格输入有误！");
 		return false;
-	}
+	} else if (!my.test(document.getElementById("goodsnumber").value)) {
+		alert("商品数量输入有误！");
+		return false;
+	} 
 	if (document.getElementById("oldprice").value!=null && document.getElementById("oldprice").value!="" && !my.test(document.getElementById("oldprice").value)){
 		alert("历史价格输入有误！");
 		return false;

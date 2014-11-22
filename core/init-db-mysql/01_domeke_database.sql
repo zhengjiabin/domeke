@@ -380,10 +380,13 @@ CREATE TABLE `goods` (
   `goodsid` bigint(20) NOT NULL AUTO_INCREMENT,
   `goodsname` varchar(255) NOT NULL,
   `price` float(7,2) unsigned NOT NULL COMMENT '现价',
-  `dougprice` bigint(20) DEFAULT '0',
+  `dougprice` bigint(7) DEFAULT '0',
   `oldprice` float(7,2) DEFAULT NULL COMMENT '原价',
   `amount` int(10) unsigned NOT NULL DEFAULT '0',
   `pic` varchar(255) NOT NULL,
+  `goodscolor` varchar(32) DEFAULT NULL,
+  `goodspack` varchar(64) DEFAULT NULL,
+  `goodsnumber` float(18,6) DEFAULT NULL,
   `message` varchar(255) NOT NULL,
   `tamllurl` varchar(255) NOT NULL,
   `submitdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -400,10 +403,10 @@ CREATE TABLE `goods` (
   `goodsattr3` int(4) DEFAULT NULL,
   `goodsattr4` int(4) DEFAULT NULL,
   `goodsattr5` int(4) DEFAULT NULL,
-  `sumlove` int(4) DEFAULT '0',
+  `sumlove` int(10) DEFAULT '0',
   `showflag` int(4) DEFAULT '1',
-  PRIMARY KEY (`goodsid`,`dougprice`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`goodsid`)
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for message_queue
