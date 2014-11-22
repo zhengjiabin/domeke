@@ -434,6 +434,11 @@ public class FileLoadKit {
 		String virtualPath = null;
 		String fileName = tempFile.getName();
 		String serverDirectory = fileUploadKit.getServerDirectoryAuto(fileName, saveFolderName, ctrl);
+		boolean isDevMode = isDevMode();
+		if(isDevMode){
+			String fileDirectory = getFileDirectory();
+			serverDirectory = fileUploadKit.getServerDirectory(fileDirectory, saveFolderName, ctrl);
+		}
 		String discDirectory = fileUploadKit.getDiscDirectory(serverDirectory);
 		if(isImage(fileName)){
 			virtualPath = handleImg(tempFile, discDirectory, serverDirectory, ctrl);

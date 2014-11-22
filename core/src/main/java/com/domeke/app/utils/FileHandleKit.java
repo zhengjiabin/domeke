@@ -3,10 +3,13 @@
  */
 package com.domeke.app.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.channels.FileChannel;
 import java.util.List;
 
@@ -17,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
 import com.jfinal.kit.StrKit;
 
 public class FileHandleKit {
@@ -84,7 +88,7 @@ public class FileHandleKit {
 	 * @return
 	 */
 	private String  compressImage(File file, String toDirectory){
-		String virtualDirectory = buildImageCompressCommond(file, toDirectory);
+		String virtualDirectory = processPNG(file, toDirectory);
 		return virtualDirectory;
 	}
 	
@@ -95,27 +99,30 @@ public class FileHandleKit {
 	 * @return
 	 */
 	private String compressVideo(File file, String toDirectory){
-		String virtualDirectory = null;
 		String fileName = file.getName();
 		boolean isCompressVideo = isCompressVideo(fileName);
 		if(isCompressVideo){
-			virtualDirectory = buildVideoCompressCommand(file, toDirectory);
+			buildVideoCompressCommand(file, toDirectory);
 		}else{
 			fileCopy(file, toDirectory);
-			virtualDirectory = getFileTypeDirectory(toDirectory, fileName, null);
 		}
+		String virtualDirectory = processPNG(file, toDirectory);
 		return virtualDirectory;
 	}
 	
 	/**
 	 * 压缩信息
 	 */
-	private void process(List<String> command) {
+	private void process(List<String> command,boolean isWait) {
 		try {
 			ProcessBuilder builder = new ProcessBuilder();
 			builder.command(command);
 			builder.redirectErrorStream(true);
-			builder.start();
+			Process p = builder.start();
+			
+			if(isWait){
+				doWait(p);
+			}
 		} catch (Exception e) {
 			logger.error("转换视频失败", e);
 		}
@@ -126,27 +133,17 @@ public class FileHandleKit {
 	 * @param file
 	 * @return
 	 */
-	private String buildVideoCompressCommand(File file, String toDirectory) {
+	private void buildVideoCompressCommand(File file, String toDirectory) {
 		handleFilePath(toDirectory);
 		String fileName = file.getName();
+		String descDirectory = file.getAbsolutePath();
 		boolean isDirectoryCompressVideo = isDirectCompressVideo(fileName);
 		if(isDirectoryCompressVideo){
-			processFLV(file, toDirectory);
+			processFLV(descDirectory, toDirectory);
 		}else{
-			String directory = processAVI(file, toDirectory);
-			processFLV(file, directory);
+			descDirectory = processAVI(descDirectory, toDirectory);
+			processFLV(descDirectory, toDirectory);
 		}
-		String virtualDirectory = processPNG(file, toDirectory);
-		return virtualDirectory;
-	}
-	
-	/**
-	 * 构造图片压缩信息
-	 * @param file
-	 * @return
-	 */
-	private String buildImageCompressCommond(File file, String toDirectory) {
-		return processPNG(file, toDirectory);
 	}
 	
 	/**
@@ -174,7 +171,7 @@ public class FileHandleKit {
 		command.add("-vcodec");
 		command.add("mjpeg");
 		logger.info("视频截图==={}", imagePath);
-		process(command);
+		process(command,false);
 		return imagePath;
 	}
 	
@@ -182,14 +179,14 @@ public class FileHandleKit {
 	 * 将视频压缩成.FLV格式
 	 * @return
 	 */
-	private String processFLV(File file, String toDirectory){
-		String fileName = file.getName();
+	private String processFLV(String descDirectory, String toDirectory){
+		String fileName = getFileName(descDirectory);
 		String ffmepgPath = getFfmepgPath();
 		String videoPath = getFileTypeDirectory(toDirectory, fileName, ".flv");
 		List<String> command = Lists.newArrayList();
 		command.add(ffmepgPath);
 		command.add("-i");
-		command.add(file.getAbsolutePath());
+		command.add(descDirectory);
 		// 音频码率 32 64 96 128
 		command.add("-ab");
 		command.add("64");
@@ -213,45 +210,80 @@ public class FileHandleKit {
 		command.add(videoPath);
 		
 		logger.info("视频转换==={}", videoPath);
-		process(command);
+		process(command,false);
 		return videoPath;
 	}
 	
 	/**
 	 * 将视频压缩成.AVI格式
 	 * @param type
-	 * @return
+	 * @return 物理路径
 	 */
-	private String processAVI(File file, String toDirectory) {
+	private String processAVI(String descDirectory, String toDirectory) {
 		handleFilePath(toDirectory);
-		String fileName = file.getName();
+		String fileName = getFileName(descDirectory);
 		String mencoderPath = getMencoderPath();
 		String videoPath = getFileTypeDirectory(toDirectory, fileName, ".avi");
 		List<String> command = Lists.newArrayList();
 		command.add(mencoderPath);
-		command.add(file.getAbsolutePath());
-		// 设置音频编码器
-		command.add("-oac");
-		command.add("lavc");
-		// 设置音频编码器的码率等参数
-		command.add("-lavcopts");
-		command.add("acodec=mp3:abitrate=64");
-		// 设置视频编码器
-		command.add("-ovc");
-		command.add("xvid");
-		// 设置视频编码器的码率等参数
-		command.add("-xvidencopts");
-		command.add("bitrate=600");
-		command.add("-of");
-		command.add("avi");
-		// 输出视频全路径
+		command.add(descDirectory);
 		command.add("-o");
 		command.add(videoPath);
+		command.add("-of");
+		command.add("avi");
+		
+		command.add("-oac");
+		command.add("mp3lame");
+		command.add("-lameopts");
+		command.add("abr:br=56");
+		command.add("-ovc");
+		command.add("xvid");
+		command.add("-xvidencopts");
+		command.add("bitrate=600");
 
 		logger.info("视频转换==={}", videoPath);
-		process(command);
+		process(command,true);
 		return videoPath;
     }
+	
+	/**
+	 * 等待当前视频处理完成
+	 * @param p
+	 * @throws InterruptedException
+	 */
+	private void doWait(Process p) throws InterruptedException {
+		final InputStream is1 = p.getInputStream();
+		final InputStream is2 = p.getErrorStream();
+		new Thread() {
+			public void run() {
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						is1));
+				try {
+					String lineB = br.readLine();
+					while (lineB != null) {
+						lineB = br.readLine();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+		new Thread() {
+			public void run() {
+				BufferedReader br2 = new BufferedReader(new InputStreamReader(
+						is2));
+				try {
+					String lineC = br2.readLine();
+					while (lineC != null) {
+						lineC = br2.readLine();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+		p.waitFor();
+	}
 	
 	/**
 	 * 处理不存在的文件路径
@@ -269,6 +301,10 @@ public class FileHandleKit {
 	 * @param file
 	 */
 	private File fileCopy(File file, String directory){
+		boolean isDevMode = isDevMode();
+		if(isDevMode){
+			return null;
+		}
 		handleFilePath(directory);
 		File newFile = new File(directory, file.getName());
 		fileCopyByChannel(file, newFile);
@@ -312,12 +348,20 @@ public class FileHandleKit {
 	}
 	
 	/**
+	 * 是否开发模式
+	 * @return
+	 */
+	private boolean isDevMode(){
+		return JFinal.me().getConstants().getDevMode();
+	}
+	
+	/**
 	 * 是否处理视频
 	 * @return
 	 */
 	private boolean isCompressVideo(String fileName){
 		String fileType = fileName.substring(fileName.lastIndexOf("."),fileName.length());
-		if (fileType.matches(".flv")) {
+		if (fileType.matches(".flv|.mp4")) {
 			return false;
 		}
 		return true;
@@ -404,6 +448,19 @@ public class FileHandleKit {
 		String fileNamePrefix = fileName.substring(0, fileName.lastIndexOf("."));
 		directory = getDirectory(originalDirectory, fileNamePrefix);
 		return directory + fileType;
+	}
+	
+	/**
+	 * 获取文件名
+	 * @param descDirectory 物理路径
+	 * @return 文件名
+	 */
+	private String getFileName(String descDirectory){
+		if(StrKit.isBlank(descDirectory)){
+			return null;
+		}
+		descDirectory = descDirectory.replaceAll("\\\\", "/");
+		return descDirectory.substring(descDirectory.lastIndexOf("/") + 1, descDirectory.length());
 	}
 
 	/**

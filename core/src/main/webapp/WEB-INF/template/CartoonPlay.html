@@ -1,4 +1,9 @@
 <% layout("/common/layout.html"){ %>
+<link href="video-js/video-js.css" rel="stylesheet" type="text/css">
+<script src="video-js/video.js"></script>
+<script>
+    videojs.options.flash.swf = "video-js/video-js.swf";
+</script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('span.Good').click(function(){
@@ -38,12 +43,23 @@
 <section>
 	<div class="CartoonTitle">${works.worksname!}-${work.workname!}</div>
 	<div class="PlayZoom">
-	  <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="800" height="500"
-	   poster="${works.cover!}" data-setup="{}">
-  			<source src="${work.comic!}" type='video/mp4' />
-  			<!-- <track kind="captions" src="demo.captions.vtt" srclang="en" label="English"></track> Tracks need an ending tag thanks to IE9 -->
-  			<!-- <track kind="subtitles" src="demo.captions.vtt" srclang="en" label="English"></track> Tracks need an ending tag thanks to IE9 -->
-	  </video>
+		<video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="800" height="500"
+		      poster="${work.cover!}"
+		      data-setup="{}">
+		    <%    	
+		    	videoType = "";
+		    	if(!isEmpty(work) && !isEmpty(work.comic)){
+		    		if(strutil.endWith(work.comic,".flv")){		    		
+		    			videoType = "video/flv";
+		    		}else if(strutil.endWith(work.comic,".mp4")){
+		    			videoType = "video/mp4";
+		    		}
+		    	}
+		    %>
+		    <source src="${work.comic!}" type='${videoType!}' />
+		    <track kind="captions" src="demo.captions.vtt" srclang="en" label="English"></track><!-- Tracks need an ending tag thanks to IE9 -->
+			<track kind="subtitles" src="demo.captions.vtt" srclang="en" label="English"></track><!-- Tracks need an ending tag thanks to IE9 -->
+		</video>
 	</div>
       <div class="PlayControl"> 
         <span class="Good" pid="${works.worksid!}"><a>点赞</a></span>
