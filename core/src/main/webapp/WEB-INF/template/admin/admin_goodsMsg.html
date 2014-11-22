@@ -228,7 +228,7 @@ function galevel2(str)
         	</select><br>
         	<div class="ForumInfoA font_str">商品描述：</div>
       		<div class="WhiteBg" style="height: 300px;padding:10px;">
-      			<textarea name="ckeditor" id="ckeditor"></textarea>
+      			<textarea name="ckeditor" id="ckeditor">${goods.message!}</textarea>
 				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
 				<input type="text" name="goods.message" id="message" value="${goods.message!}" hidden="block" style="display:none"/>
       		</div> 
