@@ -185,6 +185,7 @@ CREATE TABLE `community` (
   `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
   `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `images` varchar(100) DEFAULT NULL COMMENT '图标',
   PRIMARY KEY (`communityid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
