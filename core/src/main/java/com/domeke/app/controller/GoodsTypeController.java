@@ -71,6 +71,7 @@ public class GoodsTypeController extends Controller {
 	public void saveGoodsType(){
 		GoodsType goodsType = getModel(GoodsType.class);
 		goodsType.saveGoodsType();
+		goodsType.setGoodsType();
 		redirect("/goodstype/renderGoodsType");
 	}
 	
@@ -94,6 +95,7 @@ public class GoodsTypeController extends Controller {
 	public void updateGoodsType(){
 		GoodsType goodsType = getModel(GoodsType.class);
 		goodsType.updateGoodsType();
+		goodsType.setGoodsType();
 		redirect("/goodstype/renderGoodsType");
 	}
 	

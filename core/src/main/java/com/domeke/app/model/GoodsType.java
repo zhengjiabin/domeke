@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -180,5 +181,12 @@ public class GoodsType extends Model<GoodsType> {
 				.find("select * from goods_type where parenttypeid = '"
 						+ parenttypeid + "'");
 		return goodsTypeList;
+	}
+	
+	/**
+	 * 初始化一级菜单模块
+	 */
+	public void setGoodsType() {
+		Db.update("update goods_type set goodstype=goodstypeid where level='1' and (goodstype='0' or goodstype is null)");
 	}
 }

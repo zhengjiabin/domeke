@@ -7,6 +7,38 @@
 <link href="assets/styles.css" rel="stylesheet" media="screen">
 <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 <script src="js/goodsType.js"></script>
+<script language="JavaScript">
+function goodsTypeLevel(str) 
+{   
+	if (str == ""){
+		$("#parenttypeid").find("option").remove();
+		jQuery("#parenttypeid").append("<option value='' selected='selected'>请选择======</option>"); 
+	} else {	
+		if (str == 1) {
+			$("#goodstype").val("0");
+			$("#goodstype").attr("disabled", "disabled");
+			$("#parenttypeid").val("0");
+			$("#parenttypeid").attr("disabled", "disabled");
+			jQuery("#parenttypeid").append("<option value='' selected='selected'>请选择======</option>"); 
+		} else {
+			$("#goodstype").prop("disabled", false);
+			$("#parenttypeid").prop("disabled", false);
+			$("#parenttypeid").find("option").remove();
+			jQuery("#parenttypeid").append("<option value='' selected='selected'>请选择======</option>"); 
+			$(document).ready(function(){
+				var gtarray = new Array();
+			    $("#mi_name option").each(function(){ //遍历全部option
+			        var txt = $(this).text(); //获取option的内容
+			        var gtarray = txt.split(",");
+			        if (gtarray[2] == (str-1)) {
+			        	jQuery("#parenttypeid").append("<option value='"+gtarray[0]+"'>"+gtarray[1]+"</option>"); 
+			        }
+			    });
+			});
+		}
+	}	
+}
+</script>
 <div class="span9" id="content">
 	<div class="row-fluid">
 		<div class="block">
@@ -19,8 +51,8 @@
      
      		类型名称：<input id="typename" name="goodsType.typename" value="${goodsType.typename!}" type="text" class="span6 m-wrap" />
      		<span class='font_r' style="color: red"> *</span><br>
-        	类型级别：<select id="level" name="goodsType.level" class="span6 m-wrap" > 
-        		<option value="0" selected="selected">请选择---------</option>        		
+        	类型级别：<select id="level" name="goodsType.level" class="span6 m-wrap" onchange="goodsTypeLevel(this.value)"> 
+        		<option value="0" selected="selected">请选择======</option>        		
         		<%
         		for (t in levelList){        		
         		%>
@@ -29,19 +61,32 @@
    			</select> <span class='font_r' style="color: red"> *</span><br>
         	类型排序：<input id="sortnum" onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " name="goodsType.sortnum" value="${goodsType.sortnum!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
-        	父级类型：<select name="goodsType.parenttypeid" class="span6 m-wrap" > 
-        		<option value="0" selected="selected">请选择---------</option>        		
-        		<%
-        		for(gt in goodsTypeList){        		
-        		%>
-        			<option value="${gt.goodstypeid!}">${gt.typename!}</option> 
-    			<% } %>
-   			</select> <br>
-   			
-        	<!-- <input name="goodsType.parenttypeid" value="${goodsType.parenttypeid!}" type="text" class="span6 m-wrap" /><br> --> 
-        	类型模块：<input id="goodstype" name="goodsType.goodstype" value="${goodsType.goodstype!}" type="text" class="span6 m-wrap" />
-        	<span class='font_r' style="color: red"> *</span><br>
         	
+        	<select id="mi_name" style="display:none"> 
+        		<% 
+        		for(gt in goodsTypeList!){
+        		%>
+        			<option value="${gt.goodstypeid!}">${gt.goodstypeid!},${gt.typename!},${gt.level!}</option>
+        		<% 
+        		} %>
+        	</select>
+        	
+        	父级类型：<select id="parenttypeid" name="goodsType.parenttypeid" class="span6 m-wrap" > 
+        		<option value="0" selected="selected">请选择======</option>        		
+   			</select> <br>
+        	类型模块：<select id="goodstype" name="goodsType.goodstype" class="span6 m-wrap">
+        		<option value="0" selected="selected">请选择======</option>
+        		<%
+        		for(gt in goodsTypeList!){
+        			if (gt.level == 1){
+        		%>
+        				<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<%
+        			}
+        		}
+        		%>
+        	</select>
+         	<br>
 			<button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>
 			<a href="goodstype/renderGoodsType" class="btn btn-large btn-primary" >返回</a>
       </form>
