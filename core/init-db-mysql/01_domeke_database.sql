@@ -58,6 +58,24 @@ CREATE TABLE `of_wonders` (
   PRIMARY KEY (`ofwondersid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wonders_type`;
+CREATE TABLE `wonders_type` (
+  `wonderstypeid` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(64) NOT NULL,
+  `content` varchar(255) DEFAULT NULL,
+  `pid` bigint(20) DEFAULT '0',
+  `level` int(11) NOT NULL DEFAULT '1',
+  `position` int(11) DEFAULT '0',
+  `times` bigint(20) DEFAULT '0',
+  `status` varchar(4) DEFAULT '10',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `creater` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `modifytime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modifier` mediumint(8) unsigned NOT NULL DEFAULT '0',
+  `images` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`wonderstypeid`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `works_type`;
 CREATE TABLE `works_type` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
