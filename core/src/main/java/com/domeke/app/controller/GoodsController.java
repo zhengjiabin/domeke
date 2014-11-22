@@ -31,7 +31,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
 
 /**
- * 鍟嗗搧model鎺у埗鍣�
+ * 商品model
  * 
  * @author chenhailin
  *
@@ -45,7 +45,7 @@ public class GoodsController extends FilesLoadController {
 	private static String encoding = "UTF-8";
 
 	/**
-	 * to绠＄悊鐣岄潰
+	 * 查询商品列表
 	 */
 	public void renderGoods() {
 		setGoodsPage(null);
@@ -53,7 +53,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 鍒嗛〉鏌ヨ
+	 * 分页查询
 	 */
 	public void setGoodsPage(String goods) {
 		int pageNumber = getParaToInt("pageNumber", 1);
@@ -65,13 +65,16 @@ public class GoodsController extends FilesLoadController {
 		setAttr("goodsList", goodsList);
 	}
 
+	/**
+	 * 分页查询
+	 */
 	public void find() {
 		setGoodsPage(null);
 		render("/admin/admin_goodsPage.html");
 	}
 
 	/**
-	 * 鏂板鍟嗗搧
+	 * 保持商品
 	 */
 	public void saveGoods() {
 		try {
@@ -81,7 +84,6 @@ public class GoodsController extends FilesLoadController {
 			String pic = uploadPath.get("pic");
 			String headimg = uploadPath.get("headimg");
 			String str = headimg.substring(headimg.indexOf(saveDirectory) + saveDirectory.length(), headimg.length());
-			String[] headimgs = headimg.split(",");
 			if (str.length() > 0) {
 				headimg = headimg.substring(0, headimg.lastIndexOf("/"));
 			}
@@ -103,29 +105,11 @@ public class GoodsController extends FilesLoadController {
 			render("/admin/admin_addGoods.html");
 		}
 	}
-
-	/**
-	 * 閬嶅巻鏂囦欢澶逛笅鐨勫浘鐗�
-	 */
-	final static String[] showAllFiles(File dir) {
-		File[] fs = dir.listFiles();
-		String[] files = null;
-		if (fs != null) {
-			files = new String[fs.length];
-			for (int i = 0; i < fs.length; i++) {
-				//files[i] = fs[i].getAbsolutePath();
-				//转换域名格式
-				FilesLoadController fileslc = new FilesLoadController();
-				files[i] = fileslc.getDomainNameFilePath(fs[i].toString());
-			}
-		}
-		return files;
-	}
 	
 	/**
-	 * 鑾峰彇鎸囧畾璺緞涓嬬殑鎵�鏈夋枃浠跺煙璺緞
-	 * @param url 鎸囧畾鏂囦欢澶硅矾寰�
-	 * @return 杩斿洖鎸囧畾璺緞涓嬬殑鎵�鏈夋枃浠跺煙璺緞鏁扮粍
+	 * 根据图片文件夹路径，返回该文件夹所有图片
+	 * @param url 
+	 * @return 
 	 */
 	public List<String> getFileUrls(String url){
 		List<String> fileUrls = FileLoadKit.getFilesVirtualDirectory(this, url);
@@ -133,22 +117,7 @@ public class GoodsController extends FilesLoadController {
 	}
 	
 	/**
-	 * 鍒犻櫎鎸囧畾鏂囦欢澶逛笅鐨勬寚瀹氭枃浠�
-	 * @param url 鏂囦欢澶硅矾寰�
-	 * @param fileName 鏂囦欢鍚嶇О
-	 */
-	public void deleteFile(String url, String fileName){
-		File folder = new File(url);
-		File[] files = folder.listFiles();
-		for(File file:files){
-			if(file.getName().equals(fileName)){
-				file.delete();
-			}
-		}		
-	}
-	
-	/**
-	 * 鍒犻櫎鍥剧墖
+	 * 根据图片路径删除图片
 	 */
 	public void deleteImg() {
 		String url = getPara("url");
@@ -163,6 +132,9 @@ public class GoodsController extends FilesLoadController {
 		render("/admin/admin_goodsMsg.html");
 	}
 
+	/**
+	 * 跳转新增商品界面
+	 */
 	public void addGoods() {
 		List<CodeTable> statusList = CodeKit.getList("status");
 		setAttr("statusList", statusList);
@@ -172,7 +144,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 鍟嗗搧璇︽儏
+	 * 商品详情
 	 */
 	public void goodsMessage() {
 		Goods goodsModel = getModel(Goods.class);
@@ -192,7 +164,7 @@ public class GoodsController extends FilesLoadController {
 	}
 	
 	/**
-	 * 鍒犻櫎鍟嗗搧
+	 * 删除商品
 	 */
 	public void deleteGoods() {
 		Goods goods = getModel(Goods.class);
@@ -201,7 +173,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 缂栬緫鍟嗗搧
+	 * 修改商品
 	 */
 	public void updateGoods() {
 		String goodsId = getPara("goodsId");
@@ -228,8 +200,8 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	/**
-	 * 鑾峰彇绫诲瀷涓簍ypes鐨勫彾瀛愬晢鍝�
-	 * @param params key=瀛楁鍚嶏紝value=鍙傝禌鍊�
+	 * 根据商品分类，返回满足该类型的商品
+	 * @param params 
 	 * @return
 	 */
 	public List<Goods> getGoodsType(Map<String, Object> params) {
