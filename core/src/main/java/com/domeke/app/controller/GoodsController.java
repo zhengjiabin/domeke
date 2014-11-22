@@ -191,7 +191,8 @@ public class GoodsController extends FilesLoadController {
 		Goods goods = Goods.dao.findById(getParaToInt("goodsId"));
 		url = url.substring(0, url.lastIndexOf("/"));
 		List<String> headimgs = FileLoadKit.getFilesVirtualDirectory(this, url);
-				
+		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
+		setAttr("goodsType", goodsType);
 		setAttr("headimgs", headimgs);
 		setAttr("goods", goods);
 		render("/admin/admin_goodsMsg.html");
