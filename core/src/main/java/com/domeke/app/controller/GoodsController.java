@@ -81,11 +81,15 @@ public class GoodsController extends FilesLoadController {
 			UUID uuid = UUID.randomUUID();
 			String saveDirectory = saveFolderName + "/" + uuid.toString();
 			Map<String, String> uploadPath = FileLoadKit.uploadImgs(this, saveDirectory, maxPostSize, encoding);
-			String pic = uploadPath.get("pic");
-			String headimg = uploadPath.get("headimg");
-			String str = headimg.substring(headimg.indexOf(saveDirectory) + saveDirectory.length(), headimg.length());
-			if (str.length() > 0) {
-				headimg = headimg.substring(0, headimg.lastIndexOf("/"));
+			String pic = "";
+			String headimg = "";
+			if (uploadPath != null) {
+				pic = uploadPath.get("pic");
+				headimg = uploadPath.get("headimg");
+				String str = headimg.substring(headimg.indexOf(saveDirectory) + saveDirectory.length(), headimg.length());
+				if (str.length() > 0) {
+					headimg = headimg.substring(0, headimg.lastIndexOf("/"));
+				}
 			}
 			Goods goods = getModel(Goods.class);
 			goods.set("pic", pic);
@@ -178,10 +182,12 @@ public class GoodsController extends FilesLoadController {
 	public void updateGoods() {
 		String goodsId = getPara("goodsId");
 		String headimg = Goods.dao.getHeadImg(goodsId);
+		String pic = Goods.dao.getPic(goodsId);
 		String saveDirectory = headimg.substring(headimg.lastIndexOf("/") + 1, headimg.length());
 		Map<String, String> uploadPath = FileLoadKit.uploadImgs(this, saveDirectory, maxPostSize, encoding);
-		String pic = uploadPath.get("pic");
-		
+		if (uploadPath != null && uploadPath.get("pic") != null) {
+			pic = uploadPath.get("pic");
+		}
 		UploadFile file = getFile();
 		Goods gs = getModel(Goods.class);
 		gs.set("pic", pic);

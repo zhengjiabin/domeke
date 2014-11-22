@@ -140,6 +140,10 @@ public class Goods extends Model<Goods> {
 	public String getHeadImg(String goodsId) {
 		return Db.queryStr("select headimg from goods where goodsid = " + goodsId);
 	}
+	
+	public String getPic(String goodsId) {
+		return Db.queryStr("select pic from goods where goodsid = " + goodsId);
+	}
 	/**
 	 * 更新商品喜欢次数
 	 * @param goodsId
