@@ -99,7 +99,7 @@ public class GoodsController extends FilesLoadController {
 			setAttr("goodsType", goodsType);
 			List<CodeTable> statusList = CodeKit.getList("status");
 			setAttr("statusList", statusList);
-			setAttr("msg", "淇濆瓨澶辫触锛�");
+			setAttr("msg", "保持失败！");
 			render("/admin/admin_addGoods.html");
 		}
 	}
@@ -117,14 +117,6 @@ public class GoodsController extends FilesLoadController {
 				//转换域名格式
 				FilesLoadController fileslc = new FilesLoadController();
 				files[i] = fileslc.getDomainNameFilePath(fs[i].toString());
-
-//				if (fs[i].isDirectory()) {
-//					try {
-//						showAllFiles(fs[i]);
-//					} catch (Exception e) {
-//						System.out.println(e);
-//					}
-//				}
 			}
 		}
 		return files;
@@ -136,24 +128,6 @@ public class GoodsController extends FilesLoadController {
 	 * @return 杩斿洖鎸囧畾璺緞涓嬬殑鎵�鏈夋枃浠跺煙璺緞鏁扮粍
 	 */
 	public List<String> getFileUrls(String url){
-//		url =getDomainNameFilePath(url);
-//		String sub1 = "http://www.dongmark.com/";
-//		String sub2 = "http://127.0.0.1:8080/core/";
-//		if (url.indexOf(sub1) >= 0) {
-//			url = url.substring(sub1.length(), url.length());
-//		}
-//		if (url.indexOf(sub2) >= 0) {
-//			url = url.substring(sub2.length(), url.length());
-//		}
-//		File dir = new File(url);
-//		List<String> fileUrls = new ArrayList<String>();
-//		String[] files = this.showAllFiles(dir);
-//		if (files != null){
-//			for (int i =0; i < files.length; i ++) {
-////				fileUrls.add(getDomainNameFilePath(files[i]));
-//				fileUrls.add(files[i]);
-//			}
-//		}
 		List<String> fileUrls = FileLoadKit.getFilesVirtualDirectory(this, url);
 		return fileUrls;
 	}
@@ -177,15 +151,6 @@ public class GoodsController extends FilesLoadController {
 	 * 鍒犻櫎鍥剧墖
 	 */
 	public void deleteImg() {
-//		String url = getPara("url");
-//		String urlFile = url.substring(0, url.lastIndexOf("\\"));
-//		String[] fileNames = url.split("\\\\");
-//		String fileName = fileNames[fileNames.length - 1];
-//		deleteFile(urlFile, fileName);
-//		Goods goods = Goods.dao.findById(getParaToInt("goodsId"));
-//		String headimg = goods.getStr("headimg");
-//		List<String> headimgs = this.getFileUrls(headimg);	
-		
 		String url = getPara("url");
 		FileLoadKit.deleteFiles(this, url);
 		Goods goods = Goods.dao.findById(getParaToInt("goodsId"));
@@ -260,31 +225,6 @@ public class GoodsController extends FilesLoadController {
 			setAttr("goods", goods);
 			render("/admin/admin_goodsMsg.html");
 		}
-		
-//		String goodsId = getPara("goodsId");
-//		String headimg = Goods.dao.getHeadImg(goodsId);
-//		String[] headimgs2 = headimg.split("/");
-//		String fileName = headimgs2[headimgs2.length - 1];
-//		String picturePath = upLoadFileNotDealPath("pic", fileName, 200 * 1024 * 1024, "utf-8");
-//		String[] strs = picturePath.split("/");
-//		int leng = strs.length;
-//		String headimg2 = upLoadFilesNotDealPath(fileName, 200 * 1024 * 1024, "utf-8");
-//		UploadFile file = getFile();
-//		Goods gs = getModel(Goods.class);
-//		if (leng > 1) {
-//			gs.set("pic", strs[leng - 1]);
-//		}
-//		if (headimg2 != null) {
-//			gs.updateGoodsInfo();
-//			redirect("/goods/renderGoods");
-//		} else {
-//			Goods goods = gs.findById(goodsId);
-//			String hg = goods.getStr("headimg");
-//			List<String> headimgs = this.getFileUrls(hg);		
-//			setAttr("headimgs", headimgs);
-//			setAttr("goods", goods);
-//			render("/admin/admin_goodsMsg.html");
-//		}
 	}
 
 	/**
