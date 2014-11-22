@@ -184,6 +184,7 @@ public class GoodsController extends FilesLoadController {
 		String headimg = Goods.dao.getHeadImg(goodsId);
 		String pic = Goods.dao.getPic(goodsId);
 		String saveDirectory = headimg.substring(headimg.lastIndexOf("/") + 1, headimg.length());
+		saveDirectory = saveFolderName + "/" + saveDirectory;
 		Map<String, String> uploadPath = FileLoadKit.uploadImgs(this, saveDirectory, maxPostSize, encoding);
 		if (uploadPath != null && uploadPath.get("pic") != null) {
 			pic = uploadPath.get("pic");
