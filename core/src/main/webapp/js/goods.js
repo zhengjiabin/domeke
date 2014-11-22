@@ -1,6 +1,11 @@
 
 //goods判空
 function checknull(obj) {
+	var files = $('input[name="headimg"]').prop('files');
+	if (files.length > 5) {
+		alert("商品子图不能超过5张，请重新上传！");
+		return false;
+	}
 	if (document.getElementById("goodsname").value.length == 0) {
 		alert("[商品名称]必填!");
 		document.getElementById("goodsname").focus();
@@ -52,10 +57,18 @@ function checknull(obj) {
 		alert("历史价格输入有误！");
 		return false;
 	}
+	
 	form.submit();
 }
 
 function upchecknull(obj) {
+	var files = $('input[name="headimg"]').prop('files');
+	var filenum = files.length;
+	var imgnum = $("img[name='himg']").length + filenum;
+	if (imgnum > 5) {
+		alert("商品子图不能超过5张，请重新上传！");
+		return false;
+	}
 	var strRegex = "^((https|http|ftp|rtsp|mms)?://)"
         + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@
         + "(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP形式的URL- 199.194.52.184
@@ -141,13 +154,13 @@ function onUploadImgChanges(node){
     }
 	var array = node.files
 	var leng = array.length;
-	if (leng > 5) {
-		leng = 0;
-		file = $("#fileImage");   
-		file.after(file.clone());   
-		file.remove();
-		alert("上传图片不能超过5张！");
-	}
+//	if (leng > 5) {
+//		leng = 0;
+//		file = $("#fileImages");   
+//		file.after(file.clone());   
+//		file.remove();
+//		alert("上传图片不能超过5张！");
+//	}
 	$("#previews").empty();
 	for (var i = 0; i < leng; i ++) {
 		if (node.files && node.files[i]){  
