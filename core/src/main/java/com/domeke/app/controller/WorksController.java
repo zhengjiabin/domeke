@@ -13,6 +13,7 @@ import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.model.WorksType;
 import com.domeke.app.route.ControllerBind;
+import com.domeke.app.utils.FileKit;
 import com.domeke.app.utils.FileLoadKit;
 import com.domeke.app.utils.MapKit;
 import com.domeke.app.utils.PropKit;
@@ -168,16 +169,24 @@ public class WorksController extends FilesLoadController {
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
 
-		Map<String, String> directory = FileLoadKit.uploadFiles(this, "works", 2000 * 1024 * 1024,"utf-8");
-		if(MapKit.isBlank(directory)){
+		Map<String, String> directorys = FileLoadKit.uploadVideo("comic", this, "works", 2000 * 1024 * 1024,"utf-8");
+		if(MapKit.isBlank(directorys)){
 			Map<String, Object> map = Maps.newHashMap();
 			map.put("success", 0);
 			map.put("message", "上传失败！");
 			renderJson(map);
 			return;
 		}
-		String coverPath = directory.get("cover");
-		String comicPath = directory.get("comic");
+		String coverPath = null,comicPath = null,directory = null;
+		for(String fileName:directorys.keySet()){
+			directory = directorys.get(fileName);
+			if(FileKit.isImage(fileName)){
+				coverPath = directory;
+			}else if(FileKit.isVideo(fileName)){
+				comicPath = directory;
+			}
+				
+		}
 		String title = getPara("title");
 		String des = getPara("des");
 		String type = getPara("type");
@@ -347,15 +356,23 @@ public class WorksController extends FilesLoadController {
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
 
-		Map<String, String> directory = FileLoadKit.uploadFiles(this, "works", 2000 * 1024 * 1024,"utf-8");
-		if(MapKit.isBlank(directory)){
+		Map<String, String> directorys = FileLoadKit.uploadVideo("comic", this, "works", 2000 * 1024 * 1024,"utf-8");
+		if(MapKit.isBlank(directorys)){
 			map.put("success", 0);
 			map.put("message", "上传失败！");
 			renderJson(map);
 			return;
 		}
-		String coverPath = directory.get("cover");
-		String comicPath = directory.get("comic");
+		String coverPath = null,comicPath = null,directory = null;
+		for(String fileName:directorys.keySet()){
+			directory = directorys.get(fileName);
+			if(FileKit.isImage(fileName)){
+				coverPath = directory;
+			}else if(FileKit.isVideo(fileName)){
+				comicPath = directory;
+			}
+				
+		}
 		String title = getPara("title");
 		String des = getPara("des");
 		String ispublic = getPara("ispublic");

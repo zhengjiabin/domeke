@@ -11,7 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.channels.FileChannel;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -67,15 +69,15 @@ public class FileHandleKit {
 	 * 压缩文件
 	 * @param file
 	 * @param toDirectory
-	 * @return
+	 * @return (fileName,directory)
 	 */
-	public static String compressFile(File file, String toDirectory) {
+	public static Map<String,String> compressFile(File file, String toDirectory) {
 		FileHandleKit fileHandleKit = FileHandleKit.getInstance();
 		String fileName = file.getName();
-		String virtualDirectory = null;
-		if(fileHandleKit.isImage(fileName)){
+		Map<String, String> virtualDirectory = null;
+		if(FileKit.isImage(fileName)){
 			virtualDirectory = fileHandleKit.compressImage(file, toDirectory);
-		}else if(fileHandleKit.isVideo(fileName)){
+		}else if(FileKit.isVideo(fileName)){
 			virtualDirectory = fileHandleKit.compressVideo(file, toDirectory);
 		}
 		return virtualDirectory;
@@ -85,11 +87,14 @@ public class FileHandleKit {
 	 * 压缩图片
 	 * @param file
 	 * @param toDirectory
-	 * @return
+	 * @return (fileName,directory)
 	 */
-	private String  compressImage(File file, String toDirectory){
-		String virtualDirectory = processPNG(file, toDirectory);
-		return virtualDirectory;
+	private Map<String, String> compressImage(File file, String toDirectory){
+		Map<String,String> directorys = new HashMap<String,String>();
+		String imageDirectory = processPNG(file, toDirectory);
+		String fileName = getFileName(imageDirectory);
+		directorys.put(fileName, imageDirectory);
+		return directorys;
 	}
 	
 	/**
@@ -98,16 +103,25 @@ public class FileHandleKit {
 	 * @param toDirectory
 	 * @return
 	 */
-	private String compressVideo(File file, String toDirectory){
+	private Map<String, String> compressVideo(File file, String toDirectory){
+		Map<String, String> directorys = new HashMap<String, String>();
 		String fileName = file.getName();
+		String directory = null;
 		boolean isCompressVideo = isCompressVideo(fileName);
 		if(isCompressVideo){
-			buildVideoCompressCommand(file, toDirectory);
+			directory = buildVideoCompressCommand(file, toDirectory);
+			fileName = getFileName(directory);
 		}else{
-			fileCopy(file, toDirectory);
+			File newFile = fileCopy(file, toDirectory);
+			fileName = newFile.getName();
+			directory = newFile.getAbsolutePath();
 		}
-		String virtualDirectory = processPNG(file, toDirectory);
-		return virtualDirectory;
+		directorys.put(fileName, directory);
+		
+		directory = processPNG(file, toDirectory);
+		fileName = getFileName(directory);
+		directorys.put(fileName, directory);
+		return directorys;
 	}
 	
 	/**
@@ -133,17 +147,19 @@ public class FileHandleKit {
 	 * @param file
 	 * @return
 	 */
-	private void buildVideoCompressCommand(File file, String toDirectory) {
+	private String buildVideoCompressCommand(File file, String toDirectory) {
+		String directory = null;
 		handleFilePath(toDirectory);
 		String fileName = file.getName();
 		String descDirectory = file.getAbsolutePath();
 		boolean isDirectoryCompressVideo = isDirectCompressVideo(fileName);
 		if(isDirectoryCompressVideo){
-			processFLV(descDirectory, toDirectory);
+			directory = processFLV(descDirectory, toDirectory);
 		}else{
 			descDirectory = processAVI(descDirectory, toDirectory);
-			processFLV(descDirectory, toDirectory);
+			directory = processFLV(descDirectory, toDirectory);
 		}
+		return directory;
 	}
 	
 	/**
@@ -303,7 +319,7 @@ public class FileHandleKit {
 	private File fileCopy(File file, String directory){
 		boolean isDevMode = isDevMode();
 		if(isDevMode){
-			return null;
+			return file;
 		}
 		handleFilePath(directory);
 		File newFile = new File(directory, file.getName());
@@ -375,35 +391,7 @@ public class FileHandleKit {
 	private boolean isDirectCompressVideo(String fileName){
 		String fileType = fileName.substring(fileName.lastIndexOf("."),fileName.length());
 		//支持解析的文件类型
-		if(fileType.matches(".asx|.asf|.mpg|.wmv|.3pg|.mp4|.mov|.avi|.flv")){
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * 文件是否视频
-	 * 
-	 * @param fileName
-	 * @return
-	 */
-	private boolean isVideo(String fileName) {
-		String fileType = fileName.substring(fileName.lastIndexOf("."),fileName.length());
-		if (fileType.matches(".avi|.rm|.rmvb|.mpg|.mpe|.mpeg|.dat|.asf|.wmv|.mov|.3gp|.flv|.mp4")) {
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * 文件是否图片
-	 * 
-	 * @param fileName
-	 * @return
-	 */
-	private boolean isImage(String fileName) {
-		String fileType = fileName.substring(fileName.lastIndexOf("."),fileName.length());
-		if (fileType.matches(".jpg|.gif|.png|.bmp")) {
+		if(fileType.matches(".asx|.asf|.mpg|.wmv|.3gp|.mp4|.mov|.avi|.flv")){
 			return true;
 		}
 		return false;

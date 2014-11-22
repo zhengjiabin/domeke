@@ -304,10 +304,8 @@ public class MultipartRequest implements RequestParse{
 			filePart.setRenamePolicy(policy);
 			filePart.writeTo(dir);
 			fileload = new UploadedFile(name, dir.toString(), filePart.getFileName(), fileName, filePart.getContentType());
-		} else {
-			fileload = new UploadedFile(name, null, null, null, null);
-		}
-		files.add(fileload);
+			files.add(fileload);
+		} 
 	}
 	
 	/**
