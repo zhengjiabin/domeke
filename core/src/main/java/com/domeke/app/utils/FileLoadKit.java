@@ -1,10 +1,5 @@
 package com.domeke.app.utils;
 
-import it.sauronsoftware.jave.Encoder;
-import it.sauronsoftware.jave.EncoderException;
-import it.sauronsoftware.jave.InputFormatException;
-import it.sauronsoftware.jave.MultimediaInfo;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -21,6 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.domeke.app.cos.multipart.FilePart;
+import com.domeke.app.file.Encoder;
+import com.domeke.app.file.EncoderException;
+import com.domeke.app.file.InputFormatException;
+import com.domeke.app.file.MultimediaInfo;
 import com.domeke.app.model.User;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
