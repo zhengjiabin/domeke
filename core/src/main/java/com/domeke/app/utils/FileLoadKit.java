@@ -1,5 +1,10 @@
 package com.domeke.app.utils;
 
+import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.EncoderException;
+import it.sauronsoftware.jave.InputFormatException;
+import it.sauronsoftware.jave.MultimediaInfo;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -79,6 +84,26 @@ public class FileLoadKit {
 			}
 		}
 		return fileUploadKit;
+	}
+	
+	
+	/**
+	 * 获取视频文件播放时长
+	 * @param 虚拟路径
+	 * @return 时长（单位：秒）
+	 * @throws EncoderException 
+	 * @throws InputFormatException 
+	 */
+	public static Long getVideoFileTime(Controller ctrl, String virtualDirectory) throws InputFormatException, EncoderException{
+		String descDirectory = getFileDescDirectory(ctrl, virtualDirectory);
+		if(StrKit.isBlank(descDirectory)){
+			return null;
+		}
+        File source = new File(descDirectory);
+        Encoder encoder = new Encoder();
+        MultimediaInfo multimediaInfo = encoder.getInfo(source);
+        long ls = multimediaInfo.getDuration();
+        return ls/1000;
 	}
 	
 	/**

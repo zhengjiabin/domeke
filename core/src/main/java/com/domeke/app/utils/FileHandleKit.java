@@ -15,13 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
-import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.StrKit;
 
@@ -395,29 +392,6 @@ public class FileHandleKit {
 			return true;
 		}
 		return false;
-	}
-	
-	/**
-	 * 获取浏览地址根路径
-	 * @param request
-	 * @return
-	 */
-	private String getBasePath(HttpServletRequest request){
-		StringBuffer url = request.getRequestURL();
-		String uri = request.getRequestURI();
-		String basePath = StrKit.replace(url.toString(), uri, "");
-		basePath = basePath + request.getContextPath();
-		return basePath;
-	}
-	
-	/**
-	 * 获取虚拟上传路径
-	 */
-	private String getVirtualDirectory(String directory, String fileName, Controller ctrl){
-		String basePath = getBasePath(ctrl.getRequest());
-		directory = getDirectory(basePath, directory);
-		directory = getDirectory(directory, fileName);
-		return directory;
 	}
 	
 	/**
