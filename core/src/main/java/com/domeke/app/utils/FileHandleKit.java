@@ -3,24 +3,23 @@
  */
 package com.domeke.app.utils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.channels.FileChannel;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Lists;
+import com.domeke.app.file.FileInterface;
+import com.domeke.app.file.ImageFile;
+import com.domeke.app.file.ImageFileAnalysis;
+import com.domeke.app.file.ImagePNGFile;
+import com.domeke.app.file.VideoAVIFile;
+import com.domeke.app.file.VideoFLVFile;
+import com.domeke.app.file.VideoFile;
+import com.domeke.app.file.VideoFileAnalysis;
 import com.jfinal.core.JFinal;
-import com.jfinal.kit.StrKit;
 
 public class FileHandleKit {
 
@@ -67,11 +66,13 @@ public class FileHandleKit {
 	 * @param file
 	 * @param toDirectory
 	 * @return (fileName,directory)
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	public static Map<String,String> compressFile(File file, String toDirectory) {
+	public static Map<String,FileInterface> compressFile(File file, String toDirectory) throws IOException, InterruptedException {
 		FileHandleKit fileHandleKit = FileHandleKit.getInstance();
 		String fileName = file.getName();
-		Map<String, String> virtualDirectory = null;
+		Map<String, FileInterface> virtualDirectory = null;
 		if(FileKit.isImage(fileName)){
 			virtualDirectory = fileHandleKit.compressImage(file, toDirectory);
 		}else if(FileKit.isVideo(fileName)){
@@ -85,12 +86,14 @@ public class FileHandleKit {
 	 * @param file
 	 * @param toDirectory
 	 * @return (fileName,directory)
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	private Map<String, String> compressImage(File file, String toDirectory){
-		Map<String,String> directorys = new HashMap<String,String>();
-		String imageDirectory = processPNG(file, toDirectory);
-		String fileName = getFileName(imageDirectory);
-		directorys.put(fileName, imageDirectory);
+	private Map<String, FileInterface> compressImage(File file, String toDirectory) throws IOException, InterruptedException{
+		Map<String,FileInterface> directorys = new HashMap<String,FileInterface>();
+		ImageFile imageFile = processPNG(file, toDirectory);
+		String fileName = imageFile.getFileName();
+		directorys.put(fileName, imageFile);
 		return directorys;
 	}
 	
@@ -99,64 +102,46 @@ public class FileHandleKit {
 	 * @param file
 	 * @param toDirectory
 	 * @return
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	private Map<String, String> compressVideo(File file, String toDirectory){
-		Map<String, String> directorys = new HashMap<String, String>();
+	private Map<String, FileInterface> compressVideo(File file, String toDirectory) throws IOException, InterruptedException{
+		Map<String, FileInterface> directorys = new HashMap<String, FileInterface>();
 		String fileName = file.getName();
-		String directory = null;
+		VideoFile videoFile = null;
 		boolean isCompressVideo = isCompressVideo(fileName);
 		if(isCompressVideo){
-			directory = buildVideoCompressCommand(file, toDirectory);
-			fileName = getFileName(directory);
+			videoFile = buildVideoCompressCommand(file, toDirectory);
 		}else{
-			File newFile = fileCopy(file, toDirectory);
-			fileName = newFile.getName();
-			directory = newFile.getAbsolutePath();
+			videoFile = fileCopy(file, toDirectory);
 		}
-		directorys.put(fileName, directory);
-		
-		directory = processPNG(file, toDirectory);
-		fileName = getFileName(directory);
-		directorys.put(fileName, directory);
+		ImageFile imageFile = processPNG(file, toDirectory);
+		videoFile.addImageFile(imageFile);
+		fileName = videoFile.getFileName();
+		directorys.put(fileName, videoFile);
 		return directorys;
-	}
-	
-	/**
-	 * 压缩信息
-	 */
-	private void process(List<String> command,boolean isWait) {
-		try {
-			ProcessBuilder builder = new ProcessBuilder();
-			builder.command(command);
-			builder.redirectErrorStream(true);
-			Process p = builder.start();
-			
-			if(isWait){
-				doWait(p);
-			}
-		} catch (Exception e) {
-			logger.error("转换视频失败", e);
-		}
 	}
 	
 	/**
 	 * 构造视频压缩信息
 	 * @param file
 	 * @return
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	private String buildVideoCompressCommand(File file, String toDirectory) {
-		String directory = null;
-		handleFilePath(toDirectory);
+	private VideoFile buildVideoCompressCommand(File file, String toDirectory) throws IOException, InterruptedException {
+		VideoFile videoFile = null;
+		FileKit.handleFilePath(toDirectory);
 		String fileName = file.getName();
 		String descDirectory = file.getAbsolutePath();
 		boolean isDirectoryCompressVideo = isDirectCompressVideo(fileName);
 		if(isDirectoryCompressVideo){
-			directory = processFLV(descDirectory, toDirectory);
+			videoFile = processFLV(descDirectory, toDirectory);
 		}else{
-			descDirectory = processAVI(descDirectory, toDirectory);
-			directory = processFLV(descDirectory, toDirectory);
+			videoFile = processAVI(descDirectory, toDirectory);
+			videoFile = processFLV(videoFile.getDescDirectory(), toDirectory);
 		}
-		return directory;
+		return videoFile;
 	}
 	
 	/**
@@ -164,200 +149,71 @@ public class FileHandleKit {
 	 * @param file
 	 * @param toDirectory
 	 * @return
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	private String processPNG(File file, String toDirectory){
+	private ImageFile processPNG(File file, String toDirectory) throws IOException, InterruptedException{
 		String fileName = file.getName();
-		String ffmepgPath = getFfmepgPath();
-		String imagePath = getFileTypeDirectory(toDirectory, fileName, ".png");
-		List<String> command = Lists.newArrayList();
-		command.add(ffmepgPath);
-		command.add("-ss");
-		command.add("3");
-		command.add("-i");
-		command.add(file.getAbsolutePath());
-		command.add(imagePath);
-		command.add("-r");
-		command.add("1");
-		command.add("-vframes");
-		command.add("1");
-		command.add("-an");
-		command.add("-vcodec");
-		command.add("mjpeg");
+		String imagePath = FileKit.getFileTypeDirectory(toDirectory, fileName, ".png");
 		logger.info("视频截图==={}", imagePath);
-		process(command,false);
-		return imagePath;
+		ImagePNGFile image = new ImagePNGFile(getFfmepgPath());
+		image.setOriginalDirectory(file.getAbsolutePath());
+		image.setDescDirectory(imagePath);
+		return ImageFileAnalysis.imageProcess(image);
 	}
 	
 	/**
 	 * 将视频压缩成.FLV格式
 	 * @return
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	private String processFLV(String descDirectory, String toDirectory){
-		String fileName = getFileName(descDirectory);
-		String ffmepgPath = getFfmepgPath();
-		String videoPath = getFileTypeDirectory(toDirectory, fileName, ".flv");
-		List<String> command = Lists.newArrayList();
-		command.add(ffmepgPath);
-		command.add("-i");
-		command.add(descDirectory);
-		// 音频码率 32 64 96 128
-		command.add("-ab");
-		command.add("64");
-		// 设置声道数,缺省为1
-		command.add("-ac");
-		command.add("2");
-		// 设置音频采样率
-		command.add("-ar");
-		command.add("22050");
-		// -b bitrate 设置比特率,缺省200kb/s
-		command.add("-b");
-		command.add("250");
-		// 设置帧频,缺省25
-		command.add("-r");
-		command.add("30");
-		// 指定转换的质量 6 4
-		command.add("-qscale");
-		command.add("6");
-		// 指定将覆盖已存在的文件
-		command.add("-y");
-		command.add(videoPath);
-		
-		logger.info("视频转换==={}", videoPath);
-		process(command,false);
-		return videoPath;
+	private VideoFile processFLV(String descDirectory, String toDirectory) throws IOException, InterruptedException{
+		String fileName = FileKit.getFileName(descDirectory);
+		String videoPath = FileKit.getFileTypeDirectory(toDirectory, fileName, ".flv");
+		VideoFLVFile video = new VideoFLVFile(getFfmepgPath());
+		video.setOriginalDirectory(descDirectory);
+		video.setDescDirectory(videoPath);
+		return VideoFileAnalysis.videoProcess(video);
 	}
 	
 	/**
 	 * 将视频压缩成.AVI格式
 	 * @param type
 	 * @return 物理路径
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	private String processAVI(String descDirectory, String toDirectory) {
-		handleFilePath(toDirectory);
-		String fileName = getFileName(descDirectory);
-		String mencoderPath = getMencoderPath();
-		String videoPath = getFileTypeDirectory(toDirectory, fileName, ".avi");
-		List<String> command = Lists.newArrayList();
-		command.add(mencoderPath);
-		command.add(descDirectory);
-		command.add("-o");
-		command.add(videoPath);
-		command.add("-of");
-		command.add("avi");
-		
-		command.add("-oac");
-		command.add("mp3lame");
-		command.add("-lameopts");
-		command.add("abr:br=56");
-		command.add("-ovc");
-		command.add("xvid");
-		command.add("-xvidencopts");
-		command.add("bitrate=600");
-
-		logger.info("视频转换==={}", videoPath);
-		process(command,true);
-		return videoPath;
+	private VideoFile processAVI(String descDirectory, String toDirectory) throws IOException, InterruptedException {
+		FileKit.handleFilePath(toDirectory);
+		String fileName = FileKit.getFileName(descDirectory);
+		String videoPath = FileKit.getFileTypeDirectory(toDirectory, fileName, ".avi");
+		VideoAVIFile video = new VideoAVIFile(getMencoderPath());
+		video.setOriginalDirectory(descDirectory);
+		video.setDescDirectory(videoPath);
+		return VideoFileAnalysis.videoProcess(video);
     }
-	
-	/**
-	 * 等待当前视频处理完成
-	 * @param p
-	 * @throws InterruptedException
-	 */
-	private void doWait(Process p) throws InterruptedException {
-		final InputStream is1 = p.getInputStream();
-		final InputStream is2 = p.getErrorStream();
-		new Thread() {
-			public void run() {
-				BufferedReader br = new BufferedReader(new InputStreamReader(
-						is1));
-				try {
-					String lineB = br.readLine();
-					while (lineB != null) {
-						lineB = br.readLine();
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}.start();
-		new Thread() {
-			public void run() {
-				BufferedReader br2 = new BufferedReader(new InputStreamReader(
-						is2));
-				try {
-					String lineC = br2.readLine();
-					while (lineC != null) {
-						lineC = br2.readLine();
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}.start();
-		p.waitFor();
-	}
-	
-	/**
-	 * 处理不存在的文件路径
-	 */
-	private void handleFilePath(String directory){
-		File fileDirectory = new File(directory);
-		if (!fileDirectory.exists()) {
-			fileDirectory.mkdirs();
-		}
-	}
 	
 	/**
 	 * 文件拷贝
 	 * @param directory
 	 * @param file
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	private File fileCopy(File file, String directory){
+	private VideoFile fileCopy(File file, String directory) throws IOException, InterruptedException{
+		String originalDirectory = null;
 		boolean isDevMode = isDevMode();
 		if(isDevMode){
-			return file;
+			originalDirectory = file.getAbsolutePath();
+		}else{
+			File newFile = FileKit.fileCopy(directory, file);
+			originalDirectory = newFile.getAbsolutePath();
 		}
-		handleFilePath(directory);
-		File newFile = new File(directory, file.getName());
-		fileCopyByChannel(file, newFile);
-		return newFile;
-	}
-	
-	/**
-	 * 文件复制
-	 * 
-	 * @param srcFile
-	 *            源文件
-	 * @param tagFile
-	 *            目标文件
-	 */
-	private void fileCopyByChannel(File srcFile, File tagFile) {
-		FileInputStream fi = null;
-		FileOutputStream fo = null;
-		FileChannel in = null;
-		FileChannel out = null;
-		try {
-			fi = new FileInputStream(srcFile);
-			fo = new FileOutputStream(tagFile);
-			// 得到对应的文件通道
-			in = fi.getChannel();
-			// 得到对应的文件通道
-			out = fo.getChannel();
-			// 连接两个通道，并且从in通道读取，然后写入out通道
-			in.transferTo(0, in.size(), out);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				fi.close();
-				in.close();
-				fo.close();
-				out.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		VideoFile video = new VideoFile(getFfmepgPath());
+		video.setOriginalDirectory(originalDirectory);
+		video.setDescDirectory(originalDirectory);
+		return VideoFileAnalysis.videoProcess(video);
 	}
 	
 	/**
@@ -394,56 +250,6 @@ public class FileHandleKit {
 		return false;
 	}
 	
-	/**
-	 * 获取指定文件类型的文件路径
-	 * @param directory
-	 * @param fileName
-	 * @param fileType
-	 * @return
-	 */
-	private String getFileTypeDirectory(String originalDirectory, String fileName, String fileType){
-		String directory = null;
-		if(StrKit.isBlank(fileType)){
-			directory = getDirectory(originalDirectory, fileName);
-			return directory;
-		}
-		String fileNamePrefix = fileName.substring(0, fileName.lastIndexOf("."));
-		directory = getDirectory(originalDirectory, fileNamePrefix);
-		return directory + fileType;
-	}
-	
-	/**
-	 * 获取文件名
-	 * @param descDirectory 物理路径
-	 * @return 文件名
-	 */
-	private String getFileName(String descDirectory){
-		if(StrKit.isBlank(descDirectory)){
-			return null;
-		}
-		descDirectory = descDirectory.replaceAll("\\\\", "/");
-		return descDirectory.substring(descDirectory.lastIndexOf("/") + 1, descDirectory.length());
-	}
-
-	/**
-	 * 拼接路径路径
-	 * 
-	 * @return
-	 */
-	private String getDirectory(String directory, String fileName) {
-		directory = directory.replaceAll("\\\\", "/");
-		if(StrKit.isBlank(fileName)){
-			return directory;
-		}
-		fileName = fileName.replaceAll("\\\\", "/");
-		if(directory.endsWith("/") && fileName.startsWith("/")){
-			fileName = fileName.replaceFirst("/", "");
-		}else if(!directory.endsWith("/") && !fileName.startsWith("/")){
-			fileName = "/" + fileName;
-		}
-		return directory + fileName;
-	}
-	
 	private void setLogger(Logger logger) {
 		this.logger = logger;
 	}
@@ -463,5 +269,4 @@ public class FileHandleKit {
 	private void setMencoderPath(String mencoderPath) {
 		this.mencoderPath = mencoderPath;
 	}
-	
 }

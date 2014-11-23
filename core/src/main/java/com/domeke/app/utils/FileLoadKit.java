@@ -1,10 +1,7 @@
 package com.domeke.app.utils;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,10 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.domeke.app.cos.multipart.FilePart;
-import com.domeke.app.file.Encoder;
-import com.domeke.app.file.EncoderException;
-import com.domeke.app.file.InputFormatException;
-import com.domeke.app.file.MultimediaInfo;
+import com.domeke.app.file.FileInstance;
+import com.domeke.app.file.FileInterface;
+import com.domeke.app.file.ImageFile;
+import com.domeke.app.file.VideoFile;
 import com.domeke.app.model.User;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
@@ -83,26 +80,6 @@ public class FileLoadKit {
 			}
 		}
 		return fileUploadKit;
-	}
-	
-	
-	/**
-	 * 获取视频文件播放时长
-	 * @param 虚拟路径
-	 * @return 时长（单位：秒）
-	 * @throws EncoderException 
-	 * @throws InputFormatException 
-	 */
-	public static Long getVideoFileTime(Controller ctrl, String virtualDirectory) throws InputFormatException, EncoderException{
-		String descDirectory = getFileDescDirectory(ctrl, virtualDirectory);
-		if(StrKit.isBlank(descDirectory)){
-			return null;
-		}
-        File source = new File(descDirectory);
-        Encoder encoder = new Encoder();
-        MultimediaInfo multimediaInfo = encoder.getInfo(source);
-        long ls = multimediaInfo.getDuration();
-        return ls/1000;
 	}
 	
 	/**
@@ -200,12 +177,12 @@ public class FileLoadKit {
 	 * @return (parameterName,directory)
 	 */
 	public static Map<String, String> uploadImgs(Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding){
-		Map<String, Map<String, String>> imgDirectory = uploadImgsAll(ctrl, saveFolderName, maxPostSize, encoding);
+		Map<String, Map<String, ImageFile>> imgDirectory = uploadImgsAll(ctrl, saveFolderName, maxPostSize, encoding);
 		if(MapKit.isBlank(imgDirectory)){
 			return null;
 		}
 		Map<String, String> imgPath = new HashMap<String, String>();
-		Map<String,String> directorys = null;
+		Map<String, ImageFile> directorys = null;
 		String virtualDirectory = null;
 		for(String key : imgDirectory.keySet()){
 			directorys = imgDirectory.get(key);
@@ -213,7 +190,6 @@ public class FileLoadKit {
 			imgPath.put(key, virtualDirectory);
 		}
 		return imgPath;
-		
 	}
 	
 	/**
@@ -221,7 +197,7 @@ public class FileLoadKit {
 	 * 
 	 * @return (parameterName,fileName-directory)
 	 */
-	public static Map<String, Map<String,String>> uploadImgsAll(Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding){
+	public static Map<String, Map<String,ImageFile>> uploadImgsAll(Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding){
 		FileLoadKit fileUploadKit = FileLoadKit.getInstance();
 		fileUploadKit.initProgress(ctrl);
 		String imgDirectory = fileUploadKit.getImageDirectory();
@@ -233,8 +209,8 @@ public class FileLoadKit {
 		if(CollectionKit.isBlank(uploadFiles)){
 			return null;
 		}
-		Map<String,Map<String,String>> fileDirectory = new HashMap<String, Map<String,String>>();
-		Map<String,String> filePaths = null,virtualPaths = null;
+		Map<String,Map<String,ImageFile>> fileDirectory = new HashMap<String, Map<String,ImageFile>>();
+		Map<String,ImageFile> filePaths = null,virtualPaths = null;
 		File file = null;
 		String parameterName = null;
 		for(UploadFile uploadFile : uploadFiles){
@@ -249,7 +225,7 @@ public class FileLoadKit {
 			
 			filePaths = fileDirectory.get(parameterName);
 			if(filePaths == null){
-				filePaths = new HashMap<String,String>();
+				filePaths = new HashMap<String,ImageFile>();
 				fileDirectory.put(parameterName, filePaths);
 			}
 			filePaths.putAll(virtualPaths);
@@ -260,8 +236,10 @@ public class FileLoadKit {
 	/**
 	 * 视频上传
 	 * @return 只返回视频虚拟路径
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	public static String uploadVideo(Controller ctrl, String parameterName, String saveFolderName, Integer maxPostSize, String encoding){
+	public static String uploadVideo(Controller ctrl, String parameterName, String saveFolderName, Integer maxPostSize, String encoding) throws IOException, InterruptedException{
 		Map<String, String> videoDirectory = uploadVideos(ctrl, saveFolderName, maxPostSize, encoding);
 		if(MapKit.isBlank(videoDirectory)){
 			return null;
@@ -277,9 +255,11 @@ public class FileLoadKit {
 	 * @param maxPostSize
 	 * @param encoding
 	 * @return (fileName,videoDirectory)返回视频虚拟路径、图片虚拟路径
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	public static Map<String,String> uploadVideo(String parameterName, Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding){
-		Map<String, Map<String,String>> videoDirectory = uploadVideosAll(ctrl, saveFolderName, maxPostSize, encoding);
+	public static Map<String,VideoFile> uploadVideo(String parameterName, Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding) throws IOException, InterruptedException{
+		Map<String, Map<String,VideoFile>> videoDirectory = uploadVideosAll(ctrl, saveFolderName, maxPostSize, encoding);
 		if(MapKit.isBlank(videoDirectory)){
 			return null;
 		}
@@ -294,14 +274,16 @@ public class FileLoadKit {
 	 * @param maxPostSize
 	 * @param encoding
 	 * @return (parameterName,videoDirectory)
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	public static Map<String, String> uploadVideos(Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding){
-		Map<String, Map<String,String>> videoDirectory = uploadVideosAll(ctrl, saveFolderName, maxPostSize, encoding);
+	public static Map<String, String> uploadVideos(Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding) throws IOException, InterruptedException{
+		Map<String, Map<String,VideoFile>> videoDirectory = uploadVideosAll(ctrl, saveFolderName, maxPostSize, encoding);
 		if(MapKit.isBlank(videoDirectory)){
 			return null;
 		}
 		Map<String, String> videoPath = new HashMap<String, String>();
-		Map<String,String> directorys = null;
+		Map<String, VideoFile> directorys = null;
 		String virtualDirectory = null;
 		for(String key : videoDirectory.keySet()){
 			directorys = videoDirectory.get(key);
@@ -314,8 +296,10 @@ public class FileLoadKit {
 	/**
 	 * 一次上传多个视频
 	 * @return (parameterName,filename-directory(截图虚拟路径、视频虚拟路径))
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	public static Map<String, Map<String,String>> uploadVideosAll(Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding){
+	public static Map<String, Map<String,VideoFile>> uploadVideosAll(Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding) throws IOException, InterruptedException{
 		FileLoadKit fileUploadKit = FileLoadKit.getInstance();
 		fileUploadKit.initProgress(ctrl);
 		String videoDirectory = fileUploadKit.getVideoDirectory();
@@ -328,8 +312,8 @@ public class FileLoadKit {
 			return null;
 		}
 		
-		Map<String,Map<String,String>> fileDirectory = new HashMap<String, Map<String,String>>();
-		Map<String,String> filePaths = null,virtualPaths = null;
+		Map<String,Map<String,VideoFile>> fileDirectory = new HashMap<String, Map<String,VideoFile>>();
+		Map<String,VideoFile> filePaths = null,virtualPaths = null;
 		File file = null;
 		String parameterName = null;
 		for(UploadFile uploadFile : uploadFiles){
@@ -344,7 +328,7 @@ public class FileLoadKit {
 			
 			filePaths = fileDirectory.get(parameterName);
 			if(filePaths == null){
-				filePaths = new HashMap<String,String>();
+				filePaths = new HashMap<String,VideoFile>();
 				fileDirectory.put(parameterName, filePaths);
 			}
 			filePaths.putAll(virtualPaths);
@@ -355,8 +339,10 @@ public class FileLoadKit {
 	/**
 	 * 文件上传
 	 * @return
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	public static String uploadFile(Controller ctrl, String parameterName, String saveFolderName, Integer maxPostSize, String encoding){
+	public static String uploadFile(Controller ctrl, String parameterName, String saveFolderName, Integer maxPostSize, String encoding) throws IOException, InterruptedException{
 		Map<String, String> fileDirectory = uploadFiles(ctrl, saveFolderName, maxPostSize, encoding);
 		if(MapKit.isBlank(fileDirectory)){
 			return null;
@@ -372,18 +358,20 @@ public class FileLoadKit {
 	 * @param maxPostSize
 	 * @param encoding
 	 * @return (parameterName,directory)
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	public static Map<String, String> uploadFiles(Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding){
-		Map<String, Map<String, String>> fileDirectory = uploadFilesAll(ctrl, saveFolderName, maxPostSize, encoding);
+	public static Map<String, String> uploadFiles(Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding) throws IOException, InterruptedException{
+		Map<String, Map<String, FileInterface>> fileDirectory = uploadFilesAll(ctrl, saveFolderName, maxPostSize, encoding);
 		if(MapKit.isBlank(fileDirectory)){
 			return null;
 		}
 		Map<String, String> filePath = new HashMap<String, String>();
-		Map<String, String> directorys = null;
+		Map<String, FileInterface> fileInstance = null;
 		String virtualDirectory = null;
 		for(String key : fileDirectory.keySet()){
-			directorys = fileDirectory.get(key);
-			virtualDirectory = fileUploadKit.getVirtualDirectory(directorys);
+			fileInstance = fileDirectory.get(key);
+			virtualDirectory = fileUploadKit.getVirtualDirectory(fileInstance);
 			filePath.put(key, virtualDirectory);
 		}
 		return filePath;
@@ -392,8 +380,10 @@ public class FileLoadKit {
 	/**
 	 * 一次上传多个文件（多个文件类型的同时上传）
 	 * @return (parameterName,directory)
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	public static Map<String, Map<String, String>> uploadFilesAll(Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding){
+	public static Map<String, Map<String, FileInterface>> uploadFilesAll(Controller ctrl, String saveFolderName, Integer maxPostSize, String encoding) throws IOException, InterruptedException{
 		FileLoadKit fileUploadKit = FileLoadKit.getInstance();
 		fileUploadKit.initProgress(ctrl);
 		String fileDirectory = fileUploadKit.getFileDirectory();
@@ -405,8 +395,8 @@ public class FileLoadKit {
 			return null;
 		}
 		
-		Map<String,Map<String, String>> directorys = new HashMap<String, Map<String, String>>();
-		Map<String, String> filePaths = null,virtualPaths = null;
+		Map<String,Map<String, FileInterface>> directorys = new HashMap<String, Map<String, FileInterface>>();
+		Map<String, FileInterface> filePaths = null,virtualPaths = null;
 		File file = null;
 		String parameterName = null;
 		for(UploadFile uploadFile : uploadFiles){
@@ -416,7 +406,7 @@ public class FileLoadKit {
 			
 			filePaths = directorys.get(parameterName);
 			if(filePaths == null){
-				filePaths = new HashMap<String, String>();
+				filePaths = new HashMap<String, FileInterface>();
 				directorys.put(parameterName, filePaths);
 			}
 			filePaths.putAll(virtualPaths);
@@ -428,37 +418,46 @@ public class FileLoadKit {
 	 * 处理临时图片
 	 * @return
 	 */
-	private Map<String,String> handleImg(File tempFile, String discDirectory, String serverDirectory, Controller ctrl){
-		String fileName = tempFile.getName();
+	private Map<String,ImageFile> handleImg(File tempFile, String discDirectory, String serverDirectory, Controller ctrl){
+		ImageFile imageFile = null;
 		boolean isDevMode = isDevMode();
-		if(!isDevMode){
-			File newFile = fileCopy(discDirectory ,tempFile);
-			fileName = newFile.getName();
+		if(isDevMode){
+			imageFile = buildImageFile(tempFile);
+		}else{
+			File newFile = FileKit.fileCopy(discDirectory ,tempFile);
+			imageFile = buildImageFile(newFile);
 		}
-		Map<String,String> imagePaths = new HashMap<String,String>();
-		String virtualPath = fileUploadKit.getVirtualDirectory(serverDirectory, fileName, ctrl);
-		imagePaths.put(fileName, virtualPath);
-		return imagePaths;
+		imageFile.setOriginalDirectory(tempFile.getAbsolutePath());
+		String fileName = imageFile.getFileName();
+		String virtualPath = getVirtualDirectory(serverDirectory, fileName, ctrl);
+		imageFile.setVirtualDirectory(virtualPath);
+		Map<String,ImageFile> imageFiles = new HashMap<String,ImageFile>();
+		imageFiles.put(fileName, imageFile);
+		return imageFiles;
 	}
 	
 	/**
 	 * 处理临时视频
 	 * @return
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	private Map<String,String> handleVideo(File tempFile, String discDirectory, String serverDirectory, Controller ctrl){
+	private Map<String,VideoFile> handleVideo(File tempFile, String discDirectory, String serverDirectory, Controller ctrl) throws IOException, InterruptedException{
 		String directory = isDevMode() ? tempFile.getParent() : discDirectory;
-		Map<String,String> fileDirectorys = FileHandleKit.compressFile(tempFile,directory);
-		if(MapKit.isBlank(fileDirectorys)){
+		Map<String,FileInterface> videoFiles = FileHandleKit.compressFile(tempFile,directory);
+		if(MapKit.isBlank(videoFiles)){
 			return null;
 		}
-		Map<String,String> videoPaths = new HashMap<String,String>();
-		String vieoDirectory = null,virtualDirectory = null,videoName = null;
-		for(String fileName:fileDirectorys.keySet()){
-			vieoDirectory = fileDirectorys.get(fileName);
-			vieoDirectory = vieoDirectory.replaceAll("\\\\", "/");
-			videoName = vieoDirectory.substring(vieoDirectory.lastIndexOf("/") + 1);
-			virtualDirectory = getVirtualDirectory(serverDirectory, videoName, ctrl);
-			videoPaths.put(fileName, virtualDirectory);
+		Map<String,VideoFile> videoPaths = new HashMap<String,VideoFile>();
+		VideoFile videoFile = null;
+		String virtualDirectory = null;
+		for(String fileName:videoFiles.keySet()){
+			videoFile = (VideoFile) videoFiles.get(fileName);
+			virtualDirectory = getVirtualDirectory(serverDirectory, fileName, ctrl);
+			videoFile.setVirtualDirectory(virtualDirectory);
+			setImagesVirtualDirectory(videoFile.getImageFiles(), serverDirectory, ctrl);
+			
+			videoPaths.put(fileName, videoFile);
 		}
 		return videoPaths;
 	}
@@ -467,43 +466,91 @@ public class FileLoadKit {
 	 * 处理（非图片、视频）文件
 	 * @return
 	 */
-	private Map<String, String> handleFile(File tempFile, String discDirectory, String serverDirectory, Controller ctrl){
-		String fileName = tempFile.getName();
+	private Map<String, FileInterface> handleFile(File tempFile, String discDirectory, String serverDirectory, Controller ctrl){
+		FileInterface fileInstance = null;
 		boolean isDevMode = isDevMode();
 		if(!isDevMode){
-			File newFile = fileCopy(discDirectory ,tempFile);
-			fileName = newFile.getName();
+			File newFile = FileKit.fileCopy(discDirectory ,tempFile);
+			fileInstance = buildFileInstance(newFile);
 		}
-		Map<String, String> virtualPaths = new HashMap<String, String>();
-		String virtualPath = fileUploadKit.getVirtualDirectory(serverDirectory, fileName, ctrl);
-		virtualPaths.put(fileName, virtualPath);
+		String fileName = fileInstance.getFileName();
+		String virtualPath = getVirtualDirectory(serverDirectory, fileName, ctrl);
+		fileInstance.setVirtualDirectory(virtualPath);
+		Map<String, FileInterface> virtualPaths = new HashMap<String, FileInterface>();
+		virtualPaths.put(fileName, fileInstance);
 		return virtualPaths;
 	}
 	
 	/**
 	 * 处理临时文件
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	private Map<String, String> handleFile(File tempFile, String saveFolderName, Controller ctrl){
-		Map<String, String> virtualPaths = new HashMap<String, String>();
+	private Map<String, FileInterface> handleFile(File tempFile, String saveFolderName, Controller ctrl) throws IOException, InterruptedException{
+		Map<String, FileInterface> virtualPaths = new HashMap<String, FileInterface>();
 		String fileName = tempFile.getName();
-		String serverDirectory = fileUploadKit.getServerDirectoryAuto(fileName, saveFolderName, ctrl);
+		String serverDirectory = getServerDirectoryAuto(fileName, saveFolderName, ctrl);
 		boolean isDevMode = isDevMode();
 		if(isDevMode){
 			String fileDirectory = getFileDirectory();
-			serverDirectory = fileUploadKit.getServerDirectory(fileDirectory, saveFolderName, ctrl);
+			serverDirectory = getServerDirectory(fileDirectory, saveFolderName, ctrl);
 		}
-		String discDirectory = fileUploadKit.getDiscDirectory(serverDirectory);
+		String discDirectory = getDiscDirectory(serverDirectory);
 		if(FileKit.isImage(fileName)){
-			Map<String, String> imagePath = handleImg(tempFile, discDirectory, serverDirectory, ctrl);
+			Map<String, ImageFile> imagePath = handleImg(tempFile, discDirectory, serverDirectory, ctrl);
 			virtualPaths.putAll(imagePath);
 		}else if(FileKit.isVideo(fileName)){
-			Map<String, String> videoPaths = handleVideo(tempFile, discDirectory, serverDirectory, ctrl);
+			Map<String, VideoFile> videoPaths = handleVideo(tempFile, discDirectory, serverDirectory, ctrl);
 			virtualPaths.putAll(videoPaths);
 		}else{
-			Map<String, String> filePath = handleFile(tempFile, discDirectory, serverDirectory, ctrl);
+			Map<String, FileInterface> filePath = handleFile(tempFile, discDirectory, serverDirectory, ctrl);
 			virtualPaths.putAll(filePath);
 		}
 		return virtualPaths;
+	}
+	
+	/**
+	 * 初始化文件信息
+	 * @return
+	 */
+	private FileInterface buildFileInstance(File file){
+		String fileName = file.getName();
+		FileInterface fileInstance = new FileInstance();
+		fileInstance.setFileName(fileName);
+		fileInstance.setFileType(FileKit.getFileType(fileName));
+		fileInstance.setDescDirectory(file.getAbsolutePath());
+		return fileInstance;
+	}
+	
+	/**
+	 * 初始化图片信息
+	 * @return
+	 */
+	private ImageFile buildImageFile(File file){
+		String fileName = file.getName();
+		ImageFile imageFile = new ImageFile();
+		imageFile.setFileName(fileName);
+		imageFile.setFileType(FileKit.getFileType(fileName));
+		imageFile.setDescDirectory(file.getAbsolutePath());
+		return imageFile;
+	}
+	
+	/**
+	 * 设置图片的虚拟地址
+	 * @param imageFiles 图片集合
+	 * @param serverDirectory 服务器相对地址
+	 * @param ctrl 控制器
+	 */
+	private void setImagesVirtualDirectory(List<ImageFile> imageFiles,String serverDirectory, Controller ctrl){
+		if(CollectionKit.isBlank(imageFiles)){
+			return;
+		}
+		String fileName = null,virtualDirectory = null;
+		for(ImageFile imageFile:imageFiles){
+			fileName = imageFile.getFileName();
+			virtualDirectory = getVirtualDirectory(serverDirectory, fileName, ctrl);
+			imageFile.setVirtualDirectory(virtualDirectory);
+		}
 	}
 	
 	/**
@@ -513,7 +560,7 @@ public class FileLoadKit {
 	 * @return 
 	 */
 	private Map<String, String> getFilesDescDirectory(String absolutePath,String parentDirectory){
-		handleFilePath(absolutePath);
+		FileKit.handleFilePath(absolutePath);
 		Map<String, String> paths = new HashMap<String, String>();
 		File file = new File(absolutePath);
 		if(file.isFile()){
@@ -543,7 +590,7 @@ public class FileLoadKit {
 	 * @return 
 	 */
 	private List<String> getFilesVirtualDirectory(String absolutePath, String parentDirectory){
-		handleFilePath(absolutePath);
+		FileKit.handleFilePath(absolutePath);
 		List<String> paths = new ArrayList<String>();
 		File file = new File(absolutePath);
 		if(file.isFile()){
@@ -586,18 +633,22 @@ public class FileLoadKit {
 	
 	/**
 	 * 获取虚拟上传的路径--(若存在多张，则返回父级路径)
+	 * @param <T>
 	 * 
 	 * @return
 	 */
-	private String getVirtualDirectory(Map<String,String> directorys) {
+	private <T> String getVirtualDirectory(Map<String,T> directorys) {
 		if (MapKit.isBlank(directorys)) {
 			return null;
 		}
 		
 		int videos = 0;
-		String directory = null,videoDirectory = null;
+		FileInterface file = null;
+		String directory = null;
+		String videoDirectory = null;
 		for (String fileName : directorys.keySet()) {
-			directory = directorys.get(fileName);
+			file = (FileInterface) directorys.get(fileName);
+			directory = file.getVirtualDirectory();
 			if (FileKit.isVideo(fileName)) {
 				if (videos > 0) {
 					return directory.substring(0, directory.lastIndexOf("/"));
@@ -658,7 +709,7 @@ public class FileLoadKit {
 		}else{
 			directory = getFileDirectory();
 		}
-		String serverDirectory = fileUploadKit.getServerDirectory(directory, saveFolderName, ctrl);
+		String serverDirectory = getServerDirectory(directory, saveFolderName, ctrl);
 		return serverDirectory;
 	}
 	
@@ -705,64 +756,6 @@ public class FileLoadKit {
 		String basePath = StrKit.replace(url.toString(), uri, "");
 		basePath = basePath + request.getContextPath();
 		return basePath;
-	}
-	
-	/**
-	 * 文件拷贝
-	 * @param directory
-	 * @param file
-	 */
-	private File fileCopy(String directory,File file){
-		handleFilePath(directory);
-		File newFile = new File(directory, file.getName());
-		fileCopyByChannel(file, newFile);
-		return newFile;
-	}
-	
-	/**
-	 * 文件复制
-	 * 
-	 * @param srcFile
-	 *            源文件
-	 * @param tagFile
-	 *            目标文件
-	 */
-	private void fileCopyByChannel(File srcFile, File tagFile) {
-		FileInputStream fi = null;
-		FileOutputStream fo = null;
-		FileChannel in = null;
-		FileChannel out = null;
-		try {
-			fi = new FileInputStream(srcFile);
-			fo = new FileOutputStream(tagFile);
-			// 得到对应的文件通道
-			in = fi.getChannel();
-			// 得到对应的文件通道
-			out = fo.getChannel();
-			// 连接两个通道，并且从in通道读取，然后写入out通道
-			in.transferTo(0, in.size(), out);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				fi.close();
-				in.close();
-				fo.close();
-				out.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	/**
-	 * 处理文件路径
-	 */
-	private void handleFilePath(String directory){
-		File fileDirectory = new File(directory);
-		if (!fileDirectory.exists()) {
-			fileDirectory.mkdirs();
-		}
 	}
 
 	/**
