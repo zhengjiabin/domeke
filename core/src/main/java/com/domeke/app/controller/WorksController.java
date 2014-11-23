@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.domeke.app.file.ImageFile;
+import com.domeke.app.file.VideoFile;
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.DownLoad;
 import com.domeke.app.model.User;
@@ -13,13 +15,14 @@ import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.model.WorksType;
 import com.domeke.app.route.ControllerBind;
-import com.domeke.app.utils.FileKit;
+import com.domeke.app.utils.CollectionKit;
 import com.domeke.app.utils.FileLoadKit;
 import com.domeke.app.utils.MapKit;
 import com.domeke.app.utils.PropKit;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.jfinal.aop.Before;
+import com.jfinal.core.Controller;
 import com.jfinal.kit.ParseDemoKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Page;
@@ -32,7 +35,7 @@ import com.jfinal.plugin.activerecord.Page;
  */
 @ControllerBind(controllerKey = "/works")
 @Before(LoginInterceptor.class)
-public class WorksController extends FilesLoadController {
+public class WorksController extends Controller {
 
 	/**
 	 * to管理界面
@@ -355,23 +358,32 @@ public class WorksController extends FilesLoadController {
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
 
-		Map<String, String> directorys = FileLoadKit.uploadVideo("comic", this,
-				"works", 2000 * 1024 * 1024, "utf-8");
+		Map<String, VideoFile> directorys;
+		try {
+			directorys = FileLoadKit.uploadVideo("comic", this,
+					"works", 2000 * 1024 * 1024, "utf-8");
+		} catch (Exception e) {
+			map.put("success", 0);
+			map.put("message", "上传失败！");
+			renderJson(map);
+			return;
+		} 
 		if (MapKit.isBlank(directorys)) {
 			map.put("success", 0);
 			map.put("message", "上传失败！");
 			renderJson(map);
 			return;
 		}
-		String coverPath = null, comicPath = null, directory = null;
+		String coverPath = null, comicPath = null;
+		VideoFile videoFile = null;
+		List<ImageFile> imageFiles = null;
 		for (String fileName : directorys.keySet()) {
-			directory = directorys.get(fileName);
-			if (FileKit.isImage(fileName)) {
-				coverPath = directory;
-			} else if (FileKit.isVideo(fileName)) {
-				comicPath = directory;
+			videoFile = directorys.get(fileName);
+			comicPath = videoFile.getVirtualDirectory();
+			imageFiles = videoFile.getImageFiles();
+			if(CollectionKit.isNotBlank(imageFiles)){
+				coverPath = imageFiles.get(0).getVirtualDirectory();
 			}
-
 		}
 		String ispublic = getPara("ispublic");
 		String worksid = getPara("worksid");
