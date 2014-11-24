@@ -11,7 +11,13 @@
   <div class="scroll" id="scroll"><a href="#prev" class="prevView prevStop" ><span>显示上一幅图片</span></a>
     <ul id="thumList">
       <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="${goods.pic!}" alt="" ref1="${goods.pic!}" ref2="${goods.pic!}" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
-      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="${goods.headimg!}" alt="" ref1="${goods.headimg!}" ref2="${goods.headimg!}" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture42"/></a></li>
+       <%var idx = 0;
+        for(var i=0; i < images.~size; i++){
+        if (images[i] != goods.pic) {
+        idx = idx + 1;
+        %>
+      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="${images[i]!}" alt="" ref1="${images[i]!}" ref2="${images[i]!}" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture42"/></a></li>
+      <%}}%>
       <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="http://www.dongmark.com/images/Mepic01.png" alt="" ref1="http://www.dongmark.com/images/Mepic01.png" ref2="http://www.dongmark.com/images/Mepic01.png" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
     </ul>
 </div>
