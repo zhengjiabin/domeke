@@ -357,7 +357,15 @@ public class WorksController extends Controller {
 		User user = getSessionAttr("user");
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
-
+	     //较验用户是否同意注册协议
+        String checkbox = getPara("check");
+        if(checkbox == null){
+        	this.setAttr("user", user);
+        	map.put("success", 0);
+        	map.put("message", "未同意版权声明!");
+        	renderJson(map);
+			return;
+        }
 		Map<String, VideoFile> directorys;
 		try {
 			directorys = FileLoadKit.uploadVideo("comic", this,
