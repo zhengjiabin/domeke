@@ -134,7 +134,7 @@ public class PersonalController extends  FilesLoadController{
 		int pageSize = getParaToInt("pageSize", 10);
 		//订单主表分页
 		Orders orders = getModel(Orders.class);
-		Page<Orders> ordersList = orders.getAllOrders(pageNumber,pageSize);
+		Page<Orders> ordersList = orders.getOrdersByUserId(pageNumber,pageSize,userId);
 		//订单详细表分页
 		OrderDetail orderdetail = getModel(OrderDetail.class);
 		Page<OrderDetail> orderDetailList = orderdetail.getOrdersByUserId(null, null,pageNumber,pageSize,userId);

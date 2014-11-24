@@ -390,8 +390,13 @@ public class GoodsController extends FilesLoadController {
 	public void goodsUtil(String url){
 		Goods goodsModel = getModel(Goods.class);
 		Goods goods = goodsModel.findById(getParaToInt("goodsid"));
-		String goodsattr = String.valueOf(getParaToInt("goodsattr"));
-		if (!"".equals(goodsattr) || goodsattr != null){
+		if (goods == null){
+			render("/shop/shopErro.html");
+			return;
+		}
+		//String goodsattr = String.valueOf(getParaToInt("goodsattr"));
+		String goodsattr = String.valueOf(goods.getInt("goodsattr1"));
+		if (!"".equals(goodsattr) && goodsattr != null){
 			List<GoodsType> goodsTypes= GoodsType.gtDao.getTypeUrl(goodsattr);
 			setAttr("goodsTypes", goodsTypes);
 		}
@@ -399,7 +404,8 @@ public class GoodsController extends FilesLoadController {
 //		String headimg = goods.getStr("headimg");
 //		List<String> headimgs = this.getFileUrls(headimg);
 //		setAttr("images", headimgs);
-		Long dougprice = getParaToLong("dougprice");
+		//Long dougprice = getParaToLong("dougprice");
+		Long dougprice = goods.getLong("dougprice");
 		Map<String,Object> changeMap = getPeas(dougprice);
 		String isChange = "";
 		if (changeMap != null){
