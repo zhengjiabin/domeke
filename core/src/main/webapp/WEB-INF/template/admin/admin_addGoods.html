@@ -76,9 +76,6 @@ function galevel2(str)
         	
         	<div id="preview"></div>
         	商品主图：<input id="fileImage" type="file" size="30" name="pic" onchange="onUploadImgChange(this)" required="required" /><span class='font_r' style="color: red"> *</span><br>
-        	<!-- 商品描述：<textarea id="message" name="goods.message" value="${goods.message!}" rows="5" class="span6 m-wrap" ></textarea> -->
-        	
-        	<!-- <input id="message" name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" /> -->
         	<span class='font_r' style="color: red"> *</span><br>
         	商城地址：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>        			
@@ -110,14 +107,14 @@ function galevel2(str)
         			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
         		<% }
         		} %>
-        	</select><br>
+        	</select><span class='font_r' style="color: red"> *</span><br>
         	商品类别2：<select id="goodsattr2" name="goods.goodsattr2" class="span6 m-wrap" onchange="galevel2(this.value)"> 
         		<option value="" selected="selected">请选择======</option>
         		
-        	</select><br>
+        	</select><span class='font_r' style="color: red"> *</span><br>
         	商品类别3：<select id="goodsattr3" name="goods.goodsattr3" class="span6 m-wrap" > 
         		<option value="" selected="selected">请选择======</option>
-        	</select><br>
+        	</select><span class='font_r' style="color: red"> *</span><br>
         	
         	<div class="ForumInfoA font_str">商品描述：</div>
       		<div class="WhiteBg" style="height: 300px;padding:10px;">

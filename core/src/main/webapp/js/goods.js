@@ -1,6 +1,22 @@
 
 //goods判空
 function checknull(obj) {
+	var strRegex = "^((https|http|ftp|rtsp|mms)?://)"
+        + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@
+        + "(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP形式的URL- 199.194.52.184
+        + "|" // 允许IP和DOMAIN（域名）
+        + "([0-9a-z_!~*'()-]+\.)*" // 域名- www.
+        + "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // 二级域名
+        + "[a-z]{2,6})" // first level domain- .com or .museum
+        + "(:[0-9]{1,4})?" // 端口- :80
+        + "((/?)|" // a slash isn't required if there is no file name
+        + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
+	var re = new RegExp(strRegex);
+	if (!re.test(document.getElementById("tamllurl").value)){
+		alert("地址格式不整确！");
+		return false;
+	}
+	
 	var content = CKEDITOR.instances.ckeditor.getData();
 	var createHtml = $(obj).closest("#createHtml");
 	var message = createHtml.find("#message").first();
@@ -14,6 +30,18 @@ function checknull(obj) {
 	if (document.getElementById("goodsname").value.length == 0) {
 		alert("[商品名称]必填!");
 		document.getElementById("goodsname").focus();
+		return false;
+	} else if (document.getElementById("goodsattr1").value.length == 0) {
+		alert("[类型1]必填!");
+		document.getElementById("goodsattr1").focus();
+		return false;
+	} else if (document.getElementById("goodsattr2").value.length == 0) {
+		alert("[类型2]必填!");
+		document.getElementById("goodsattr2").focus();
+		return false;
+	} else if (document.getElementById("goodsattr3").value.length == 0) {
+		alert("[类型3]必填!");
+		document.getElementById("goodsattr3").focus();
 		return false;
 	} else if (document.getElementById("price").value.length == 0) {
 		alert("[商品价格]必填!");
@@ -35,23 +63,7 @@ function checknull(obj) {
 		alert("[商品描述]必填!");
 		document.getElementById("message").focus();
 		return false;
-	}
-	var strRegex = "^((https|http|ftp|rtsp|mms)?://)"
-        + "?(([0-9a-z_!~*'().&=+$%-]+: )?[0-9a-z_!~*'().&=+$%-]+@)?" //ftp的user@
-        + "(([0-9]{1,3}\.){3}[0-9]{1,3}" // IP形式的URL- 199.194.52.184
-        + "|" // 允许IP和DOMAIN（域名）
-        + "([0-9a-z_!~*'()-]+\.)*" // 域名- www.
-        + "([0-9a-z][0-9a-z-]{0,61})?[0-9a-z]\." // 二级域名
-        + "[a-z]{2,6})" // first level domain- .com or .museum
-        + "(:[0-9]{1,4})?" // 端口- :80
-        + "((/?)|" // a slash isn't required if there is no file name
-        + "(/[0-9a-z_!~*'().;?:@&=+$,%#-]+)+/?)$";
-	var re = new RegExp(strRegex);
-	if (!re.test(document.getElementById("tamllurl").value)){
-		alert("地址格式不整确！");
-		return false;
-	}
-	
+	}	
 	var money = "^([0-9]+|[0-9]{1,3}(,[0-9]{3})*)(.[0-9]{1,2})?$";
 	var my = new RegExp(money);
 	if (!my.test(document.getElementById("price").value)){
@@ -101,6 +113,18 @@ function upchecknull(obj) {
 	var my = new RegExp(money);
 	if (!my.test(document.getElementById("price").value)){
 		alert("价格输入有误！");
+		return false;
+	} else if (document.getElementById("goodsattr1").value.length == 0) {
+		alert("[类型1]必填!");
+		document.getElementById("goodsattr1").focus();
+		return false;
+	} else if (document.getElementById("goodsattr2").value.length == 0) {
+		alert("[类型2]必填!");
+		document.getElementById("goodsattr2").focus();
+		return false;
+	} else if (document.getElementById("goodsattr3").value.length == 0) {
+		alert("[类型3]必填!");
+		document.getElementById("goodsattr3").focus();
 		return false;
 	} else if (!my.test(document.getElementById("goodsnumber").value)) {
 		alert("商品数量输入有误！");
