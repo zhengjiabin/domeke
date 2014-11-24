@@ -21,7 +21,7 @@ function checknull(obj) {
 	var createHtml = $(obj).closest("#createHtml");
 	var message = createHtml.find("#message").first();
 	message.val(content);
-    
+	    
 	var files = $('input[name="headimg"]').prop('files');
 	if (files.length > 5) {
 		alert("商品子图不能超过5张，请重新上传！");

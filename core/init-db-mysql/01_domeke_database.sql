@@ -405,7 +405,7 @@ CREATE TABLE `goods` (
   `goodscolor` varchar(32) DEFAULT NULL,
   `goodspack` varchar(64) DEFAULT NULL,
   `goodsnumber` float(18,6) DEFAULT NULL,
-  `message` varchar(255) NOT NULL,
+  `message` text NOT NULL,
   `tamllurl` varchar(255) NOT NULL,
   `submitdate` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `istop` int(11) DEFAULT '0' COMMENT '是否置顶0否 大于1置顶并降序排列',
