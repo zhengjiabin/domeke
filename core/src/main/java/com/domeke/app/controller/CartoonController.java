@@ -93,12 +93,29 @@ public class CartoonController extends Controller {
 	 */
 	public void showWorksList() {
 		Works works = getModel(Works.class);
-		String workstype = getPara("wtype", "10");
-		Integer pageNum = getParaToInt("pnum", 1);
-		Page<Works> list = works.getWorksInfoByTypePage(workstype, pageNum, 10);
-		setAttr("workstypevalue", getWtypeCodeTable().get(workstype));
+		String workstype = getPara("workstype");
+		String pageIndexStr = getPara("pageIndex");
+		Integer pageIndex = 1;
+		if (!StrKit.isBlank(pageIndexStr)) {
+			pageIndex = Integer.parseInt(pageIndexStr);
+		}
+		String pageSizeStr = getPara("pageSize");
+		Integer pageSize = 10;
+		if (!StrKit.isBlank(pageSizeStr)) {
+			pageSize = Integer.parseInt(pageSizeStr);
+		}
+		
+		WorksType worksTypeModel = getModel(WorksType.class);
+		worksTypeModel = worksTypeModel.findById(workstype);
+		
+		Page<Works> list = works.getWorksInfoPage(workstype, pageIndex, pageSize);
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		Page<Map<String, Object>> pageWorks = new Page(ParseDemoKit.worksParse(list.getList()),list.getPageNumber(), list.getPageSize(),list.getTotalPage(), list.getTotalRow());
+		
+		setAttr("workstypename", worksTypeModel.get("name"));
+		setAttr("workstypeid", worksTypeModel.get("id"));
 		setAttr("menuid", "2");
-		setAttr("pageList", list);
+		setAttr("pageList", pageWorks);
 		render("/CartoonSubModule.html");
 	}
 

@@ -15,7 +15,7 @@ public class ActionInterceptor implements Interceptor{
 
 	@Override
 	public void intercept(ActionInvocation ai) {
-		
+		ai.invoke();
 		Controller controller = ai.getController();
 		String methodName = ai.getMethod().getName();
 		//判断拦截到的方法是否指定的动作
@@ -68,6 +68,6 @@ public class ActionInterceptor implements Interceptor{
 				userAction.update();
 			}
 		}
-		ai.invoke();
+		
 	}
 }

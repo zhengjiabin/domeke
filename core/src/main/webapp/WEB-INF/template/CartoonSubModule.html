@@ -1,9 +1,14 @@
 <% layout("/common/layout.html"){ %>
+<script type="text/javascript">
+	$(document).ready(function(){
+		resizeImg('.CartoonSub img');
+	});
+</script>
 <section class="List" id="page">
-	<div class="CartoonTitle">${workstypevalue!}</div>
+	<div class="CartoonTitle">${workstypename!}</div>
     <div class="CartoonContent">
     	<% for (works in pageList.list){ %>
-        <div class="CartoonSub"> 
+        <div class="CartoonSub">
             <a href="cartoon/showDetail?id=${works.worksid!}"><img src="${works.cover!}"></a>
             <div class="CartoonName">${works.worksname!}</div>
             <div class="CartoonInfo">
@@ -13,10 +18,10 @@
            <!--  <div class="CartoonSubFootbar">${works.worksname!}</div> -->
         </div>
         <% } %>
-     </div> 
-     <% 
-     if(pageList != null){ 
-   		layout("/common/page.html", {"page":pageList,"pageAction":"/cartoon","fatherNode":"#page"}){} 
+     </div>
+     <%
+     if(pageList != null){
+   		layout("/common/page.html", {"page":pageList,"pageAction":"cartoon/showWorksList?workstype="+workstypeid,"fatherNode":"#page"}){} 
 	 }%>
 </section>
 <% } %> 

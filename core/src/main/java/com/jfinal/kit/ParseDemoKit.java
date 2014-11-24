@@ -43,7 +43,7 @@ public class ParseDemoKit {
 				}
 				map.put("playUrl",playUrl);
 				map.put("detailUrl",detailUrl);
-				String typeUrl = "cartoon/showWorksList?wtype="+works.get("workstype");
+				String typeUrl = "cartoon/showWorksList?workstype="+works.get("workstype");
 				map.put("typeUrl",typeUrl);
 				String describle = works.get("describle");
 				if(describle.length() > 10){
@@ -77,7 +77,7 @@ public class ParseDemoKit {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("goodsid", goods.get("goodsid"));
 				String goodsname = goods.get("goodsname");
-				if(goodsname.length() >= 12){
+				if(goodsname.length() >= 10){
 					goodsname = goodsname.substring(0,12);
 				}
 				map.put("goodsname", goodsname);
