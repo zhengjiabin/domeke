@@ -15,10 +15,7 @@
 		<tr>
 			<td style="width: 60px; text-align: center;">${ordLP.index!}</td>	
 			<td>${ord.ordernum!}</td>
-			<% for(g in goodsList!) {%>
-			<% if(g.goodsid == ord.goodsid){ %>
-				<td><a href="goods/getGoodsDetail?goodsid=${g.goodsid!}&goodsattr=${g.goodsattr1!}&dougprice=${g.dougprice!}">${ord.goodsname!}</a></td>
-			<%}}%>
+			<td><a href="goods/getGoodsDetail?goodsid=${ord.goodsname!}">${ord.goodsname!}</a></td>
 			<td>${ord.goodsprice!}</td>
 			<td>${ord.goodsnum!}</td>
 			<td>${ord.goodsprice!*ord.goodsnum!}</td>

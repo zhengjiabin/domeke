@@ -401,9 +401,9 @@ public class GoodsController extends FilesLoadController {
 			setAttr("goodsTypes", goodsTypes);
 		}
 		setAttr("goods", goods);
-//		String headimg = goods.getStr("headimg");
-//		List<String> headimgs = this.getFileUrls(headimg);
-//		setAttr("images", headimgs);
+		String headimg = goods.getStr("headimg");
+		List<String> headimgs = this.getFileUrls(headimg);
+		setAttr("images", headimgs);
 		//Long dougprice = getParaToLong("dougprice");
 		Long dougprice = goods.getLong("dougprice");
 		Map<String,Object> changeMap = getPeas(dougprice);
