@@ -10,6 +10,7 @@ import com.domeke.app.file.ImageFile;
 import com.domeke.app.file.VideoFile;
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.DownLoad;
+import com.domeke.app.model.Favourite;
 import com.domeke.app.model.User;
 import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
@@ -1325,7 +1326,31 @@ public class WorksController extends Controller {
 		renderJson("success", 1);
 		return;
 	}
-
+	/**
+	 * 视频收藏
+	 */
+	public void collection(){
+		String workid = getPara("workid");
+		Work worodel = getModel(Work.class).findById(workid);
+		Long worksid = worodel.getLong("worksid");
+		Works worksdel = getModel(Works.class).findById(worksid);
+		Favourite fav = getModel(Favourite.class);
+		//查找是否收藏过
+		Long count = fav.countCollection(workid, worksid);
+		if(count==0){
+			User user = getSessionAttr("user");
+			Long userId = user.getLong("userid");
+			fav.set("userid", userId);
+			fav.set("cartoon_id", worksid);
+			fav.set("cartoon_name", worksdel.getStr("worksname"));
+			fav.set("section_id", workid);
+			fav.set("section_name", worodel.getStr("workname"));
+			fav.save();
+		}
+		renderJson("success", 1);
+		return;
+		
+	}
 	public void downloadFile() {
 		try {
 			User user = getSessionAttr("user");

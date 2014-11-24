@@ -3,6 +3,7 @@ package com.domeke.app.model;
 import java.util.List;
 
 import com.domeke.app.tablebind.TableBind;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.ehcache.CacheKit;
@@ -81,5 +82,11 @@ public class Favourite extends Model<Favourite> {
 	public Page<Favourite> getFavouriteByUid(Long uid,int pageNumber,int pageSize){
 		Page<Favourite> page = this.paginate(pageNumber, pageSize, "select * ", "from favourite where userid=?",uid);
 		return page;
+	}
+	
+	public Long countCollection(String workid,Long worksid){
+		String sql="select count(1)  from favourite where cartoon_id='"+worksid+"' and section_id='"+workid+"'";
+		Long count = Db.queryLong(sql);
+		return count;
 	}
 }

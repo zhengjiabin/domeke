@@ -377,7 +377,7 @@ CREATE TABLE `downloadcount` (
 -- ----------------------------
 DROP TABLE IF EXISTS `favourite`;
 CREATE TABLE `favourite` (
-  `FavouriteId` int(11) NOT NULL AUTO_INCREMENT,
+  `favouriteid` int(11) NOT NULL AUTO_INCREMENT,
   `userid` varchar(50) DEFAULT NULL,
   `cartoon_name` varchar(50) DEFAULT NULL COMMENT '卡通名称',
   `cartoon_id` varchar(50) DEFAULT NULL,
@@ -387,7 +387,7 @@ CREATE TABLE `favourite` (
   `creater` varchar(50) DEFAULT NULL,
   `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `modifier` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`FavouriteId`)
+  PRIMARY KEY (`favouriteid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
