@@ -186,15 +186,14 @@ public class GoodsController extends FilesLoadController {
 		String saveDirectory = headimg.substring(headimg.lastIndexOf("/") + 1, headimg.length());
 		saveDirectory = saveFolderName + "/" + saveDirectory;
 		Map<String, String> uploadPath = FileLoadKit.uploadImgs(this, saveDirectory, maxPostSize, encoding);
-		String uppic = pic;
 		if (uploadPath != null && uploadPath.get("pic") != null) {
-			uppic = uploadPath.get("pic");
+			FileLoadKit.deleteFiles(this, pic);
+			pic = uploadPath.get("pic");
 		}
 		UploadFile file = getFile();
 		Goods gs = getModel(Goods.class);
-		gs.set("pic", uppic);
+		gs.set("pic", pic);
 		try{
-			FileLoadKit.deleteFiles(this, pic);
 			gs.updateGoodsInfo();
 			redirect("/goods/renderGoods");
 		} catch (Exception e) {
