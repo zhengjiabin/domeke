@@ -11,8 +11,10 @@
 	     	  <tr>
                 <th>用户头像：</th>
                 <td>
-                <div id="userImg" class="imgCss"></div>
-                <input id="themeimg" name="user.imgurl" type="file" class="input_Forum" value="${user.imgurl!}" onchange="onUploadImgChange(this)" required="required">
+              	<div id="preview">
+              	<img src="${user.imgurl!}">
+              	</div>
+        		<input id="fileImage" type="file" size="30" name="imgurl" onchange="onShowImgChange(this)" required="required" /><span class='font_r' style="color: red"> *</span><br>
                 </td>
               </tr>
               <tr>

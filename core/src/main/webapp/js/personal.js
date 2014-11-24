@@ -162,7 +162,28 @@ function onSubmitOfWonders(node){
 	});
 	return false;
 }
-
+//显示上传图片
+function onShowImgChange(node){
+	alert(node.value);
+	var createHtml = $(node).closest("#createHtml");
+	var preview = createHtml.find("#preview").first();
+	if(node.value == null || node.value ==''){
+		preview.html("");
+		return false;
+	}else if( !node.value.match( /.jpg|.gif|.png|.bmp/i ) ){
+		preview.html("");
+        return false;
+    }
+    if (node.files && node.files[0]){  
+    	var reader = new FileReader();  
+    	reader.onload = function(evt){
+    		preview.html('<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="' + evt.target.result + '" />');
+    	}
+    	reader.readAsDataURL(node.files[0]);
+    }else{
+    	preview.html('<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + node.value + '\'"></div>');
+    }  
+}
 //显示上传图片
 function onUploadImgChange(node){
 	var fatherNode = $(node).closest("#submitForm");

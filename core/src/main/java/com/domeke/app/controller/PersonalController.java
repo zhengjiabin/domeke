@@ -1,6 +1,8 @@
 package com.domeke.app.controller;
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +19,7 @@ import com.domeke.app.model.Post;
 import com.domeke.app.model.Treasure;
 import com.domeke.app.model.User;
 import com.domeke.app.utils.EncryptKit;
+import com.domeke.app.utils.FileLoadKit;
 import com.jfinal.aop.Before;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -290,9 +293,12 @@ public class PersonalController extends  FilesLoadController{
 	 *  资料修改
 	 */
 	public void upUser(){
-		String imgPath = upLoadFileDealPath(parameterName, saveFolderName, maxPostSize, encoding);
+		UUID uuid = UUID.randomUUID();
+		String saveDirectory = saveFolderName + "/" + uuid.toString();
+		Map<String, String> uploadPath = FileLoadKit.uploadImgs(this, saveDirectory, maxPostSize, encoding);
+		String pic = uploadPath.get("imgurl");
 		User user  = getModel(User.class);
-		user.set("imgurl", imgPath);
+		user.set("imgurl", pic);
 		user.update();
 		setAttr("menuId", "12");
 		setAttr("menuid", "1");
