@@ -69,6 +69,11 @@ function checknull(obj) {
 }
 
 function upchecknull(obj) {
+	var content = CKEDITOR.instances.ckeditor.getData();
+	var createHtml = $(obj).closest("#createHtml");
+	var message = createHtml.find("#message").first();
+	message.val(content);
+	
 	var files = $('input[name="headimg"]').prop('files');
 	var filenum = files.length;
 	var imgnum = $("img[name='himg']").length + filenum;

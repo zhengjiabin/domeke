@@ -76,7 +76,6 @@ function galevel2(str)
 			剩余数量：<input id="goodsnumber" name="goods.goodsnumber" value="${goods.goodsnumber!}" type="text" class="span6 m-wrap" /><br>        	 
 			商品颜色：<input id="goodscolor" name="goods.goodscolor" value="${goods.goodscolor!}" type="text" class="span6 m-wrap" /><br>        	 
 			商品包装：<input id="goodspack" name="goods.goodspack" value="${goods.goodspack!}" type="text" class="span6 m-wrap" /><br>        	 
-        	
         	商品主图：
         	<div class="controls">
 				<div id="preview" class="imgCss">
@@ -94,21 +93,10 @@ function galevel2(str)
 				</label>
 				<input id="themeimgBtn" type="button" onclick="pic.click()" value="请选择图片" required="required">
 				<input id="pic" name="pic" type="file" class="fileCss" onchange="onUploadImgChange(this)" style="display: none">
-			</div>
-        	
-        	
-        	<!-- <div id="preview"></div>
-        	<input id="fileImage" type="file" size="30" name="pic" onchange="onUploadImgChange(this)" />
-        	<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${goods.pic!}"/><br> -->
-        	
-        	<!-- 商品描述：<textarea id="message" name="goods.message" value="${goods.message!}" rows="5" class="span6 m-wrap" ></textarea> -->
-        	<!-- <input name="goods.message" value="${goods.message!}" type="text" class="span6 m-wrap" /> -->
-        	<span class='font_r' style="color: red"> *</span><br>
-        	
+			</div><span class='font_r' style="color: red"> *</span><br>
         	商城链接：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
         	<span class='font_r' style="color: red"> *</span><br>
         	是否放首页：
-        		
         		<%
         		if (goods.istop != null && goods.istop != ""){ 
         		var istop =parseInt(goods.istop);
@@ -126,8 +114,6 @@ function galevel2(str)
         		}
         		}
         		%>
-        	
-        	<!-- <input name="goods.istop" value="${goods.istop!}" type="text" class="span6 m-wrap" /> -->
         	<span class='font_r' style="color: red"> &nbsp;&nbsp;&nbsp;*</span><br>
         	商品状态：
         	<%
@@ -147,7 +133,6 @@ function galevel2(str)
         		}
         	%>
         	<span class='font_r' style="color: red"> *</span><br>
-        	<!-- 上传用户：<input name="goods.username" value="${goods.username!}" type="text" class="span6 m-wrap" readonly = "readonly "/><br> -->
         	<div id="imgs" >
         	<div style="float:left">商品子图:</div>
         	<%
@@ -234,7 +219,7 @@ function galevel2(str)
 				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
 				<input type="text" name="goods.message" id="message" value="${goods.message!}" hidden="block" style="display:none"/>
       		</div> 
-			<button class="btn btn-large btn-primary" onclick="return upchecknull(this)" type="submit" >编辑</button>
+			<button class="btn btn-large btn-primary" onclick="return upchecknull(this)" type="submit" >修改</button>
 			<a href="goods/renderGoods" class="btn btn-large btn-primary" >返回</a>
       </form>
 				</div>
