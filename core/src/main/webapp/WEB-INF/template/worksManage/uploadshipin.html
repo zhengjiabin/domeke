@@ -31,6 +31,9 @@
 			return false;
 		});
 	});
+	function openwin() { 
+		 window.open ("warninng.html", "newwindow", "height=518, width=650, toolbar =0, menubar=no, scrollbars=no, resizable=no, location=no, status=no")
+	} 
 </script>
 <article class="MeArticle">
 		<form id="uploadshipin" action="works/uploadShipin" method="post" enctype="multipart/form-data">
@@ -74,7 +77,17 @@
                 </td>
               </tr>
               <tr>
-                <th></th>
+               <th>&nbsp;</th>
+	        <td><input  type="checkbox" style="border:0px" name="check" value="01">
+	       	 <font> <a href="javascript:void(0)" onclick="openwin()">我已阅读并同意《动漫方舟网注册协议》</a> </font>
+	        <div>
+		       <a style="color:#F00">${xieyi!}</a>
+	    	</div>
+       		 </td>
+              </tr>
+              <tr>
+                <th>
+                </th>
                 <td>
                 	<button  type="submit" class="">提交</button>
                 	&nbsp;&nbsp;&nbsp;
