@@ -1,7 +1,10 @@
-<script src="${core}/js/comment.js" type="text/javascript"></script>
-<div class="LevelTitle">
-	<a href="javascript:void(0);" class="WArgument" onclick="skipPublish(this)">我来说两句</a>
-</div>
+<% 
+	if (idtype == "40"){
+%>
+	<div class="LevelTitle">
+		<a href="javascript:void(0);" class="WArgument" onclick="skipPublish(this)">我来说两句</a>
+	</div>
+<% } %>
 <% for (comment in commentPage.list){ %>
 <div class="ArgumentSub" id="commentContents">
       	<div class="MemberHead"><img src="${comment.imgurl!}"></div>
@@ -69,7 +72,7 @@
 	%>
 </div>
 <div>
-	<% if(commentPage != null){ 
+	<% if(!isEmpty(commentPage) && commentPage.totalRow>0){ 
 		layout(
 			"/common/page.html",
 			{

@@ -32,6 +32,10 @@ function skipPublish(node){
 	editor.attr("contenteditable", "true");
 	var showEditor = publishNode.find("#showEditor").first();
 	showEditor.show();
+	
+	var X = editor.offset().top; 
+	var Y = editor.offset().left;
+	scroll(Y,X-200);
 }
 
 // 显示回复框信息

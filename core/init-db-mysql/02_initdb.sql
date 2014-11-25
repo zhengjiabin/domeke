@@ -50,6 +50,13 @@ INSERT INTO `code_table` VALUES ('30', '2', 'level', '二级', '二级', '20', '
 INSERT INTO `code_table` VALUES ('31', '3', 'level', '三级', '三级', '30', '2014-10-20 19:49:34', null, '2014-10-20 19:49:34', null, '0');
 INSERT INTO `code_table` VALUES ('32', '10', 'status', '停用', '停用', '10', '2014-10-30 00:09:10', '1', '2014-10-30 00:09:10', '1', '0');
 INSERT INTO `code_table` VALUES ('33', '70', 'status', '启用', '启用', '20', '2014-10-30 00:09:02', '1', '2014-10-30 00:09:02', '1', '0');
+INSERT INTO `code_table` VALUES ('34', '10010', 'idtype', '帖子', '10', null, '2014-09-18 19:28:49', null, '2014-09-18 19:28:49', null, '0');
+INSERT INTO `code_table` VALUES ('35', '10020', 'idtype', '活动', '20', null, '2014-09-18 19:28:49', null, '2014-09-18 19:28:49', null, '0');
+INSERT INTO `code_table` VALUES ('36', '10030', 'idtype', '宝贝', '30', null, '2014-09-18 19:28:49', null, '2014-09-18 19:28:49', null, '0');
+INSERT INTO `code_table` VALUES ('37', '10040', 'idtype', '专辑', '40', null, '2014-09-18 19:28:49', null, '2014-09-18 19:28:49', null, '0');
+INSERT INTO `code_table` VALUES ('38', '10050', 'idtype', '无奇不有', '50', null, '2014-09-18 19:28:49', null, '2014-09-18 19:28:49', null, '0');
+INSERT INTO `code_table` VALUES ('39', '10060', 'idtype', '商城', '60', null, '2014-09-18 19:28:49', null, '2014-09-18 19:28:49', null, '0');
+INSERT INTO `code_table` VALUES ('40', '10070', 'idtype', '动漫', '70', null, '2014-09-18 19:28:49', null, '2014-09-18 19:28:49', null, '0');
 
 INSERT INTO `menu` VALUES (1, 10, '首页', 'index', '1', 100000000, NULL, '2014-9-13 11:13:02', NULL, '2014-9-13 11:13:02', NULL, '1');
 INSERT INTO `menu` VALUES (2, 20, '动漫', 'cartoon', '1', 200000000, NULL, '2014-9-13 14:43:09', NULL, '2014-9-13 14:43:09', NULL, '1');

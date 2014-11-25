@@ -28,7 +28,10 @@ import com.jfinal.plugin.activerecord.Page;
 public class CartoonController extends Controller {
 	
 	/** 回复类型 */
-	private static String IDTYPE = "40";
+	private static String WORKSIDTYPE = "40";
+	
+	/** 回复类型 */
+	private static String WORKIDTYPE = "70";
 
 	public void index() {
 		String menuid = getPara("menuid");
@@ -141,7 +144,7 @@ public class CartoonController extends Controller {
 		String action = "/comment/setPage";
 		setAttr("render", "/CartoonDtl.html");
 		setAttr("targetId", worksId);
-		setAttr("idtype", IDTYPE);
+		setAttr("idtype", WORKSIDTYPE);
 		forwardAction(action);
 	}
 
@@ -171,7 +174,12 @@ public class CartoonController extends Controller {
 		History historyModel = getModel(History.class);
 		historyModel.saveOrUpdateHitory(workData);
 		this.setAttr("work", workData);
-		render("/CartoonPlay.html");
+		
+		String action = "/comment/setPage";
+		setAttr("render", "/CartoonPlay.html");
+		setAttr("targetId", workData.get("workid"));
+		setAttr("idtype", WORKIDTYPE);
+		forwardAction(action);
 	}
 
 	/**
