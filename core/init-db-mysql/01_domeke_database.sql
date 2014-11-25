@@ -720,3 +720,23 @@ CREATE TABLE `record` (
   PRIMARY KEY (`recordid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
+
+-- ----------------------------
+-- Table structure for `pointlog`
+-- ----------------------------
+DROP TABLE IF EXISTS `pointlog`;
+CREATE TABLE `pointlog` (
+  `pointlogid` bigint(32) NOT NULL AUTO_INCREMENT,
+  `userid` bigint(32) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `type` varchar(4) DEFAULT NULL,
+  `reward` varchar(32) DEFAULT NULL,
+  `peascount` int(32) DEFAULT NULL COMMENT '豆豆',
+  `pointcount` int(32) DEFAULT NULL COMMENT '积分',
+  `creater` mediumint(8) NOT NULL,
+  `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `modifier` mediumint(8) DEFAULT NULL,
+  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pointlogid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
