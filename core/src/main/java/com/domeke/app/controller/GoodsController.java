@@ -402,7 +402,10 @@ public class GoodsController extends FilesLoadController {
 		}
 		setAttr("goods", goods);
 		String headimg = goods.getStr("headimg");
-		List<String> headimgs = this.getFileUrls(headimg);
+		List<String> headimgs = new ArrayList<String>();
+		if (headimg != null && !"".equals(headimg)) {
+			headimgs = this.getFileUrls(headimg);	
+		} 
 		setAttr("images", headimgs);
 		//Long dougprice = getParaToLong("dougprice");
 		Long dougprice = goods.getLong("dougprice");
