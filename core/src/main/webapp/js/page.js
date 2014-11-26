@@ -16,3 +16,7 @@ function goToPageSize(node, size, number,pageAction,fatherNode) {
 		}
 	);
 }
+
+function goToPageSizeHref(node, size, number,pageAction,fatherNode) {
+	window.location.href = pageAction+"&pageNumber="+number+"&pageSize="+size;
+}

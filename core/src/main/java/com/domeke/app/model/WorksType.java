@@ -30,20 +30,20 @@ public class WorksType extends Model<WorksType> {
 		List<WorksType> worksTypes = this.find(sql);
 		return worksTypes;
 	}
-	public Page<WorksType> getWorksTypes(String type,Integer pageIndex, Integer pageSize){
+	public Page<WorksType> getWorksTypes(String type,Integer pageNumber, Integer pageSize){
 		String sql = "from works_type order by indextop desc";
 		if(!StrKit.isBlank(type)){
 			sql = "from works_type where type="+type+" order by indextop desc";
 		}
-		Page<WorksType> worksTypes = this.paginate(pageIndex, pageSize, "select *", sql);
+		Page<WorksType> worksTypes = this.paginate(pageNumber, pageSize, "select *", sql);
 		return worksTypes;
 	}
-	public Page<WorksType> getWorksTypesNoRank(String type,Integer pageIndex, Integer pageSize){
+	public Page<WorksType> getWorksTypesNoRank(String type,Integer pageNumber, Integer pageSize){
 		String sql = "from works_type";
 		if(!StrKit.isBlank(type)){
 			sql = "from works_type where type="+type;
 		}
-		Page<WorksType> worksTypes = this.paginate(pageIndex, pageSize, "select *", sql);
+		Page<WorksType> worksTypes = this.paginate(pageNumber, pageSize, "select *", sql);
 		return worksTypes;
 	}
 	public List<WorksType> getWorksTypesByCartoonDesc(String type){
@@ -54,12 +54,12 @@ public class WorksType extends Model<WorksType> {
 		List<WorksType> worksTypes = this.find(sql);
 		return worksTypes;
 	}
-	public Page<WorksType> getWorksTypesByCartoonDesc(String type,Integer pageIndex, Integer pageSize){
+	public Page<WorksType> getWorksTypesByCartoonDesc(String type,Integer pageNumber, Integer pageSize){
 		String sql = "from works_type order by cartoontop desc";
 		if(!StrKit.isBlank(type)){
 			sql = "from works_type where type="+type+" order by cartoontop desc";
 		}
-		Page<WorksType> worksTypes = this.paginate(pageIndex, pageSize, "select *", sql);
+		Page<WorksType> worksTypes = this.paginate(pageNumber, pageSize, "select *", sql);
 		return worksTypes;
 	}
 	

@@ -1,12 +1,12 @@
 <script type="text/javascript">
-pageIndex = '${pageWorksType.pageNumber!}';
+pageNumber = '${pageWorksType.pageNumber!}';
 function upranking(id,state){
 	$.ajax({
 		type : 'post',
 		data : 'flag='+flag+'&id='+id+'&state='+state,
 		url : 'worksType/upranking',
 		success : function(data) {
-			showData({'flag':flag,'pageIndex':${pageWorksType.pageNumber!}});
+			showData({'flag':flag,'pageNumber':${pageWorksType.pageNumber!}});
 		}
 	});
 }
@@ -21,7 +21,7 @@ function del(id){
 					alert("删除失败,"+data.message);
 					return;
 				}
-				showData({'flag':flag,'pageIndex':${pageWorksType.pageNumber!}});
+				showData({'flag':flag,'pageNumber':${pageWorksType.pageNumber!}});
 				return;
 			}
 		});
@@ -75,20 +75,20 @@ function del(id){
 			</tbody>
 		</table>
 		<div class="PageMore">
-     <button onclick="showData({'flag':'${flag!}','type':'${type!}','pageIndex':${pageWorksType.pageUp!}})">上一页</button>
+     <button onclick="showData({'flag':'${flag!}','type':'${type!}','pageNumber':${pageWorksType.pageUp!}})">上一页</button>
       <% for(var i=0; i < pageWorksType.totalPage; i++)
       {
       	if(i+1 == pageWorksType.pageNumber){
       %>
-      	<button  onclick="showData({'flag':'${flag!}','pageIndex':${i+1}})" style="border:1px solid #ccc; color: blue;">${i+1}</button>
+      	<button  onclick="showData({'flag':'${flag!}','pageNumber':${i+1}})" style="border:1px solid #ccc; color: blue;">${i+1}</button>
    	<% 
    		}
    		else{
    	%>
-   		<button onclick="showData({'flag':'${flag!}','pageIndex':${i+1}})">${i+1}</button>
+   		<button onclick="showData({'flag':'${flag!}','pageNumber':${i+1}})">${i+1}</button>
    	<%	
    		}
    	}%>
-   	<button onclick="showData({'flag':'${flag!}','pageIndex':${pageWorksType.pageDown!}})">下一页</button>
+   	<button onclick="showData({'flag':'${flag!}','pageNumber':${pageWorksType.pageDown!}})">下一页</button>
   </div>
 </article>

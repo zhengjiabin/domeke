@@ -1,5 +1,5 @@
 <script type="text/javascript">
-	var workstype = '${workstype}';
+	var workstype = '${workstype!}';
 	$(document).ready(function(){
 		$('img').each(function(){
 			$(this).error(function(){
@@ -22,7 +22,7 @@
 			});
 		});
 		$('#workstypesel').change(function(){
-			showPage({'flag':1,'type':1,'pageIndex':1});
+			showPage({'flag':1,'type':1,'pageNumber':1});
 		});
 	});
 	if(workstype != ''){
@@ -39,7 +39,7 @@
 					}else{
 						alert("删除失败");
 					}
-					showPage({'flag':1,'type':1,'pageIndex':${pageWorks.pageNumber!}});
+					showPage({'flag':1,'type':1,'pageNumber':${pageWorks.pageNumber!}});
 				}
 			});
 		}else{
@@ -47,7 +47,7 @@
 		}
 	}
 </script>
-<div class="MeCaption"><a href="javascript:showPage({'type':1,'pageIndex':1});">专辑管理</a><span style="float:right;">类型：<select id="workstypesel"><option value="">全部</option><%for(workstype in worksTypes){%><option value="${workstype.id!}">${workstype.name!}</option><%}%></select> </span></div>
+<div class="MeCaption"><a href="javascript:showPage({'type':1,'pageNumber':1});">专辑管理</a><span style="float:right;">类型：<select id="workstypesel"><option value="">全部</option><%for(workstype in worksTypes){%><option value="${workstype.id!}">${workstype.name!}</option><%}%></select> </span></div>
           <div class="AlbumBlock">
           <table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
               <tbody>
@@ -58,7 +58,7 @@
 	                <th>添加时间</th>
 	                <th>上传者</th>
 	                <th>热度</th>
-	                <th><a href="javascript:showPage({'flag':11,'type':1,'pageIndex':${pageWorks.pageNumber!}});">创建专辑</a></th>
+	                <th><a href="javascript:showPage({'flag':11,'type':1,'pageNumber':${pageWorks.pageNumber!}});">创建专辑</a></th>
               </tr>
               <%for(works in pageWorks.list){%>
               <tr>
@@ -68,27 +68,13 @@
                 <td>${works.createtime!}</td>
                 <td>${works.creatername!}</td>
                 <td>播放：${works.pageviews!}</td>
-                <td><a href="javascript:showPage({'flag':21,'type':1,'pageIndex':${pageWorks.pageNumber!},'worksid':'${works.worksid!}'});">编辑专辑</a><a href="javascript:del(${works.worksid!});">删除</a></td>
+                <td><a href="javascript:showPage({'flag':21,'type':1,'pageNumber':${pageWorks.pageNumber!},'worksid':'${works.worksid!}'});">编辑专辑</a><a href="javascript:del(${works.worksid!});">删除</a></td>
               </tr>
               <%}%>
               </tbody>
           </table>
-			<div class="PageMore">
-            <a href="javascript:showPage({'type':1,'pageIndex':${pageWorks.pageUp!}});">上一页</a>
-             <% for(var i=0; i < pageWorks.totalPage; i++)
-             {
-             	if(i+1 == pageWorks.pageNumber){
-             %>
-             	
-          		<a style="background-color:#ccc;" href="javascript:showPage({'type':1,'pageIndex':${i+1}});">${i+1}</a>
-          	<% 
-          		}
-          		else{
-          	%>
-          		<a href="javascript:showPage({'type':1,'pageIndex':${i+1}});">${i+1}</a>
-          	<%	
-          		}
-          	}%>
-            <a href="javascript:showPage({'type':1,'pageIndex':${pageWorks.pageDown!}});">下一页</a>
-            </div>
+			<%
+		     if(pageWorks != null){
+		   		layout("/common/page.html", {"page":pageWorks,"pageAction":"works/showPage?flag=1&type=1","fatherNode":"#worksManager"}){} 
+			 }%>
           </div>

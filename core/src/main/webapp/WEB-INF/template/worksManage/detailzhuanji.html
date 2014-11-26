@@ -16,7 +16,7 @@
 					}else{
 						alert("删除失败");
 					}
-					showPage({'flag':21,'type':1,'pageIndex':'${pageIndex!}','workpageIndex':'${pageWork.pageNumber!}','worksid':'${works.worksid!}'});
+					showPage({'flag':21,'type':1,'pageNumber':'${pageNumber!}','workpageNumber':'${pageWork.pageNumber!}','worksid':'${works.worksid!}'});
 				}
 			});
 		}else{
@@ -47,9 +47,9 @@
 	});
 </script>
 <div class="MemberIndex">
-          <div class="MeCaption"><a href="javascript:showPage({'flag':1,'type':1,'pageIndex':${pageIndex!}});">专辑管理</a> --> <a href="javascript:showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${pageWork.pageNumber!},'worksid':${works.worksid!}});">编辑专辑</a></div>
+          <div class="MeCaption"><a href="javascript:showPage({'flag':1,'type':1,'pageNumber':${pageNumber!}});">专辑管理</a> --> <a href="javascript:showPage({'flag':21,'type':1,'pageNumber':${pageNumber!},'workpageNumber':${pageWork.pageNumber!},'worksid':${works.worksid!}});">编辑专辑</a></div>
           <div class="AlbumInfo">
-          	<div class="AlbumButton font_b"><a href="javascript:showPage({'flag':22,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${pageWork.pageNumber!},'worksid':${works.worksid!}});">编辑专辑信息</a><a href="javascript:showPage({'flag':24,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${pageWork.pageNumber!},'worksid':${works.worksid!}});">+ 上传视频</a></div>
+          	<div class="AlbumButton font_b"><a href="javascript:showPage({'flag':22,'type':1,'pageNumber':${pageNumber!},'workpageNumber':${pageWork.pageNumber!},'worksid':${works.worksid!}});">编辑专辑信息</a><a href="javascript:showPage({'flag':24,'type':1,'pageNumber':${pageNumber!},'workpageNumber':${pageWork.pageNumber!},'worksid':${works.worksid!}});">+ 上传视频</a></div>
             <div class="AlbumContent">
             	<div class="AlbumPic"><img src="${works.cover!}"></div>
                 <div class="AlbumDtl">
@@ -85,7 +85,7 @@
                 <td>${work.creatername!}</td>
                 <td>播放：${work.playtimes!}</td>
                 <td>
-	                <a href="javascript:showPage({'flag':23,'type':1,'pageIndex':${pageIndex!},'worksid':${work.worksid!},'workid':${work.workid!},'workpageIndex':${pageWork.pageNumber!}});">编辑</a>
+	                <a href="javascript:showPage({'flag':23,'type':1,'pageNumber':${pageNumber!},'worksid':${work.worksid!},'workid':${work.workid!},'workpageNumber':${pageWork.pageNumber!}});">编辑</a>
 	                <a href="javascript:del(${work.workid!});">删除</a>
                 </td>
             </tr>
@@ -93,22 +93,22 @@
             </tbody>
             </table>
 			<div class="PageMore">
-            <a href="javascript:showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${pageWork.pageUp!},'worksid':${works.worksid!}});">上一页</a>
+            <a href="javascript:showPage({'flag':21,'type':1,'pageNumber':${pageNumber!},'workpageNumber':${pageWork.pageUp!},'worksid':${works.worksid!}});">上一页</a>
              <% for(var i=0; i < pageWork.totalPage; i++)
              {
              	if(i+1 == pageWork.pageNumber){
              %>
              	
-          		<a style="background-color:#ccc;" href="javascript:showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${i+1},'worksid':${works.worksid!}});">${i+1}</a>
+          		<a style="background-color:#ccc;" href="javascript:showPage({'flag':21,'type':1,'pageNumber':${pageNumber!},'workpageNumber':${i+1},'worksid':${works.worksid!}});">${i+1}</a>
           	<% 
           		}
           		else{
           	%>
-          		<a href="javascript:showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${i+1},'worksid':${works.worksid!}});">${i+1}</a>
+          		<a href="javascript:showPage({'flag':21,'type':1,'pageNumber':${pageNumber!},'workpageNumber':${i+1},'worksid':${works.worksid!}});">${i+1}</a>
           	<%	
           		}
           	}%>
-            <a href="javascript:showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'workpageIndex':${pageWork.pageDown!},'worksid':${works.worksid!}});">下一页</a>
+            <a href="javascript:showPage({'flag':21,'type':1,'pageNumber':${pageNumber!},'workpageNumber':${pageWork.pageDown!},'worksid':${works.worksid!}});">下一页</a>
             </div>
           </div>
         </div>

@@ -42,7 +42,7 @@
 						'flag' : flag,
 						'type' : type,
 						'workstype' : workstype,
-						'pageIndex' : '${pageWorks.pageNumber!}'
+						'pageNumber' : '${pageWorks.pageNumber!}'
 					});
 				} else {
 					alert("审核失败");
@@ -55,7 +55,7 @@
 			'flag' : flag,
 			'type' : type,
 			'workstype' : workstype,
-			'pageIndex' : params.pageIndex
+			'pageNumber' : params.pageNumber
 		});
 	}
 	
@@ -71,7 +71,7 @@
 						'flag' : flag,
 						'type' : type,
 						'workstype' : workstype,
-						'pageIndex' : '${pageWorks.pageNumber!}'
+						'pageNumber' : '${pageWorks.pageNumber!}'
 					});
 				} else {
 					alert("置顶失败");
@@ -92,7 +92,7 @@
 						'flag' : flag,
 						'type' : type,
 						'workstype' : workstype,
-						'pageIndex' : '${pageWorks.pageNumber!}'
+						'pageNumber' : '${pageWorks.pageNumber!}'
 					});
 				} else {
 					alert("置顶失败");
@@ -115,7 +115,7 @@
 						'flag' : flag,
 						'type' : type,
 						'workstype' : workstype,
-						'pageIndex' : '${pageWorks.pageNumber!}'
+						'pageNumber' : '${pageWorks.pageNumber!}'
 					});
 				}
 			});
@@ -189,20 +189,20 @@
         </tbody>
 	</table>
 	<div class="PageMore">
-     <button onclick="showDataTable({'pageIndex':${pageWorks.pageUp!}})">上一页</button>
+     <button onclick="showDataTable({'pageNumber':${pageWorks.pageUp!}})">上一页</button>
       <% for(var i=0; i < pageWorks.totalPage; i++)
       {
       	if(i+1 == pageWorks.pageNumber){
       %>
-      	<button  onclick="showDataTable({'pageIndex':${i+1}})" style="border:1px solid #ccc; color: blue;">${i+1}</button>
+      	<button  onclick="showDataTable({'pageNumber':${i+1}})" style="border:1px solid #ccc; color: blue;">${i+1}</button>
    	<% 
    		}
    		else{
    	%>
-   		<button onclick="showDataTable({'pageIndex':${i+1}})">${i+1}</button>
+   		<button onclick="showDataTable({'pageNumber':${i+1}})">${i+1}</button>
    	<%	
    		}
    	}%>
-   	<button onclick="showDataTable({'pageIndex':${pageWorks.pageDown!}})">下一页</button>
+   	<button onclick="showDataTable({'pageNumber':${pageWorks.pageDown!}})">下一页</button>
   </div>
 </article>

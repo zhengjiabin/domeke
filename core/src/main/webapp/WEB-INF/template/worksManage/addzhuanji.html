@@ -21,9 +21,9 @@
 				success:function(data){
 					if(data.success == 1){
 						if(confirm("添加成功 是否跳转编辑页面？")){
-							showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':data.worksid});
+							showPage({'flag':21,'type':1,'pageNumber':${pageNumber!},'worksid':data.worksid});
 						}else{
-							showPage({'flag':1,'type':1,'pageIndex':${pageIndex!}});
+							showPage({'flag':1,'type':1,'pageNumber':${pageNumber!}});
 						}
 					}else{
 						alert("添加失败  信息：" + data.message);
@@ -38,7 +38,7 @@
 <article class="MeArticle">
 		<form id="addzhuanji" action="works/addZhuanji" method="post" enctype="multipart/form-data">
         <div class="MemberIndex">
-          <div class="MeCaption"><a href="javascript:showPage({'flag':1,'type':1,'pageIndex':${pageIndex!}});">专辑管理</a> --> <a href="javascript:showPage({'flag':11,'type':1,'pageIndex':${pageIndex!}});">创建专辑</a></div>
+          <div class="MeCaption"><a href="javascript:showPage({'flag':1,'type':1,'pageNumber':${pageNumber!}});">专辑管理</a> --> <a href="javascript:showPage({'flag':11,'type':1,'pageNumber':${pageNumber!}});">创建专辑</a></div>
           <div class="MeBlock">
           <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
               <tbody><tr>
@@ -91,7 +91,7 @@
                 <td>
                 	<button type="submit" >提交</button>
                 	&nbsp;&nbsp;&nbsp;
-                	<button type="button" onclick="showPage({'flag':1,'type':1,'pageIndex':${pageIndex!}})">取消</button>
+                	<button type="button" onclick="showPage({'flag':1,'type':1,'pageNumber':${pageNumber!}})">取消</button>
 				</td>
               </tr>
             </tbody></table>

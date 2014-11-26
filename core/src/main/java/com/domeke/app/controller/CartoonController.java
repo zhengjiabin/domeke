@@ -97,10 +97,10 @@ public class CartoonController extends Controller {
 	public void showWorksList() {
 		Works works = getModel(Works.class);
 		String workstype = getPara("workstype");
-		String pageIndexStr = getPara("pageIndex");
-		Integer pageIndex = 1;
-		if (!StrKit.isBlank(pageIndexStr)) {
-			pageIndex = Integer.parseInt(pageIndexStr);
+		String pageNumberStr = getPara("pageNumber");
+		Integer pageNumber = 1;
+		if (!StrKit.isBlank(pageNumberStr)) {
+			pageNumber = Integer.parseInt(pageNumberStr);
 		}
 		String pageSizeStr = getPara("pageSize");
 		Integer pageSize = 10;
@@ -111,7 +111,7 @@ public class CartoonController extends Controller {
 		WorksType worksTypeModel = getModel(WorksType.class);
 		worksTypeModel = worksTypeModel.findById(workstype);
 		
-		Page<Works> list = works.getWorksInfoPage(workstype, pageIndex, pageSize);
+		Page<Works> list = works.getWorksInfoPage(workstype, pageNumber, pageSize);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Page<Map<String, Object>> pageWorks = new Page(ParseDemoKit.worksParse(list.getList()),list.getPageNumber(), list.getPageSize(),list.getTotalPage(), list.getTotalRow());
 		

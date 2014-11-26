@@ -21,7 +21,7 @@
 				success:function(data){
 					if(data.success == 1){
 						alert("添加成功!");
-						showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}});
+						showPage({'flag':0,'type':0,'pageNumber':${pageNumber!}});
 					}else{
 						alert("添加失败  信息：" + data.message);
 						$('button[type=submit]',this).removeAttr('disabled');
@@ -34,7 +34,7 @@
 <article class="MeArticle">
 		<form id="addshipin" action="works/addShipin" method="post" enctype="multipart/form-data">
         <div class="MemberIndex">
-          <div class="MeCaption"><a href="javascript:showPage({'flag':10,'type':0,'pageIndex':${pageIndex!}});">视频管理</a> --> <a href="javascript:showPage({'flag':10,'type':0,'pageIndex':${pageIndex!}});">添加视频</a></div>
+          <div class="MeCaption"><a href="javascript:showPage({'flag':10,'type':0,'pageNumber':${pageNumber!}});">视频管理</a> --> <a href="javascript:showPage({'flag':10,'type':0,'pageNumber':${pageNumber!}});">添加视频</a></div>
           <div class="MeBlock">
           <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
               <tbody><tr>
@@ -91,7 +91,7 @@
                 <td>
                 	<button  type="submit" class="">提交</button>
                 	&nbsp;&nbsp;&nbsp;
-                	<button type="button" onclick="showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}})">取消</button>
+                	<button type="button" onclick="showPage({'flag':0,'type':0,'pageNumber':${pageNumber!}})">取消</button>
 				</td>
               </tr>
             </tbody></table>
