@@ -233,7 +233,7 @@ public class FileHandleKit {
 		if (fileType.matches(".flv|.mp4")) {
 			return false;
 		}
-		return true;
+		return false;
 	}
 	
 	/**
