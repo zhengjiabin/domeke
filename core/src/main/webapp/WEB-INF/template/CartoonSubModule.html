@@ -21,7 +21,7 @@
      </div>
      <%
      if(pageList != null){
-   		layout("/common/page.html", {"page":pageList,"pageAction":"cartoon/showWorksList?workstype="+workstypeid,"fatherNode":"#page"}){} 
+   		layout("/common/pageHref.html", {"page":pageList,"pageAction":"cartoon/showWorksList?workstype="+workstypeid,"fatherNode":"#page"}){} 
 	 }%>
 </section>
 <% } %> 

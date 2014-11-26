@@ -21,7 +21,7 @@
 				success:function(data){
 					if(data.success == 1){
 						alert("修改成功!");
-						showpage({'flag':0,'status':'${status!}','pageIndex':${pageIndex!}});
+						showpage({'flag':0,'status':'${status!}','pageNumber':${pageNumber!}});
 					}else{
 						alert("修改失败  信息：" + data.message);
 						$('button[type=submit]',this).removeAttr('disabled');
@@ -57,7 +57,7 @@
 	<form id="edithomepage" action="homepage/editHomepage" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="id" value="${homepage.id!}"/>
 		<div class="MemberIndex">
-		<div class="MeCaption"><a href="javascript:showpage({'flag':0,'status':'${status!}','pageIndex':${pageIndex!}});">首页管理</a> --> <a href="javascript:showpage({'flag':1,'status':'${status!}','pageIndex':${pageIndex!}});">添加广告</a></div>
+		<div class="MeCaption"><a href="javascript:showpage({'flag':0,'status':'${status!}','pageNumber':${pageNumber!}});">首页管理</a> --> <a href="javascript:showpage({'flag':1,'status':'${status!}','pageNumber':${pageNumber!}});">添加广告</a></div>
 		<div class="MeBlock">
 		<table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
 			<tbody><tr>
@@ -101,7 +101,7 @@
                 <td>
                 	<button type="submit" >提交</button>
                 	&nbsp;&nbsp;&nbsp;
-                	<button type="button" onclick="showpage({'flag':0,'status':'${status!}','pageIndex':'${pageIndex!}'})">取消</button>
+                	<button type="button" onclick="showpage({'flag':0,'status':'${status!}','pageNumber':'${pageNumber!}'})">取消</button>
 				</td>
               </tr>
 			</tbody>

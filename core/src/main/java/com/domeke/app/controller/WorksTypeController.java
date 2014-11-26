@@ -27,10 +27,10 @@ public class WorksTypeController extends Controller{
 	public void showPage(){
 		try {
 			String flag = getPara("flag");
-			String pageIndexStr = getPara("pageIndex");
-			Integer pageIndex = 1;
-			if (!StrKit.isBlank(pageIndexStr)) {
-				pageIndex = Integer.parseInt(pageIndexStr);
+			String pageNumberStr = getPara("pageNumber");
+			Integer pageNumber = 1;
+			if (!StrKit.isBlank(pageNumberStr)) {
+				pageNumber = Integer.parseInt(pageNumberStr);
 			}
 			String pageSizeStr = getPara("pageSize");
 			Integer pageSize = 10;
@@ -40,38 +40,38 @@ public class WorksTypeController extends Controller{
 			WorksType worksTypeModel = getModel(WorksType.class);
 			if ("0".equals(flag)) {
 				// 0跳转 作品类型管理 按首页顺序排序
-				Page<WorksType> pageWorksType = worksTypeModel.getWorksTypesNoRank("", pageIndex, pageSize);
+				Page<WorksType> pageWorksType = worksTypeModel.getWorksTypesNoRank("", pageNumber, pageSize);
 				setAttr("pageWorksType", pageWorksType);
 				setAttr("flag", flag);
 				render("/admin/admin_workstypeShow.html");
 				return;
 			}else if("1".equals(flag)){
-				Page<WorksType> pageWorksType = worksTypeModel.getWorksTypesNoRank("1", pageIndex, pageSize);
+				Page<WorksType> pageWorksType = worksTypeModel.getWorksTypesNoRank("1", pageNumber, pageSize);
 				setAttr("pageWorksType", pageWorksType);
 				setAttr("flag", flag);
 				render("/admin/admin_workstypeShow.html");
 				return;
 			}else if("2".equals(flag)){
-				Page<WorksType> pageWorksType = worksTypeModel.getWorksTypesNoRank("2", pageIndex, pageSize);
+				Page<WorksType> pageWorksType = worksTypeModel.getWorksTypesNoRank("2", pageNumber, pageSize);
 				setAttr("pageWorksType", pageWorksType);
 				setAttr("flag", flag);
 				render("/admin/admin_workstypeShow.html");
 				return;
 			}else if("3".equals(flag)){
-				Page<WorksType> pageWorksType = worksTypeModel.getWorksTypes("", pageIndex, pageSize);
+				Page<WorksType> pageWorksType = worksTypeModel.getWorksTypes("", pageNumber, pageSize);
 				setAttr("pageWorksType", pageWorksType);
 				setAttr("flag", flag);
 				render("/admin/admin_workstypeShow.html");
 				return;
 			}else if("4".equals(flag)){
-				Page<WorksType> pageWorksType = worksTypeModel.getWorksTypesByCartoonDesc("", pageIndex, pageSize);
+				Page<WorksType> pageWorksType = worksTypeModel.getWorksTypesByCartoonDesc("", pageNumber, pageSize);
 				setAttr("pageWorksType", pageWorksType);
 				setAttr("flag", flag);
 				render("/admin/admin_workstypeShow.html");
 				return;
 			}else if("5".equals(flag)){
 				//跳转添加页面
-				setAttr("pageIndex", pageIndex);
+				setAttr("pageNumber", pageNumber);
 				setAttr("flag", flag);
 				render("/admin/admin_workstypeAdd.html");
 				return;

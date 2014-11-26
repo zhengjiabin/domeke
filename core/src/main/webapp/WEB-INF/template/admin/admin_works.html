@@ -20,17 +20,17 @@
 		//初始化 作品类型
 		showWorksType({'type':1});
 		//初始化 数据表格
-		showData({'flag':flag,'type':type,'workstype':workstype,'pageIndex':1});
+		showData({'flag':flag,'type':type,'workstype':workstype,'pageNumber':1});
 		
 		//选择查询条件时 刷新
 		$('#flag-sel').change(function(){
 			flag = $(this).val();
-			showData({'flag':flag,'type':type,'workstype':workstype,'pageIndex':1});
+			showData({'flag':flag,'type':type,'workstype':workstype,'pageNumber':1});
 		});
 		//选择作品类型时 刷新
 		$('#workstype-sel').change(function(){
 			workstype = $(this).val();
-			showData({'flag':flag,'type':type,'workstype':workstype,'pageIndex':1});
+			showData({'flag':flag,'type':type,'workstype':workstype,'pageNumber':1});
 		});
 	});
 	

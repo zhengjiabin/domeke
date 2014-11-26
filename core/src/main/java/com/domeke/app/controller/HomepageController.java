@@ -206,10 +206,10 @@ public class HomepageController extends FilesLoadController{
 		String flag = getPara("flag");
 		String status = getPara("status");
 		
-		String pageIndexStr = getPara("pageIndex");
-		Integer pageIndex = 1;
-		if (!StrKit.isBlank(pageIndexStr)) {
-			pageIndex = Integer.parseInt(pageIndexStr);
+		String pageNumberStr = getPara("pageNumber");
+		Integer pageNumber = 1;
+		if (!StrKit.isBlank(pageNumberStr)) {
+			pageNumber = Integer.parseInt(pageNumberStr);
 		}
 		String pageSizeStr = getPara("pageSize");
 		Integer pageSize = 10;
@@ -220,7 +220,7 @@ public class HomepageController extends FilesLoadController{
 		Homepage homepageModel = getModel(Homepage.class);
 		if("0".equals(flag)){
 			//显示所有
-			Page<Homepage> pageHomepage = homepageModel.findHomepagesByStatusRank(status, pageIndex, pageSize);
+			Page<Homepage> pageHomepage = homepageModel.findHomepagesByStatusRank(status, pageNumber, pageSize);
 			setAttr("pageHomepage", pageHomepage);
 			setAttr("status", status);
 			render("/admin/admin_homepageShow.html");
@@ -228,7 +228,7 @@ public class HomepageController extends FilesLoadController{
 		}
 		if("1".equals(flag)){
 			//添加页面
-			setAttr("pageIndex", pageIndex);
+			setAttr("pageNumber", pageNumber);
 			setAttr("status", status);
 			render("/admin/admin_homepageAdd.html");
 			return;
@@ -239,7 +239,7 @@ public class HomepageController extends FilesLoadController{
 			homepageModel = homepageModel.findById(id);
 			setAttr("homepage", homepageModel);
 			setAttr("status", status);
-			setAttr("pageIndex", pageIndex);
+			setAttr("pageNumber", pageNumber);
 			render("/admin/admin_homepageEdit.html");
 			return;
 		}

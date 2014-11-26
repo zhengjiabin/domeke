@@ -6,7 +6,7 @@
 					$.ajax({
 						type:'post',
 						async:false,
-						data:'type=1&workstype=&pageIndex=1',
+						data:'type=1&workstype=&pageNumber=1',
 						url :'works/showPage',
 						success:function(data){
 							$('#worksManager').html(data);
@@ -40,9 +40,9 @@
 				}
 		</script>
         <ul class="MeTab" id="worksManager_menu">
-            <!-- <li class="TabLi_active"><a href="javascript:showPage({'type':0,'pageIndex':1});">视  频</a></li> -->
-            <li class="TabLi_active"><a href="javascript:showPage({'flag':1,'type':1,'pageIndex':1});">专  辑</a></li>
-            <li class="TabLi"><a href="javascript:showPage({'flag':2,'type':2,'pageIndex':1});">漫  画</a></li>
+            <!-- <li class="TabLi_active"><a href="javascript:showPage({'type':0,'pageNumber':1});">视  频</a></li> -->
+            <li class="TabLi_active"><a href="javascript:showPage({'flag':1,'type':1,'pageNumber':1});">专  辑</a></li>
+            <li class="TabLi"><a href="javascript:showPage({'flag':2,'type':2,'pageNumber':1});">漫  画</a></li>
         </ul>
         <div class="clear"></div>
         <div id="worksManager" class="MemberIndex">

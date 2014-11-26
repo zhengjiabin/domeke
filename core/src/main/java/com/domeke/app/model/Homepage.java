@@ -21,12 +21,12 @@ public class Homepage extends Model<Homepage>{
 		List<Homepage> homepages = this.find(sql);
 		return homepages;
 	}
-	public Page<Homepage> findHomepagesByStatusRank(String status, Integer pageIndex, Integer pageSize){
+	public Page<Homepage> findHomepagesByStatusRank(String status, Integer pageNumber, Integer pageSize){
 		String sql = "from homepage order by rank desc";
 		if(!StrKit.isBlank(status)){
 			sql = "from homepage where status="+status+" order by rank desc";
 		}
-		Page<Homepage> homepages = this.paginate(pageIndex, pageSize, "select *", sql);
+		Page<Homepage> homepages = this.paginate(pageNumber, pageSize, "select *", sql);
 		return homepages;
 	}
 	

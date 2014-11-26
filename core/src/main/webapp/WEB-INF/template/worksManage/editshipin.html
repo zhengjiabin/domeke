@@ -21,7 +21,7 @@
 				success:function(data){
 				if(data.success == 1){
 					alert("修改成功!");
-					showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}});
+					showPage({'flag':0,'type':0,'pageNumber':${pageNumber!}});
 				}else{
 					alert("修改失败  信息：" + data.message);
 					$('button[type=submit]',this).removeAttr('disabled');
@@ -44,7 +44,7 @@
 		<form id="editshipin" action="works/editShipin" method="post" enctype="multipart/form-data">
         <input type="hidden" name="worksid" value="${works.worksid!}"/>
         <div class="MemberIndex">
-          <div class="MeCaption"><a href="javascript:showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}});">视频管理</a> --> <a href="javascript:showPage({'flag':20,'type':0,'pageIndex':${pageIndex!},'worksid':${works.worksid!}});">编辑视频</a></div>
+          <div class="MeCaption"><a href="javascript:showPage({'flag':0,'type':0,'pageNumber':${pageNumber!}});">视频管理</a> --> <a href="javascript:showPage({'flag':20,'type':0,'pageNumber':${pageNumber!},'worksid':${works.worksid!}});">编辑视频</a></div>
           <div class="MeBlock">
           <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
               <tbody><tr>
@@ -101,7 +101,7 @@
                 <td>
                 	<button  type="submit" class="">提交</button>
                 	&nbsp;&nbsp;&nbsp;
-                	<button type="button" onclick="showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}})">取消</button>
+                	<button type="button" onclick="showPage({'flag':0,'type':0,'pageNumber':${pageNumber!}})">取消</button>
 				</td>
               </tr>
             </tbody></table>

@@ -21,7 +21,7 @@
 				success:function(data){
 					if(data.success == 1){
 						alert("上传章节成功!");
-						showPage({'flag':12,'type':2,'pageIndex':'${pageIndex!}','worksid':'${worksid!}','workpageIndex':'${workpageIndex!}'});
+						showPage({'flag':12,'type':2,'pageNumber':'${pageNumber!}','worksid':'${worksid!}','workpageNumber':'${workpageNumber!}'});
 					}else{
 						alert("上传章节失败  信息：" + data.message);
 						$('button[type=submit]',this).removeAttr('disabled');
@@ -36,9 +36,9 @@
 		<form id="uploadzhangjie" action="works/uploadZhangjie" method="post" enctype="multipart/form-data">
         <input type="hidden" name="worksid" value="${worksid!}">
         <div class="MemberIndex">
-          <div class="MeCaption"><a href="javascript:showPage({'flag':2,'type':2,'pageIndex':${pageIndex!}});">漫画管理</a> 
-          --> <a href="javascript:showPage({'flag':12,'type':2,'pageIndex':'${pageIndex!}','workpageIndex':'${workpageIndex!}','worksid':'${worksid!}'});">编辑漫画</a>
-          --> <a href="javascript:showPage({'flag':15,'type':2,'pageIndex':'${pageIndex!}','workpageIndex':'${workpageIndex!}','worksid':'${worksid!}'});">上传章节</a>
+          <div class="MeCaption"><a href="javascript:showPage({'flag':2,'type':2,'pageNumber':${pageNumber!}});">漫画管理</a> 
+          --> <a href="javascript:showPage({'flag':12,'type':2,'pageNumber':'${pageNumber!}','workpageNumber':'${workpageNumber!}','worksid':'${worksid!}'});">编辑漫画</a>
+          --> <a href="javascript:showPage({'flag':15,'type':2,'pageNumber':'${pageNumber!}','workpageNumber':'${workpageNumber!}','worksid':'${worksid!}'});">上传章节</a>
           </div>
           <div class="MeBlock">
           <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
@@ -80,7 +80,7 @@
                 <td>
                 	<button  type="submit" class="">提交</button>
                 	&nbsp;&nbsp;&nbsp;
-                	<button type="button" onclick="showPage({'flag':12,'type':2,'pageIndex':${pageIndex!},'workpageIndex':${workpageIndex!},'worksid':${worksid!}})">取消</button>
+                	<button type="button" onclick="showPage({'flag':12,'type':2,'pageNumber':${pageNumber!},'workpageNumber':${workpageNumber!},'worksid':${worksid!}})">取消</button>
 				</td>
               </tr>
             </tbody></table>

@@ -85,13 +85,13 @@
 		},
 		showTableChilrend : function(parentId){
 			$page = $('#pageChildren');
-			$pageIndex = $('li.active a',$page);
+			$pageNumber = $('li.active a',$page);
 			$self = $('#childrenTable');
 			$.ajax({
 				type:'post',
 				url: "works/getWorksInfoByType",
 				dataType:'json',
-				data:'&pageIndex="'+$pageIndex.html()+'"&pageSize='+pageSize,
+				data:'&pageNumber="'+$pageNumber.html()+'"&pageSize='+pageSize,
 				success:function(data){
 					//构建分页
 					pageCount = parseInt(data.size + (pageSize -1)) / pageSize;
@@ -125,13 +125,13 @@
 		showTableParent : function(){
 			$select = $('#typeSelect');
 			$page = $('#pageParent');
-			$pageIndex = $('li.active a',$page);
+			$pageNumber = $('li.active a',$page);
 			$self = $('#parentTable');
 			$.ajax({
 				type:'post',
 				url: "works/getWorksInfoByType",
 				dataType:'json',
-				data:'workstype="'+$select.val()+'"&pageIndex="'+$pageIndex.html()+'"&pageSize='+pageSize,
+				data:'workstype="'+$select.val()+'"&pageNumber="'+$pageNumber.html()+'"&pageSize='+pageSize,
 				success:function(data){
 					//构建分页
 					pageCount = parseInt(data.size + (pageSize -1)) / pageSize;

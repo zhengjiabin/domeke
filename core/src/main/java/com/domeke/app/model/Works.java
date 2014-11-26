@@ -89,16 +89,16 @@ public class Works extends Model<Works> {
 	/**
 	 * 分页获取动漫首页轮播
 	 * @param workstype
-	 * @param pageIndex
+	 * @param pageNumber
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<Works> getHomePage(String workstype,Integer pageIndex,Integer pageSize){
+	public Page<Works> getHomePage(String workstype,Integer pageNumber,Integer pageSize){
 		String querySql = "from works where homepage > 0 order by homepage desc";
 		if(!StrKit.isBlank(workstype)){
 			querySql = "from works where homepage > 0 and workstype = "+workstype+" order by homepage desc";
 		}
-		Page<Works> workss = this.paginate(pageIndex, pageSize, "select *", querySql);
+		Page<Works> workss = this.paginate(pageNumber, pageSize, "select *", querySql);
 		return workss;
 	}
 	
@@ -106,11 +106,11 @@ public class Works extends Model<Works> {
 	 * 获取还未审核的works
 	 * @param workstype
 	 * @param type
-	 * @param pageIndex
+	 * @param pageNumber
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<Works> getWorksNotCheck(String workstype,String type,Integer pageIndex,Integer pageSize){
+	public Page<Works> getWorksNotCheck(String workstype,String type,Integer pageNumber,Integer pageSize){
 		try {
 			StringBuffer querySql = new StringBuffer();
 			querySql.append("from work t1 left join works t2 on t2.worksid = t1.worksid where t1.ischeck = 0");
@@ -121,7 +121,7 @@ public class Works extends Model<Works> {
 				querySql.append(" and t2.type = " + type);
 			}
 			querySql.append(" order by t2.createtime desc");
-			Page<Works> workss = this.paginate(pageIndex, pageSize, "select DISTINCT t2.*", querySql.toString());
+			Page<Works> workss = this.paginate(pageNumber, pageSize, "select DISTINCT t2.*", querySql.toString());
 			return workss;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -158,14 +158,14 @@ public class Works extends Model<Works> {
 	/**
 	 * 前台， 获取Works信息  需要 确认审核、确认公开
 	 * @param worksType
-	 * @param pageIndex
+	 * @param pageNumber
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<Works> getWorksInfoByTypePage(String worksType, Integer pageIndex, Integer pageSize) {
+	public Page<Works> getWorksInfoByTypePage(String worksType, Integer pageNumber, Integer pageSize) {
 		Page<Works> workslist = null;
 		if (!StrKit.isBlank(worksType)) {
-			workslist = this.paginate(pageIndex, pageSize, "select *", "from works where ischeck = 1 and ispublic = 1 and workstype = ? order by istop desc", worksType);
+			workslist = this.paginate(pageNumber, pageSize, "select *", "from works where ischeck = 1 and ispublic = 1 and workstype = ? order by istop desc", worksType);
 		}
 		return workslist;
 	}

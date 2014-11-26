@@ -5,10 +5,10 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		//初始化
-		showpage({'flag':0,'status':'','pageIndex':1});
+		showpage({'flag':0,'status':'','pageNumber':1});
 		$('#flag-sel').change(function(){
 			var status = $('#flag-sel').val();
-			showpage({'flag':0,'status':status,'pageIndex':1});
+			showpage({'flag':0,'status':status,'pageNumber':1});
 		});
 		$('img').each(function(){
 			$(this).error(function(){
@@ -64,7 +64,7 @@
 								<option value="0">禁用</option>
 							</select>
 						</lable>
-						<a style="float: right;" href="javascript:showpage({'flag':1,'pageIndex':1});">添加</a>
+						<a style="float: right;" href="javascript:showpage({'flag':1,'pageNumber':1});">添加</a>
 					</div>
 				<div class="span12">
 					<div id="showpage">

@@ -21,7 +21,7 @@
 				success:function(data){
 				if(data.success == 1){
 					alert("修改成功!");
-					showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!},'workpageIndex':${workpageIndex!}});
+					showPage({'flag':21,'type':1,'pageNumber':${pageNumber!},'worksid':${worksid!},'workpageNumber':${workpageNumber!}});
 				}else{
 					alert("修改失败  信息：" + data.message);
 					$('button[type=submit]',this).removeAttr('disabled');
@@ -40,9 +40,9 @@
 		<form id="editzhuanjishipin" action="works/editZhuanjiShipin" method="post" enctype="multipart/form-data">
         <input type="hidden" name="workid" value="${work.workid!}"/>
         <div class="MemberIndex">
-          <div class="MeCaption"><a href="javascript:showPage({'flag':0,'type':0,'pageIndex':${pageIndex!}});">视频管理</a>
-           --> <a href="javascript:showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!},'workpageIndex':${workpageIndex!}});">编辑专辑</a>
-           --> <a href="javascript:showPage({'flag':23,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!},'workid':${work.workid!},'workpageIndex':${workpageIndex!}});">编辑视频</a>
+          <div class="MeCaption"><a href="javascript:showPage({'flag':0,'type':0,'pageNumber':${pageNumber!}});">视频管理</a>
+           --> <a href="javascript:showPage({'flag':21,'type':1,'pageNumber':${pageNumber!},'worksid':${worksid!},'workpageNumber':${workpageNumber!}});">编辑专辑</a>
+           --> <a href="javascript:showPage({'flag':23,'type':1,'pageNumber':${pageNumber!},'worksid':${worksid!},'workid':${work.workid!},'workpageNumber':${workpageNumber!}});">编辑视频</a>
            </div>
           <div class="MeBlock">
           <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
@@ -90,7 +90,7 @@
                 <td>
                 	<button  type="submit" class="">提交</button>
                 	&nbsp;&nbsp;&nbsp;
-                	<button type="button" onclick="showPage({'flag':21,'type':1,'pageIndex':${pageIndex!},'worksid':${worksid!},'workpageIndex':${workpageIndex!}})">取消</button>
+                	<button type="button" onclick="showPage({'flag':21,'type':1,'pageNumber':${pageNumber!},'worksid':${worksid!},'workpageNumber':${workpageNumber!}})">取消</button>
 				</td>
               </tr>
             </tbody></table>

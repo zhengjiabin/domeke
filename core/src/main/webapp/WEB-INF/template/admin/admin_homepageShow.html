@@ -29,7 +29,7 @@
 				data:'id='+id,
 				url:'homepage/delete',
 				success:function(data){
-					showpage({'flag':0,'status':'${status!}','pageIndex':'${pageHomepage.pageNumber!}'});
+					showpage({'flag':0,'status':'${status!}','pageNumber':'${pageHomepage.pageNumber!}'});
 				}
 			});
 		}else{
@@ -42,7 +42,7 @@
 			data:'id='+id+'&state='+state,
 			url:'homepage/uptop',
 			success:function(data){
-				showpage({'flag':0,'status':'${status!}','pageIndex':'${pageHomepage.pageNumber!}'});
+				showpage({'flag':0,'status':'${status!}','pageNumber':'${pageHomepage.pageNumber!}'});
 			}
 		});
 	}
@@ -52,7 +52,7 @@
 			data:'id='+id+'&status='+status,
 			url:'homepage/upstatus',
 			success:function(data){
-				showpage({'flag':0,'status':'${status!}','pageIndex':'${pageHomepage.pageNumber!}'});
+				showpage({'flag':0,'status':'${status!}','pageNumber':'${pageHomepage.pageNumber!}'});
 			}
 		});
 	}
@@ -112,7 +112,7 @@
 	           	<a href="javascript:uptop(${homepage.id!},0);">取消置顶</a>
 	           	<%}%>
 	           	</br>
-	           	<a href="javascript:showpage({'flag':2,'status':'${status!}','pageIndex':'${pageHomepage.pageNumber!}','id':${homepage.id!}});">修改</a>
+	           	<a href="javascript:showpage({'flag':2,'status':'${status!}','pageNumber':'${pageHomepage.pageNumber!}','id':${homepage.id!}});">修改</a>
 	           	<a href="javascript:del(${homepage.id!});">删除</a>
            </td>
          </tr>
