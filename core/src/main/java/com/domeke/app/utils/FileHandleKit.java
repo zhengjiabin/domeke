@@ -45,7 +45,7 @@ public class FileHandleKit {
 	 */
 	public static FileHandleKit getInstance() {
 		if (fileHandleKit == null) {
-			synchronized (FileLoadKit.class) {
+			synchronized (FileHandleKit.class) {
 				if (fileHandleKit == null) {
 					fileHandleKit = new FileHandleKit();
 					fileHandleKit.setLogger(LoggerFactory.getLogger(FileHandleKit.class));
@@ -233,7 +233,7 @@ public class FileHandleKit {
 		if (fileType.matches(".flv|.mp4")) {
 			return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/**

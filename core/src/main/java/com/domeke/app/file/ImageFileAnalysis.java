@@ -15,7 +15,6 @@ import org.apache.oro.text.regex.Perl5Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.domeke.app.utils.FileHandleKit;
 import com.domeke.app.utils.FileKit;
 import com.jfinal.kit.StrKit;
 
@@ -37,7 +36,7 @@ public class ImageFileAnalysis {
 			synchronized (ImageFileAnalysis.class) {
 				if (analysis == null) {
 					analysis = new ImageFileAnalysis();
-					analysis.setLogger(LoggerFactory.getLogger(FileHandleKit.class));
+					analysis.setLogger(LoggerFactory.getLogger(ImageFileAnalysis.class));
 					
 					String regexImage = "Video: (.*?), (.*?), (.*?)[,\\s]";  
 					PatternCompiler compiler =new Perl5Compiler(); 

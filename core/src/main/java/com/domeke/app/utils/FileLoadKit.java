@@ -93,6 +93,26 @@ public class FileLoadKit {
 	}
 	
 	/**
+	 * 根据虚拟地址，获取临时文件
+	 * 
+	 * @param virtualDirectory
+	 */
+	public static File getTempFile(String virtualDirectory) {
+		String webRootPath = PathKit.getWebRootPath();
+		int index = virtualDirectory.indexOf(webRootPath);
+		String hostPath = virtualDirectory.substring(0, index);
+		String basePath = FileKit.getDirectory(hostPath, webRootPath);
+		String servPath = virtualDirectory.replaceFirst(basePath, "");
+		FileLoadKit fileLoadKit = FileLoadKit.getInstance();
+		String tempPath = FileKit.getDirectory(fileLoadKit.getBackupsDirectory(), servPath);
+		if (StrKit.isBlank(tempPath)) {
+			return null;
+		}
+		File file = new File(tempPath);
+		return file;
+	}
+	
+	/**
 	 * 根据虚拟路径获取子文件的物理路径
 	 * @param ctrl
 	 * @param parentDirectory
@@ -443,22 +463,13 @@ public class FileLoadKit {
 	 * @throws IOException 
 	 */
 	private Map<String,VideoFile> handleVideo(File tempFile, String discDirectory, String serverDirectory, Controller ctrl) throws IOException, InterruptedException{
-		String directory = isDevMode() ? tempFile.getParent() : discDirectory;
-		Map<String,FileInterface> videoFiles = FileHandleKit.compressFile(tempFile,directory);
-		if(MapKit.isBlank(videoFiles)){
-			return null;
-		}
+		VideoFile videoFile = buildVideoFile(tempFile);
+		videoFile.setOriginalDirectory(tempFile.getAbsolutePath());
+		String fileName = videoFile.getFileName();
+		String virtualDirectory = getVirtualDirectory(serverDirectory, fileName, ctrl);
+		videoFile.setVirtualDirectory(virtualDirectory);
 		Map<String,VideoFile> videoPaths = new HashMap<String,VideoFile>();
-		VideoFile videoFile = null;
-		String virtualDirectory = null;
-		for(String fileName:videoFiles.keySet()){
-			videoFile = (VideoFile) videoFiles.get(fileName);
-			virtualDirectory = getVirtualDirectory(serverDirectory, fileName, ctrl);
-			videoFile.setVirtualDirectory(virtualDirectory);
-			setImagesVirtualDirectory(videoFile.getImageFiles(), serverDirectory, ctrl);
-			
-			videoPaths.put(fileName, videoFile);
-		}
+		videoPaths.put(fileName, videoFile);
 		return videoPaths;
 	}
 	
@@ -536,6 +547,19 @@ public class FileLoadKit {
 	}
 	
 	/**
+	 * 初始化视频信息
+	 * @return
+	 */
+	private VideoFile buildVideoFile(File file){
+		String fileName = file.getName();
+		VideoFile videoFile = new VideoFile();
+		videoFile.setFileName(fileName);
+		videoFile.setFileType(FileKit.getFileType(fileName));
+		videoFile.setDescDirectory(file.getAbsolutePath());
+		return videoFile;
+	}
+	
+	/**
 	 * 设置图片的虚拟地址
 	 * @param imageFiles 图片集合
 	 * @param serverDirectory 服务器相对地址
@@ -560,7 +584,6 @@ public class FileLoadKit {
 	 * @return 
 	 */
 	private Map<String, String> getFilesDescDirectory(String absolutePath,String parentDirectory){
-		FileKit.handleFilePath(absolutePath);
 		Map<String, String> paths = new HashMap<String, String>();
 		File file = new File(absolutePath);
 		if(file.isFile()){

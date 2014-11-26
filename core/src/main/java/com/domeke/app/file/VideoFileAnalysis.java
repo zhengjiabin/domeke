@@ -15,7 +15,6 @@ import org.apache.oro.text.regex.Perl5Matcher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.domeke.app.utils.FileHandleKit;
 import com.domeke.app.utils.FileKit;
 import com.jfinal.kit.StrKit;
 
@@ -43,7 +42,7 @@ public class VideoFileAnalysis {
 			synchronized (VideoFileAnalysis.class) {
 				if (analysis == null) {
 					analysis = new VideoFileAnalysis();
-					analysis.setLogger(LoggerFactory.getLogger(FileHandleKit.class));
+					analysis.setLogger(LoggerFactory.getLogger(VideoFileAnalysis.class));
 					
 					String regexDuration = "Duration: (.*?), start: (.*?), bitrate: (\\d*) kb\\/s";  
 					String regexVideo = "Video: (.*?), (.*?), (.*?)[,\\s]";  
