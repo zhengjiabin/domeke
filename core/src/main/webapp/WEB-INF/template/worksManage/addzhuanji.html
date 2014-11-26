@@ -3,6 +3,14 @@
 		var bar = $('.bar');
 		var percent = $('.percent');
 		var status = $('#status');
+		$(':input[name=title]').keypress(function(){
+			var ch = $(this).val();
+			if(ch.length > 9){
+				alert('只能输入10个汉字');
+				$(this).val($(this).val().substring(0,9));
+				return;
+			}
+		});
 		
 		$('#addzhuanji').submit(function(){
 			$('button[type=submit]',this).attr('disabled',true);

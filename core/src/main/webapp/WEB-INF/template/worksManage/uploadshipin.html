@@ -3,11 +3,19 @@
 		var bar = $('.bar');
 		var percent = $('.percent');
 		var status = $('#status');
-		
+		$('#uploadcheck').click(function(){
+			if(!this.checked){
+				$('button[type=submit]').attr('disabled',true);
+			}else{
+				$('button[type=submit]').attr('disabled',false);
+			}
+		});
+
 		$('#uploadshipin').submit(function(){
 			$('button[type=submit]',this).attr('disabled',true);
 			$(this).ajaxSubmit({
 				beforeSend: function() {
+					$('#uploadcheck').remove();
 			        status.empty();
 			        var percentVal = '0%';
 			        percent.html(percentVal);
@@ -78,7 +86,7 @@
               </tr>
               <tr>
                <th>&nbsp;</th>
-	        <td><input  type="checkbox" style="border:0px" name="check" value="01">
+	        <td><input id="uploadcheck" checked="checked" type="checkbox" style="border:0px" name="check" value="01">
 	       	 <font> <a href="javascript:void(0)" onclick="openwin()">我已阅读并同意《动漫方舟网注册协议》</a> </font>
 	        <div>
 		       <a style="color:#F00">${xieyi!}</a>
