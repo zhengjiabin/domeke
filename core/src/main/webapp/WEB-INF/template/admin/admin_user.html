@@ -15,6 +15,8 @@
 								<th>电话</th>
 								<th>昵称</th>
 								<th>状态</th>
+								<th>积分</th>
+								<th>豆豆</th>
 								<th>操作</th>
 							</tr>
 						</thead>
@@ -31,12 +33,16 @@
 								<td>${user.mobile!}</td>
 								<td>${user.nickname!}</td>
 								<td>${user.status!}</td>
+								<td>${user.point!}</td>
+								<td>${user.peas!}</td>
 								<td> 
 				                    <a href="user/goUserUpdate/${user.userid!}"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>
 									<a href="user/delete/${user.userid!}" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">删除</button></a>
 									<a href="user/freezeUser?uid=${user.userid!}" onclick="return confirm('确定冻结？')"><button class="btn btn-danger btn-mini" lable="冻结">冻结</button></a>
 									<a href="user/removeFreezeUser?uid=${user.userid!}" onclick="return confirm('解除冻结？')"><button class="btn btn-danger btn-mini" lable="解冻">解冻</button></a>
 									<a href="user/resetPassword?uid=${user.userid!}" onclick="return confirm('密码重置？')"><button class="btn btn-danger btn-mini" lable="密码重置">密码重置</button></a>
+									<a href="user/goUpUserPoint?uid=${user.userid!}" ><button class="btn btn-danger btn-mini" lable="添加积分/豆豆">添加积分/豆豆</button></a>
+									<a href="user/goUpUserPoint?uid=${user.userid!}" ><button class="btn btn-danger btn-mini" lable="扣除积分/豆豆">扣除积分/豆豆</button></a>
 								</td>
 							</tr>
 							<% } %>

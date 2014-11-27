@@ -11,6 +11,7 @@ import java.util.Random;
 
 import com.domeke.app.message.impl.DomekeMaiSenderImpl;
 import com.domeke.app.model.LoginPic;
+import com.domeke.app.model.PointLog;
 import com.domeke.app.model.User;
 import com.domeke.app.model.UserRole;
 import com.domeke.app.utils.EncryptKit;
@@ -133,14 +134,54 @@ public class UserController extends Controller {
 		getUser();
 		render("/admin/admin_updateUser.html");
 	}
+	/**
+	 * 豆豆积分修改
+	 */
+	public void goUpUserPoint(){
+		getUser();
+		render("/admin/admin_userPoint.html");
+	}
+	
 	public void getUser(){
 		User user = getModel(User.class);
-		user = user.findById(getParaToInt());
+		String uid =  getPara("uid");
+		user = user.findById(uid);
 		this.setAttr("user", user);
 	}
 	public void update(){
 		User user = getModel(User.class);
 		user.update();
+		goUserManage();
+	}
+	
+	/**
+	 * 修改用户的豆豆积分
+	 */
+	public void updatePoint(){
+		User user = getModel(User.class);
+		PointLog point = getModel(PointLog.class);
+		point.set("userid", user.get("userid"));
+		point.set("title", getPara("title"));
+		point.set("type", getPara("type"));
+		User nowUser = getSessionAttr("user");
+		point.set("creater", nowUser.getLong("userid"));
+		point.set("modifier", nowUser.getLong("userid"));
+		String rewardStr = getPara("reward");
+		Long reward = Long.valueOf(rewardStr);
+		point.set("reward", reward);
+		if(reward>0){
+			if("豆豆".equals(getPara("type"))){
+				Long peas = user.getLong("peas");
+				peas = peas+reward;
+				user.set("peas", peas);
+			}else{
+				Long p = user.getLong("point");
+				p = p+reward;
+				user.set("point", p);
+			}
+			point.save();
+			user.save();
+		}
 		goUserManage();
 	}
 	public void delete(){
