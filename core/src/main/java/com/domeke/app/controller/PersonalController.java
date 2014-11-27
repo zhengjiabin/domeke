@@ -1,5 +1,6 @@
 package com.domeke.app.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -18,6 +19,8 @@ import com.domeke.app.model.PlayCount;
 import com.domeke.app.model.Post;
 import com.domeke.app.model.Treasure;
 import com.domeke.app.model.User;
+import com.domeke.app.model.Work;
+import com.domeke.app.model.Works;
 import com.domeke.app.utils.EncryptKit;
 import com.domeke.app.utils.FileLoadKit;
 import com.jfinal.aop.Before;
@@ -198,12 +201,23 @@ public class PersonalController extends  FilesLoadController{
 	public void myFavourite(String minuId){
 		if("20".equals(minuId)){
 			User user = getModel(User.class);
+			Work work = getModel(Work.class);
+			Works works = getModel(Works.class);
 			Favourite fav = getModel(Favourite.class);
 			user = getSessionAttr("user");
 			Long userid = user.getLong("userid");
 			int pageNumber = getParaToInt("pageNumber", 1);
 			int pageSize = getParaToInt("pageSize", 10);
 			Page<Favourite> favPage = fav.getFavouriteByUid(userid, pageNumber, pageSize);
+			List<Favourite> favlist = favPage.getList();
+			Map<String,Object> param = new HashMap<String, Object>();
+			if(favlist.size()>0){
+				for(Favourite fav1:favlist){
+					String workid = fav1.getStr("section_id");
+					work = work.findById(workid);  
+				}
+			}
+			
 			setAttr("favPage", favPage);
 		}
 	}

@@ -114,6 +114,29 @@ public class UserController extends Controller {
 		userManage();
 		render("/admin/admin_user.html");
 	}
+	
+	public void goUserPoint(){
+		userCountPoint();
+		render("/admin/admin_userCountPoint.html");
+	}
+	/**
+	 * 用户积分变更日志
+	 */
+	public void goCountPoint(){
+		userCountPoint();
+		render("/admin/admin_Point.html");
+	}
+	/**
+	 * 获取用户积分记录
+	 */
+	public void userCountPoint(){
+		//分页码
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		PointLog point = getModel(PointLog.class);
+		Page<PointLog> pointList = point.getUserPoint(null,null,pageNumber,pageSize);
+		this.setAttr("pointList", pointList);
+	}
 	public void userManage(){
 		//分页码
 		int pageNumber = getParaToInt("pageNumber", 1);
@@ -139,6 +162,8 @@ public class UserController extends Controller {
 	 */
 	public void goUpUserPoint(){
 		getUser();
+		String td = getPara("td");
+		setAttr("td", td);
 		render("/admin/admin_userPoint.html");
 	}
 	
@@ -161,6 +186,7 @@ public class UserController extends Controller {
 		User user = getModel(User.class);
 		PointLog point = getModel(PointLog.class);
 		point.set("userid", user.get("userid"));
+		point.set("username", user.get("username"));
 		point.set("title", getPara("title"));
 		point.set("type", getPara("type"));
 		User nowUser = getSessionAttr("user");
@@ -168,19 +194,32 @@ public class UserController extends Controller {
 		point.set("modifier", nowUser.getLong("userid"));
 		String rewardStr = getPara("reward");
 		Long reward = Long.valueOf(rewardStr);
-		point.set("reward", reward);
+		String type = getPara("td");
 		if(reward>0){
+			if("add".equals(type)){
+				point.set("reward", reward);
+			}else{
+				point.set("reward", -reward);
+			}
 			if("豆豆".equals(getPara("type"))){
 				Long peas = user.getLong("peas");
-				peas = peas+reward;
+				if("add".equals(type)){
+					peas = peas+reward;
+				}else if("delete".equals(type)){
+					peas = peas-reward;
+				}
 				user.set("peas", peas);
 			}else{
 				Long p = user.getLong("point");
-				p = p+reward;
+				if("add".equals(type)){
+					p = p+reward;
+				}else if("delete".equals(type)){
+					p = p-reward;
+				}
 				user.set("point", p);
 			}
 			point.save();
-			user.save();
+			user.update();
 		}
 		goUserManage();
 	}

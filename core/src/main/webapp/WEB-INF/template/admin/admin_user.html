@@ -41,8 +41,8 @@
 									<a href="user/freezeUser?uid=${user.userid!}" onclick="return confirm('确定冻结？')"><button class="btn btn-danger btn-mini" lable="冻结">冻结</button></a>
 									<a href="user/removeFreezeUser?uid=${user.userid!}" onclick="return confirm('解除冻结？')"><button class="btn btn-danger btn-mini" lable="解冻">解冻</button></a>
 									<a href="user/resetPassword?uid=${user.userid!}" onclick="return confirm('密码重置？')"><button class="btn btn-danger btn-mini" lable="密码重置">密码重置</button></a>
-									<a href="user/goUpUserPoint?uid=${user.userid!}" ><button class="btn btn-danger btn-mini" lable="添加积分/豆豆">添加积分/豆豆</button></a>
-									<a href="user/goUpUserPoint?uid=${user.userid!}" ><button class="btn btn-danger btn-mini" lable="扣除积分/豆豆">扣除积分/豆豆</button></a>
+									<a href="user/goUpUserPoint?td=add&uid=${user.userid!}" ><button class="btn btn-danger btn-mini" lable="添加积分/豆豆">添加积分/豆豆</button></a>
+									<a href="user/goUpUserPoint?td=delete&uid=${user.userid!}" ><button class="btn btn-danger btn-mini" lable="扣除积分/豆豆">扣除积分/豆豆</button></a>
 								</td>
 							</tr>
 							<% } %>
