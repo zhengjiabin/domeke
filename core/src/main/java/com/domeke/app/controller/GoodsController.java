@@ -246,7 +246,7 @@ public class GoodsController extends FilesLoadController {
 		String attr = "";
 		if (!StrKit.isBlank(goodstype)) {
 			attr = getModel(GoodsType.class).getGoodsType(goodstype);
-			goodsTypeStack = getModel(GoodsType.class).getGoodsTypeById(attr);
+			goodsTypeStack = getModel(GoodsType.class).getGoodssTypeById(attr);
 			//goodsTypeList = goodsTypeModel.getGoodsTypeByParId(String.valueOf(goodsTypeModel.get("goodstype")));
 		}
 		if (goodsTypeModel.get("goodstypeid") != null) {

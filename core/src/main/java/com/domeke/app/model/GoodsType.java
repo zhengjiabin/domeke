@@ -79,10 +79,14 @@ public class GoodsType extends Model<GoodsType> {
 	 * @param goodsTypeId
 	 * @return
 	 */
-	public List<GoodsType> getGoodsTypeById(String goodsTypeId) {
+	public List<GoodsType> getGoodssTypeById(String goodsTypeId) {
 		String sql = "select * from goods_type where goodstypeid in ("+goodsTypeId+")";
 		List<GoodsType> goodsTypeStack = this.find(sql);
 		return goodsTypeStack;
+	}
+	public GoodsType getGoodsTypeById(int goodsTypeId) {
+		GoodsType goodsType = this.findById(goodsTypeId);
+		return goodsType;
 	}
 	
 	/**
