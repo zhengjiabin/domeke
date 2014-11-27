@@ -225,7 +225,7 @@ public class GoodsController extends FilesLoadController {
 	}
 
 	public void shop() {
-		String goodstype = getPara("goodstype");
+		String goodstypeid = getPara("goodstype");
 		String level = getPara("level");
 		if (StrKit.isBlank(level)){
 			level ="1";
@@ -244,8 +244,8 @@ public class GoodsController extends FilesLoadController {
 		List<GoodsType> goodsTypeList = Lists.newArrayList();
 		GoodsType goodsTypeModel = getModel(GoodsType.class);
 		String attr = "";
-		if (!StrKit.isBlank(goodstype)) {
-			attr = getModel(GoodsType.class).getGoodsType(goodstype);
+		if (!StrKit.isBlank(goodstypeid)) {
+			attr = getModel(GoodsType.class).getGoodsType(goodstypeid);
 			goodsTypeStack = getModel(GoodsType.class).getGoodssTypeById(attr);
 			//goodsTypeList = goodsTypeModel.getGoodsTypeByParId(String.valueOf(goodsTypeModel.get("goodstype")));
 		}
@@ -267,13 +267,13 @@ public class GoodsController extends FilesLoadController {
 //		}
 
 		// 鎸夌被鍨嬭幏鍙栧晢鍝佸垎绫�
-		Page<Goods> goodss = getModel(Goods.class).getGoodsPageByType(goodstype, pageNumber, pageSize);
+		Page<Goods> goodss = getModel(Goods.class).getGoodsPageByType(goodstypeid, pageNumber, pageSize);
 		List<Map<String, Object>> datas = goodsParse(goodss.getList());
 		Page<List<Map<String, Object>>> pageMap = new Page(datas, goodss.getPageNumber(), goodss.getPageSize(),
 				goodss.getTotalPage(), goodss.getTotalRow());
-		if (!StrKit.isBlank(goodstype)){
+		if (!StrKit.isBlank(goodstypeid)){
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("goodsattr"+level, goodstype);
+			map.put("goodsattr"+level, goodstypeid);
 			Goods goods = getModel(Goods.class);
 			goodss = goods.getGoodsByType(pageSize, pageNumber, map);
 			datas = goodsParse(goodss.getList());
@@ -281,7 +281,7 @@ public class GoodsController extends FilesLoadController {
 		}
 		setAttr("goodsTypeStack", goodsTypeStack);
 		setAttr("goodsTypeList", goodsTypeList);
-		setAttr("goodstype", goodstype);
+		setAttr("goodstype", goodstypeid);
 		setAttr("goodss", pageMap);
 		render("/shop.html");
 	}
