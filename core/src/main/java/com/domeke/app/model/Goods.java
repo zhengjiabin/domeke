@@ -111,7 +111,7 @@ public class Goods extends Model<Goods> {
 	 */
 	public Page<Goods> findPage(int pageNumber, int pageSize) {
 		Page<Goods> goodsPage = this.paginate(pageNumber, pageSize, "select *",
-				"from goods group by goodsid");
+				"from goods group by goodsid order by createtime desc");
 		return goodsPage;
 	}
 	
