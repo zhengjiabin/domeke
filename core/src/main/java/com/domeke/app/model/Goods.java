@@ -88,18 +88,35 @@ public class Goods extends Model<Goods> {
 		return goodsList == null ? Lists.newArrayList() : goodsList;
 	}
 	public Page<Goods> getGoodsPageByType(String goodstype,Integer pageNumber,Integer pageSize){
-		String querySql = "";
+	String querySql = "";
+	Page<Goods> goodss;
+	if(StrKit.isBlank(goodstype)){
+		querySql = "from goods where showflag=1 order by istop desc";
+		goodss = this.paginate(pageNumber, pageSize, "select *", querySql);
+	}else {
+		querySql = "from goods where showflag=1 order by istop desc";
+		goodss = this.paginate(pageNumber, pageSize, "select *", querySql);
+	}
+	return goodss;
+}
+	public Page<Goods> getGoodsByType(Integer pageSize, Integer pageNumber, Map<String, Object> params) {
+		String sql = "from goods ";
+		Set<String> key = params.keySet();
 		Page<Goods> goodss;
-		if(StrKit.isBlank(goodstype)){
-			querySql = "from goods where showflag=1 order by istop desc";
-			goodss = this.paginate(pageNumber, pageSize, "select *", querySql);
-		}else {
-			querySql = "from goods where goods=? and showflag=1 order by istop desc";
-			goodss = this.paginate(pageNumber, pageSize, "select *", querySql,goodstype);
+		int row = 0;
+		for (Iterator it = key.iterator(); it.hasNext();) {			
+			String k = (String) it.next();
+			if (row == 0) {
+				row++;
+				sql = sql + "where " + k + " in (" + params.get(k).toString() + ") ";
+			} else {
+				sql = sql + "and " + k + " in (" + params.get(k).toString() + ") ";
+			}			
 		}
+		goodss = this.paginate(pageNumber, pageSize, "select *", sql);
+		//List<Goods> goodsType = this.find(sql);
 		return goodss;
 	}
-	
 	/**
 	 * 分页查询
 	 * 

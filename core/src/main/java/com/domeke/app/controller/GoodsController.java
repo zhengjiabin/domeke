@@ -226,6 +226,10 @@ public class GoodsController extends FilesLoadController {
 
 	public void shop() {
 		String goodstype = getPara("goodstype");
+		String level = getPara("level");
+		if (StrKit.isBlank(level)){
+			level ="1";
+		}
 		Integer pageNumber = getParaToInt("pageNumber");
 		Integer pageSize = getParaToInt("pageSize");
 		if (pageNumber == null) {
@@ -239,34 +243,71 @@ public class GoodsController extends FilesLoadController {
 		List<GoodsType> goodsTypeStack = Lists.newArrayList();
 		List<GoodsType> goodsTypeList = Lists.newArrayList();
 		GoodsType goodsTypeModel = getModel(GoodsType.class);
+		String attr = "";
 		if (!StrKit.isBlank(goodstype)) {
-			goodsTypeModel = getModel(GoodsType.class).getGoodsTypeById(Integer.parseInt(goodstype));
+			attr = getModel(GoodsType.class).getGoodsType(goodstype);
+			goodsTypeStack = getModel(GoodsType.class).getGoodsTypeById(attr);
+			//goodsTypeList = goodsTypeModel.getGoodsTypeByParId(String.valueOf(goodsTypeModel.get("goodstype")));
 		}
 		if (goodsTypeModel.get("goodstypeid") != null) {
 			goodsTypeStack.add(goodsTypeModel);
-			String goodstypeid = String.valueOf(goodsTypeModel.get("parenttypeid"));
-			while (!StrKit.isBlank(goodstypeid)) {
-				GoodsType goodsType = getModel(GoodsType.class).getGoodsTypeById(Integer.parseInt(goodstypeid));
-				goodsTypeStack.add(goodsType);
-				goodstypeid = String.valueOf(goodsType.get("parenttypeid"));
-			}
+//			String goodstypeid = String.valueOf(goodsTypeModel.get("parenttypeid"));
+//			while (!StrKit.isBlank(goodstypeid)) {
+//				GoodsType goodsType = getModel(GoodsType.class).getGoodsTypeById(Integer.parseInt(goodstypeid));
+//				goodsTypeStack.add(goodsType);
+//				goodstypeid = String.valueOf(goodsType.get("parenttypeid"));
+//			}
 			Collections.reverse(goodsTypeStack);
 		}
-		if (!goodsTypeStack.isEmpty()) {
-			goodsTypeModel = goodsTypeStack.get(goodsTypeStack.size() - 1);
-			goodsTypeList = goodsTypeModel.getGoodsTypeByParId(String.valueOf(goodsTypeModel.get("goodstypeid")));
-		} else {
-			goodsTypeList = goodsTypeModel.getGoodsTypeByParId("");
-		}
+//		if (!goodsTypeStack.isEmpty()) {
+//			goodsTypeModel = goodsTypeStack.get(goodsTypeStack.size() - 1);
+//			goodsTypeList = goodsTypeModel.getGoodsTypeByParId(String.valueOf(goodsTypeModel.get("goodstypeid")));
+//		} else {
+//			goodsTypeList = goodsTypeModel.getGoodsTypeByParId("");
+//		}
 
 		// 鎸夌被鍨嬭幏鍙栧晢鍝佸垎绫�
 		Page<Goods> goodss = getModel(Goods.class).getGoodsPageByType(goodstype, pageNumber, pageSize);
 		List<Map<String, Object>> datas = goodsParse(goodss.getList());
 		Page<List<Map<String, Object>>> pageMap = new Page(datas, goodss.getPageNumber(), goodss.getPageSize(),
 				goodss.getTotalPage(), goodss.getTotalRow());
+		if (!StrKit.isBlank(goodstype)){
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("goodsattr"+level, goodstype);
+			Goods goods = getModel(Goods.class);
+			goodss = goods.getGoodsByType(pageSize, pageNumber, map);
+			datas = goodsParse(goodss.getList());
+			pageMap = new Page(datas, goodss.getPageNumber(), goodss.getPageSize(),goodss.getTotalPage(), goodss.getTotalRow());
+		}
 		setAttr("goodsTypeStack", goodsTypeStack);
 		setAttr("goodsTypeList", goodsTypeList);
 		setAttr("goodstype", goodstype);
+		setAttr("goodss", pageMap);
+		render("/shop.html");
+	}
+	public void getGoodsByType(){
+		Integer pageNumber = getParaToInt("pageNumber");
+		Integer pageSize = getParaToInt("pageSize");
+		if (pageNumber == null) {
+			pageNumber = 1;
+		}
+		if (pageSize == null) {
+			pageSize = 25;
+		}
+		int goodstypeid = getParaToInt("goodstypeid");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("goodsattr1", goodstypeid);
+//		Set<String> key = map.keySet();
+//		Map<String, Object> gtMap = new HashMap<String, Object>();
+//		for (Iterator it = key.iterator(); it.hasNext();) {
+//			String k = (String) it.next();
+//			gtMap.put(k, GoodsType.gtDao.getGoodsType(map.get(k).toString()));
+//		}
+		Goods goods = getModel(Goods.class);
+		Page<Goods> goodss = goods.getGoodsByType(pageSize, pageNumber, map);
+		List<Map<String, Object>> datas = goodsParse(goodss.getList());
+		Page<List<Map<String, Object>>> pageMap = new Page(datas, goodss.getPageNumber(), goodss.getPageSize(),
+				goodss.getTotalPage(), goodss.getTotalRow());
 		setAttr("goodss", pageMap);
 		render("/shop.html");
 	}
