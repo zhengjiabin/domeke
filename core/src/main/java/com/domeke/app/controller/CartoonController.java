@@ -111,7 +111,7 @@ public class CartoonController extends Controller {
 		WorksType worksTypeModel = getModel(WorksType.class);
 		worksTypeModel = worksTypeModel.findById(workstype);
 		
-		Page<Works> list = works.getWorksInfoPage(workstype, pageNumber, pageSize);
+		Page<Works> list = works.getWorksInfoByTypePage(workstype, pageNumber, pageSize);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
 		Page<Map<String, Object>> pageWorks = new Page(ParseDemoKit.worksParse(list.getList()),list.getPageNumber(), list.getPageSize(),list.getTotalPage(), list.getTotalRow());
 		
