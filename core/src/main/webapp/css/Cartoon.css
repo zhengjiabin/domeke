@@ -1095,3 +1095,15 @@ a.icon{
 	max-width:300px;
 	_width:300px;
 }
+
+.manhuaplay{
+	overflow:hidden;
+	background: #fff;
+	border: 1px #ddd solid;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	padding: 5px;
+	width: 800px;
+	height: auto;
+	margin: auto;
+}

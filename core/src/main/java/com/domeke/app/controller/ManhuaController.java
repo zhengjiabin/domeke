@@ -10,9 +10,9 @@ import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
+import com.jfinal.kit.StrKit;
 
 @ControllerBind(controllerKey = "/manhua")
-@Before(LoginInterceptor.class)
 public class ManhuaController extends Controller {
 	public void showDetail() {
 		Works worksModel = getModel(Works.class);
@@ -40,8 +40,8 @@ public class ManhuaController extends Controller {
 	public void playVideo() {
 		Works worksModel = getModel(Works.class);
 		Integer worksid = getParaToInt("id");
-		Works worksData = worksModel.findById(worksid);
-		this.setAttr("works", worksData);
+		worksModel = worksModel.findById(worksid);
+		this.setAttr("works", worksModel);
 		Work workModel = getModel(Work.class);
 		Integer workid = getParaToInt("gid");
 		Work workData = null;
@@ -58,5 +58,37 @@ public class ManhuaController extends Controller {
 		historyModel.saveOrUpdateHitory(workData);
 		this.setAttr("work", workData);
 		render("/ManhuaPlay.html");
+	}
+	
+	public void updown(){
+		try {
+			Work workModel = getModel(Work.class);
+			String worksid = getPara("worksid");
+			String workid = getPara("workid");
+			String worknum = getPara("num");
+			String state = getPara("state");
+			if(StrKit.isBlank(worksid) || StrKit.isBlank(worknum) || StrKit.isBlank(state)){
+				workModel = workModel.findById(workid);
+				render("manhua/playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid"));
+				return;
+			}
+			if("0".equals(state)){
+				workModel = workModel.getUpWork(worksid, worknum);
+			}
+			if("1".equals(state)){
+				workModel = workModel.getDownWork(worksid, worknum);
+			}
+			if(!workModel.isNotEmpty()){
+				workModel = workModel.findById(workid);
+				render("manhua/playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid"));
+				return;
+			}
+			History historyModel = getModel(History.class);
+			historyModel.saveOrUpdateHitory(workModel);
+			this.setAttr("work", workModel);
+			forwardAction("manhua/playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

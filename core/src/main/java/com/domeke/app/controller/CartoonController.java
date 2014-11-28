@@ -174,7 +174,6 @@ public class CartoonController extends Controller {
 		History historyModel = getModel(History.class);
 		historyModel.saveOrUpdateHitory(workData);
 		this.setAttr("work", workData);
-		
 		String action = "/comment/setPage";
 		setAttr("render", "/CartoonPlay.html");
 		setAttr("targetId", workData.get("workid"));

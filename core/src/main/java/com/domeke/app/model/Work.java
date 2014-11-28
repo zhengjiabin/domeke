@@ -110,5 +110,12 @@ public class Work extends Model<Work> {
 		nums.add(endNum + 1);
 		return nums;
 	}
-
+	public Work getUpWork(Object worksid,Object worknum){
+		Work workModel = this.findFirst("select * from work where worksid = ? and worknum < ? order by worknum desc limit 1",worksid,worknum);
+		return workModel;
+	}
+	public Work getDownWork(Object worksid,Object worknum){
+		Work workModel = this.findFirst("select * from work where worksid = ? and worknum > ? order by worknum asc limit 1",worksid,worknum);
+		return workModel;
+	}
 }
