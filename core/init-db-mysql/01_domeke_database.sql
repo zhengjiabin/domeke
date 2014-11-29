@@ -735,9 +735,9 @@ CREATE TABLE `pointlog` (
   `peascount` int(32) DEFAULT NULL COMMENT '豆豆',
   `pointcount` int(32) DEFAULT NULL COMMENT '积分',
   `creater` mediumint(8) NOT NULL,
-  `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `modifier` mediumint(8) DEFAULT NULL,
-  `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `modify_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`pointlogid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

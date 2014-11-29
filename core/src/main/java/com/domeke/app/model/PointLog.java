@@ -17,7 +17,7 @@ public class PointLog extends Model<PointLog>{
 		String sql="";
 		Page<PointLog> point = null;
 		if(colm == null || param == null){
-			point = this.paginate(pageNumber, pageSize, "select * ", "from pointlog");
+			point = this.paginate(pageNumber, pageSize, "select * ", "from pointlog order by create_time desc");
 		}else {
 			 sql = "select * from user where "+colm+" LIKE '%"+param+"%'";
 			 point = this.paginate(pageNumber, pageSize, "select * ", "from pointlog where "+colm+" LIKE '%"+param+"%'");
