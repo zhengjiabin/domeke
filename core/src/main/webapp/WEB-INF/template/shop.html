@@ -35,6 +35,9 @@
 <section class="White">
     <div class="ShopPath">
     	<a href="goods/shop">全部</a>
+    	<%for(stack2 in goodsTypeStack2){%>
+    	<a href="goods/shop?goodstype=${stack2.goodstypeid!}&level=2">${stack2.typename!}&nbsp;&nbsp;&nbsp;&nbsp;|</a>
+    	<%}%>
     	<%for(stack in goodsTypeStack){%>
     	<a href="goods/shop?goodstype=${stack.goodstypeid!}&level=${stack.level!}">${stack.typename!}&nbsp;&nbsp;&nbsp;&nbsp;|</a>
         <%}%>

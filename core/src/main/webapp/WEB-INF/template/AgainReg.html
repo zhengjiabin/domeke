@@ -27,7 +27,7 @@ window.setTimeout('doUpdate(' + i + ')', (secs-i) * 1000);
 }    
 function doUpdate(num)    
 {    
-document.getElementById('ShowDiv').innerHTML = '<a href="user/goLogin">将在'+num+'秒后自动跳转到登录页面</a>' ;    
+document.getElementById('ShowDiv').innerHTML = '<a href="user/goLogin">可点击跳转：将在'+num+'秒后自动跳转到登录页面</a>' ;    
 if(num == 0) { window.location=URL; }    
 } 
 

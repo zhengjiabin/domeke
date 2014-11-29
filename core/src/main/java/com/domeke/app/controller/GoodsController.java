@@ -240,12 +240,18 @@ public class GoodsController extends FilesLoadController {
 
 		// 鑾峰彇绫诲瀷闆嗗悎
 		List<GoodsType> goodsTypeStack = Lists.newArrayList();
+		List<GoodsType> goodsTypeStack2 = Lists.newArrayList();
 		List<GoodsType> goodsTypeList = Lists.newArrayList();
 		GoodsType goodsTypeModel = getModel(GoodsType.class);
 		String attr = "";
+		String leve2 = "";
 		if (!StrKit.isBlank(goodstypeid)) {
 			attr = getModel(GoodsType.class).getGoodsType(goodstypeid);
 			goodsTypeStack = getModel(GoodsType.class).getGoodssTypeById(attr);
+			if ("1".equals(level)){
+				//leve2 = getModel(GoodsType.class).getGoodsType(goodstypeid);
+				goodsTypeStack2 = getModel(GoodsType.class).getGoodsTypeByParId(goodstypeid);
+			}
 			//goodsTypeList = goodsTypeModel.getGoodsTypeByParId(String.valueOf(goodsTypeModel.get("goodstype")));
 		}
 		if (goodsTypeModel.get("goodstypeid") != null) {
@@ -278,10 +284,12 @@ public class GoodsController extends FilesLoadController {
 			datas = goodsParse(goodss.getList());
 			pageMap = new Page(datas, goodss.getPageNumber(), goodss.getPageSize(),goodss.getTotalPage(), goodss.getTotalRow());
 		}
+		Map<List<GoodsType>,GoodsType> test = getModel(GoodsType.class).getGType("1", "1");
 		setAttr("goodsTypeStack", goodsTypeStack);
 		setAttr("goodsTypeList", goodsTypeList);
 		setAttr("goodstype", goodstypeid);
 		setAttr("goodss", pageMap);
+		setAttr("goodsTypeStack2", goodsTypeStack2);
 		render("/shop.html");
 	}
 	public void getGoodsByType(){
