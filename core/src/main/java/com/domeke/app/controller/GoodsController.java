@@ -1,6 +1,5 @@
 package com.domeke.app.controller;
 
-import java.io.File;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -116,7 +115,7 @@ public class GoodsController extends FilesLoadController {
 	 * @return 
 	 */
 	public List<String> getFileUrls(String url){
-		List<String> fileUrls = FileLoadKit.getFilesVirtualDirectory(this, url);
+		List<String> fileUrls = FileLoadKit.getFilesVirtualDirectory(url);
 		return fileUrls;
 	}
 	
@@ -125,10 +124,10 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public void deleteImg() {
 		String url = getPara("url");
-		FileLoadKit.deleteFiles(this, url);
+		FileLoadKit.deleteFiles(url);
 		Goods goods = Goods.dao.findById(getParaToInt("goodsId"));
 		url = url.substring(0, url.lastIndexOf("/"));
-		List<String> headimgs = FileLoadKit.getFilesVirtualDirectory(this, url);
+		List<String> headimgs = FileLoadKit.getFilesVirtualDirectory(url);
 		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
 		setAttr("goodsType", goodsType);
 		setAttr("headimgs", headimgs);
@@ -187,7 +186,7 @@ public class GoodsController extends FilesLoadController {
 		saveDirectory = saveFolderName + "/" + saveDirectory;
 		Map<String, String> uploadPath = FileLoadKit.uploadImgs(this, saveDirectory, maxPostSize, encoding);
 		if (uploadPath != null && uploadPath.get("pic") != null) {
-			FileLoadKit.deleteFiles(this, pic);
+			FileLoadKit.deleteFiles(pic);
 			pic = uploadPath.get("pic");
 		}
 		UploadFile file = getFile();
