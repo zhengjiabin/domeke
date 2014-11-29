@@ -133,8 +133,8 @@
 			<div class="CartoonContent">
 				<%for(works in workss2){ if(worksLP.index <= 5){%>
 				<div class="CartoonSub">
-					<a href="${works.detailUrl!}" style="display: block;"> <img
-						src="${works.cover!}">
+					<a href="${works.detailUrl!}" style="display: block;">
+					<img src="${works.cover!}"/>
 						<div class="CartoonName">
 							<a href="${works.detailUrl!}">${works.worksname!}</a>
 						</div>
@@ -154,7 +154,30 @@
 				${workstype[workss3[0].workstype!]!}<a href="${workss3[0].typeUrl!}">/更多</a>
 			</div>
 			<div class="CartoonContent">
-				<%for(works in workss3){ if(worksLP.index <= 10){%>
+				<%for(works in workss3){ if(worksLP.index <= 5){%>
+				<div class="CartoonSub">
+					<a href="${works.detailUrl!}" style="display: block;"> <img
+						src="${works.cover!}">
+						<div class="CartoonName">
+							<a href="${works.detailUrl!}">${works.worksname!}</a>
+						</div>
+					</a>
+					<div class="CartoonInfo">
+						<span class="FloatL">${works.pageviews!}</span> <span
+							class="FloatR">${works.comment!}</span>
+					</div>
+					<%if(works.describle! != ''){%><div class="CartoonSubFootbar">${works.describle!}</div><%}%>
+				</div>
+				<%}%> <%}%>
+			</div>
+		</section>
+		<%}%> <%if(workss4.~size > 0){%>
+		<section>
+			<div class="CartoonTitle">
+				${workstype[workss4[0].workstype!]!}<a href="${workss4[0].typeUrl!}">/更多</a>
+			</div>
+			<div class="CartoonContent">
+				<%for(works in workss4){ if(worksLP.index <= 10){%>
 				<div class="CartoonSub">
 					<a href="${works.detailUrl!}" style="display: block;"> <img
 						src="${works.cover}">

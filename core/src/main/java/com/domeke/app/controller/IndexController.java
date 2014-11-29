@@ -27,7 +27,7 @@ public class IndexController extends Controller {
 			menuid = "1";
 		}
 		WorksType worksTypeModel = getModel(WorksType.class);
-		List<WorksType> worksTypes = worksTypeModel.getWorksTypes("1");
+		List<WorksType> worksTypes = worksTypeModel.getWorksTypesByCartoonDesc("");
 		
 		Works worksDao = getModel(Works.class);
 		Map<String, Object> typeMap = Maps.newHashMap();
@@ -44,7 +44,7 @@ public class IndexController extends Controller {
 		List<Map<String, Object>> workss0 = Lists.newArrayList();
 		workss0 = ParseDemoKit.worksParse(workss0temp);
 		
-		List<Works> workss1temp = worksDao.getWorksInfoByType(worksTypes.get(1).get("id").toString(),5);
+		List<Works> workss1temp = worksDao.getWorksInfoByType(worksTypes.get(1).get("id").toString(),6);
 		List<Map<String, Object>> workss1 = Lists.newArrayList();
 		workss1 = ParseDemoKit.worksParse(workss1temp);
 		
@@ -52,9 +52,13 @@ public class IndexController extends Controller {
 		List<Map<String, Object>> workss2 = Lists.newArrayList();
 		workss2 = ParseDemoKit.worksParse(workss2temp);
 		
-		List<Works> workss3temp = worksDao.getWorksInfoByType(worksTypes.get(3).get("id").toString(),10);
+		List<Works> workss3temp = worksDao.getWorksInfoByType(worksTypes.get(3).get("id").toString(),5);
 		List<Map<String, Object>> workss3 = Lists.newArrayList();
 		workss3 = ParseDemoKit.worksParse(workss3temp);
+		
+		List<Works> workss4temp = worksDao.getWorksInfoByType(worksTypes.get(4).get("id").toString(),10);
+		List<Map<String, Object>> workss4 = Lists.newArrayList();
+		workss4 = ParseDemoKit.worksParse(workss4temp);
 		
 		List<OfWonders> ofWondersList = OfWonders.dao.findPic(10);
 		Menu wonderTypeMenu = Menu.menuDao.findById(3);
@@ -92,6 +96,7 @@ public class IndexController extends Controller {
 		setAttr("workss1", workss1);
 		setAttr("workss2", workss2);
 		setAttr("workss3", workss3);
+		setAttr("workss4", workss4);
 		setAttr("ofWondersList", ofWondersList);
 		setAttr("wonderTypeMenu", wonderTypeMenu);
 		setAttr("worksClickList", worksClickList);
