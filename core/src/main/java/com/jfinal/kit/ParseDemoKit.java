@@ -81,7 +81,7 @@ public class ParseDemoKit {
 					goodsname = goodsname.substring(0,12);
 				}
 				map.put("goodsname", goodsname);
-				map.put("price", goods.get("goodsid"));
+				map.put("price", goods.get("price"));
 				map.put("oldprice", goods.get("oldprice"));
 				map.put("amount", goods.get("amount"));
 				map.put("pic", goods.get("pic"));
