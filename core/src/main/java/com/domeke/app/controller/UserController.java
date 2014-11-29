@@ -30,7 +30,7 @@ import com.jfinal.plugin.spring.IocInterceptor;
  */
 @Before(IocInterceptor.class)
 public class UserController extends Controller {
-	
+
 	@Inject.BY_NAME
 	private DomekeMaiSenderImpl domekeMailSender;
 
@@ -44,145 +44,153 @@ public class UserController extends Controller {
 		this.setAttr("user", user);
 		render("/register2.html");
 	}
-	
+
 	public void goRegistSucces() {
 		render("/registerSucces.html");
 	}
-	
-	public void goLogin(){
+
+	public void goLogin() {
 		User user = getModel(User.class);
 		setAttr("msg", "");
 		String url = LoginPic.lpDao.getPicUrl();
 		setAttr("url", url);
 		render("/Login.html");
 	}
-	public void member(){
+
+	public void member() {
 		render("/Member.html");
 	}
-	
+
 	/**
 	 * 跳转管理页面
 	 */
-	public void goToManager(){
+	public void goToManager() {
 		render("/admin/community.html");
 	}
-	//@Before({RegistValidator.class,MailAuthInterceptor.class})
-	@Before({RegistValidator.class})
+
+	// @Before({RegistValidator.class,MailAuthInterceptor.class})
+	@Before({ RegistValidator.class })
 	public void regist() {
 		User user = getModel(User.class);
-		//验证码
+		// 验证码
 		String inputRandomCode = getPara("captcha");
-        boolean validate = MyCaptchaRender.validate(this, inputRandomCode);
-        if(!validate){
-        	this.setAttr("user", user);
-        	setAttr("verification", "验证码错误!");
+		boolean validate = MyCaptchaRender.validate(this, inputRandomCode);
+		if (!validate) {
+			this.setAttr("user", user);
+			setAttr("verification", "验证码错误!");
 			render("/register2.html");
 			return;
-        }
-        //较验用户是否同意注册协议
-        String checkbox = getPara("check");
-        if(checkbox == null){
-        	this.setAttr("user", user);
-        	setAttr("xieyi", "未同意注册协议!");
+		}
+		// 较验用户是否同意注册协议
+		String checkbox = getPara("check");
+		if (checkbox == null) {
+			this.setAttr("user", user);
+			setAttr("xieyi", "未同意注册协议!");
 			render("/register2.html");
 			return;
-        }
+		}
 		user.saveUser();
 		UserRole userrole = getModel(UserRole.class);
 		userrole.set("roleid", 0);
 		userrole.set("userid", user.getLong("userid"));
 		userrole.save();
-		//发送邮箱验证
+		// 发送邮箱验证
 		sendActivation(user);
 		setAttr("succes", "帐号注册成功，请登录你的邮箱进行验证！");
 		render("/registerSucces.html");
 	}
-	
+
 	/**
 	 * 验证码
 	 */
-	public void captcha()
-    {
-        render(new MyCaptchaRender(60,22,4,true));
-    }
-	public void goUserManage(){
+	public void captcha() {
+		render(new MyCaptchaRender(60, 22, 4, true));
+	}
+
+	public void goUserManage() {
 		userManage();
 		render("/admin/user.html");
 	}
-	
-	public void goUserManages(){
+
+	public void goUserManages() {
 		userManage();
 		render("/admin/admin_user.html");
 	}
-	
-	public void goUserPoint(){
+
+	public void goUserPoint() {
 		userCountPoint();
 		render("/admin/admin_userCountPoint.html");
 	}
+
 	/**
 	 * 用户积分变更日志
 	 */
-	public void goCountPoint(){
+	public void goCountPoint() {
 		userCountPoint();
 		render("/admin/admin_Point.html");
 	}
+
 	/**
 	 * 获取用户积分记录
 	 */
-	public void userCountPoint(){
-		//分页码
+	public void userCountPoint() {
+		// 分页码
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		PointLog point = getModel(PointLog.class);
-		Page<PointLog> pointList = point.getUserPoint(null,null,pageNumber,pageSize);
+		Page<PointLog> pointList = point.getUserPoint(null, null, pageNumber, pageSize);
 		this.setAttr("pointList", pointList);
 	}
-	public void userManage(){
-		//分页码
+
+	public void userManage() {
+		// 分页码
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		User user = getModel(User.class);
-		Page<User> userList = user.getUserPage(null,null,pageNumber,pageSize);
-//		for(int i=0;i<userList.size();i++){
-//			String status = userList.get(i).getStr("status");
-//			if("Y".equals(status)){
-//				userList.get(i).set("status", "正常");
-//			}else{
-//				userList.get(i).set("status", "冻结");
-//			}
-//		}
+		Page<User> userList = user.getUserPage(null, null, pageNumber, pageSize);
+		// for(int i=0;i<userList.size();i++){
+		// String status = userList.get(i).getStr("status");
+		// if("Y".equals(status)){
+		// userList.get(i).set("status", "正常");
+		// }else{
+		// userList.get(i).set("status", "冻结");
+		// }
+		// }
 		this.setAttr("userList", userList);
 	}
-	public void goUserUpdate(){
+
+	public void goUserUpdate() {
 		getUser();
 		render("/admin/admin_updateUser.html");
 	}
+
 	/**
 	 * 豆豆积分修改
 	 */
-	public void goUpUserPoint(){
+	public void goUpUserPoint() {
 		getUser();
 		String td = getPara("td");
 		setAttr("td", td);
 		render("/admin/admin_userPoint.html");
 	}
-	
-	public void getUser(){
+
+	public void getUser() {
 		User user = getModel(User.class);
-		String uid =  getPara("uid");
+		String uid = getPara("uid");
 		user = user.findById(uid);
 		this.setAttr("user", user);
 	}
-	public void update(){
+
+	public void update() {
 		User user = getModel(User.class);
 		user.update();
 		goUserManage();
 	}
-	
+
 	/**
 	 * 修改用户的豆豆积分
 	 */
-	public void updatePoint(){
+	public void updatePoint() {
 		User user = getModel(User.class);
 		PointLog point = getModel(PointLog.class);
 		point.set("userid", user.get("userid"));
@@ -195,26 +203,26 @@ public class UserController extends Controller {
 		String rewardStr = getPara("reward");
 		Long reward = Long.valueOf(rewardStr);
 		String type = getPara("td");
-		if(reward>0){
-			if("add".equals(type)){
+		if (reward > 0) {
+			if ("add".equals(type)) {
 				point.set("reward", reward);
-			}else{
+			} else {
 				point.set("reward", -reward);
 			}
-			if("豆豆".equals(getPara("type"))){
+			if ("豆豆".equals(getPara("type"))) {
 				Long peas = user.getLong("peas");
-				if("add".equals(type)){
-					peas = peas+reward;
-				}else if("delete".equals(type)){
-					peas = peas-reward;
+				if ("add".equals(type)) {
+					peas = peas + reward;
+				} else if ("delete".equals(type)) {
+					peas = peas - reward;
 				}
 				user.set("peas", peas);
-			}else{
+			} else {
 				Long p = user.getLong("point");
-				if("add".equals(type)){
-					p = p+reward;
-				}else if("delete".equals(type)){
-					p = p-reward;
+				if ("add".equals(type)) {
+					p = p + reward;
+				} else if ("delete".equals(type)) {
+					p = p - reward;
 				}
 				user.set("point", p);
 			}
@@ -223,49 +231,52 @@ public class UserController extends Controller {
 		}
 		goUserManage();
 	}
-	public void delete(){
+
+	public void delete() {
 		User user = getModel(User.class);
 		user.deleteById(getParaToInt());
 		goUserManage();
 	}
-	
+
 	/**
 	 * 冻结用户操作
 	 */
-	public void freezeUser(){
+	public void freezeUser() {
 		User user = getModel(User.class);
 		String uid = getPara("uid");
 		user = user.findById(uid);
-		user.set("status","N");
+		user.set("status", "N");
 		user.update();
 		goUserManage();
 	}
+
 	/**
 	 * 密码重置
 	 */
-	public void resetPassword(){
+	public void resetPassword() {
 		User user = getModel(User.class);
 		String uid = getPara("uid");
 		user = user.findById(uid);
-		String password1  = "111111";
+		String password1 = "111111";
 		String password = EncryptKit.EncryptMd5(password1);
-		user.set("password",password);
+		user.set("password", password);
 		user.update();
 		goUserManage();
 	}
+
 	/**
 	 * 解除冻结用户操作
 	 */
-	public void removeFreezeUser(){
+	public void removeFreezeUser() {
 		User user = getModel(User.class);
 		String uid = getPara("uid");
 		user = user.findById(uid);
-		user.set("status","Y");
+		user.set("status", "Y");
 		user.update();
 		goUserManage();
 	}
-	
-	public void reset(){
+
+	public void reset() {
 		User user = getModel(User.class);
 		String password = "111111";
 		int userid = getParaToInt();
@@ -273,110 +284,111 @@ public class UserController extends Controller {
 		user.updateReset(userid, password);
 		goUserManage();
 	}
-	
-	
-	public void search(){
-		 render("/searchPassword.html");	 
+
+	public void search() {
+		render("/searchPassword.html");
 	}
-	
+
 	/**
 	 * 按用户名查询积分日志
 	 */
-	public void integralForName(){
-		//分页码
+	public void integralForName() {
+		// 分页码
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		try {
 			this.getRequest().setCharacterEncoding("utf-8");
 			String userSearch = this.getRequest().getParameter("userSearch");
-			Page<PointLog> pointList = PointLog.dao.getUserPoint("username",userSearch,pageNumber,pageSize);;
-			
+			Page<PointLog> pointList = PointLog.dao.getUserPoint("username", userSearch, pageNumber, pageSize);
+			;
+
 			this.setAttr("pointList", pointList);
 			render("/admin/admin_Point.html");
-			
+
 		} catch (UnsupportedEncodingException e) {
-			
+
 			e.printStackTrace();
 		}
-	
-	
+
 	}
-	
-	public void sechUserForName(){
+
+	public void sechUserForName() {
 		User user = getModel(User.class);
-		//List<User> userList = new ArrayList<User>();
-		//分页码
+		// List<User> userList = new ArrayList<User>();
+		// 分页码
 		int pageNumber = getParaToInt("pageNumber", 1);
 		int pageSize = getParaToInt("pageSize", 10);
 		try {
 			this.getRequest().setCharacterEncoding("utf-8");
 			String userSearch = this.getRequest().getParameter("userSearch");
-			//userSearch =  new String(userSearch.getBytes("ISO-8859-1"),"UTF-8");
-			Page<User> userList = user.getUserPage("username",userSearch,pageNumber,pageSize);;
-			
+			// userSearch = new
+			// String(userSearch.getBytes("ISO-8859-1"),"UTF-8");
+			Page<User> userList = user.getUserPage("username", userSearch, pageNumber, pageSize);
+			;
+
 			this.setAttr("userList", userList);
 			render("/admin/user.html");
-			
+
 		} catch (UnsupportedEncodingException e) {
-			
+
 			e.printStackTrace();
 		}
-	
-	
+
 	}
-	public void sendPassword(){
+
+	public void sendPassword() {
 		User user = getModel(User.class);
 		String email = user.getStr("email");
 		boolean oneamail = user.containColumn("email", email);
-		if(!oneamail){
+		if (!oneamail) {
 			setAttr("emailMsg", "该邮箱地址不存在!");
-			 render("/searchPassword.html");
-			 return;
+			render("/searchPassword.html");
+			return;
 		}
-		user = user.getCloumValue("email",email);
-		if(user!=null){
-			List<Map<String,Object>> params = new ArrayList<Map<String,Object>>();
-			String[] to = new String[]{email};
-			String password1  = getRandomString(6);
+		user = user.getCloumValue("email", email);
+		if (user != null) {
+			List<Map<String, Object>> params = new ArrayList<Map<String, Object>>();
+			String[] to = new String[] { email };
+			String password1 = getRandomString(6);
 			String password = EncryptKit.EncryptMd5(password1);
-			user.updatePassword(user.get("userid"),password);
-			String msg = "你好你的密码已重置为："+password1+"，请及时登录 系统修改";
-			domekeMailSender.send("testehr@126.com", to, null, msg, params);
+			user.updatePassword(user.get("userid"), password);
+			String msg = "你好你的密码已重置为：" + password1 + "，请及时登录 系统修改";
+			domekeMailSender.send("dongmark_admin@126.com", to, null, msg, params);
 			setAttr("succes", "新密码已发送到邮箱，请登录查看！");
 			render("/registerSucces.html");
 		}
-		
+
 	}
-	
-	public void sendActivation(User user){
+
+	public void sendActivation(User user) {
 		try {
 			EncryptionDecryption ency = new EncryptionDecryption();
 			String email = user.getStr("email");
-			user = user.getCloumValue("email",email);
-			if(user!=null){
-				List<Map<String,Object>> params = new ArrayList<Map<String,Object>>();
-				String[] to = new String[]{email};
+			user = user.getCloumValue("email", email);
+			if (user != null) {
+				List<Map<String, Object>> params = new ArrayList<Map<String, Object>>();
+				String[] to = new String[] { email };
 				String nickname = user.getStr("nickname");
 				Long userid = user.getLong("userid");
-				//加密邮箱
-				email = ency.encrypt(email); 
-				String msg = "欢迎你："+nickname+":" + "\n" + "请点击以下的路径进行邮箱验证" + "\n" + "http://218.85.136.199/core/user/activationUser?uid="+email+"";
-				domekeMailSender.send("testehr@126.com", to, null, msg, params);
+				// 加密邮箱
+				email = ency.encrypt(email);
+				String msg = "欢迎你：" + nickname + ":" + "\n" + "请点击以下的路径进行邮箱验证" + "\n"
+						+ "http://218.85.136.199/core/user/activationUser?uid=" + email + "";
+				domekeMailSender.send("dongmark_admin@126.com", to, null, msg, params);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
 	}
-	
-	public void activationUser(){
+
+	public void activationUser() {
 		try {
 			EncryptionDecryption encry = new EncryptionDecryption();
 			String email = getPara("uid");
 			email = encry.decrypt(email);
 			User user = getModel(User.class);
-			user.updateUserMsg(email,"activation","Y");
+			user.updateUserMsg(email, "activation", "Y");
 			String url = LoginPic.lpDao.getPicUrl();
 			setAttr("url", url);
 			render("/Login.html");
@@ -384,9 +396,9 @@ public class UserController extends Controller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 	public DomekeMaiSenderImpl getDomekeMailSender() {
 		return domekeMailSender;
 	}
@@ -394,18 +406,17 @@ public class UserController extends Controller {
 	public void setDomekeMailSender(DomekeMaiSenderImpl domekeMailSender) {
 		this.domekeMailSender = domekeMailSender;
 	}
-	
-	public static String getRandomString(int length) { 
-		//length表示生成字符串的长度  
-	    String base = "abcdefghijklmnopqrstuvwxyz0123456789";     
-	    Random random = new Random();     
-	    StringBuffer sb = new StringBuffer();     
-	    for (int i = 0; i < length; i++) {     
-	        int number = random.nextInt(base.length());     
-	        sb.append(base.charAt(number));     
-	    }     
-	    return sb.toString();     
-	 } 
-	
-	
+
+	public static String getRandomString(int length) {
+		// length表示生成字符串的长度
+		String base = "abcdefghijklmnopqrstuvwxyz0123456789";
+		Random random = new Random();
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < length; i++) {
+			int number = random.nextInt(base.length());
+			sb.append(base.charAt(number));
+		}
+		return sb.toString();
+	}
+
 }
