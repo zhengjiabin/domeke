@@ -660,7 +660,7 @@ public class GoodsController extends FilesLoadController {
 				}
 				map.put("goods", goods.get("goods"));
 				map.put("goodsname", goodsname);
-				map.put("price", goods.get("goodsid"));
+				map.put("price", goods.get("price"));
 				map.put("oldprice", goods.get("oldprice"));
 				map.put("amount", goods.get("amount"));
 				map.put("pic", goods.get("pic"));
