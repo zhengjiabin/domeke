@@ -2,7 +2,9 @@ package com.domeke.app.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.domeke.app.tablebind.TableBind;
 import com.jfinal.kit.StrKit;
@@ -193,5 +195,38 @@ public class GoodsType extends Model<GoodsType> {
 	 */
 	public void setGoodsType() {
 		Db.update("update goods_type set goodstype=goodstypeid where level='1' and (goodstype='0' or goodstype is null)");
+	}
+	
+	public List<GoodsType> getGTList(String goodstypeid){
+		List<GoodsType> gtList = this.find("select * from goods_type where parenttypeid = '" + goodstypeid + "'");
+		return gtList;
+	}
+	
+	/**
+	 * 取商品类型
+	 * @param type 类型级别
+	 * @param value	类型值
+	 * @return map的键为三级list，值为list的父级类型
+	 */
+	public Map<List<GoodsType>,GoodsType> getGType(String type, String value) {
+		if (type != "1" || type != "2") {
+			return null;
+		}
+		List<GoodsType> gtList = getGTList(value);
+		int goodsTypeId=Integer.valueOf(value).intValue();
+		GoodsType gType = this.getGoodsTypeById(goodsTypeId);
+		Map<List<GoodsType>,GoodsType> mList = new HashMap<List<GoodsType>,GoodsType>();
+		if ("1".equals(type)) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			for (GoodsType gt:gtList) {
+				String gtid = gt.getLong("goodstypeid").toString();
+				List<GoodsType> gtl = getGTList(gtid);
+				map.put(gtid, gtl);
+				mList.put(gtl, gt);
+			}
+		} else {
+			 mList.put(gtList, gType);
+		}
+		return mList;
 	}
 }
