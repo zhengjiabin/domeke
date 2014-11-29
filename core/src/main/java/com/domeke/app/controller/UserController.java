@@ -4,8 +4,6 @@
 package com.domeke.app.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -18,6 +16,7 @@ import com.domeke.app.utils.EncryptKit;
 import com.domeke.app.utils.EncryptionDecryption;
 import com.domeke.app.utils.MyCaptchaRender;
 import com.domeke.app.validator.RegistValidator;
+import com.google.common.collect.Maps;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
@@ -347,13 +346,13 @@ public class UserController extends Controller {
 		}
 		user = user.getCloumValue("email", email);
 		if (user != null) {
-			List<Map<String, Object>> params = new ArrayList<Map<String, Object>>();
-			String[] to = new String[] { email };
+			Map<String, Object> params = Maps.newHashMap();
 			String password1 = getRandomString(6);
 			String password = EncryptKit.EncryptMd5(password1);
 			user.updatePassword(user.get("userid"), password);
-			String msg = "你好你的密码已重置为：" + password1 + "，请及时登录 系统修改";
-			domekeMailSender.send("dongmark_admin@126.com", to, null, msg, params);
+			params.put("repassword", password1);
+			params.put("username", user.get("nickname"));
+			domekeMailSender.send(email, "repassword", params);
 			setAttr("succes", "新密码已发送到邮箱，请登录查看！");
 			render("/registerSucces.html");
 		}
@@ -366,15 +365,16 @@ public class UserController extends Controller {
 			String email = user.getStr("email");
 			user = user.getCloumValue("email", email);
 			if (user != null) {
-				List<Map<String, Object>> params = new ArrayList<Map<String, Object>>();
-				String[] to = new String[] { email };
+				Map<String, Object> params = Maps.newHashMap();
 				String nickname = user.getStr("nickname");
 				Long userid = user.getLong("userid");
 				// 加密邮箱
 				email = ency.encrypt(email);
-				String msg = "欢迎你：" + nickname + ":" + "\n" + "请点击以下的路径进行邮箱验证" + "\n"
-						+ "http://218.85.136.199/core/user/activationUser?uid=" + email + "";
-				domekeMailSender.send("dongmark_admin@126.com", to, null, msg, params);
+				String template = "registerSuccess";
+				String url = "http://www.dongmark.com/user/activationUser?uid=" + email;
+				params.put("url", url);
+				params.put("username", nickname);
+				domekeMailSender.send(email, template, params);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -393,7 +393,6 @@ public class UserController extends Controller {
 			setAttr("url", url);
 			render("/Login.html");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

@@ -1,19 +1,22 @@
 package com.domeke.app.utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.ConversionException;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.EncodedResource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.google.common.collect.Maps;
 
@@ -52,15 +55,19 @@ public class PropKit extends PropertyPlaceholderConfigurer {
 	 * @param name
 	 */
 	private static void setProperties(String name) {
-		Configuration config = null;
+		Resource resource = new ClassPathResource(name);
+		EncodedResource encRes = new EncodedResource(resource, "UTF-8");
+		Properties props = null;
 		try {
-			config = new PropertiesConfiguration(name);
-			for (Iterator<String> keys = config.getKeys(); keys.hasNext();) {
-				String key = (String) keys.next();
-				propertiesMap.put(key, config.getProperty(key));
-			}
-		} catch (ConfigurationException e) {
+			props = PropertiesLoaderUtils.loadProperties(encRes);
+		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		Set<Object> keySet = props.keySet();
+
+		for (Iterator iterator = keySet.iterator(); iterator.hasNext();) {
+			String key = (String) iterator.next();
+			propertiesMap.put(key, props.getProperty(key));
 		}
 	}
 
