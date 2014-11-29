@@ -279,6 +279,29 @@ public class UserController extends Controller {
 		 render("/searchPassword.html");	 
 	}
 	
+	/**
+	 * 按用户名查询积分日志
+	 */
+	public void integralForName(){
+		//分页码
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		try {
+			this.getRequest().setCharacterEncoding("utf-8");
+			String userSearch = this.getRequest().getParameter("userSearch");
+			Page<PointLog> pointList = PointLog.dao.getUserPoint("username",userSearch,pageNumber,pageSize);;
+			
+			this.setAttr("pointList", pointList);
+			render("/admin/admin_Point.html");
+			
+		} catch (UnsupportedEncodingException e) {
+			
+			e.printStackTrace();
+		}
+	
+	
+	}
+	
 	public void sechUserForName(){
 		User user = getModel(User.class);
 		//List<User> userList = new ArrayList<User>();
