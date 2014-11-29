@@ -112,6 +112,12 @@ public class UserMessageController extends Controller {
 			//我发的留言
 			msgList = msg.getLeaveMsg("fromuser", user.getStr("username"), null,null,null);
 		}
+		List<String> imgUrls = new ArrayList<String>();
+		for (UserMessage um:msgList) {
+			String imgUrl = User.dao.getImgURL(um.get("fromuser"));
+			imgUrls.add(imgUrl);
+		}
+		setAttr("imgUrls", imgUrls);
 		setAttr("msgList", msgList);
 	}
 	public void delMsg(){

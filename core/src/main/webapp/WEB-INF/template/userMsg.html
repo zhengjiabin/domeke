@@ -9,9 +9,13 @@
         <div class="clear"></div>
         <div class="MemberIndex">
           <div class="MeBlock">
-           <% for(msg in msgList!){%>
+           <% 
+           var index = -1;
+           for(msg in msgList!){
+           	index = index + 1;
+           %>
                 <div class="ArgumentSub">
-                	<div class="MemberHead"><img src="http://www.dongmark.com/images/qq4.jpg"></div>
+                	<div class="MemberHead"><img src="${imgUrls[index]!}"></div>
                     <div class="ArgumentInfo">
                     	<input type="hidden" name="messageid" value="${msg.messageid!}"/>
                     	<input type="hidden" name="menuId" value="${menuId!}"/>

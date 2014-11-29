@@ -182,4 +182,9 @@ public class User extends Model<User> {
 		Long count = Db.queryLong(sql);
 		return count;
 	}
+	
+	public String getImgURL(String username){
+		String imgUrl = Db.queryStr("select imgurl from user where username = '" + username + "'");
+		return imgUrl;
+	}
 }
