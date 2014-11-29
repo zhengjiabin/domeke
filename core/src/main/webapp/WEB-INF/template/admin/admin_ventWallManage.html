@@ -35,12 +35,11 @@
             	 		</td>
             	 		<td width="70">${v.createtime!}</td>
 						<td width="40"><select name="select" id="select" style="width:55px;"> 
-								 <option value="1"
-       								 <% if ( v.creater == 1 ) {%> selected="true"<%}%>>是
-       							 </option> 
-        						 <option value="2" 
-        						 	 <% if ( v.creater == 2 ) {%> selected="true"<%}%>>否
-        						 </option>
+							<% if ( v.creater == 1 ) { %>
+								 <option value="1" selected="true">是</option> 
+							<% } else if (v.creater == 2) { %>
+        						 <option value="2" selected="true">否</option>
+        					<% } %>
         				</select></td>
 						<td width="100">
 								<button name="${v.ventwallid}" class="btn btn-warning btn-mini" lable="修改">修改</button>

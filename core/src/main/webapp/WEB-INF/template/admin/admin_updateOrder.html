@@ -34,15 +34,21 @@
         	<label class="control-label">联系电话：</label>
         	<input name="orders.orderPhone" value="${orders.orderPhone!}" type="text" class="span6 m-wrap" style="ime-mode:Disabled;" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')"/><br>
         	<label class="control-label">是否支付：</label>
-        	<select name="orders.isPay" id="select1" style="width:55px;">   
-       			<option value="Y" <% if ( orders.isPay == "Y" ) {%> selected="true"<%}%>>是</option> 
-        		<option value="N" <% if ( orders.isPay == "N" ) {%> selected="true"<%}%>>否</option>
+        	<select name="orders.isPay" id="select1" style="width:55px;">
+        		<% if(orders.isPay == "Y") { %>   
+       				<option value="Y" selected="true">是</option>
+       			<% } else { %>
+        			<option value="N" selected="true">否</option>
+       			<% } %>
         	</select><br>
         	<!-- <input name="orders.isPay" value="${orders.isPay!}" type="text" class="span6 m-wrap" /> -->
         	<label class="control-label">是否发货：</label>
-        	<select name="orders.isDelivery" id="select2" style="width:55px;">   
-       			<option value="Y" <% if ( orders.isDelivery == "Y" ) {%> selected="true"<%}%>>是</option> 
-        		<option value="N" <% if ( orders.isDelivery == "N" ) {%> selected="true"<%}%>>否</option>
+        	<select name="orders.isDelivery" id="select2" style="width:55px;">
+        	   	<% if(orders.isDelivery == "Y") { %> 
+       				<option value="Y" selected="true">是</option>
+       			<% } else { %>
+        			<option value="N" selected="true">否</option>
+        		<% } %>	
         	</select><br>
         	<!--<input name="orders.isDelivery" value="${orders.isDelivery!}" type="text" class="span6 m-wrap" /><br>     -->   	        	
         <button class="btn btn-large btn-primary" type="submit" >保存</button>
