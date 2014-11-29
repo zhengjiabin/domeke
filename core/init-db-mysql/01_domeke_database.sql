@@ -104,6 +104,7 @@ CREATE TABLE `work` (
   `timesdes` varchar(20) COLLATE utf8_unicode_ci DEFAULT '00:00' COMMENT '视频时长秒转分钟  格式 65:30',
   `isdisable` tinyint(3) DEFAULT '0' COMMENT '是否公开 1公开0隐藏',
   `playtimes` int(11) DEFAULT '0' COMMENT '播放次数',
+  `status` tinyint(3) DEFAULT '10' COMMENT '10未处理20待审30执行',
   `createtime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `creater` bigint(20) NOT NULL,
   `creatername` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '创建者 user的账号',
