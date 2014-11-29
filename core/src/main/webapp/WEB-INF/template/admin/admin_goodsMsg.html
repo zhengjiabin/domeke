@@ -217,7 +217,9 @@ function galevel2(str)
       		<div class="WhiteBg" style="height: 300px;padding:10px;">
       			<textarea name="ckeditor" id="ckeditor">${goods.message!}</textarea>
 				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
-				<input type="text" name="goods.message" id="message" value="${goods.message!}" hidden="block" style="display:none"/>
+				<div style="display:none;">
+					<input type="text" name="goods.message" id="message" value="${goods.message!}" hidden="block" style="display:none"/>
+				</div>
       		</div> 
 			<button class="btn btn-large btn-primary" onclick="return upchecknull(this)" type="submit" >修改</button>
 			<a href="goods/renderGoods" class="btn btn-large btn-primary" >返回</a>
