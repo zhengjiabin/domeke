@@ -288,7 +288,7 @@ public class UserController extends Controller {
 		try {
 			this.getRequest().setCharacterEncoding("utf-8");
 			String userSearch = this.getRequest().getParameter("userSearch");
-			userSearch =  new String(userSearch.getBytes("ISO-8859-1"),"UTF-8");
+			//userSearch =  new String(userSearch.getBytes("ISO-8859-1"),"UTF-8");
 			Page<User> userList = user.getUserPage("username",userSearch,pageNumber,pageSize);;
 			
 			this.setAttr("userList", userList);
