@@ -2,33 +2,22 @@
 <html>
 <head>
  <% include("/common/head.html"){} %>
+ <script type="text/javascript" src="js/jquery.min.js"></script>
 <script language='javascript' type='text/javascript'>    
-var secs =10; //倒计时的秒数    
-var URL ;    
-function Load(url){    
-URL =url;    
-for(var i=secs;i>=0;i--)    
-{    
-window.setTimeout('doUpdate(' + i + ')', (secs-i) * 1000);    
-}    
-}    
-function doUpdate(num)    
-{    
-document.getElementById('ShowDiv').innerHTML = '<a href="index">将在'+num+'秒后自动跳转到登录页面</a>' ;    
-if(num == 0) { window.location=URL; }    
-}    
+   
 </script>    
 </head>
 <body style="margin: 0px;background: #fff;background: url(http://www.dongmark.com/images/bg_Me.png) left bottom no-repeat;">
 <% include("/common/user_header.html"){} %>
 <div class="LoginContent">
-	<div align="center" style="color: red;"><h2>${succes!}</h2></div>
-	<div align="center" id="ShowDiv" style="color: blue;"></div>  
+	 <div id="view">
+	 	<% layout("/AgainReg.html"){} %>
+	 </div> 
 </div>
   
 <script language="javascript">    
-Load("user/goLogin");     
-</script>    
+	Load("user/goLogin");     
+</script> 
 <% include("/common/user_footer.html"){} %>
 </body>
 </html>

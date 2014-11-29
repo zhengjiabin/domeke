@@ -88,6 +88,7 @@ public class UserController extends Controller {
 			render("/register2.html");
 			return;
 		}
+		setSessionAttr("userReg",user);
 		user.saveUser();
 		UserRole userrole = getModel(UserRole.class);
 		userrole.set("roleid", 0);
@@ -98,7 +99,17 @@ public class UserController extends Controller {
 		setAttr("succes", "帐号注册成功，请登录你的邮箱进行验证！");
 		render("/registerSucces.html");
 	}
-
+	/**
+	 * 重新邮箱验证
+	 */
+	public void againReg(){
+		User user = getModel(User.class);
+		user = getSessionAttr("userReg");
+		sendActivation(user);
+		setAttr("succes", "帐号注册成功，请登录你的邮箱进行验证！");
+		render("/AgainReg.html");
+	}
+	/**
 	/**
 	 * 验证码
 	 */

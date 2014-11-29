@@ -150,7 +150,13 @@ public class VentWallController extends Controller {
 		User user = getModel(User.class);
 		DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm"); 
 		String createTime = "";
+		boolean isUser = true;
+		String test = "";
 		for (VentWall vent : ventWallList){
+			isUser = user.isUser(vent.get("userid"));
+			if (!isUser){
+				continue;
+			}
 			user = user.findById(vent.get("userid"));
 			createTime = sdf.format(vent.get("createtime"));
 			vent.set("createtime", createTime);

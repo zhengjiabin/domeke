@@ -63,7 +63,11 @@ public class User extends Model<User> {
 		User user = dao.findFirst(sql, paras);
 		return user != null;
 	}
-
+	public boolean isUser(Long userId) {
+		String sql = " select  1 from user where userid= ? limit 1 ";
+		User user = dao.findFirst(sql, userId);
+		return user != null;
+	}
 	public User findUserIdByUsername(String username) {
 		String sql = "select userid from user where username = ? ";
 		User user = dao.findFirst(sql, username);
