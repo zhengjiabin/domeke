@@ -21,10 +21,10 @@
 			</props>
 		</property>
 		<property name="username">
-			<value>testehr@126.com</value>
+			<value>dongmark_admin@126.com</value>
 		</property>
 		<property name="password">
-			<value>bupolongyi</value>
+			<value>dongmark</value>
 		</property>
 	</bean>
 	
