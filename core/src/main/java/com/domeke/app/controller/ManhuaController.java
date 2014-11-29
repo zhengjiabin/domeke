@@ -69,7 +69,7 @@ public class ManhuaController extends Controller {
 			String state = getPara("state");
 			if(StrKit.isBlank(worksid) || StrKit.isBlank(worknum) || StrKit.isBlank(state)){
 				workModel = workModel.findById(workid);
-				render("manhua/playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid"));
+				forwardAction("manhua/playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid"));
 				return;
 			}
 			if("0".equals(state)){
@@ -80,13 +80,14 @@ public class ManhuaController extends Controller {
 			}
 			if(!workModel.isNotEmpty()){
 				workModel = workModel.findById(workid);
-				render("manhua/playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid"));
+				forwardAction("manhua/playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid"));
 				return;
 			}
 			History historyModel = getModel(History.class);
 			historyModel.saveOrUpdateHitory(workModel);
 			this.setAttr("work", workModel);
-			forwardAction("manhua/playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid"));
+			String url = "/playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid");
+			forwardAction(url);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

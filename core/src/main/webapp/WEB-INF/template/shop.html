@@ -2,6 +2,36 @@
 <link href="css/Cartoon.css" rel="stylesheet" type="text/css">
 <link href="css/Member.css" rel="stylesheet" type="text/css">
 <link href="css/Shop.css" rel="stylesheet" type="text/css">
+<script src="js/jqthumb.min.js"></script>
+<script type="text/javascript">
+	function resizeImage(el,width,height){
+		if(width==''||typeof(width)=='undefined'){
+			 width = $(el).width();
+		}
+		if(height==''||typeof(height)=='undefined'){
+			 height = $(el).height();
+		}
+		$(el).jqthumb({
+			width:width,
+			height:height
+		});
+	}
+	function resizeImg(clazz,width,height) {
+		$(clazz).each(function(){
+			$(this).error(function(){
+				if (this.src != 'http://www.dongmark.com/images/default.png') {
+					this.src = 'http://www.dongmark.com/images/default.png';
+					resizeImage(this,width,height);
+					return false;
+				}
+			});
+			resizeImage(this,width,height);
+		});
+	}
+	$(document).ready(function(){
+		resizeImg('.White img');
+	});
+</script>
 <section class="White">
     <div class="ShopPath">
     	<a href="goods/shop">全部</a>
@@ -35,25 +65,10 @@
     </div>
     <% } %>
     </section>
-	<div class="PageMore">
-		 <a href="goods/shop?goodstype=${goodstype!}&pageNumber=${goodss.pageUp!}">上一页</a>
-             <% for(var i=0; i < goodss.totalPage; i++)
-             {
-             	if(i+1 == goodss.pageNumber){
-             %>
-             	
-          		<a style="background-color:#ccc;" href="goods/shop?goodstype=${goodstype!}&pageNumber=${i+1}">${i+1}</a>
-          	<% 
-          		}
-          		else{
-          	%>
-          		<a href="goods/shop?goodstype=${goodstype!}&pageNumber=${i+1}">${i+1}</a>
-          	<%	
-          		}
-          	}%>
-            <a href="goods/shop?goodstype=${goodstype!}&pageNumber=${goodss.pageUp!}">下一页</a>
-      </div>
-    <div class="clear"></div>
+    <%
+     if(goodss != null){
+   		layout("/common/pageHref.html", {"page":goodss,"pageAction":"goods/shop?goodstype="+goodstype!,"fatherNode":"#page"}){} 
+	 }%>
 </section>
 <div class="clear"></div>
 <section>
