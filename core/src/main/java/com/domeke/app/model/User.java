@@ -183,8 +183,14 @@ public class User extends Model<User> {
 		return count;
 	}
 	
+	/**
+	 * 根据username查询该用户头像
+	 * @param username
+	 * @return
+	 */
 	public String getImgURL(String username){
 		String imgUrl = Db.queryStr("select imgurl from user where username = '" + username + "'");
 		return imgUrl;
 	}
+	
 }

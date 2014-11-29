@@ -52,6 +52,8 @@ public class PersonalController extends  FilesLoadController{
 		ofWondersPage(mid,userId);
 		myOrdersPage(mid,userId);
 		myFavourite(mid);
+		user = User.dao.getUserForId(userId);
+		setAttr("user", user);
 		render("/personalCenter.html");
 	}
 	public void forMyProductionPage(){
