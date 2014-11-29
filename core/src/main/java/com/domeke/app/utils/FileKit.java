@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 
+import com.jfinal.core.JFinal;
+import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 
 public class FileKit {
@@ -114,6 +116,44 @@ public class FileKit {
 		return descDirectory.substring(descDirectory.lastIndexOf("/") + 1, descDirectory.length());
 	}
 	
+	/**
+	 * 根据文件物理路径获取虚拟路径
+	 * @return
+	 */
+	public static String getVirtualDirectory(String descDirectory){
+		String serBasePath = getServBasePath();
+		if(isDevMode()){
+			String webPath = PathKit.getWebRootPath();
+			descDirectory = descDirectory.replaceFirst(webPath, "");
+		}else{
+			String basePath = PropKit.getString("basePath");
+			descDirectory = descDirectory.replaceFirst(basePath, "");
+		}
+		return getDirectory(serBasePath, descDirectory);
+	}
+	
+	/**
+	 * 获取服务器的相对路径
+	 * @param 虚拟路径
+	 */
+	public static String getServPath(String virtualDirectory){
+		String basePath = getServBasePath();
+		String servPath = virtualDirectory.replaceFirst(basePath, "");
+		return servPath;
+	}
+	
+	/**
+	 * 获取服务器的根路径
+	 * @param 虚拟路径
+	 * 
+	 */
+	public static String getServBasePath(){
+		if(isDevMode()){
+			return PropKit.getString("localServerPath");
+		}else{
+			return PropKit.getString("serverPath");
+		}
+	}
 
 	/**
 	 * 拼接路径路径
@@ -132,6 +172,15 @@ public class FileKit {
 			fileName = "/" + fileName;
 		}
 		return directory + fileName;
+	}
+	
+	/**
+	 * 获取父级路径
+	 * @return
+	 */
+	public static String getParentDirectory(String directory){
+		directory = directory.replace("\\\\", "/");
+		return directory.substring(0, directory.lastIndexOf("/"));
 	}
 	
 	
@@ -179,5 +228,14 @@ public class FileKit {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * 是否开发模式
+	 * @return
+	 */
+	public static boolean isDevMode(){
+		return JFinal.me().getConstants().getDevMode();
+		
 	}
 }

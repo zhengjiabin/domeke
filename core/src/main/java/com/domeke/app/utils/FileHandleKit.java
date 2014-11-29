@@ -19,7 +19,7 @@ import com.domeke.app.file.VideoAVIFile;
 import com.domeke.app.file.VideoFLVFile;
 import com.domeke.app.file.VideoFile;
 import com.domeke.app.file.VideoFileAnalysis;
-import com.jfinal.core.JFinal;
+import com.domeke.app.file.VideoMP4File;
 
 public class FileHandleKit {
 
@@ -123,6 +123,25 @@ public class FileHandleKit {
 	}
 	
 	/**
+	 * 压缩视频
+	 * @param toDirectory
+	 * @param file
+	 * @return
+	 * @throws IOException
+	 * @throws InterruptedException
+	 */
+	public static Map<String,VideoFile> compressVideo(String toDirectory,File file) throws IOException, InterruptedException{
+		FileHandleKit fileHandleKit = FileHandleKit.getInstance();
+		VideoFile videoFile = fileHandleKit.buildVideoCompressCommand(file, toDirectory);
+		ImageFile imageFile = fileHandleKit.processPNG(file, toDirectory);
+		videoFile.addImageFile(imageFile);
+		String fileName = videoFile.getFileName();
+		Map<String, VideoFile> directorys = new HashMap<String, VideoFile>();
+		directorys.put(fileName, videoFile);
+		return directorys;
+	}
+	
+	/**
 	 * 构造视频压缩信息
 	 * @param file
 	 * @return
@@ -136,10 +155,10 @@ public class FileHandleKit {
 		String descDirectory = file.getAbsolutePath();
 		boolean isDirectoryCompressVideo = isDirectCompressVideo(fileName);
 		if(isDirectoryCompressVideo){
-			videoFile = processFLV(descDirectory, toDirectory);
+			videoFile = processMP4(descDirectory, toDirectory);
 		}else{
 			videoFile = processAVI(descDirectory, toDirectory);
-			videoFile = processFLV(videoFile.getDescDirectory(), toDirectory);
+			videoFile = processMP4(videoFile.getDescDirectory(), toDirectory);
 		}
 		return videoFile;
 	}
@@ -163,15 +182,31 @@ public class FileHandleKit {
 	}
 	
 	/**
+	 * 将视频压缩成.MP4格式
+	 * @return
+	 * @throws InterruptedException 
+	 * @throws IOException 
+	 */
+	private VideoFile processMP4(String descDirectory, String toDirectory) throws IOException, InterruptedException{
+		String fileName = FileKit.getFileName(descDirectory);
+		String videoPath = FileKit.getFileTypeDirectory(toDirectory, fileName, ".mp4");
+		VideoFile video = new VideoMP4File(getFfmepgPath());
+		video.setOriginalDirectory(descDirectory);
+		video.setDescDirectory(videoPath);
+		return VideoFileAnalysis.videoProcess(video);
+	}
+	
+	/**
 	 * 将视频压缩成.FLV格式
 	 * @return
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
+	@SuppressWarnings("unused")
 	private VideoFile processFLV(String descDirectory, String toDirectory) throws IOException, InterruptedException{
 		String fileName = FileKit.getFileName(descDirectory);
 		String videoPath = FileKit.getFileTypeDirectory(toDirectory, fileName, ".flv");
-		VideoFLVFile video = new VideoFLVFile(getFfmepgPath());
+		VideoFile video = new VideoFLVFile(getFfmepgPath());
 		video.setOriginalDirectory(descDirectory);
 		video.setDescDirectory(videoPath);
 		return VideoFileAnalysis.videoProcess(video);
@@ -201,34 +236,28 @@ public class FileHandleKit {
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	private VideoFile fileCopy(File file, String directory) throws IOException, InterruptedException{
+	public static VideoFile fileCopy(File file, String directory) throws IOException, InterruptedException{
+		FileHandleKit fileHandleKit = FileHandleKit.getInstance();
 		String originalDirectory = null;
-		boolean isDevMode = isDevMode();
-		if(isDevMode){
+		if(FileKit.isDevMode()){
 			originalDirectory = file.getAbsolutePath();
 		}else{
 			File newFile = FileKit.fileCopy(directory, file);
 			originalDirectory = newFile.getAbsolutePath();
 		}
-		VideoFile video = new VideoFile(getFfmepgPath());
+		VideoFile video = new VideoFile(fileHandleKit.getFfmepgPath());
 		video.setOriginalDirectory(originalDirectory);
 		video.setDescDirectory(originalDirectory);
-		return VideoFileAnalysis.videoProcess(video);
-	}
-	
-	/**
-	 * 是否开发模式
-	 * @return
-	 */
-	private boolean isDevMode(){
-		return JFinal.me().getConstants().getDevMode();
+		
+		VideoFile videoFile = VideoFileAnalysis.videoProcess(video);
+		return videoFile;
 	}
 	
 	/**
 	 * 是否处理视频
 	 * @return
 	 */
-	private boolean isCompressVideo(String fileName){
+	public static boolean isCompressVideo(String fileName){
 		String fileType = fileName.substring(fileName.lastIndexOf("."),fileName.length());
 		if (fileType.matches(".flv|.mp4")) {
 			return false;

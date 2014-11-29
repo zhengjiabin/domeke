@@ -94,6 +94,7 @@ public class VideoFileAnalysis {
 	private VideoFile getVideoFileInfo(String infos,FileInterface fileInstance) throws IOException, InterruptedException {
 		String descDirectory = fileInstance.getDescDirectory();
 		String fileName = FileKit.getFileName(descDirectory);
+		String virtualDirectory = FileKit.getVirtualDirectory(descDirectory);
 		String fileType = FileKit.getFileType(fileName);
 		VideoFile videoFile = analysis.buildVideoFile(infos);
 		
@@ -101,6 +102,8 @@ public class VideoFileAnalysis {
 		videoFile.setFileName(fileName);
 		videoFile.setFileType(fileType);
 		videoFile.setOriginalDirectory(fileInstance.getOriginalDirectory());
+		videoFile.setVirtualDirectory(virtualDirectory);
+		videoFile.setHandled(true);
 		return videoFile;
 	}
 	
@@ -143,9 +146,11 @@ public class VideoFileAnalysis {
 	 * @throws IOException 
 	 * @throws InterruptedException 
 	 */
-	private String process(List<String> commend) throws IOException, InterruptedException{
+	private String process(List<String> command) throws IOException, InterruptedException{
+		logger.info("视频压缩开始");
+		printCommandInfo(command);
 		ProcessBuilder builder = new ProcessBuilder();
-		builder.command(commend);
+		builder.command(command);
 		builder.redirectErrorStream(true);
 		Process p = builder.start();
 
@@ -159,7 +164,22 @@ public class VideoFileAnalysis {
 		}
 
 		p.waitFor();
+		logger.info("视频压缩结束");
 		return sb.toString();
+	}
+	
+	/**
+	 * 
+	 * @param commend
+	 */
+	private void printCommandInfo(List<String> commandList){
+		StringBuffer commands = new StringBuffer();
+		for(String command:commandList){
+			commands.append(" ");
+			commands.append(command);
+			commands.append(" ");
+		}
+		logger.info("压缩指令{}",commands.toString());
 	}
 
 	public Logger getLogger() {

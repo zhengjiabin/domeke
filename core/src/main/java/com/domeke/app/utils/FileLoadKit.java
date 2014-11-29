@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +17,6 @@ import com.domeke.app.file.ImageFile;
 import com.domeke.app.file.VideoFile;
 import com.domeke.app.model.User;
 import com.jfinal.core.Controller;
-import com.jfinal.core.JFinal;
 import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.upload.UploadFile;
@@ -85,12 +82,16 @@ public class FileLoadKit {
 	/**
 	 * 根据虚拟路径删除物理路径对应的文件
 	 */
-	public static void deleteFiles(Controller ctrl, String parentDirectory){
-		FileLoadKit fileUploadKit = FileLoadKit.getInstance();
-		String absoluteDirectory = fileUploadKit.getAbsolutePath(ctrl, parentDirectory);
-		File file = new File(absoluteDirectory);
-		FileKit.delete(file);
+	public static void deleteFiles(String parentDirectory){
+		String descDirectory = getDescDirectory(parentDirectory);
+		File descFile = new File(descDirectory);
+		FileKit.delete(descFile);
+		
+		String tempDirectory = getTempDescDirectory(parentDirectory);
+		File tempFile = new File(tempDirectory);
+		FileKit.delete(tempFile);
 	}
+	
 	
 	/**
 	 * 根据虚拟地址，获取临时文件
@@ -98,13 +99,7 @@ public class FileLoadKit {
 	 * @param virtualDirectory
 	 */
 	public static File getTempFile(String virtualDirectory) {
-		String webRootPath = PathKit.getWebRootPath();
-		int index = virtualDirectory.indexOf(webRootPath);
-		String hostPath = virtualDirectory.substring(0, index);
-		String basePath = FileKit.getDirectory(hostPath, webRootPath);
-		String servPath = virtualDirectory.replaceFirst(basePath, "");
-		FileLoadKit fileLoadKit = FileLoadKit.getInstance();
-		String tempPath = FileKit.getDirectory(fileLoadKit.getBackupsDirectory(), servPath);
+		String tempPath = getTempDescDirectory(virtualDirectory);
 		if (StrKit.isBlank(tempPath)) {
 			return null;
 		}
@@ -113,13 +108,35 @@ public class FileLoadKit {
 	}
 	
 	/**
+	 * 根据虚拟路径，获取临时物理路径
+	 * @param virtualDirectory
+	 * @return
+	 */
+	public static String getTempDescDirectory(String virtualDirectory){
+		FileLoadKit fileLoadKit = FileLoadKit.getInstance();
+		String servPath = FileKit.getServPath(virtualDirectory);
+		String descPath = FileKit.getDirectory(fileLoadKit.getBackupsDirectory(), servPath);
+		return descPath;
+	}
+
+	/**
+	 * 根据虚拟路径，获取物理路径
+	 */
+	public static String getDescDirectory(String virtualDirectory){
+		FileLoadKit fileLoadKit = FileLoadKit.getInstance();
+		String servPath = FileKit.getServPath(virtualDirectory);
+		String descPath = FileKit.getDirectory(fileLoadKit.getBaseDirectory(), servPath);
+		return descPath;
+	}
+	
+	/**
 	 * 根据虚拟路径获取子文件的物理路径
 	 * @param ctrl
 	 * @param parentDirectory
 	 * @return 
 	 */
-	public static String getFileDescDirectory(Controller ctrl, String parentDirectory){
-		Map<String, String> paths = getFilesDescDirectory(ctrl, parentDirectory);
+	public static String getFileDescDirectory(String parentDirectory){
+		Map<String, String> paths = getFilesDescDirectory(parentDirectory);
 		if(MapKit.isBlank(paths)){
 			return null;
 		}
@@ -132,9 +149,9 @@ public class FileLoadKit {
 	 * @param parentDirectory 虚拟路径
 	 * @return 子文件的物理路径
 	 */
-	public static Map<String, String> getFilesDescDirectory(Controller ctrl, String parentDirectory){
+	public static Map<String, String> getFilesDescDirectory(String parentDirectory){
 		FileLoadKit fileUploadKit = FileLoadKit.getInstance();
-		String absoluteDirectory = fileUploadKit.getAbsolutePath(ctrl, parentDirectory);
+		String absoluteDirectory = getDescDirectory(parentDirectory);
 		Map<String, String> paths = fileUploadKit.getFilesDescDirectory(absoluteDirectory, parentDirectory);
 		return paths;
 	}
@@ -146,8 +163,8 @@ public class FileLoadKit {
 	 * @param parentDirectory 父级虚拟路径
 	 * @return
 	 */
-	public static String getFileVirtualDirectory(Controller ctrl, String parentDirectory){
-		List<String> paths = getFilesVirtualDirectory(ctrl, parentDirectory);
+	public static String getFileVirtualDirectory(String parentDirectory){
+		List<String> paths = getFilesVirtualDirectory(parentDirectory);
 		if(CollectionKit.isBlank(paths)){
 			return null;
 		}
@@ -160,9 +177,9 @@ public class FileLoadKit {
 	 * @param parentDirectory 父级虚拟路径
 	 * @return
 	 */
-	public static List<String> getFilesVirtualDirectory(Controller ctrl, String parentDirectory){
+	public static List<String> getFilesVirtualDirectory(String parentDirectory){
 		FileLoadKit fileUploadKit = FileLoadKit.getInstance();
-		String absoluteDirectory = fileUploadKit.getAbsolutePath(ctrl, parentDirectory);
+		String absoluteDirectory = fileUploadKit.getAbsolutePath(parentDirectory);
 		List<String> paths = fileUploadKit.getFilesVirtualDirectory(absoluteDirectory, parentDirectory);
 		return paths;
 	}
@@ -240,7 +257,7 @@ public class FileLoadKit {
 				FileKit.delete(file);
 				continue;
 			}
-			virtualPaths = fileUploadKit.handleImg(file, discDirectory, serverDirectory, ctrl);
+			virtualPaths = fileUploadKit.handleImg(file, discDirectory, serverDirectory);
 			parameterName = uploadFile.getParameterName();
 			
 			filePaths = fileDirectory.get(parameterName);
@@ -343,7 +360,7 @@ public class FileLoadKit {
 				FileKit.delete(file);
 				continue;
 			}
-			virtualPaths = fileUploadKit.handleVideo(file, discDirectory, serverDirectory, ctrl);
+			virtualPaths = fileUploadKit.handleVideo(file, discDirectory, serverDirectory);
 			parameterName = uploadFile.getParameterName();
 			
 			filePaths = fileDirectory.get(parameterName);
@@ -438,20 +455,20 @@ public class FileLoadKit {
 	 * 处理临时图片
 	 * @return
 	 */
-	private Map<String,ImageFile> handleImg(File tempFile, String discDirectory, String serverDirectory, Controller ctrl){
+	private Map<String,ImageFile> handleImg(File tempFile, String discDirectory, String serverDirectory){
 		ImageFile imageFile = null;
-		boolean isDevMode = isDevMode();
-		if(isDevMode){
+		if(FileKit.isDevMode()){
 			imageFile = buildImageFile(tempFile);
 		}else{
 			File newFile = FileKit.fileCopy(discDirectory ,tempFile);
 			imageFile = buildImageFile(newFile);
 		}
 		imageFile.setOriginalDirectory(tempFile.getAbsolutePath());
-		String fileName = imageFile.getFileName();
-		String virtualPath = getVirtualDirectory(serverDirectory, fileName, ctrl);
+		String virtualPath = FileKit.getVirtualDirectory(imageFile.getDescDirectory());
 		imageFile.setVirtualDirectory(virtualPath);
+		
 		Map<String,ImageFile> imageFiles = new HashMap<String,ImageFile>();
+		String fileName = imageFile.getFileName();
 		imageFiles.put(fileName, imageFile);
 		return imageFiles;
 	}
@@ -462,12 +479,9 @@ public class FileLoadKit {
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	private Map<String,VideoFile> handleVideo(File tempFile, String discDirectory, String serverDirectory, Controller ctrl) throws IOException, InterruptedException{
-		VideoFile videoFile = buildVideoFile(tempFile);
-		videoFile.setOriginalDirectory(tempFile.getAbsolutePath());
+	private Map<String,VideoFile> handleVideo(File tempFile, String discDirectory, String serverDirectory) throws IOException, InterruptedException{
+		VideoFile videoFile = buildVideoFile(tempFile, discDirectory, serverDirectory);
 		String fileName = videoFile.getFileName();
-		String virtualDirectory = getVirtualDirectory(serverDirectory, fileName, ctrl);
-		videoFile.setVirtualDirectory(virtualDirectory);
 		Map<String,VideoFile> videoPaths = new HashMap<String,VideoFile>();
 		videoPaths.put(fileName, videoFile);
 		return videoPaths;
@@ -477,17 +491,17 @@ public class FileLoadKit {
 	 * 处理（非图片、视频）文件
 	 * @return
 	 */
-	private Map<String, FileInterface> handleFile(File tempFile, String discDirectory, String serverDirectory, Controller ctrl){
+	private Map<String, FileInterface> handleFile(File tempFile, String discDirectory, String serverDirectory){
 		FileInterface fileInstance = null;
-		boolean isDevMode = isDevMode();
-		if(!isDevMode){
+		if(!FileKit.isDevMode()){
 			File newFile = FileKit.fileCopy(discDirectory ,tempFile);
 			fileInstance = buildFileInstance(newFile);
 		}
-		String fileName = fileInstance.getFileName();
-		String virtualPath = getVirtualDirectory(serverDirectory, fileName, ctrl);
+		String virtualPath = FileKit.getVirtualDirectory(fileInstance.getDescDirectory());
 		fileInstance.setVirtualDirectory(virtualPath);
+		
 		Map<String, FileInterface> virtualPaths = new HashMap<String, FileInterface>();
+		String fileName = fileInstance.getFileName();
 		virtualPaths.put(fileName, fileInstance);
 		return virtualPaths;
 	}
@@ -501,20 +515,19 @@ public class FileLoadKit {
 		Map<String, FileInterface> virtualPaths = new HashMap<String, FileInterface>();
 		String fileName = tempFile.getName();
 		String serverDirectory = getServerDirectoryAuto(fileName, saveFolderName, ctrl);
-		boolean isDevMode = isDevMode();
-		if(isDevMode){
+		if(FileKit.isDevMode()){
 			String fileDirectory = getFileDirectory();
 			serverDirectory = getServerDirectory(fileDirectory, saveFolderName, ctrl);
 		}
 		String discDirectory = getDiscDirectory(serverDirectory);
 		if(FileKit.isImage(fileName)){
-			Map<String, ImageFile> imagePath = handleImg(tempFile, discDirectory, serverDirectory, ctrl);
+			Map<String, ImageFile> imagePath = handleImg(tempFile, discDirectory, serverDirectory);
 			virtualPaths.putAll(imagePath);
 		}else if(FileKit.isVideo(fileName)){
-			Map<String, VideoFile> videoPaths = handleVideo(tempFile, discDirectory, serverDirectory, ctrl);
+			Map<String, VideoFile> videoPaths = handleVideo(tempFile, discDirectory, serverDirectory);
 			virtualPaths.putAll(videoPaths);
 		}else{
-			Map<String, FileInterface> filePath = handleFile(tempFile, discDirectory, serverDirectory, ctrl);
+			Map<String, FileInterface> filePath = handleFile(tempFile, discDirectory, serverDirectory);
 			virtualPaths.putAll(filePath);
 		}
 		return virtualPaths;
@@ -549,32 +562,27 @@ public class FileLoadKit {
 	/**
 	 * 初始化视频信息
 	 * @return
+	 * @throws InterruptedException 
+	 * @throws IOException 
 	 */
-	private VideoFile buildVideoFile(File file){
+	private VideoFile buildVideoFile(File file, String discDirectory, String serverDirectory) throws IOException, InterruptedException{
 		String fileName = file.getName();
-		VideoFile videoFile = new VideoFile();
-		videoFile.setFileName(fileName);
-		videoFile.setFileType(FileKit.getFileType(fileName));
-		videoFile.setDescDirectory(file.getAbsolutePath());
+		boolean isCompressVideo = FileHandleKit.isCompressVideo(fileName);
+		
+		VideoFile videoFile = null;
+		if(isCompressVideo || FileKit.isDevMode()){
+			videoFile = FileHandleKit.fileCopy(file, discDirectory);
+		}else{
+			videoFile = new VideoFile();
+			String originalDirectory = file.getAbsolutePath();
+			videoFile.setFileName(fileName);
+			videoFile.setFileType(FileKit.getFileType(fileName));
+			videoFile.setDescDirectory(originalDirectory);
+			videoFile.setOriginalDirectory(originalDirectory);
+			String virtualDirectory = FileKit.getVirtualDirectory(originalDirectory);
+			videoFile.setVirtualDirectory(virtualDirectory);
+		}
 		return videoFile;
-	}
-	
-	/**
-	 * 设置图片的虚拟地址
-	 * @param imageFiles 图片集合
-	 * @param serverDirectory 服务器相对地址
-	 * @param ctrl 控制器
-	 */
-	private void setImagesVirtualDirectory(List<ImageFile> imageFiles,String serverDirectory, Controller ctrl){
-		if(CollectionKit.isBlank(imageFiles)){
-			return;
-		}
-		String fileName = null,virtualDirectory = null;
-		for(ImageFile imageFile:imageFiles){
-			fileName = imageFile.getFileName();
-			virtualDirectory = getVirtualDirectory(serverDirectory, fileName, ctrl);
-			imageFile.setVirtualDirectory(virtualDirectory);
-		}
 	}
 	
 	/**
@@ -640,12 +648,10 @@ public class FileLoadKit {
 	 * 获取父级的物理路径
 	 * @return
 	 */
-	private String getAbsolutePath(Controller ctrl, String parentDirectory){
-		String basPath = getBasePath(ctrl.getRequest());
-		String serverDirectory = parentDirectory.replaceFirst(basPath, "");
+	private String getAbsolutePath(String parentDirectory){
+		String serverDirectory = FileKit.getServPath(parentDirectory);
 		String absolutePath = null;
-		boolean isDevMode = isDevMode();
-		if(isDevMode){
+		if(FileKit.isDevMode()){
 			String serverAbsolutePath = PathKit.getWebRootPath();
 			absolutePath = getDirectory(serverAbsolutePath, serverDirectory);
 		}else{
@@ -690,21 +696,11 @@ public class FileLoadKit {
 	}
 	
 	/**
-	 * 获取虚拟上传路径
-	 */
-	private String getVirtualDirectory(String directory, String fileName, Controller ctrl){
-		String basePath = getBasePath(ctrl.getRequest());
-		directory = getDirectory(basePath, directory);
-		directory = getDirectory(directory, fileName);
-		return directory;
-	}
-	
-	/**
 	 * 获取临时上传路径
 	 */
 	private String getTempDirectory(String directory){
 		//开发模式下，本地服务器作为临时根目录
-		if(!isDevMode()){
+		if(!FileKit.isDevMode()){
 			String baseDirectory = getBackupsDirectory();
 			directory = getDirectory(baseDirectory, directory);
 		}
@@ -767,19 +763,6 @@ public class FileLoadKit {
 		}
 		return directory + saveFolderName;
 	}
-	
-	/**
-	 * 获取浏览地址根路径
-	 * @param request
-	 * @return
-	 */
-	private String getBasePath(HttpServletRequest request){
-		StringBuffer url = request.getRequestURL();
-		String uri = request.getRequestURI();
-		String basePath = StrKit.replace(url.toString(), uri, "");
-		basePath = basePath + request.getContextPath();
-		return basePath;
-	}
 
 	/**
 	 * 初始化进度条
@@ -802,14 +785,6 @@ public class FileLoadKit {
 				FilePart.progresss.remove();
 			}
 		});
-	}
-	
-	/**
-	 * 是否开发模式
-	 * @return
-	 */
-	private boolean isDevMode(){
-		return JFinal.me().getConstants().getDevMode();
 	}
 
 	private void setLogger(Logger logger) {

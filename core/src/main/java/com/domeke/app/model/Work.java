@@ -15,11 +15,23 @@ import com.jfinal.plugin.activerecord.Page;
  */
 @TableBind(tableName = "work", pkName = "workid")
 public class Work extends Model<Work> {
+	
+	public static Work dao = new Work();
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7086461795232488629L;
+	
+	/**
+	 * 获取未压缩视频
+	 * @return 
+	 */
+	public List<Work> getWorkNotHandled() {
+		String sql = "select * from work where status='10' order by createtime ";
+		List<Work> workList = this.find(sql);
+		return workList;
+	}
 
 	/**
 	 * 获取所有审核过的 和公开的视频

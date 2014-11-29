@@ -4,6 +4,9 @@ import java.util.List;
 
 public abstract class FileInterface {
 	
+	/** 是否处理过文件 */
+	private boolean isHandled = false;
+	
 	/** 压缩工具 */
 	private String processPath;
 	
@@ -95,6 +98,23 @@ public abstract class FileInterface {
 	public void setOriginalDirectory(String originalDirectory) {
 		this.originalDirectory = originalDirectory;
 	}
+	
+	
+	/**
+	 * 设置是否处理过文件
+	 * @return
+	 */
+	public boolean isHandled() {
+		return isHandled;
+	}
+
+	/**
+	 * 获取是否处理过文件
+	 * @param isHandled
+	 */
+	public void setHandled(boolean isHandled) {
+		this.isHandled = isHandled;
+	}
 
 	/**
 	 * 获取压缩工具
@@ -111,6 +131,4 @@ public abstract class FileInterface {
 	protected void setProcessPath(String processPath) {
 		this.processPath = processPath;
 	}
-	
-	
 }

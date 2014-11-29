@@ -78,12 +78,15 @@ public class ImageFileAnalysis {
 		String descDirectory = fileInstance.getDescDirectory();
 		String fileName = FileKit.getFileName(descDirectory);
 		String fileType = FileKit.getFileType(fileName);
+		String virtualDirectory = FileKit.getVirtualDirectory(descDirectory);
 		ImageFile imageFile = analysis.buildImageFile(infos);
 		
 		imageFile.setDescDirectory(descDirectory);
 		imageFile.setFileName(fileName);
 		imageFile.setFileType(fileType);
 		imageFile.setOriginalDirectory(fileInstance.getOriginalDirectory());
+		imageFile.setVirtualDirectory(virtualDirectory);
+		imageFile.setHandled(true);
 		return imageFile;
 	}
 	
@@ -113,6 +116,8 @@ public class ImageFileAnalysis {
 	 * @throws InterruptedException
 	 */
 	private String process(List<String> commend) throws IOException, InterruptedException{
+		logger.info("图片压缩开始");
+		printCommandInfo(commend);
 		ProcessBuilder builder = new ProcessBuilder();
 		builder.command(commend);
 		builder.redirectErrorStream(true);
@@ -128,7 +133,22 @@ public class ImageFileAnalysis {
 		}
 
 		p.waitFor();
+		logger.info("图片压缩结束");
 		return sb.toString();
+	}
+	
+	/**
+	 * 
+	 * @param commend
+	 */
+	private void printCommandInfo(List<String> commandList){
+		StringBuffer commands = new StringBuffer();
+		for(String command:commandList){
+			commands.append(" ");
+			commands.append(command);
+			commands.append(" ");
+		}
+		logger.info("压缩指令{}",commands.toString());
 	}
 
 	private Logger getLogger() {
