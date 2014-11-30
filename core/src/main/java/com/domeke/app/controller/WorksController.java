@@ -1345,6 +1345,7 @@ public class WorksController extends Controller {
 			fav.set("cartoon_name", worksdel.getStr("worksname"));
 			fav.set("section_id", workid);
 			fav.set("section_name", worodel.getStr("workname"));
+			fav.set("comic", worodel.getStr("comic"));
 			fav.save();
 		}
 		renderJson("success", 1);
