@@ -39,8 +39,8 @@ public class VideoMP4File extends VideoFile {
 		command.add("30");
 		command.add("-threads");
 		command.add("0");
-		command.add("-q");
-		command.add("v");
+		command.add("-qscale");
+		command.add("6");
 		command.add("-y");
 		command.add(getDescDirectory());
 
