@@ -18,25 +18,28 @@ public class VideoMP4File extends VideoFile {
 	public List<String> getProcessCommend() {
 		List<String> command = Lists.newArrayList();
 		command.add(getProcessPath());
-		command.add(" -i ");
+		command.add("-i");
 		command.add(getOriginalDirectory());
 		// 音频码率 32 64 96 128
-		// command.add(" --acodec libfaac");
-		// 使用codec编解码
-		command.add(" -ab 128k");
-		command.add(" -ac 2");
-		// -ac channels 设置通道,缺省为1
-		command.add(" -vcodec libx264");
-		// -ar freq 设置音频采样率
-		command.add(" -ar 22050");
+		command.add("-ab");
+		command.add("64");
+		// 设置声道数,缺省为1
+		command.add("-ac");
+		command.add("2");
+		// 设置音频采样率
+		command.add("-ar");
+		command.add("22050");
 		// -b bitrate 设置比特率,缺省200kb/s
-		command.add(" -crf 22");
-		// -r fps 设置帧频,缺省25
-		command.add(" -r 30");
-		// -qscale 6或4 使用动态码率来设置
-		command.add(" -threads 0 ");
-		command.add(" -qscale 6");
-		command.add(" -y ");
+		command.add("-b");
+		command.add("250");
+		// 设置帧频,缺省25
+		command.add("-r");
+		command.add("30");
+		// 指定转换的质量 6 4
+		command.add("-qscale");
+		command.add("6");
+		// 指定将覆盖已存在的文件
+		command.add("-y");
 		command.add(getDescDirectory());
 
 		return command;

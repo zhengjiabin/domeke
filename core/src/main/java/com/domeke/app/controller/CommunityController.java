@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.domeke.app.Schedule.WorkSchedule;
 import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Community;
 import com.domeke.app.model.User;
@@ -23,13 +24,15 @@ public class CommunityController extends Controller {
 	 * 请求 ./community
 	 */
 	public void index() {
-		setCommunityFatList();
-		setCommunitySonList();
-		setForumCount();
-		setVentWall();
-		setPublishNumber();
-		
-		render("/community/community.html");
+//		setCommunityFatList();
+//		setCommunitySonList();
+//		setForumCount();
+//		setVentWall();
+//		setPublishNumber();
+//		
+//		render("/community/community.html");
+		WorkSchedule schedule = new WorkSchedule();
+		schedule.handleProcess();
 	}
 	
 	/**
