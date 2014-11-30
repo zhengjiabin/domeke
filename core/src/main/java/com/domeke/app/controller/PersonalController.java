@@ -1,6 +1,5 @@
 package com.domeke.app.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -211,15 +210,6 @@ public class PersonalController extends  FilesLoadController{
 			int pageNumber = getParaToInt("pageNumber", 1);
 			int pageSize = getParaToInt("pageSize", 10);
 			Page<Favourite> favPage = fav.getFavouriteByUid(userid, pageNumber, pageSize);
-			List<Favourite> favlist = favPage.getList();
-			Map<String,Object> param = new HashMap<String, Object>();
-			if(favlist.size()>0){
-				for(Favourite fav1:favlist){
-					String workid = fav1.getStr("section_id");
-					work = work.findById(workid);  
-				}
-			}
-			
 			setAttr("favPage", favPage);
 		}
 	}
