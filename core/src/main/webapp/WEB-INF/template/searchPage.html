@@ -2,10 +2,22 @@
 	<% 
 		for (worksvo in worksVOPage.list){ 
 	%>
-	   <div class="CartoonSub"> 
-	       <a href="cartoon/showDetail?id=${worksvo.id!}"><img src="${worksvo.cover!}"></a>
-	       <div class="CartoonName">${worksvo.worksname!}</div>
-	   </div>
+	<section>
+		<div class="CartoonContent">
+			<div class="CartoonSub">
+				<a href="cartoon/showDetail?id=${worksvo.id!}" style="display: block;"> 
+					<img src="${worksvo.cover!}">
+					<div class="CartoonName">
+						<a href="cartoon/showDetail?id=${worksvo.id!}">${worksvo.worksname!}</a>
+					</div>
+				</a>
+				<div class="CartoonInfo">
+					<span class="FloatL">${worksvo.pageviews!}</span> <span
+						class="FloatR">${worksvo.comment!}</span>
+				</div>
+			</div>
+		</div>
+	</section>
    <% } %>
 </div> 
 <% if(has(worksVOPage)){
