@@ -73,9 +73,9 @@ public class CartoonController extends Controller {
 		List<Map<String, Object>> workss5 = Lists.newArrayList();
 		workss5 = ParseDemoKit.worksParse(workss5temp);
 		
-		List<Works> worksList = Lists.newArrayList();
 		// 用于显示“大家都爱看”列表
-		worksList = worksModel.getlastWeekByPageViewsLimit(5);
+		List<Map<String, Object>> worksList = ParseDemoKit.worksParse(worksModel.getlastWeekByPageViewsLimit(5));
+		
 		setAttr("olikeWorksList", worksList);
 		setAttr("menuid", menuid);
 		setAttr("workstype", typeMap);

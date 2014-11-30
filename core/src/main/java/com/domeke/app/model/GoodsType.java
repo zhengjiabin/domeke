@@ -148,6 +148,9 @@ public class GoodsType extends Model<GoodsType> {
 		while (true) {
 			GoodsType gt = this.findById(goodsTypeId);
 			goodsTypeList.add(gt);
+			if(gt == null){
+				break;
+			}
 			goodsTypeId = String.valueOf(gt.get("parenttypeid"));
 			if ("null".equals(goodsTypeId) || "".equals(goodsTypeId) || goodsTypeId == null) {
 				break;

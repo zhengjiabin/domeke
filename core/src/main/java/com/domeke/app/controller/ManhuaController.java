@@ -39,11 +39,24 @@ public class ManhuaController extends Controller {
 	@Before(ActionInterceptor.class)
 	public void playVideo() {
 		Works worksModel = getModel(Works.class);
-		Integer worksid = getParaToInt("id");
+		
+		Object worksid = null;
+		Object workid = null;
+		
+		
+		worksid = getAttr("id");
+		if(worksid == null){
+			worksid = getParaToInt("id");
+		}
+		workid = getAttr("gid");
+		if(workid == null){
+			workid = getParaToInt("gid");
+		}
+		
 		worksModel = worksModel.findById(worksid);
 		this.setAttr("works", worksModel);
 		Work workModel = getModel(Work.class);
-		Integer workid = getParaToInt("gid");
+		
 		Work workData = null;
 		
 		// 如果没有传动漫作品集数的ID则取第一集播放
@@ -68,7 +81,9 @@ public class ManhuaController extends Controller {
 			String state = getPara("state");
 			if(StrKit.isBlank(worksid) || StrKit.isBlank(worknum) || StrKit.isBlank(state)){
 				workModel = workModel.findById(workid);
-				forwardAction("manhua/playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid"));
+				setAttr("id", String.valueOf(workModel.get("worksid")));
+				setAttr("gid", String.valueOf(workModel.get("workid")));
+				playVideo();
 				return;
 			}
 			if("0".equals(state)){
@@ -77,16 +92,17 @@ public class ManhuaController extends Controller {
 			if("1".equals(state)){
 				workModel = workModel.getDownWork(worksid, worknum);
 			}
-			if(!workModel.isNotEmpty()){
-				workModel = workModel.findById(workid);
-				forwardAction("manhua/playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid"));
+			if(workModel == null || !workModel.isNotEmpty()){
+				workModel = getModel(Work.class).findById(workid);
+				setAttr("id", String.valueOf(workModel.get("worksid")));
+				setAttr("gid", String.valueOf(workModel.get("workid")));
+				playVideo();
 				return;
 			}
-			History historyModel = getModel(History.class);
-			historyModel.saveOrUpdateHitory(workModel);
-			this.setAttr("work", workModel);
-			String url = "playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid");
-			forwardAction(url);
+			setAttr("id", String.valueOf(workModel.get("worksid")));
+			setAttr("gid", String.valueOf(workModel.get("workid")));
+			playVideo();
+			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -123,7 +123,8 @@ public class Work extends Model<Work> {
 		return nums;
 	}
 	public Work getUpWork(Object worksid,Object worknum){
-		Work workModel = this.findFirst("select * from work where worksid = ? and worknum < ? order by worknum desc limit 1",worksid,worknum);
+		String sql = "select * from work where worksid = ? and worknum < ? order by worknum desc limit 1";
+		Work workModel = this.findFirst(sql,worksid,worknum);
 		return workModel;
 	}
 	public Work getDownWork(Object worksid,Object worknum){
