@@ -384,6 +384,7 @@ CREATE TABLE `favourite` (
   `cartoon_id` varchar(50) DEFAULT NULL,
   `section_name` varchar(50) DEFAULT NULL COMMENT '章节名称',
   `section_id` varchar(50) DEFAULT NULL COMMENT '章节id',
+  `comic` varchar(200) DEFAULT NULL COMMENT '视频地址',
   `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `creater` varchar(50) DEFAULT NULL,
   `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
