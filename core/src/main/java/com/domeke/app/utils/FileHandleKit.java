@@ -311,7 +311,7 @@ public class FileHandleKit {
 	 */
 	private boolean isCompressVideo(String fileName){
 		String fileType = fileName.substring(fileName.lastIndexOf("."),fileName.length());
-		if (fileType.matches(".flv|.mp4")) {
+		if (fileType.matches(".mp4")) {
 			return false;
 		}
 		return true;
