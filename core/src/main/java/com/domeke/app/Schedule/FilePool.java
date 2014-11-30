@@ -23,7 +23,10 @@ public class FilePool<T> extends Pool<String>{
 			return;
 		}
 		File file = FileLoadKit.getTempFile(virtualDirectory);
-		String descDirectory = FileLoadKit.getDescDirectory(virtualDirectory);
+		if(!file.exists() || !file.isFile()){
+			return;
+		}
+		String descDirectory = FileKit.getDescDirectory(virtualDirectory);
 		String toDirectory = FileKit.getParentDirectory(descDirectory);
 		try {
 			Map<String, FileInterface> data = FileHandleKit.compressFile(file, toDirectory);

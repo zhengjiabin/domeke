@@ -13,6 +13,18 @@ import com.jfinal.kit.StrKit;
 
 public class FileKit {
 	
+	private static String basePath = "";
+	private static String backupsPath = "";
+	private static String serverPath = "";
+	private static String localServerPath = "";
+	
+	static{
+		basePath = PropKit.getString("basePath");
+		backupsPath = PropKit.getString("backupsPath");
+		serverPath = PropKit.getString("serverPath");
+		localServerPath = PropKit.getString("localServerPath");
+	}
+	
 	/**
 	 * 删除文件及子文件
 	 * @param file
@@ -129,7 +141,6 @@ public class FileKit {
 			int index = descDirectory.indexOf(webPath);
 			descDirectory = descDirectory.substring(index + webPath.length(), descDirectory.length());
 		}else{
-			String basePath = PropKit.getString("basePath");
 			int index = descDirectory.indexOf(basePath);
 			descDirectory = descDirectory.substring(index + basePath.length(), descDirectory.length());
 		}
@@ -137,10 +148,42 @@ public class FileKit {
 	}
 	
 	/**
+	 * 根据文件的虚拟路径获取文件的临时物理路径
+	 * @param virtualDirectory 虚拟路径
+	 * @return 临时物理路径
+	 */
+	public static String getTempDirectory(String virtualDirectory){
+		String servPath = getServPath(virtualDirectory);
+		String backupsDirectory = backupsPath;
+		if(isDevMode()){
+			backupsDirectory = PathKit.getWebRootPath();
+		}
+		String tempDirectory = getDirectory(backupsDirectory, servPath);
+		return tempDirectory;
+	}
+	
+
+	/**
+	 * 根据虚拟路径，获取物理路径
+	 * @param 虚拟路径
+	 * @return 物理路径
+	 */
+	public static String getDescDirectory(String virtualDirectory){
+		String servPath = getServPath(virtualDirectory);
+		String baseDirectory = basePath;
+		if(isDevMode()){
+			baseDirectory = PathKit.getWebRootPath();
+		}
+		String descPath = FileKit.getDirectory(baseDirectory, servPath);
+		return descPath;
+	}
+	
+	/**
 	 * 获取服务器的相对路径
 	 * @param 虚拟路径
 	 */
 	public static String getServPath(String virtualDirectory){
+		virtualDirectory = getDirectory(virtualDirectory, "");
 		String basePath = getServBasePath();
 		int index = virtualDirectory.indexOf(basePath);
 		String servPath = virtualDirectory.substring(index + basePath.length(), virtualDirectory.length());
@@ -154,9 +197,9 @@ public class FileKit {
 	 */
 	public static String getServBasePath(){
 		if(isDevMode()){
-			return PropKit.getString("localServerPath");
+			return localServerPath;
 		}else{
-			return PropKit.getString("serverPath");
+			return serverPath;
 		}
 	}
 

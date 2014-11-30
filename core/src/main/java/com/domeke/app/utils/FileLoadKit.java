@@ -83,11 +83,11 @@ public class FileLoadKit {
 	 * 根据虚拟路径删除物理路径对应的文件
 	 */
 	public static void deleteFiles(String parentDirectory){
-		String descDirectory = getDescDirectory(parentDirectory);
+		String descDirectory = FileKit.getDescDirectory(parentDirectory);
 		File descFile = new File(descDirectory);
 		FileKit.delete(descFile);
 		
-		String tempDirectory = getTempDescDirectory(parentDirectory);
+		String tempDirectory = FileKit.getTempDirectory(parentDirectory);
 		File tempFile = new File(tempDirectory);
 		FileKit.delete(tempFile);
 	}
@@ -99,35 +99,14 @@ public class FileLoadKit {
 	 * @param virtualDirectory
 	 */
 	public static File getTempFile(String virtualDirectory) {
-		String tempPath = getTempDescDirectory(virtualDirectory);
+		String tempPath = FileKit.getTempDirectory(virtualDirectory);
 		if (StrKit.isBlank(tempPath)) {
 			return null;
 		}
 		File file = new File(tempPath);
 		return file;
 	}
-	
-	/**
-	 * 根据虚拟路径，获取临时物理路径
-	 * @param virtualDirectory
-	 * @return
-	 */
-	public static String getTempDescDirectory(String virtualDirectory){
-		FileLoadKit fileLoadKit = FileLoadKit.getInstance();
-		String servPath = FileKit.getServPath(virtualDirectory);
-		String descPath = FileKit.getDirectory(fileLoadKit.getBackupsDirectory(), servPath);
-		return descPath;
-	}
 
-	/**
-	 * 根据虚拟路径，获取物理路径
-	 */
-	public static String getDescDirectory(String virtualDirectory){
-		FileLoadKit fileLoadKit = FileLoadKit.getInstance();
-		String servPath = FileKit.getServPath(virtualDirectory);
-		String descPath = FileKit.getDirectory(fileLoadKit.getBaseDirectory(), servPath);
-		return descPath;
-	}
 	
 	/**
 	 * 根据虚拟路径获取子文件的物理路径
@@ -151,7 +130,7 @@ public class FileLoadKit {
 	 */
 	public static Map<String, String> getFilesDescDirectory(String parentDirectory){
 		FileLoadKit fileUploadKit = FileLoadKit.getInstance();
-		String absoluteDirectory = getDescDirectory(parentDirectory);
+		String absoluteDirectory = FileKit.getDescDirectory(parentDirectory);
 		Map<String, String> paths = fileUploadKit.getFilesDescDirectory(absoluteDirectory, parentDirectory);
 		return paths;
 	}
