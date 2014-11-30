@@ -47,12 +47,11 @@ public class WorkSchedule {
 			work.set("comic", virtualDirectory);
 			
 			imageList = videoFile.getImageFiles();
-			if(CollectionKit.isBlank(imageList)){
-				continue;
+			if(CollectionKit.isNotBlank(imageList)){
+				imageFile = imageList.get(0);
+				imgVirtualDirectory = imageFile.getVirtualDirectory();
+				work.set("cover", imgVirtualDirectory);
 			}
-			imageFile = imageList.get(0);
-			imgVirtualDirectory = imageFile.getVirtualDirectory();
-			work.set("cover", imgVirtualDirectory);
 			
 			work.update();
 		}

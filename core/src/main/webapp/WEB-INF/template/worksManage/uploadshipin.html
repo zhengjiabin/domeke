@@ -1,4 +1,6 @@
 <script type="text/javascript">
+	var ext = '';
+	var bool = false;
 	$(document).ready(function(){
 		var bar = $('.bar');
 		var percent = $('.percent');
@@ -12,6 +14,20 @@
 		});
 
 		$('#uploadshipin').submit(function(){
+			var imglimit = new Array('.JPG', '.BMP', '.PNG','.JPEG');
+			var videolimit = new Array('.FLV', '.MP4', '.AVI','.MOV','.ASF','.WMV','.NAVI','.3GP','.MKV','.F4V','.FLV');
+			var filePath = $(':input[type=file]').val();
+			var start = filePath.lastIndexOf(".");
+			ext = filePath.substring(start,filePath.length).toUpperCase();
+			$.each(videolimit,function(key,value){
+				if(value == ext){
+					bool = true;
+				}
+			});
+			if(!bool){
+				alert('上传文件类型错误');
+				return false;
+			}
 			$('button[type=submit]',this).attr('disabled',true);
 			$(this).ajaxSubmit({
 				beforeSend: function() {
