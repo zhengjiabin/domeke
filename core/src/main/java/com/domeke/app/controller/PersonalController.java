@@ -223,6 +223,33 @@ public class PersonalController extends  FilesLoadController{
 		down.deleteById(downId);
 		renderPersonal(menuId);	
 	}
+	
+	/**
+	 * 加载动画收藏 跳转动画收藏
+	 * @param menuId
+	 */
+	public void renderPersonalFav(String menuId){
+		User user = getSessionAttr("user");
+		Long userId = user.getLong("userid");
+		setAttr("userId", userId);
+		setAttr("menuId", menuId);
+		setAttr("menuid", "1");
+		uploadMsg(menuId);
+		myFavourite(menuId);
+		render("/personalCenter.html");
+	}
+	
+	/**
+	 * 删除动画
+	 */
+	public void deleteFav(){
+		String favid = getPara("favid");
+		int favouriteid = Integer.valueOf(favid).intValue();
+		Favourite.favouriteDao.deleteFavourite(favouriteid);
+		String menuId = getPara("menuId");
+		renderPersonalFav(menuId);	
+	}
+	
 	/**
 	 * 加载我的播放记录
 	 */
