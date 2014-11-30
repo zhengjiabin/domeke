@@ -11,7 +11,7 @@
 	     	  <tr>
                 <th>用户头像：</th>
                 <td>
-              	<div id="preview">
+              	<div class="CartoonHead" id="preview">
               	<img src="${user.imgurl!}">
               	</div>
         		<input id="fileImage" type="file" size="30" name="imgurl" onchange="onShowImgChange(this)" required="required" /><span class='font_r' style="color: red"> *</span><br>
@@ -27,7 +27,7 @@
               </tr>
               <tr>
                 <th>性别：</th>
-                <td><input name="user.sex" type="radio" value="0">男&nbsp;&nbsp;&nbsp;&nbsp;<input name="user.sex" type="radio" value="1">女</td>
+                <td><input name="user.sex" type="radio" value="0" >男&nbsp;&nbsp;&nbsp;&nbsp;<input name="user.sex" type="radio" value="1">女</td>
               </tr>
              <tr>
                 <th>年龄：</th>
