@@ -6,7 +6,6 @@
 
 	<!-- 控制台标准输出 -->
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<pattern>${PATTERNINFO}</pattern>
 		</encoder>
@@ -84,7 +83,7 @@
 
 
 	<root>
-		<level value="INFO" />
+		<level value="DEBUG" />
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="WARNFILE" />
 		<appender-ref ref="INFOFILE" />
