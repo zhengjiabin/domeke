@@ -5,6 +5,8 @@ import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -17,6 +19,8 @@ import com.domeke.app.utils.PropKit;
 import freemarker.template.Template;
 
 public class DomekeMaiSenderImpl implements DomekeMailSender {
+
+	private Logger logger = LoggerFactory.getLogger(DomekeMaiSenderImpl.class);
 
 	@Autowired
 	private JavaMailSender javaMailSender;
@@ -31,8 +35,18 @@ public class DomekeMaiSenderImpl implements DomekeMailSender {
 		try {
 			helper.setFrom(from);
 			helper.setTo(to);
-			helper.setSubject(getMailText(template, params, 0));
-			helper.setText(getMailText(template, params, 1), true);
+			String subject = getMailText(template, params, 0);
+			helper.setSubject(subject);
+			String text = getMailText(template, params, 1);
+			helper.setText(text, true);
+			logger.info("***********************");
+			logger.info(" * send from {}", from);
+			for (int i = 0; i < to.length; i++) {
+				logger.info(" *  send to num {}, {}", i, to[i]);
+			}
+			logger.info(" * send subject {}", subject);
+			logger.info(" * send text {}", text);
+			logger.info("************************");
 			javaMailSender.send(message);
 		} catch (MessagingException e) {
 			e.printStackTrace();

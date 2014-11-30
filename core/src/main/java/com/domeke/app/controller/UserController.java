@@ -7,7 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 import java.util.Random;
 
-import com.domeke.app.message.impl.DomekeMaiSenderImpl;
+import com.domeke.app.message.DomekeMailSender;
 import com.domeke.app.model.LoginPic;
 import com.domeke.app.model.PointLog;
 import com.domeke.app.model.User;
@@ -31,7 +31,7 @@ import com.jfinal.plugin.spring.IocInterceptor;
 public class UserController extends Controller {
 
 	@Inject.BY_NAME
-	private DomekeMaiSenderImpl domekeMailSender;
+	private DomekeMailSender domekeMailSender;
 
 	public void save() {
 		User user = getModel(User.class);
@@ -88,7 +88,7 @@ public class UserController extends Controller {
 			render("/register2.html");
 			return;
 		}
-		setSessionAttr("userReg",user);
+		setSessionAttr("userReg", user);
 		user.saveUser();
 		UserRole userrole = getModel(UserRole.class);
 		userrole.set("roleid", 0);
@@ -99,16 +99,18 @@ public class UserController extends Controller {
 		setAttr("succes", "帐号注册成功，请登录你的邮箱进行验证！");
 		render("/registerSucces.html");
 	}
+
 	/**
 	 * 重新邮箱验证
 	 */
-	public void againReg(){
+	public void againReg() {
 		User user = getModel(User.class);
 		user = getSessionAttr("userReg");
 		sendActivation(user);
 		setAttr("succes", "帐号注册成功，请登录你的邮箱进行验证！");
 		render("/AgainReg.html");
 	}
+
 	/**
 	/**
 	 * 验证码
@@ -371,26 +373,7 @@ public class UserController extends Controller {
 	}
 
 	public void sendActivation(User user) {
-		try {
-			EncryptionDecryption ency = new EncryptionDecryption();
-			String email = user.getStr("email");
-			user = user.getCloumValue("email", email);
-			if (user != null) {
-				Map<String, Object> params = Maps.newHashMap();
-				String nickname = user.getStr("nickname");
-				Long userid = user.getLong("userid");
-				// 加密邮箱
-				email = ency.encrypt(email);
-				String template = "registerSuccess";
-				String url = "http://www.dongmark.com/user/activationUser?uid=" + email;
-				params.put("url", url);
-				params.put("username", nickname);
-				domekeMailSender.send(email, template, params);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
+		getModel(User.class).sendActivation(user);
 	}
 
 	public void activationUser() {
@@ -407,14 +390,6 @@ public class UserController extends Controller {
 			e.printStackTrace();
 		}
 
-	}
-
-	public DomekeMaiSenderImpl getDomekeMailSender() {
-		return domekeMailSender;
-	}
-
-	public void setDomekeMailSender(DomekeMaiSenderImpl domekeMailSender) {
-		this.domekeMailSender = domekeMailSender;
 	}
 
 	public static String getRandomString(int length) {
