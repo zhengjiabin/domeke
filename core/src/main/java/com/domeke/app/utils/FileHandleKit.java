@@ -158,7 +158,8 @@ public class FileHandleKit {
 			videoFile.setFileType(FileKit.getFileType(fileName));
 			videoFile.setDescDirectory(originalDirectory);
 			videoFile.setOriginalDirectory(originalDirectory);
-			String virtualDirectory = FileKit.getVirtualDirectory(originalDirectory);
+			String virtualDirectory = FileKit.getDirectory(toDirectory, fileName);
+			virtualDirectory = FileKit.getVirtualDirectory(virtualDirectory);
 			videoFile.setVirtualDirectory(virtualDirectory);
 		}else{
 			videoFile = fileHandleKit.videoCopy(file, toDirectory);
