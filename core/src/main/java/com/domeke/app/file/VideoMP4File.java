@@ -36,7 +36,6 @@ public class VideoMP4File extends VideoFile {
 		// -qscale 6或4 使用动态码率来设置
 		command.add(" -threads 0 ");
 		command.add(" -qscale 6");
-
 		command.add(" -y ");
 		command.add(getDescDirectory());
 
