@@ -23,7 +23,7 @@ public class VideoMP4File extends VideoFile {
 		// 音频码率 32 64 96 128
 		// command.add(" --acodec libfaac");
 		// 使用codec编解码
-		command.add(" --ab 128k");
+		command.add(" -ab 128k");
 		command.add(" -ac 2");
 		// -ac channels 设置通道,缺省为1
 		command.add(" -vcodec libx264");
