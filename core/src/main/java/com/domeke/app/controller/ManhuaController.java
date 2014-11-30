@@ -86,7 +86,7 @@ public class ManhuaController extends Controller {
 			historyModel.saveOrUpdateHitory(workModel);
 			this.setAttr("work", workModel);
 			String url = "playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid");
-			render(url);
+			forwardAction(url);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

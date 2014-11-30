@@ -53,16 +53,17 @@
           </div>
           <div class="MeBlock">
           <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
-              <tbody><tr>
-                <th><em style="color: red;"> * </em>集数：</th>
-                <td>
-                	<select name="worknum" class="input_Member">
-                		<%for(num in lackNum){%>
-                			<option value="${num!}">${num!}</option>
-                		<%}%>
-                	</select>
-				</td>
-              </tr>
+              <tbody>
+              	<tr>
+	                <th><em style="color: red;"> * </em>集数：</th>
+	                <td>
+	                	<select name="worknum" class="input_Member">
+	                		<%for(num in lackNum){%>
+	                			<option value="${num!}">${num!}</option>
+	                		<%}%>
+	                	</select>
+					</td>
+              	</tr>
                 
               <tr id="progressTr" style="display: none;">
                 <th><em style="color: red;"> * </em>进度：</th>

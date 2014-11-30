@@ -335,10 +335,8 @@ public class PersonalController extends FilesLoadController {
 	 *  资料修改
 	 */
 	public void upUser() {
-
+		String uploadPath = FileLoadKit.uploadImg(this, "user.imgurl", saveFolderName, maxPostSize, encoding);
 		User user = getModel(User.class);
-		String saveDirectory = saveFolderName + "/" + user.get("username");
-		String uploadPath = FileLoadKit.uploadImg(this, "imgurl", saveDirectory, maxPostSize, encoding);
 		if (StringUtils.isNoneBlank(uploadPath)) {
 			user.set("imgurl", uploadPath);
 		}

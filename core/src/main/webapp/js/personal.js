@@ -164,16 +164,21 @@ function onSubmitOfWonders(node){
 }
 //显示上传图片
 function onShowImgChange(node){
-	alert(node.value);
-	var createHtml = $(node).closest("#createHtml");
-	var preview = createHtml.find("#preview").first();
+	var fatherNode = $(node).closest("#createHtml");
+	var preview = fatherNode.find("#preview").first();
+	var path = fatherNode.find("#imgPath").first();
 	if(node.value == null || node.value ==''){
 		preview.html("");
+		path.text("");
 		return false;
 	}else if( !node.value.match( /.jpg|.gif|.png|.bmp/i ) ){
 		preview.html("");
+		path.text("");
         return false;
     }
+	var filePath = node.value.replace(/\\/g,"/");
+	filePath = filePath.substring(filePath.lastIndexOf("/")+1,filePath.length);
+	path.text(filePath);
     if (node.files && node.files[0]){  
     	var reader = new FileReader();  
     	reader.onload = function(evt){
@@ -209,5 +214,5 @@ function onUploadImgChange(node){
     	reader.readAsDataURL(node.files[0]);
     }else{
     	preview.html('<div class="img" style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src=\'' + node.value + '\'"></div>');
-    }  
+    }
 }

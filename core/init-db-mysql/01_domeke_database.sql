@@ -542,6 +542,7 @@ CREATE TABLE `user` (
   `realname` varchar(12) DEFAULT NULL,
   `sex` varchar(4) DEFAULT NULL,
   `age` varchar(4) DEFAULT NULL,
+  `QQ` VARCHAR(32) DEFAULT NULL,
   `mobile` varchar(32) DEFAULT NULL,
   `create_time` timestamp NULL DEFAULT NULL,
   `creater` varchar(64) DEFAULT NULL,
