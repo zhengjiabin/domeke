@@ -355,8 +355,7 @@ public class WorksController extends Controller {
 		Map<String, Object> map = Maps.newHashMap();
 		Map<String, VideoFile> directorys;
 		try {
-			directorys = FileLoadKit.uploadVideo("comic", this,
-					"works", 2000 * 1024 * 1024, "utf-8");
+			directorys = FileLoadKit.uploadVideo("comic", this, "works", 2000 * 1024 * 1024, "utf-8");
 		} catch (Exception e) {
 			map.put("success", 0);
 			map.put("message", "上传失败！");
@@ -383,10 +382,14 @@ public class WorksController extends Controller {
 			return;
 		}
 		String coverPath = null, comicPath = null;
+		String status = "10";
 		VideoFile videoFile = null;
 		List<ImageFile> imageFiles = null;
 		for (String fileName : directorys.keySet()) {
 			videoFile = directorys.get(fileName);
+			if(videoFile.isHandled()){
+				status = "20";
+			}
 			comicPath = videoFile.getVirtualDirectory();
 			imageFiles = videoFile.getImageFiles();
 			if(CollectionKit.isNotBlank(imageFiles)){
@@ -419,11 +422,11 @@ public class WorksController extends Controller {
 			renderJson(map);
 			return;
 		}
+		workModel.set("status", status);
 		workModel.set("worksid", worksModel.get("worksid"));
 		workModel.set("worknum", worknum);
 		workModel.set("workname", title);
 		workModel.set("workdes", "");
-		workModel.set("ischeck", 0);
 		workModel.set("cover", coverPath);
 		workModel.set("comic", comicPath);
 		workModel.set("times", 0);
@@ -487,7 +490,6 @@ public class WorksController extends Controller {
 		workModel.set("worknum", Integer.parseInt(maxnum));
 		workModel.set("workname", title);
 		workModel.set("workdes", des);
-		workModel.set("ischeck", 0);
 		workModel.set("cover", coverPath);
 		workModel.set("comic", comicPath);
 		workModel.set("times", 0);
@@ -1152,7 +1154,7 @@ public class WorksController extends Controller {
 			for (String id : idsStr) {
 				Work workModel = getModel(Work.class).findById(id);
 				if (workModel.isNotEmpty()) {
-					workModel.set("ischeck", 1);
+					workModel.set("status", 30);
 					workModel.update();
 				}
 			}
@@ -1343,6 +1345,7 @@ public class WorksController extends Controller {
 			fav.set("cartoon_name", worksdel.getStr("worksname"));
 			fav.set("section_id", workid);
 			fav.set("section_name", worodel.getStr("workname"));
+			fav.set("comic", worodel.getStr("comic"));
 			fav.save();
 		}
 		renderJson("success", 1);

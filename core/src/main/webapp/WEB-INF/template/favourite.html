@@ -15,8 +15,8 @@
              <% for(fav in favPage.list!){%>
               <tr>
                 <td class="center">${favLP.index!}</td>
-                <td><a href="#">${fav.cartoon_name!}</a></td>
-                <td><a href="#">${fav.section_name!}</a></td>
+                <td>${fav.cartoon_name!}</td>
+                <td><a href="${fav.comic!}">${fav.section_name!}</a></td>
                 <td>${fav.create_time!}</td>
                 <td><a href="personal/deleteFav?favid=${fav.favouriteid}&menuId=${menuId}" onclick="return confirm('确定删除？')">删除</a></td>
             </tr>

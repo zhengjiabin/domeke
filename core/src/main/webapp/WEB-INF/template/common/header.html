@@ -43,7 +43,7 @@ function search(self){
     	for(m in topMenuList){
     	if (menuid == m.menuid){
     %>
-    	<li class="LiFuc"><a href="">${m.menuname!}</a></li>
+    	<li class="LiFuc"><a href="${m.actionkey!}?menuid=${m.menuid!}">${m.menuname!}</a></li>
     <%	}else{
 	%>	
 	<li><a href="${m.actionkey!}?menuid=${m.menuid!}">${m.menuname!}</a></li>
