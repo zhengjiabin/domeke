@@ -46,7 +46,6 @@ public class ManhuaController extends Controller {
 		Integer workid = getParaToInt("gid");
 		Work workData = null;
 		
-		
 		// 如果没有传动漫作品集数的ID则取第一集播放
 		if (workid == null) {
 			workData = workModel.getFirstWork(worksid);
@@ -86,8 +85,8 @@ public class ManhuaController extends Controller {
 			History historyModel = getModel(History.class);
 			historyModel.saveOrUpdateHitory(workModel);
 			this.setAttr("work", workModel);
-			String url = "/manhua/playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid");
-			forwardAction(url);
+			String url = "playVideo?id="+workModel.get("worksid")+"&gid="+workModel.get("workid");
+			render(url);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

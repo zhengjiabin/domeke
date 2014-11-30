@@ -25,7 +25,14 @@
 		});
 	}
 	$(document).ready(function(){
-		resizeImg('.Goods img');
+		
+		$('#scroll ul li').mouseenter(function(){
+			var imgsrc = $('img',this).attr('src');
+			$('#midImg').attr('src',imgsrc);
+			resizeImg('#midImg');
+		});
+		resizeImg('#midImg');
+		resizeImg('#scroll img');
 	});
 </script>
 <section class="White">
