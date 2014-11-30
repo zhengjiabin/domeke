@@ -82,7 +82,7 @@ public class VideoKit {
 			int fileNameIndex = filepath.lastIndexOf("\\");
 			filePathAndName = filepath.substring(fileNameIndex + 1, filePrefixIndex + 1);
 		}
-		filePathAndName = toDirectory + filePathAndName + "flv";
+		filePathAndName = toDirectory + filePathAndName + "mp4";
 		return filePathAndName;
 	}
 
