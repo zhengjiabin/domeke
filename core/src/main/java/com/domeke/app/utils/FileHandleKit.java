@@ -113,10 +113,8 @@ public class FileHandleKit {
 		if(isCompressVideo){
 			videoFile = buildVideoCompressCommand(file, toDirectory);
 		}else{
-			videoFile = fileCopy(file, toDirectory);
+			videoFile = videoCopy(file, toDirectory);
 		}
-		ImageFile imageFile = processPNG(file, toDirectory);
-		videoFile.addImageFile(imageFile);
 		fileName = videoFile.getFileName();
 		directorys.put(fileName, videoFile);
 		return directorys;
@@ -133,12 +131,39 @@ public class FileHandleKit {
 	public static Map<String,VideoFile> compressVideo(String toDirectory,File file) throws IOException, InterruptedException{
 		FileHandleKit fileHandleKit = FileHandleKit.getInstance();
 		VideoFile videoFile = fileHandleKit.buildVideoCompressCommand(file, toDirectory);
-		ImageFile imageFile = fileHandleKit.processPNG(file, toDirectory);
-		videoFile.addImageFile(imageFile);
 		String fileName = videoFile.getFileName();
 		Map<String, VideoFile> directorys = new HashMap<String, VideoFile>();
 		directorys.put(fileName, videoFile);
 		return directorys;
+	}
+	
+	/**
+	 * 处理上传视频
+	 * @param file
+	 * @param toDirectory
+	 * @return
+	 * @throws InterruptedException 
+	 * @throws IOException 
+	 */
+	public static VideoFile handleLoadVideo(File file,String toDirectory) throws IOException, InterruptedException{
+		FileHandleKit fileHandleKit = FileHandleKit.getInstance();
+		String fileName = file.getName();
+		boolean isCompressVideo = fileHandleKit.isCompressVideo(fileName);
+		
+		VideoFile videoFile = null;
+		if(isCompressVideo){
+			videoFile = new VideoFile();
+			String originalDirectory = file.getAbsolutePath();
+			videoFile.setFileName(fileName);
+			videoFile.setFileType(FileKit.getFileType(fileName));
+			videoFile.setDescDirectory(originalDirectory);
+			videoFile.setOriginalDirectory(originalDirectory);
+			String virtualDirectory = FileKit.getVirtualDirectory(originalDirectory);
+			videoFile.setVirtualDirectory(virtualDirectory);
+		}else{
+			videoFile = fileHandleKit.videoCopy(file, toDirectory);
+		}
+		return videoFile;
 	}
 	
 	/**
@@ -160,6 +185,8 @@ public class FileHandleKit {
 			videoFile = processAVI(descDirectory, toDirectory);
 			videoFile = processMP4(videoFile.getDescDirectory(), toDirectory);
 		}
+		ImageFile imageFile = processPNG(file, toDirectory);
+		videoFile.addImageFile(imageFile);
 		return videoFile;
 	}
 	
@@ -230,26 +257,27 @@ public class FileHandleKit {
     }
 	
 	/**
-	 * 文件拷贝
-	 * @param directory
-	 * @param file
+	 * 视频拷贝
+	 * @param directory 目标文件父级物理路径
+	 * @param file 目标文件
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	public static VideoFile fileCopy(File file, String directory) throws IOException, InterruptedException{
+	private VideoFile videoCopy(File file, String directory) throws IOException, InterruptedException{
 		FileHandleKit fileHandleKit = FileHandleKit.getInstance();
-		String originalDirectory = null;
-		if(FileKit.isDevMode()){
-			originalDirectory = file.getAbsolutePath();
-		}else{
-			File newFile = FileKit.fileCopy(directory, file);
-			originalDirectory = newFile.getAbsolutePath();
+		File newFile = file;
+		if(!FileKit.isDevMode()){
+			newFile = FileKit.fileCopy(directory, file);
 		}
 		VideoFile video = new VideoFile(fileHandleKit.getFfmepgPath());
-		video.setOriginalDirectory(originalDirectory);
-		video.setDescDirectory(originalDirectory);
-		
+		video.setOriginalDirectory(newFile.getAbsolutePath());
+		video.setDescDirectory(newFile.getAbsolutePath());
 		VideoFile videoFile = VideoFileAnalysis.videoProcess(video);
+		
+		String fileDirectory = newFile.getAbsolutePath();
+		String imageDirectory = FileKit.getParentDirectory(fileDirectory);
+		ImageFile imageFile = fileHandleKit.processPNG(newFile, imageDirectory);
+		videoFile.addImageFile(imageFile);
 		return videoFile;
 	}
 	
@@ -257,7 +285,7 @@ public class FileHandleKit {
 	 * 是否处理视频
 	 * @return
 	 */
-	public static boolean isCompressVideo(String fileName){
+	private boolean isCompressVideo(String fileName){
 		String fileType = fileName.substring(fileName.lastIndexOf("."),fileName.length());
 		if (fileType.matches(".flv|.mp4")) {
 			return false;
