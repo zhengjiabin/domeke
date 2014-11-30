@@ -17,9 +17,9 @@ import com.domeke.app.model.Works;
 import com.domeke.app.model.WorksType;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CollectionKit;
+import com.domeke.app.utils.FileKit;
 import com.domeke.app.utils.FileLoadKit;
 import com.domeke.app.utils.MapKit;
-import com.domeke.app.utils.PropKit;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.jfinal.aop.Before;
@@ -1331,10 +1331,7 @@ public class WorksController extends Controller {
 			return;
 		}
 		String url = workModel.get("comic");
-		int indexOf = url.indexOf(".com");
-		String filepath = url.substring(indexOf + 4);
-		filepath = PropKit.getString("base_path") + filepath;
-		File file = new File(filepath);
+		File file = FileKit.getDescFile(url);
 		if (!file.exists()) {
 			renderJson("success", 0);
 			return;
@@ -1371,8 +1368,7 @@ public class WorksController extends Controller {
 	public void downloadFile() {
 		try {
 			User user = getSessionAttr("user");
-			Integer userId = Integer
-					.parseInt(String.valueOf(user.get("userid")));
+			Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 
 			String workid = getPara("workid");
 			Work workModel = getModel(Work.class).findById(workid);
@@ -1380,11 +1376,8 @@ public class WorksController extends Controller {
 				return;
 			}
 			String url = workModel.get("comic");
-			int indexOf = url.indexOf(".com");
-			String filepath = url.substring(indexOf + 4);
-			filepath = PropKit.getString("base_path") + filepath;
-			File file = new File(filepath);
-			if (!file.exists()) {
+			File descFile = FileKit.getDescFile(url);
+			if (!descFile.exists()) {
 				return;
 			}
 			DownLoad downloadModel = getModel(DownLoad.class);
@@ -1403,8 +1396,7 @@ public class WorksController extends Controller {
 				downloadModel.set("modifier", userId);
 				downloadModel.save();
 			}
-			FilesLoadController controller = new FilesLoadController();
-			controller.download(url);
+			renderFile(descFile);
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();

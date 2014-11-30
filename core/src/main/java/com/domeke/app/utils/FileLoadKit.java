@@ -2,7 +2,6 @@ package com.domeke.app.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import com.domeke.app.file.ImageFile;
 import com.domeke.app.file.VideoFile;
 import com.domeke.app.model.User;
 import com.jfinal.core.Controller;
-import com.jfinal.kit.PathKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.upload.UploadFile;
 
@@ -78,92 +76,6 @@ public class FileLoadKit {
 		}
 		return fileUploadKit;
 	}
-	
-	/**
-	 * 根据虚拟路径删除物理路径对应的文件
-	 */
-	public static void deleteFiles(String parentDirectory){
-		String descDirectory = FileKit.getDescDirectory(parentDirectory);
-		File descFile = new File(descDirectory);
-		FileKit.delete(descFile);
-		
-		String tempDirectory = FileKit.getTempDirectory(parentDirectory);
-		File tempFile = new File(tempDirectory);
-		FileKit.delete(tempFile);
-	}
-	
-	
-	/**
-	 * 根据虚拟地址，获取临时文件
-	 * 
-	 * @param virtualDirectory
-	 */
-	public static File getTempFile(String virtualDirectory) {
-		String tempPath = FileKit.getTempDirectory(virtualDirectory);
-		if (StrKit.isBlank(tempPath)) {
-			return null;
-		}
-		File file = new File(tempPath);
-		return file;
-	}
-
-	
-	/**
-	 * 根据虚拟路径获取子文件的物理路径
-	 * @param ctrl
-	 * @param parentDirectory
-	 * @return 
-	 */
-	public static String getFileDescDirectory(String parentDirectory){
-		Map<String, String> paths = getFilesDescDirectory(parentDirectory);
-		if(MapKit.isBlank(paths)){
-			return null;
-		}
-		return paths.get(parentDirectory);
-	}
-	
-	/**
-	 * 根据虚拟路径获取子文件的物理路径
-	 * @param ctrl
-	 * @param parentDirectory 虚拟路径
-	 * @return 子文件的物理路径
-	 */
-	public static Map<String, String> getFilesDescDirectory(String parentDirectory){
-		FileLoadKit fileUploadKit = FileLoadKit.getInstance();
-		String absoluteDirectory = FileKit.getDescDirectory(parentDirectory);
-		Map<String, String> paths = fileUploadKit.getFilesDescDirectory(absoluteDirectory, parentDirectory);
-		return paths;
-	}
-	
-	
-	/**
-	 * 根据虚拟路径获取子文件的虚拟路径
-	 * @param ctrl
-	 * @param parentDirectory 父级虚拟路径
-	 * @return
-	 */
-	public static String getFileVirtualDirectory(String parentDirectory){
-		List<String> paths = getFilesVirtualDirectory(parentDirectory);
-		if(CollectionKit.isBlank(paths)){
-			return null;
-		}
-		return paths.get(0);
-	}
-	
-	/**
-	 * 根据虚拟路径获取子文件的虚拟路径
-	 * @param ctrl
-	 * @param parentDirectory 父级虚拟路径
-	 * @return
-	 */
-	public static List<String> getFilesVirtualDirectory(String parentDirectory){
-		FileLoadKit fileUploadKit = FileLoadKit.getInstance();
-		String absoluteDirectory = fileUploadKit.getAbsolutePath(parentDirectory);
-		List<String> paths = fileUploadKit.getFilesVirtualDirectory(absoluteDirectory, parentDirectory);
-		return paths;
-	}
-	
-	
 
 	/**
 	 * 图片上传
@@ -548,80 +460,6 @@ public class FileLoadKit {
 		return FileHandleKit.handleLoadVideo(file, discDirectory);
 	}
 	
-	/**
-	 * 根据父级物理路径获取子文件的虚拟路径
-	 * @param absolutePath 父级物理路径
-	 * @param parentDirectory 父级虚拟路径
-	 * @return 
-	 */
-	private Map<String, String> getFilesDescDirectory(String absolutePath,String parentDirectory){
-		Map<String, String> paths = new HashMap<String, String>();
-		File file = new File(absolutePath);
-		if(file.isFile()){
-			paths.put(parentDirectory, absolutePath);
-			return paths;
-		}
-		File[] files = file.listFiles();
-		if(files == null){
-			return null;
-		}
-		String fileName = null,directory = null;
-		for (File f : files) {
-			if(f.isDirectory()){
-				continue;
-			}
-			fileName = f.getName();
-			directory = getDirectory(parentDirectory, fileName);
-			paths.put(directory, f.getAbsolutePath());
-		}
-		return paths;
-	}
-	
-	/**
-	 * 根据父级物理路径获取子文件的虚拟路径
-	 * @param absolutePath 父级物理路径
-	 * @param parentDirectory 父级虚拟路径
-	 * @return 
-	 */
-	private List<String> getFilesVirtualDirectory(String absolutePath, String parentDirectory){
-		FileKit.handleFilePath(absolutePath);
-		List<String> paths = new ArrayList<String>();
-		File file = new File(absolutePath);
-		if(file.isFile()){
-			paths.add(parentDirectory);
-			return paths;
-		}
-		File[] files = file.listFiles();
-		if(files == null){
-			return null;
-		}
-		String fileName = null,directory = null;
-		for (File f : files) {
-			if(f.isDirectory()){
-				continue;
-			}
-			fileName = f.getName();
-			directory = getDirectory(parentDirectory, fileName);
-			paths.add(directory);
-		}
-		return paths;
-	}
-	
-	/**
-	 * 获取父级的物理路径
-	 * @return
-	 */
-	private String getAbsolutePath(String parentDirectory){
-		String serverDirectory = FileKit.getServPath(parentDirectory);
-		String absolutePath = null;
-		if(FileKit.isDevMode()){
-			String serverAbsolutePath = PathKit.getWebRootPath();
-			absolutePath = getDirectory(serverAbsolutePath, serverDirectory);
-		}else{
-			absolutePath = getDiscDirectory(serverDirectory);
-		}
-		return absolutePath;
-	}
 	
 	/**
 	 * 获取虚拟上传的路径--(若存在多张，则返回父级路径)
@@ -665,7 +503,7 @@ public class FileLoadKit {
 		//开发模式下，本地服务器作为临时根目录
 		if(!FileKit.isDevMode()){
 			String baseDirectory = getBackupsDirectory();
-			directory = getDirectory(baseDirectory, directory);
+			directory = FileKit.getDirectory(baseDirectory, directory);
 		}
 		return directory;
 	}
@@ -675,7 +513,7 @@ public class FileLoadKit {
 	 */
 	private String getDiscDirectory(String directory){
 		String baseDirectory = getBaseDirectory();
-		directory = getDirectory(baseDirectory, directory);
+		directory = FileKit.getDirectory(baseDirectory, directory);
 		return directory;
 	}
 	
@@ -704,27 +542,8 @@ public class FileLoadKit {
 		User user = ctrl.getSessionAttr("user");
 		String userName = user.getStr("username");
 		directory = directory.replaceAll("<username>", userName);
-		directory = getDirectory(directory, saveFolderName);
+		directory = FileKit.getDirectory(directory, saveFolderName);
 		return directory;
-	}
-
-	/**
-	 * 拼接路径路径
-	 * 
-	 * @return
-	 */
-	private String getDirectory(String directory, String saveFolderName) {
-		directory = directory.replaceAll("\\\\", "/");
-		if(StrKit.isBlank(saveFolderName)){
-			return directory;
-		}
-		saveFolderName = saveFolderName.replaceAll("\\\\", "/");
-		if(directory.endsWith("/") && saveFolderName.startsWith("/")){
-			saveFolderName = saveFolderName.replaceFirst("/", "");
-		}else if(!directory.endsWith("/") && !saveFolderName.startsWith("/")){
-			saveFolderName = "/" + saveFolderName;
-		}
-		return directory + saveFolderName;
 	}
 
 	/**

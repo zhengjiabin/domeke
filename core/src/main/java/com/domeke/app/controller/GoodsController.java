@@ -21,6 +21,7 @@ import com.domeke.app.model.Orders;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
+import com.domeke.app.utils.FileKit;
 import com.domeke.app.utils.FileLoadKit;
 import com.domeke.app.validator.OrderValidator;
 import com.google.common.collect.Lists;
@@ -115,7 +116,7 @@ public class GoodsController extends FilesLoadController {
 	 * @return 
 	 */
 	public List<String> getFileUrls(String url){
-		List<String> fileUrls = FileLoadKit.getFilesVirtualDirectory(url);
+		List<String> fileUrls = FileKit.getVirtualDirectorys(url);
 		return fileUrls;
 	}
 	
@@ -124,10 +125,10 @@ public class GoodsController extends FilesLoadController {
 	 */
 	public void deleteImg() {
 		String url = getPara("url");
-		FileLoadKit.deleteFiles(url);
+		FileKit.deleteFiles(url);
 		Goods goods = Goods.dao.findById(getParaToInt("goodsId"));
 		url = url.substring(0, url.lastIndexOf("/"));
-		List<String> headimgs = FileLoadKit.getFilesVirtualDirectory(url);
+		List<String> headimgs = FileKit.getVirtualDirectorys(url);
 		List<GoodsType> goodsType = GoodsType.gtDao.getGoodsTypeList();
 		setAttr("goodsType", goodsType);
 		setAttr("headimgs", headimgs);
@@ -186,7 +187,7 @@ public class GoodsController extends FilesLoadController {
 		saveDirectory = saveFolderName + "/" + saveDirectory;
 		Map<String, String> uploadPath = FileLoadKit.uploadImgs(this, saveDirectory, maxPostSize, encoding);
 		if (uploadPath != null && uploadPath.get("pic") != null) {
-			FileLoadKit.deleteFiles(pic);
+			FileKit.deleteFiles(pic);
 			pic = uploadPath.get("pic");
 		}
 		UploadFile file = getFile();
