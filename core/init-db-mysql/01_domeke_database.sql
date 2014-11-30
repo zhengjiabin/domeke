@@ -390,6 +390,7 @@ CREATE TABLE `favourite` (
   `modify_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `modifier` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`favouriteid`)
+  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
