@@ -4,6 +4,7 @@
 package com.domeke.app.utils;
 
 import java.io.File;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class VideoKit {
 
 	private static Logger logger = LoggerFactory.getLogger(VideoKit.class);
 
-	private static String FFMEPG_PATH = "G:\\ffmepg\\bin\\ffmpeg.exe";
+	private static String FFMEPG_PATH;
 
 	public static int COMMOND_VIDEO = 0;
 
@@ -182,9 +183,17 @@ public class VideoKit {
 		command = (List<String>) resultMap.get("command");
 		try {
 			ProcessBuilder builder = new ProcessBuilder();
+			logger.info("*********************视频压缩 start **************************");
+			StringBuffer infoBuffer = new StringBuffer();
+			for (Iterator iterator = command.iterator(); iterator.hasNext();) {
+				String comm = (String) iterator.next();
+				infoBuffer.append(comm + " ");
+			}
+			logger.info("视频压缩命令{}", infoBuffer.toString());
 			builder.command(command);
 			builder.redirectErrorStream(true);
 			builder.start();
+			logger.info("*********************视频压缩 end **************************");
 		} catch (Exception e) {
 			logger.error("转换视频失败", e);
 		}
