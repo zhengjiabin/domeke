@@ -126,10 +126,12 @@ public class FileKit {
 		if(isDevMode()){
 			String webPath = PathKit.getWebRootPath();
 			webPath = getDirectory(webPath, "");
-			descDirectory = descDirectory.replaceFirst(webPath, "");
+			int index = descDirectory.indexOf(webPath);
+			descDirectory = descDirectory.substring(index + webPath.length(), descDirectory.length());
 		}else{
 			String basePath = PropKit.getString("basePath");
-			descDirectory = descDirectory.replaceFirst(basePath, "");
+			int index = descDirectory.indexOf(basePath);
+			descDirectory = descDirectory.substring(index + basePath.length(), descDirectory.length());
 		}
 		return getDirectory(serBasePath, descDirectory);
 	}
@@ -140,7 +142,8 @@ public class FileKit {
 	 */
 	public static String getServPath(String virtualDirectory){
 		String basePath = getServBasePath();
-		String servPath = virtualDirectory.replaceFirst(basePath, "");
+		int index = virtualDirectory.indexOf(basePath);
+		String servPath = virtualDirectory.substring(index + basePath.length(), virtualDirectory.length());
 		return servPath;
 	}
 	

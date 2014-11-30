@@ -152,18 +152,41 @@ public class FileHandleKit {
 		
 		VideoFile videoFile = null;
 		if(isCompressVideo){
-			videoFile = new VideoFile();
-			String originalDirectory = file.getAbsolutePath();
-			videoFile.setFileName(fileName);
-			videoFile.setFileType(FileKit.getFileType(fileName));
-			videoFile.setDescDirectory(originalDirectory);
-			videoFile.setOriginalDirectory(originalDirectory);
-			String virtualDirectory = FileKit.getDirectory(toDirectory, fileName);
-			virtualDirectory = FileKit.getVirtualDirectory(virtualDirectory);
-			videoFile.setVirtualDirectory(virtualDirectory);
+			videoFile = fileHandleKit.handleLoadVideo(toDirectory, file);
 		}else{
 			videoFile = fileHandleKit.videoCopy(file, toDirectory);
 		}
+		return videoFile;
+	}
+	
+	/**
+	 * 处理视频上传
+	 * @param file 临时文件
+	 * @param toDirectory 目标文件的父级物理路径
+	 * @throws InterruptedException 
+	 * @throws IOException 
+	 */
+	private VideoFile handleLoadVideo(String toDirectory, File file) throws IOException, InterruptedException{
+		VideoFile videoFile = new VideoFile();
+		String fileName = file.getName();
+		String originalDirectory = file.getAbsolutePath();
+		videoFile.setFileName(fileName);
+		videoFile.setFileType(FileKit.getFileType(fileName));
+		videoFile.setDescDirectory(originalDirectory);
+		videoFile.setOriginalDirectory(originalDirectory);
+		
+		String virtualDirectory = toDirectory;
+		String imageDirectory = toDirectory;
+		if(FileKit.isDevMode()){
+			virtualDirectory = file.getParent();
+			imageDirectory = file.getParent();
+		}
+		virtualDirectory = FileKit.getDirectory(virtualDirectory, fileName);
+		virtualDirectory = FileKit.getVirtualDirectory(virtualDirectory);
+		videoFile.setVirtualDirectory(virtualDirectory);
+		
+		ImageFile imageFile = processPNG(file, imageDirectory);
+		videoFile.addImageFile(imageFile);
 		return videoFile;
 	}
 	
