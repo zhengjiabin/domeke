@@ -53,6 +53,7 @@
 		});
 		
 		resizeImg('section:eq(1) img');
+		resizeImg('.GoodsPic img');
 		resizeImg('aside section:eq(0) img');
 	});
 </script>
@@ -280,7 +281,7 @@
 						src="${goods.pic!}"></a>
 				</div>
 			</a>
-			<figcaption>
+			<figcaption style="border: none;">
 				<div class="GoodsName font_r">
 					<a
 						href="goods/getGoodsDetail?goodsid=${goods.goodsid!}&goodsattr=${goods.goodsattr1!}&dougprice=${goods.dougprice!}">${goods.goodsname!}</a>
