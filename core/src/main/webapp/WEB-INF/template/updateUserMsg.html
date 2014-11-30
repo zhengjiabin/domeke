@@ -40,7 +40,12 @@
               </tr>
               <tr>
                 <th>性别：</th>
-                <td><input name="user.sex" type="radio" value="0" >男&nbsp;&nbsp;&nbsp;&nbsp;<input name="user.sex" type="radio" value="1">女</td>
+                <td>
+                <%if(user.sex == "0"){%>
+                <input name="user.sex" type="radio" value="0" checked="checked">男&nbsp;&nbsp;&nbsp;&nbsp;<input name="user.sex" type="radio" value="1">女</td>
+             	<%}else if (user.sex == "1"){ %>
+             	<input name="user.sex" type="radio" value="0">男&nbsp;&nbsp;&nbsp;&nbsp;<input name="user.sex" type="radio" value="1" checked="checked">女</td>
+              	<%}%>
               </tr>
              <tr>
                 <th>年龄：</th>
