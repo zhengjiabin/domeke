@@ -77,8 +77,8 @@ public class ParseDemoKit {
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("goodsid", goods.get("goodsid"));
 				String goodsname = goods.get("goodsname");
-				if (goodsname.length() >= 12) {
-					goodsname = goodsname.substring(0, 12);
+				if (goodsname.length() >= 10) {
+					goodsname = goodsname.substring(0, 10);
 				}
 				map.put("goodsname", goodsname);
 				map.put("price", goods.get("price"));
