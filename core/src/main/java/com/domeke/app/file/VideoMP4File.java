@@ -26,8 +26,9 @@ public class VideoMP4File extends VideoFile {
 		command.add(" -ab");
 		command.add("128k");
 		command.add("-ac");
-		// command.add("-vcodec");
-		// command.add("libx264");
+		command.add("2");
+		command.add("-vcodec");
+		command.add("libx264");
 		command.add("-ar");
 		command.add("22050");
 		command.add("-crf");
@@ -38,10 +39,9 @@ public class VideoMP4File extends VideoFile {
 		command.add("30");
 		command.add("-threads");
 		command.add("0");
-		command.add("-qscale");
-		command.add("6");
+		command.add("-q");
+		command.add("v");
 		command.add("-y");
-		command.add("0");
 		command.add(getDescDirectory());
 
 		return command;
