@@ -8,7 +8,6 @@ import java.util.Map;
 import com.domeke.app.file.FileInterface;
 import com.domeke.app.utils.FileHandleKit;
 import com.domeke.app.utils.FileKit;
-import com.domeke.app.utils.FileLoadKit;
 import com.domeke.app.utils.MapKit;
 import com.jfinal.kit.StrKit;
 
@@ -22,7 +21,7 @@ public class FilePool<T> extends Pool<String>{
 		if (StrKit.isBlank(virtualDirectory)) {
 			return;
 		}
-		File file = FileLoadKit.getTempFile(virtualDirectory);
+		File file = FileKit.getTempFile(virtualDirectory);
 		if(!file.exists() || !file.isFile()){
 			return;
 		}

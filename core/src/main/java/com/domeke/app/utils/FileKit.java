@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.jfinal.core.JFinal;
 import com.jfinal.kit.PathKit;
@@ -23,6 +25,22 @@ public class FileKit {
 		backupsPath = PropKit.getString("backupsPath");
 		serverPath = PropKit.getString("serverPath");
 		localServerPath = PropKit.getString("localServerPath");
+	}
+	
+	/**
+	 * 根据虚拟路径删除物理路径对应的文件
+	 * 
+	 * @param virtualDirectory
+	 *            虚拟路径
+	 */
+	public static void deleteFiles(String virtualDirectory) {
+		String descDirectory = getDescDirectory(virtualDirectory);
+		File descFile = new File(descDirectory);
+		delete(descFile);
+
+		String tempDirectory = getTempDirectory(virtualDirectory);
+		File tempFile = new File(tempDirectory);
+		FileKit.delete(tempFile);
 	}
 	
 	/**
@@ -44,6 +62,103 @@ public class FileKit {
 		}
 	}
 	
+	/**
+	 * 根据虚拟地址，获取临时文件
+	 * 
+	 * @param virtualDirectory 虚拟路径
+	 */
+	public static File getTempFile(String virtualDirectory) {
+		String tempPath = getTempDirectory(virtualDirectory);
+		if (StrKit.isBlank(tempPath)) {
+			return null;
+		}
+		File file = new File(tempPath);
+		return file;
+	}
+	
+	/**
+	 * 根据虚拟路径获取物理文件
+	 * @param virtualDirectory 虚拟路径
+	 * @return 
+	 */
+	public static File getDescFile(String virtualDirectory){
+		String descDirectory = getDescDirectory(virtualDirectory);
+		if (StrKit.isBlank(descDirectory)) {
+			return null;
+		}
+		File file = new File(descDirectory);
+		return file;
+	}
+	
+	/**
+	 * 根据虚拟路径，获取物理路径
+	 * @param 虚拟路径
+	 * @return 物理路径
+	 */
+	public static String getDescDirectory(String virtualDirectory){
+		String servPath = getServPath(virtualDirectory);
+		String baseDirectory = basePath;
+		if(isDevMode()){
+			baseDirectory = PathKit.getWebRootPath();
+		}
+		String descPath = FileKit.getDirectory(baseDirectory, servPath);
+		return descPath;
+	}
+	
+	/**
+	 * 根据虚拟路径，获取所有子文件的物理路径
+	 * @param virtualDirectory 虚拟路径
+	 * @return 所有子文件的物理路径
+	 */
+	public static List<String> getDescDirectorys(String virtualDirectory){
+		List<String> descDirectorys = new ArrayList<String>();
+		File descFile = getDescFile(virtualDirectory);
+		if(!descFile.exists()){
+			return null;
+		}
+		if(descFile.isFile()){
+			descDirectorys.add(virtualDirectory);
+			return descDirectorys;
+		}
+		File[] files = descFile.listFiles();
+		if(files == null){
+			return null;
+		}
+		List<String> descDirectoryList = null;
+		for (File file : files) {
+			if(file.isDirectory()){
+				descDirectoryList = getDescDirectorys(file.getAbsolutePath());
+				if(CollectionKit.isNotBlank(descDirectoryList)){
+					descDirectorys.addAll(descDirectoryList);
+				}
+			}else{
+				descDirectorys.add(file.getAbsolutePath());
+			}
+		}
+		return descDirectorys;
+	}
+	
+	/**
+	 * 根据虚拟路径,获取所有子文件的虚拟路径
+	 * @param virtualDirectory 虚拟路径
+	 * @return
+	 */
+	public static List<String> getVirtualDirectorys(String virtualDirectory){
+		List<String> descDirectorys = getDescDirectorys(virtualDirectory);
+		if(CollectionKit.isBlank(descDirectorys)){
+			return null;
+		}
+		List<String> virtualDirectoryList = new ArrayList<String>();
+		String virtual = null;
+		for(String descDirectory:descDirectorys){
+			virtual = getVirtualDirectory(descDirectory);
+			if(StrKit.isBlank(virtual)){
+				continue;
+			}
+			virtualDirectoryList.add(virtual);
+		}
+		return virtualDirectoryList;
+	}
 	
 	/**
 	 * 文件拷贝
@@ -160,22 +275,6 @@ public class FileKit {
 		}
 		String tempDirectory = getDirectory(backupsDirectory, servPath);
 		return tempDirectory;
-	}
-	
-
-	/**
-	 * 根据虚拟路径，获取物理路径
-	 * @param 虚拟路径
-	 * @return 物理路径
-	 */
-	public static String getDescDirectory(String virtualDirectory){
-		String servPath = getServPath(virtualDirectory);
-		String baseDirectory = basePath;
-		if(isDevMode()){
-			baseDirectory = PathKit.getWebRootPath();
-		}
-		String descPath = FileKit.getDirectory(baseDirectory, servPath);
-		return descPath;
 	}
 	
 	/**
