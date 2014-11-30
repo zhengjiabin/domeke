@@ -37,12 +37,14 @@ public class FilesLoadController extends Controller {
 	private static String imageDirectory = "";
 	private static String videoDirectory = "";
 	private static String domainName = "";
+	private static String basePath = "";
 
 	static {
-		tempDirectory = PropKit.getString("tempDirectory");
+		tempDirectory = PropKit.getString("backupsPath");
 		imageDirectory = PropKit.getString("imageDirectory");
 		videoDirectory = PropKit.getString("videoDirectory");
-		domainName = PropKit.getString("domainName");
+		domainName = PropKit.getString("serverPath");
+		basePath = PropKit.getString("basePath");
 	}
 
 	/**
@@ -198,7 +200,6 @@ public class FilesLoadController extends Controller {
 			return "";
 		}
 		filePath = filePath.replaceAll("\\\\", "/");
-		String basePath = PropKit.getString("base_path");
 		StringBuffer domainNameFilePath = new StringBuffer(domainName);
 		String lastFilePath = filePath.substring(filePath.indexOf(basePath) + basePath.length(), filePath.length());
 		domainNameFilePath.append(lastFilePath);

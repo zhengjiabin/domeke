@@ -41,7 +41,7 @@ public class Work extends Model<Work> {
 	 * @return 某一部动漫的集数
 	 */
 	public List<Work> getWorkByWorksID(Object worksid) {
-		String querySql = "select * from work where worksid=? and ischeck = 1 and isdisable = 1 order by worknum asc";
+		String querySql = "select * from work where worksid=? and status = '30' and isdisable = 1 order by worknum asc";
 		List<Work> worklist = this.find(querySql, worksid);
 		return worklist == null ? Lists.newArrayList() : worklist;
 	}
@@ -54,7 +54,7 @@ public class Work extends Model<Work> {
 	 * @return 某一部动漫的集数
 	 */
 	public List<Work> getWorkByWorksIdCheck(Object worksid) {
-		String querySql = "select * from work where worksid=? and ischeck = 1 and isdisable = 1 order by worknum asc";
+		String querySql = "select * from work where worksid=? and status = '30' and isdisable = 1 order by worknum asc";
 		List<Work> worklist = this.find(querySql, worksid);
 		return worklist == null ? Lists.newArrayList() : worklist;
 	}
@@ -75,7 +75,7 @@ public class Work extends Model<Work> {
 	 * @return
 	 */
 	public List<Work> getNotCheckWork(Object worksid){
-		String querySql = "select * from work where ischeck = 0 and worksid = "+worksid+" order by worknum asc";
+		String querySql = "select * from work where status = '20' and worksid = "+worksid+" order by worknum asc";
 		return this.find(querySql);
 	}
 	
