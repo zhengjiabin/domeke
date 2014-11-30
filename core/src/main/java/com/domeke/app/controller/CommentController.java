@@ -9,6 +9,7 @@ import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Comment;
 import com.domeke.app.model.Record;
 import com.domeke.app.model.User;
+import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CollectionKit;
 import com.jfinal.aop.Before;
@@ -126,9 +127,23 @@ public class CommentController extends Controller {
 	 */
 	public void replyComment() {
 		addComment();
-
 		String targetId = getPara("targetId");
 		String idtype = getPara("idtype");
+		
+		if("40".equals(idtype)){
+			//works
+			Works worksModel = getModel(Works.class).findById(targetId);
+			if(worksModel != null && worksModel.isNotEmpty()){
+				Long lcomment = 0L;
+				String comment = String.valueOf(worksModel.get("comment"));
+				if(!StrKit.isBlank(comment)){
+					lcomment = Long.parseLong(comment);
+				}
+				worksModel.set("comment", lcomment + 1);
+				worksModel.update();
+			}
+		}
+		
 		setCommentPage(targetId, idtype);
 		setFollowList(targetId, idtype);
 	}
