@@ -1166,7 +1166,7 @@ public class WorksController extends Controller {
 			String[] idsStr = ids.split(",");
 			for (String id : idsStr) {
 				Work workModel = getModel(Work.class).findById(id);
-				worksid = workModel.get("worksid");
+				worksid = String.valueOf(workModel.get("worksid"));
 				if (workModel.isNotEmpty()) {
 					workModel.set("status", 30);
 					workModel.update();
