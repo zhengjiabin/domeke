@@ -26,8 +26,8 @@ public class VideoMP4File extends VideoFile {
 		command.add(" -ab");
 		command.add("128k");
 		command.add("-ac");
-		command.add("-vcodec");
-		command.add("libx264");
+		// command.add("-vcodec");
+		// command.add("libx264");
 		command.add("-ar");
 		command.add("22050");
 		command.add("-crf");
