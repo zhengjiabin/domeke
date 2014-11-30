@@ -135,7 +135,7 @@ public class VideoKit {
 		command.add(" -threads 0 ");
 		command.add(" -qscale 6");
 
-		command.add("-y");
+		command.add(" -y ");
 		command.add(videoPath);
 		logger.info("视频转换==={}", videoPath);
 		resultMap.put("command", command);
