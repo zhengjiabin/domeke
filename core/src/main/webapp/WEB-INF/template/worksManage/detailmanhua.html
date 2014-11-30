@@ -74,16 +74,24 @@
                 <th>添加时间</th>
                 <th>上传者</th>
                 <th>热度</th>
+                <th>状态</th>
                 <th>操作</th>
               </tr>
               <%for(work in pageWork.list){%>
               <tr>
                 <td class="center">${workLP.index}</td>
                 <td><img src="${work.cover!}"></td>
-                <td><a href="#">${work.workname!}</a></td>
+                <td>
+                	<%if(work.status! == 30){%><a href="manhua/playVideo?id=${works.worksid!}&gid=${work.workid!}">${work.workname!}</a><%}%>
+                	<%if(work.status! != 30){%>${work.workname!}<%}%>
+                </td>
                 <td>${work.createtime!}</td>
                 <td>${work.creatername!}</td>
                 <td>观看：${work.playtimes!}</td>
+                <td>
+                	<%if(work.status! == 30){%>已审核<%}%>
+                	<%if(work.status! != 30){%>待审核<%}%>
+                </td>
                 <td><a href="javascript:showPage({'flag':16,'type':2,'pageNumber':${pageNumber!},'worksid':${work.worksid!},'workid':${work.workid!},'workpageNumber':'${pageWork.pageNumber!}'});">编辑章节</a><a href="javascript:del(${work.workid!});">删除</a></td>
             </tr>
             <%}%>
