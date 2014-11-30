@@ -1149,15 +1149,19 @@ public class WorksController extends Controller {
 	public void yesChecked() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
+			String worksid = "";
 			String ids = getPara("ids");
 			String[] idsStr = ids.split(",");
 			for (String id : idsStr) {
 				Work workModel = getModel(Work.class).findById(id);
+				worksid = workModel.get("worksid");
 				if (workModel.isNotEmpty()) {
 					workModel.set("status", 30);
 					workModel.update();
 				}
 			}
+			Works worksModel = getModel(Works.class).findById(worksid);
+			worksModel.set("ischeck", "1");
 			map.put("success", 1);
 		} catch (Exception e) {
 			e.printStackTrace();

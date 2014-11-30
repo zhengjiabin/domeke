@@ -7,6 +7,7 @@
 				$('.AdSub ul li').removeClass('select');
 				$curs = $('.AdSub ul li:eq(' + i + ')').addClass('select');
 				var src = $curs.attr('src');
+				$('.Adpic .jqthumb').remove();
 				$('.Adpic img').attr('src', src);
 				resizeImg('.Adpic img');
 				var href = $('a', $curs).attr('href');
@@ -25,24 +26,30 @@
 		var timer;
 		$.startTimer();
 		//鼠标移入事件
-		$('.AdSub ul li').mouseover(function() {
+		$('.AdSub ul li').mouseenter(function(){
 			//停止定时器
 			window.clearInterval(timer);
 			var src = $(this).attr('src');
+			$('.Adpic .jqthumb').remove();
 			$('.Adpic img').attr('src', src);
 			resizeImg('.Adpic img');
 			var href = $('a', this).attr('href');
 			$('.Adpic a').attr('href', href);
+			return false;
 		});
-		//鼠标移出事件
-		$('.AdSub ul li').mouseout(function() {
+		
+		$('.AdSub ul li').mouseleave(function(){
 			timer = window.setInterval($.loopplay, 3000);
+			return false;
 		});
-		$('.Adpic img').mouseover(function() {
+		
+		$('.Adpic img').mouseenter(function(){
 			window.clearInterval(timer);
+			return false;
 		});
-		$('.Adpic img').mouseout(function() {
+		$('.Adpic img').mouseleave(function(){
 			timer = window.setInterval($.loopplay, 3000);
+			return false;
 		});
 		
 		resizeImg('section:eq(1) img');

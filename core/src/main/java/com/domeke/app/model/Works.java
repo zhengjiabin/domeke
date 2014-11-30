@@ -113,7 +113,7 @@ public class Works extends Model<Works> {
 	public Page<Works> getWorksNotCheck(String workstype,String type,Integer pageNumber,Integer pageSize){
 		try {
 			StringBuffer querySql = new StringBuffer();
-			querySql.append("from work t1 left join works t2 on t2.worksid = t1.worksid where t1.ischeck = 0");
+			querySql.append("from work t1 left join works t2 on t2.worksid = t1.worksid where t1.status = 20");
 			if(!StrKit.isBlank(workstype)){
 				querySql.append(" and t2.workstype = " + workstype);
 			}
@@ -208,7 +208,7 @@ public class Works extends Model<Works> {
 	public Page<Works> getWorksInfoPage(String worksType, String type, Integer pageNum, Integer pageSize) {
 		try {
 			StringBuffer querySql = new StringBuffer();
-			querySql.append("from work t1 left join works t2 on t2.worksid = t1.worksid where t1.ischeck = 0");
+			querySql.append("from work t1 left join works t2 on t2.worksid = t1.worksid where t1.status = 30");
 			if(!StrKit.isBlank(worksType)){
 				querySql.append(" and t2.workstype = " + worksType);
 			}
