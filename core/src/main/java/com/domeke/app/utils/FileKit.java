@@ -112,7 +112,7 @@ public class FileKit {
 		if(StrKit.isBlank(descDirectory)){
 			return null;
 		}
-		descDirectory = descDirectory.replaceAll("\\\\", "/");
+		descDirectory = getDirectory(descDirectory, "");
 		return descDirectory.substring(descDirectory.lastIndexOf("/") + 1, descDirectory.length());
 	}
 	
@@ -121,9 +121,11 @@ public class FileKit {
 	 * @return
 	 */
 	public static String getVirtualDirectory(String descDirectory){
+		descDirectory = getDirectory(descDirectory, "");
 		String serBasePath = getServBasePath();
 		if(isDevMode()){
 			String webPath = PathKit.getWebRootPath();
+			webPath = getDirectory(webPath, "");
 			descDirectory = descDirectory.replaceFirst(webPath, "");
 		}else{
 			String basePath = PropKit.getString("basePath");
@@ -179,7 +181,7 @@ public class FileKit {
 	 * @return
 	 */
 	public static String getParentDirectory(String directory){
-		directory = directory.replace("\\\\", "/");
+		directory = getDirectory(directory, "");
 		return directory.substring(0, directory.lastIndexOf("/"));
 	}
 	

@@ -360,7 +360,7 @@ public class FileLoadKit {
 				FileKit.delete(file);
 				continue;
 			}
-			virtualPaths = fileUploadKit.handleVideo(file, discDirectory, serverDirectory);
+			virtualPaths = fileUploadKit.handleVideo(file, discDirectory);
 			parameterName = uploadFile.getParameterName();
 			
 			filePaths = fileDirectory.get(parameterName);
@@ -479,8 +479,8 @@ public class FileLoadKit {
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	private Map<String,VideoFile> handleVideo(File tempFile, String discDirectory, String serverDirectory) throws IOException, InterruptedException{
-		VideoFile videoFile = buildVideoFile(tempFile, discDirectory, serverDirectory);
+	private Map<String,VideoFile> handleVideo(File tempFile, String discDirectory) throws IOException, InterruptedException{
+		VideoFile videoFile = buildVideoFile(tempFile, discDirectory);
 		String fileName = videoFile.getFileName();
 		Map<String,VideoFile> videoPaths = new HashMap<String,VideoFile>();
 		videoPaths.put(fileName, videoFile);
@@ -524,7 +524,7 @@ public class FileLoadKit {
 			Map<String, ImageFile> imagePath = handleImg(tempFile, discDirectory, serverDirectory);
 			virtualPaths.putAll(imagePath);
 		}else if(FileKit.isVideo(fileName)){
-			Map<String, VideoFile> videoPaths = handleVideo(tempFile, discDirectory, serverDirectory);
+			Map<String, VideoFile> videoPaths = handleVideo(tempFile, discDirectory);
 			virtualPaths.putAll(videoPaths);
 		}else{
 			Map<String, FileInterface> filePath = handleFile(tempFile, discDirectory, serverDirectory);
@@ -565,24 +565,8 @@ public class FileLoadKit {
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	private VideoFile buildVideoFile(File file, String discDirectory, String serverDirectory) throws IOException, InterruptedException{
-		String fileName = file.getName();
-		boolean isCompressVideo = FileHandleKit.isCompressVideo(fileName);
-		
-		VideoFile videoFile = null;
-		if(isCompressVideo || FileKit.isDevMode()){
-			videoFile = FileHandleKit.fileCopy(file, discDirectory);
-		}else{
-			videoFile = new VideoFile();
-			String originalDirectory = file.getAbsolutePath();
-			videoFile.setFileName(fileName);
-			videoFile.setFileType(FileKit.getFileType(fileName));
-			videoFile.setDescDirectory(originalDirectory);
-			videoFile.setOriginalDirectory(originalDirectory);
-			String virtualDirectory = FileKit.getVirtualDirectory(originalDirectory);
-			videoFile.setVirtualDirectory(virtualDirectory);
-		}
-		return videoFile;
+	private VideoFile buildVideoFile(File file, String discDirectory) throws IOException, InterruptedException{
+		return FileHandleKit.handleLoadVideo(file, discDirectory);
 	}
 	
 	/**

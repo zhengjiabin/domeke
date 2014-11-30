@@ -273,6 +273,7 @@ public class UserController extends Controller {
 		String password = EncryptKit.EncryptMd5(password1);
 		user.set("password", password);
 		user.update();
+		setAttr("okmsg", "密码修改成功，重置后密码为111111!");
 		goUserManage();
 	}
 
