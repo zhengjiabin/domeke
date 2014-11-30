@@ -30,7 +30,7 @@ public class VideoKit {
 	private static String toDirectory = "";
 
 	static {
-		FFMEPG_PATH = PropKit.getString("ffmepg_path");
+		FFMEPG_PATH = PropKit.getString("ffmepgPath");
 	}
 
 	public static boolean checkVideoType(String filepath) {
