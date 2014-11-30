@@ -459,11 +459,19 @@ public class WorksController extends Controller {
 		Integer userId = Integer.parseInt(String.valueOf(user.get("userid")));
 		String userName = user.get("username");
 
-		String title = getPara("title");
-		String des = getPara("des");
 		String ispublic = getPara("ispublic");
 		String worksid = getPara("worksid");
-
+		String checkbox = getPara("check");
+		String worknum = getPara("worknum");
+		String title = "第"+worknum+"集";
+		
+        if(checkbox == null){
+        	this.setAttr("user", user);
+        	map.put("success", 0);
+        	map.put("message", "未同意版权声明!");
+        	renderJson(map);
+			return;
+        }
 		Works worksModel = getModel(Works.class).findById(worksid);
 		Work workModel = getModel(Work.class);
 		boolean bool = false;
@@ -489,9 +497,10 @@ public class WorksController extends Controller {
 		workModel.set("worksid", worksModel.get("worksid"));
 		workModel.set("worknum", Integer.parseInt(maxnum));
 		workModel.set("workname", title);
-		workModel.set("workdes", des);
+		workModel.set("workdes", "");
 		workModel.set("cover", coverPath);
 		workModel.set("comic", comicPath);
+		workModel.set("status", 20);
 		workModel.set("times", 0);
 		workModel.set("timesdes", "");
 		workModel.set("isdisable", ispublic);
@@ -940,6 +949,9 @@ public class WorksController extends Controller {
 					workpageNumber = Integer.parseInt(workpageNumberStr);
 				}
 				String worksid = getPara("worksid");
+				List<Integer> lackNum = getModel(Work.class).getLackNum(worksid);
+				
+				setAttr("lackNum", lackNum);
 				setAttr("type", type);
 				setAttr("workstype", workstype);
 				setAttr("workpageNumber", workpageNumber);
