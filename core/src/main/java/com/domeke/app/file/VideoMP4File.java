@@ -18,7 +18,7 @@ public class VideoMP4File extends VideoFile {
 	public List<String> getProcessCommend() {
 		List<String> command = Lists.newArrayList();
 		command.add(getProcessPath());
-		command.add("-i");
+		command.add(" -i ");
 		command.add(getOriginalDirectory());
 		// 音频码率 32 64 96 128
 		command.add(" --acodec libfaac");
