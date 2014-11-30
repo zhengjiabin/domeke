@@ -77,10 +77,10 @@
             		<a id="peas"  name="${isChange!}" href="javascript:changeGoods();" class="BuyNow" >豆豆兑换</a>
                 <%}%>
                 <% if(flag==0) { %>
-                	<button id="btnLoves" name="" class="Loves"  type="button" style="width: 180px; height: 50px;" onclick="loveGoods()"><img src="images/icon11.png">喜 欢(${sumLove!})</button>
+                	<button id="btnLoves" name="" class="Loves"  type="button" style="width: 180px; height: 50px;" onclick="loveGoods()"><a style="color:#F00" href="javascript:void(0)"><img src="images/icon11.png">喜 欢(${sumLove!})</a></button>
                 <%}%>
                 <% if(flag==1) { %>
-                	<button name="" class="Loves"  type="button" style="width: 180px; height: 50px;" style="display:none;"><img src="images/icon11.png">喜 欢(${sumLove!})</button>
+                	<button id="btnLoves" name="" class="Loves"  type="button" style="width: 180px; height: 50px;" style="display:none;"><a style="color:#F00" href="javascript:void(0)"><img src="images/icon11.png">喜 欢(${sumLove!})</a></button>
                 <%}%>
                 <input id="goodsid" type="hidden" name="goodsid" value="${goods.goodsid!}"/>
                 <input id="goodsattr1" type="hidden" name="goodsattr1" value="${goods.goodsattr1!}"/>
