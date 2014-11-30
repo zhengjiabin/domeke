@@ -152,7 +152,7 @@ public class GoodsType extends Model<GoodsType> {
 				break;
 			}
 			goodsTypeId = String.valueOf(gt.get("parenttypeid"));
-			if ("null".equals(goodsTypeId) || "".equals(goodsTypeId) || goodsTypeId == null) {
+			if ("null".equals(goodsTypeId) || "".equals(goodsTypeId) || goodsTypeId == null || "0".equals(goodsTypeId)) {
 				break;
 			}
 		}
