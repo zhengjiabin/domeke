@@ -374,7 +374,25 @@ public class UserController extends Controller {
 	}
 
 	public void sendActivation(User user) {
-		getModel(User.class).sendActivation(user);
+		try {
+			EncryptionDecryption ency = new EncryptionDecryption();
+			String email = user.getStr("email");
+			user = user.getCloumValue("email", email);
+			if (user != null) {
+				Map<String, Object> params = Maps.newHashMap();
+				String nickname = user.getStr("nickname");
+				Long userid = user.getLong("userid");
+				// 加密邮箱
+				email = ency.encrypt(email);
+				String template = "registerSuccess";
+				String url = "http://www.dongmark.com/user/activationUser?uid=" + email;
+				params.put("url", url);
+				params.put("username", nickname);
+				domekeMailSender.send(email, template, params);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void activationUser() {
