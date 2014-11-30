@@ -1174,6 +1174,7 @@ public class WorksController extends Controller {
 			}
 			Works worksModel = getModel(Works.class).findById(worksid);
 			worksModel.set("ischeck", "1");
+			worksModel.update();
 			map.put("success", 1);
 		} catch (Exception e) {
 			e.printStackTrace();
