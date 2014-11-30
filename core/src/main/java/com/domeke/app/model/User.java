@@ -212,7 +212,15 @@ public class User extends Model<User> {
 		String imgUrl = Db.queryStr("select imgurl from user where username = '" + username + "'");
 		return imgUrl;
 	}
-
+	/**
+	 * 根据userid查询该用户头像
+	 * @param username
+	 * @return
+	 */
+	public String getIndexImgURL(String userid) {
+		String imgUrl = Db.queryStr("select imgurl from user where userid = '" + userid + "'");
+		return imgUrl;
+	}
 	public void sendActivation(User user) {
 		try {
 			EncryptionDecryption ency = new EncryptionDecryption();

@@ -94,9 +94,12 @@ public class GoodsController extends FilesLoadController {
 			Goods goods = getModel(Goods.class);
 			goods.set("pic", pic);
 			goods.set("headimg", headimg);
-			// 鍙敼涓鸿幏鍙栧綋鍓嶇敤鎴风殑鍚嶅瓧鎴栬�匢D
-			goods.set("creater", 111111);
-			goods.set("modifier", 111111);
+			User user = getSessionAttr("user");
+			user = User.dao.getUserForId(user.getLong("userid"));
+			//创建人id，修改人id
+			goods.set("creater", user.getNumber("userid"));
+			goods.set("modifier", user.getNumber("userid"));
+			goods.set("username", user.get("username"));
 			goods.saveGoodsInfo();
 			redirect("/goods/renderGoods");
 		} catch (Exception e) {

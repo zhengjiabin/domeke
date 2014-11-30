@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.domeke.app.model.Goods;
+import com.domeke.app.model.User;
 import com.domeke.app.model.Works;
 import com.google.common.collect.Lists;
 
@@ -101,6 +102,7 @@ public class ParseDemoKit {
 						+ goods.get("goodsattr1") + "&dougprice=" + goods.get("dougprice") + "&headimg="
 						+ goods.get("headimg");
 				map.put("detailUrl", detailUrl);
+				map.put("imgurl", User.dao.getIndexImgURL(goods.getLong("creater").toString()));
 				resultMap.add(map);
 			}
 		} catch (Exception e) {
