@@ -21,7 +21,7 @@ public class VideoMP4File extends VideoFile {
 		command.add(" -i ");
 		command.add(getOriginalDirectory());
 		// 音频码率 32 64 96 128
-		command.add(" --acodec libfaac");
+		// command.add(" --acodec libfaac");
 		// 使用codec编解码
 		command.add(" --ab 128k");
 		command.add(" -ac 2");
