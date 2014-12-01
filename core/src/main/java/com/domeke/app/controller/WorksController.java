@@ -463,7 +463,7 @@ public class WorksController extends Controller {
 		String worksid = getPara("worksid");
 		String checkbox = getPara("check");
 		String worknum = getPara("worknum");
-		String title = "第"+worknum+"集";
+		String title = getPara("title");
 		
         if(checkbox == null){
         	this.setAttr("user", user);
@@ -495,7 +495,7 @@ public class WorksController extends Controller {
 			return;
 		}
 		workModel.set("worksid", worksModel.get("worksid"));
-		workModel.set("worknum", Integer.parseInt(maxnum));
+		workModel.set("worknum", Integer.parseInt(worknum));
 		workModel.set("workname", title);
 		workModel.set("workdes", "");
 		workModel.set("cover", coverPath);
