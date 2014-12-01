@@ -54,6 +54,12 @@ public class User extends Model<User> {
 		Long userid = Db.queryLong(sql);
 		return userid;
 	}
+	
+	public String getPassword(String username) {
+		String sql = "select password from user where username='"+username+"'";
+		String password = Db.queryStr(sql);
+		return password;
+	}
 	public void saveUser() {
 		HtmlTagKit.processHtmlSpecialTag(this, "username", "email", "mobile");
 		String pasword = EncryptKit.EncryptMd5(this.getStr("password"));

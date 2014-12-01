@@ -363,6 +363,15 @@ public class UserController extends Controller {
 			render("/testEmail.html");
 			return;
 		}
+		String password = EncryptKit.EncryptMd5(user.getStr("password"));
+		String resPassword = user.getPassword(user.getStr("username"));
+		if(resPassword !=null && password != null){
+			if(!resPassword.equals(password)){
+				setAttr("emailMsg", "密码错误！");
+				render("/testEmail.html");
+				return;
+			}
+		}
 		user.set("userid", userid);
 		user.update();
 		// 发送邮箱验证
