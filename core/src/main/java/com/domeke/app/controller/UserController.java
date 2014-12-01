@@ -301,6 +301,13 @@ public class UserController extends Controller {
 	public void search() {
 		render("/searchPassword.html");
 	}
+	
+	/**
+	 * 跳转邮箱验证
+	 */
+	public void testEmail() {
+		render("/testEmail.html");
+	}
 
 	/**
 	 * 按用户名查询积分日志
@@ -348,7 +355,21 @@ public class UserController extends Controller {
 		}
 
 	}
-
+	public void testUpEmail(){
+		User user = getModel(User.class);
+		Long userid = user.getUidForUN(user.getStr("username"));
+		if(userid == null){
+			setAttr("emailMsg", "该用户名不存在！");
+			render("/testEmail.html");
+			return;
+		}
+		user.set("userid", userid);
+		user.update();
+		// 发送邮箱验证
+		sendActivation(user);
+		setAttr("succes", "验证信息已发送到邮箱，请登录你的邮箱进行验证！");
+		render("/registerSucces.html");
+	}
 	public void sendPassword() {
 		User user = getModel(User.class);
 		String email = user.getStr("email");

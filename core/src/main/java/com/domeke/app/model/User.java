@@ -49,7 +49,11 @@ public class User extends Model<User> {
 		String sql = "select password from user where username=? ";
 		return dao.findFirst(sql, username);
 	}
-
+	public Long getUidForUN(String username) {
+		String sql = "select userid from user where username='"+username+"'";
+		Long userid = Db.queryLong(sql);
+		return userid;
+	}
 	public void saveUser() {
 		HtmlTagKit.processHtmlSpecialTag(this, "username", "email", "mobile");
 		String pasword = EncryptKit.EncryptMd5(this.getStr("password"));
