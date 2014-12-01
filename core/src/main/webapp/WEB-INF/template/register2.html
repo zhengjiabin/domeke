@@ -9,6 +9,9 @@
  function openwin() { 
 	  window.open ("agreement.html", "newwindow", "height=518, width=650, toolbar =0, menubar=no, scrollbars=no, resizable=no, location=no, status=no")
 	} 
+ function openPolicy() { 
+	  window.open ("warning.html", "newwindow", "height=518, width=650, toolbar =0, menubar=no, scrollbars=no, resizable=no, location=no, status=no")
+	}
  </script>
 </head>
 
@@ -91,7 +94,7 @@
       </tr>
       <tr>
         <th>&nbsp;</th>
-        <td>点击“立即注册”，即表示您同意并愿意遵守动漫方舟<span class="font_r"><a href="#">用户协议</a></span>和<span class="font_r"><a>隐私政策</a></span></td>
+        <td>点击“立即注册”，即表示您同意并愿意遵守动漫方舟<span class="font_r"><a href="javascript:void(0)" onclick="openwin()">用户协议</a></span>和<span class="font_r"><a href="javascript:void(0)" onclick="openPolicy()">版权声明</a></span></td>
       </tr>
     </table>
   </form>
