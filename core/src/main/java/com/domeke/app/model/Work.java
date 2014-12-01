@@ -119,7 +119,7 @@ public class Work extends Model<Work> {
 				nums.add(i);
 			}
 		}
-		nums.add(endNum + 1);
+		nums.add(endNum + 2);
 		return nums;
 	}
 	public Work getUpWork(Object worksid,Object worknum){
