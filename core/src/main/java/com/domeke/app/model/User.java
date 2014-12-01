@@ -60,6 +60,12 @@ public class User extends Model<User> {
 		String password = Db.queryStr(sql);
 		return password;
 	}
+	
+	public Long getCountEmail(String username,String email) {
+		String sql = "select count(1) from user where email='"+email+"' and username !='"+username+"'";
+		Long count = Db.queryLong(sql);
+		return count;
+	}
 	public void saveUser() {
 		HtmlTagKit.processHtmlSpecialTag(this, "username", "email", "mobile");
 		String pasword = EncryptKit.EncryptMd5(this.getStr("password"));

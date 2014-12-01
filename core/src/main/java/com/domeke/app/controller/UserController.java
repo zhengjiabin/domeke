@@ -372,6 +372,12 @@ public class UserController extends Controller {
 				return;
 			}
 		}
+		Long count = user.getCountEmail(user.getStr("username"), user.getStr("email"));
+		if(count>0){
+			setAttr("emailMsg", "邮箱已存在！");
+			render("/testEmail.html");
+			return;
+		}
 		user.set("userid", userid);
 		user.update();
 		// 发送邮箱验证
