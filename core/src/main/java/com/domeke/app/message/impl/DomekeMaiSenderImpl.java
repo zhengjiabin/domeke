@@ -42,7 +42,7 @@ public class DomekeMaiSenderImpl implements DomekeMailSender {
 			logger.info("***********************");
 			logger.info(" * send from {}", from);
 			for (int i = 0; i < to.length; i++) {
-				logger.info(" *  send to num {}, {}", i, to[i]);
+				logger.info(" *  send to num {}, {}", i+1, to[i]);
 			}
 			logger.info(" * send subject {}", subject);
 			logger.info(" * send text {}", text);

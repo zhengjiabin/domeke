@@ -419,9 +419,9 @@ public class UserController extends Controller {
 				String nickname = user.getStr("nickname");
 				Long userid = user.getLong("userid");
 				// 加密邮箱
-				email = ency.encrypt(email);
+				String encryptemail = ency.encrypt(email);
 				String template = "registerSuccess";
-				String url = "http://www.dongmark.com/user/activationUser?uid=" + email;
+				String url = "http://www.dongmark.com/user/activationUser?uid=" + encryptemail;
 				params.put("url", url);
 				params.put("username", nickname);
 				domekeMailSender.send(email, template, params);
