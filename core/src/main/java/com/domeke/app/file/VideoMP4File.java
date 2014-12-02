@@ -46,27 +46,27 @@ public class VideoMP4File extends VideoFile {
 	
 	public String getProcessCommendStr(){
 		StringBuffer buffer = new StringBuffer(getProcessPath());
-		buffer.append("-i");
-		buffer.append(getOriginalDirectory());
-		buffer.append("-ab");
-		buffer.append("128k");
-		buffer.append("-ac");
-		buffer.append("2");
-		buffer.append("-vcodec");
-		buffer.append("libx264");
-		buffer.append("-ar");
-		buffer.append("22050");
-		buffer.append("-crf");
-		buffer.append("22");
-		buffer.append("-r");
-		buffer.append("22");
-		buffer.append("-r");
-		buffer.append("30");
-		buffer.append("-threads");
-		buffer.append("0");
-		buffer.append("-qscale");
-		buffer.append("6");
-		buffer.append("-y");
+		buffer.append(" -i ");
+		buffer.append( getOriginalDirectory());
+		buffer.append(" -ab");
+		buffer.append(" 128k");
+		buffer.append(" -ac");
+		buffer.append(" 2");
+		buffer.append(" -vcodec");
+		buffer.append(" libx264");
+		buffer.append(" -ar");
+		buffer.append(" 22050");
+		buffer.append(" -crf");
+		buffer.append(" 22");
+		buffer.append(" -r");
+		buffer.append(" 22");
+		buffer.append(" -r");
+		buffer.append(" 30");
+		buffer.append(" -threads");
+		buffer.append(" 0");
+		buffer.append(" -qscale");
+		buffer.append(" 6");
+		buffer.append(" -y ");
 		buffer.append(getDescDirectory());
 		
 		return buffer.toString();
