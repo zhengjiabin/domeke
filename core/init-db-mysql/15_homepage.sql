@@ -3,7 +3,7 @@ CREATE TABLE `homepage` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '广告标题',
   `subtitle` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '二级标题',
-  `img` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '图片',
+  `img` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '图片地址',
   `url` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '广告地址',
   `des` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '描述',
   `rank` int(11) DEFAULT '0' COMMENT '排序，数值越大排名越靠前',
