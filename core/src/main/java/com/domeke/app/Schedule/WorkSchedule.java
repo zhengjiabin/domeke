@@ -1,8 +1,12 @@
 package com.domeke.app.Schedule;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.domeke.app.file.FileInterface;
 import com.domeke.app.file.ImageFile;
@@ -13,11 +17,18 @@ import com.domeke.app.utils.FileHandleScheduleKit;
 import com.domeke.app.utils.FileKit;
 import com.domeke.app.utils.MapKit;
 import com.jfinal.kit.StrKit;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.IAtom;
 
 public class WorkSchedule {
+	
+	private Logger logger = LoggerFactory.getLogger(WorkSchedule.class);
 
 	public void handleProcess() {
+		logger.info("=============定时调度开始============");
 		List<Work> workList = Work.dao.getWorkNotHandled();
+		
+		logger.info("=======待压缩视频数量===={}",workList.size());
 		Map<String, FileInterface> data = FileHandleScheduleKit.handleScheduleFile("comic", workList);
 		Map<String, VideoFile> videoFiles = buildVideoFile(data);
 		if(MapKit.isBlank(videoFiles)){
@@ -52,8 +63,14 @@ public class WorkSchedule {
 				imgVirtualDirectory = imageFile.getVirtualDirectory();
 				work.set("cover", imgVirtualDirectory);
 			}
+			Db.tx(new IAtom(){
+				public boolean run() throws SQLException {
+					int count = Db.update("work", work);
+					return count == 1;
+				}
+			});
 			
-			work.update();
+			logger.info("=============定时调度结束============");
 		}
 	}
 	
