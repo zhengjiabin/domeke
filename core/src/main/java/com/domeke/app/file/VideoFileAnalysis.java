@@ -178,14 +178,14 @@ public class VideoFileAnalysis {
 			InputStreamReader isr = new InputStreamReader(stderr);
 			BufferedReader br = new BufferedReader(isr);
 			String line = null;
-			logger.info("==============<ERROR>=============");
+			logger.debug("==============<ERROR>=============");
 			while ((line = br.readLine()) != null) {
-				logger.info("{}",line);
 				info.append(line);
 			}
-			logger.info("==============<ERROR>=============");
+			logger.debug(info.toString());
+			logger.debug("==============<ERROR>=============");
 			int exitVal = proc.waitFor();
-			logger.info("Process exitValue:{} " ,exitVal);
+			logger.debug("Process exitValue:{} " ,exitVal);
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}

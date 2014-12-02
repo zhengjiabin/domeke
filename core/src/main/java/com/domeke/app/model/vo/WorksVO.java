@@ -12,6 +12,14 @@ public class WorksVO extends BaseVO {
 	 */
 	private static final long serialVersionUID = 3683462974089424783L;
 
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
 	private String worksname;
 
 	private String describle;
@@ -25,6 +33,8 @@ public class WorksVO extends BaseVO {
 	private String comic;
 	
 	private String workname;
+	
+	private String desc;
 	
 	
 	public String getComment() {

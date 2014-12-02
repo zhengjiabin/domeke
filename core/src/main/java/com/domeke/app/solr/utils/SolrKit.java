@@ -172,6 +172,7 @@ public class SolrKit<T> {
 				queryStrBuffer.append(" OR ");
 			}
 		}
+		logger.info("queryStrBuffer:==========="+queryStrBuffer.toString());
 		query.setQuery(queryStrBuffer.toString());
 	}
 	
