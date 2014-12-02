@@ -90,4 +90,10 @@ public class VideoFile extends FileInterface {
 		commend.add(getOriginalDirectory());
 		return commend;
 	}
+
+	@Override
+	public String getProcessCommendStr() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

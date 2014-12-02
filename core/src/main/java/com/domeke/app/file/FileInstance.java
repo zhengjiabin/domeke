@@ -9,4 +9,10 @@ public class FileInstance extends FileInterface{
 		return null;
 	}
 
+	@Override
+	public String getProcessCommendStr() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

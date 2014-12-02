@@ -27,6 +27,8 @@ public abstract class FileInterface {
 	
 	/** 获取转换格式指令 */
 	public abstract List<String> getProcessCommend();
+	
+	public abstract String getProcessCommendStr();
 
 	/**
 	 * 获取文件物理地址

@@ -32,4 +32,10 @@ public class ImagePNGFile extends FileInterface {
 		command.add("mjpeg");
 		return command;
 	}
+
+	@Override
+	public String getProcessCommendStr() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

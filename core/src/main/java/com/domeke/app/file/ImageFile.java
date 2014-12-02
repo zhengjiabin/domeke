@@ -37,4 +37,10 @@ public class ImageFile extends FileInterface {
 		command.add(getOriginalDirectory());
 		return command;
 	}
+
+	@Override
+	public String getProcessCommendStr() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

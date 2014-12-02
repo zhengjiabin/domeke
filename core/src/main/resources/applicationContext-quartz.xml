@@ -33,7 +33,7 @@
 				<ref bean="workJobDetail" />
 			</property>
 			<property name="cronExpression">
-				<value>* */10  * * * ?</value>
+				<value>* */30  * * * ?</value>
 			</property>
 		</bean>
 		<!-- 调度的配置结束 -->
