@@ -17,6 +17,36 @@ public class WorksVO extends BaseVO {
 	private String describle;
 
 	private String cover;
+	
+	private String comment;
+	
+	private String pageviews;
+	
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
+	public String getPageviews() {
+		return pageviews;
+	}
+
+	public void setPageviews(String pageviews) {
+		this.pageviews = pageviews;
+	}
+
+	public String getWorkname() {
+		return workname;
+	}
+
+	public void setWorkname(String workname) {
+		this.workname = workname;
+	}
+
+	private String workname;
 
 	public String getWorksname() {
 		return worksname;

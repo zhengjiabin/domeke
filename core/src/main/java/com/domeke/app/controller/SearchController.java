@@ -47,7 +47,7 @@ public class SearchController extends Controller {
 			return;
 		}
 		try {
-			String[] tags = new String[] { "worksname", "desc", "cover" };
+			String[] tags = new String[] { "worksname", "desc", "cover","pageviews","comment","workname" };
 			Page<WorksVO> worksVOPage = SolrKit.query(tags, queryKey, WorksVO.class, page);
 			setAttr("worksVOPage", worksVOPage);
 			keepPara("queryKey");
