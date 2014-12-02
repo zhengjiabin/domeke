@@ -22,6 +22,11 @@ public class WorksVO extends BaseVO {
 	
 	private String pageviews;
 	
+	private String comic;
+	
+	private String workname;
+	
+	
 	public String getComment() {
 		return comment;
 	}
@@ -46,7 +51,14 @@ public class WorksVO extends BaseVO {
 		this.workname = workname;
 	}
 
-	private String workname;
+
+	public String getComic() {
+		return comic;
+	}
+
+	public void setComic(String comic) {
+		this.comic = comic;
+	}
 
 	public String getWorksname() {
 		return worksname;
