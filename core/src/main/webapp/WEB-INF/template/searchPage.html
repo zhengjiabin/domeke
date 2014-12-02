@@ -1,9 +1,10 @@
 <div class="CartoonContent">
-	<% 
-		for (worksvo in worksVOPage.list){ 
-	%>
+
 	<section>
 		<div class="CartoonContent">
+			<% 
+		for (worksvo in worksVOPage.list){ 
+	%>
 			<div class="CartoonSub">
 				<a href="cartoon/showDetail?id=${worksvo.id!}" style="display: block;"> 
 					<img src="${worksvo.cover!}">
@@ -16,9 +17,10 @@
 						class="FloatR">${worksvo.comment!}</span>
 				</div>
 			</div>
+			   <% } %>
 		</div>
 	</section>
-   <% } %>
+
 </div> 
 <% if(has(worksVOPage)){
 	var pageAction = "./search/searchPage?queryKey=" + queryKey;
