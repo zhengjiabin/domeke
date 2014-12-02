@@ -110,7 +110,7 @@ public class Work extends Model<Work> {
 		Work maxWork = this.getMaxWork(worksid);
 		Integer endNum = maxWork.getInt("worknum");
 		if(endNum == null){
-			endNum = 0;
+			endNum = -1;
 		}
 		for(int i = 1; i < endNum; i++){
 			Work workModel = maxWork.getWorkByWorkNum(worksid, i);
