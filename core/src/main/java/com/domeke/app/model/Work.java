@@ -110,19 +110,16 @@ public class Work extends Model<Work> {
 		Work maxWork = this.getMaxWork(worksid);
 		Integer endNum = maxWork.getInt("worknum");
 		if(endNum == null){
-			endNum = -1;
+			endNum = 0;
 		}
 		for(int i = 1; i < endNum; i++){
 			Work workModel = maxWork.getWorkByWorkNum(worksid, i);
-			if(!workModel.isNotEmpty()){
+			if(workModel == null || !workModel.isNotEmpty()){
 				//如果有编号缺失 把编号记住
 				nums.add(i);
 			}
 		}
 		endNum = endNum + 1;
-		if (endNum == 0){
-			endNum = endNum + 1;
-		}
 		nums.add(endNum);
 		return nums;
 	}
