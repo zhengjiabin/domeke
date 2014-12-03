@@ -385,6 +385,11 @@ public class UserController extends Controller {
 		setAttr("succes", "验证信息已发送到邮箱，请登录你的邮箱进行验证！");
 		render("/registerSucces.html");
 	}
+	
+	
+	/**
+	 * 找回密码
+	 */
 	public void sendPassword() {
 		User user = getModel(User.class);
 		String email = user.getStr("email");
@@ -394,13 +399,27 @@ public class UserController extends Controller {
 			render("/searchPassword.html");
 			return;
 		}
+		
+		Long count = user.getCountUser(user.getStr("username"), email);
+		if(count==0){
+			setAttr("emailMsg", "用户名邮箱不匹配!");
+			render("/searchPassword.html");
+			return;
+		}
+		String inputRandomCode = getPara("captcha");
+		boolean validate = MyCaptchaRender.validate(this, inputRandomCode);
+		if (!validate){
+			setAttr("emailMsg", "验证码错误！");
+			render("/testEmail.html");
+			return;
+		}
 		user = user.getCloumValue("email", email);
 		if (user != null) {
 			Map<String, Object> params = Maps.newHashMap();
 			String password1 = getRandomString(6);
 			String password = EncryptKit.EncryptMd5(password1);
 			user.updatePassword(user.get("userid"), password);
-			params.put("repassword", password1);
+			params.put("password1", password1);
 			params.put("username", user.get("nickname"));
 			domekeMailSender.send(email, "repassword", params);
 			setAttr("succes", "新密码已发送到邮箱，请登录查看！");
