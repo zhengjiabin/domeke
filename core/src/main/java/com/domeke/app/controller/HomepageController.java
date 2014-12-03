@@ -30,7 +30,6 @@ public class HomepageController extends FilesLoadController{
 			if(homepageModel.isNotEmpty()){
 				if("0".equals(state)){
 					//取消
-					Integer maxRank = homepageModel.getMaxRank();
 					homepageModel.set("rank", 0);
 				}else {
 					//1置顶
