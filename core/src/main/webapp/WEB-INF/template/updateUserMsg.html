@@ -5,6 +5,7 @@
           <form action="personal/upUser"  method="post" id="createHtml" enctype="multipart/form-data" class="form-horizontal">
           <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
           	  <input name="user.userid" type="hidden" value="${user.userid!}"/>
+          	  <input name="user.imgurl" type="hidden" value="${user.imgurl!}"/>
           	  <tr>
 	     		<td style="text-align: right;color: red;">${msg!}</td>
 	     	  </tr>
@@ -24,10 +25,9 @@
 						%>
 						${imgPath!}
 					</label></br>
-					<% if(isEmpty(user.imgurl)){%>
+					
 					<input id="imgBtn" type="button" class="btn btn-warning btn-mini" onclick="imgurl.click()" value="请选择图片" required="required"><span class='font_r' style="color: red"> *</span><br>
 					<input id="imgurl" name="user.imgurl" type="file" class="fileCss" value="${user.imgurl!}" onchange="onShowImgChange(this)" style="display: none">
-					<%}%>
                 </td>
               </tr>
               <tr>
