@@ -9,6 +9,7 @@ import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Comment;
 import com.domeke.app.model.Record;
 import com.domeke.app.model.User;
+import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CollectionKit;
@@ -143,7 +144,6 @@ public class CommentController extends Controller {
 				worksModel.update();
 			}
 		}
-		
 		setCommentPage(targetId, idtype);
 		setFollowList(targetId, idtype);
 	}

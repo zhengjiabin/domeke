@@ -12,6 +12,7 @@ import com.domeke.app.model.History;
 import com.domeke.app.model.Work;
 import com.domeke.app.model.Works;
 import com.domeke.app.model.WorksType;
+import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -25,6 +26,7 @@ import com.jfinal.plugin.activerecord.Page;
  * @author lijiasen@domeke.com
  *
  */
+@ControllerBind(controllerKey = "/cartoon")
 public class CartoonController extends Controller {
 	
 	/** 回复类型 */
@@ -153,7 +155,6 @@ public class CartoonController extends Controller {
 	 * cartoon/playVideo?id=${works.worksid!} or
 	 * cartoon/playVideo?id=${works.worksid!}&gid=${work.workid!}
 	 */
-	@Before(ActionInterceptor.class)
 	public void playVideo() {
 		Works worksModel = getModel(Works.class);
 		Integer worksid = getParaToInt("id");
@@ -185,8 +186,8 @@ public class CartoonController extends Controller {
 	 * 点赞
 	 */
 	public void pointPraise() {
-		Works worksModel = getModel(Works.class);
-		Integer worksid = getParaToInt("id");
+		Object worksid = getPara("id");
+		Works worksModel = getModel(Works.class).findById(worksid);
 		worksModel.addPraise(worksid);
 	}
 

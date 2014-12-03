@@ -81,7 +81,6 @@ public class LoginController extends Controller {
 		
 	}
 
-	@Before(ActionInterceptor.class)
 	public void logout() {
 		Subject currentUser = SecurityUtils.getSubject();
 		currentUser.logout();

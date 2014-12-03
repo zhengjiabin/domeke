@@ -36,7 +36,6 @@ public class ManhuaController extends Controller {
 		forwardAction(action);
 	}
 	
-	@Before(ActionInterceptor.class)
 	public void playVideo() {
 		Works worksModel = getModel(Works.class);
 		

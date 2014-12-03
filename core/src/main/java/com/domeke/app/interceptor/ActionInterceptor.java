@@ -1,6 +1,10 @@
 package com.domeke.app.interceptor;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.apache.commons.lang.time.DateUtils;
 
 import com.domeke.app.model.Action;
 import com.domeke.app.model.User;
@@ -19,14 +23,8 @@ public class ActionInterceptor implements Interceptor{
 		Controller controller = ai.getController();
 		String methodName = ai.getMethod().getName();
 		//判断拦截到的方法是否指定的动作
-		
-		String actionName = CodeKit.getValue("actionMethod", methodName);
-		if(!StrKit.isBlank(actionName)){
-			//获取指定动作对象
-			Action action = Action.dao.getActionByName(actionName);
-			if(action == null){
-				throw new RuntimeException("动作不存在");
-			}
+		Action action = Action.dao.getActionByName(methodName);
+		if(action != null && action.isNotEmpty()){
 			//获取用户
 			User user = (User) controller.getSession().getAttribute("user");
 			if(user == null){
@@ -36,8 +34,16 @@ public class ActionInterceptor implements Interceptor{
 			Integer maxnum = action.get("maxnum");
 			Integer peas = action.get("peas");
 			Integer point = action.get("point");
+			Integer limits = action.get("limits");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date nowDate = new Date();
+			String startTime = sdf.format(nowDate);
+			String endTime = sdf.format(nowDate);
 			//获取用户行为次数 并判断是否修改积分豆豆
-			UserAction userAction = UserAction.dao.getUserAction(user.getLong("userid"), action.getLong("actionid"));
+			if(limits != 0){
+				startTime = sdf.format(DateUtils.addDays(nowDate, -limits));
+			}
+			UserAction userAction = UserAction.dao.getUserAction(user.getLong("userid"), action.getLong("actionid"),startTime,endTime);
 			if(userAction == null){
 				userAction =  new UserAction();
 				Long userid = user.getLong("userid");

@@ -34,8 +34,8 @@ CREATE TABLE `user_action` (
 		return dao.getUserAction(userActionId);
 	}
 
-	public UserAction getUserAction(Object userId,Object actionId){
-		String sql = "select * from user_action where userid = ? and actionid = ?";
+	public UserAction getUserAction(Object userId,Object actionId, String startTime, String endTime){
+		String sql = "select * from user_action where userid = ? and actionid = ? and date_format(create_time,'%Y-%m-%d') between '"+startTime+"' and '"+endTime+"'";
 		return dao.findFirst(sql,userId,actionId);
 	}
 }
