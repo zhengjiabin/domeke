@@ -113,6 +113,7 @@ public class Goods extends Model<Goods> {
 				sql = sql + "and " + k + " in (" + params.get(k).toString() + ") ";
 			}			
 		}
+		sql = sql + " and showflag=1 order by istop desc";
 		goodss = this.paginate(pageNumber, pageSize, "select *", sql);
 		//List<Goods> goodsType = this.find(sql);
 		return goodss;
@@ -167,6 +168,14 @@ public class Goods extends Model<Goods> {
 	 */
 	public void updateLoveCount(int goodsId){
 		String sql="update goods set sumlove=sumlove+1 where goodsid='"+goodsId+"'";
+		Db.update(sql);
+	}
+	/**
+	 * 更新商品数量
+	 * @param goodsId
+	 */
+	public void updateGoodsNum(Long goodsId, int num){
+		String sql="update goods set goodsnumber="+num+" where goodsid='"+goodsId+"'";
 		Db.update(sql);
 	}
 	/**

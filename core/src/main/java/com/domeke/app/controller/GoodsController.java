@@ -614,13 +614,21 @@ public class GoodsController extends FilesLoadController {
 		orderDetail.set("goodsprice", goodsModel.get("dougprice"));
 		orderDetail.set("userid", userModel.get("userid"));
 		userModel.update();
-		setAttr("orders", orders);
-		setAttr("goods", goodsModel);
-		setAttr("userModel", userModel);
 		orderDetail.save();
 		Long dougprice = goodsModel.get("dougprice");
 		Map<String,Object> changeMap = getPeas(dougprice);
 		reducePeas(changeMap);
+		goodsModel = getModel(Goods.class).getUserForId(goodsModel.get("goodsid"));
+		float oldNum = goodsModel.getFloat("goodsnumber");
+		int newNums = (int)oldNum-goodsNum;
+		goodsModel.set("goodsnumber", newNums);
+		goodsModel.updateGoodsNum(goodsModel.get("goodsid"), newNums);
+		if (newNums == 0){
+			goodsModel.updateShowFlag(goodsId, 0);
+		}
+		setAttr("orders", orders);
+		setAttr("goods", goodsModel);
+		setAttr("userModel", userModel);
 		goodsUtil("/ShopCentre.html");
 		//render("/ShopCentre.html");
 		//redirect("/orders/byGoods");

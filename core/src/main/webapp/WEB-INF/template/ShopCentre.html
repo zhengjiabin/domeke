@@ -20,12 +20,18 @@ function changeGoods(){
 	var dougprice = $("#dougprice").val();
 	var ischange = $("#isChange").val();
 	var goodsnum = $("#goodsnum").val();
+	var goodsnumber = $("#goodsnumber").val();
+	var resultnum = (goodsnumber-0)-(goodsnum-0);
 	if (""==goodsnum){
 		jAlert('商品购买数量一定要填写！', '警告对话框');
 		return;
 	}
 	if ("0"==goodsnum){
 		jAlert('商品购买数量不能等于0！', '警告对话框');
+		return;
+	}
+	if ((resultnum-0)<=-1){
+		jAlert('您购买的数量大于库存数量！', '警告对话框');
 		return;
 	}
 	var obj ="";
