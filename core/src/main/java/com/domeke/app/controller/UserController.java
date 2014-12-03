@@ -459,7 +459,8 @@ public class UserController extends Controller {
 			user.updateUserMsg(email, "activation", "Y");
 			String url = LoginPic.lpDao.getPicUrl();
 			setAttr("url", url);
-			render("/Login.html");
+			setAttr("succes", "邮箱验证成功");
+			render("/Activation.html");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
