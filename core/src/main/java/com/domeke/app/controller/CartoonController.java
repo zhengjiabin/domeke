@@ -103,7 +103,7 @@ public class CartoonController extends Controller {
 			pageNumber = Integer.parseInt(pageNumberStr);
 		}
 		String pageSizeStr = getPara("pageSize");
-		Integer pageSize = 10;
+		Integer pageSize = 35;
 		if (!StrKit.isBlank(pageSizeStr)) {
 			pageSize = Integer.parseInt(pageSizeStr);
 		}

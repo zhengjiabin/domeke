@@ -1,7 +1,15 @@
 <% layout("/common/layout.html"){ %>
 <script type="text/javascript">
+
+	var img0 = new Image().src = '${homepages[0].url!}';
+	var img1 = new Image().src = '${homepages[1].url!}';
+	var img2 = new Image().src = '${homepages[2].url!}';
+	var img3 = new Image().src = '${homepages[3].url!}';
+	var img4 = new Image().src = '${homepages[4].url!}';
+	
 	$(document).ready(function() {
 		var max = $('.AdSub ul li').length;
+		x
 		$.extend({
 			loopplay : function() {
 				$('.AdSub ul li').removeClass('select');

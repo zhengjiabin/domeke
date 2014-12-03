@@ -7,6 +7,7 @@ import com.domeke.app.interceptor.LoginInterceptor;
 import com.domeke.app.model.Homepage;
 import com.domeke.app.model.User;
 import com.domeke.app.route.ControllerBind;
+import com.domeke.app.utils.FileLoadKit;
 import com.google.common.collect.Maps;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -121,7 +122,7 @@ public class HomepageController extends FilesLoadController{
 		Map<String, Object> map = Maps.newHashMap();
 		try {
 			boolean bool = false;
-			String imgPath = upLoadFileDealPath("img", "", 2000 * 1024 * 1024, "utf-8");
+			String imgPath = FileLoadKit.uploadImg(this,"img", "", 2000 * 1024 * 1024, "utf-8");
 			String id = getPara("id");
 			String title = getPara("title");
 			String subtitle = getPara("subtitle");
@@ -170,7 +171,7 @@ public class HomepageController extends FilesLoadController{
 	public void addHomepage(){
 		Map<String, Object> map = Maps.newHashMap();
 		try {
-			String imgPath = upLoadFileDealPath("img", "", 2000 * 1024 * 1024, "utf-8");
+			String imgPath = FileLoadKit.uploadImg(this,"img", "", 2000 * 1024 * 1024, "utf-8");
 			String title = getPara("title");
 			String subtitle = getPara("subtitle");
 			String url = getPara("url");

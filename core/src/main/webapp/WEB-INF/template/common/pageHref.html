@@ -1,6 +1,6 @@
 <script src="${core}/js/page.js" type="text/javascript"></script>
 <div class="PageMore" id="pageHtml">
-	每页<select name="page.pageSize" id="pageSize" onchange="goToPageSize(this,this.value,'1','${pageAction!}','${fatherNode!}')">
+	每页<select name="page.pageSize" id="pageSize" onchange="goToPageSizeHref(this,this.value,'1','${pageAction!}','${fatherNode!}')">
 			<%	if(isEmpty(page.pageSize)||page.pageSize == 10){	%>
 				<option value="10" selected="selected">10</option>
 				<option value="20">20</option>
