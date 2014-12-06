@@ -93,7 +93,7 @@ public class VideoFile extends FileInterface {
 
 	@Override
 	public String getProcessCommendStr() {
-		// TODO Auto-generated method stub
-		return null;
+		String commmond = getProcessPath() + " -i " + getOriginalDirectory();
+		return commmond;
 	}
 }

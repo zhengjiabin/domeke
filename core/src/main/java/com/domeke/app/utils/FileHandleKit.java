@@ -296,13 +296,14 @@ public class FileHandleKit {
 		VideoFile video = new VideoFile(fileHandleKit.getFfmepgPath());
 		video.setOriginalDirectory(newFile.getAbsolutePath());
 		video.setDescDirectory(newFile.getAbsolutePath());
-		VideoFile videoFile = VideoFileAnalysis.videoProcess(video);
+		video.setHandled(true);
+//		VideoFile videoFile = VideoFileAnalysis.videoProcess(video);
 		
 		String fileDirectory = newFile.getAbsolutePath();
 		String imageDirectory = FileKit.getParentDirectory(fileDirectory);
 		ImageFile imageFile = fileHandleKit.processPNG(newFile, imageDirectory);
-		videoFile.addImageFile(imageFile);
-		return videoFile;
+		video.addImageFile(imageFile);
+		return video;
 	}
 	
 	/**
@@ -325,7 +326,7 @@ public class FileHandleKit {
 	private boolean isDirectCompressVideo(String fileName){
 		String fileType = fileName.substring(fileName.lastIndexOf("."),fileName.length());
 		//支持解析的文件类型
-		if(fileType.matches(".asx|.asf|.mpg|.wmv|.3gp|.mp4|.mov|.avi|.flv")){
+		if(fileType.matches(".asx|.asf|.mpg|.wmv|.3gp|.mov|.avi|.flv")){
 			return true;
 		}
 		return false;
