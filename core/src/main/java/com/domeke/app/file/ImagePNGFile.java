@@ -35,7 +35,8 @@ public class ImagePNGFile extends FileInterface {
 
 	@Override
 	public String getProcessCommendStr() {
-		// TODO Auto-generated method stub
-		return null;
+		String command = getProcessPath() + " -ss 3 -i " + getOriginalDirectory() + " " + getDescDirectory();
+		command = command + " -r 1 -vframes 1 -an -vcodec mjpeg" ;
+		return command;
 	}
 }

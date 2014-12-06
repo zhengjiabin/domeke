@@ -12,7 +12,7 @@ public class FileInstance extends FileInterface{
 	@Override
 	public String getProcessCommendStr() {
 		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 }

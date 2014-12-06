@@ -40,7 +40,7 @@ public class ImageFile extends FileInterface {
 
 	@Override
 	public String getProcessCommendStr() {
-		// TODO Auto-generated method stub
-		return null;
+		String command = getProcessPath() + " -i " + getOriginalDirectory();
+		return command;
 	}
 }
