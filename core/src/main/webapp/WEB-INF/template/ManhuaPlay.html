@@ -36,18 +36,30 @@
 		});
 	}
 </script>
-<section>
+<section id="commentHtml">
 	<div class="CartoonTitle">${works.worksname!}-${work.workname!}</div>
 	<div class="manhuaplay" style="height:auto; overflow: hidden;">
 	  <img id="manhuaplay" alt="${work.workname!}" style="width: 800px; height:auto; display: block; margin: auto;" src="${work.comic!}">
 	</div>
       <div class="PlayControl"> 
         <span class="Good" pid="${works.worksid!}"><a href="#">点赞</a></span>
-        <span class="Argument"><a href="#">评论</a></span>
+        <span class="Argument"><a href="javascrpt:void(0)" onclick="skipPublish(this)">评论</a></span>
       </div>
       <div class="bshare-custom" align="right"><div class="bsPromo bsPromo2"></div><a title="分享到微信" class="bshare-weixin" href="javascript:void(0);"></a><a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"></a><a title="分享到腾讯微博" class="bshare-qqmb"></a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span class="BSHARE_COUNT bshare-share-count" style="float: none;">32.6K</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>  
       <div style="overflow: hidden; width: 200px; margin: auto; text-align: center;">
       		<h2><a href="manhua/updown?workid=${work.workid!}&worksid=${work.worksid!}&num=${work.worknum!}&state=0">上一章</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="manhua/updown?workid=${work.workid!}&worksid=${work.worksid!}&num=${work.worknum!}&state=1">下一章</a></h2>
       </div>
+	<div class="WhiteBg" id = "commentHtml">
+    	<% if(commentPage != null && work != null && work.workid! != null){ 
+			layout(
+			"/comment/cartoonComment.html",
+			{
+				"commentPage":commentPage,
+				"targetId":work.workid,
+				"idtype":"80"
+			}
+			){}
+		} %>
+	</div>
 </section>
 <% } %>
