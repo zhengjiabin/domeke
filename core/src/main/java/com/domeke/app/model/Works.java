@@ -37,6 +37,11 @@ public class Works extends Model<Works> {
 		this.update();
 	}
 	
+	public List<Works> loadMyUpload(Long userid){
+		String sql="select * from works where creater="+userid+" ORDER BY createtime DESC";
+		List<Works> list = this.find(sql);
+		return list;
+	}
 	/**
 	 * 获取动漫页 8个轮播
 	 * @param type

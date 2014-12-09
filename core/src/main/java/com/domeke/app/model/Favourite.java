@@ -80,7 +80,7 @@ public class Favourite extends Model<Favourite> {
 	}
 	
 	public Page<Favourite> getFavouriteByUid(Long uid,int pageNumber,int pageSize){
-		Page<Favourite> page = this.paginate(pageNumber, pageSize, "select * ", "from favourite where userid=?",uid);
+		Page<Favourite> page = this.paginate(pageNumber, pageSize, "select * ", "from favourite where userid=? ORDER BY create_time DESC",uid);
 		return page;
 	}
 	

@@ -23,7 +23,7 @@ CREATE TABLE `code_table` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  */
 @TableBind(tableName="code_table", pkName="codetableid")
-public class CodeTable extends Model<CodeTable> {
+public class CodeTable extends Model<CodeTable> implements Comparable<Object> {
 	
 	public static CodeTable codeTableDao = new CodeTable();
 	
@@ -52,5 +52,25 @@ public class CodeTable extends Model<CodeTable> {
 	public void removeCache(){
 		CacheKit.removeAll("CodeTable");
 		CacheKit.removeAll("codeTableList");
+	}
+	
+
+	@Override
+	public int compareTo(Object o) {
+		if(this ==o){
+            return 0;            
+        }
+        else if (o!=null && o instanceof CodeTable) {   
+            CodeTable t = (CodeTable) o; 
+            String ts = this.get("sortnum");
+            String os = t.get("sortnum");
+            if(Integer.parseInt(ts) <= Integer.parseInt(os)){
+                return -1;
+            }else{
+            return 1;
+        }
+    }else{
+        return -1;
+    }
 	}
 }

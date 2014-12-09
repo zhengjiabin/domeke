@@ -17,7 +17,7 @@ public class PlayCount extends Model<PlayCount>{
 	}
 	
   public Page<PlayCount> getByUserId(Long userId,int pageNumber,int pageSize){
-    	Page<PlayCount> page = this.paginate(pageNumber, pageSize, "select * ", "from playcount where userid=?",userId);
+    	Page<PlayCount> page = this.paginate(pageNumber, pageSize, "select * ", "from playcount where userid=? ORDER BY create_time DESC",userId);
     	return page;
     }
 }

@@ -16,8 +16,8 @@
              <% for(play in playPage.list!){%>
               <tr>
                 <td class="center">${playLP.index!}</td>
-                <td><a href="#">${play.cartoon_name!}</a></td>
-                <td><a href="#">${play.section_name!}</a></td>
+                <td>${play.cartoon_name!}</a></td>
+                <td>${play.section_name!}</a></td>
                 <td>${play.play_counts!}</td>
                 <td>${play.create_time!}</td>
                 <td><a href="personal/deleteMyPlay?playid=${play.PlayCountId}&menuId=${menuId}" onclick="return confirm('确定删除？')">删除</a></td>
