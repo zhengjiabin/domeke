@@ -139,7 +139,7 @@ public class VentWall extends Model<VentWall>{
 	 * @return
 	 */
 	public Page<VentWall> findPage(int pageNumber, int pageSize) {
-		Page<VentWall> page = this.paginate(pageNumber, pageSize, "SELECT *","FROM VENT_WALL ORDER BY CREATETIME");
+		Page<VentWall> page = this.paginate(pageNumber, pageSize, "SELECT *","FROM VENT_WALL ORDER BY CREATETIME desc");
 		return page;
 	}
 }
