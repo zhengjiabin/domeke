@@ -32,9 +32,9 @@
 <script>
 $(function(){
     function maxLimit(){
-            var num=$(this).val().substr(0,50);
+            var num=$(this).val().substr(0,43);
             $(this).val(num);
-            $(this).next().text($(this).val().length+"/50");
+            $(this).next().text($(this).val().length+"/43");
     };
     $("#saytext").keyup(maxLimit);
 });
@@ -71,7 +71,7 @@ $(function(){
         <img src="http://www.dongmark.com/images/VentTip08.png" /><input id="rdo7" name="ventWall.moodid" type="radio" value="VentTip08.png" />
         <img src="http://www.dongmark.com/images/VentTip09.png" /><input id="rdo7" name="ventWall.moodid" type="radio" value="VentTip09.png" />
         <textarea cols="" rows="" class="VentTxt" id="saytext" name="ventWall.message" value="${ventWall.message!}"></textarea>       
-	    <span class="textCount">0/50</span>
+	    <span class="textCount">0/43</span>
         <button id="btn2" name="${issignin}" class="btn2"  type="button"/>
     </div>
 </article>
