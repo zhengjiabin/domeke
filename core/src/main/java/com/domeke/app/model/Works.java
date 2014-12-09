@@ -1,6 +1,7 @@
 package com.domeke.app.model;
 
 import java.util.List;
+
 import com.domeke.app.tablebind.TableBind;
 import com.google.common.collect.Lists;
 import com.jfinal.kit.StrKit;
@@ -150,7 +151,7 @@ public class Works extends Model<Works> {
 	 * @return 返回对应类型的作品信息
 	 */
 	public List<Works> getWorksInfoByType(String worksType,Integer limit) {
-		String querySql = "select * from works where workstype=? and ischeck = 1 and ispublic = 1 and maxnum > 0 order by istop desc limit "+limit;
+		String querySql = "select * from works where workstype=? and ischeck = 1 and ispublic = 1 and maxnum > 0 order by createtime,istop desc limit "+limit;
 		List<Works> workslist = this.find(querySql, worksType);
 		return workslist == null ? Lists.newArrayList() : workslist;
 	}
