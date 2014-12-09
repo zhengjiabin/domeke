@@ -166,7 +166,7 @@ public class Works extends Model<Works> {
 	public Page<Works> getWorksInfoByTypePage(String worksType, Integer pageNumber, Integer pageSize) {
 		Page<Works> workslist = null;
 		if (!StrKit.isBlank(worksType)) {
-			workslist = this.paginate(pageNumber, pageSize, "select *", "from works where ischeck = 1 and ispublic = 1 and workstype = ? order by istop desc", worksType);
+			workslist = this.paginate(pageNumber, pageSize, "select *", "from works where ischeck = 1 and ispublic = 1 and workstype = ? order by createtime， istop desc", worksType);
 		}
 		return workslist;
 	}
