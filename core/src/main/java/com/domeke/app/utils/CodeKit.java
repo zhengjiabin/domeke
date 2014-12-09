@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,13 +35,12 @@ public class CodeKit extends HttpServlet {
 
 	private Logger logger = LoggerFactory.getLogger(CodeKit.class);
 
-	private static String LOAD_CODE_TABLE = "SELECT T.CODETYPE,T.TYPENAME,C.CODEKEY,C.CODENAME,C.CODEVALUE FROM CODE_TYPE T,CODE_TABLE C WHERE T.CODETYPE=C.CODETYPE AND C.STATUS = '0' order by c.sortnum";
+	private static String LOAD_CODE_TABLE = "SELECT T.CODETYPE,T.TYPENAME,C.CODEKEY,C.CODENAME,C.CODEVALUE,C.SORTNUM FROM CODE_TYPE T,CODE_TABLE C WHERE T.CODETYPE=C.CODETYPE AND C.STATUS = '0' order by c.sortnum";
 
 	public void init() throws ServletException {
 		load();
 	}
 
-	@SuppressWarnings("unchecked")
 	private void load() {
 		List<Record> codetableList = query(LOAD_CODE_TABLE);
 		logger.info("======加载码表数量={}==========", codetableList.size());
@@ -103,6 +103,7 @@ public class CodeKit extends HttpServlet {
 			codeTable.set("sortnum", codeTableMap.get(key).get("sortnum"));
 			list.add(codeTable);
 		}
+		Collections.sort(list);
 		return list;
 	}
 
@@ -126,6 +127,7 @@ public class CodeKit extends HttpServlet {
 				codeTable.set("codekey", rs.getString("codekey"));
 				codeTable.set("codename", rs.getString("codename"));
 				codeTable.set("codevalue", rs.getString("codevalue"));
+				codeTable.set("sortnum", rs.getString("sortnum"));
 				codeTableList.add(codeTable);
 			}
 		} catch (SQLException e) {
