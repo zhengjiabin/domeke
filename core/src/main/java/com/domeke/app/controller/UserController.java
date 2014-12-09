@@ -457,7 +457,7 @@ public class UserController extends Controller {
 			email = encry.decrypt(email);
 			User user = getModel(User.class);
 			user.updateUserMsg(email, "activation", "Y");
-			String url = LoginPic.lpDao.getPicUrl();
+			String url = "http://www.dongmark.com/user/goLogin";
 			setAttr("url", url);
 			setAttr("succes", "邮箱验证成功");
 			render("/Activation.html");
