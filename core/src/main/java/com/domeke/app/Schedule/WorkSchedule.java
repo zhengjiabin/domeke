@@ -1,5 +1,6 @@
 package com.domeke.app.Schedule;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,53 +21,89 @@ import com.jfinal.kit.StrKit;
 public class WorkSchedule {
 
 	private Logger logger = LoggerFactory.getLogger(WorkSchedule.class);
+	
 
+	/**
+	 * 压缩视频
+	 * @param workId
+	 */
+	public void handleVideoFile(String workId){
+		Work work = Work.dao.getWorkNotHandled(workId);
+		if(work == null){
+			return;
+		}
+		List<Work> workList = new ArrayList<Work>();
+		workList.add(work);
+		handleScheduleFile(workList);
+	}
+
+	/**
+	 * 
+	 */
 	public void handleProcess() {
 		logger.info("=============定时调度开始============");
 		List<Work> workList = Work.dao.getWorkNotHandled();
-
-		if (workList != null && workList.size() > 0) {
-			logger.info("=======待压缩视频数量===={}", workList.size());
-			Map<String, FileInterface> data = FileHandleScheduleKit.handleScheduleFile("comic", workList);
-			Map<String, VideoFile> videoFiles = buildVideoFile(data);
-
-			if (MapKit.isBlank(videoFiles)) {
-				return;
-			}
-
-			String comic = null, virtualDirectory = null, imgVirtualDirectory = null;
-			VideoFile videoFile = null;
-			List<ImageFile> imageList = null;
-			ImageFile imageFile = null;
-			Object workid = null;
-			for (Work work : workList) {
-				comic = work.getStr("comic");
-				videoFile = videoFiles.get(comic);
-				if (videoFile == null) {
-					continue;
-				}
-				if (!videoFile.isHandled()) {
-					continue;
-				}
-				workid = work.get("workid");
-				work.clear();
-				work.set("workid", workid);
-				work.set("status", "20");
-
-				virtualDirectory = videoFile.getVirtualDirectory();
-				work.set("comic", virtualDirectory);
-
-				imageList = videoFile.getImageFiles();
-				if (CollectionKit.isNotBlank(imageList)) {
-					imageFile = imageList.get(0);
-					imgVirtualDirectory = imageFile.getVirtualDirectory();
-					work.set("cover", imgVirtualDirectory);
-				}
-				work.update();
-			}
-		}
+		handleScheduleFile(workList);
 		logger.info("=============定时调度结束============");
 
+	}
+
+	/**
+	 * 处理定时任务
+	 * @param workList
+	 */
+	private void handleScheduleFile(List<Work> workList) {
+		if (CollectionKit.isBlank(workList)) {
+			return;
+		}
+		logger.info("=======待压缩视频数量===={}", workList.size());
+		Map<String, FileInterface> data = FileHandleScheduleKit.handleScheduleFile("comic", workList);
+		Map<String, VideoFile> videoFiles = buildVideoFile(data);
+		
+		if (MapKit.isBlank(videoFiles)) {
+			return;
+		}
+		
+		handelVideoFile(workList, videoFiles);
+	}
+
+	/**
+	 * 处理压缩视频
+	 * @param workList
+	 * @param videoFiles
+	 */
+	private void handelVideoFile(List<Work> workList,
+			Map<String, VideoFile> videoFiles) {
+		String comic = null, virtualDirectory = null, imgVirtualDirectory = null;
+		VideoFile videoFile = null;
+		List<ImageFile> imageList = null;
+		ImageFile imageFile = null;
+		Object workid = null;
+		for (Work work : workList) {
+			comic = work.getStr("comic");
+			videoFile = videoFiles.get(comic);
+			if (videoFile == null) {
+				continue;
+			}
+			if (!videoFile.isHandled()) {
+				continue;
+			}
+			workid = work.get("workid");
+			work.clear();
+			work.set("workid", workid);
+			work.set("status", "20");
+
+			virtualDirectory = videoFile.getVirtualDirectory();
+			work.set("comic", virtualDirectory);
+
+			imageList = videoFile.getImageFiles();
+			if (CollectionKit.isNotBlank(imageList)) {
+				imageFile = imageList.get(0);
+				imgVirtualDirectory = imageFile.getVirtualDirectory();
+				work.set("cover", imgVirtualDirectory);
+			}
+			work.update();
+		}
 	}
 
 	/**

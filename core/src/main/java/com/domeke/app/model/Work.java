@@ -32,6 +32,16 @@ public class Work extends Model<Work> {
 		List<Work> workList = this.find(sql);
 		return workList;
 	}
+	
+	/**
+	 * 获取未压缩视频
+	 * @return 
+	 */
+	public Work getWorkNotHandled(Object workid) {
+		String sql = "select * from work where status='10' and workid=? ";
+		Work work = this.findFirst(sql, workid);
+		return work;
+	}
 
 	/**
 	 * 获取所有审核过的 和公开的视频
