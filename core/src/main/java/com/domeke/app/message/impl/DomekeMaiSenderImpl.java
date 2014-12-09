@@ -51,7 +51,6 @@ public class DomekeMaiSenderImpl implements DomekeMailSender {
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
@@ -68,7 +67,6 @@ public class DomekeMaiSenderImpl implements DomekeMailSender {
 	 * @return
 	 */
 	private String getMailText(String template, Map<String, Object> map, int messageType) {
-
 		String prefix = "";
 		if (messageType == 0) {
 			prefix = "_subject";
