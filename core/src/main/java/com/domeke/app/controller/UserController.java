@@ -461,6 +461,7 @@ public class UserController extends Controller {
 			setAttr("url", url);
 			setAttr("succes", "邮箱验证成功");
 			render("/Activation.html");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
