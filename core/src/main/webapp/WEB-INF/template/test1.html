@@ -3,48 +3,107 @@
        	  <div class="MeBlock">
             	<div class="MeHead"><img src="${user.imgurl!}" ></div>
             	<div class="MeSummary">
-                	<div class="MeNick">${user.username!}   下午好，</div>
-                    <div>
-                    	<span>账号安全级别：<img src="http://www.dongmark.com/images/icon15.png">普通</span>|
-                        <span><a href="#"><img src="http://www.dongmark.com/images/icon16.png">绑定手机</a></span>|
-                        <span><a href="#"><img src="http://www.dongmark.com/images/icon17.png">绑定邮箱</a></span>|
-                        <span><a href="#">如何提高安全级别？</a></span>
-                </div>
+                	<div class="MeNick"><a style="color: red;">${user.username!}</a>   你好！</div>
                 </div>
                 <div class="clear">
                 </div>
           	</div>
         	<div class="MeCaption">我的作品：</div>
             <div class="MeBlock">
-            	<span class="Message">您暂时没有作品，<span class="font_r"><a href="#">上传华丽丽的作品去！</a></span></span>
+            	<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tbody>
+              <tr>
+              	   <th style="width: 60px; text-align: center;">排序</th>
+	               <th>视频</th>
+	               <th></th>
+	                <th>添加时间</th>
+	                <th>上传者</th>
+	                <th>热度</th>
+              </tr>
+              <%for(works in worksList!){%>
+              <% if(5>=playLP.index){%>
+              <tr>
+              	<td class="center">${worksLP.index}</td>
+                <td><img src="${works.cover!}"></td>
+                <td><a href="cartoon/showDetail?id=${works.worksid}" target="_blank">${works.worksname!}</a></td>
+                <td>${works.createtime!}</td>
+                <td>${works.creatername!}</td>
+                <td>播放：${works.pageviews!}</td>
+              </tr>
+              <%}%>
+              <%}%>
+              </tbody>
+          </table>
             </div>
-        	<div class="MeCaption">播放记录：</div>
+        	<div class="MeCaption" style="float: left; width: 887px;">播放记录：
+        	<div style="float: right;"><a href="personal/forMyProduction?menuId=2">更多</a></div></div>
             <div class="MeBlock">
-            	<span class="Message">您暂时没有播放记录，<span class="font_r"><a href="#">观看精彩动漫去！</a></span></span>
+            	<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tr>
+                <th style="width: 60px; text-align: center;">排序</th>
+                <th>片名</th>
+                <th>章节</th>
+                <th>播放次数</th>
+                <th>播放时间</th>
+              </tr>
+             <% for(play in playPage.list!){%>
+             	<% if(5>=playLP.index){%>
+              <tr>
+                <td class="center">${playLP.index!}</td>
+                <td>${play.cartoon_name!}</a></td>
+                <td>${play.section_name!}</a></td>
+                <td>${play.play_counts!}</td>
+                <td>${play.create_time!}</td>
+            </tr>
+            	<% }%>
+           <% } %>  
+            </table>
             </div>
-            <div class="MeCaption">我的下载：</div>
+            <div class="MeCaption" style="float: left; width: 887px;">我的下载：
+        	<div style="float: right;"><a href="personal/forMyProduction?menuId=13">更多</a></div></div>
             <div class="MeBlock">
-            	<span class="Message">您现在没有下载任务，<span class="font_r"><a href="#">下载精彩动漫去！</a></span></span>
+            	<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tr>
+                <th style="width: 60px; text-align: center;">排序</th>
+                <th>片名</th>
+                <th>章节</th>
+                <th>下载次数</th>
+                <th>下载时间</th>
+              </tr>
+             <% for(down in downPage.list!){%>
+              <% if(5>=downLP.index){%>
+              <tr>
+                <td class="center">${downLP.index!}</td>
+                <td>${down.cartoon_name!}</a></td>
+                <td>${down.section_name!}</a></td>
+                <td>${down.download_count!}</td>
+                <td>${down.create_time!}</td>
+            </tr>
+            <% }%>
+           <% } %>  
+            </table>
             </div>
-            <div class="MeCaption">动画收藏：</div>
+             <div class="MeCaption" style="float: left; width: 887px;">动漫收藏：
+        	<div style="float: right;"><a href="personal/forMyProduction?menuId=20">更多</a></div></div>
             <div class="MeBlock">
-            	<span class="Message">您现在没有收藏的动漫，<span class="font_r"><a href="#">收藏精彩动漫去！</a></span></span>
-            </div>
-            <div class="MeCaption">未支付订单：</div>
-            <div class="MeBlock">
-            	<span class="Message">您现在没有未支付订单，<span class="font_r"><a href="#">挑选喜爱的商品去！</a></span></span>
-            </div>
-            <div class="Wid50">
-                <div class="MeCaption Noborder">购物车：</div>
-                <div class="MeBlock Noborder">
-                	<span class="Message">您的购物车是空的，<span class="font_r"><a href="#">马上去购物！</a><br />f</span></span>
-                </div>
-            </div>
-            <div class="Wid50">
-                <div class="MeCaption">商品收藏：</div>
-                <div class="MeBlock">
-                	<span class="Message">您可以将喜爱的商品放入收藏夹，方便随时查看，<br />当商品有优惠时，还可以随时通知您~</span>
-                </div>
+            	<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tr>
+                <th style="width: 60px; text-align: center;">排序</th>
+                <th>片名</th>
+                <th>章节</th>
+                <th>收藏时间</th>
+              </tr>
+             <% for(fav in favPage.list!){%>
+             <% if(5>=favLP.index){%>
+              <tr>
+                <td class="center">${favLP.index!}</td>
+                <td>${fav.cartoon_name!}</td>
+                <td><a href="${fav.comic!}">${fav.section_name!}</a></td>
+                <td>${fav.create_time!}</td>
+            </tr>
+             <% }%>
+           <% } %>  
+            </table>
             </div>
             <div class="clear"></div>
         </div>

@@ -11,7 +11,7 @@ public class DownLoad extends Model<DownLoad>{
 	
 	
 	  public Page<DownLoad> getByUserId(Long userId,int pageNumber,int pageSize){
-	    	Page<DownLoad> page = this.paginate(pageNumber, pageSize, "select * ", "from downloadcount where userid =?",userId);
+	    	Page<DownLoad> page = this.paginate(pageNumber, pageSize, "select * ", "from downloadcount where userid =? ORDER BY create_time DESC",userId);
 	    	return page;
 	    }
 }

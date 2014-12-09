@@ -55,7 +55,8 @@ public class PersonalController extends FilesLoadController {
 		setAttr("user", user);
 		render("/personalCenter.html");
 	}
-
+	
+	
 	public void forMyProductionPage() {
 		String mid = getPara("menuId");
 		User user = getSessionAttr("user");
@@ -68,6 +69,7 @@ public class PersonalController extends FilesLoadController {
 		loadPoint(mid, userId);
 		myPlay(mid);
 		myFavourite(mid);
+		loadMyUplod(mid);
 		acctiveApply(mid);
 		if ("14".equals(mid)) {
 			render("/myApplyActive.html");
@@ -81,6 +83,21 @@ public class PersonalController extends FilesLoadController {
 
 	}
 
+	/**
+	 *加载我的作品
+	 * @param mid
+	 */
+	public void loadMyUplod(String mid){
+		if("01".equals(mid)){
+			Works works = getModel(Works.class);
+			User user = getSessionAttr("user");
+			Long userid = user.getLong("userid");
+			List<Works> worksList =works.loadMyUpload(userid);
+			setAttr("worksList", worksList);
+		}
+		
+				
+	}
 	/**
 	 * 加载我发布的活动
 	 */
@@ -188,7 +205,7 @@ public class PersonalController extends FilesLoadController {
 	 * 加载我的下载记录
 	 */
 	public void myDownLoad(String minuId) {
-		if ("13".equals(minuId)) {
+		if ("13".equals(minuId)||"01".equals(minuId)) {
 			User user = getModel(User.class);
 			DownLoad down = getModel(DownLoad.class);
 			user = getSessionAttr("user");
@@ -204,7 +221,7 @@ public class PersonalController extends FilesLoadController {
 	 * 加载我的动漫收藏
 	 */
 	public void myFavourite(String minuId) {
-		if ("20".equals(minuId)) {
+		if ("20".equals(minuId) || "01".equals(minuId)) {
 			User user = getModel(User.class);
 			Work work = getModel(Work.class);
 			Works works = getModel(Works.class);
@@ -259,7 +276,7 @@ public class PersonalController extends FilesLoadController {
 	 * 加载我的播放记录
 	 */
 	public void myPlay(String minuId) {
-		if ("2".equals(minuId)) {
+		if ("2".equals(minuId)||"01".equals(minuId)) {
 			User user = getModel(User.class);
 			user = getSessionAttr("user");
 			Long userid = user.getLong("userid");
