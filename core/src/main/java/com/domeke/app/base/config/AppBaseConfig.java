@@ -58,6 +58,7 @@ public class AppBaseConfig extends JFinalConfig {
 		interceptors.add(new TxByRegex(".*save*."));
 		interceptors.add(new TxByRegex(".*updte*."));
 		interceptors.add(new TxByRegex(".*delete*."));
+		interceptors.add(new TxByRegex(".*handleProcess*."));
 	}
 
 	@Override
