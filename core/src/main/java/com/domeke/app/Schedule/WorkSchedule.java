@@ -1,6 +1,5 @@
 package com.domeke.app.Schedule;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +16,6 @@ import com.domeke.app.utils.FileHandleScheduleKit;
 import com.domeke.app.utils.FileKit;
 import com.domeke.app.utils.MapKit;
 import com.jfinal.kit.StrKit;
-import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.IAtom;
 
 public class WorkSchedule {
 
@@ -30,8 +27,7 @@ public class WorkSchedule {
 
 		if (workList != null && workList.size() > 0) {
 			logger.info("=======待压缩视频数量===={}", workList.size());
-			Map<String, FileInterface> data = FileHandleScheduleKit
-					.handleScheduleFile("comic", workList);
+			Map<String, FileInterface> data = FileHandleScheduleKit.handleScheduleFile("comic", workList);
 			Map<String, VideoFile> videoFiles = buildVideoFile(data);
 
 			if (MapKit.isBlank(videoFiles)) {
@@ -66,13 +62,7 @@ public class WorkSchedule {
 					imgVirtualDirectory = imageFile.getVirtualDirectory();
 					work.set("cover", imgVirtualDirectory);
 				}
-				Db.tx(new IAtom() {
-					public boolean run() throws SQLException {
-						int count = Db.update("work", work);
-						return count == 1;
-					}
-				});
-
+				work.update();
 			}
 		}
 		logger.info("=============定时调度结束============");
@@ -86,8 +76,7 @@ public class WorkSchedule {
 	 * @param data
 	 * @return
 	 */
-	private Map<String, VideoFile> buildVideoFile(
-			Map<String, FileInterface> data) {
+	private Map<String, VideoFile> buildVideoFile(Map<String, FileInterface> data) {
 		if (MapKit.isBlank(data)) {
 			return null;
 		}
@@ -102,8 +91,7 @@ public class WorkSchedule {
 			}
 			originalFileName = FileKit.getFileName(orgignalDirectory);
 			virtualDirectory = videoFile.getVirtualDirectory();
-			orgignalDirectory = virtualDirectory.replaceFirst(fileName,
-					originalFileName);
+			orgignalDirectory = virtualDirectory.replaceFirst(fileName, originalFileName);
 			videoFiles.put(orgignalDirectory, videoFile);
 		}
 		return videoFiles;
