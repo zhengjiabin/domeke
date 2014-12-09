@@ -3,9 +3,18 @@
 <head>
  <% include("/common/head.html"){} %>
  <script type="text/javascript" src="js/jquery.min.js"></script>
-<script language='javascript' type='text/javascript'>    
-   
-</script>    
+ <script> 
+var t=6;//设定跳转的时间 
+setInterval("refer()",1000); //启动1秒定时 
+function refer(){ 
+if(t==0){ 
+location="http://www.dongmark.com/user/goLogin"; //#设定跳转的链接地址 
+} 
+document.getElementById('show').innerHTML="<a href='http://www.dongmark.com/user/goLogin'>将在"+t+"秒后跳转到登录页面</a>"; // 显示倒计时 
+t--; // 计数器递减 
+} 
+</script>  
+
 </head>
 <body style="margin: 0px;background: #fff;background: url(http://www.dongmark.com/images/bg_Me.png) left bottom no-repeat;">
 <% include("/common/user_header.html"){} %>
