@@ -38,7 +38,7 @@ public class Works extends Model<Works> {
 	}
 	
 	public List<Works> loadMyUpload(Long userid){
-		String sql="select * from works where creater="+userid+" ORDER BY createtime DESC";
+		String sql="select * from works where creater="+userid+" ORDER BY releasedate DESC";
 		List<Works> list = this.find(sql);
 		return list;
 	}
@@ -126,7 +126,7 @@ public class Works extends Model<Works> {
 			if(!StrKit.isBlank(type)){
 				querySql.append(" and t2.type = " + type);
 			}
-			querySql.append(" order by t2.createtime desc");
+			querySql.append(" order by t2.releasedate desc");
 			Page<Works> workss = this.paginate(pageNumber, pageSize, "select DISTINCT t2.*", querySql.toString());
 			return workss;
 		} catch (Exception e) {
@@ -156,7 +156,7 @@ public class Works extends Model<Works> {
 	 * @return 返回对应类型的作品信息
 	 */
 	public List<Works> getWorksInfoByType(String worksType,Integer limit) {
-		String querySql = "select * from works where workstype=? and ischeck = 1 and ispublic = 1 and maxnum > 0 order by createtime,istop desc limit "+limit;
+		String querySql = "select * from works where workstype=? and ischeck = 1 and ispublic = 1 and maxnum > 0 order by releasedate desc,istop desc limit "+limit;
 		List<Works> workslist = this.find(querySql, worksType);
 		return workslist == null ? Lists.newArrayList() : workslist;
 	}
@@ -171,7 +171,7 @@ public class Works extends Model<Works> {
 	public Page<Works> getWorksInfoByTypePage(String worksType, Integer pageNumber, Integer pageSize) {
 		Page<Works> workslist = null;
 		if (!StrKit.isBlank(worksType)) {
-			workslist = this.paginate(pageNumber, pageSize, "select *", "from works where ischeck = 1 and ispublic = 1 and workstype = ? order by createtime,istop desc", worksType);
+			workslist = this.paginate(pageNumber, pageSize, "select *", "from works where ischeck = 1 and ispublic = 1 and workstype = ? order by releasedate desc,istop desc", worksType);
 		}
 		return workslist;
 	}
@@ -197,9 +197,9 @@ public class Works extends Model<Works> {
 	public Page<Works> getWorksInfoPage(String worksType, Integer pageNum, Integer pageSize) {
 		Page<Works> workslist = null;
 		if (!StrKit.isBlank(worksType)) {
-			workslist = this.paginate(pageNum, pageSize, "select *", "from works where workstype = ? order by createtime desc", worksType);
+			workslist = this.paginate(pageNum, pageSize, "select *", "from works where workstype = ? order by releasedate desc", worksType);
 		}else {
-			workslist = this.paginate(pageNum, pageSize, "select *", "from works order by createtime desc");
+			workslist = this.paginate(pageNum, pageSize, "select *", "from works order by releasedate desc");
 		}
 		return workslist;
 	}
@@ -221,7 +221,7 @@ public class Works extends Model<Works> {
 			if(!StrKit.isBlank(type)){
 				querySql.append(" and t2.type = " + type);
 			}
-			querySql.append(" order by t2.createtime desc");
+			querySql.append(" order by t2.releasedate desc");
 			Page<Works> workss = this.paginate(pageNum, pageSize, "select DISTINCT t2.*", querySql.toString());
 			return workss;
 		} catch (Exception e) {
@@ -250,7 +250,7 @@ public class Works extends Model<Works> {
 		if(!StrKit.isBlank(creater)){
 			form = form + " and creater = "+creater;
 		}
-		form = form + " order by createtime desc";
+		form = form + " order by releasedate desc";
 		workslist = this.paginate(pageNum, pageSize, "select *", form);
 		return workslist;
 	}
@@ -285,7 +285,7 @@ public class Works extends Model<Works> {
 	 */
 	public List<Works> getNewestWorks(Object worksid,Integer type, Integer limit) {
 		List<Works> workss = null;
-		String querySql = "select * from works where worksid <> ? and type = ? and ischeck = 1 and ispublic = 1 order by createtime desc limit ?";
+		String querySql = "select * from works where worksid <> ? and type = ? and ischeck = 1 and ispublic = 1 order by releasedate desc limit ?";
 		workss = this.find(querySql, worksid, type, limit);
 		return workss;
 	}

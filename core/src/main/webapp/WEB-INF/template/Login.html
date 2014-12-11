@@ -1,11 +1,4 @@
-<!doctype html>
-<html>
-<head>
- <% include("/common/head.html"){} %>
-</head>
-
-<body style="margin: 0px;background: #fff;">
-<% include("/common/user_header.html"){} %>
+<% layout("/common/login_layout.html"){ %>
 <div class="LoginContent">
 	<div class="LoginAD"><img src="${url!}"></div>
 	<form class="form-signin" action="login/forIndex" method="post">
@@ -27,6 +20,4 @@
     <div class="clear"></div>
     <div class="Mepic"><img src="http://www.dongmark.com/images/Mepic03.png"></div>
 </div>
-<% include("/common/user_footer.html"){} %>
-</body>
-</html>
+<% } %>
