@@ -333,7 +333,14 @@ function deleteFat(node,communityId){
 
 //跳转指定管理
 function goToManage(render) {
-	window.location.href = "./admin/goToManager?render=" + render;
+	var userAgent = navigator.userAgent.toLowerCase();
+	if(/msie/.test(userAgent)) {
+	    // 此浏览器为 IE
+		window.location = ".."+render;
+		window.event.returnValue = false;
+	} else {
+		window.location.href = "./admin/goToManager?render=" + render;
+	}
 }
 
 //显示二级菜单
