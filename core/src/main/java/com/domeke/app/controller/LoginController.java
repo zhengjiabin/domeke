@@ -18,11 +18,10 @@ import com.domeke.app.validator.login.LoginValidator;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 
-
-@ControllerBind(controllerKey = "/login")
+@ControllerBind(controllerKey = "login")
 public class LoginController extends Controller {
 	@Before(LoginValidator.class)
-	public void forIndex() {
+	public void index() {
 		String username = getPara("username");
 		String password = getPara("password");
 		password = EncryptKit.EncryptMd5(password);
@@ -31,53 +30,53 @@ public class LoginController extends Controller {
 		try {
 			currentUser.login(token);
 		} catch (AuthenticationException e) {
-			
+
 			setAttr("msg", "用户名或密码错误!");
-			setAttr("username",username);
+			setAttr("username", username);
 			render("/Login.html");
 			return;
 		}
-		User user= getModel(User.class);
+		User user = getModel(User.class);
 		user = user.findUserByUsername(username);
-		//获取激活状态
+		// 获取激活状态
 		String activation = user.getStr("activation");
-		if("N".equals(activation)){
+		if ("N".equals(activation)) {
 			setAttr("msg", "该用户还未认证，请先到邮箱认证!");
 			render("/Login.html");
 			return;
 		}
 		UserRole userrole = getModel(UserRole.class);
-		userrole = userrole.getRolid(user.getLong("userid")); 
+		userrole = userrole.getRolid(user.getLong("userid"));
 		Long roleid = userrole.getLong("roleid");
-		if(roleid == 1){
+		if (roleid == 1) {
 			setCache(username, password, token, currentUser);
 			setAttr("username", username);
 			setAttr("menuid", "1");
-			
+
 			redirect("/admin");
 			return;
 		}
 		setCache(username, password, token, currentUser);
 		setAttr("username", username);
 		setAttr("menuid", "1");
-		redirect("/index"); 
+		redirect("/index");
 	}
 
 	private void setCache(String username, String password, UsernamePasswordToken token, Subject currentUser) {
 		String uname = "";
 		try {
-			 uname=URLEncoder.encode(username,"UTF-8");
+			uname = URLEncoder.encode(username, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		setCookie("username", uname, 3600 * 24 * 30);
 		User user = getModel(User.class).findUserIdByUsername(username);
 		user.set("username", username);
-		setSessionAttr("user",user );
+		setSessionAttr("user", user);
 		if (DomekeConstants.IS_ADMIN.equals(username)) {
 			setSessionAttr("isAdmin", "true");
 		}
-		
+
 	}
 
 	public void logout() {

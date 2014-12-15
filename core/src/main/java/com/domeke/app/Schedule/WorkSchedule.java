@@ -21,6 +21,7 @@ import com.domeke.app.utils.CollectionKit;
 import com.domeke.app.utils.FileHandleScheduleKit;
 import com.domeke.app.utils.FileKit;
 import com.domeke.app.utils.MapKit;
+import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 
 public class WorkSchedule {
@@ -63,8 +64,7 @@ public class WorkSchedule {
 			return;
 		}
 		logger.info("=======待压缩视频数量===={}", workList.size());
-		Map<String, FileInterface> data = FileHandleScheduleKit
-				.handleScheduleFile("comic", workList);
+		Map<String, FileInterface> data = FileHandleScheduleKit.handleScheduleFile("comic", workList);
 		Map<String, VideoFile> videoFiles = buildVideoFile(data);
 
 		if (MapKit.isBlank(videoFiles)) {
@@ -80,8 +80,7 @@ public class WorkSchedule {
 	 * @param workList
 	 * @param videoFiles
 	 */
-	private void handelVideoFile(List<Work> workList,
-			Map<String, VideoFile> videoFiles) {
+	private void handelVideoFile(List<Work> workList, Map<String, VideoFile> videoFiles) {
 		String comic = null, virtualDirectory = null, imgVirtualDirectory = null;
 		VideoFile videoFile = null;
 		List<ImageFile> imageList = null;
@@ -121,8 +120,7 @@ public class WorkSchedule {
 	 * @param data
 	 * @return
 	 */
-	private Map<String, VideoFile> buildVideoFile(
-			Map<String, FileInterface> data) {
+	private Map<String, VideoFile> buildVideoFile(Map<String, FileInterface> data) {
 		if (MapKit.isBlank(data)) {
 			return null;
 		}
@@ -137,45 +135,43 @@ public class WorkSchedule {
 			}
 			originalFileName = FileKit.getFileName(orgignalDirectory);
 			virtualDirectory = videoFile.getVirtualDirectory();
-			orgignalDirectory = virtualDirectory.replaceFirst(fileName,
-					originalFileName);
+			orgignalDirectory = virtualDirectory.replaceFirst(fileName, originalFileName);
 			videoFiles.put(orgignalDirectory, videoFile);
 		}
 		return videoFiles;
 	}
 
-	private void updateWork(Long workid,String comic,String cover) {
+	private void updateWork(Long workid, String comic, String cover) {
 
 		try {
 			// 加载MySql的驱动类
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName(PropKit.get("jdbc.driverClass"));
 		} catch (ClassNotFoundException e) {
 			logger.error("找不到驱动程序类 ，加载驱动失败！");
 			e.printStackTrace();
 		}
 
 		// 连接MySql数据库，用户名和密码都是root
-		String url = "jdbc:mysql://218.85.136.199:13306/domeke";
-		String username = "domeke";
-		String password = "domeke";
+		String url = PropKit.get("jdbc.url");
+		String username = PropKit.get("jdbc.username");
+		String password = PropKit.get("jdbc.password");
 		Connection con = null;
 		try {
-			 con = DriverManager.getConnection(url, username,
-					password);
+			con = DriverManager.getConnection(url, username, password);
 		} catch (SQLException se) {
-			logger.error("数据库连接失败！"+se);
+			logger.error("数据库连接失败！" + se);
 			se.printStackTrace();
 		}
-		
-		 try {
+
+		try {
 			con.setAutoCommit(false);
 			StringBuffer bufferSql = new StringBuffer(" update work set status = '20' ,comic = ? where workid =  ? ");
 			PreparedStatement ptst = con.prepareStatement(bufferSql.toString());
 			ptst.setString(1, comic);
 			ptst.setLong(2, workid);
 			ptst.execute();
-			if(StringUtils.isNoneBlank(cover)){
-				ptst.execute(" update work set cover = "+ cover +" where workid =  '" + workid +"'") ;
+			if (StringUtils.isNoneBlank(cover)) {
+				ptst.execute(" update work set cover = " + cover + " where workid =  '" + workid + "'");
 			}
 			con.commit();
 		} catch (SQLException e) {
