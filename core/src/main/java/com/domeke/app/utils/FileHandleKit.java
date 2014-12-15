@@ -27,10 +27,10 @@ public class FileHandleKit {
 
 	/** 日志 */
 	private Logger logger;
-	
+
 	/** ffmepg视频压缩工具 */
 	private String ffmepgPath;
-	
+
 	/** mencoder视频压缩工具 */
 	private String mencoderPath;
 
@@ -49,10 +49,10 @@ public class FileHandleKit {
 				if (fileHandleKit == null) {
 					fileHandleKit = new FileHandleKit();
 					fileHandleKit.setLogger(LoggerFactory.getLogger(FileHandleKit.class));
-					
+
 					String ffmepgPath = PropKit.getString("ffmepgPath");
 					fileHandleKit.setFfmepgPath(ffmepgPath);
-					
+
 					String mencoderPath = PropKit.getString("mencoderPath");
 					fileHandleKit.setMencoderPath(mencoderPath);
 				}
@@ -60,7 +60,7 @@ public class FileHandleKit {
 		}
 		return fileHandleKit;
 	}
-	
+
 	/**
 	 * 压缩文件
 	 * @param file
@@ -69,18 +69,19 @@ public class FileHandleKit {
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	public static Map<String,FileInterface> compressFile(File file, String toDirectory) throws IOException, InterruptedException {
+	public static Map<String, FileInterface> compressFile(File file, String toDirectory) throws IOException,
+			InterruptedException {
 		FileHandleKit fileHandleKit = FileHandleKit.getInstance();
 		String fileName = file.getName();
 		Map<String, FileInterface> virtualDirectory = null;
-		if(FileKit.isImage(fileName)){
+		if (FileKit.isImage(fileName)) {
 			virtualDirectory = fileHandleKit.compressImage(file, toDirectory);
-		}else if(FileKit.isVideo(fileName)){
+		} else if (FileKit.isVideo(fileName)) {
 			virtualDirectory = fileHandleKit.compressVideo(file, toDirectory);
 		}
 		return virtualDirectory;
 	}
-	
+
 	/**
 	 * 压缩图片
 	 * @param file
@@ -89,14 +90,15 @@ public class FileHandleKit {
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	private Map<String, FileInterface> compressImage(File file, String toDirectory) throws IOException, InterruptedException{
-		Map<String,FileInterface> directorys = new HashMap<String,FileInterface>();
+	private Map<String, FileInterface> compressImage(File file, String toDirectory) throws IOException,
+			InterruptedException {
+		Map<String, FileInterface> directorys = new HashMap<String, FileInterface>();
 		ImageFile imageFile = processPNG(file, toDirectory);
 		String fileName = imageFile.getFileName();
 		directorys.put(fileName, imageFile);
 		return directorys;
 	}
-	
+
 	/**
 	 * 压缩视频
 	 * @param file
@@ -105,21 +107,22 @@ public class FileHandleKit {
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	private Map<String, FileInterface> compressVideo(File file, String toDirectory) throws IOException, InterruptedException{
+	private Map<String, FileInterface> compressVideo(File file, String toDirectory) throws IOException,
+			InterruptedException {
 		Map<String, FileInterface> directorys = new HashMap<String, FileInterface>();
 		String fileName = file.getName();
 		VideoFile videoFile = null;
 		boolean isCompressVideo = isCompressVideo(fileName);
-		if(isCompressVideo){
+		if (isCompressVideo) {
 			videoFile = buildVideoCompressCommand(file, toDirectory);
-		}else{
+		} else {
 			videoFile = videoCopy(file, toDirectory);
 		}
 		fileName = videoFile.getFileName();
 		directorys.put(fileName, videoFile);
 		return directorys;
 	}
-	
+
 	/**
 	 * 压缩视频
 	 * @param toDirectory
@@ -128,7 +131,8 @@ public class FileHandleKit {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public static Map<String,VideoFile> compressVideo(String toDirectory,File file) throws IOException, InterruptedException{
+	public static Map<String, VideoFile> compressVideo(String toDirectory, File file) throws IOException,
+			InterruptedException {
 		FileHandleKit fileHandleKit = FileHandleKit.getInstance();
 		VideoFile videoFile = fileHandleKit.buildVideoCompressCommand(file, toDirectory);
 		String fileName = videoFile.getFileName();
@@ -136,7 +140,7 @@ public class FileHandleKit {
 		directorys.put(fileName, videoFile);
 		return directorys;
 	}
-	
+
 	/**
 	 * 处理上传视频
 	 * @param file
@@ -145,20 +149,20 @@ public class FileHandleKit {
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	public static VideoFile handleLoadVideo(File file,String toDirectory) throws IOException, InterruptedException{
+	public static VideoFile handleLoadVideo(File file, String toDirectory) throws IOException, InterruptedException {
 		FileHandleKit fileHandleKit = FileHandleKit.getInstance();
 		String fileName = file.getName();
 		boolean isCompressVideo = fileHandleKit.isCompressVideo(fileName);
-		
+
 		VideoFile videoFile = null;
-		if(isCompressVideo){
+		if (isCompressVideo) {
 			videoFile = fileHandleKit.handleLoadVideo(toDirectory, file);
-		}else{
+		} else {
 			videoFile = fileHandleKit.videoCopy(file, toDirectory);
 		}
 		return videoFile;
 	}
-	
+
 	/**
 	 * 处理视频上传
 	 * @param file 临时文件
@@ -166,7 +170,7 @@ public class FileHandleKit {
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	private VideoFile handleLoadVideo(String toDirectory, File file) throws IOException, InterruptedException{
+	private VideoFile handleLoadVideo(String toDirectory, File file) throws IOException, InterruptedException {
 		VideoFile videoFile = new VideoFile();
 		String fileName = file.getName();
 		String originalDirectory = file.getAbsolutePath();
@@ -174,22 +178,22 @@ public class FileHandleKit {
 		videoFile.setFileType(FileKit.getFileType(fileName));
 		videoFile.setDescDirectory(originalDirectory);
 		videoFile.setOriginalDirectory(originalDirectory);
-		
+
 		String virtualDirectory = toDirectory;
 		String imageDirectory = toDirectory;
-		if(FileKit.isDevMode()){
+		if (FileKit.isDevMode()) {
 			virtualDirectory = file.getParent();
 			imageDirectory = file.getParent();
 		}
 		virtualDirectory = FileKit.getDirectory(virtualDirectory, fileName);
 		virtualDirectory = FileKit.getVirtualDirectory(virtualDirectory);
 		videoFile.setVirtualDirectory(virtualDirectory);
-		
+
 		ImageFile imageFile = processPNG(file, imageDirectory);
 		videoFile.addImageFile(imageFile);
 		return videoFile;
 	}
-	
+
 	/**
 	 * 构造视频压缩信息
 	 * @param file
@@ -203,9 +207,9 @@ public class FileHandleKit {
 		String fileName = file.getName();
 		String descDirectory = file.getAbsolutePath();
 		boolean isDirectoryCompressVideo = isDirectCompressVideo(fileName);
-		if(isDirectoryCompressVideo){
+		if (isDirectoryCompressVideo) {
 			videoFile = processMP4(descDirectory, toDirectory);
-		}else{
+		} else {
 			videoFile = processAVI(descDirectory, toDirectory);
 			videoFile = processMP4(videoFile.getDescDirectory(), toDirectory);
 		}
@@ -213,7 +217,7 @@ public class FileHandleKit {
 		videoFile.addImageFile(imageFile);
 		return videoFile;
 	}
-	
+
 	/**
 	 * 将图片压缩成.PNG格式
 	 * @param file
@@ -222,7 +226,7 @@ public class FileHandleKit {
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	private ImageFile processPNG(File file, String toDirectory) throws IOException, InterruptedException{
+	private ImageFile processPNG(File file, String toDirectory) throws IOException, InterruptedException {
 		String fileName = file.getName();
 		String imagePath = FileKit.getFileTypeDirectory(toDirectory, fileName, ".png");
 		logger.info("视频截图==={}", imagePath);
@@ -231,14 +235,14 @@ public class FileHandleKit {
 		image.setDescDirectory(imagePath);
 		return ImageFileAnalysis.imageProcess(image);
 	}
-	
+
 	/**
 	 * 将视频压缩成.MP4格式
 	 * @return
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	private VideoFile processMP4(String descDirectory, String toDirectory) throws IOException, InterruptedException{
+	private VideoFile processMP4(String descDirectory, String toDirectory) throws IOException, InterruptedException {
 		String fileName = FileKit.getFileName(descDirectory);
 		String videoPath = FileKit.getFileTypeDirectory(toDirectory, fileName, ".mp4");
 		VideoFile video = new VideoMP4File(getFfmepgPath());
@@ -246,7 +250,7 @@ public class FileHandleKit {
 		video.setDescDirectory(videoPath);
 		return VideoFileAnalysis.videoProcess(video);
 	}
-	
+
 	/**
 	 * 将视频压缩成.FLV格式
 	 * @return
@@ -254,7 +258,7 @@ public class FileHandleKit {
 	 * @throws IOException 
 	 */
 	@SuppressWarnings("unused")
-	private VideoFile processFLV(String descDirectory, String toDirectory) throws IOException, InterruptedException{
+	private VideoFile processFLV(String descDirectory, String toDirectory) throws IOException, InterruptedException {
 		String fileName = FileKit.getFileName(descDirectory);
 		String videoPath = FileKit.getFileTypeDirectory(toDirectory, fileName, ".flv");
 		VideoFile video = new VideoFLVFile(getFfmepgPath());
@@ -262,7 +266,7 @@ public class FileHandleKit {
 		video.setDescDirectory(videoPath);
 		return VideoFileAnalysis.videoProcess(video);
 	}
-	
+
 	/**
 	 * 将视频压缩成.AVI格式
 	 * @param type
@@ -278,8 +282,8 @@ public class FileHandleKit {
 		video.setOriginalDirectory(descDirectory);
 		video.setDescDirectory(videoPath);
 		return VideoFileAnalysis.videoProcess(video);
-    }
-	
+	}
+
 	/**
 	 * 视频拷贝
 	 * @param directory 目标文件父级物理路径
@@ -287,51 +291,51 @@ public class FileHandleKit {
 	 * @throws InterruptedException 
 	 * @throws IOException 
 	 */
-	private VideoFile videoCopy(File file, String directory) throws IOException, InterruptedException{
+	private VideoFile videoCopy(File file, String directory) throws IOException, InterruptedException {
 		FileHandleKit fileHandleKit = FileHandleKit.getInstance();
 		File newFile = file;
-		if(!FileKit.isDevMode()){
+		if (!FileKit.isDevMode()) {
 			newFile = FileKit.fileCopy(directory, file);
 		}
 		VideoFile video = new VideoFile(fileHandleKit.getFfmepgPath());
 		video.setOriginalDirectory(newFile.getAbsolutePath());
 		video.setDescDirectory(newFile.getAbsolutePath());
 		video.setHandled(true);
-//		VideoFile videoFile = VideoFileAnalysis.videoProcess(video);
-		
+		// VideoFile videoFile = VideoFileAnalysis.videoProcess(video);
+
 		String fileDirectory = newFile.getAbsolutePath();
 		String imageDirectory = FileKit.getParentDirectory(fileDirectory);
 		ImageFile imageFile = fileHandleKit.processPNG(newFile, imageDirectory);
 		video.addImageFile(imageFile);
 		return video;
 	}
-	
+
 	/**
 	 * 是否处理视频
 	 * @return
 	 */
-	private boolean isCompressVideo(String fileName){
-		String fileType = fileName.substring(fileName.lastIndexOf("."),fileName.length());
-		if (fileType.matches(".mp4")) {
-			return false;
-		}
+	private boolean isCompressVideo(String fileName) {
+		String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+		// if (fileType.matches(".mp4")) {
+		// return false;
+		// }
 		return true;
 	}
-	
+
 	/**
 	 * 是否直接压缩视频
 	 * @param fileName
 	 * @return
 	 */
-	private boolean isDirectCompressVideo(String fileName){
-		String fileType = fileName.substring(fileName.lastIndexOf("."),fileName.length());
-		//支持解析的文件类型
-		if(fileType.matches(".asx|.asf|.mpg|.wmv|.3gp|.mov|.avi|.flv")){
+	private boolean isDirectCompressVideo(String fileName) {
+		String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
+		// 支持解析的文件类型
+		if (fileType.matches(".asx|.asf|.mpg|.wmv|.3gp|.mov|.avi|.flv")) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	private void setLogger(Logger logger) {
 		this.logger = logger;
 	}
