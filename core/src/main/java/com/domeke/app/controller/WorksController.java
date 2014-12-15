@@ -850,7 +850,7 @@ public class WorksController extends Controller {
 			if ("0".equals(flag)) {
 				// 0是跳转视频管理
 				Page<Works> page = worksModel
-						.getWorksInfoPage(workstype, type,
+						.getWorksInfoPage3(workstype, type,
 								String.valueOf(user.get("userid")), pageNumber,
 								pageSize);
 				List<Map<String, Object>> data = ParseDemoKit.worksParse(page
@@ -866,7 +866,7 @@ public class WorksController extends Controller {
 			} else if ("1".equals(flag)) {
 				// 1是跳转专辑管理
 				Page<Works> page = worksModel
-						.getWorksInfoPage(workstype, type,
+						.getWorksInfoPage3(workstype, type,
 								String.valueOf(user.get("userid")), pageNumber,
 								pageSize);
 				List<Map<String, Object>> data = ParseDemoKit.worksParse(page
@@ -882,7 +882,7 @@ public class WorksController extends Controller {
 			} else if ("2".equals(flag)) {
 				// 2是跳转漫画管理
 				Page<Works> page = worksModel
-						.getWorksInfoPage(workstype, type,
+						.getWorksInfoPage3(workstype, type,
 								String.valueOf(user.get("userid")), pageNumber,
 								pageSize);
 				List<Map<String, Object>> data = ParseDemoKit.worksParse(page
@@ -1138,7 +1138,7 @@ public class WorksController extends Controller {
 			render("/admin/admin_works_zhuanji.html");
 		} else if ("2".equals(flag)) {
 			// 查询 全部
-			Page<Works> pagedata = worksModel.getWorksInfoPage(workstype, type,
+			Page<Works> pagedata = worksModel.getWorksInfoPage2(workstype, type,
 					pageNumber, pageSize);
 			@SuppressWarnings({ "unchecked", "rawtypes" })
 			Page<List<Map<String, Object>>> pageWorks = new Page(
@@ -1289,13 +1289,13 @@ public class WorksController extends Controller {
 				String detailUrl = "";
 				Integer type = works.getInt("type");
 				if (type == 1) {
-					// 0专辑
+					// 1专辑
 					playUrl = "cartoon/playVideo?id=" + worksid;
 					detailUrl = "cartoon/showDetail?id=" + worksid;
-				} else if (type == 0) {
-					// 视频
-					playUrl = "cartoon/playVideo?id=" + worksid;
-					detailUrl = playUrl;
+				} else if (type == 2) {
+					// 2漫画
+					playUrl = "manhua/playVideo?id=" + worksid;
+					detailUrl = "manhua/showDetail?id=" + worksid;
 				}
 				map.put("playUrl", playUrl);
 				map.put("detailUrl", detailUrl);
