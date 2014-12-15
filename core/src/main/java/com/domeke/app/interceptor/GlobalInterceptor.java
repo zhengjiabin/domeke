@@ -94,6 +94,12 @@ public class GlobalInterceptor implements Interceptor {
 					user.update();
 					times = times + 1;
 					userAction.set("times", times);
+					Integer addPeas = Integer.parseInt(String.valueOf(userAction.get("peas")));
+					addPeas = addPeas + peas;
+					Integer addPoint = Integer.parseInt(String.valueOf(userAction.get("point")));
+					addPoint = addPoint + point;
+					userAction.set("peas", addPeas);
+					userAction.set("point", addPoint);
 					userAction.update();
 				}
 			}

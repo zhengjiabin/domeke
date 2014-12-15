@@ -34,11 +34,11 @@ public class ParseDemoKit {
 				String detailUrl = "";
 				Integer type = works.getInt("type");
 				if (type == 1) {
-					// 0专辑
+					// 1专辑
 					playUrl = "cartoon/playVideo?id=" + worksid;
 					detailUrl = "cartoon/showDetail?id=" + worksid;
 				} else if (type == 2) {
-					// 视频
+					// 2漫画
 					playUrl = "manhua/playVideo?id=" + worksid;
 					detailUrl = "manhua/showDetail?id=" + worksid;
 				}

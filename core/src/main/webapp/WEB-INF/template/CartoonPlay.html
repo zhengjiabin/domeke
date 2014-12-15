@@ -5,7 +5,9 @@
     videojs.options.flash.swf = "video-js/video-js.swf";
 </script>
 <script type="text/javascript">
+	var playtimes = 0;
 	$(document).ready(function(){
+		
 		$('span.Good').click(function(){
 			var pid = $(this).attr('pid');
 			if ($(this).css('color')=='red'){ return false }
@@ -17,6 +19,18 @@
 			});
 			$(this).css({'color':'red'});
 			$('a',this).css({'background':'url(http://www.dongmark.com/images/icon11.png) left center no-repeat'});
+		});
+		
+		$('#example_video_1').on('play',function(event,element){
+			if(playtimes == 0){
+				$.ajax({
+					type:'post',
+					url:'works/addPlay',
+					success:function(data){
+					}
+				});
+			}
+			playtimes++;
 		});
 	});
 	function fileExists(workid){
