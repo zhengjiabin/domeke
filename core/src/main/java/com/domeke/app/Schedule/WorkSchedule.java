@@ -1,10 +1,15 @@
 package com.domeke.app.Schedule;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,15 +26,15 @@ import com.jfinal.kit.StrKit;
 public class WorkSchedule {
 
 	private Logger logger = LoggerFactory.getLogger(WorkSchedule.class);
-	
 
 	/**
 	 * 压缩视频
+	 * 
 	 * @param workId
 	 */
-	public void handleVideoFile(String workId){
+	public void handleVideoFile(String workId) {
 		Work work = Work.dao.getWorkNotHandled(workId);
-		if(work == null){
+		if (work == null) {
 			return;
 		}
 		List<Work> workList = new ArrayList<Work>();
@@ -50,6 +55,7 @@ public class WorkSchedule {
 
 	/**
 	 * 处理定时任务
+	 * 
 	 * @param workList
 	 */
 	private void handleScheduleFile(List<Work> workList) {
@@ -57,18 +63,20 @@ public class WorkSchedule {
 			return;
 		}
 		logger.info("=======待压缩视频数量===={}", workList.size());
-		Map<String, FileInterface> data = FileHandleScheduleKit.handleScheduleFile("comic", workList);
+		Map<String, FileInterface> data = FileHandleScheduleKit
+				.handleScheduleFile("comic", workList);
 		Map<String, VideoFile> videoFiles = buildVideoFile(data);
-		
+
 		if (MapKit.isBlank(videoFiles)) {
 			return;
 		}
-		
+
 		handelVideoFile(workList, videoFiles);
 	}
 
 	/**
 	 * 处理压缩视频
+	 * 
 	 * @param workList
 	 * @param videoFiles
 	 */
@@ -95,14 +103,14 @@ public class WorkSchedule {
 
 			virtualDirectory = videoFile.getVirtualDirectory();
 			work.set("comic", virtualDirectory);
-
 			imageList = videoFile.getImageFiles();
+			String cover = null;
 			if (CollectionKit.isNotBlank(imageList)) {
 				imageFile = imageList.get(0);
-				imgVirtualDirectory = imageFile.getVirtualDirectory();
+				cover = imgVirtualDirectory = imageFile.getVirtualDirectory();
 				work.set("cover", imgVirtualDirectory);
 			}
-			work.update();
+			updateWork(Long.parseLong(workid.toString()), comic, cover);
 		}
 	}
 
@@ -113,7 +121,8 @@ public class WorkSchedule {
 	 * @param data
 	 * @return
 	 */
-	private Map<String, VideoFile> buildVideoFile(Map<String, FileInterface> data) {
+	private Map<String, VideoFile> buildVideoFile(
+			Map<String, FileInterface> data) {
 		if (MapKit.isBlank(data)) {
 			return null;
 		}
@@ -128,9 +137,50 @@ public class WorkSchedule {
 			}
 			originalFileName = FileKit.getFileName(orgignalDirectory);
 			virtualDirectory = videoFile.getVirtualDirectory();
-			orgignalDirectory = virtualDirectory.replaceFirst(fileName, originalFileName);
+			orgignalDirectory = virtualDirectory.replaceFirst(fileName,
+					originalFileName);
 			videoFiles.put(orgignalDirectory, videoFile);
 		}
 		return videoFiles;
+	}
+
+	private void updateWork(Long workid,String comic,String cover) {
+
+		try {
+			// 加载MySql的驱动类
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			logger.error("找不到驱动程序类 ，加载驱动失败！");
+			e.printStackTrace();
+		}
+
+		// 连接MySql数据库，用户名和密码都是root
+		String url = "jdbc:mysql://218.85.136.199:13306/domeke";
+		String username = "domeke";
+		String password = "domeke";
+		Connection con = null;
+		try {
+			 con = DriverManager.getConnection(url, username,
+					password);
+		} catch (SQLException se) {
+			logger.error("数据库连接失败！"+se);
+			se.printStackTrace();
+		}
+		
+		 try {
+			con.setAutoCommit(false);
+			StringBuffer bufferSql = new StringBuffer(" update work set status = '20' ,comic = ? where workid =  ? ");
+			PreparedStatement ptst = con.prepareStatement(bufferSql.toString());
+			ptst.setString(1, comic);
+			ptst.setLong(2, workid);
+			ptst.execute();
+			if(StringUtils.isNoneBlank(cover)){
+				ptst.execute(" update work set cover = "+ cover +" where workid =  '" + workid +"'") ;
+			}
+			con.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

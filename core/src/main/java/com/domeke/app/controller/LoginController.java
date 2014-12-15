@@ -9,7 +9,6 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
 import com.domeke.app.base.config.DomekeConstants;
-import com.domeke.app.interceptor.ActionInterceptor;
 import com.domeke.app.model.LoginPic;
 import com.domeke.app.model.User;
 import com.domeke.app.model.UserRole;
@@ -20,7 +19,7 @@ import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 
 
-@ControllerBind(controllerKey = "login")
+@ControllerBind(controllerKey = "/login")
 public class LoginController extends Controller {
 	@Before(LoginValidator.class)
 	public void forIndex() {
