@@ -194,7 +194,7 @@ public class Works extends Model<Works> {
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<Works> getWorksInfoPage(String worksType, Integer pageNum, Integer pageSize) {
+	public Page<Works> getWorksInfoPage1(String worksType, Integer pageNum, Integer pageSize) {
 		Page<Works> workslist = null;
 		if (!StrKit.isBlank(worksType)) {
 			workslist = this.paginate(pageNum, pageSize, "select *", "from works where workstype = ? order by releasedate desc", worksType);
@@ -211,10 +211,10 @@ public class Works extends Model<Works> {
 	 * @param pageSize 一页多少记录
 	 * @return 
 	 */
-	public Page<Works> getWorksInfoPage(String worksType, String type, Integer pageNum, Integer pageSize) {
+	public Page<Works> getWorksInfoPage2(String worksType, String type, Integer pageNum, Integer pageSize) {
 		try {
 			StringBuffer querySql = new StringBuffer();
-			querySql.append("from work t1 left join works t2 on t2.worksid = t1.worksid where t1.status = 30");
+			querySql.append("from work t1 left join works t2 on t2.worksid = t1.worksid where t1.status != 10");
 			if(!StrKit.isBlank(worksType)){
 				querySql.append(" and t2.workstype = " + worksType);
 			}
@@ -238,7 +238,7 @@ public class Works extends Model<Works> {
 	 * @param pageSize
 	 * @return
 	 */
-	public Page<Works> getWorksInfoPage(String worksType, String type, String creater, Integer pageNum, Integer pageSize) {
+	public Page<Works> getWorksInfoPage3(String worksType, String type, String creater, Integer pageNum, Integer pageSize) {
 		Page<Works> workslist = null;
 		String form = "from works where 1=1";
 		if (!StrKit.isBlank(worksType)) {
