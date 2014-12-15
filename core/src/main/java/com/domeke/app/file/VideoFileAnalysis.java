@@ -170,7 +170,7 @@ public class VideoFileAnalysis {
 	}
 
 	private String process(String command) {
-		StringBuffer info =new StringBuffer();
+		StringBuffer info = new StringBuffer();
 		try {
 			Runtime rt = Runtime.getRuntime();
 			Process proc = rt.exec(command);
@@ -178,14 +178,14 @@ public class VideoFileAnalysis {
 			InputStreamReader isr = new InputStreamReader(stderr);
 			BufferedReader br = new BufferedReader(isr);
 			String line = null;
-			logger.debug("==============<ERROR>=============");
+			logger.info("==============<ERROR>=============");
 			while ((line = br.readLine()) != null) {
 				info.append(line);
 			}
-			logger.debug(info.toString());
-			logger.debug("==============<ERROR>=============");
+			logger.info(info.toString());
+			logger.info("==============<ERROR>=============");
 			int exitVal = proc.waitFor();
-			logger.debug("Process exitValue:{} " ,exitVal);
+			logger.info("Process exitValue:{} ", exitVal);
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}
