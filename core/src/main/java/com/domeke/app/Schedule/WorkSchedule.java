@@ -47,7 +47,7 @@ public class WorkSchedule {
 	 * 
 	 */
 	public void handleProcess() {
-		logger.info("=============定时调度开始============");
+		logger.info("=============定时调度开始============{}");
 		List<Work> workList = Work.dao.getWorkNotHandled();
 		handleScheduleFile(workList);
 		logger.info("=============定时调度结束============");
@@ -66,10 +66,10 @@ public class WorkSchedule {
 		logger.info("=======待压缩视频数量===={}", workList.size());
 		Map<String, FileInterface> data = FileHandleScheduleKit.handleScheduleFile("comic", workList);
 		Map<String, VideoFile> videoFiles = buildVideoFile(data);
-
 		if (MapKit.isBlank(videoFiles)) {
 			return;
 		}
+		logger.info("========视频文件======{}", videoFiles.size());
 
 		handelVideoFile(workList, videoFiles);
 	}
@@ -81,6 +81,7 @@ public class WorkSchedule {
 	 * @param videoFiles
 	 */
 	private void handelVideoFile(List<Work> workList, Map<String, VideoFile> videoFiles) {
+		logger.info("==========执行压缩 start=============");
 		String comic = null, virtualDirectory = null, imgVirtualDirectory = null;
 		VideoFile videoFile = null;
 		List<ImageFile> imageList = null;
@@ -109,6 +110,7 @@ public class WorkSchedule {
 				cover = imgVirtualDirectory = imageFile.getVirtualDirectory();
 				work.set("cover", imgVirtualDirectory);
 			}
+			logger.info("==========执行压缩 end=============");
 			updateWork(Long.parseLong(workid.toString()), comic, cover);
 		}
 	}
@@ -162,20 +164,34 @@ public class WorkSchedule {
 			logger.error("数据库连接失败！" + se);
 			se.printStackTrace();
 		}
-
+		PreparedStatement ptst = null;
 		try {
 			con.setAutoCommit(false);
 			StringBuffer bufferSql = new StringBuffer(" update work set status = '20' ,comic = ? where workid =  ? ");
-			PreparedStatement ptst = con.prepareStatement(bufferSql.toString());
+			ptst = con.prepareStatement(bufferSql.toString());
 			ptst.setString(1, comic);
 			ptst.setLong(2, workid);
 			ptst.execute();
 			if (StringUtils.isNoneBlank(cover)) {
 				ptst.execute(" update work set cover = " + cover + " where workid =  '" + workid + "'");
+				logger.info("修改视频路径");
 			}
+			logger.info(bufferSql.toString());
 			con.commit();
 		} catch (SQLException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
+			try {
+				con.rollback();
+			} catch (SQLException e1) {
+				logger.error(e1.getMessage());
+			}
+		} finally {
+			try {
+				ptst.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

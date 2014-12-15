@@ -19,7 +19,7 @@ public class FileHandleScheduleKit {
 	private volatile static FileHandleScheduleKit scheduleKit;
 
 	/** 日志 */
-	private Logger logger;
+	private Logger logger = LoggerFactory.getLogger(FileHandleScheduleKit.class);
 
 	/**
 	 * 单例模式初始化
@@ -31,7 +31,6 @@ public class FileHandleScheduleKit {
 			synchronized (FileHandleScheduleKit.class) {
 				if (scheduleKit == null) {
 					scheduleKit = new FileHandleScheduleKit();
-					scheduleKit.setLogger(LoggerFactory.getLogger(FileHandleScheduleKit.class));
 				}
 			}
 		}
@@ -47,7 +46,8 @@ public class FileHandleScheduleKit {
 	 *            虚拟路径
 	 * @return 
 	 */
-	public static Map<String, Map<String, FileInterface>> handleScheduleFile(List<? extends Model<?>> models, String... virtualNames) {
+	public static Map<String, Map<String, FileInterface>> handleScheduleFile(List<? extends Model<?>> models,
+			String... virtualNames) {
 		if (CollectionKit.isBlank(models) || virtualNames == null) {
 			return null;
 		}
@@ -59,9 +59,9 @@ public class FileHandleScheduleKit {
 			scheduleKit.addFileElements(pool, models, virtualName);
 			pool.run();
 			pool.close();
-			//线程堵塞
+			// 线程堵塞
 			files = pool.getFiles();
-			if(MapKit.isNotBlank(files)){
+			if (MapKit.isNotBlank(files)) {
 				data.put(virtualName, files);
 			}
 		}
@@ -76,7 +76,7 @@ public class FileHandleScheduleKit {
 	 * @return 
 	 */
 	public static Map<String, FileInterface> handleScheduleFile(String virtualName, List<? extends Model<?>> models) {
-		if(CollectionKit.isBlank(models) || StrKit.isBlank(virtualName)){
+		if (CollectionKit.isBlank(models) || StrKit.isBlank(virtualName)) {
 			return null;
 		}
 		FileHandleScheduleKit scheduleKit = FileHandleScheduleKit.getInstance();
@@ -86,7 +86,7 @@ public class FileHandleScheduleKit {
 		pool.close();
 		return pool.getFiles();
 	}
-	
+
 	/**
 	 * 添加需异步处理的数据
 	 * @param <T>
@@ -94,7 +94,7 @@ public class FileHandleScheduleKit {
 	 * @param models
 	 * @param virtualName
 	 */
-	private <T> void addFileElements(Pool<String> pool, List<? extends Model<?>> models, String virtualName){
+	private <T> void addFileElements(Pool<String> pool, List<? extends Model<?>> models, String virtualName) {
 		String virtualDirectory = null;
 		Element<String> element = null;
 		for (Model<?> model : models) {

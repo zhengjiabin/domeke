@@ -11,10 +11,10 @@ public abstract class Pool<T> {
 
 	/** 是否关闭线程 */
 	private boolean isClose = true;
-	
+
 	/** 所有子线程是否已结束 */
 	private boolean isEnd = true;
-	
+
 	/** 子线程计数器 */
 	private CountDownLatch countDown;
 
@@ -63,18 +63,18 @@ public abstract class Pool<T> {
 		Thread thread = new Thread(runnable);
 		thread.start();
 	}
-	
+
 	/**
 	 * 线程实例
 	 */
-	private class ElementRunnable implements Runnable{
-		
+	private class ElementRunnable implements Runnable {
+
 		private CountDownLatch countDown;
-		
-		public ElementRunnable(CountDownLatch countDown){
+
+		public ElementRunnable(CountDownLatch countDown) {
 			this.countDown = countDown;
 		}
-		
+
 		@Override
 		public void run() {
 			Element<T> element = getElement();
@@ -142,13 +142,13 @@ public abstract class Pool<T> {
 	 */
 	public void close() {
 		synchronized (elements) {
-			if(!isClose && !isEnd){
-				isClose = true; 
+			if (!isClose && !isEnd) {
+				isClose = true;
 				elements.notifyAll();
 			}
 		}
 		try {
-			if(!isEnd){
+			if (!isEnd) {
 				countDown.await();
 				isEnd = true;
 				afterRun();
@@ -158,11 +158,11 @@ public abstract class Pool<T> {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 线程是否已结束
 	 */
-	protected boolean isEnd(){
+	protected boolean isEnd() {
 		return isEnd;
 	}
 }
