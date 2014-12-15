@@ -1410,4 +1410,8 @@ public class WorksController extends Controller {
 		List<WorksType> worksTypes = worksTypeModel.getWorksTypes(type);
 		renderJson(worksTypes);
 	}
+	
+	public void addPlay(){
+		return;
+	}
 }

@@ -13,6 +13,14 @@
 			$(this).css({'color':'red'});
 			$('a',this).css({'background':'url(http://www.dongmark.com/images/icon11.png) left center no-repeat'});
 		});
+		$('#manhuaplay').load(function(){
+			$.ajax({
+				type:'post',
+				url:'works/addPlay',
+				success:function(data){
+				}
+			});
+		});
 		
 	});
 	function fileExists(workid){
