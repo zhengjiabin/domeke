@@ -330,7 +330,7 @@ public class FileHandleKit {
 	private boolean isDirectCompressVideo(String fileName) {
 		String fileType = fileName.substring(fileName.lastIndexOf("."), fileName.length());
 		// 支持解析的文件类型
-		if (fileType.matches(".asx|.asf|.mpg|.wmv|.3gp|.mov|.avi|.flv")) {
+		if (fileType.matches(".asx|.asf|.mpg|.wmv|.3gp|.mov|.avi|.flv|.mp4")) {
 			return true;
 		}
 		return false;
