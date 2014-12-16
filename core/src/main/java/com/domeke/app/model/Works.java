@@ -214,15 +214,15 @@ public class Works extends Model<Works> {
 	public Page<Works> getWorksInfoPage2(String worksType, String type, Integer pageNum, Integer pageSize) {
 		try {
 			StringBuffer querySql = new StringBuffer();
-			querySql.append("from work t1 left join works t2 on t2.worksid = t1.worksid where t1.status != 10");
+			querySql.append("from works inner join work on work.worksid = works.worksid where work.status != 10");
 			if(!StrKit.isBlank(worksType)){
-				querySql.append(" and t2.workstype = " + worksType);
+				querySql.append(" and works.workstype = " + worksType);
 			}
 			if(!StrKit.isBlank(type)){
-				querySql.append(" and t2.type = " + type);
+				querySql.append(" and works.type = " + type);
 			}
-			querySql.append(" order by t2.releasedate desc");
-			Page<Works> workss = this.paginate(pageNum, pageSize, "select DISTINCT t2.*", querySql.toString());
+			querySql.append("group by works.worksid order by works.releasedate desc");
+			Page<Works> workss = this.paginate(pageNum, pageSize, "select *", querySql.toString());
 			return workss;
 		} catch (Exception e) {
 			e.printStackTrace();

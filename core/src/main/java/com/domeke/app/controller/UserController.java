@@ -456,11 +456,26 @@ public class UserController extends Controller {
 			String email = getPara("uid");
 			email = encry.decrypt(email);
 			User user = getModel(User.class);
-			user.updateUserMsg(email, "activation", "Y");
-			String url = "http://www.dongmark.com/user/goLogin";
-			setAttr("url", url);
-			setAttr("succes", "邮箱验证成功");
-			render("/Activation.html");
+			user = user.findFirst("select * from user where email = '"+email+"' and activation = 'N'");
+			if(user != null && user.isNotEmpty()){
+				//如果邮箱未激活 加 10豆子 20积分
+				user.updateUserMsg(email, "activation", "Y");
+				Integer peas = Integer.parseInt(String.valueOf(user.get("peas")));
+				Integer point = Integer.parseInt(String.valueOf(user.get("point")));
+				user.set("peas", peas + 10);
+				user.set("point", point + 20);
+				user.update();
+				String url = "http://www.dongmark.com/user/goLogin";
+				setAttr("url", url);
+				setAttr("succes", "邮箱验证成功");
+				render("/Activation.html");
+			}else{
+				String url = "http://www.dongmark.com/user/goLogin";
+				setAttr("url", url);
+				setAttr("succes", "邮箱验证已验证过！");
+				render("/Activation.html");
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

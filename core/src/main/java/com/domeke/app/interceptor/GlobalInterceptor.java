@@ -39,6 +39,7 @@ public class GlobalInterceptor implements Interceptor {
 			controllName = controllName.substring(0,controllName.indexOf("Controller"));
 			controllName = controllName.toLowerCase();
 			String actionName = controllName+"/"+ai.getMethodName();
+			//System.out.println(actionName);
 			Action action = Action.dao.getActionByName(actionName);
 			if(action != null && action.isNotEmpty()){
 				//获取用户
@@ -76,10 +77,14 @@ public class GlobalInterceptor implements Interceptor {
 					userAction.set("actionid", action.getLong("actionid"));
 					userAction.set("actionname", action.getStr("name"));
 					userAction.set("actiondes", action.getStr("des"));
+					userAction.set("peas", 0);
+					userAction.set("point", 0);
 					userAction.set("times", 0);
 					userAction.set("create", 1);
 					Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 					userAction.set("create_time", timestamp);
+					userAction.set("modifier", 1);
+					userAction.set("modify_time", timestamp);
 					userAction.saveUserAction();
 				}
 				Integer times = userAction.getInt("times");
