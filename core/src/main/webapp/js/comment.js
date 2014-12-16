@@ -64,13 +64,31 @@ function showFace(img) {
 	});
 }
 
-// 插入图片
+//插入图片
 function insertFace(img) {
 	var fatherNode = $(img).closest("#showEditor");
 	var editor = fatherNode.find("#editor").first();
 	var image = "<img src='" + img.src + "' />";
 	var val = editor.html() + image;
 	editor.html(val);
+}
+
+// 打开表情窗口
+function showCkeditorFace(img) {
+	var fatherNode = $(img).closest("#ckeditorHtml");
+	var face = fatherNode.find("#face").first();
+	face.show();
+	
+	face.click(function() {
+		face.hide();
+	});
+}
+
+//插入图片
+function insertCkeditorFace(img) {
+	var image = "<img src='" + img.src + "' />";
+	var data = CKEDITOR.instances.ckeditor.getData();
+	CKEDITOR.instances.ckeditor.setData(data + image);
 }
 
 //发表回复信息
