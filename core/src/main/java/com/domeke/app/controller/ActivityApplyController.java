@@ -20,7 +20,7 @@ public class ActivityApplyController extends Controller {
 		keepPara();
 		setCodeTableList("gender", "genderList");
 		setCodeTableList("papers", "papersList");
-		render("/community/createActivityApply.html");
+		render("/community/community_activityApplyCreate.html");
 	}
 	
 	/**
@@ -59,7 +59,7 @@ public class ActivityApplyController extends Controller {
 		setActivityApplyPageByActivityId(activityId);
 
 		keepPara("pageAction", "fatherNode");
-		render("/community/activityApplyPage.html");
+		render("/community/community_activityApplyPage.html");
 	}
 
 	/**

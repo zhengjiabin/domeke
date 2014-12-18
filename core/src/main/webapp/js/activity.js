@@ -13,16 +13,27 @@ function openApply(activityId) {
 }
 
 function submitApp(node,activityId) {
-	var url = "./activityApply/create?activityId=" + activityId;
-	$.post(url, 
-		$(node).closest("#createActivityApplyHtml").serialize(), 
-		function(data) {
-			alert('提交成功!');
-			var applyNumber = "applyNumber-"+activityId;
-			var applyNumberNode = window.opener.document.getElementById(applyNumber);
-			applyNumberNode.innerText="已参加人数："+data;
-			window.close();
-	});
+	canSubmit = true;
+	$("form :input").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	var url = "./activityApply/create?activityId=" + activityId;
+    	$.post(url, 
+    		$(node).closest("#createActivityApplyHtml").serialize(), 
+    		function(data) {
+    			alert('提交成功!');
+    			var applyNumber = "applyNumber-"+activityId;
+    			var applyNumberNode = window.opener.document.getElementById(applyNumber);
+    			applyNumberNode.innerText="已参加人数："+data;
+    			window.close();
+    	});
+    } else {
+    	alert("提交失败，存在非规范内容，请检查！");
+    }
+	
 }
 
 

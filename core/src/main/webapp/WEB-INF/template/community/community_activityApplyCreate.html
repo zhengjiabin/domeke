@@ -10,17 +10,75 @@
 <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
 	media="screen">
 <link href="assets/styles.css" rel="stylesheet" media="screen">
-<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery-2.1.1.min.js"></script>
 <script src="js/activity.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {   
+		$('form :input[required=required]').each(function(){
+	        var $required = $("<span class='font_r' style=\"color: red\"> *</span>"); //创建元素
+	        $(this).parent().append($required); //然后将它追加到文档中
+	    });
+		
+		 //文本框失去焦点后
+	    $('form :input').blur(function(){
+	       	var $parent = $(this).parent();
+	        $parent.find(".font_r").remove();
+	      	//真实姓名验证
+	        if($(this).is('#realname')){
+	        	if( this.value=="" ){
+	        	    var errorMsg = '真实姓名不能为空';
+	        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+	        	}else if(this.value.length > 12){
+	        		var errorMsg = '真实姓名长度必须小于12个字';
+	        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+	        	}else{
+	        	    var okMsg = '输入正确';
+	             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+	       	   	}
+	        }
+	      	//手机号码验证
+	        if($(this).is('#mobile')){
+	        	var reg = /^0{0,1}(13[0-9]|15[7-9]|153|156|18[7-9])[0-9]{8}$/;
+	        	if( !reg.test(this.value) ){
+	        	    var errorMsg = '格式错误，请输入正确的手机号码！';
+	        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+	        	}else{
+	        		var okMsg = '输入正确';
+	             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+	        	}
+	        }
+	      	//证件号码验证
+	        if($(this).is('#papersid')){
+	        	var reg = /^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$/;
+	        	if( !reg.test(this.value) ){
+	        	    var errorMsg = '格式错误，请输入正确的证件号码！';
+	        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+	        	}else{
+	        		var okMsg = '输入正确';
+	             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+	        	}
+	        }
+	      	//留言验证验证
+	        if($(this).is('#message')){
+	        	if( this.value=="" ){
+	        	    
+	        	}else if(this.value.length > 30){
+	        		var errorMsg = '留言信息长度必须小于30个字';
+	        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+	        	}else{
+	        	    var okMsg = '输入正确';
+	             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+	       	   	}
+	        }
+	    });
+	});
+	
+</script>
 </head>
-
 <body>
-	<form action="#"
-		id="createActivityApplyHtml" method="post" >
-
+	<form action="#" id="createActivityApplyHtml" method="post" >
 		<div class="control-group">真实姓名
-				 <input type="text" name="activityApply.realname"
-					value="${activityApply.realname!}" class="span6 m-wrap" />
+			<input type="text" id="realname" name="activityApply.realname" value="${activityApply.realname!}" class="span6 m-wrap" required="required" />
 		</div>
 
 		<div class="control-group">性别
@@ -30,8 +88,7 @@
 		</div>
 		
 		<div class="control-group">手机号码
-				 <input type="text" name="activityApply.mobile"
-					value="${activityApply.mobile!}" class="span6 m-wrap" />
+			<input type="text" id="mobile" name="activityApply.mobile" value="${activityApply.mobile!}" class="span6 m-wrap" required="required"/>
 		</div>
 
 		<div class="control-group">证件类型
@@ -39,20 +96,17 @@
 				<% if(has(papersList)){ for(codeTable in papersList) { %>
 					<option value="${codeTable.codekey!}">${codeTable.codevalue!}
 				<% } }%>
-					
 			</select>
 		</div>
 
 		<div class="control-group">证件号码
 			<div class="controls">
-				<input type="text" name="activityApply.papersid"
-					value="${activityApply.papersid!}" class="span6 m-wrap" />
+				<input type="text" id="papersid" name="activityApply.papersid" value="${activityApply.papersid!}" class="span6 m-wrap" required="required"/>
 			</div>
 		</div>
 		
 		<div class="control-group">留言
-				 <input type="text" name="activityApply.message"
-					value="${activityApply.message!}" class="span6 m-wrap" />
+			<input type="text" id="message" name="activityApply.message" value="${activityApply.message!}" class="span6 m-wrap" required="required"/>
 		</div>
 
 		<div class="form-actions">
