@@ -1,24 +1,17 @@
 <% layout("/common/layout.html"){ %>
 <link href="video-js/video-js.css" rel="stylesheet" type="text/css">
 <script src="video-js/video.js"></script>
+<script src="js/jquery.cookie.js"></script>
 <script>
     videojs.options.flash.swf = "video-js/video-js.swf";
 </script>
 <script type="text/javascript">
 	var playtimes = 0;
 	$(document).ready(function(){
-		$('#btn-praise').click(function(){
-			var pid = $(this).attr('pid');
-			if ($(this).css('color')=='red'){ return false }
-			$.ajax({
-				url:'cartoon/pointPraise',
-				data:'id=' + pid,
-				success:function(){
-				}
-			});
-			$(this).css({'color':'red'});
-			$('a',this).css({'background':'url(http://www.dongmark.com/images/icon11.png) left center no-repeat'});
-		});
+		//$('#btn-praise').click(function(params){
+		//	alert(1)
+			
+		//});
 		
 		$('#example_video_1').on('play',function(event,element){
 			if(playtimes == 0){
@@ -65,6 +58,25 @@
 			}
 		});
 	}
+	
+	function praise(params){
+		var ispraise = $.cookie('k'+params.id);
+		if(!ispraise){
+			//未点过赞
+			var cookietime = new Date(); 
+			cookietime.setTime(cookietime.getTime() + (10 * 60 * 1000));//保存10分钟
+			$.cookie('k'+params.id,true,{expires:cookietime});
+			var num = $('#btn-praise').html();
+			$('#btn-praise').html(parseInt(num) + 1);
+			$.ajax({
+				url:'work/praise',
+				data:'workid=' + params.id
+			});
+		}else{
+			alert('你已点过赞');
+			return false;
+		}
+	}
 </script>
 <section id="commentHtml">
 	<div class="CartoonTitle">《${works.worksname!}》- ${work.workname!}</div>
@@ -88,7 +100,7 @@
 		</video>
 	</div>
       <div class="PlayControl"> 
-        <span class="Good" pid="${works.worksid!}"><a href="javascript:void(0);" id="btn-praise">点赞</a></span>
+        <span class="Good" pid="${works.worksid!}"><a href="javascript:praise({'id':'${work.workid!}'});" id="btn-praise" title="我喜欢">${work.praise!}</a></span>
         <span class="Argument"><a href="javascrpt:void(0)" onclick="skipPublish(this)">评论</a></span>
         <span class="Argument"><a href="javascript:collection(${work.workid!});">收藏</a></span>
         <a href="javascript:fileExists(${work.workid!});" style="float: right;">下载</a>

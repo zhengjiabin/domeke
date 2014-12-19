@@ -432,6 +432,7 @@ public class WorksController extends Controller {
 		workModel.set("times", 0);
 		workModel.set("timesdes", "00:00");
 		workModel.set("isdisable", ispublic);
+		workModel.set("praise", 0);
 		workModel.set("playtimes", 0);
 		workModel.set("creater", userId);
 		workModel.set("creatername", userName);
@@ -504,6 +505,7 @@ public class WorksController extends Controller {
 		workModel.set("times", 0);
 		workModel.set("timesdes", "");
 		workModel.set("isdisable", ispublic);
+		workModel.set("praise", 0);
 		workModel.set("playtimes", 0);
 		workModel.set("creater", userId);
 		workModel.set("creatername", userName);
@@ -1164,17 +1166,22 @@ public class WorksController extends Controller {
 			String worksid = "";
 			String ids = getPara("ids");
 			String[] idsStr = ids.split(",");
+			Works worksModel = getModel(Works.class);
 			for (String id : idsStr) {
 				Work workModel = getModel(Work.class).findById(id);
 				worksid = String.valueOf(workModel.get("worksid"));
 				if (workModel.isNotEmpty()) {
 					workModel.set("status", 30);
 					workModel.update();
+					if(worksModel == null || !worksModel.isNotEmpty()){
+						worksModel = worksModel.findById(worksid);
+						if(worksModel != null && worksModel.isNotEmpty()){
+							worksModel.set("ischeck", 1);
+							worksModel.update();
+						}
+					}
 				}
 			}
-			Works worksModel = getModel(Works.class).findById(worksid);
-			worksModel.set("ischeck", "1");
-			worksModel.update();
 			map.put("success", 1);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1184,44 +1191,44 @@ public class WorksController extends Controller {
 		return;
 	}
 
-	public void yesCheckWorks() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			String worksid = getPara("worksid");
-			if (StrKit.isBlank(worksid)) {
-				map.put("success", 0);
-				map.put("message", "参数为空！");
-				renderJson(map);
-				return;
-			}
-			Works worksModel = getModel(Works.class).findById(worksid);
-			if (!worksModel.isNotEmpty()) {
-				map.put("success", 0);
-				map.put("message", "找不到对象");
-				renderJson(map);
-				return;
-			}
-
-			worksModel.set("ischeck", 1);
-			boolean bool = worksModel.update();
-			if (bool) {
-				map.put("success", 1);
-				renderJson(map);
-				return;
-			} else {
-				map.put("success", 0);
-				map.put("message", "审核失败");
-				renderJson(map);
-				return;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			map.put("success", 1);
-			map.put("message", "服务器错误");
-			renderJson(map);
-			return;
-		}
-	}
+//	public void yesCheckWorks() {
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		try {
+//			String worksid = getPara("worksid");
+//			if (StrKit.isBlank(worksid)) {
+//				map.put("success", 0);
+//				map.put("message", "参数为空！");
+//				renderJson(map);
+//				return;
+//			}
+//			Works worksModel = getModel(Works.class).findById(worksid);
+//			if (!worksModel.isNotEmpty()) {
+//				map.put("success", 0);
+//				map.put("message", "找不到对象");
+//				renderJson(map);
+//				return;
+//			}
+//
+//			worksModel.set("ischeck", 1);
+//			boolean bool = worksModel.update();
+//			if (bool) {
+//				map.put("success", 1);
+//				renderJson(map);
+//				return;
+//			} else {
+//				map.put("success", 0);
+//				map.put("message", "审核失败");
+//				renderJson(map);
+//				return;
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			map.put("success", 1);
+//			map.put("message", "服务器错误");
+//			renderJson(map);
+//			return;
+//		}
+//	}
 
 	public void upranking() {
 		Map<String, Object> map = new HashMap<String, Object>();

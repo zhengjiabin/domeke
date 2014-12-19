@@ -5,8 +5,6 @@ package com.domeke.app.controller;
 
 import java.util.List;
 import java.util.Map;
-
-import com.domeke.app.interceptor.ActionInterceptor;
 import com.domeke.app.model.CodeTable;
 import com.domeke.app.model.History;
 import com.domeke.app.model.Work;
@@ -16,7 +14,6 @@ import com.domeke.app.route.ControllerBind;
 import com.domeke.app.utils.CodeKit;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.ParseDemoKit;
 import com.jfinal.kit.StrKit;
@@ -180,15 +177,6 @@ public class CartoonController extends Controller {
 		setAttr("targetId", workData.get("workid"));
 		setAttr("idtype", WORKIDTYPE);
 		forwardAction(action);
-	}
-
-	/**
-	 * 点赞
-	 */
-	public void pointPraise() {
-		Object worksid = getPara("id");
-		Works worksModel = getModel(Works.class).findById(worksid);
-		worksModel.addPraise(worksid);
 	}
 
 	/**

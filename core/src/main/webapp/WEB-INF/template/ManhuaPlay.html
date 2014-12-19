@@ -1,4 +1,5 @@
 <% layout("/common/layout.html"){ %>
+<script src="js/jquery.cookie.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('span.Good').click(function(){
@@ -43,6 +44,24 @@
 			}
 		});
 	}
+	function praise(params){
+		var ispraise = $.cookie('k'+params.id);
+		if(!ispraise){
+			//未点过赞
+			var cookietime = new Date(); 
+			cookietime.setTime(cookietime.getTime() + (10 * 60 * 1000));//保存10分钟
+			$.cookie('k'+params.id,true,{expires:cookietime});
+			var num = $('#btn-praise').html();
+			$('#btn-praise').html(parseInt(num) + 1);
+			$.ajax({
+				url:'work/praise',
+				data:'workid=' + params.id
+			});
+		}else{
+			alert('你已点过赞');
+			return false;
+		}
+	}
 </script>
 <section id="commentHtml">
 	<div class="CartoonTitle">${works.worksname!}-${work.workname!}</div>
@@ -50,7 +69,7 @@
 	  <img id="manhuaplay" alt="${work.workname!}" style="width: 800px; height:auto; display: block; margin: auto;" src="${work.comic!}">
 	</div>
       <div class="PlayControl"> 
-        <span class="Good" pid="${works.worksid!}"><a href="#">点赞</a></span>
+        <span class="Good" pid="${works.worksid!}"><a href="javascript:praise({'id':'${work.workid!}'});" id="btn-praise" title="我喜欢">${work.praise!}</a></span>
         <span class="Argument"><a href="javascrpt:void(0)" onclick="skipPublish(this)">评论</a></span>
       </div>
       <div class="bshare-custom" align="right"><div class="bsPromo bsPromo2"></div><a title="分享到微信" class="bshare-weixin" href="javascript:void(0);"></a><a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"></a><a title="分享到腾讯微博" class="bshare-qqmb"></a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span class="BSHARE_COUNT bshare-share-count" style="float: none;">32.6K</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>  
