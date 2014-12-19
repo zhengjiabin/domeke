@@ -1412,6 +1412,6 @@ public class WorksController extends Controller {
 	}
 	
 	public void addPlay(){
-		return;
+		renderNull();;
 	}
 }
