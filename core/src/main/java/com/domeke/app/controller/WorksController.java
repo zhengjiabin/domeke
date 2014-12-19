@@ -452,7 +452,7 @@ public class WorksController extends Controller {
 	}
 
 	public void uploadZhangjie() {
-		String coverPath = FileLoadKit.uploadImg(this, "cover", "", 2000 * 1024 * 1024, "utf-8");
+//		String coverPath = FileLoadKit.uploadImg(this, "cover", "", 2000 * 1024 * 1024, "utf-8");
 		String comicPath = FileLoadKit.uploadImg(this,"comic", "", 2000 * 1024 * 1024,"utf-8");
 		Map<String, Object> map = Maps.newHashMap();
 		User user = getSessionAttr("user");
@@ -498,7 +498,7 @@ public class WorksController extends Controller {
 		workModel.set("worknum", Integer.parseInt(worknum));
 		workModel.set("workname", title);
 		workModel.set("workdes", "");
-		workModel.set("cover", coverPath);
+		workModel.set("cover", "");
 		workModel.set("comic", comicPath);
 		workModel.set("status", 20);
 		workModel.set("times", 0);

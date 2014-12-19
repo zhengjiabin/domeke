@@ -221,7 +221,7 @@ public class Works extends Model<Works> {
 			if(!StrKit.isBlank(type)){
 				querySql.append(" and works.type = " + type);
 			}
-			querySql.append("group by works.worksid order by works.releasedate desc");
+			querySql.append(" group by works.worksid order by works.releasedate desc");
 			Page<Works> workss = this.paginate(pageNum, pageSize, "select *", querySql.toString());
 			return workss;
 		} catch (Exception e) {

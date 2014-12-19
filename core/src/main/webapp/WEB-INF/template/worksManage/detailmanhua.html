@@ -80,7 +80,7 @@
               <%for(work in pageWork.list){%>
               <tr>
                 <td class="center">${workLP.index}</td>
-                <td><img src="${work.cover!}"></td>
+                <td></td>
                 <td>
                 	<%if(work.status! == 30){%><a href="manhua/playVideo?id=${works.worksid!}&gid=${work.workid!}">${work.workname!}</a><%}%>
                 	<%if(work.status! != 30){%>${work.workname!}<%}%>
