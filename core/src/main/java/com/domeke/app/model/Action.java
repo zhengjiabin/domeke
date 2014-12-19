@@ -6,7 +6,7 @@ import com.jfinal.plugin.activerecord.Model;
 @TableBind(pkName="actionid",tableName="action")
 public class Action extends Model<Action> {
 
-	/**
+/**
 DROP TABLE IF EXISTS `action`;
 CREATE TABLE `action` (
   `actionid` bigint(20) NOT NULL AUTO_INCREMENT,
