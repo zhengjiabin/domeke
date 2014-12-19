@@ -7,8 +7,7 @@
 <script type="text/javascript">
 	var playtimes = 0;
 	$(document).ready(function(){
-		
-		$('span.Good').click(function(){
+		$('#btn-praise').click(function(){
 			var pid = $(this).attr('pid');
 			if ($(this).css('color')=='red'){ return false }
 			$.ajax({
@@ -89,7 +88,7 @@
 		</video>
 	</div>
       <div class="PlayControl"> 
-        <span class="Good" pid="${works.worksid!}"><a href="#">点赞</a></span>
+        <span class="Good" pid="${works.worksid!}"><a href="javascript:void(0);" id="btn-praise">点赞</a></span>
         <span class="Argument"><a href="javascrpt:void(0)" onclick="skipPublish(this)">评论</a></span>
         <span class="Argument"><a href="javascript:collection(${work.workid!});">收藏</a></span>
         <a href="javascript:fileExists(${work.workid!});" style="float: right;">下载</a>
