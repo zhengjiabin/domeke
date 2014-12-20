@@ -55,6 +55,9 @@ public class UserMessageController extends Controller {
 		selectUserMessage();
 	}
 	
+	/**
+	 * 发送消息
+	 */
 	public void leaveMsg(){
 		UserMessage msg = getModel(UserMessage.class);
 		String touser = getPara("touser");
@@ -75,7 +78,22 @@ public class UserMessageController extends Controller {
 		msg.set("content", content);
 		msg.set("status", "N");
 		msg.save();
-		forLeaveMsg();
+		//发送消息减积分
+		user = user.findById(user.get("userid"));
+		//用户积分
+		Long point = user.getLong("point");
+		if(point>=1){
+			Long countPoint = point-1;
+			user.set("point", countPoint);
+			user.update();
+			forLeaveMsg();
+		}else{
+			setAttr("menuId", "8");
+			setAttr("msg", "用户积分不足，无法发送消息");
+			render("/personalCenter.html");
+			return;
+		}
+		
 	}
 	public void forLeaveMsg(){
 		String mid = getPara("menuId");
