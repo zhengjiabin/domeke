@@ -1,0 +1,111 @@
+<% layout("/admin/admin_layout.html"){ %>
+<link href="css/Member.css" rel="stylesheet" media="screen">
+<style>
+	.btnblock{
+		border:1px solid #ccc;
+		float: left;
+		overflow:hidden;
+		padding:5px;
+		margin:5px;
+	}
+</style>
+<script type="text/javascript">
+	var flag = '';
+	var workstype = '';
+	var type = '';
+	$(document).ready(function(){
+		flag = $('#flag-sel').val();
+		workstype = $('#workstype-sel').val();
+		type = $('#page-title [name=selected]').attr('value');
+		//初始化 作品类型
+		showWorksType({'type':1});
+		//初始化 数据表格
+		showData({'flag':flag,'type':type,'workstype':workstype,'pageNumber':1});
+		
+		//选择查询条件时 刷新
+		$('#flag-sel').change(function(){
+			flag = $(this).val();
+			showData({'flag':flag,'type':type,'workstype':workstype,'pageNumber':1});
+		});
+		//选择作品类型时 刷新
+		$('#workstype-sel').change(function(){
+			workstype = $(this).val();
+			showData({'flag':flag,'type':type,'workstype':workstype,'pageNumber':1});
+		});
+	});
+	
+	function showData(params){
+		var data = '';
+		$.each(params,function(key,value){
+			data = data + key + "=" + value + "&";
+		});
+		data = data.substring(0,data.length - 1);
+		$.ajax({
+			type:'post',
+			data:data,
+			url : 'works/showAdminPage',
+			success : function(data){
+				$('#showpage').html(data);
+			}
+		});
+	}
+	
+	
+	function showWorksType(params){
+		var data = '';
+		$.each(params,function(key,value){
+			data = data + key + "=" + value + "&";
+		});
+		data = data.substring(0,data.length - 1);
+		$.ajax({
+			type:'post',
+			data:data,
+			url : 'works/getWorksTypes',
+			success : function(data){
+				$('#workstype-sel option').remove();
+				var $sel = $('#workstype-sel');
+				$sel.append('<option value="">全部</option>');
+				$.each(data,function(key,value){
+					$sel.append('<option value="'+value.id+'">'+value.name+'</option>');
+				});
+				
+			}
+		});
+	}
+</script>
+<div class="span9" id="content">
+	<div class="row-fluid">
+		<div class="block">
+			<div class="navbar navbar-inner block-header" id="page-title">
+				<div class="muted pull-left" name="selected" value="1">专辑管理</div>
+				<div class="muted pull-left">&nbsp;&nbsp;|&nbsp;&nbsp;</div>
+				<div class="muted pull-left"><a href="works/goToManager?flag=2">漫画管理</a></div>
+			</div>
+			<div class="block-content collapse in">
+				<div class="span12">
+					<div class="table-toolbar">
+						<lable>查询条件：
+							<select id="flag-sel">
+								<option value="2">全部</option>
+								<option value="0">未审核</option>
+								<option value="1">动漫首页</option>
+							</select>
+						</lable>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<lable>查询类型：
+							<select id="workstype-sel">
+								<option value="">全部</option>
+								<option value="">原创动漫</option>
+								<option value="">Higin动漫</option>
+								<option value="">亲子动漫</option>
+							</select>
+						</lable>
+					</div>
+					<div id="showpage">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<% } %>

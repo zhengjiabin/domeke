@@ -1,0 +1,40 @@
+<% layout("/admin/admin_layout.html"){ %>
+<div class="span9" id="content">
+	<div class="row-fluid">
+		<div class="block">
+			<div class="navbar navbar-inner block-header">
+				<div class="muted pull-left">论坛管理</div>
+			</div>
+			<div class="block-content collapse in" id="adminPostHtml">
+				<div class="span12">
+					<div class="table-toolbar">
+						<div class="btn-group"></div>
+						<div class="btn-group pull-right">
+							<button data-toggle="dropdown" class="btn dropdown-toggle">
+								Tools <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="#">Print</a></li>
+								<li><a href="#">Save as PDF</a></li>
+								<li><a href="#">Export to Excel</a></li>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="navbar navbar-inner block-header" id="page">
+					<% layout( 
+						"/admin/admin_postPage.html", 
+						{
+							"postPage":postPage 
+						} 
+					){} %>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<% } %>
+
+

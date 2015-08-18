@@ -1,0 +1,100 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		var bar = $('.bar');
+		var percent = $('.percent');
+		var status = $('#status');
+		
+		$('#editzhangjie').submit(function(){
+			$('button[type=submit]',this).attr('disabled',true);
+			$(this).ajaxSubmit({
+				beforeSend: function() {
+			        status.empty();
+			        var percentVal = '0%';
+			        percent.html(percentVal);
+			        $('#progressTr').show();
+			    },
+			    uploadProgress: function(event, position, total, percentComplete) {
+			        var percentVal = percentComplete + '%';
+			        bar.val(percentComplete)
+			        percent.html(percentVal);
+			    },
+				success:function(data){
+				if(data.success == 1){
+					alert("修改成功!");
+					showPage({'flag':12,'type':2,'pageNumber':${pageNumber!},'worksid':${worksid!},'workpageNumber':${workpageNumber!}});
+				}else{
+					alert("修改失败  信息：" + data.message);
+					$('button[type=submit]',this).removeAttr('disabled');
+				}
+			}});
+			return false;
+		});
+		
+		var ispubulic = '${work.isdisable!}';
+		if(ispubulic != ''){
+			$('#editispublic').val(ispubulic);
+		}
+	});
+</script>
+<article class="MeArticle">
+		<form id="editzhangjie" action="works/editZhangjie" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="workid" value="${work.workid!}"/>
+        <div class="MemberIndex">
+          <div class="MeCaption"><a href="javascript:showPage({'flag':2,'type':2,'pageNumber':${pageNumber!}});">漫画管理</a>
+           --> <a href="javascript:showPage({'flag':12,'type':2,'pageNumber':${pageNumber!},'worksid':${worksid!},'workpageNumber':${workpageNumber!}});">编辑漫画</a>
+           --> <a href="javascript:showPage({'flag':16,'type':2,'pageNumber':${pageNumber!},'worksid':${worksid!},'workpageNumber':${workpageNumber!}});">编辑章节</a>
+           </div>
+          <div class="MeBlock">
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
+              <tbody><tr>
+                <th><em style="color: red;"> * </em>标题：</th>
+                <td><input name="title" type="text" class="input_Member" value="${work.workname!}" required="required"></td>
+              </tr>
+              
+              <tr>
+                <th><em style="color: red;"> * </em>封面：</th>
+                <td>
+                	<img width="120px" height="100px" alt="${work.workname!}" src="${work.cover!}" />
+                </td>
+              </tr>
+              <tr id="progressTr" style="display: none;">
+                <th><em style="color: red;"> * </em>进度：</th>
+                <td>
+                	<p><progress class="bar" value="0" max="100"></progress>
+                	<div class="percent">0%</div ></p>
+                </td>
+              </tr>
+              <tr>
+                <th>修改封面：</th>
+                <td>
+                	<input name="cover" type="file" class="input_Member" style="width:150px;">
+                </td>
+              </tr>
+               <tr>
+                <th>简介：</th>
+                <td>
+                	<textarea name="des" style="padding:10px;" rows="8" cols="54">${work.workdes!}</textarea>
+                </td>
+              </tr>
+              <tr>
+                <th><em style="color: red;"> * </em>是否公开：</th>
+                <td>
+                	<select name="ispublic" id="editispublic" class="input_Member">
+                		<option value="1">公开</option>
+                		<option value="0">隐藏</option>
+                	</select>
+                </td>
+              </tr>
+              <tr>
+                <th></th>
+                <td>
+                	<button  type="submit" class="">提交</button>
+                	&nbsp;&nbsp;&nbsp;
+                	<button type="button" onclick="showPage({'flag':12,'type':2,'pageNumber':${pageNumber!},'worksid':${worksid!},'workpageNumber':${workpageNumber!}})">取消</button>
+				</td>
+              </tr>
+            </tbody></table>
+          </div>
+        </div>
+        </form>
+    </article>

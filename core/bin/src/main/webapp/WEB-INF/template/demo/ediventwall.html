@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>查询留言</title>
+	<base href="${core}/"/>
+     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+<body>
+   <div>
+     <form class="form-signin" action="ventwall/updateById" method="post">
+        <h2 class="form-signin-heading">编辑留言</h2>
+        	<input name="ventWall.ventwallid" value="${ventWall.ventwallid}" type="text" class="span6 m-wrap" style="display:none"/><br>
+        	<label class="control-label">心情：</label>
+        	<input name="ventWall.moodid" value="${ventWall.moodid!}" type="text" class="span6 m-wrap" /><br>
+        	<label class="control-label">留言内容：</label>
+        	<input name="ventWall.message" value="${ventWall.message!}" type="text" class="span6 m-wrap" /><br>
+        <button class="btn btn-large btn-primary" type="submit" >保存</button>
+      </form>
+    </div>
+</body>
+</html>

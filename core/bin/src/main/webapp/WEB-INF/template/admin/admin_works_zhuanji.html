@@ -1,0 +1,209 @@
+<style>
+	button{
+		height:23px;
+	}
+</style>
+<script type="text/javascript">
+	//全选
+	function allChecked(_self){
+		$(_self).parent().parent().find('td:eq(0)').find('div input').each(function(){
+			this.checked = true;
+		});
+	}
+	//反选
+	function resetChecked(_self){
+		var $input = $(_self).parent().parent().find('td:eq(0)').find('div input').each(function(){
+			this.checked = !this.checked;
+		});
+	}
+	//通过审核
+	function shenhe(_self) {
+		var params = '';
+		var $input = $(_self).parent().parent().find('td:eq(0)').find(
+				'div input').each(function() {
+			if (this.checked == true) {
+				params = params + this.value + ",";
+			}
+		});
+		if (params.length > 0) {
+			params = params.substring(0, params.length - 1);
+		}
+		if(params == ''){
+			alert("请选择一个视频！");
+			return;
+		}
+		$.ajax({
+			type : 'post',
+			data : 'ids=' + params,
+			url : 'works/yesChecked',
+			success : function(data) {
+				if (data.success == 1) {
+					showData({
+						'flag' : flag,
+						'type' : type,
+						'workstype' : workstype,
+						'pageNumber' : '${pageWorks.pageNumber!}'
+					});
+				} else {
+					alert("审核失败");
+				}
+			}
+		});
+	}
+	function showDataTable(params){
+		showData({
+			'flag' : flag,
+			'type' : type,
+			'workstype' : workstype,
+			'pageNumber' : params.pageNumber
+		});
+	}
+	
+	
+	function upranking(state,worksid){
+		$.ajax({
+			type : 'post',
+			data : 'flag='+state+'&type='+type+'&worksid='+worksid,
+			url : 'works/upranking',
+			success : function(data) {
+				if (data.success == 1) {
+					showData({
+						'flag' : flag,
+						'type' : type,
+						'workstype' : workstype,
+						'pageNumber' : '${pageWorks.pageNumber!}'
+					});
+				} else {
+					alert("置顶失败");
+					return;
+				}
+			}
+		});
+	}
+	function okcheck(parid){
+		var params = 'worksid='+parid;
+		$.ajax({
+			type : 'post',
+			data : params,
+			url : 'works/yesCheckWorks',
+			success : function(data) {
+				if (data.success == 1) {
+					showData({
+						'flag' : flag,
+						'type' : type,
+						'workstype' : workstype,
+						'pageNumber' : '${pageWorks.pageNumber!}'
+					});
+				} else {
+					alert("置顶失败");
+					return;
+				}
+			}
+		});
+	}
+	//删除
+	function del(worksid){
+		if(confirm("确认删除吗？")){
+			$.ajax({
+				url:'works/delete',
+				data:'id='+worksid,
+				success:function(data){
+					if(data.success != 1){
+						alert("删除失败");
+					}
+					showData({
+						'flag' : flag,
+						'type' : type,
+						'workstype' : workstype,
+						'pageNumber' : '${pageWorks.pageNumber!}'
+					});
+				}
+			});
+		}else{
+			return false;
+		}
+	}
+</script>
+<article>
+	<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+        <tbody>
+         <tr>
+         	   <th style="width: 60px; text-align: center;">排序</th>
+           <th>视频</th>
+           <th></th>
+            <th>简介</th>
+            <th>上传</th>
+            <th>热度</th>
+            <th>操作</th>
+         </tr>
+         <% for(works in pageWorks.list){%>
+         <tr>
+         	<td class="center">${worksLP.index!}</td>
+           <td>
+           <a href="${works.detailUrl!}" target="_blank"><img src="${works.cover!}"></a>
+           </td>
+           <td>
+           	<a href="${works.detailUrl!}" target="_blank">${works.worksname!}</a>
+           </td>
+           <td>
+           	 <em style="color: #ccc;">${works.describle!}</em>
+           </td>
+           <td>
+           	上传者：${works.creatername!}</br>
+           	${works.createtime!}</br>
+           </td>
+           <td>
+           	&nbsp;播放：<em style="color: #ccc;">${works.pageviews!}</em>&nbsp;</br>
+           	&nbsp;点赞：<em style="color: #ccc;">${works.praise!}</em>&nbsp;</br>
+           	&nbsp;回复：<em style="color: #ccc;">${works.comment!}</em></br>
+           </td>
+           <td>
+           	<button onclick="upranking(0,${works.worksid!})">动漫首页</button>
+           	<%if(works.homepage! > 0){%>
+           	<button onclick="upranking(10,${works.worksid!})">取消首页</button>
+           	<%}%>
+           	</br>
+           	<%if(works.homepage! == 0){%>
+           	<button onclick="upranking(1,${works.worksid!})">置顶</button>
+           	<%if(works.istop! > 0){%>
+           	<button onclick="upranking(11,${works.worksid!})">取消</button>
+           	<%}%>
+           	<%}%>
+           	</br>
+           	<button onclick="del(${works.worksid!})">删除</button>
+           </td>
+         </tr>
+         <%if(works.workNotCheck.~size > 0){%>
+         <tr>
+         	<td colspan="6">
+         	<%for(work in works.workNotCheck){%>
+         	<div class="btnblock"><input type="checkbox" value="${work.workid!}"/> <a href="${works.playUrl!}&gid=${work.workid!}" target="_blank">${work.workname!}</a></div>
+         	<%}%>
+         	</td>
+         	<td>
+         		<button onClick="allChecked(this)">全选</button>&nbsp;&nbsp;&nbsp;&nbsp;<button onClick="resetChecked(this)" type="button">反选</button></br></br>
+         		<button onClick="shenhe(this)" >通过审核</button></br>
+         	</td>
+         </tr>
+         <%}%>
+         <%}%>
+        </tbody>
+	</table>
+	<div class="PageMore">
+     <button onclick="showDataTable({'pageNumber':${pageWorks.pageUp!}})">上一页</button>
+      <% for(var i=0; i < pageWorks.totalPage; i++)
+      {
+      	if(i+1 == pageWorks.pageNumber){
+      %>
+      	<button  onclick="showDataTable({'pageNumber':${i+1}})" style="border:1px solid #ccc; color: blue;">${i+1}</button>
+   	<% 
+   		}
+   		else{
+   	%>
+   		<button onclick="showDataTable({'pageNumber':${i+1}})">${i+1}</button>
+   	<%	
+   		}
+   	}%>
+   	<button onclick="showDataTable({'pageNumber':${pageWorks.pageDown!}})">下一页</button>
+  </div>
+</article>

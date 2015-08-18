@@ -1,0 +1,20 @@
+<% layout("/admin/admin_layout.html"){ %>
+<div class="span9" id="content">
+
+	<div class="row-fluid">
+		<!-- block -->
+		<div class="block">
+			<div class="navbar navbar-inner block-header">
+				<div class="muted pull-left">用户管理</div>
+			</div>
+			<div class="block-content collapse in" id="pagPoint">
+					<%
+				 	if (pointList != null) {
+				 	 layout("/admin/admin_userCountPoint.html"){} } %>
+				 	
+			</div>
+		</div>
+		<!-- /block -->
+	</div>
+</div>
+<% } %>

@@ -1,0 +1,35 @@
+<div class="CartoonContent">
+
+	<section>
+		<div class="CartoonContent">
+			<% 
+		for (worksvo in worksVOPage.list){ 
+	%>
+			<div class="CartoonSub">
+				<a href="cartoon/showDetail?id=${worksvo.id!}" style="display: block;"> 
+					<img src="${worksvo.cover!}">
+					<div class="CartoonName">
+						<a href="cartoon/showDetail?id=${worksvo.id!}">${worksvo.worksname!}</a>
+					</div>
+				</a>
+				<div class="CartoonInfo">
+					<span class="FloatL">${worksvo.pageviews!}</span> <span
+						class="FloatR">${worksvo.comment!}</span>
+				</div>
+			</div>
+			   <% } %>
+		</div>
+	</section>
+
+</div> 
+<% if(has(worksVOPage)){
+	var pageAction = "./search/searchPage?queryKey=" + queryKey;
+	layout(
+		"/common/page.html",
+		{
+			"page":worksVOPage,
+			"pageAction":pageAction,
+			"fatherNode":"#page"
+		}
+	){} 
+}%>

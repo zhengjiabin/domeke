@@ -1,0 +1,81 @@
+<div class="TopFix">
+	<div class="TopFixZoom">
+    	<span class="FixLeft">欢迎来到动漫方舟！
+    	<% if(session.user.username! == null) {%>
+    		<a href="user/goLogin">请登录</a><a href="user/goRegist">免费注册</a>
+    	<% } else{%>
+    		<% if(session.user.username! == "admin") {%>
+    			<a href="community/goToManager" style="color:#F00">${session.user.username!}</a>
+    		<%}else{%>
+    			<a href="personal/forMyProduction" style="color:#F00">${session.user.username!}</a>
+    		<%}%>
+    		<a href="login/logout">退出</a>
+    		<a href="personal/forMyProduction">个人中心</a>
+    	<%}%>
+		</span>
+        <span class="FixRight">
+        	<!-- <a href="#">收藏夹</a><a href="#">商家支持</a><a href="#">网站导航</a> -->
+        </span>
+    </div>
+</div>
+<header>
+<script type="text/javascript">
+function search(self){
+ 	$("#searchInput").val(self);
+	console.log("您今天已经签到！"+self);
+}  
+</script>
+	<div class="HeadTop">
+    	<div class="Logo"><a href="index"><img src="http://www.dongmark.com/images/logo.png"></a></div>
+        <div class="Search">
+        	<input id="searchInput" name="" type="text" class="SearchInput"><input name="" type="button" class="SearchButton" value="搜索">
+            <div class="SearchKey">
+            <% for(s in searchKeyList!){ %>
+            	<span class="font_r"><a id="keyname" href="javascript:search('${s.keyname!}');">${s.keyname}</a></span>|
+            <%}%>
+            </div>
+        </div>
+    </div>
+    <nav>
+        <ul class="NavL">  
+        <li class="LiFuc"><a href="goods/shop?goodstype=">全部分类</a></li> 
+	<%
+		var goodstype = 0;
+		if(goodstype != null){
+    		goodstype = parseInt(goodstype);
+    	}
+    	for(m in topGoodsTypeList){
+    	if (goodstype == m.goodstypeid){
+    %>
+    	<li class="LiFuc"><a href="goods/shop?goodstype=${m.goodstypeid!}">${m.typename!}</a></li>
+    <%	}else{
+	%>
+	<li><a href="goods/shop?goodstype=${m.goodstypeid!}">${m.typename!}</a></li>
+	<% }
+	   }
+	%>
+        <!-- 
+            <li class="LiFuc" style="width: 238px;">全部商品分类</li>
+            <li><a href="#">创意生活</a></li>
+            <li><a href="#">无土栽培</a></li>
+            <li><a href="#">进口食品</a></li>
+            <li><a href="#">母婴用品</a></li>
+            <li><a href="#">动漫周边</a></li>
+            <li><a href="#">图书音像</a></li>
+            <li><a href="#">跳蚤市场</a></li>
+             -->
+        </ul>
+    </nav>
+      <script type="text/javascript">
+      //菜单导航 按钮事件 选中后高亮
+		$(document).ready(function(){  
+		    $(".NavL li a").each(function(){  
+		        $this = $(this);
+		        if($this[0].href==String(window.location)){  
+		        $(".NavL li").removeClass("LiFuc");
+		            $this.parent().addClass("LiFuc");
+		        }  
+		    });  
+		});  
+        </script>
+</header>

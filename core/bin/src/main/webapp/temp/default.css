@@ -1,0 +1,220 @@
+@charset "utf-8";
+
+
+body{background:#d3eaf4;}
+a:hover,.title a:hover{text-decoration:none;}
+
+/* YK colorset */
+.YK{color:#555555;}
+
+.YK_aside .YK_box .hd h3,.YK_aside .YK_box .hd h3 a{color:#666666;}
+
+/*main text*/
+.YK_main .YK_box .hd h3,
+.YK_main .YK_box .hd h3 a,
+.YK_menu .current a,
+.YK_aside .state_con a,
+.stream .transmit label,
+.stream .feed .title,
+.stream .feed .subtitle,
+.userinfo .state a,
+.YK_dashboard .box a,
+.YK_box .title,
+.stream .feed .text{color:#555555}
+
+/*sub text*/
+.p .p_attr a,
+.YK_aside .YK_box,
+.follow_state,
+.YK_profile .data,
+.stream .panel span,
+.YK_comments .comment .text .pubdate,
+.YK_talk .counter,
+.YK_view .filter label,
+.YK_profile .summary,
+.YK_profile .data a,
+.stream .stream .feed .text,
+.stream .source .feed .sourceuser,
+.stream .feed .act,
+.YK_fns .fn_favorite span,
+.YK_users .follow_state,
+.YK_cert .desc,
+.YK_profile li,
+.streams .timerecord,
+.YK_users .gender,.YK_users .local,.YK_users .fans{color:#909090;}
+
+/*desc text*/
+.YK_toolbar .insert_share .label,
+.stream .pos span,
+.stream .splite,
+.stream .panel .splite,
+.stream .panel .source,
+.stream .panel .client,
+.stream .panel .via{color:#bbbbbb;}
+.stream .source .feed{border-left:3px solid #cccccc;}
+
+/*main links*/
+.YK a,
+.qwindow a,
+.stream .feed .text a,
+.YK_commend .v_title,
+.YK_aside .nvsh .nv_title a,
+.YK_box .hd .extand .change,
+.stream .feed .pub_info .YK_vlink{color:#3399e0;}
+.YK_nav .current{background:#3399e0;}
+
+.YK a:hover,
+.qwindow a:hover,
+.stream .feed .text a:hover,
+.YK_aside .nvsh .nv_title a:hover,
+.userinfo .info .stat a:hover i,
+.userinfo .state li a:hover,
+.YK_box .hd .extand .change:hover,
+.nv .nv_title a:hover,
+.YK_dashboard .box a:hover,
+.stream .feed .pub_info .YK_vlink:hover{color:#cc3311;}
+
+/*sub links*/
+.YK .YK_help a,
+.YK_box .hd .subinfo a,
+.YK_box .hd .extend a,
+.YK_box .hd .extand a,
+.follow_state .follow a,
+.YK_profile .action .follow_state a,
+.YK_subnav li a,
+.YK_toolbar .handle a,
+.stream .panel .timestamp a,
+.YK_trans .feed .username a,
+.stream .source .pub_info a,
+.stream .feed .panel a,
+.YK_box .extend a,
+.YK_fns .fn_favorite a,
+.YK_fns .fn_goplay a,
+.YK_set .mod_select a,
+.YK_view .v_operate a,
+.YK_manager .stat_cont a,
+.videocommend .p .p_att a,
+.user .u_att a,
+.YK_setting .sync_items .item .cancel a,
+.guestbook .view a{color:#3399e0;}
+.YK .YK_subnav .current *{background:#99ccee;}
+.YK_tab .current{border-top:3px solid #009afc;}
+
+.YK_profile .panel li a{color:#ffffff;background:#99ccee;}
+.YK_profile .panel li a:hover{color:#ffffff;background:#3399e0;text-decoration:none;}
+
+.YK .YK_help a:hover,
+.YK_box .hd .subinfo a:hover,
+.YK_aside .YK_box .hd .subinfo a:hover,
+.YK_box .hd .extend a:hover,
+.YK_box .hd .extand a:hover,
+.follow_state .follow a:hover,
+.YK_profile .action .follow_state a:hover,
+.YK_subnav li a:hover,
+.YK_subnav li a:hover i,
+.YK_toolbar .handle a:hover,
+.stream .panel .timestamp a:hover,
+.YK_trans .feed .username a:hover,
+.stream .source .pub_info a:hover,
+.stream .feed .panel a:hover,
+.YK_box .extend a:hover,
+.YK_fns .fn_favorite a:hover,
+.YK_fns .fn_goplay a:hover,
+.YK_set .mod_select a:hover,
+.YK_view .v_operate a:hover,
+.YK_manager .stat_cont a:hover,
+.YK_manager .m_video .v_title a:hover .keyword,
+.videocommend .p .p_att a:hover,
+.user .u_att a:hover,
+.YK_masthead .YK_operate a:hover,
+.YK_setting .sync_items .item .cancel a:hover,
+.guestbook .view a:hover{color:#cc3311;}
+
+/* YK_talk_pub */
+.YK_index .YK_talk .YK_toolbar .action .form_btn{background:none;border:none;width:73px;height:30px;background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -82px -448px;}
+.YK_index .YK_talk .YK_toolbar .action .form_btn:hover{background-position:-165px -448px;}
+.YK_index .YK_talk .YK_toolbar .action .form_btn:active{background-position:-247px -448px;}
+.YK_index .YK_talk .YK_toolbar .action .form_btn_disabled .form_btn_text{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat 0 -448px;}
+.YK_index .YK_talk .YK_toolbar .action .form_btn_text{border:none;border-radius:0;background:none;height:30px;text-indent:-99999px;}
+
+/* YK_pager */
+.YK_pager .pages .now a{border:1px solid #ffffff;}
+.YK_pager .turn a{border:1px solid #99ccef;}
+.YK_pager .pages .now a:hover i{color:#99ccef;}
+.YK_pager .pages .now a:hover{color:#99ccef;border:1px solid #99ccef;}
+.YK_pager .list{border:1px solid #909090;}
+.YK_pager_ico span{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat;}
+
+/* YK_head */
+.YK_head .YK_opacity,.YK_subhead .YK_opacity{background-color:#ffffff;}
+.YK_head .info .username a,
+.YK_head .info .userurl a{color:#555555;}
+
+/* YK_commend */
+.YK_commend{background-color:#ffffff;}
+.YK_comments{background:#f2f2f2;}
+.YK_comments .comment_pager .current{background-color:#c6c6c6;color:#ffffff;}
+.interactArea .fn{border:1px solid #c6c6c6;background:#efefef url(/u/img/skin/V2/official/default/skin.png) repeat-x 0 -391px;}
+.YK_commend .commendlist .ghead{border:1px solid #d7d7d7;background:url(/u/img/skin/V2/official/default/skin.png) repeat-x 0 -384px;}
+.YK_commend .commendlist .list{border:1px solid #d7d7d7;border-top:none;}
+.YK_commend .commendlist .current{background-color:#ddeff6;}
+
+/* YK_stream */
+.YK_stream .stream .preview .p .p_play a,
+.stream .preview .v .v_toplay a{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat 0 0;}
+.YK_stream .stream .preview .p .p_play a:hover,
+.stream .preview .v .v_toplay a:hover{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat 0 -32px;}
+.YK .YK_vlink .icon__tv{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -307px -224px;}
+
+/* YK_view */
+.YK_view .listview .play_btn a{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -96px 0px;}
+.YK_view .listview .play_btn a:hover{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -96px -32px;}
+.YK_view .listview .info_bar{background-color:#e9e9e9;}
+.YK_view .listview .info_bar span{color:#333333;}
+
+/* YK_collect */
+.YK_collect thead,.YK_collect tfoot{background-color:#f0f0f0;} 
+.YK_collect td{color:#909090;border-bottom:1px dotted #b5b5b5;}
+
+.YK_cert .YK_cert_con{background:#ffffff;}
+.YK_layout_1 .YK_body{background:#ffffff;}
+.YK_layout_2 .YK_body{background:url(/u/img/skin/V2/official/default/repeat_y.png) repeat-y -230px 0;}
+.YK_layout_2 .YK_body{_background:url(/u/img/skin/V2/official/default/repeat_y.gif) repeat-y -230px 0;}
+.YK_layout_3 .YK_body{background:url(/u/img/skin/V2/official/default/repeat_y.png) repeat-y right 0;}
+.YK_layout_3 .YK_body{_background:url(/u/img/skin/V2/official/default/repeat_y.gif) repeat-y right 0;}
+.YK_layout_12 .YK_body{background:url(/u/img/skin/V2/official/default/repeat_y.png) repeat-y left 0;}
+.YK_layout_12 .YK_body{_background:url(/u/img/skin/V2/official/default/repeat_y.png) repeat-y left 0;}
+
+
+/* YK_talk */
+.YK_talk .slogan{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat 0 -160px;}
+.YK_toolbar .tool .insert_tags .icon{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat 0 -290px}
+.YK_toolbar .tool .insert_video .icon{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -32px -290px;}
+
+/* YK_menu */
+.YK_menu .current{background-color:#ffffff;}
+.YK_menu .menu_index{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -278px 6px;}
+.YK_menu .menu_at{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -278px -26px;}
+.YK_menu .menu_comment{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -278px -56px;}
+.YK_menu .menu_collect{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -278px -90px;}
+.YK_menu .current .menu_index{background:url(/u/img/skin/ico_menu.png) no-repeat -294px 6px}
+.YK_menu .current .menu_at{background:url(/u/img/skin/ico_menu.png) no-repeat -294px -24px;}
+.YK_menu .current .menu_comment{background:url(/u/img/skin/ico_menu.png) no-repeat -294px -52px;}
+.YK_menu .current .menu_collect{background:url(/u/img/skin/ico_menu.png) no-repeat -294px -84px;}
+
+/* YK_player */
+.YK_player .player_tool .p_close a{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat 4px -252px;}
+.YK_player .player_tool .p_close a:hover{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -28px -252px;}
+.YK_player .player_tool .p_open a{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -60px -251px;}
+.YK_player .player_tool .p_open a:hover{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -92px -251px;}
+
+/* YK_more */
+.YK_more a{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat;}
+.YK_more .expand a{background-position:-224px 0;}
+.YK_more .expand a:hover{background-position:-246px 0;}
+.YK_more .collapse a{background-position:-224px -22px;}
+.YK_more .collapse a:hover{background-position:-246px -22px;}
+
+/* YK_gotop */
+.YK_gotop .handle a{background:url(/u/img/skin/V2/official/default/skin.png) no-repeat -245px -256px;}
+.YK_gotop .handle a:hover{background-position:-287px -256px;}

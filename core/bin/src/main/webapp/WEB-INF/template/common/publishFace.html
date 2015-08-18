@@ -1,0 +1,43 @@
+<div id="showEditor" class="ArgumentReply" style="display: none;">
+	<div class="ReplyTitle">
+		<% if(!isEmpty(toUserId)) { %>
+			 回复<span class="font_b"></span>
+		<% } else { %>
+			发表我的看法
+		<% } %>
+	</div>
+	<div id="editor" class="ReplyTxt"></div>
+	<textarea name="message" id="message" style="display: none;"></textarea>
+	<div class="ReplyButton">
+		<table id="face" style="display: none;">
+			<tr>
+				<td>
+					<img src="images/VentTip02.png" onclick="insertFace(this)"/>
+				</td>
+				<td>
+					<img src="images/VentTip03.png" onclick="insertFace(this)"/>
+				</td>
+				<td>
+					<img src="images/VentTip04.png" onclick="insertFace(this)"/>
+				</td>
+				<td>
+					<img src="images/VentTip05.png" onclick="insertFace(this)"/>
+				</td>
+				<td>
+					<img src="images/VentTip06.png" onclick="insertFace(this)"/>
+				</td>
+				<td>
+					<img src="images/VentTip07.png" onclick="insertFace(this)"/>
+				</td>
+				<td>
+					<img src="images/VentTip08.png" onclick="insertFace(this)"/>
+				</td>
+				<td>
+					<img src="/images/VentTip09.png" onclick="insertFace(this)"/>
+				</td>
+			</tr>
+		</table>
+		<img src='images/VentTip05.png' onclick='showFace(this)' />
+		<a href="javascript:void(0);" onclick="publish(this,'${targetId!}','${idtype!}','${pId!}','${toUserId!}','${render!}')">发表</a>
+	</div>
+</div>

@@ -1,0 +1,309 @@
+<% layout("/common/layout.html"){ %>
+<script type="text/javascript">
+
+	var img0 = new Image().src = '${homepages[0].url!}';
+	var img1 = new Image().src = '${homepages[1].url!}';
+	var img2 = new Image().src = '${homepages[2].url!}';
+	var img3 = new Image().src = '${homepages[3].url!}';
+	var img4 = new Image().src = '${homepages[4].url!}';
+	
+	$(document).ready(function() {
+		var max = $('.AdSub ul li').length;
+		$.extend({
+			loopplay : function() {
+				$('.AdSub ul li').removeClass('select');
+				$curs = $('.AdSub ul li:eq(' + i + ')').addClass('select');
+				var src = $curs.attr('src');
+				$('.Adpic .jqthumb').remove();
+				$('.Adpic img').attr('src', src);
+				resizeImg('.Adpic img');
+				var href = $('a', $curs).attr('href');
+				$('.Adpic a').attr('href', href);
+				i++;
+				if (i > max) {
+					i = 0;
+				}
+			},
+			startTimer : function() {
+				timer = window.setInterval($.loopplay, 3000);
+			}
+		});
+
+		var i = 0;
+		var timer;
+		$.startTimer();
+		//鼠标移入事件
+		$('.AdSub ul li').mouseenter(function(){
+			//停止定时器
+			window.clearInterval(timer);
+			var src = $(this).attr('src');
+			$('.Adpic .jqthumb').remove();
+			$('.Adpic img').attr('src', src);
+			resizeImg('.Adpic img');
+			var href = $('a', this).attr('href');
+			$('.Adpic a').attr('href', href);
+			return false;
+		});
+		
+		$('.AdSub ul li').mouseleave(function(){
+			timer = window.setInterval($.loopplay, 3000);
+			return false;
+		});
+		
+		$('.Adpic img').mouseenter(function(){
+			window.clearInterval(timer);
+			return false;
+		});
+		$('.Adpic img').mouseleave(function(){
+			timer = window.setInterval($.loopplay, 3000);
+			return false;
+		});
+		
+		resizeImg('section:eq(1) img');
+		resizeImg('.GoodsPic img');
+		resizeImg('aside section:eq(0) img');
+	});
+</script>
+<%if(homepages.~size > 0){%>
+<section>
+	<div class="AdSub">
+		<ul>
+			<%for(homepage in homepages){ if(homepageLP.index <= 5){%>
+			<li src="${homepage.img!}"><a href="${homepage.url!}">${homepage.title!}<span>${homepage.subtitle!}</span></a></li>
+			<%}%> <%}%>
+		</ul>
+	</div>
+	<div class="Adpic">
+		<a href="${homepages[0].url!}"><img src="${homepages[0].img!}"></a>
+	</div>
+	<div class="clear">&nbsp;</div>
+</section>
+<%}%>
+<section>
+	<article>
+		<%if(workss0.~size > 0){%>
+		<section>
+			<div class="CartoonTitle">
+				${workstype[workss0[0].workstype!]!}<a href="${workss0[0].typeUrl!}">/更多</a>
+			</div>
+			<div class="CartoonContent">
+				<div class="Cartoon2" style="overflow: hidden; height: 315px;">
+					<div class="CartoonSubB">
+						<a href="${workss0[0].detailUrl!}" style="display: block;"> 
+							<img src="${workss0[0].cover!}">
+						</a>
+						<div class="CartoonSubBFootbar">
+							<a class="icon" href="${workss0[0].playUrl!}">
+								<img id="icon" src="http://www.dongmark.com/images/icon_play.png">
+							</a> <a href="${workss0[0].detailUrl!}"> <span>${workss0[0].worksname!}</span>
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="Cartoon3">
+					<% for(works in workss0){ if(worksLP.index > 1 && worksLP.index <=
+					7){ %>
+					<div class="CartoonSub">
+						<a href="${works.detailUrl!}" style="display: block;"><img
+							src="${works.cover!}"></a> <a href="${works.detailUrl!}"
+							style="display: block;"><div class="CartoonName">${works.worksname!}</div></a>
+						<div class="CartoonInfo">
+							<span class="FloatL">${works.pageviews!}</span> <span
+								class="FloatR">${works.comment!}</span>
+						</div>
+						<%if(works.describle! != ''){%><div class="CartoonSubFootbar">${works.describle!}</div><%}%>
+					</div>
+					<% } %> <% } %>
+				</div>
+			</div>
+		</section>
+		<%}%> <%if(workss1.~size > 0){%>
+		<section>
+			<div class="CartoonTitle">
+				${workstype[workss1[0].workstype!]!}<a href="${workss1[0].typeUrl!}">/更多</a>
+			</div>
+			<div class="CartoonContent">
+				<%for(works in workss1){ if(worksLP.index <= 5){%>
+				<div class="CartoonSub">
+					<a href="${works.detailUrl!}" style="display: block;">
+					<img src="${works.cover!}"/>
+						<div class="CartoonName">
+							<a href="${works.detailUrl!}">${works.worksname!}</a>
+						</div>
+					</a>
+					<div class="CartoonInfo">
+						<span class="FloatL">${works.pageviews!}</span> <span
+							class="FloatR">${works.comment!}</span>
+					</div>
+					<%if(works.describle! != ''){%><div class="CartoonSubFootbar">${works.describle!}</div><%}%>
+				</div>
+				<%}%> <%}%>
+			</div>
+		</section>
+		<%}%> <%if(workss2.~size > 0){%>
+		<section>
+			<div class="CartoonTitle">
+				${workstype[workss2[0].workstype!]!}<a href="${workss2[0].typeUrl!}">/更多</a>
+			</div>
+			<div class="CartoonContent">
+				<%for(works in workss2){ if(worksLP.index <= 5){%>
+				<div class="CartoonSub">
+					<a href="${works.detailUrl!}" style="display: block;">
+					<img src="${works.cover!}"/>
+						<div class="CartoonName">
+							<a href="${works.detailUrl!}">${works.worksname!}</a>
+						</div>
+					</a>
+					<div class="CartoonInfo">
+						<span class="FloatL">${works.pageviews!}</span> <span
+							class="FloatR">${works.comment!}</span>
+					</div>
+					<%if(works.describle! != ''){%><div class="CartoonSubFootbar">${works.describle!}</div><%}%>
+				</div>
+				<%}%> <%}%>
+			</div>
+		</section>
+		<%}%> <%if(workss3.~size > 0){%>
+		<section>
+			<div class="CartoonTitle">
+				${workstype[workss3[0].workstype!]!}<a href="${workss3[0].typeUrl!}">/更多</a>
+			</div>
+			<div class="CartoonContent">
+				<%for(works in workss3){ if(worksLP.index <= 5){%>
+				<div class="CartoonSub">
+					<a href="${works.detailUrl!}" style="display: block;"> <img
+						src="${works.cover!}">
+						<div class="CartoonName">
+							<a href="${works.detailUrl!}">${works.worksname!}</a>
+						</div>
+					</a>
+					<div class="CartoonInfo">
+						<span class="FloatL">${works.pageviews!}</span> <span
+							class="FloatR">${works.comment!}</span>
+					</div>
+					<%if(works.describle! != ''){%><div class="CartoonSubFootbar">${works.describle!}</div><%}%>
+				</div>
+				<%}%> <%}%>
+			</div>
+		</section>
+		<%}%> <%if(workss4.~size > 0){%>
+		<section>
+			<div class="CartoonTitle">
+				${workstype[workss4[0].workstype!]!}<a href="${workss4[0].typeUrl!}">/更多</a>
+			</div>
+			<div class="CartoonContent">
+				<%for(works in workss4){ if(worksLP.index <= 10){%>
+				<div class="CartoonSub">
+					<a href="${works.detailUrl!}" style="display: block;"> <img
+						src="${works.cover}">
+						<div class="CartoonName">
+							<a href="${works.detailUrl!}">${works.worksname!}</a>
+						</div>
+					</a>
+					<div class="CartoonInfo">
+						<span class="FloatL">${works.pageviews!}</span> <span
+							class="FloatR">${works.comment!}</span>
+					</div>
+					<%if(works.describle! != ''){%><div class="CartoonSubFootbar">${works.describle!}</div><%}%>
+				</div>
+				<%}%> <%}%>
+			</div>
+		</section>
+		<%}%>
+		<section>
+			<div class="CartoonTitle">
+				${wonderTypeMenu.menuname!}<a href="${wonderTypeMenu.actionkey!}">/更多</a>
+			</div>
+			<div class="CartoonContent">
+				<%for(ofWonders in ofWondersList){%>
+				<div class="CartoonSub">
+					<a href="javascript:void(0);"
+						onclick="skipOfWonders('${ofWonders.ofwondersid!}')"> <img
+						src="${ofWonders.themeimg!}">
+					</a>
+					<div class="CartoonName">
+						<a href="javascript:void(0);"
+							onclick="skipOfWonders('${ofWonders.ofwondersid!}')">${ofWonders.subject!}</a>
+					</div>
+					<div class="CartoonInfo">
+						<span class="FloatL">${ofWonders.times!}</span> <span
+							class="FloatR">${ofWonders.viewcount!}</span>
+					</div>
+					<!-- <div class="CartoonSubFootbar" onclick="skipOfWonders('${ofWonders.ofwondersid!}')"></div> -->
+				</div>
+				<%}%>
+			</div>
+		</section>
+
+	</article>
+	<aside>
+		<section>
+			<div class="CartoonTitle">上周点击排行榜</div>
+			<div class="CartoonContent">
+				<% for(var i=0; i
+				<worksClickList.~size; i++) { %>
+				<ul class="LiVline">
+					<li class="LiHeightB"><a
+						href="${worksClickList[i].detailUrl!}">
+							<div class="LiPicB">
+								<img src="${worksClickList[i].cover!}">
+							</div>
+					</a>
+						<div class="LiContentB">
+							<a href="${worksClickList[i].detailUrl!}">${worksClickList[i].worksname!}</a>
+							<span> <span class="Tip01">${worksClickList[i].pageviews!}</span>
+								<span class="Tip02">${worksClickList[i].comment!}</span>
+							</span>
+						</div> <span class="Num${i+1}"></span></li>
+				</ul>
+				<%}%> 
+			</div>
+		</section>
+		<section>
+			<div class="CartoonTitle">本周更新列表</div>
+			<div class="CartoonContent">
+				<ul class="LiVline LiC">
+					<% for(works in worksUpdateList) {%>
+					<li><span>第${works.maxnum!}集</span><a
+						href="${works.detailUrl!}">${works.worksname!}</a></li> <%}%>
+				</ul>
+			</div>
+		</section>
+
+	</aside>
+	<div class="clear">&nbsp;</div>
+</section>
+<section>
+
+	<div class="CartoonTitle">
+		新潮商品<a href="goods/shop">/更多</a>
+	</div>
+	<div class="CartoonContent">
+		<% for(goods in goodss){ if(goodsLP.index <= 4){%>
+		<figure>
+			<a href="${goods.detailUrl!}">
+				<div class="GoodsPic">
+					<a
+						href="goods/getGoodsDetail?goodsid=${goods.goodsid!}&goodsattr=${goods.goodsattr1!}&dougprice=${goods.dougprice!}"><img
+						src="${goods.pic!}"></a>
+				</div>
+			</a>
+			<figcaption style="border: none;">
+				<div class="GoodsName font_r">
+					<a
+						href="goods/getGoodsDetail?goodsid=${goods.goodsid!}&goodsattr=${goods.goodsattr1!}&dougprice=${goods.dougprice!}">${goods.goodsname!}</a>
+					<span class="GoodsPrice">￥：${goods.price!}</span>
+				</div>
+				<div class="GoodsAuthor">
+					<img src="${goods.imgurl!}"><span class="font_ye"><a>${goods.username!}</a></span>发布${goods.dougprice!}
+				</div>
+				<!-- <div class="GoodsInfo">${goods.message!}</div> -->
+				<div class="GoodsItems">
+					<span>加入收藏 20</span> <span>喜欢 ${goods.sumlove!}</span>
+				</div>
+			</figcaption>
+		</figure>
+		<%}%> <%}%>
+	</div>
+</section>
+<% } %>

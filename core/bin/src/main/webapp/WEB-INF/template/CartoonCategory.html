@@ -1,0 +1,205 @@
+<% layout("/cartoon/cartoon_layout.html"){	%>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var max = $('.SortZoom a').length;
+		var i = 0;
+		$.extend({
+			loopplay:function(){
+				$('.SortZoom a').removeClass('select');
+				$curs = $('.SortZoom a:eq('+i+')').addClass('select');
+				var src = $('img',$curs).attr('src');
+				var detail = $curs.attr('detail');
+				var play = $curs.attr('play');
+				$('.SortAD a.icon').attr('href',play);
+				var name = $($curs).attr('wname');
+				$('.SortAD img[flag=update]').attr('src',src);
+				$('.cartoontopmain').attr('href',detail);
+				resizeImg('.SortAD img');
+				$('.SortAD .SortADFootbar span').html(name);
+				i++;
+				if(i > max){
+					i=0;
+				}
+			},
+			startTimer:function(){
+				timer = window.setInterval($.loopplay,3000);
+			}
+		});
+		var i = 0;
+		var timer;
+		$.startTimer();
+		//鼠标移入事件
+		$('.SortZoom a').mouseover(function(){
+			//停止定时器
+			window.clearInterval(timer);
+			var src = $('img',this).attr('src');
+			var detail = $(this).attr('detail');
+			var play = $(this).attr('play');
+			var name = $(this).attr('wname');
+			$('.SortAD img[flag=update]').attr('src',src);
+			$('.cartoontopmain').attr('href',detail);
+			resizeImg('.SortAD img');
+			$('.SortAD a.icon').attr('href',play);
+			$('.SortAD .SortADFootbar span').html(name);
+		});
+		//鼠标移出事件
+		$('.SortZoom a').mouseout(function(){
+			timer = window.setInterval($.loopplay,3000);
+		});
+		$('.SortAD img').mouseover(function(){
+			//停止定时器
+			window.clearInterval(timer);
+		});
+		$('.SortAD img').mouseout(function(){
+			timer = window.setInterval($.loopplay,3000);
+		});
+		
+		resizeImg('.SortZoom img');
+		resizeImg('.container.clearfix section:eq(1) img');
+		resizeImg('.container.clearfix section:eq(2) img');
+		resizeImg('.container.clearfix section:eq(3) img');
+		resizeImg('.container.clearfix section:eq(4) img');
+		resizeImg('.container.clearfix section:eq(5) img');
+	});
+</script>
+<%if(workss0.~size > 0){%>
+<section class="WhiteBg">
+	<div class="SortAD">
+		<a class="cartoontopmain" href="${workss0[0].detailUrl!}"><img flag="update" src="${workss0[0].cover!}"></a>
+		<div class="SortADFootbar">
+			<a href="${workss0[0].playUrl!}" class="icon"><img id="icon" src="images/icon_play.png"></a>
+			<a  class="cartoontopmain" href="${workss0[0].detailUrl!}"><span>${workss0[0].worksname!}</span></a>
+		</div>
+	</div>
+	<div class="SortZoom">
+		<!-- 循环8个 -->
+		<% for(works in workss0){
+			if(worksLP.index <= 8){%>
+			<a href="${works.detailUrl!}" wname="${works.worksname!}" detail="${works.detailUrl!}" play="${works.playUrl!}"><img src="${works.cover!}"></a> 
+			<%}%>
+		<% }%>
+	</div>
+</section>
+<div class="clear"></div>
+<%}%>
+
+<%if(workss1.~size > 0){%>
+<section>
+	<div class="CartoonTitleC">${workstype[workss1[0].workstype!]!}<a href="${workss1[0].typeUrl!}">更多&gt;&gt;</a></div>
+    <div class="CartoonContent">
+   	  <div class="HILeft">
+   	  		<!-- 循环5个 -->
+        	<%for(works in workss1){
+        	if(worksLP.index <= 5){%>
+        	<div class="HISub">
+        		<a href="${works.detailUrl!}"><img src="${works.cover!}"><br/></a>
+        		<a href="${works.detailUrl!}">${works.worksname!}</a>
+        	</div>
+        	<%}%>
+        	<%}%>
+        </div>
+        <div class="HIRight">
+        	<div class="CartoonTitleC">大家爱看</div>
+            <!-- 循环4个 -->
+            <ul>
+            <%
+            	for(works in olikeWorksList){
+            	if(worksLP.index < 5){
+            %>
+            	<li>
+            		<span>${worksLP.index!}</span>
+            			<a href="${works.detailUrl!}">${works.worksname!}</a>
+            	</li>
+            <%
+            	}else if(worksLP.index == 5){
+            %>
+            </ul>
+            <div class="HIRightAD">
+            	<a href="${works.detailUrl!}"><img src="${works.cover!}"></a>
+            	<a href="${works.detailUrl!}">${works.worksname!}</a>
+            </div>	
+            <% }
+             }%>
+        </div>
+        <div class="clear"></div>
+    </div>
+</section>
+<%}%>
+
+<%if(workss2.~size > 0){%>
+<!-- 循环6个 -->
+<section>
+	<div class="CartoonTitleC">${workstype[workss2[0].workstype!]!}<a href="${workss2[0].typeUrl!}">更多 &gt;&gt;</a></div>
+    <div class="CartoonContent WhiteBg Guess">
+    <% for(works in workss2){ 
+    	if(worksLP.index <= 6){
+    %>
+    	<div class="CartoonSub">
+        	<a href="${works.detailUrl!}"><img src="${works.cover!}"><br/></a>
+            <a href="${works.detailUrl!}">${works.worksname!}</a>
+        </div>
+        <%}%>
+	<%}%>
+    </div>
+</section>
+<%}%>
+
+<%if(workss3.~size > 0){%>
+<section>
+	<div class="CartoonTitleC">${workstype[workss3[0].workstype!]!}<a href="${workss3[0].typeUrl!}">更多 &gt;&gt;</a></div>
+    <div class="CartoonContent WhiteBg Guess">
+    	<%for(works in workss3){
+    		if(worksLP.index <= 12){
+    	%>
+    	<div class="CartoonSub">
+        	<a href="${works.detailUrl!}"><img src="${works.cover!}"></a><br>
+            <a href="${works.detailUrl!}">${works.worksname!}</a>
+        </div>
+        <%}%>
+        <%}%>
+    </div>
+</section>
+<%}%>
+
+<%if(workss4.~size > 0){%>
+<section>
+	<div class="CartoonTitleC">${workstype[workss4[0].workstype!]!}<a href="${workss4[0].typeUrl!}">更多 &gt;&gt;</a></div>
+    <div class="CartoonContent WhiteBg">
+	    	<div class="Sort2">
+	        	<a href="${workss4[0].detailUrl!}"><img src="${workss4[0].cover!}"></a><br>
+	        	<a href="${workss4[0].detailUrl!}">${workss4[0].worksname!}</a>
+	        </div>
+        <div class="Sort3960 Guess">
+        	<%for(works in workss4){
+	       		if(worksLP.index > 1 && worksLP.index <= 9){%>
+		        	<div class="CartoonSub">
+		                <a href="${works.detailUrl!}"><img src="${works.cover!}"><br>
+		                <a href="${works.detailUrl!}">${works.worksname!}</a>
+		            </div>
+           		<%}%>
+           	<%}%>
+        </div>
+        <div class="clear"></div>
+    </div>
+</section>
+<%}%>
+
+<%if(workss5.~size > 0){%>
+<!-- 循环6个 -->
+<section>
+	<div class="CartoonTitleC">${workstype[workss5[0].workstype!]!}<a href="${workss5[0].typeUrl!}">更多 &gt;&gt;</a></div>
+    <div class="CartoonContent WhiteBg Guess">
+    <% for(works in workss5){ 
+    	if(worksLP.index < 6){
+    %>
+    	<div class="CartoonSub">
+        	<a href="${works.detailUrl!}"><img src="${works.cover!}"><br/></a>
+            <a href="${works.detailUrl!}">${works.worksname!}</a>
+        </div>
+        <%}%>
+	<%}%>
+    </div>
+</section>
+<%}%>
+
+<%}%>

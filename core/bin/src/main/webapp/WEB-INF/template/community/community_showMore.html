@@ -1,0 +1,16 @@
+<% 
+	var i = 0;
+	for(community in communitySonList){ 
+      	if(communityLP.index == communitySize){
+        	break;
+      	}
+      	i = i + 1;
+      	if(i % 2 ==0){
+%>
+	<a href="javascript:void(0)" class="AR" onclick="goToOrderForum(this,'${community.communityid!}')">${community.title!}</a>
+<% 		} else { %>
+	<a href="javascript:void(0)" class="AL" onclick="goToOrderForum(this,'${community.communityid!}')">${community.title!}</a>
+<% 		
+		}
+	}
+ %>	

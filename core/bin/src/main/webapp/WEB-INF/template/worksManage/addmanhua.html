@@ -1,0 +1,124 @@
+<script type="text/javascript">
+var ext = '';
+var bool = false;
+	$(document).ready(function(){
+		var bar = $('.bar');
+		var percent = $('.percent');
+		var status = $('#status');
+		$(':input[name=title]').keypress(function(){
+			var ch = $(this).val();
+			if(ch.length > 9){
+				alert('只能输入10个汉字');
+				$(this).val($(this).val().substring(0,9));
+				return;
+			}
+		});
+		$('#addmanhua').submit(function(){
+			var imglimit = new Array('.JPG', '.BMP', '.PNG','.JPEG');
+			var videolimit = new Array('.FLV', '.MP4', '.AVI','.MOV','.ASF','.WMV','.NAVI','.3GP','.MKV','.F4V','.FLV');
+			var filePath = $(':input[type=file]').val();
+			var start = filePath.lastIndexOf(".");
+			ext = filePath.substring(start,filePath.length).toUpperCase();
+			$.each(imglimit,function(key,value){
+				if(value == ext){
+					bool = true;
+				}
+			});
+			if(!bool){
+				alert('上传文件类型错误');
+				return false;
+			}
+			$('button[type=submit]',this).attr('disabled',true);
+			$(this).ajaxSubmit({
+				beforeSend: function() {
+			        status.empty();
+			        var percentVal = '0%';
+			        percent.html(percentVal);
+			        $('#progressTr').show();
+			    },
+			    uploadProgress: function(event, position, total, percentComplete) {
+			        var percentVal = percentComplete + '%';
+			        bar.val(percentComplete)
+			        percent.html(percentVal);
+			    },
+				success:function(data){
+					if(data.success == 1){
+						if(confirm("添加成功 是否跳转编辑页面？")){
+							showPage({'flag':12,'type':2,'pageNumber':${pageNumber!},'worksid':data.worksid});
+						}else{
+							showPage({'flag':2,'type':2,'pageNumber':${pageNumber!}});
+						}
+					}else{
+						alert("添加失败  信息：" + data.message);
+						$('button[type=submit]',this).removeAttr('disabled');
+					}
+				}
+			});
+			return false;
+		});
+	});
+</script>
+<article class="MeArticle">
+		<form id="addmanhua" action="works/addManhua" method="post" enctype="multipart/form-data">
+        <div class="MemberIndex">
+          <div class="MeCaption"><a href="javascript:showPage({'flag':2,'type':2,'pageNumber':${pageNumber!}});">漫画管理</a> --> <a href="javascript:showPage({'flag':13,'type':2,'pageNumber':${pageNumber!}});">创建漫画</a></div>
+          <div class="MeBlock">
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
+              <tbody><tr>
+                <th><em style="color: red;"> * </em>标题：</th>
+                <td><input name="title" type="text" class="input_Member" required="required"></td>
+              </tr>
+              <tr id="progressTr" style="display: none;">
+                <th><em style="color: red;"> * </em>进度：</th>
+                <td>
+                	<p><progress class="bar" value="0" max="100"></progress>
+                	<div class="percent">0%</div ></p>
+                </td>
+              </tr>
+              <tr>
+                <th><em style="color: red;"> * </em>封面：</th>
+                <td><input name="cover" type="file" class="input_Member" required="required"></td>
+              </tr>
+              <tr>
+                <th>主角：</th>
+                <td>
+                	<input name="leadingrole" type="text" class="input_Member"></td>
+                </td>
+               <tr>
+                <th>简介：</th>
+                <td>
+                	<textarea name="des" style="padding:10px;" rows="8" cols="54"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <th><em style="color: red;"> * </em>分类：</th>
+                <td>
+                	<select name="type" class="input_Member">
+                		<% for(workstype in worksTypes){%>
+                			<option value="${workstype.id!}">${workstype.name!}</option>
+                		<%}%>
+                	</select>
+                </td>
+              </tr>
+              <tr>
+                <th><em style="color: red;"> * </em>是否公开：</th>
+                <td>
+                	<select name="ispublic" class="input_Member">
+                		<option value="1">公开</option>
+                		<option value="0">隐藏</option>
+                	</select>
+                </td>
+              </tr>
+              <tr>
+                <th></th>
+                <td>
+                	<button type="submit" >提交</button>
+                	&nbsp;&nbsp;&nbsp;
+                	<button type="button" onclick="showPage({'flag':2,'type':2,'pageNumber':${pageNumber!}})">取消</button>
+				</td>
+              </tr>
+            </tbody></table>
+          </div>
+        </div>
+        </form>
+    </article>

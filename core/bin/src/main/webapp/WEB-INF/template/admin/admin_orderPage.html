@@ -1,0 +1,62 @@
+<article>
+					<table cellpadding="0" cellspacing="0" border="0"
+						class="table table-striped table-bordered" id="example2">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>订单编号</th>
+								<th>商品名称</th>
+								<th>商品单价</th>
+								<th>商品总数</th>
+								<th>商品总价</th>
+								<th>是否支付</th>
+								<th>是否发货</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						<% for(ord in ordetailList.list!) {%>
+							<tr class="odd gradeX">
+									<td>${ordLP.index!}</td>
+									<td>${ord.ordernum!}</td>
+									<td><a href="goods/getGoodsDetail?goodsid=${ord.goodsid!}">${ord.goodsname!}</a></td>
+									<td>${ord.goodsprice!}</td>
+									<td>${ord.goodsnum!}</td>
+									<td>${ord.goodsprice!*ord.goodsnum!}</td>
+									<%for(or in ordList.list!){%>
+										<% if(ord.orderid == or.orderid){ %>
+											<% if(or.isPay=="Y") { %>
+												<td>是</td>
+											<%}else{%>
+												<td style="color:#F00;font-weight:bold;">否</td>
+											<%}if(or.isDelivery=="Y"){%>
+												<td>是</td>
+											<%}else{%>
+												<td style="color:#F00;font-weight:bold;">否</td>
+											<%}%>
+									<td width="120">
+										<a href="order/upOrder?ordelid=${ord.orderdetailid!}&ordid=${or.orderid!}"><button class="btn btn-warning btn-mini" lable="编辑">编辑</button></a>
+										<a href="order/deleteOrder?orderid=${ord.orderid!}" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">刪除</button></a>
+										<a href="order/sendOrder?ordid=${or.orderid!}" onclick="return confirm('确定发货？')"><button class="btn btn-danger btn-mini" lable="发货">发货</button></a>
+									</td>	
+									<%}%>			
+									<%}%>																
+							</tr>
+						<% } %>	
+						
+						</tbody>
+			
+					</table>
+								 <% 
+		            if(ordetailList != null){ 
+						layout(
+						"/common/page.html",
+						{
+							"page":ordetailList,
+							"pageAction":"./order/renderOrders",
+							"fatherNode":"#ordpag"
+						}
+						){} 
+					}%>	
+			
+</article>

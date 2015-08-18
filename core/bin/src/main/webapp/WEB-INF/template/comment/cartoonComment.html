@@ -1,0 +1,85 @@
+<% 
+	if (idtype != "70" && idtype != "80"){
+%>
+	<div class="LevelTitle">
+		<a href="javascript:void(0);" class="WArgument" onclick="skipPublish(this)">我来说两句</a>
+	</div>
+<% } %>
+<% for (comment in commentPage.list){ %>
+<div class="ArgumentSub" id="commentContents">
+      	<div class="MemberHead"><img src="${comment.imgurl!}"></div>
+        <div class="ArgumentInfo">
+       	 	<div class="MemberNick font_b">${comment.username!}</div>
+       	 	<div class="ArgumentContent">${comment.message!}</div>
+            <div class="ArgumentTime font_b" id="commentContent">
+            	<a href="javascript:void(0)" onclick="addUseful(this,'${comment.commentid!}','10')">
+            		有用
+            		<% 
+						if(!isEmpty(recordMap)){
+							var groupKey = comment.commentid + ",10";
+							if(!isEmpty(@recordMap.get(groupKey))){
+								var record = @recordMap.get(groupKey);
+					%>
+								(+${record.number!})
+					<%
+							}
+						}
+					%>
+            	</a>
+            	<a href="javascript:void(0);" onclick="showPublishHtml(this)">回复</a>
+            	<div id="publishHtml" >
+					<%
+						layout(
+						"/common/publishFace.html",
+						{
+							"targetId":targetId,
+							"idtype":idtype,
+							"pId":comment.commentid,
+							"render":"/comment/cartoonFollowPage.html"
+						}
+						){}
+					%>
+				</div>
+				<div id="commentHtml" >
+					<%
+						if(followPage != null){
+						layout(
+							"/comment/cartoonFollowPage.html",
+							{
+								"targetId":targetId,
+								"idtype":idtype,
+								"comment":comment,
+								"followPage":followPage
+							}
+							){} 
+						}
+					%>
+				</div>
+            </div>
+        </div>
+</div> 
+<% } %>
+<div id="skipPublish">
+	<%
+		layout(
+		"/common/publishFace.html",
+		{
+			"targetId":targetId,
+			"idtype":idtype,
+			"render":"/comment/cartoonComment.html"
+		}
+		){}
+	%>
+</div>
+<div>
+	<% if(!isEmpty(commentPage) && commentPage.totalRow>0){ 
+		layout(
+			"/common/page.html",
+			{
+				"page":commentPage,
+				"pageAction":"./comment/findByTargetId?targetId=" + targetId + "&idtype=" + idtype + "&render=/comment/cartoonComment.html",
+				"fatherNode":"#commentHtml"
+			}
+		){} 
+	}%>
+</div> 

@@ -1,0 +1,29 @@
+   <article class="MeArticle">
+        <div class="MemberIndex">
+          <div class="MeCaption">发表留言：</div>
+          <div class="MeBlock">
+          <form action="um/leaveMsg" class="form-horizontal" method="post">
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
+              <tr>
+                <th>用户名：</th>
+                <td><input name="touser" value="${u.touser!}" type="text" class="input_Member"></td>
+              </tr>
+           	  <tr>
+                <th>标题：</th>
+                <td><input name="title" value="${u.title!}"  type="text" class="input_Member"></td>
+              </tr>
+              <tr>
+                <th>回复：</th>
+                <td><textarea name="content" rows="8" value="${u.content!}" cols="40"></textarea> </td>
+              </tr>
+              <tr>
+                <th></th>
+                <td><input name="" type="submit" class="Button" value="提交留言"></td>
+              </tr>
+            </table>
+			</form>
+          </div>
+        </div>
+        
+    </article>
+    <div class="clear"></div>

@@ -1,0 +1,13 @@
+<% for(wondersTypeFat in wondersTypeFatList){ %>
+	<div id="wondersTypeForum">
+		<% 
+			layout(
+				"/admin/admin_wondersTypeDetail.html", 
+				{
+					"wondersTypeFat":wondersTypeFat,
+					"wondersTypeSonList":wondersTypeSonList
+				}
+			){} 
+		%>
+	</div>
+<% } %>

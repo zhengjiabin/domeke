@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+ <% include("/common/head.html"){} %>
+</head>
+
+<body style="margin: 0px;background: #fff;">
+<% include("/common/user_header.html"){} %>
+<div class="LoginContent">
+	<div class="LoginAD"><img src="${url!}"></div>
+	<form class="form-signin" action="login/forIndex" method="post">
+	    <div class="LoginInput">
+	    	<input name="username" value="${username!}"  type="text" class="Uid" placeholder="用户名">
+	        <input name="password"  type="password" class="Pwd" placeholder="密码">
+	    	
+	        <div>
+	        	<a style="color:#F00">${msg!}</a>
+	        </div>
+	   	
+	        <div class="LoginButton">
+	        	<input name="" type="submit" class="Button" value="立即登录"><br />
+	            <a href="user/testEmail">邮箱验证</a><a href="user/search">忘记密码</a><br />
+	            您还没有账号？点击<a href="user/goRegist">注册</a>
+	        </div>
+	    </div>
+    </form>
+    <div class="clear"></div>
+    <div class="Mepic"><img src="http://www.dongmark.com/images/Mepic03.png"></div>
+</div>
+<% include("/common/user_footer.html"){} %>
+</body>
+</html>

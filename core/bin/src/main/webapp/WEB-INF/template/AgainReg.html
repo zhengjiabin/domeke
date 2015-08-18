@@ -1,0 +1,64 @@
+<script language='javascript' type='text/javascript'> 
+var leftSeconds = 120;//倒计时时间10秒
+var intervalId;
+$(function () {
+ $("#btn_reg").attr("disabled", true);//设置按钮不可用
+ intervalId = setInterval("CountDown()",1000);//调用倒计时的方法
+});
+function CountDown() {//倒计时方法
+ if (leftSeconds <= 0) {
+  $("#btn_reg").val("重新发送验证邮件"); //当时间<=0的时候改变按钮的value
+  $("#btn_reg").attr("disabled",false);//如果时间<=0的时候按钮可用
+  clearInterval(intervalId); //取消由 setInterval() 设置的 timeout
+  return;
+ }
+ leftSeconds--;
+ $("#btn_reg").val("请在"+leftSeconds+"秒后点击重新验证");
+}
+
+var secs =260; //倒计时的秒数    
+var URL ;    
+function Load(url){    
+URL =url;    
+for(var i=secs;i>=0;i--)    
+{    
+window.setTimeout('doUpdate(' + i + ')', (secs-i) * 1000);    
+}    
+}    
+function doUpdate(num)    
+{    
+document.getElementById('ShowDiv').innerHTML = '<a href="user/goLogin">可点击跳转：将在'+num+'秒后自动跳转到登录页面</a>' ;    
+if(num == 0) { window.location=URL; }    
+} 
+
+//邮箱重新发验证
+$(function() {
+	var url = "user/againReg";
+	var obj = "";
+	$('#btn_reg').click(function(){
+		$.showView(obj,url);
+	});      
+$.extend({
+	showView:function(obj,url){
+		$.ajax({   
+            type:"post",    
+            dataType:"html",
+            url:url, 
+            data:obj,
+            success:function(data){
+            	$('#view').html(data);  
+            	//alert("重新发送验证邮件成功！");
+            },   
+            error:function(){ 
+            	console.info(msg);
+            }   
+        });
+	}
+});
+});
+</script>
+<div align="center">
+<div align="center" style="color: red;"><h2>${succes!}</h2></div>
+<div align="center" id="ShowDiv" style="color: blue;"></div><br>
+<input id="btn_reg" style="width:180px;" type="button" class="BtReg" value="请在120秒后点击重新验证">
+</div>

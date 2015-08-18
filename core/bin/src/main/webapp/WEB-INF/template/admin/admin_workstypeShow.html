@@ -1,0 +1,94 @@
+<script type="text/javascript">
+pageNumber = '${pageWorksType.pageNumber!}';
+function upranking(id,state){
+	$.ajax({
+		type : 'post',
+		data : 'flag='+flag+'&id='+id+'&state='+state,
+		url : 'worksType/upranking',
+		success : function(data) {
+			showData({'flag':flag,'pageNumber':${pageWorksType.pageNumber!}});
+		}
+	});
+}
+//删除
+function del(id){
+	if(confirm("确认删除吗？")){
+		$.ajax({
+			url:'worksType/delete',
+			data:'id='+id,
+			success:function(data){
+				if(data.success != 1){
+					alert("删除失败,"+data.message);
+					return;
+				}
+				showData({'flag':flag,'pageNumber':${pageWorksType.pageNumber!}});
+				return;
+			}
+		});
+	}else{
+		return false;
+	}
+}
+</script>
+<article>
+		<table cellpadding="0" cellspacing="0" border="0"
+			class="table table-striped table-bordered" id="example2">
+			<thead>
+				<tr>
+					<th>序号</th>
+					<th>名称</th>
+					<th>类型</th>
+					<th>简介</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<%for(workstype in pageWorksType.list){%>
+				<tr class="odd gradeX">
+						<td>${workstypeLP.index}</td>
+						<td>${workstype.name!}</td>
+						<td><%if(workstype.type == 1){%>视频<%}%><%if(workstype.type == 2){%>漫画<%}%></td>
+						<td>${workstype.des!}</td>
+						<td width="100">
+						<%if(flag == '3'){%>
+							<p>
+							<a href="javascript:upranking(${workstype.id!},1);">置顶</a>
+							&nbsp;&nbsp;
+							<%if(workstype.indextop! != 0){%>
+							<a href="javascript:upranking(${workstype.id!},0);">取消置顶</a>
+							<%}%>
+							</p>
+						<%}%>
+						<%if(flag == '4'){%>
+							<p>
+								<a href="javascript:upranking(${workstype.id!},1);">置顶</a>
+								&nbsp;&nbsp;
+								<%if(workstype.cartoontop! != 0){%>
+								<a href="javascript:upranking(${workstype.id!},0);">取消置顶</a>
+								<%}%>
+							</p>
+						<%}%>
+						<a href="javascript:del(${workstype.id!});" class="btn btn-danger">刪除</a>
+						</td>
+				</tr>
+				<% } %>
+			</tbody>
+		</table>
+		<div class="PageMore">
+     <button onclick="showData({'flag':'${flag!}','type':'${type!}','pageNumber':${pageWorksType.pageUp!}})">上一页</button>
+      <% for(var i=0; i < pageWorksType.totalPage; i++)
+      {
+      	if(i+1 == pageWorksType.pageNumber){
+      %>
+      	<button  onclick="showData({'flag':'${flag!}','pageNumber':${i+1}})" style="border:1px solid #ccc; color: blue;">${i+1}</button>
+   	<% 
+   		}
+   		else{
+   	%>
+   		<button onclick="showData({'flag':'${flag!}','pageNumber':${i+1}})">${i+1}</button>
+   	<%	
+   		}
+   	}%>
+   	<button onclick="showData({'flag':'${flag!}','pageNumber':${pageWorksType.pageDown!}})">下一页</button>
+  </div>
+</article>

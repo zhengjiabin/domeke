@@ -1,0 +1,38 @@
+<% for(communityFat in communityFatList){ %>
+	<div class="ArticleTitle">
+		<img src="http://www.dongmark.com/images/FIcon03.png">${communityFat.title}
+	</div>
+	<div class="ArticleContent">
+		<% 
+			for(communitySon in communitySonList){
+				if(communitySon.pid != communityFat.communityid){
+					continue;
+				}
+		%>
+		<div class="ForumSubL">
+			<div class="ForumPic">
+				<img src="http://www.dongmark.com/images/${communitySon.images!}">
+			</div>
+			<div class="ForumDtl">
+				<span class="ForumName">
+					<a href="javascript:void(0)" onclick="goToOrderForum(this,'${communitySon.communityid!}')">${communitySon.title!}</a>
+				</span>
+				<span class="ForumIntro">${communitySon.content!}<br />
+					<% 
+						if(!isEmpty(forumCountMap)){
+							var forumCount = @forumCountMap.get(communityFat.communityid + "");
+							if(!isEmpty(forumCountMap)){
+								var forum = @forumCount.get(communitySon.communityid + "");
+					%>
+						<span>帖数：${forum.number!}</span>
+					<% 		
+							}  
+						}
+					%>
+				</span>
+			</div>
+		</div>
+		<% } %>
+		<div class="clear"></div>
+	</div>
+<% } %>

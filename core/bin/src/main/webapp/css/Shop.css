@@ -1,0 +1,304 @@
+header{
+	margin-bottom: 0px;
+}
+.ShopTopL{
+	float: left;
+	width: 238px;
+	border-left: 1px #bbb solid;
+	border-right: 1px #bbb solid;
+}
+.ShopTopR{
+	padding-left: 240px;
+	
+}
+.ShopTopLSub{
+	border-bottom: 1px #bbb solid;
+	padding: 15px;
+}
+.TopLSubName{
+	font-size: 14px;
+}
+.TopLSubDtl a{
+	margin: 5px;
+}
+.ShopRoll img{
+	width: 960px;
+	height: 400px;
+}
+.SmallADZoom{
+	width: 960px;
+	margin-top: -4px;
+}
+.SmallAD{
+	float: left;
+	width: 239px;
+	border-right: 1px #bbb solid;
+	border-bottom: 1px #bbb solid;
+	text-align: center;
+	height: 144px;
+}
+.SmallAD a{
+	display: block;
+}
+.SmallAD img{
+	width: 239px;
+	height: 144px;
+}
+.ProductContent{
+	border: 1px #ccc solid;
+	border-top: 0px #ccc solid;
+	background: #fff;
+}
+.ProductR{
+	float: right;
+	width: 300px;
+	border-left: 1px #ccc solid;
+}
+.ProductL{
+	padding-right: 300px;
+}
+.ProductAD1{
+	width: 897px;
+	height: 300px;
+	border-bottom: 1px #ccc solid;
+}
+.ProductAD1 img{
+	width: 897px;
+	height: 300px;
+}
+.ProductAD2{
+	width: 300px;
+	height: 300px;
+	border-bottom: 1px #ccc solid;
+}
+.ProductAD2 img{
+	width: 300px;
+	height: 300px;
+}
+.ProductAD3{
+	width: 300px;
+	height: 300px;
+	border-right: 1px #ccc solid;
+	float: left;
+}
+.ProductAD3 img{
+	width: 300px;
+	height: 300px;
+}
+.ProductAD4{
+	width: 596px;
+	height: 300px;
+	padding-left: 301px;
+}
+.ProductAD4 img{
+	width: 596px;
+	height: 300px;
+}
+.ProductAD5{
+	width: 300px;
+	height: 300px;
+}
+.ProductAD5 img{
+	width: 300px;
+	height: 300px;
+}
+.HotTitle,.HotSub{
+	
+	padding: 30px;
+}
+.HotTitle{
+	font-size: 24px;
+}
+.HotSub{
+	border-top: 1px #bbb solid;
+	clear: both;
+	height: 43px;
+}
+.HotNum{
+	float: left;
+	width: 40px;
+	font-size: 34px;
+	color: #b81c22;
+	padding-top: 10px;
+}
+.HotName{
+	float: left;
+	width: 150px;
+	color: #999;
+}
+.HotName a{
+	font-size: 16px;
+}
+.HotPic{
+	float: left;
+	width: 50px;
+	text-align: right;
+}
+.HotPic img{
+	width: 50px;
+	height: 50px;
+}
+footer{
+	width: 1200px;
+}
+.ShopPath{
+	padding: 10px 0px;
+}
+.ShopPath a{
+	margin: 0px 10px;
+}
+.CategoryName{
+	font-size: 20px;
+	padding: 30px 0px 10px 30px;
+}
+.White{
+	background: #fff;
+}
+.CategorySub{
+	padding: 15px 10px 10px 10px;
+	border-top: 1px #ddd solid;
+	margin: 10px;
+}
+.CategorySub span{
+	padding: 0px 10px;
+}
+.CategorySub a{
+	padding: 0px 15px;
+}
+.FL{
+	float: left;
+}
+.FR{
+	float: right;
+}
+.CategoryTop{
+	background: #f9f9f9;
+	padding: 10px;
+}
+.CategoryTop a{
+	margin: 0px 15px;
+}
+.CategoryTop .FR span{
+	padding: 0px 15px;
+}
+.GoodsSub{
+	float: left;
+	width: 230px;
+	height: 390px;
+	border: 5px #fff solid;
+}
+.GoodsPic{
+	text-align: center;
+	padding: 30px 0px;
+}
+.GoodsPic img{
+	width: 200px;
+	height: 160px;
+}
+.GoodsId{
+	font-size: 14px;
+	padding: 10px 20px;
+}
+.GoodsProperties,.GoodsLove{
+	margin: 5px 10px;
+}
+.GoodsProperties span,.GoodsLove span{
+	padding: 5px 10px 0px 10px;
+}
+.GoodsLove{
+	border-bottom: 1px #ddd solid;
+	padding-bottom: 10px;
+}
+.GoodsLove img{
+	vertical-align:middle;
+}
+.CurrentPrice{
+	color: #666;
+}
+.OriginalPrice{
+	text-decoration:line-through;
+}
+.borderGry{
+	border: 5px #f2f2f2 solid;
+}
+.GoodsButton{
+	text-align: center;
+}
+.GoodsButton a{
+	display: inline-block;
+	width: 80px;
+	margin: 8px 10px;
+	padding: 5px 0px;
+}
+.AddtoCart{
+	background: #dd4912;
+}
+.Favorite{
+	background: #6c6c6c;
+}
+.Goods,.GoodsIntroduction{
+	clear: both;
+	margin-bottom: 20px;
+	padding: 10px 30px;
+}
+.GoodsPicRoll{
+	float: left;
+	width: 500px;
+	border-right: 1px #ddd solid;
+}
+.GoodsPicRoll img{
+	width: 500px;
+}
+.GoodsInfos{
+	padding-left: 530px;
+}
+.GName{
+	font-size: 24px;
+	padding-bottom: 20px;
+}
+.GPrice{
+	font-size: 20px;
+}
+.GButton{
+	padding: 40px 0px;
+	border-bottom: 1px #ddd solid;
+	margin-bottom: 40px;
+}
+.GButton a,.GButton span{
+	display: inline-block;
+	margin: 0px 10px;
+	padding: 10px 0px;
+	text-align: center;
+}
+.BuyNow{
+	background: #f64d09;
+	width: 150px;
+	font-size: 16px;
+}
+.Loves{
+	background: #ededed;
+	width: 150px;
+	font-size: 14px;
+	border: 1px #ddd solid;
+	color: #333;
+}
+.Loves img{
+	vertical-align: middle;
+	margin-right: 10px;
+}
+.GProperties li{
+	padding: 5px 10px;
+}
+.GoodsIntroduction{
+	padding: 40px 30px 20px 30px;
+	line-height: 30px;
+}
+
+
+
+
+
+
+
+
+

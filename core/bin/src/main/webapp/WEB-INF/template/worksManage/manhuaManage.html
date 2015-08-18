@@ -1,0 +1,60 @@
+<script type="text/javascript">
+	var workstype = '${workstype!}';
+	$(document).ready(function(){
+		$('#workstypesel').change(function(){
+			showPage({'flag':2,'type':2,'pageNumber':1});
+		});
+	});
+	if(workstype != ''){
+		$('#workstypesel').val(workstype);
+	}
+	function del(worksid){
+		if(confirm("确认删除吗？")){
+			$.ajax({
+				url:'works/delete',
+				data:'id='+worksid,
+				success:function(data){
+					if(data.success == 1){
+						alert("删除成功!");
+					}else{
+						alert("删除失败");
+					}
+					showPage({'flag':2,'type':2,'pageNumber':'${pageWorks.pageNumber!}'});
+				}
+			});
+		}else{
+			return false;
+		}
+	}
+</script>
+<div class="MeCaption"><a href="javascript:showPage({'type':2,'pageNumber':2});">漫画管理</a><span style="float:right;">类型：<select id="workstypesel"><option value="">全部</option><%for(workstype in worksTypes){%><option value="${workstype.id!}">${workstype.name!}</option><%}%></select> </span></div>
+          <div class="AlbumBlock">
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tbody>
+              <tr>
+              	   <th style="width: 60px; text-align: center;">排序</th>
+	               <th>漫画</th>
+	               <th></th>
+	                <th>添加时间</th>
+	                <th>上传者</th>
+	                <th>热度</th>
+	                <th><a href="javascript:showPage({'flag':13,'type':2,'pageNumber':${pageWorks.pageNumber!}});">创建漫画</a></th>
+              </tr>
+              <%for(works in pageWorks.list){%>
+              <tr>
+              	<td class="center">${worksLP.index}</td>
+                <td><img src="${works.cover!}"></td>
+                <td><a href="cartoon/showDetail?id=${works.worksid!}">${works.worksname!}</a></td>
+                <td>${works.createtime!}</td>
+                <td>${works.creatername!}</td>
+                <td>观看：${works.pageviews!}</td>
+                <td><a href="javascript:showPage({'flag':12,'type':2,'pageNumber':${pageWorks.pageNumber!},'worksid':'${works.worksid!}'});">编辑漫画</a><a href="javascript:del(${works.worksid!});">删除</a></td>
+              </tr>
+              <%}%>
+              </tbody>
+          </table>
+          	<%
+		     if(pageWorks != null){
+		   		layout("/common/page.html", {"page":pageWorks,"pageAction":"works/showPage?flag=2&type=2","fatherNode":"#worksManager"}){} 
+			 }%>
+          </div>

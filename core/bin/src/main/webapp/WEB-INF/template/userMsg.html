@@ -1,0 +1,37 @@
+  <article class="MeArticle">
+    	<ul class="MeTab">
+        	<li class="TabLi_fl font_b"><a href="um/forLeaveMsg?menuId=8">发表留言 &gt;&gt;</a></li>
+            <li class="TabLi"><a href="um/forLeaveMsg?menuId=5">所有留言</a></li>
+            <li class="TabLi"><a href="um/forLeaveMsg?menuId=6">用户留言</a></li>
+            <li class="TabLi"><a href="um/forLeaveMsg?menuId=7">系统留言</a></li>
+            <li class="TabLi"><a href="um/forLeaveMsg?menuId=11">我的留言</a></li>
+        </ul>
+        <div class="clear"></div>
+        <div class="MemberIndex">
+          <div class="MeBlock">
+           <% 
+           var index = -1;
+           for(msg in msgList!){
+           	index = index + 1;
+           %>
+                <div class="ArgumentSub">
+                	<div class="MemberHead"><img src="${imgUrls[index]!}"></div>
+                    <div class="ArgumentInfo">
+                    	<input type="hidden" name="messageid" value="${msg.messageid!}"/>
+                    	<input type="hidden" name="menuId" value="${menuId!}"/>
+                    	<div class="MemberNick font_b">
+                    	<div>${msg.fromuser!}<div style="float: right;">${msg.create_time!}</div>
+                    	</div>
+                    	</div>
+                        <div class="ArgumentContent">${msg.content!}</div>
+                        <div class="ArgumentTime font_b">
+                        	<a href="um/forReplyMsg?msgid=${msg.messageid!}&mid=${menuId!}">回复</a><a href="um/countLeave?msgid=${msg.messageid!}">共有${msg.count!}条留言</a><a href="um/delMsg?messageid=${msg.messageid!}" onclick="return confirm('确定删除？')">删除</a>
+                        </div>
+                    </div>
+                </div>
+            <% } %> 
+          </div>
+        </div>
+        
+    </article>
+    <div class="clear"></div>

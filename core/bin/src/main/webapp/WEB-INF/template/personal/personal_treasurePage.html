@@ -1,0 +1,29 @@
+<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+	<tr>
+	   	<th>宝贝主题</th>
+	   	<th>发帖时间</th>
+	   	<th>操作</th>
+	</tr>
+	<% for(treasure in treasurePage.list!){%>
+		<tr>
+		   	<td><a href="./treasure/skipContain?treasureId=${treasure.treasureid!}">${treasure.subject!}</a></td>
+		   	<td>${treasure.dateline!}</td>
+		   	<td>
+		   		<a href="javascript:void(0)" onclick="skipUpdateTreasure(this,'${treasure.treasureid!}')">修改</a>
+	   		</td>
+      	</tr>
+	<% } %>  
+</table>
+<div class="PageMore">
+	<% 
+        if(treasurePage != null){ 
+		layout(
+			"/common/page.html",
+			{
+			"page":treasurePage,
+			"pageAction":"./treasure/findByUserId",
+			"fatherNode":"#page"
+			}
+		){} 
+	}%>
+</div>

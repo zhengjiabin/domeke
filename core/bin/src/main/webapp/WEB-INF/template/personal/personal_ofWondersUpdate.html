@@ -1,0 +1,98 @@
+<script src="js/jquery.form.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('form :input[required=required]').each(function(){
+	        var $required = $("<span class='font_r' style=\"color: red\"> *</span>"); //创建元素
+	        $(this).parent().append($required); //然后将它追加到文档中
+	    });
+	});
+	
+	 //文本框失去焦点后
+    $('form :input').blur(function(){
+       	var $parent = $(this).parent();
+        $parent.find(".font_r").remove();
+      	//标题验证
+        if($(this).is('#subject')){
+        	if( this.value=="" ){
+        	    var errorMsg = '标题不能为空';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if(this.value.length > 11){
+        		var errorMsg = '标题长度必须小于11个字';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+      //主题图片验证
+        if($(this).is('#themeimgBtn')){
+        	var fatherNode = $(this).closest("#submitForm");
+        	var path = fatherNode.find("#themeimgPath").first().text();
+        	if( path=="" ){
+        	    var errorMsg = '主题图片不能为空';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if(!path.match( /.jpg|.gif|.png|.bmp/i )){
+        		var errorMsg = '图片格式无效';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+    });
+</script>
+<form id="submitForm" class="form-horizontal" action="#" method="post" enctype="multipart/form-data" onsubmit="return submitOfWonders(this);">
+	<fieldset>
+		<legend>无奇不有管理</legend>
+		<input type="text" name="ofWonders.ofwondersid" value="${ofWonders.ofwondersid!}" style="display: none;">
+		
+		<div class="control-group">
+			<label class="control-label" for="disabledInput">版块</label>
+			<div class="controls">
+				<input type="text" name="title" value="${ofWonders.title!}" readonly="readonly" >
+			</div>
+		</div>
+		
+		<div class="control-group warning">
+			<label class="control-label" for="inputError">主题</label>
+			<div class="controls">
+				<input type="text" id="subject" name="ofWonders.subject" value="${ofWonders.subject!}">
+			</div>
+		</div>
+		
+		<div class="control-group warning">
+			<label class="control-label" for="inputError">主题图片</label>
+			<div class="controls">
+				<div id="preview" class="imgCss">
+					<img src="${ofWonders.themeimg!}">
+				</div>
+				<label id="themeimgPath">
+					<%
+						var themeimgPath = null;
+						if(!isEmpty(ofWonders) && !isEmpty(ofWonders.themeimg)){
+							var filePath = strutil.replace(ofWonders.themeimg,"\\\\","/");
+							themeimgPath = strutil.subStringTo(filePath,@filePath.lastIndexOf("/")+1,strutil.length(filePath));
+						}
+					%>
+					${themeimgPath!}
+				</label>
+				<input id="themeimgBtn" type="button" class="btn btn-warning btn-mini" onclick="themeimg.click()" value="请选择图片" required="required">
+				<input id="themeimg" name="ofWonders.themeimg" type="file" class="fileCss" value="${ofWonders.themeimg!}" onchange="onUploadImgChange(this)" style="display: none">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">内容</label>
+			<div class="controls">
+				<textarea name="ckeditor" id="ckeditor">${ofWonders.message!}</textarea>
+				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
+				<input type="text" id="message" name="ofWonders.message" style="display: none;"/>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary" >提交</button>
+			<button type="reset" class="btn" onclick="skipEntry(this,'ofWonders/findByUserId')">取消</button>
+		</div>
+	</fieldset>
+</form>

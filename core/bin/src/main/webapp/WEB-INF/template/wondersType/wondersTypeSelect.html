@@ -1,0 +1,26 @@
+<script src="js/jquery.form.js"></script>
+<article id="wondersTypeSelectHtml" >
+	<div class="ForumReply">
+		<table id="table" border="0" cellspacing="0" cellpadding="0" class="Table_Forum">
+			<tr>
+				
+				<th>版块：</th>
+				<td>
+					<select name="" id="first" onchange="selectFirst(this)" class="input_Forum">
+						<option value="">
+						<% for( wondersTypeFat in wondersTypeFatList) { %>
+							<option value="${wondersTypeFat.wonderstypeid!}">${wondersTypeFat.title!}
+						<% } %>
+					</select>
+				</td>
+			</tr>
+			<tr id="son" >
+				<% if(has(wondersTypeSonList)){
+					layout("/wondersType/wondersTypeSelDetail.html", {"wondersTypeSonList":wondersTypeSonList} ){} 
+				}%>
+			</tr>
+		</table>
+	</div>
+	<div id="showWondersType">
+	</div>
+</article>

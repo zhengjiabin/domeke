@@ -1,0 +1,45 @@
+  <article class="MeArticle">
+        
+        <div class="clear"></div>
+        <div class="MemberIndex">
+          <div class="MeCaption">下载记录：</div>
+          <div class="AlbumBlock">
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tr>
+                <th style="width: 60px; text-align: center;">排序</th>
+                <th>片名</th>
+                <th>章节</th>
+                <th>下载次数</th>
+                <th>下载时间</th>
+                <th>操作</th>
+              </tr>
+             <% for(down in downPage.list!){%>
+              <tr>
+                <td class="center">${downLP.index!}</td>
+                <td><a href="#">${down.cartoon_name!}</a></td>
+                <td><a href="#">${down.section_name!}</a></td>
+                <td>${down.download_count!}</td>
+                <td>${down.create_time!}</td>
+                <td><a href="personal/deleteMyDownLoad?downid=${down.DownLoadCountId}&menuId=${menuId}" onclick="return confirm('确定删除？')">删除</a></td>
+            </tr>
+           <% } %>  
+            </table>
+			<div class="PageMore">
+                 <% 
+              var menuId = menuId;
+              if(downPage != null){ 
+			layout(
+				"/common/page.html",
+				{
+					"page":downPage,
+					"pageAction":"./personal/forMyProductionPage?menuId="+menuId,
+					"fatherNode":"#personal"
+				}
+			){} 
+			}%>
+            </div>
+          </div>
+        </div>
+        
+    </article>
+    <div class="clear"></div>

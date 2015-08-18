@@ -1,0 +1,464 @@
+.ForumTop{
+	padding-top: 10px;
+	text-align: right;
+}
+.ForumTop span{
+	padding: 0px 10px;
+	font-size: 14px;
+}
+.WelcomInfo{
+	margin-bottom: 30px;
+}
+.WelcomInfo span{
+	margin: 0px 10px;
+	float: right;
+}
+.ForumInfo{
+	clear: both;
+	border: 5px #fff solid;
+	background: #eaeaea;
+	border-radius: 3px;
+	margin-top: 10px;
+	padding: 10px;
+	height: 60px;
+}
+.ForumInfo div{
+	float: left;
+	width: 23%;
+	text-align: center;
+	padding: 5px 0px;
+	border-right: 1px #bbb solid;
+}
+.ForumInfo span{
+	font-size: 24px;
+	float: none;
+	color: #999;
+	line-height: 30px;
+}
+.AsideBTitle{
+	background: #c40001;
+	border-radius: 5px;
+	padding: 13px;
+	margin-bottom: 20px;
+	color: #fff;
+	font-size: 18px;
+	text-align: center;
+}
+.AsideTitle{
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
+	background: #fafafa;
+	border-bottom: 1px #ddd solid;
+	padding: 10px;
+	font-size: 16px;
+}
+.AsideTitle a{
+	float: right;
+	font-size: 12px;
+}
+.AsideContent{
+	background: #fff;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+	margin-bottom: 20px;
+}
+
+.AL,.AR{
+	display: inline-block;
+	width: 122px;
+	border-bottom: 1px #ededed solid;
+	text-align: center;
+	padding: 8px 0px;
+}
+.AL{
+	border-right: 1px #ededed solid;
+}
+.SeeMore{
+	text-align: center;
+	padding: 10px 0px;
+}
+.FExc,.Fweixin{
+	text-align: center;
+	padding-top: 10px;
+	font-size: 14px;
+}
+.FExc img{
+	width: 230px;
+	height: 170px;
+}
+.FExcContent{
+	padding: 5px 15px;
+	color: #999;
+}
+.AsideLi li{
+	padding: 10px;
+	border-bottom: 1px #ededed solid;
+}
+.Fweixin img{
+	width: 230px;
+	height: 230px;
+}
+.ArticleTitle{
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	background: #fff;
+	padding: 8px 15px;
+	font-size: 16px;
+	border-bottom: 1px #ddd solid;
+}
+.ArticleTitle img{
+	margin-right: 10px;
+	vertical-align: middle;
+}
+.ArticleContent{
+	
+	margin-bottom: 30px;
+}
+
+.ForumSubL,.ForumSubR{
+	float: left;
+	width: 430px;
+	padding: 15px;
+	border-right: 5px #f1f2f6 solid;
+	border-bottom: 5px #f1f2f6 solid;
+	background: #fff;
+}
+.ForumSubR{
+	border-right: 5px #fff solid;
+}
+.ForumPic{
+	float: left;
+	width: 75px;
+}
+.ForumPic img{
+	width: 75px;
+	height: 75px;
+}
+.ForumDtl{
+	padding-left: 90px;
+}
+.ForumName{
+	display: block;
+	font-size: 20px;
+	padding-bottom: 10px;
+}
+.ForumIntro{
+	color: #999;
+}
+.ForumIntro span{
+	padding-right:  20px;
+}
+.ForumSubInfo{
+	margin-bottom: 10px;
+}
+.ForumSubInfo span{
+	margin-right: 20px;
+}
+.ForumList{
+	border-bottom: 1px #f1f2f6 solid;
+	background: #fff;
+	padding: 20px 15px;
+	height: 40px;
+}
+.ListPic{
+	float: left;
+	width: 55px;
+}
+.ListPic img{
+	width: 40px;
+	height: 40px;
+	border-radius: 5px;
+}
+.ListDtl{
+	float: left;
+	width: 750px;
+	color: #999;
+}
+.ListDtl div span{
+	margin: 0px 5px;
+}
+.ListDate{
+	float: left;
+	width: 95px;
+	text-align: right;
+	color: #999;
+}
+.ListDate span{
+	display: block;
+}
+.ListName{
+	font-size: 16px;
+	margin-bottom: 5px;
+}
+
+.TotleNum {
+	font-size: 20px;
+	margin-bottom: 5px;
+}
+.PageMore{
+	text-align: center;
+}
+.PageMore a{
+	display: inline-block;
+	margin: 10px 5px;
+	border: 1px #ddd solid;
+	padding: 3px 8px;
+}
+.ForumPath{
+	padding-bottom: 10px;
+}
+.ForumPath a{
+	margin: 0px 5px;
+}
+.ForumTheme{
+	padding: 10px 0px;
+	height: 60px;
+}
+.ForumTheme .ListName{
+	font-size: 20px;
+}
+.ForumBody{
+	background: #fff;
+	padding: 10px;
+}
+.FBodyTop a{
+	float: right;
+	margin: 0px 10px;
+}
+.FBodyContent{
+	padding: 20px;
+	min-height: 200px;
+	font-size: 16px;
+}
+.FBodyBottom a,.ReplyBottom a{
+	margin: 0px 10px;
+}
+.FL{
+	float: left;
+}
+.FR{
+	float: right;
+}
+.ForumInfoA{
+	background: #f4f5f9;
+	padding:9px;
+}
+.ForumReply{
+	background: #fff;
+	border-bottom: 2px #ddd solid;
+}
+
+.ReplyHead{
+	float: left;
+	width: 100px;
+	text-align: center;
+	padding-top: 20px;
+}
+.ReplyHead img{
+	width: 70px;
+	height: 70px;
+	border-radius: 5px;
+}
+.ReplyBody{
+	padding: 10px 10px 10px 100px;
+}
+.ReplyTop{
+	color: #999;
+}
+.ReplyTop span{
+	padding: 0px  5px;
+}
+.ReplyID{
+	font-size: 18px;
+}
+.ReplyInfo{
+	font-size: 16px;
+	padding: 20px 20px 80px 20px;
+}
+.ReplyBottom{
+	padding-bottom: 10px;
+}
+.ForumReplyTo{
+	padding-top: 40px;
+}
+.ForumReplyToReply{
+	background: #f1f2f6;
+	border-top: 1px #fff solid;
+	font-size: 12px;
+}
+.ForumReplyToReply .ReplyHead{
+	float: left;
+	width: 60px;
+	text-align: center;
+	padding-top: 20px;
+}
+.ForumReplyToReply .ReplyHead img{
+	width: 40px;
+	height: 40px;
+	border-radius: 5px;
+}
+.ForumReplyToReply .ReplyBody{
+	padding: 10px 10px 10px 60px;
+}
+.ForumReplyToReply .ReplyID{
+	font-size: 12px;
+}
+.ForumReplyToReply .ReplyInfo{
+	font-size: 12px;
+	padding: 20px;
+}
+
+
+.White{
+	background: #fff;
+}
+.PiecesText{
+	margin: 20px 0px;
+	background: #fff;
+	height: 250px;
+}
+
+.PicBlock{
+	background: #fff;
+	border-radius: 5px;
+	margin-bottom: 30px;
+	padding: 20px;
+}
+.PicBlock .CartoonSub{
+	width: 209px;
+	height: 150px;
+	display: inline-block;
+	margin: 0px 5px 15px 5px;
+	background: #fff;
+}
+.PicBlock .CartoonSub img{
+	width: 209px;
+	height: 120px;
+}
+.PicBlock .CartoonSubFootbar{
+	position: relative;
+	bottom: 45px;
+	height: 20px;
+	width: 204px;
+	background:  rgba(0,0,0,0.3);
+	color: #fff;
+	padding-left: 5px;
+	text-align: left;
+	float: left;
+}
+
+
+
+
+
+.Table_Forum{ 
+	border-collapse:collapse;
+	width:100%;
+	margin: 30px 0px;
+}
+.Table_Forum th{
+	color: #333;
+	width: 150px;
+	text-align: right;
+	font-weight: normal;
+	padding: 10px;
+	font-size: 14px;
+	border-collapse:collapse;
+	empty-cells:show;
+}
+.Table_Forum td{
+	padding: 10px;
+}
+.Table_Info{ 
+	border-collapse:collapse;
+	width:100%;
+	margin: 30px 0px;
+	border-top: 1px #f1f6fa solid;
+	border-left: 1px #f1f6fa solid;
+}
+.Table_Info th{
+	color: #333;
+	text-align: center;
+	font-weight: normal;
+	padding: 5px;
+	font-size: 14px;
+	border-collapse:collapse;
+	empty-cells:show;
+	border: #f1f6fa solid;
+	border-width: 0px 1px 1px 0px;
+	background: #f1f6fa;
+}
+.Table_Info td{
+	padding: 5px;
+	text-align: center;
+	font-size: 12px;
+	border: #f1f6fa solid;
+	border-width: 0px 1px 1px 0px;
+}
+
+
+
+
+.input_Forum{
+	width: 400px;
+	height: 30px;
+	background: #fff;
+	border: 1px #ddd solid;
+	border-radius: 5px;
+	font-family:\5FAE\8F6F\96C5\9ED1;
+	padding: 3px 10px;
+	margin-right: 20px;
+}
+.ForumButton{
+	text-align: center;
+	margin-top: 30px;
+}
+.ForumButton a{
+	display: inline-block;
+	width: 120px;
+	padding: 10px 0px;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 16px;
+	margin: 0px 15px;
+}
+.Fsubmit{
+	background: #c40001;	
+}
+.Freset{
+	background: #ccc;
+}
+
+
+
+.font_gr{
+	color: #2f9f39;
+}
+.font_gr a:link{
+	color: #2f9f39;
+}	
+.font_gr a:visited { 
+	color: #2f9f39;
+}
+.font_gr a:hover { 
+	color: #f30;
+}	
+.font_gr a:active { 
+	color: #2f9f39;
+}
+
+.font_Pur{
+	color: #c82374;
+}
+.font_Pur a:link{
+	color: #c82374;
+}	
+.font_Pur a:visited { 
+	color: #c82374;
+}
+.font_Pur a:hover { 
+	color: #f30;
+}	
+.font_Pur a:active { 
+	color: #c82374;
+}

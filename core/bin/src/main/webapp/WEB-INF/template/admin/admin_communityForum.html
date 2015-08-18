@@ -1,0 +1,13 @@
+<% for(communityFat in communityFatList){ %>
+	<div id="detailCommunity">
+		<% 
+			layout(
+				"/admin/admin_communityDetail.html", 
+				{
+					"communityFat":communityFat,
+					"communitySonList":communitySonList
+				}
+			){} 
+		%>
+	</div>
+<% } %>

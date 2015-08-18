@@ -1,0 +1,47 @@
+<% layout("/common/layout.html"){ %>
+	<link href="css/ofWonders.css" rel="stylesheet" type="text/css">
+	
+	<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh">
+		bShare.init();
+	</script>
+	<script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+	<script src="js/wondersType.js" type="text/javascript"></script>
+	<script src="js/comment.js" type="text/javascript"></script>
+	<script src="js/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+	<script src="js/jqthumb.min.js"></script>
+<script type="text/javascript">
+	function resizeImage(el,width,height){
+		if(width==''||typeof(width)=='undefined'){
+			 width = $(el).width();
+		}
+		if(height==''||typeof(height)=='undefined'){
+			 height = $(el).height();
+		}
+		$(el).jqthumb({
+			width:width,
+			height:height
+		});
+	}
+	
+	function resizeImg(clazz,width,height) {
+		$(clazz).each(function(){
+			$(this).error(function(){
+				if (this.src != 'http://www.dongmark.com/images/default.png') {
+					this.src = 'http://www.dongmark.com/images/default.png';
+					resizeImage(this,width,height);
+					return false;
+				}
+			});
+			resizeImage(this,width,height);
+		});
+	}
+</script>
+
+	<section id="wondersTypeLayout">
+		<div id="baseWondersType">
+			${layoutContent}
+		</div>
+			<% layout("/wondersType/wondersType_aside.html"){} %>
+	</section>
+<%}%>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>报名参与</title>
+<base href="${core}/" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Bootstrap -->
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/activity.js"></script>
+</head>
+
+<body>
+	<form action="#"
+		id="createActivityApplyHtml" method="post" >
+
+		<div class="control-group">真实姓名
+				 <input type="text" name="activityApply.realname"
+					value="${activityApply.realname!}" class="span6 m-wrap" />
+		</div>
+
+		<div class="control-group">性别
+			<% if(has(genderList)){ for(codeTable in genderList) { %>
+				<input type="radio" name="activityApply.gender" value="${codeTable.codekey!}" />${codeTable.codevalue!}
+			<% } }%>
+		</div>
+		
+		<div class="control-group">手机号码
+				 <input type="text" name="activityApply.mobile"
+					value="${activityApply.mobile!}" class="span6 m-wrap" />
+		</div>
+
+		<div class="control-group">证件类型
+			<select name="activityApply.papers" id="activityApply.papers" >
+				<% if(has(papersList)){ for(codeTable in papersList) { %>
+					<option value="${codeTable.codekey!}">${codeTable.codevalue!}
+				<% } }%>
+					
+			</select>
+		</div>
+
+		<div class="control-group">证件号码
+			<div class="controls">
+				<input type="text" name="activityApply.papersid"
+					value="${activityApply.papersid!}" class="span6 m-wrap" />
+			</div>
+		</div>
+		
+		<div class="control-group">留言
+				 <input type="text" name="activityApply.message"
+					value="${activityApply.message!}" class="span6 m-wrap" />
+		</div>
+
+		<div class="form-actions">
+			<button type="button" class="btn btn-primary" onclick="submitApp(this,${activityId!})">提交</button>
+			<button type="button" class="btn" onClick='window.close()'>取消</button>
+		</div>
+	</form>
+</body>
+
+</html>

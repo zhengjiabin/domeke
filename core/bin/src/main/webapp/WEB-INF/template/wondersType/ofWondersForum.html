@@ -1,0 +1,21 @@
+<div class="ForumSubInfo">
+	<span>今日发帖数:${todayCount!}</span>
+    <span>昨日发帖数:${yesCount!}</span>
+    <span>总帖数:${count!}</span>
+    <span>您发帖数:${userCount!}</span>
+</div>
+<div class="ArticleTitle">
+	<img src="./images/FIcon03.png" >${wondersType.title!}
+</div>
+<div class="ArticleContent">
+	<% 
+		if(!isEmpty(ofWondersPage)){
+			layout(
+				"/wondersType/ofWondersPage.html", 
+				{
+					"ofWondersPage":ofWondersPage
+				} 
+			){} 
+		}
+	%>
+</div>     

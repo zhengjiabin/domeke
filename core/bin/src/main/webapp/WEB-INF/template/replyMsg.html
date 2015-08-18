@@ -1,0 +1,32 @@
+   <article class="MeArticle">
+        <div class="MemberIndex">
+          <div class="MeCaption">消息回复：</div>
+          <div class="MeBlock">
+          <form action="um/replayMsg" class="form-horizontal" method="post">
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
+          	 <input name="user.userid" type="hidden" value="${userId!}"/>
+          	 <input type="hidden" name="msgid" value="${msgid!}" />
+          	 <input type="hidden" name="mid" value="${mid!}" />
+              <tr>
+                <th>标题：</th>
+                <td>${msg.title!} </td>
+              </tr>
+           	  <tr>
+                <th>内容：</th>
+                <td>${msg.content!}</td>
+              </tr>
+              <tr>
+                <th>回复：</th>
+                <td><textarea name="msgvalue" rows="8" value="" cols="40"></textarea> </td>
+              </tr>
+              <tr>
+                <th></th>
+                <td><input name="" type="submit" class="Button" value="提交回复"></td>
+              </tr>
+            </table>
+			</form>
+          </div>
+        </div>
+        
+    </article>
+    <div class="clear"></div>

@@ -1,0 +1,129 @@
+<script type="text/javascript">
+var ext = '';
+var bool = false;
+	$(document).ready(function(){
+		var bar = $('.bar');
+		var percent = $('.percent');
+		var status = $('#status');
+		$('#uploadcheck').click(function(){
+			if(!this.checked){
+				$('button[type=submit]').attr('disabled',true);
+			}else{
+				$('button[type=submit]').attr('disabled',false);
+			}
+		});
+		
+		$('#uploadzhangjie').submit(function(){
+			var imglimit = new Array('.JPG', '.BMP', '.PNG','.JPEG');
+			var videolimit = new Array('.FLV', '.MP4', '.AVI','.MOV','.ASF','.WMV','.NAVI','.3GP','.MKV','.F4V','.FLV');
+			var filePath = $(':input[type=file]').val();
+			var start = filePath.lastIndexOf(".");
+			ext = filePath.substring(start,filePath.length).toUpperCase();
+			$.each(imglimit,function(key,value){
+				if(value == ext){
+					bool = true;
+				}
+			});
+			if(!bool){
+				alert('上传文件类型错误');
+				return false;
+			}
+			$('button[type=submit]',this).attr('disabled',true);
+			$(this).ajaxSubmit({
+				beforeSend: function() {
+					$('#uploadcheck').remove();
+			        status.empty();
+			        var percentVal = '0%';
+			        percent.html(percentVal);
+			        $('#progressTr').show();
+			    },
+			    uploadProgress: function(event, position, total, percentComplete) {
+			        var percentVal = percentComplete + '%';
+			        bar.val(percentComplete)
+			        percent.html(percentVal);
+			    },
+				success:function(data){
+					if(data.success == 1){
+						alert("上传章节成功!");
+						showPage({'flag':12,'type':2,'pageNumber':'${pageNumber!}','worksid':'${worksid!}','workpageNumber':'${workpageNumber!}'});
+					}else{
+						alert("上传章节失败  信息：" + data.message);
+						$('button[type=submit]',this).removeAttr('disabled');
+					}
+				}
+			});
+			return false;
+		});
+	});
+</script>
+<article class="MeArticle">
+		<form id="uploadzhangjie" action="works/uploadZhangjie" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="worksid" value="${worksid!}">
+        <div class="MemberIndex">
+          <div class="MeCaption"><a href="javascript:showPage({'flag':2,'type':2,'pageNumber':${pageNumber!}});">漫画管理</a> 
+          --> <a href="javascript:showPage({'flag':12,'type':2,'pageNumber':'${pageNumber!}','workpageNumber':'${workpageNumber!}','worksid':'${worksid!}'});">编辑漫画</a>
+          --> <a href="javascript:showPage({'flag':15,'type':2,'pageNumber':'${pageNumber!}','workpageNumber':'${workpageNumber!}','worksid':'${worksid!}'});">上传章节</a>
+          </div>
+          <div class="MeBlock">
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Member">
+              <tbody>
+              <tr>
+                <th><em style="color: red;"> * </em>标题：</th>
+                <td><input name="title" type="text" class="input_Member" required="required"></td>
+              </tr>
+              <tr>
+              	<th><em style="color: red;"> * </em>集数：</th>
+                <td>
+                	<select name="worknum" class="input_Member">
+                		<%for(num in lackNum){%>
+                			<option value="${num!}">${num!}</option>
+                		<%}%>
+                	</select>
+				</td>
+              </tr>
+              <tr>
+                <th>封面：</th>
+                <td><input name="cover" type="file" class="input_Member"></td>
+              </tr>
+              <tr id="progressTr" style="display: none;">
+                <th><em style="color: red;"> * </em>进度：</th>
+                <td>
+                	<p><progress class="bar" value="0" max="100"></progress>
+                	<div class="percent">0%</div ></p>
+                </td>
+              </tr>
+              <tr>
+                <th>漫画：</th>
+                <td><input name="comic" type="file" class="input_Member"></td>
+              </tr>
+              <tr>
+                <th><em style="color: red;"> * </em>是否公开：</th>
+                <td>
+                	<select name="ispublic" class="input_Member">
+                		<option value="1">公开</option>
+                		<option value="0">隐藏</option>
+                	</select>
+                </td>
+              </tr>
+              <tr>
+               <th>&nbsp;</th>
+	        <td><input id="uploadcheck" checked="checked" type="checkbox" style="border:0px" name="check" value="01">
+	       	 <font> <a href="javascript:void(0)" onclick="openwin()">我已阅读并同意《动漫方舟网注册协议》</a> </font>
+	        <div>
+		       <a style="color:#F00">${xieyi!}</a>
+	    	</div>
+       		 </td>
+              </tr>
+              <tr>
+                <th></th>
+                <td>
+                	<button  type="submit" class="">提交</button>
+                	&nbsp;&nbsp;&nbsp;
+                	<button type="button" onclick="showPage({'flag':12,'type':2,'pageNumber':${pageNumber!},'workpageNumber':${workpageNumber!},'worksid':${worksid!}})">取消</button>
+				</td>
+              </tr>
+            </tbody></table>
+          </div>
+        </div>
+        </form>
+    </article>

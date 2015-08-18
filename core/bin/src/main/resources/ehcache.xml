@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" monitoring="autodetect"
+	dynamicConfig="false">
+
+	<diskStore path="java.io.tmpdir/ehcache" />
+
+	<defaultCache maxElementsInMemory="1000" eternal="false"
+		timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false"
+		diskSpoolBufferSizeMB="10" />
+	<!-- user -->
+	<cache name="topMenuMP" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+
+	<cache name="leftMenuList" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+
+
+	<cache name="topMenuForum" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+
+	<cache name="workslist" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+	<cache name="CodeTable" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+
+	<cache name="codeTableList" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+	<cache name="codeTypeList" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+	<cache name="Favourite" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+	<cache name="favouriteList" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+	<cache name="VentWall" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+	<cache name="ventWallList" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+
+	<cache name="UserMessage" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+
+	<cache name="userMessageList" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+
+
+	<cache name="MessageQueue" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+
+	<cache name="messageQueueList" maxElementsInMemory="108" eternal="false"
+		timeToIdleSeconds="10800" timeToLiveSeconds="10800" overflowToDisk="false" />
+</ehcache>

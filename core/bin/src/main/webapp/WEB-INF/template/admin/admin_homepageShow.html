@@ -1,0 +1,139 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('img').each(function(){
+			$(this).error(function(){
+				if (this.src != 'http://www.dongmark.com/images/default.png') {
+					this.src = 'http://www.dongmark.com/images/default.png';
+					var width = $(this).width();
+					var height = $(this).height();
+					$(this).jqthumb({
+						width:width,
+						height:height
+					});
+					return false;
+				}
+			});
+			var width = $(this).width();
+			var height = $(this).height();
+			$(this).jqthumb({
+				width:width,
+				height:height
+			});
+		});
+	});
+
+	function del(id){
+		if(confirm("确认删除吗？")){
+			$.ajax({
+				type:'post',
+				data:'id='+id,
+				url:'homepage/delete',
+				success:function(data){
+					showpage({'flag':0,'status':'${status!}','pageNumber':'${pageHomepage.pageNumber!}'});
+				}
+			});
+		}else{
+			return false;
+		}
+	}
+	function uptop(id,state){
+		$.ajax({
+			type:'post',
+			data:'id='+id+'&state='+state,
+			url:'homepage/uptop',
+			success:function(data){
+				showpage({'flag':0,'status':'${status!}','pageNumber':'${pageHomepage.pageNumber!}'});
+			}
+		});
+	}
+	function upstatus(id,status){
+		$.ajax({
+			type:'post',
+			data:'id='+id+'&status='+status,
+			url:'homepage/upstatus',
+			success:function(data){
+				showpage({'flag':0,'status':'${status!}','pageNumber':'${pageHomepage.pageNumber!}'});
+			}
+		});
+	}
+	function selectChange(_self){
+		var id = $(_self).attr('flag');
+		var status = $(_self).val();
+		upstatus(id,status);
+	}
+</script>
+<article>
+	<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+        <tbody>
+         <tr>
+         	   <th style="width: 60px; text-align: center;">排序</th>
+           <th>视频</th>
+           <th></th>
+            <th>简介</th>
+            <th>状态</th>
+            <th>操作</th>
+         </tr>
+         <% for(homepage in pageHomepage.list){%>
+         <tr>
+         	<td class="center">
+         		<!-- 下标 -->
+         		${homepageLP.index}
+         	</td>
+           <td>
+           		<!-- 图片 -->
+           		<img src="${homepage.img!}">
+           </td>
+           <td>
+           		<!-- title -->
+           		<h4 style="padding: 0px;margin: 0px;">${homepage.title!}</h4></br>
+           		<h5 style="padding: 0px;margin: 0px;color: #ccc;">${homepage.subtitle!}</h5>
+           </td>
+           <td>
+           		<!-- 简介 -->
+           	 	<em style="color: #ccc;">${homepage.des!}</em>
+           </td>
+           <td>
+	           	<!-- 状态 -->
+	           	<select style="width: 80px;" flag="${homepage.id!}" onchange="selectChange(this)">
+	           	<%if(homepage.status! == 0){%>
+           			<option value="0">禁用</option>
+           			<option value="1">启用</option>
+	           	<%}%>
+	           	<%if(homepage.status! == 1){%>
+					<option value="1">启用</option>
+           			<option value="0">禁用</option>
+	           	<%}%>
+	           	</select>
+           </td>
+           <td>
+	           	<!-- 操作 -->
+	           	<a href="javascript:uptop(${homepage.id!},1);">置顶</a>
+	           	<%if(homepage.rank > 0){%>
+	           	<a href="javascript:uptop(${homepage.id!},0);">取消置顶</a>
+	           	<%}%>
+	           	</br>
+	           	<a href="javascript:showpage({'flag':2,'status':'${status!}','pageNumber':'${pageHomepage.pageNumber!}','id':${homepage.id!}});">修改</a>
+	           	<a href="javascript:del(${homepage.id!});">删除</a>
+           </td>
+         </tr>
+         <%}%>
+        </tbody>
+	</table>
+	<div class="PageMore">
+     <button onclick="">上一页</button>
+      <% for(var i=0; i < pageHomepage.totalPage; i++)
+      {
+      	if(i+1 == pageHomepage.pageNumber){
+      %>
+      	<button  onclick="" style="border:1px solid #ccc; color: blue;">${i+1}</button>
+   	<% 
+   		}
+   		else{
+   	%>
+   		<button onclick="">${i+1}</button>
+   	<%	
+   		}
+   	}%>
+   	<button onclick="">下一页</button>
+  </div>
+</article>

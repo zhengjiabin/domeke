@@ -1,0 +1,57 @@
+<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+	<tr>
+		<th style="width: 60px; text-align: center;">序号</th>
+		<th style="width: 210px;">订单编号</th>
+		<th style="width: 250px;">商品名称</th>
+		<th>商品单价</th>
+		<th>商品总数</th>
+		<th>商品总价</th>
+		<th>是否支付</th>
+		<th>是否发货</th>
+		<th>收货</th>
+		<th>操作</th>
+	</tr>
+	<% for(ord in ordetailList.list!){%>
+		<tr>
+			<td style="width: 60px; text-align: center;">${ordLP.index!}</td>	
+			<td>${ord.ordernum!}</td>
+			<td><a href="goods/getGoodsDetail?goodsid=${ord.goodsid!}">${ord.goodsname!}</a></td>
+			<td>${ord.goodsprice!}</td>
+			<td>${ord.goodsnum!}</td>
+			<td>${ord.goodsprice!*ord.goodsnum!}</td>
+			<%for(or in ordList.list!){%>
+				<% if(ord.orderid == or.orderid){ %>
+					<% if(or.isPay=="Y") { %>
+						<td>是</td>
+					<%}else{%>
+						<td style="color:#F00;font-weight:bold;">否</td>
+					<%}if(or.isDelivery=="Y"){%>
+						<td>是</td>
+					<%}else{%>
+						<td style="color:#F00;font-weight:bold;">否</td>
+					<%}if(or.isreceipt=="Y"){%>
+						<td>是</td>
+					<%}else{%>
+						<td style="color:#F00;font-weight:bold;">否</td>
+					<%}%>
+			<td width="120">
+				<a href="personal/upIsReceipt?isreceipt=${or.isreceipt!}&orderid=${or.orderid!}"><button class="btn btn-warning btn-mini" lable="编辑">确认收货</button></a>
+			</td>
+			<%}%>
+		<%}%>
+      	</tr>
+	<% } %>  
+</table>
+<div class="PageMore">
+								 <% 
+		            if(ordetailList != null){ 
+						layout(
+						"/common/page.html",
+						{
+							"page":ordetailList,
+							"pageAction":"./order/renderOrders",
+							"fatherNode":"#ordpag"
+						}
+						){} 
+					}%>	
+</div>

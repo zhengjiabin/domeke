@@ -1,0 +1,22 @@
+<style type="text/css">
+#wish{width:970px;height:650px;margin:15px;position:relative;background:#fff;}
+.wish{width:130px;height:130px;background:url(bw/s1.png) no-repeat 0 0;color:black;padding:10px 20px 30px 20px;border:4px solid #333333;}
+.wish p{white-space:normal;}
+.wish .close{display:block;position:absolute;top:-5px;left:-5px;background:#f60;width:17px;height:17px;display:none;cursor:pointer}
+/*随机选择的便签背景*/
+	.s1{background:#FF7575;}
+	.s2{background:#c3bbff;}
+	.s3{background:#FFFF77;}
+	.s4{background:#99cc66;}
+	.s5{background:#FFAD86;}
+</style>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#wish').wish();
+});
+</script>
+<div id="wish">
+            <% for(v in ventWallList!){%>
+                  <div><img src="http://www.dongmark.com/images/face/${v.moodid!}"/>${v.message!}</div>
+            <%}%>
+</div>

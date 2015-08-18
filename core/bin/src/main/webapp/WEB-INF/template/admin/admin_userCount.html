@@ -1,0 +1,74 @@
+<% layout("/admin/admin_layout.html"){ %>
+<div class="span9" id="content">
+
+	<div class="row-fluid">
+		<!-- block -->
+		<div class="block">
+			<div class="navbar navbar-inner block-header">
+				  <h4>用户统计：</h4>
+			</div>
+			<div class="block-content collapse in">
+				<div class="span12">
+					<div style="width: 700px;height:100px;border:  1px solid #7E827D;">
+					<div style="width: 700px;height: 30px;border:  1px solid #7E827D;">
+					注册统计：
+					</div>
+					<table>
+						<tr>
+							<td style="width: 200px;"><a>当前注册总人数：${countUser!}人</a></td>
+							<td style="width: 200px;"><a>当前激活总人数：${isActivation!}人</a></td>
+							<td style="width: 200px;"><a>当前未激活总人数：${noActivation!}人</a></td>
+						</tr>
+					</table>
+					</div>
+					<hr>
+					<div style="width: 700px;height:100px;border:  1px solid #7E827D;">
+					<div style="width: 700px;height: 30px;border:  1px solid #7E827D;">
+					等级分布情况：
+					</div>
+					<table>
+						<tr>
+							<td style="width: 200px;"><a>豆米粒总人数：${peas1!}人</a></td>
+							<td style="width: 200px;"><a>豆芽棒总人数：${peas2!}人</a></td>
+							<td style="width: 200px;"><a>豆瓣花总人数：${peas3!}人</a></td>
+						</tr>
+						<tr>
+							<td style="width: 200px;"><a>小弯豆总人数：${peas4!}人</a></td>
+							<td style="width: 200px;"><a>豆青总人数：${peas5!}人</a></td>
+							<td style="width: 200px;"><a>豆爷总人数：${peas6!}人</a></td>
+						</tr>
+						<tr>
+							<td style="width: 200px;"><a>豆皇总人数：${peas7!}人</a></td>
+						</tr>
+					</table>
+					</div>
+					<hr>
+					<div style="width: 700px;height:100px;border:  1px solid #7E827D;">
+					<div style="width: 700px;height: 30px;border:  1px solid #7E827D;">
+					积分分布情况：
+					</div>
+					<table>
+						<tr>
+							<td style="width: 200px;"><a>积分数0~99：${peas1!}人</a></td>
+							<td style="width: 200px;"><a>积分数100~499：${peas2!}人</a></td>
+							<td style="width: 200px;"><a>积分数500~1499：${peas3!}人</a></td>
+						</tr>
+						<tr>
+							<td style="width: 200px;"><a>积分数1500~3999：${peas4!}人</a></td>
+							<td style="width: 200px;"><a>积分数4000~19999：${peas5!}人</a></td>
+							<td style="width: 200px;"><a>积分数20000~49999：${peas6!}人</a></td>
+						</tr>
+						<tr>
+							<td style="width: 200px;"><a>积分数 50000以上：${peas7!}人</a></td>
+						</tr>
+						
+					</table>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		<!-- /block -->
+	</div>
+</div>
+<% } %>

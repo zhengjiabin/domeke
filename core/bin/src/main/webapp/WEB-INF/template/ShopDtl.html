@@ -1,0 +1,218 @@
+<script src="js/jqthumb.min.js"></script>
+<script src="js/comment.js" type="text/javascript"></script>
+<script type="text/javascript">
+	function resizeImage(el,width,height){
+		if(width==''||typeof(width)=='undefined'){
+			 width = $(el).width();
+		}
+		if(height==''||typeof(height)=='undefined'){
+			 height = $(el).height();
+		}
+		$(el).jqthumb({
+			width:width,
+			height:height
+		});
+	}
+	function resizeImg(clazz,width,height) {
+		$(clazz).each(function(){
+			$(this).error(function(){
+				if (this.src != 'http://www.dongmark.com/images/default.png') {
+					this.src = 'http://www.dongmark.com/images/default.png';
+					resizeImage(this,width,height);
+					return false;
+				}
+			});
+			resizeImage(this,width,height);
+		});
+	}
+	$(document).ready(function(){
+		
+		$('#scroll ul li').mouseenter(function(){
+			var imgsrc = $('img',this).attr('src');
+			$('#midImg').attr('src',imgsrc);
+			resizeImg('#midImg');
+		});
+		resizeImg('#midImg');
+		resizeImg('#scroll img');
+	});
+</script>
+<section class="White">
+    <div class="ShopPath">
+    <% for(g in goodsTypes!){ %>
+        <a href="goods/shop?goodstype=${g.goodstypeid!}">${g.typename}</a>/
+    <%}%>
+    </div>
+    <div class="Goods">
+    	<div class="GoodsPicRoll">
+    	<div class="introShow">
+  <div class="mainShow"><img id="midImg" src="${goods.pic!}" class="Picture220"/></div>
+  <div class="scroll" id="scroll"><a href="#prev" class="prevView prevStop" ><span>显示上一幅图片</span></a>
+    <ul id="thumList">
+      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="${goods.pic!}" alt="" ref1="${goods.pic!}" ref2="${goods.pic!}" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li>
+	         <%var idx = 0;
+        for(i in images!){
+        if (i != goods.pic) {
+        %>
+      <li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="${i!}" alt="" ref1="${i!}" ref2="${i!}" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture42"/></a></li>
+      <%idx = idx + 1;}}%>
+      <!--  style="cursor:pointer;""<li class="moveUnit"><a href="javascript:void(0)" title="" class="currentItem"><img src="http://www.dongmark.com/images/Mepic01.png" alt="" ref1="http://www.dongmark.com/images/Mepic01.png" ref2="http://www.dongmark.com/images/Mepic01.png" onmouseover="Biz.Product.Product.ChangePic(this);" class="Picture40"/></a></li> -->
+    </ul>
+</div>
+</div>
+</div>
+      <div class="GoodsInfos">
+        	<div class="GName">${goods.goodsname!}</div>
+        	<div class="GPrice">原&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;价：￥${goods.oldprice!}</div><br>
+        	<div class="GPrice">折&nbsp;&nbsp;&nbsp;后&nbsp;&nbsp;&nbsp;价：￥${goods.price!}</div><br>
+        	<% if(goods.dougprice!=0 && isChange!="") { %>
+        		<div class="GPrice">豆&nbsp;&nbsp;&nbsp;豆&nbsp;&nbsp;&nbsp;价：${goods.dougprice!}</div><br>
+        	<%}%>
+        	<div class="GPrice">购&nbsp;买&nbsp;数&nbsp;量：<input id="goodsnum"  name="goodsnum" value="1" type="text" class="input_Member" style="width:30px;ime-mode:Disabled;" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" AUTOCOMPLETE="off"></div>
+            <div class="GButton font_w">
+            	<% if(goods.showflag!=0) { %>
+            		<a href="${goods.tamllurl!}" class="BuyNow" target="_blank" >去 购 买</a>
+            	<%}else{%>
+            		<a style="color:#F00;font-weight:bold;font-size:22px;">商品已下架</a>
+            	<%}%>
+            	<% if(goods.dougprice!=0 && isChange!="" && goods.showflag!=0) { %>
+            		<a id="peas"  name="${isChange!}" href="javascript:changeGoods();" class="BuyNow" >豆豆兑换</a>
+                <%}%>
+                <% if(flag==0) { %>
+                	<button id="btnLoves" name="" class="Loves"  type="button" style="width: 180px; height: 50px;" onclick="loveGoods()"><a style="color:#F00" href="javascript:void(0)"><img src="images/icon11.png">喜 欢(${sumLove!})</a></button>
+                <%}%>
+                <% if(flag==1) { %>
+                	<button id="btnLoves" name="" class="Loves"  type="button" style="width: 180px; height: 50px;" style="display:none;"><a style="color:#F00" href="javascript:void(0)"><img src="images/icon11.png">喜 欢(${sumLove!})</a></button>
+                <%}%>
+                <input id="goodsid" type="hidden" name="goodsid" value="${goods.goodsid!}"/>
+                <input id="goodsattr1" type="hidden" name="goodsattr1" value="${goods.goodsattr1!}"/>
+                <input id="dougprice" type="hidden" name="dougprice" value="${goods.dougprice!}"/>
+                <input id="peasNum" type="hidden" name="peasNum" value="${peas!}"/>
+                <input id="isChange" type="hidden" name="isChange" value="${isChange!}"/>
+                <input id="goodsnumber" type="hidden" name="goodsnumber" value="${goods.goodsnumber!}"/>
+          </div>
+            <ul class="GProperties">
+            	<li>数量：${goods.goodsnumber!}</li>
+            	<li>颜色：${goods.goodscolor!}</li>
+                <li>包装：${goods.goodspack!}</li>
+                <li>
+            		<div class="FBodyTop bshare-custom icon-medium">
+						<a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a>
+						<a title="分享到网易微博" class="bshare-neteasemb" onclick="javascript:bShare.share(event,'neteasemb',0);return false;"></a>
+						<a title="分享到QQ空间" class="bshare-qzone" onclick="javascript:bShare.share(event,'qzone',0);return false;"></a>
+						<a title="分享到新浪微博" class="bshare-sinaminiblog" onclick="javascript:bShare.share(event,'sinaminiblog',0);return false;"></a>
+						<a title="分享到微信" class="bshare-weixin" onclick="javascript:bShare.share(event,'weixin',0);return false;"></a>
+						<a title="分享到腾讯微博" class="bshare-qqmb" onclick="javascript:bShare.share(event,'qqmb',0);return false;"></a>
+					</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="GoodsIntroduction">
+    	商品详细介绍<br /><br /><br />
+		${goods.message!}
+   
+                <div class="ArgumentZoom" id = "commentHtml">
+      			<% if(commentPage != null && goods.goodsid != null){ 
+					layout(
+					"/comment/cartoonComment.html",
+					{
+						"commentPage":commentPage,
+						"targetId":goods.goodsid,
+						"idtype":"60"
+					}
+					){}
+				}%>
+			</div>
+	 </div>
+</section>
+<div class="clear"></div>
+<section>
+	<div class="MePrivilege">
+    	<div class="PrivilegeSub">
+        	<img src="images/Meicon01.png"> 
+            <span class="MePfont1">中国领先</span>
+            <span class="MePfont2">私人定制商城</span>
+        </div>
+        <div class="PrivilegeSub">
+        	<img src="images/Meicon02.png"> 
+            <span class="MePfont1">100%专属定制</span>
+            <span class="MePfont2">独一无二为您定制</span>
+        </div>
+        <div class="PrivilegeSub">
+        	<img src="images/Meicon03.png"> 
+            <span class="MePfont1">100%</span>
+            <span class="MePfont2">正品保证</span>
+        </div>
+        <div class="PrivilegeSub">
+        	<img src="images/Meicon04.png"> 
+            <span class="MePfont1">30天</span>
+            <span class="MePfont2">退货保证</span>
+        </div>
+        <div class="PrivilegeSub">
+        	<img src="images/Meicon05.png"> 
+            <span class="MePfont1">24小时</span>
+            <span class="MePfont2">30%商品闪电发货</span>
+        </div>
+        <div class="PrivilegeSub">
+        	<img src="images/Meicon06.png"> 
+            <span class="MePfont1">精美包装</span>
+            <span class="MePfont2">提供礼品级包装</span>
+        </div>
+        <div class="PrivilegeSub">
+        	<img src="images/Meicon07.png"> 
+            <span class="MePfont1">180用户</span>
+            <span class="MePfont2">口碑信赖</span>
+        </div>
+        <div class="PrivilegeSub">
+        	<img src="images/Meicon08.png"> 
+            <span class="MePfont1">1250城市</span>
+            <span class="MePfont2">货到付款</span>
+        </div>
+    </div>
+</section>
+<section>
+	<div class="MePrivilegeB">
+    	<div class="MeTitleB">帮助中心</div>
+        <ul class="font_9">
+        	<li><a href="#">购物指南</a></li>
+            <li><a href="#">支付方式</a></li>
+            <li><a href="#">配送方式</a></li>
+        </ul>
+    </div>
+    <div class="MePrivilegeB">
+    	<div class="MeTitleB">服务中心</div>
+        <ul class="font_9">
+        	<li><a href="#">售后政策</a></li>
+            <li><a href="#">自助服务</a></li>
+            <li><a href="#">相关下载</a></li>
+        </ul>
+    </div>
+    <div class="MePrivilegeB">
+    	<div class="MeTitleB">嗨豆之家</div>
+        <ul class="font_9">
+        	<li><a href="#">嗨豆之家</a></li>
+            <li><a href="#">服务网点</a></li>
+            <li><a href="#">到店服务</a></li>
+        </ul>
+    </div>
+    <div class="MePrivilegeB">
+    	<div class="MeTitleB">关于方舟</div>
+        <ul class="font_9">
+        	<li><a href="#">了解方舟</a></li>
+            <li><a href="#">加入方舟</a></li>
+            <li><a href="#">联系我们</a></li>
+        </ul>
+    </div>
+    <div class="MePrivilegeB">
+    	<div class="MeTitleB">关于我们</div>
+        <ul class="font_9">
+        	<li><a href="#">新浪微博</a></li>
+            <li><a href="#">QQ空间</a></li>
+            <li><a href="#">官方微信</a></li>
+        </ul>
+    </div>
+    <div class="MePrivilegeC">
+    	<span class="HotLine">QQ89213248</span>
+        <span>周一至周日 8:00-18:00<br /></span>
+    </div>
+</section>

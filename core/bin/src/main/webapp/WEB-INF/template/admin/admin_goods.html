@@ -1,0 +1,27 @@
+<% layout("/admin/admin_layout.html"){ %>
+<div class="span9" id="content">
+	<div class="row-fluid">
+		<div class="block">
+			<div class="navbar navbar-inner block-header">
+				<div class="muted pull-left">商品管理</div>
+			</div>
+			<div class="block-content collapse in">
+				<div class="span12">
+					<div class="table-toolbar">
+						<div class="btn-group">
+							<a href="goods/addGoods"><button class="btn btn-success">
+									新增商品 <i class="icon-plus icon-white"></i>
+								</button></a>
+						</div>
+					</div>
+					<div id="goodspage">
+				 	<%
+				 	if (goodsList != null) {
+				 	 layout("/admin/admin_goodsPage.html"){} } %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<% } %>

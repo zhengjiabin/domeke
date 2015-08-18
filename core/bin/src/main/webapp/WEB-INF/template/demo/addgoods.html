@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>添加商品信息</title>
+	<base href="${core}/"/>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+    <link href="assets/styles.css" rel="stylesheet" media="screen">
+    <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+<body>
+ <div class="container">
+      <form class="form-signin" action="goods/save" method="post" enctype="multipart/form-data">
+        <h2 align="center" class="form-signin-heading">请录入商品信息</h2>
+        <input type="text" id="goods" name="goods.goods" class="input-block-level" placeholder="商城类目" />
+       	<select id="goods" name="goods.goods" class="input-block-level" >
+	        <option value="10" selected="selected">创意生活</option>
+	        <option value="20">进口商品</option>
+	    </select>
+        <input type="text" id="goodsname" name="goods.goodsname" class="input-block-level" placeholder="商品名称" />
+        <input type="text" id="price" name="goods.price" class="input-block-level" placeholder="价格" />
+        <!-- <input type="text" id="amount" name="goods.amount" class="input-block-level" placeholder="商品数量" /> -->
+		选择要上传的图片：<input type="file" id="picture" name="picture" accept="image/*" size="20" maxlength="255" />
+        <input type="text" id="message" name="goods.message" class="input-block-level" placeholder="商品描述" />
+        <input type="text" id="tamllurl" name="goods.tamllurl" class="input-block-level" placeholder="淘宝地址" />
+        <button class="btn btn-large btn-primary" type="submit" onsubmit="save();" >保存商品信息</button>
+      </form>
+    </div> <!-- /container -->
+    <script src="vendors/jquery-1.9.1.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<% layout("/common/personalLayout.html"){ %>
+<div id="personal">
+	<% if(menuId! == '01') {%>
+		<% include("/test1.html"){} %>
+	<% } %>
+	
+	<% if(menuId! == '1') {%>
+		<% include("/worksManager.html"){} %>
+	<% } %>
+	
+	<% if(menuId! == '2') {%>
+		<% include("/playRecord.html"){} %>
+	<% } %>
+	
+	<% if(menuId! == '3') {%>
+		<% include("/integral.html"){} %>
+	<% } %>
+	
+	<% if(menuId! == '4') {%>
+		<% include("/updatePassword.html"){} %>
+	<% } %>
+	<% if(menuId! == '5') {%>
+		<% include("/userMsg.html"){} %>
+	<% } %>
+	<% if(menuId! == '6') {%>
+		<% include("/userMsg.html"){} %>
+	<% } %>
+	
+	<% if(menuId! == '7') {%>
+		<% include("/userMsg.html"){} %>
+	<% } %>
+	<% if(menuId! == '8') {%>
+		<% include("/msgPage.html"){} %>
+	<% } %>
+	<% if(menuId! == '9') {%>
+		<% include("/replyMsg.html"){} %>
+	<% } %>
+	<% if(menuId! == '10') {%>
+		<% include("/replyPage.html"){} %>
+	<% } %>
+	<% if(menuId! == '11') {%>
+		<% include("/userMsg.html"){} %>
+	<% } %>
+	<% if(menuId! == '13') {%>
+		<% include("/mydowload.html"){} %>
+	<% } %>
+	
+	<% if(menuId! == '14') {%>
+		<% include("/myApplyActive.html"){} %>
+	<% } %>
+	<% if(menuId! == '12') {%>
+		<% include("/updateUserMsg.html"){} %>
+	<% } %>
+	<% if(menuId! == '15') {%>
+		<% include("/personal/personal_activity.html"){} %>
+	<% } else if (menuId! == '16') { %>
+		<% include("/personal/personal_post.html"){} %>
+	<% } else if (menuId! == '17') { %>	
+		<% include("/personal/personal_treasure.html"){} %>
+	<% } else if (menuId! == '18') { %>	
+		<% include("/personal/personal_ofWonders.html"){} %>
+	<% } else if (menuId! == '19') { %>	
+		<% include("/personal/personal_myOrders.html"){} %>
+	<% } %>	
+	<% if(menuId! == '20') {%>
+		<% include("/favourite.html"){} %>
+	<% } %>	
+</div>
+<% } %> 

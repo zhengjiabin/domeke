@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <% include("/community/community_head.html"){} %>
+</head>
+<body>
+	<% include("/community/community_header.html"){} %>
+	<section id="communityLayout">
+		<div id="baseCommunity">
+			<input value="${communityId!}" id="communityId" style="display: none;">
+			<article id="detailContentHtml">
+				<% layout("/community/community_postDetail.html"){} %>
+			</article>
+		</div>
+ 		<% layout("/community/community_aside.html"){} %>
+	</section>
+	<% include("/community/community_footer.html"){} %>
+</body>
+</html>

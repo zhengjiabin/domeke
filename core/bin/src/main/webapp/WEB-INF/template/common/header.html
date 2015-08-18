@@ -1,0 +1,66 @@
+<div class="TopFix">
+	<div class="TopFixZoom">
+    	<span class="FixLeft">欢迎来到动漫方舟！
+    	<% if(session.user.username! == null) {%>
+    		<a href="user/goLogin">请登录</a><a href="user/goRegist">免费注册</a>
+    	<% } else{%>
+    		<% if(session.user.username! == "admin") {%>
+    			<a href="community/goToManager" style="color:#F00">${session.user.username!}</a>
+    		<%}else{%>
+    			<a href="personal/forMyProduction" style="color:#F00">${session.user.username!}</a>
+    		<%}%>
+    		<a href="login/logout">退出</a>
+    		<a href="personal/forMyProduction?menuId=01">个人中心</a>
+    	<%}%>
+    	</span>
+    </div>
+</div>
+<header>
+<script type="text/javascript">
+function search(self){
+ 	$("#searchInput").val(self);
+	console.log("您今天已经签到！"+self);
+}  
+</script>
+	<div class="HeadTop">
+    	<div class="Logo"><a href="index?menuid=1"><img src="http://www.dongmark.com/images/logo.png"></a></div>
+        <div class="Search">
+        	<form action="search/search">
+        	<input id="searchInput" name="queryKey" type="text" class="SearchInput" value="${queryKey!}">
+        	<input name="search" type="submit" class="SearchButton" value="搜索">
+        	</form>
+            <div class="SearchKey">
+            <% for(s in searchKeyList!){ %>
+            	<span class="font_r"><a id="keyname" href="javascript:search('${s.keyname!}');">${s.keyname}</a></span>|
+            <%}%>
+            </div>
+        </div>
+    </div>
+    <nav>
+        <ul id="nav_menu" class="NavL">
+	<%    
+    	var menuid = parseInt(menuid);
+    	for(m in topMenuList){
+    	if (menuid == m.menuid){
+    %>
+    	<li class="LiFuc"><a href="${m.actionkey!}?menuid=${m.menuid!}">${m.menuname!}</a></li>
+    <%	}else{
+	%>	
+	<li><a href="${m.actionkey!}?menuid=${m.menuid!}">${m.menuname!}</a></li>
+	<% }
+	   }
+	%>
+        </ul>
+        <script type="text/javascript">
+      //菜单导航 按钮事件 选中后高亮
+		$(document).ready(function(){
+		    $(".NavL li a").each(function(){
+		        $this = $(this);
+		        if($this[0].href==String(window.location)){
+		        $(".NavL li").removeClass("LiFuc");
+		            $this.parent().addClass("LiFuc");
+		        }
+		    });
+		});
+        </script>
+</header>

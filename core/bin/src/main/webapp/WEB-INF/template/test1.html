@@ -1,0 +1,110 @@
+ <article class="MeArticle">
+    	<div class="MemberIndex">
+       	  <div class="MeBlock">
+            	<div class="MeHead"><img src="${user.imgurl!}" ></div>
+            	<div class="MeSummary">
+                	<div class="MeNick"><a style="color: red;">${user.username!}</a>   你好！</div>
+                </div>
+                <div class="clear">
+                </div>
+          	</div>
+        	<div class="MeCaption">我的作品：</div>
+            <div class="MeBlock">
+            	<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tbody>
+              <tr>
+              	   <th style="width: 60px; text-align: center;">排序</th>
+	               <th>视频</th>
+	               <th></th>
+	                <th>添加时间</th>
+	                <th>上传者</th>
+	                <th>热度</th>
+              </tr>
+              <%for(works in worksList!){%>
+              <% if(5>=playLP.index){%>
+              <tr>
+              	<td class="center">${worksLP.index}</td>
+                <td><img src="${works.cover!}"></td>
+                <td><a href="cartoon/showDetail?id=${works.worksid}" target="_blank">${works.worksname!}</a></td>
+                <td>${works.createtime!}</td>
+                <td>${works.creatername!}</td>
+                <td>播放：${works.pageviews!}</td>
+              </tr>
+              <%}%>
+              <%}%>
+              </tbody>
+          </table>
+            </div>
+        	<div class="MeCaption" style="float: left; width: 887px;">播放记录：
+        	<div style="float: right;"><a href="personal/forMyProduction?menuId=2">更多</a></div></div>
+            <div class="MeBlock">
+            	<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tr>
+                <th style="width: 60px; text-align: center;">排序</th>
+                <th>片名</th>
+                <th>章节</th>
+                <th>播放次数</th>
+                <th>播放时间</th>
+              </tr>
+             <% for(play in playPage.list!){%>
+             	<% if(5>=playLP.index){%>
+              <tr>
+                <td class="center">${playLP.index!}</td>
+                <td>${play.cartoon_name!}</a></td>
+                <td>${play.section_name!}</a></td>
+                <td>${play.play_counts!}</td>
+                <td>${play.create_time!}</td>
+            </tr>
+            	<% }%>
+           <% } %>  
+            </table>
+            </div>
+            <div class="MeCaption" style="float: left; width: 887px;">我的下载：
+        	<div style="float: right;"><a href="personal/forMyProduction?menuId=13">更多</a></div></div>
+            <div class="MeBlock">
+            	<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tr>
+                <th style="width: 60px; text-align: center;">排序</th>
+                <th>片名</th>
+                <th>章节</th>
+                <th>下载次数</th>
+                <th>下载时间</th>
+              </tr>
+             <% for(down in downPage.list!){%>
+              <% if(5>=downLP.index){%>
+              <tr>
+                <td class="center">${downLP.index!}</td>
+                <td>${down.cartoon_name!}</a></td>
+                <td>${down.section_name!}</a></td>
+                <td>${down.download_count!}</td>
+                <td>${down.create_time!}</td>
+            </tr>
+            <% }%>
+           <% } %>  
+            </table>
+            </div>
+             <div class="MeCaption" style="float: left; width: 887px;">动漫收藏：
+        	<div style="float: right;"><a href="personal/forMyProduction?menuId=20">更多</a></div></div>
+            <div class="MeBlock">
+            	<table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tr>
+                <th style="width: 60px; text-align: center;">排序</th>
+                <th>片名</th>
+                <th>章节</th>
+                <th>收藏时间</th>
+              </tr>
+             <% for(fav in favPage.list!){%>
+             <% if(5>=favLP.index){%>
+              <tr>
+                <td class="center">${favLP.index!}</td>
+                <td>${fav.cartoon_name!}</td>
+                <td><a href="${fav.comic!}">${fav.section_name!}</a></td>
+                <td>${fav.create_time!}</td>
+            </tr>
+             <% }%>
+           <% } %>  
+            </table>
+            </div>
+            <div class="clear"></div>
+        </div>
+  </article>

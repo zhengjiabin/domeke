@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>用户管理</title>
+<base href="${core}/" />
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+<body>
+<div>
+	<form action="user/update" id="user_regist" class="form-horizontal" method="post">
+		<fieldset>
+			<div class="alert alert-error hide"><button class="close" data-dismiss="alert"></button>
+				注册信息填写错误。请检查。
+			</div>
+			<div class="alert alert-success hide">
+			<button class="close" data-dismiss="alert"></button>
+				注册成功！
+			</div>
+			<input  type="hidden" name="user.userid" value="${user.userid!}" data-required="1" class="span6 m-wrap" />
+			<div class="control-group">
+				<label class="control-label">账号<span class="required">*</span></label>
+				<div class="controls">
+					<input type="text" name="user.username" value="${user.username!}" data-required="1" class="span6 m-wrap" />
+				</div> 
+				</div>
+					<div class="control-group">
+					  <label class="control-label">昵称<span class="required">*</span></label>
+					<div class="controls">
+					  <input type="text" name="user.nickname" value="${user.nickname!}" data-required="1" class="span6 m-wrap" />
+					</div>
+						</div>
+						<div class="control-group">
+						<label class="control-label">手机号码<span
+									class="required">*</span></label>
+						<div class="controls">
+							<input name="user.mobile" value="${user.mobile!}" type="text"
+							class="span6 m-wrap" />
+						</div>
+						</div>
+						
+						<div class="control-group">
+							<label class="control-label">认证邮箱<span class="required">*</span></label>
+						<div class="controls">
+							<input name="user.email" value="${user.email!}" type="text" class="span6 m-wrap" />
+						</div>
+						
+							<span class="help-block">此处邮箱用于您忘记密码时找回密码，与注册账号最好不同！</span>
+						</div>
+						<div class="form-actions">
+							<button type="submit" class="btn btn-primary">修改</button>
+							<button type="button" class="btn">返回</button>
+						</div>
+					</fieldset>
+					</form>
+	</div>
+</body>
+</html>

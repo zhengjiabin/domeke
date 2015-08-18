@@ -1,0 +1,233 @@
+<% layout("/admin/admin_layout.html"){ %>
+<section>
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="js/goods.js"></script>
+<script language="JavaScript">
+function galevel1(str) 
+{   
+	if (str == ""){
+		$("#goodsattr2").find("option").remove();
+		$("#goodsattr3").find("option").remove();
+		jQuery("#goodsattr2").append("<option value='' selected='selected'>请选择======</option>"); 
+		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+	} else {	
+			$("#goodsattr2").find("option").remove();
+			$("#goodsattr3").find("option").remove();
+			jQuery("#goodsattr2").append("<option value='' selected='selected'>请选择======</option>"); 
+			jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+			$(document).ready(function(){
+				var gtarray = new Array();
+			    var array = new Array(); //定义数组
+			    $("#mi_name option").each(function(){ //遍历全部option
+			        var txt = $(this).text(); //获取option的内容
+			        gtarray = txt.split(",");
+			        if (gtarray[2] == str) {
+			        	jQuery("#goodsattr2").append("<option value='"+gtarray[0]+"'>"+gtarray[1]+"</option>"); 
+			        }
+			    });
+			});
+	}	
+}
+function galevel2(str) 
+{  
+	if (str == ""){
+		$("#goodsattr3").find("option").remove();
+		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+	} else {	
+		$("#goodsattr3").find("option").remove();
+		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+			$(document).ready(function(){
+				var gtarray = new Array();
+			    var array = new Array(); //定义数组
+			    $("#mi_name option").each(function(){ //遍历全部option
+			        var txt = $(this).text(); //获取option的内容
+			        var gtarray = txt.split(",");
+			        if (gtarray[2] == str) {
+			        	jQuery("#goodsattr3").append("<option value='"+gtarray[0]+"'>"+gtarray[1]+"</option>"); 
+			        }
+			    });
+			});
+	}	
+	
+}
+</script>
+<div class="span9" id="content">
+	<div class="row-fluid"> 
+		<div class="block">
+			<div class="navbar navbar-inner block-header">
+				<div class="muted pull-left">商品详情</div>
+			</div>
+			<div class="block-content collapse in">
+				<div class="span12">
+     <form class="form-signin" action="goods/updateGoods?goodsId=${goods.goodsid!}" method="post" id="createHtml" enctype="multipart/form-data">
+     	
+     		<input name="goods.goodsid" value="${goods.goodsid!}" type="text" class="span6 m-wrap" style="display:none"/><br>
+         	商品名称：<input id="goodsname" name="goods.goodsname" value="${goods.goodsname!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	商品价格：<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	豆豆价格：<input id="dougprice" name="goods.dougprice" onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
+			历史价格：<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>        	 
+			剩余数量：<input id="goodsnumber" name="goods.goodsnumber" value="${goods.goodsnumber!}" type="text" class="span6 m-wrap" /><br>        	 
+			商品颜色：<input id="goodscolor" name="goods.goodscolor" value="${goods.goodscolor!}" type="text" class="span6 m-wrap" /><br>        	 
+			商品包装：<input id="goodspack" name="goods.goodspack" value="${goods.goodspack!}" type="text" class="span6 m-wrap" /><br>        	 
+        	商品主图：
+        	<div class="controls">
+				<div id="preview" class="imgCss">
+					<img src="${goods.pic!}">
+				</div>
+				<label id="picPath">
+					<%
+						var picPath = null;
+						if(!isEmpty(goods) && !isEmpty(goods.pic)){
+							var filePath = strutil.replace(goods.pic,"\\\\","/");
+							picPath = strutil.subStringTo(filePath,@filePath.lastIndexOf("/")+1,strutil.length(filePath));
+						}
+					%>
+					${picPath!}
+				</label>
+				<input id="themeimgBtn" type="button" onclick="pic.click()" value="请选择图片" required="required">
+				<input id="pic" name="pic" type="file" class="fileCss" onchange="onUploadImgChange(this)" style="display: none">
+			</div><span class='font_r' style="color: red"> *</span><br>
+        	商城链接：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	是否放首页：
+        		<%
+        		if (goods.istop != null && goods.istop != ""){ 
+        		var istop =parseInt(goods.istop);
+        		if (istop == 1) {
+        		%>
+        			<input type="radio" name="goods.istop" value="0"/>否&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" checked="checked" name="goods.istop" value="1"/>是<br>
+
+          		<%
+        		} else if (istop == 0) {
+        		%>
+        			<input type="radio" checked="checked" name="goods.istop" value="0"/>否&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="goods.istop" value="1"/>是
+        		<%
+        		}
+        		}
+        		%>
+        	<span class='font_r' style="color: red"> &nbsp;&nbsp;&nbsp;*</span><br>
+        	商品状态：
+        	<%
+        		if (goods.status != null && goods.status != ""){ 
+        		var status =parseInt(goods.status);
+        		if (status == 70) {
+        		%>
+        			&nbsp;&nbsp;&nbsp;<input type="radio" name="goods.status" value="10"/>停用&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" checked="checked" name="goods.status" value="70"/>启用
+          		<%
+        		} else if (status == 10) {
+        		%>
+        			&nbsp;&nbsp;&nbsp;<input type="radio" checked="checked" name="goods.status" value="10"/>停用&nbsp;&nbsp;&nbsp;&nbsp;
+					<input type="radio" name="goods.status" value="70"/>启用
+        		<%
+        		}
+        		}
+        	%>
+        	<span class='font_r' style="color: red"> *</span><br>
+        	<div id="imgs" >
+        	<div style="float:left">商品子图:</div>
+        	<%
+        	var idx = 0;
+        	for(var i=0; i < headimgs.~size; i++){
+        	if (headimgs[i] != goods.pic) {
+        	idx = idx + 1;
+        	%>
+        	<div style="float:left">
+        	<img name="himg" data-src="holder.js/260x180" alt="104x72" style="width: 104px; height: 72px;" src="${headimgs[i]!}"/><br>
+        	<a href="goods/deleteImg?url=${headimgs[i]!}&goodsId=${goods.goodsid!}">删除</a>
+        	</div>
+        	<%
+        	}
+        	}
+        	%>
+        	</div>
+        	<br><br><br>
+        	<div id="previews"></div>
+        	<input id="fileImage" type="file" size="30" name="headimg" onchange="onUploadImgChanges(this)"  multiple /><br>
+        	
+        	<select id="mi_name" style="display:none"> 
+        		<% 
+        		for(gt in goodsType!){
+        		%>
+        			<option value="${gt.goodstypeid!}">${gt.goodstypeid!},${gt.typename!},${gt.parenttypeid!}</option>
+        		<% 
+        		} %>
+        	</select>
+        	<br>
+        	商品类别1：<select id="goodsattr1" name="goods.goodsattr1" class="span6 m-wrap" onchange="galevel1(this.value)"> 
+        		<option value="" selected="selected">请选择======</option>
+        		<% 
+        		for(gt in goodsType!){
+        			if (gt.level == 1) {
+        				if (goods.goodsattr1 == gt.goodstypeid) {
+        				%>
+        					<option value="${gt.goodstypeid!}" selected="selected">${gt.typename!}</option>
+        				<%
+        				} else {
+        		%>
+        					<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% 		}
+        			}
+        		} %>
+        	</select><span class='font_r' style="color: red"> *</span><br>
+        	商品类别2：<select id="goodsattr2" name="goods.goodsattr2" class="span6 m-wrap" onchange="galevel2(this.value)"> 
+        		<option value="">请选择======</option>
+        		<% 
+        		for(gt in goodsType!){
+        			if (gt.level == 2) {
+        				if (goods.goodsattr2 == gt.goodstypeid) {
+        				%>
+        					<option value="${gt.goodstypeid!}" selected="selected">${gt.typename!}</option>
+        				<%
+        				} 
+						if (goods.goodsattr1 == gt.parenttypeid) {
+        		%>
+        					<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% 		}
+        			}
+        		} %>
+        	</select><span class='font_r' style="color: red"> *</span><br>
+        	商品类别3：<select id="goodsattr3" name="goods.goodsattr3" class="span6 m-wrap" > 
+        		<option value="">请选择======</option>
+        		<% 
+        		for(gt in goodsType!){
+        			if (gt.level == 3) {
+        				if (goods.goodsattr3 == gt.goodstypeid) {
+        				%>
+        					<option value="${gt.goodstypeid!}" selected="selected">${gt.typename!}</option>
+        				<%
+        				} 
+						if (goods.goodsattr2 == gt.parenttypeid) {
+        		%>
+        					<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% 		}
+        			}
+        		} %>
+        	</select><span class='font_r' style="color: red"> *</span><br>
+        	<div class="ForumInfoA font_str">商品描述：</div>
+      		<div class="WhiteBg" style="height: 300px;padding:10px;">
+      			<textarea name="ckeditor" id="ckeditor">${goods.message!}</textarea>
+				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
+				<div style="display:none;">
+					<input type="text" name="goods.message" id="message" value="${goods.message!}" hidden="block" style="display:none"/>
+				</div>
+      		</div> 
+			<button class="btn btn-large btn-primary" onclick="return upchecknull(this)" type="submit" >修改</button>
+			<a href="goods/renderGoods" class="btn btn-large btn-primary" >返回</a>
+      </form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section> 
+<% } %> 

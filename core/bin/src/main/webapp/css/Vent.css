@@ -1,0 +1,118 @@
+header{
+	margin-bottom: 5px;
+}
+.White{
+	background: #fff;
+}
+.VentLa,.VentLb{
+	margin: 20px;
+}
+.VentLa{
+	border-bottom: 1px #ddd solid;
+	padding-bottom: 20px;
+}
+.VentLb{
+	
+}
+.VentTitle{
+	border-bottom: 1px #ddd solid;
+	font-size: 18px;
+	margin: 20px 20px 20px 0px;
+	padding-bottom: 10px;
+}
+.VentContent{
+	margin: 20px 20px 50px 0px;
+}
+.VentTip{
+	float: left;
+	width: 220px;
+	height: 60px;
+	background: url(http://www.dongmark.com/images/VentTip01.png) left top no-repeat;
+}
+.VentInfo{
+	padding-left: 240px;
+}
+.VentTip span{
+	display: inline-block;
+}
+.VTime{
+	padding: 10px;
+	color: #fff;
+	text-align: center;
+}
+.VState{
+	padding: 20px 0px 0px 40px;
+	vertical-align: top;
+}
+.VentInfo span{
+	padding: 0px 10px;
+}
+.VentInfo span span{
+	padding: 0px 5px;
+}
+.borderR{
+	border-right: 1px #ddd solid;
+}
+.VentWel{
+	padding: 10px 0px;
+	font-size: 16px;
+}
+.VentLb li{
+	float: left;
+	padding: 0px 18px;
+}
+.VentChoice{
+	clear: both;
+	padding: 10px 0px;
+}
+.VentChoice input{
+	margin: 0px 5px 0px 10px;
+}
+.VentTxt{
+	border: 1px #ddd solid;
+	background: #fff;
+	padding: 5px;
+	width: 650px;
+	height: 60px;
+	margin-right: 10px;
+}
+.VentContent li{
+	text-align: right;
+	color: #999;
+	padding: 5px 0px;
+}
+.VentContent li span{
+	float: left;
+	color: #333;
+}
+.VentA,.VentB,.VentC,.VentD,.VentE,.VentF,.VentG,.VentH{
+	float: left;
+	margin: 8px;
+	width: 120px;
+	height: 60px;
+	padding: 30px 10px 10px 90px;
+}
+.VentA{
+	background: #fec89c url(http://www.dongmark.com/images/Vent01.png) left top no-repeat;
+}
+.VentB{
+	background: #fbd240 url(http://www.dongmark.com/images/Vent02.png) left top no-repeat;
+}
+.VentC{
+	background: #afd680 url(http://www.dongmark.com/images/Vent03.png) left top no-repeat;
+}
+.VentD{
+	background: #f39db1 url(http://www.dongmark.com/images/Vent04.png) left top no-repeat;
+}
+.VentE{
+	background: #fec89c url(http://www.dongmark.com/images/Vent01.png) left top no-repeat;
+}
+.VentF{
+	background: #fbd240 url(http://www.dongmark.com/images/Vent02.png) left top no-repeat;
+}
+.VentG{
+	background: #afd680 url(http://www.dongmark.com/images/Vent03.png) left top no-repeat;
+}
+.VentH{
+	background: #f39db1 url(http://www.dongmark.com/images/Vent04.png) left top no-repeat;
+}

@@ -1,0 +1,80 @@
+<div class="ForumPath">
+     	<a href="javascript:void(0)" onclick="goToHomeForum('${communityFat.actionkey!}')">${communityFat.title}</a>
+     	/<a href="javascript:void(0)" onclick="goToOrderForum(this,${communitySon.communityid!})">${communitySon.title}</a>
+</div>
+<div class="ForumTheme">
+	<div class="ListPic"><img src="${activity.imgurl!}"></div>
+        <div class="ListDtl">
+        	<div class="ListName"><a href="#">${activity.subject!}</a></div>
+             <div class="font_9">
+            	<span><a href="#">楼主：${activity.username!}</a></span>
+                <span>开始时间：${activity.starttimefrom!}</span>
+                <span>结束时间：${activity.starttimeto!}</span>
+                <% if(activity.top == 0 && 1 == session.user.userid!){ %>
+                	<span><a href="javascript:void(0)" onclick="setTop(this,'${session.user.userid}',${activity.activityid!})">置顶</a></span>
+                <% } %>
+                <% if(activity.essence == 0 && 1 == session.user.userid!){ %>
+                	<span><a href="javascript:void(0)" onclick="setEssence(this,'${session.user.userid}',${activity.activityid!})">精华</a></span>
+                <% } %>	
+            </div>
+	</div>
+</div>
+<div class="clear"></div> 
+	
+<div id="replyComments">
+	<div class="ForumBody">
+       	<div class="FBodyTop"></div>
+        <div class="FBodyContent">
+           	<span>活动地点：${activity.place!}</span>
+           	<span>活动类别：${activity.classtype!}</span>
+           	<span>报名截止日期：${activity.expiration!}</span>
+           	${activity.message!}
+	        <div id="page">
+				<% if(activityApplyPage != null){
+				layout(
+					"/community/community_activityApplyPage.html",
+					{
+						"activityApplyPage":activityApplyPage,
+						"pageAction":"./activityApply/findByActivityId?activityId="+activity.activityid,
+						"fatherNode":"#page"
+					} 
+				){} 
+				}%>
+			</div>
+		</div>
+       	<div class="FBodyBottom font_9">
+			<span class="FL">
+				<a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a>
+			</span>
+		</div>
+        <div class="clear"></div>
+	</div>
+    <div class="ForumInfoA"></div>
+    <div id="commentHtml">
+		<% 
+			if(commentPage != null && activity.activityid != null){ 
+				layout(
+				"/comment/comment.html",
+				{
+					"targetId":activity.activityid,
+					"idtype":"20"
+				}
+				){}
+			}
+		%>
+	</div>
+	<div id="commentForm">
+   		<% 
+   			if(activity.activityid != null){ 
+				layout(
+					"/common/ckeditor.html",
+					{
+						"targetId":activity.activityid,
+						"idtype":"20",
+						"render":"/comment/comment.html"
+					}
+				){}
+			}
+		%>
+	</div>
+</div>

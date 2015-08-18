@@ -1,0 +1,45 @@
+  <article class="MeArticle">
+        <div class="clear"></div>
+        
+        <div class="MemberIndex">
+          <div class="MeCaption">播放记录：</div>
+          <div class="AlbumBlock">
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tr>
+                <th style="width: 60px; text-align: center;">排序</th>
+                <th>片名</th>
+                <th>章节</th>
+                <th>播放次数</th>
+                <th>播放时间</th>
+                <th>操作</th>
+              </tr>
+             <% for(play in playPage.list!){%>
+              <tr>
+                <td class="center">${playLP.index!}</td>
+                <td>${play.cartoon_name!}</a></td>
+                <td>${play.section_name!}</a></td>
+                <td>${play.play_counts!}</td>
+                <td>${play.create_time!}</td>
+                <td><a href="personal/deleteMyPlay?playid=${play.PlayCountId}&menuId=${menuId}" onclick="return confirm('确定删除？')">删除</a></td>
+            </tr>
+           <% } %>  
+            </table>
+			<div class="PageMore">
+                <% 
+            var menuId = menuId;
+            if(playPage != null){ 
+				layout(
+				"/common/page.html",
+				{
+					"page":playPage,
+					"pageAction":"./personal/forMyProductionPage?menuId="+menuId,
+					"fatherNode":"#personal"
+				}
+				){} 
+			}%>
+            </div>
+          </div>
+        </div>
+        
+    </article>
+    <div class="clear"></div>

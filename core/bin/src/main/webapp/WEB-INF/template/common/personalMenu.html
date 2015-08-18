@@ -1,0 +1,36 @@
+
+<aside class="AsideBg">
+
+		<%
+		var count = 0;
+		for(m in topMenuMP){
+		count = count + 1;		
+			if(mLP.first && m.top == "1"){
+		%>
+				<div class="ZoomBlock">
+        		<div class="MeTitle">${m.menuname!}</div>
+           		<ul>
+		<%
+			} else if(count > 1 && m.top == "1"){
+		%>
+			    </ul>
+        	</div>
+        		<div class="ZoomBlock">
+        		<div class="MeTitle">${m.menuname!}</div>
+           		<ul>
+		<%
+			} else if(mLP.last){			
+		%>
+			<li><a href="${m.actionkey!}">${m.menuname!}</a></li>
+				</ul>
+        	</div>
+		<%
+			} else if(m.top == "2"){
+		%>
+			<li><a href="${m.actionkey!}">${m.menuname!}</a></li>
+		<%
+			}
+		}
+		%>
+    
+  </aside>

@@ -1,0 +1,126 @@
+<script src="js/jquery.form.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('form :input[required=required]').each(function(){
+	        var $required = $("<span class='font_r' style=\"color: red\"> *</span>"); //创建元素
+	        $(this).parent().append($required); //然后将它追加到文档中
+	    });
+	});
+	
+	 //文本框失去焦点后
+    $('form :input').blur(function(){
+       	var $parent = $(this).parent();
+        $parent.find(".font_r").remove();
+      	//标题验证
+        if($(this).is('#title')){
+        	if( this.value=="" ){
+        	    var errorMsg = '标题不能为空';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if(this.value.length > 11){
+        		var errorMsg = '标题长度必须小于11个字';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+      	//概要验证
+        if($(this).is('#content')){
+        	if(this.value.length > 30){
+        		var errorMsg = '概要长度必须小于30个字';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+      	//版块路径
+        if($(this).is('#actionkey')){
+        	if(this.value == ""){
+        		var errorMsg = '版块根路径不能为空！';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+        //显示顺序
+        if($(this).is('#position')){
+        	var reg = /^\d*$/;
+        	if(this.value == ""){
+        		
+        	}else if( !reg.test(this.value) ){
+        	    var errorMsg = '格式错误，请输入正整数！';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        		var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+        	}
+        }
+    });
+</script>
+<form id="submitForm" class="form-horizontal" action="./community/updateCommunity" method="post" onsubmit="return submitCommunity(this);">
+	<fieldset>
+		<legend>版块管理</legend>
+		<input type="text" name="community.communityid" value="${community.communityid!}" style="display: none;">
+		<input type="text" name="community.level" value="${community.level!}" style="display: none;">
+		
+		<div class="control-group warning">
+			<label class="control-label" for="inputError">标题</label>
+			<div class="controls">
+				<input type="text" id="title" name="community.title" value="${community.title!}" required="required">
+			</div>
+		</div>
+
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">概要</label>
+			<div class="controls">
+				<input class="input-xlarge focused" id="content" type="text" name="community.content" value="${community.content!}" required="required">
+			</div>
+		</div>
+		
+		<% if(community.level == 2) { %>
+		<div class="control-group">
+			<label class="control-label" for="disabledInput">区域版块</label>
+			<div class="controls">
+				<% if(isEmpty(community.pid)) { %>
+					<select name="community.pid" required="required" id="pid">
+				<% } else { %>
+					<select name="community.pid" required="required" disabled="disabled"  id="pid">
+				<% } %>
+					<% 
+						for(communityFat in communityFatList) { 
+							if(communityFat.communityid == community.pid){
+					%>
+						<option value="${communityFat.communityid!}" selected="selected">${communityFat.title!}</option>
+					<% } else {%>
+					<option value="${communityFat.communityid!}" >${communityFat.title!}</option>
+					<% } } %>
+					
+				</select>
+			</div>
+		</div>
+		
+		<input type="text" name="community.actionkey" value="${community.actionkey!}" style="display: none;">
+		<% } else { %>
+		<div class="control-group">
+			<label class="control-label" for="focusedInput">版块路径</label>
+			<div class="controls">
+				<input class="input-xlarge focused" type="text" id="actionkey" name="community.actionkey" value="${community.actionkey!}" required="required">
+			</div>
+		</div>
+		<% } %>
+		
+		<div class="control-group success">
+			<label class="control-label" for="selectError">显示顺序</label>
+			<div class="controls">
+				<input class="input-xlarge focused" type="text" id="position" name="community.position" value="${community.position!}" required="required">
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">提交</button>
+			<button type="reset" class="btn" onclick="goToManage('/community/goToManager')">取消</button>
+		</div>
+	</fieldset>
+</form>

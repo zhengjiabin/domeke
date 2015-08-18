@@ -1,0 +1,97 @@
+<% layout("/common/layout.html"){ %>
+<link href="video-js/video-js.css" rel="stylesheet" type="text/css">
+<script src="video-js/video.js"></script>
+<script>
+    videojs.options.flash.swf = "video-js/video-js.swf";
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('span.Good').click(function(){
+			var pid = $(this).attr('pid');
+			if ($(this).css('color')=='red'){ return false }
+			$.ajax({
+				url:'cartoon/pointPraise',
+				data:'id=' + pid,
+				success:function(){
+				}
+			});
+			$(this).css({'color':'red'});
+			$('a',this).css({'background':'url(http://www.dongmark.com/images/icon11.png) left center no-repeat'});
+		});
+	});
+	function fileExists(workid){
+		$.ajax({
+			type:'post',
+			url:'works/fileExists',
+			data:'workid='+workid,
+			success:function(data){
+				if(data.success == 1){
+					//可以下载
+					window.location.href = 'works/downloadFile?workid='+workid;
+					return;
+				}else if(data.success == 0){
+					alert('下载失败，文件不存在！');
+					return;
+				}else{
+					alert('请登录后再下载！');
+					return;
+				}
+			}
+		});
+	}
+	function collection(workid){
+		$.ajax({
+			type:'post',
+			url:'works/collection',
+			data:'workid='+workid,
+			success:function(data){
+				if(data.success == 1){
+					alert('收藏成功');
+					return;
+				}
+			}
+		});
+	}
+</script>
+<section id="commentHtml">
+	<div class="CartoonTitle">《${works.worksname!}》- ${work.workname!}</div>
+	<div class="PlayZoom">
+		<video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="800" height="500"
+		      poster="${work.cover!}"
+		      data-setup="{}">
+		    <%    	
+		    	videoType = "";
+		    	if(!isEmpty(work) && !isEmpty(work.comic)){
+		    		if(strutil.endWith(work.comic,".flv")){		    		
+		    			videoType = "video/flv";
+		    		}else if(strutil.endWith(work.comic,".mp4")){
+		    			videoType = "video/mp4";
+		    		}
+		    	}
+		    %>
+		    <source src="${work.comic!}" type='${videoType!}' />
+		    <track kind="captions" src="demo.captions.vtt" srclang="en" label="English"></track><!-- Tracks need an ending tag thanks to IE9 -->
+			<track kind="subtitles" src="demo.captions.vtt" srclang="en" label="English"></track><!-- Tracks need an ending tag thanks to IE9 -->
+		</video>
+	</div>
+      <div class="PlayControl"> 
+        <span class="Good" pid="${works.worksid!}"><a href="#">点赞</a></span>
+        <span class="Argument"><a href="javascrpt:void(0)" onclick="skipPublish(this)">评论</a></span>
+        <span class="Argument"><a href="javascript:collection(${work.workid!});">收藏</a></span>
+        <a href="javascript:fileExists(${work.workid!});" style="float: right;">下载</a>
+      </div>
+      <div class="bshare-custom" align="right"><div class="bsPromo bsPromo2"></div><a title="分享到微信" class="bshare-weixin" href="javascript:void(0);"></a><a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"></a><a title="分享到腾讯微博" class="bshare-qqmb"></a><a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a><span class="BSHARE_COUNT bshare-share-count" style="float: none;">32.6K</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script> 
+	<div class="WhiteBg" id = "commentHtml">
+   		<% if(!isEmpty(commentPage) && !isEmpty(work) && !isEmpty(work.workid)){ 
+			layout(
+			"/comment/cartoonComment.html",
+			{
+				"commentPage":commentPage,
+				"targetId":work.workid,
+				"idtype":"70"
+			}
+			){}
+		}%>
+	</div>
+</section>
+<% } %>

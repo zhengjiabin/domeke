@@ -1,0 +1,15 @@
+.fileCss {
+	display: none;
+	width: 0px;
+	height: 22px;
+	position: absolute;
+	filter: alpha(opacity = 0);
+	-moz-opacity: 0;
+	opacity: 0;
+	z-index: 0;
+}
+
+.imgCss img {
+	max-width: 300px;
+	_width: 300px;
+}

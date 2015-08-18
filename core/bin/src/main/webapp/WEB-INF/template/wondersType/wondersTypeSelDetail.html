@@ -1,0 +1,9 @@
+<th>主题类型：</th>
+<td>
+	<select id="first" onchange="showWondersType(this)" class="input_Forum">
+		<option value="">
+		<% for( wondersTypeSon in wondersTypeSonList!) { %>
+			<option value="${wondersTypeSon.wonderstypeid!}">${wondersTypeSon.title!}
+		<% } %>
+	</select>
+</td>

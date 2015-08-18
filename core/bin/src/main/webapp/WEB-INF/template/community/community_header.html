@@ -1,0 +1,59 @@
+<div class="TopFix">
+	<div class="TopFixZoom">
+    	<span class="FixLeft">欢迎来到动漫方舟！
+    	<% if(session.user.username! == null) {%>
+    		<a href="user/goLogin">请登录</a><a href="user/goRegist">免费注册</a>
+    	<% } else{%>
+    		<% if(session.user.username! == "admin") {%>
+    			<a href="community/goToManager" style="color:#F00">${session.user.username!}</a>
+    		<%}else{%>
+    			<a href="personal/forMyProduction" style="color:#F00">${session.user.username!}</a>
+    		<%}%>
+    		<a href="login/logout">退出</a>
+    		<a href="personal/forMyProduction">个人中心</a>
+    	<%}%>
+		</span>
+        <span class="FixRight">
+        	<a href="#">收藏夹</a><a href="#">商家支持</a><a href="#">网站导航</a>
+        </span>
+    </div>
+</div>
+<header>
+	<div class="HeadTop">
+    	<div class="Logo"><a href="index"><img src="http://www.dongmark.com/images/logo.png"></a></div>
+            <div class="ForumTop">
+            </div>
+    </div>
+    <nav>
+    	<ul class="NavR">
+        	<li><a href="#"><img src="http://www.dongmark.com/images/FIcon01.png"></a><a href="#"><img src="http://www.dongmark.com/images/FIcon02.png"></a></li>
+        </ul>
+        <ul class="NavL font_w">       	
+        	<% 
+        		var menuid = parseInt(menuid);
+        		for(m in topMenuForum){      			
+    			if (menuid == m.menuid){
+    			%>
+    				<li class="LiFuc"><a href="${m.actionkey!}?menuid=${m.menuid!}">${m.menuname!}</a></li>
+ 			   <%	}else{
+				%>	
+					<li><a href="${m.actionkey!}?menuid=${m.menuid!}">${m.menuname!}</a></li>
+				<% } 
+			  	 } 
+				%>
+        </ul>
+    </nav>
+    
+      <script type="text/javascript">
+      //菜单导航 按钮事件 选中后高亮
+		$(document).ready(function(){  
+		    $(".NavL li a").each(function(){  
+		        $this = $(this);  
+		        if($this[0].href==String(window.location)){  
+		        $(".NavL li").removeClass("LiFuc");  
+		            $this.parent().addClass("LiFuc");  
+		        }  
+		    });  
+		});  
+        </script>
+</header>

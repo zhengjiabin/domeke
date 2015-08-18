@@ -1,0 +1,136 @@
+<% layout("/admin/admin_layout.html"){ %>
+<section> 
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="js/goods.js"></script>
+<script language="JavaScript">
+function galevel1(str) 
+{   
+	if (str == ""){
+		$("#goodsattr2").find("option").remove();
+		$("#goodsattr3").find("option").remove();
+		jQuery("#goodsattr2").append("<option value='' selected='selected'>请选择======</option>"); 
+		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+	} else {	
+			$("#goodsattr2").find("option").remove();
+			$("#goodsattr3").find("option").remove();
+			jQuery("#goodsattr2").append("<option value='' selected='selected'>请选择======</option>"); 
+			jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+			$(document).ready(function(){
+				var gtarray = new Array();
+			    $("#mi_name option").each(function(){ //遍历全部option
+			        var txt = $(this).text(); //获取option的内容
+			        var gtarray = txt.split(",");
+			        if (gtarray[2] == str) {
+			        	jQuery("#goodsattr2").append("<option value='"+gtarray[0]+"'>"+gtarray[1]+"</option>"); 
+			        }
+			    });
+			});
+	}	
+}
+function galevel2(str) 
+{  
+	if (str == ""){
+		$("#goodsattr3").find("option").remove();
+		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+	} else {	
+		$("#goodsattr3").find("option").remove();
+		jQuery("#goodsattr3").append("<option value='' selected='selected'>请选择======</option>"); 
+			$(document).ready(function(){
+				var gtarray = new Array();
+			    $("#mi_name option").each(function(){ //遍历全部option
+			        var txt = $(this).text(); //获取option的内容
+			        var gtarray = txt.split(",");
+			        if (gtarray[2] == str) {
+			        	jQuery("#goodsattr3").append("<option value='"+gtarray[0]+"'>"+gtarray[1]+"</option>"); 
+			        }
+			    });
+			});
+	}	
+	
+}
+</script>
+
+<div class="span9" id="content">
+	<div class="row-fluid">
+		<div class="block">
+			<div class="navbar navbar-inner block-header">
+				<div class="muted pull-left">新增商品</div>
+			</div>
+			<div class="block-content collapse in">
+				<div class="span12">
+      <form class="form-signin" action="goods/saveGoods" id="createHtml" name="reg_testdate" method="post" align="center" enctype="multipart/form-data">
+        	商品名称：<input id="goodsname" name="goods.goodsname" value="${goods.goodsname!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	商品价格：<input id="price" name="goods.price" value="${goods.price!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	豆豆价格：<input id="dougprice" onkeyup="this.value=this.value.replace(/[^\d]/g,'') " onafterpaste="this.value=this.value.replace(/[^\d]/g,'') " name="goods.dougprice" value="${goods.dougprice!}" type="text" class="span6 m-wrap" /><br>
+        	历史价格：<input id="oldprice" name="goods.oldprice" value="${goods.oldprice!}" type="text" class="span6 m-wrap" /><br>
+        	商品数量：<input id="goodsnumber" name="goods.goodsnumber" value="${goods.goodsnumber!}" type="text" class="span6 m-wrap" /><br>        	 
+			商品颜色：<input id="goodscolor" name="goods.goodscolor" value="${goods.goodscolor!}" type="text" class="span6 m-wrap" /><br>        	 
+			商品包装：<input id="goodspack" name="goods.goodspack" value="${goods.goodspack!}" type="text" class="span6 m-wrap" /><br>        	 
+        	
+        	<div id="preview"></div>
+        	商品主图：<input id="fileImage" type="file" size="30" name="pic" onchange="onUploadImgChange(this)" required="required" /><span class='font_r' style="color: red"> *</span><br>
+        	<span class='font_r' style="color: red"> *</span><br>
+        	商城地址：<input id="tamllurl" name="goods.tamllurl" value="${goods.tamllurl!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>        			
+       		是否放首页：<input type="radio" checked="checked" name="goods.istop" value="0"/>否
+				<input type="radio" name="goods.istop" value="1"/>是<br><br> 
+        	商品状态：<input type="radio" name="goods.status" value="10"/>停用
+				<input type="radio" checked="checked" name="goods.status" value="70"/>启用<br> 
+        	
+        	<label class="control-label">商品子图（最多只允许上传5张）</label>
+        	<div id="previews"></div>
+        	<input id="fileImages" type="file" size="30" name="headimg" onchange="onUploadImgChanges(this)" required="required" multiple />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	
+        	<select id="mi_name" style="display:none"> 
+        		<% 
+        		for(gt in goodsType!){
+        		%>
+        			<option value="${gt.goodstypeid!}">${gt.goodstypeid!},${gt.typename!},${gt.parenttypeid!}</option>
+        		<% 
+        		} %>
+        	</select>
+        	
+        	商品类别1：<select id="goodsattr1" name="goods.goodsattr1" class="span6 m-wrap" onchange="galevel1(this.value)"> 
+        		<option value="">请选择======</option>
+        		<% 
+        		for(gt in goodsType!){
+        			if (gt.level == 1) {
+        		%>
+        			<option value="${gt.goodstypeid!}">${gt.typename!}</option>
+        		<% }
+        		} %>
+        	</select><span class='font_r' style="color: red"> *</span><br>
+        	商品类别2：<select id="goodsattr2" name="goods.goodsattr2" class="span6 m-wrap" onchange="galevel2(this.value)"> 
+        		<option value="" selected="selected">请选择======</option>
+        		
+        	</select><span class='font_r' style="color: red"> *</span><br>
+        	商品类别3：<select id="goodsattr3" name="goods.goodsattr3" class="span6 m-wrap" > 
+        		<option value="" selected="selected">请选择======</option>
+        	</select><span class='font_r' style="color: red"> *</span><br>
+        	
+        	<div class="ForumInfoA font_str">商品描述：</div>
+      		<div class="WhiteBg" style="height: 300px;padding:10px;">
+      			<textarea name="ckeditor" id="ckeditor"></textarea>
+				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
+				<input type="text" name="goods.message" id="message" hidden="block" style="display:none"/>
+      		</div> 
+        	
+        <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >保存</button>
+        <span class='font_r' style="color: red">${msg!}</span>
+        <a href="goods/renderGoods" class="btn btn-large btn-primary" >返回</a>
+      </form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section> 
+<% } %> 

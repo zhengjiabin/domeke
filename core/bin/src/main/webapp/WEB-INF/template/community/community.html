@@ -1,0 +1,33 @@
+<% layout("/community/community_layout.html"){ %>
+	<div class="WelcomInfo">
+		<div class="clear"></div>
+		<div class="ForumInfo">
+			<div>
+				今日发帖数<br />
+				<span>${todayCount!}</span>
+			</div>
+			<div>
+				昨日发帖数<br />
+				<span>${yesCount!}</span>
+			</div>
+			<div>
+				总帖数<br />
+				<span>${count!}</span>
+			</div>
+			<div style="border: 0px;">
+				您发帖数<br />
+				<span>${userCount!}</span>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+	<article>
+		<% layout(
+			"/community/community_detail.html", 
+			{
+				"communityFatList":communityFatList,
+				"communitySonList":communitySonList
+			} 
+		){} %>
+	</article>
+<% } %>

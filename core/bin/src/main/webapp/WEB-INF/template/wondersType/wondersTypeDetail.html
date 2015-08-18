@@ -1,0 +1,28 @@
+<% for(wondersTypeFat in wondersTypeFatList){ %>
+	<div class="ArticleTitle">
+		<img src="http://www.dongmark.com/images/FIcon03.png">${wondersTypeFat.title}
+	</div>
+	<div class="ArticleContent">
+		<% 
+			for(wondersTypeSon in wondersTypeSonList){ 
+				if(wondersTypeSon.pid != wondersTypeFat.wonderstypeid){
+					continue;
+				}
+		%>
+		<div class="ForumSubL">
+			<div class="ForumPic">
+				<img src="http://www.dongmark.com/images/${wondersTypeSon.images!}">
+			</div>
+			<div class="ForumDtl">
+				<span class="ForumName">
+					<a href="javascript:void(0)" onclick="goToOrderForum(this,'${wondersTypeSon.wonderstypeid!}')">${wondersTypeSon.title!}</a>
+				</span>
+				<span class="ForumIntro">${wondersTypeSon.content!}<br />
+					<span>帖数：${wondersTypeSon.ofwondersnumber!}</span>
+				</span>
+			</div>
+		</div>
+		<% } %>
+		<div class="clear"></div>
+	</div>
+<% } %>

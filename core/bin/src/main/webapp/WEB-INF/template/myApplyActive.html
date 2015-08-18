@@ -1,0 +1,45 @@
+  <article class="MeArticle">
+        
+        <div class="clear"></div>
+        <div class="MemberIndex">
+          <div class="MeCaption">参与的活动：</div>
+          <div class="AlbumBlock">
+          <table border="0" cellspacing="0" cellpadding="0" class="Table_Album font_b">
+              <tr>
+                <th style="width: 60px; text-align: center;">排序</th>
+                <th>活动主题</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+                <th>活动地点</th>
+                <th>操作</th>
+              </tr>
+             <% for(act in actPage.list!){%>
+              <tr>
+                <td class="center">${actLP.index!}</td>
+                <td><a href="#">${act.subject!}</a></td>
+                <td><a href="#">${act.starttimefrom!}</a></td>
+                <td>${act.starttimeto!}</td>
+                <td>${act.place!}</td>
+                <td><a href="personal/deleteMyPlay?actid=${act.activityid!}&menuId=${menuId}" onclick="return confirm('确定删除？')">删除</a></td>
+            </tr>
+        <% } %>  
+            </table>
+			<div class="PageMore">
+             <% 
+              var menuId = menuId;
+              if(actPage != null){ 
+			layout(
+				"/common/page.html",
+				{
+				"page":actPage,
+				"pageAction":"./personal/forMyProductionPage?menuId="+menuId,
+				"fatherNode":"#personal"
+				}
+			){} 
+			}%>
+            </div>
+          </div>
+        </div>
+        
+    </article>
+    <div class="clear"></div>

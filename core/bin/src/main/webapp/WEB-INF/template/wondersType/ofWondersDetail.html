@@ -1,0 +1,77 @@
+<div class="ForumPath">
+	<a href="javascript:void(0)" onclick="goToHomeForum(this,'','${wondersTypeFat.wonderstypeid!}')">${wondersTypeFat.title!}</a>
+	/<a href="javascript:void(0)" onclick="goToHomeForum(this,'${wondersTypeSon.wonderstypeid!}','')">${wondersTypeSon.title!}</a>
+</div>
+<div class="ForumTheme">
+	<div class="ListPic">
+		<img src="${ofWonders.imgurl!}">
+	</div>
+	<div class="ListDtl">
+		<div class="ListName">
+			<a href="#">${ofWonders.subject!}</a>
+		</div>
+		<div class="font_9">
+			<span><a href="#">楼主：${ofWonders.username!}</a></span> 
+			<span>发表时间：${ofWonders.dateline!}</span>
+			<% if(ofWonders.top == 0 && 1 == session.user.userid!){ %> 
+				<span>
+					<a href="javascript:void(0)" onclick="setTop(this,'${session.user.userid}','${ofWonders.ofwondersid!}')">置顶</a>
+				</span>
+			 <% } %> 
+			 <% if(ofWonders.essence == 0 && 1 == session.user.userid!){ %> 
+			 	<span>
+			 		<a href="javascript:void(0)" onclick="setEssence(this,'${session.user.userid}','${ofWonders.ofwondersid!}')">精华</a>
+			 	</span> 
+			 <% } %>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+<div id="replyComments">
+	<div class="ForumBody">
+		<div class="FBodyTop bshare-custom icon-medium">
+			<a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis" onclick="javascript:bShare.more(event);return false;"></a>
+			<a title="分享到网易微博" class="bshare-neteasemb" onclick="javascript:bShare.share(event,'neteasemb',0);return false;"></a>
+			<a title="分享到QQ空间" class="bshare-qzone" onclick="javascript:bShare.share(event,'qzone',0);return false;"></a>
+			<a title="分享到新浪微博" class="bshare-sinaminiblog" onclick="javascript:bShare.share(event,'sinaminiblog',0);return false;"></a>
+			<a title="分享到微信" class="bshare-weixin" onclick="javascript:bShare.share(event,'weixin',0);return false;"></a>
+			<a title="分享到腾讯微博" class="bshare-qqmb" onclick="javascript:bShare.share(event,'qqmb',0);return false;"></a>
+		</div>
+		<div class="FBodyContent">${ofWonders.message!}</div>
+		<div class="FBodyBottom font_9">
+			<span class="FL">
+				<a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a>
+			</span>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ForumInfoA"></div>
+	<div id="commentHtml">
+		<% 
+			if(commentPage != null && ofWonders.ofwondersid != null){ 
+				layout(
+				"/comment/comment.html",
+				{
+					"commentPage":commentPage,
+					"targetId":ofWonders.ofWondersid,
+					"idtype":"50"
+				}
+				){}
+			}
+		%>
+	</div>
+	<div id="commentForm">
+		<% 
+   			if(ofWonders.ofwondersid != null){ 
+				layout(
+					"/common/ckeditor.html",
+					{
+						"targetId":ofWonders.ofwondersid,
+						"idtype":"50",
+						"render":"/comment/comment.html"
+					}
+				){}
+			}
+		%>
+	</div>
+</div>

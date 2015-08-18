@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>商品</title>
+<base href="${core}/" />
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+</head>
+<body>
+	<div>
+		<a href="goods/goGoodsMan?type=10">创意生活</a> 
+		<a href="goods/goGoodsMan?type=20">进口商品</a>
+	</div>
+	<div>
+		<a href="goods/goAddGoods">添加商品信息</a>
+	</div>
+	<div class="block-content collapse in" >
+		<% 
+		var index = 0 ;
+		var column = 3 ;
+		for(goods in goodslist){ 
+			index = index + 1 ;
+			if(index % column == 1){ 
+		%>
+			<div class="row-fluid padd-bottom">
+		<% 
+			}
+		%>
+			<div class="span3">
+				<div>
+					<a href="${goods.tamllurl!}" class="thumbnail"> 
+						<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${goods.pic!}" title="点击商品下单"/>
+					</a>
+				</div>
+				<div>
+					<a href="goods/getGoodsById/?id=${goods.goodsid!}">修改</a> 
+					<a href="goods/delete/?id=${goods.goodsid!}" onclick="return confirm('确定删除？')">删除</a>
+				</div>
+			</div>
+		<% 
+			if(index % column == 0){ 
+		%>
+			</div>
+		<% 
+			} 
+		} 
+		%>
+	</div>
+</body>
+</html>

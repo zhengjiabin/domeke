@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+ <% include("/common/head.html"){} %>
+ <script language='javascript' type='text/javascript'>
+ function changImg(){
+	 window.location="user/captcha";
+ }
+ function openwin() { 
+	  window.open ("agreement.html", "newwindow", "height=518, width=650, toolbar =0, menubar=no, scrollbars=no, resizable=no, location=no, status=no")
+	} 
+ function openPolicy() { 
+	  window.open ("warning.html", "newwindow", "height=518, width=650, toolbar =0, menubar=no, scrollbars=no, resizable=no, location=no, status=no")
+	}
+ </script>
+</head>
+
+<body style="margin: 0px;background: #fff;background: url(http://www.dongmark.com/images/bg_Me.png) left bottom no-repeat;">
+<% include("/common/user_header.html"){} %>
+<div class="LoginContent">
+	<div class="RegTop">
+    	<div class="RegTitle">注册账号</div>
+        <div class="RegInfo">动漫方舟账号能使用HIGH豆论坛等其他服务。如果您已拥有账号，则可以<span class="font_r"><a href="user/goLogin">在此登录</a></span></div>
+    </div>
+    <div class="RegSwitch" style="height: 30px">
+        <span><h3>动漫方舟用户注册</h3></span>
+    </div>
+    <form action="user/regist" id="user_regist" class="form-horizontal" method="post">
+    <table border="0" cellspacing="0" cellpadding="0" class="Table_reg">
+    <tr>
+        <th>用户名：</th>
+        <td><input name="user.username" value="${user.username!}" type="text" class="InputUid">
+        <div>
+	        <a style="color:#F00">${usernameMsg!}</a>
+	    </div>
+        </td>
+      </tr>
+    <tr>
+        <th>昵称：</th>
+        <td><input name="user.nickname" value="${user.nickname!}" type="text" class="InputUid">
+        <div>
+	        <a style="color:#F00">${nicknameMsg!}</a>
+	        <a style="color:#F00">${nicknameMsg2!}</a>
+	    </div>
+        </td>
+      </tr>
+      <tr>
+        <th>邮箱：</th>
+        <td><input name="user.email" value="${user.email!}" type="text" class="InputUid">
+        <div>
+	        <a style="color:#F00">${emailMsg!}</a>
+	    </div>
+        </td>
+      </tr>
+      
+      <tr>
+        <th>设置密码：</th>
+        <td><input name="user.password" value="${user.password!}" type="password" class="InputUid">密码长度8~16位，数字、字母、字符至少包含2种。
+        <div>
+	        <a style="color:#F00">${passwordMsg!}</a>
+	    </div>
+        </td>
+      </tr>
+      <tr>
+        <th>确认密码：</th>
+        <td><input name="repassword" value="${repassword!}" type="password" class="InputUid">
+        <div>
+	       <a style="color:#F00">${repasswordMsg!}</a>
+	    </div>
+        </td>
+      </tr>
+      <tr>
+        <th>验证码：</th>
+        <td><input type="text" name="captcha" value=""/>&nbsp;<img src="user/captcha" onclick="refresh(this)">
+         <div>
+	       <a style="color:#F00">${verification!}</a>
+	    </div>
+        </td>
+      </tr>
+      <tr>
+       <th>&nbsp;</th>
+        <td><input  type="checkbox" style="border:0px" name="check" value="01">
+        <font> <a href="javascript:void(0)" onclick="openwin()">我已阅读并同意《动漫方舟网注册协议》</a> </font>
+        <div>
+	       <a style="color:#F00">${xieyi!}</a>
+	    </div>
+        </td>
+      </tr>
+      <tr>
+        <th>&nbsp;</th>
+        <td><input  type="submit" class="BtReg" value="立即注册">
+        
+        </td>
+      </tr>
+      <tr>
+        <th>&nbsp;</th>
+        <td>点击“立即注册”，即表示您同意并愿意遵守动漫方舟<span class="font_r"><a href="javascript:void(0)" onclick="openwin()">用户协议</a></span>和<span class="font_r"><a href="javascript:void(0)" onclick="openPolicy()">版权声明</a></span></td>
+      </tr>
+    </table>
+  </form>
+    <div class="clear"></div>
+</div>
+<% include("/common/user_footer.html"){} %>
+</body>
+</html>

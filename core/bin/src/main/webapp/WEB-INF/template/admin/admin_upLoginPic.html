@@ -1,0 +1,51 @@
+<% layout("/admin/admin_layout.html"){ %>
+<section> 
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	media="screen">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet"
+	media="screen">
+<link href="assets/styles.css" rel="stylesheet" media="screen">
+<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+<script src="js/menu.js"></script>
+<div class="span9" id="content">
+	<div class="row-fluid">
+		<div class="block">
+			<div class="navbar navbar-inner block-header">
+				<div class="muted pull-left">编辑登录界面图片</div>
+			</div>
+			<div class="block-content collapse in">
+				<div class="span12">
+      <form  id="uploadForm" class="form-signin" action="loginpic/updatePic" method="post" align="center">
+      		<input name="loginPic.picid" value="${loginPic.picid!}" type="text" class="span6 m-wrap" style="display:none"/><br>
+      		登录图片：<img data-src="holder.js/260x180" alt="260x180" style="width: 260px; height: 180px;" src="${loginPic.picurl!}"/><br>
+      		<input name="loginPic.picurl" value="${loginPic.picurl!}" type="text" class="span6 m-wrap" style="display:none"/><br>
+        	图片名称：<input id="picname" name="loginPic.picname" value="${loginPic.picname!}" type="text" class="span6 m-wrap" />
+        	<span class='font_r' style="color: red"> *</span><br>
+        	
+        	图片状态：
+        	<%
+        	var status =parseInt(loginPic.status);
+        	if (status == 70) {
+        	%>
+        		<input type="radio" name="loginPic.status" value="10"/>停用
+				<input type="radio" checked="checked" name="loginPic.status" value="70"/>启用<br> 
+        	<%
+        	} else {
+        	%>
+        		<input type="radio" checked="checked" name="loginPic.status" value="10"/>停用
+				<input type="radio" name="loginPic.status" value="70"/>启用<br> 
+        	<%
+        	}
+        	%>
+        	
+        <button class="btn btn-large btn-primary" onclick="return checknull(this)" type="submit" >编辑</button>
+        <span class='font_r' style="color: red">${msg!}</span>
+        <a href="loginpic/renderLoginPic" class="btn btn-large btn-primary" >返回</a>
+      </form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</section> 
+<% } %> 

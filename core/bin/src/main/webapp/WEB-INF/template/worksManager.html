@@ -1,0 +1,50 @@
+<article class="MeArticle">
+<script src="js/jquery.form.js"></script>
+<script src="js/jqthumb.min.js"></script>
+		<script type="text/javascript">
+				$(document).ready(function(){
+					$.ajax({
+						type:'post',
+						async:false,
+						data:'type=1&workstype=&pageNumber=1',
+						url :'works/showPage',
+						success:function(data){
+							$('#worksManager').html(data);
+						}
+					});
+				});
+				
+				function showPage(params){
+					var workstype = '';
+					if(params.flag == null){
+						params.flag = params.type;
+					}
+					if($('#workstypesel').length > 0){
+						workstype = $('#workstypesel').val();
+					}
+					var data = "workstype="+workstype;
+					$.each(params,function(key,value){
+						data = data + "&" + key + "=" + value;
+					});
+					$('#worksManager_menu li').removeClass("TabLi_active").addClass("TabLi");
+					$('#worksManager_menu li').eq(params.type - 1).removeClass("TabLi").addClass("TabLi_active");
+					$.ajax({
+						type:'post',
+						async:false,
+						data:data,
+						url :'works/showPage',
+						success:function(data){
+							$('#worksManager').html(data);
+						}
+					});
+				}
+		</script>
+        <ul class="MeTab" id="worksManager_menu">
+            <!-- <li class="TabLi_active"><a href="javascript:showPage({'type':0,'pageNumber':1});">视  频</a></li> -->
+            <li class="TabLi_active"><a href="javascript:showPage({'flag':1,'type':1,'pageNumber':1});">专  辑</a></li>
+            <li class="TabLi"><a href="javascript:showPage({'flag':2,'type':2,'pageNumber':1});">漫  画</a></li>
+        </ul>
+        <div class="clear"></div>
+        <div id="worksManager" class="MemberIndex">
+        </div>
+    </article>

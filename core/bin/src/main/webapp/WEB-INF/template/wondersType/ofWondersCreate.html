@@ -1,0 +1,72 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('form :input[required=required]').each(function(){
+	        var $required = $("<span class='font_r' style=\"color: red\"> *</span>"); //创建元素
+	        $(this).parent().append($required); //然后将它追加到文档中
+	    });
+	});
+	
+	 //文本框失去焦点后
+    $('form :input').blur(function(){
+       	var $parent = $(this).parent();
+        $parent.find(".font_r").remove();
+      	//标题验证
+        if($(this).is('#subject')){
+        	if( this.value=="" ){
+        	    var errorMsg = '标题不能为空';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if(this.value.length > 11){
+        		var errorMsg = '标题长度必须小于11个字';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+      	//主题图片验证
+        if($(this).is('#themeimg')){
+        	if( this.value=="" ){
+        	    var errorMsg = '主题图片不能为空';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else if(!this.value.match( /.jpg|.gif|.png|.bmp/i )){
+        		var errorMsg = '图片格式无效';
+        	    $parent.append('<span class="font_r onError" style="color: red" >'+errorMsg+'</span>');
+        	}else{
+        	    var okMsg = '输入正确';
+             	$parent.append('<span class="font_r onSuccess" style="color: red" >'+okMsg+'</span>');
+       	   	}
+        }
+    });
+</script>
+<article>
+	<div class="ForumReply">
+		<form action="#" method="post" id="createHtml" enctype="multipart/form-data" onsubmit="return onSubmitCreate(this,'${wondersTypeId!}');">
+		
+      		<table border="0" cellspacing="0" cellpadding="0" class="Table_Forum">
+              	<tr>
+               	 	<th>标题：</th>
+                	<td>
+                		<input id="subject" name="ofWonders.subject" type="text" class="input_Forum" value="${ofWonders.subject!}" required="required">
+                	</td>
+              	</tr>
+              	<tr>
+               	 	<th>主题图片：</th>
+                	<td>
+                		<div id="preview" class="imgCss"></div>
+                		<input id="themeimg" name="ofWonders.themeimg" type="file" class="input_Forum" value="${ofWonders.themeimg!}" onchange="onUploadImgChange(this)" required="required">
+                	</td>
+              	</tr>
+            </table>
+            <div class="ForumInfoA font_str">活动详细内容：</div>
+      		<div class="WhiteBg" style="height: 300px;padding: 30px;">
+      			<textarea name="ckeditor" id="ckeditor"></textarea>
+				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
+				<input type="text" name="ofWonders.message" id="message" value="${ofWonders.message!}" hidden="block" />
+      		</div> 
+      		<div class="ForumButton font_w">
+      			<a href="javascript:void(0)" class="Fsubmit" onclick="submitOfWonders(this)">确定发布</a>
+        		<a href="javascript:void(0)" class="Freset" onclick="skipEntry(this,'${wondersTypeId!}')">取消发布</a>
+     		</div>
+		</form>
+	</div>
+</article>

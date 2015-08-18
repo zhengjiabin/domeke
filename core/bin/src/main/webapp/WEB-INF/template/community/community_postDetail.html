@@ -1,0 +1,69 @@
+<div class="ForumPath">
+	<a href="javascript:void(0)" onclick="goToHomeForum('${communityFat.actionkey!}')">${communityFat.title}</a>
+	/<a href="javascript:void(0)" onclick="goToOrderForum(this,${communitySon.communityid!})">${communitySon.title}</a>
+</div>
+<div class="ForumTheme">
+	<div class="ListPic">
+		<img src="${post.imgurl!}">
+	</div>
+	<div class="ListDtl">
+		<div class="ListName">
+			<a href="#">${post.subject!}</a>
+		</div>
+		<div class="font_9">
+			<span><a href="#">楼主：${post.username!}</a></span> 
+			<span>发表时间：${post.dateline!}</span>
+			<% if(post.top == 0 && "1" == session.user.userid){ %> 
+				<span>
+					<a href="javascript:void(0)" onclick="setTop(this,'${session.user.userid}','${post.postid!}')">置顶</a>
+				</span>
+			 <% } %> 
+			 <% if(post.essence == 0 && "1" == session.user.userid){ %> 
+			 	<span>
+			 		<a href="javascript:void(0)" onclick="setEssence(this,'${session.user.userid}','${post.postid!}')">精华</a>
+			 	</span> 
+			 <% } %>
+		</div>
+	</div>
+</div>
+<div class="clear"></div>
+<div id="replyComments">
+	<div class="ForumBody">
+		<div class="FBodyContent">${post.message!}</div>
+		<div class="FBodyBottom font_9">
+			<span class="FL">
+				<a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a>
+			</span>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="ForumInfoA"></div>
+	<div id="commentHtml">
+		<% 
+			if(commentPage != null && post.postid != null){ 
+				layout(
+				"/comment/comment.html",
+				{
+					"targetId":post.postid,
+					"idtype":"10"
+				}
+				){}
+			}
+		%>
+	</div>
+	<div id="commentForm">
+		<% 
+   			if(post.postid != null){ 
+				layout(
+					"/common/ckeditor.html",
+					{
+						"targetId":post.postid,
+						"idtype":"10",
+						"render":"/comment/comment.html"
+					}
+				){}
+			}
+		%>
+	</div>
+</div>
+

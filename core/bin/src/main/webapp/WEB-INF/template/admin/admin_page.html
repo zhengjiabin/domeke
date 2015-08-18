@@ -1,0 +1,63 @@
+<article>
+					<table cellpadding="0" cellspacing="0" border="0"
+						class="table table-striped table-bordered" id="example2">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>菜单名称</th>
+								<th>actionkey</th>
+								<th>菜单级别</th>
+								<th>排序</th>
+								<th>父级菜单</th>
+								<th>菜单模块</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+								<% 
+									var index = 0 ;
+									for(m in menuList.list){
+									index = index + 1 ;				
+								%>
+							<tr class="odd gradeX">
+									<td>${index!}</td>
+									<td>${m.menuname!}</td>
+									<td>${m.actionkey!}</td>
+									<td>${m.top!}</td>
+									<td>${m.sortnum!}</td>
+									<td>      		
+        											<%
+        											var menuid = m.parentmenuid;
+        											var count = 0;
+        											for(menu in menuList.list){
+        											if (menu.menuid == menuid){
+        											%>
+        												<label>${menu.menuname!}</label>
+        											<% } 
+        											 } %>
+									</td>
+									<td>
+									<% if (m.menutype == "1"){ %>
+										<label>首页</label>
+									<% } else if (m.menutype == "2"){ %>
+										<label>个人中心</label>
+									<% } else if (m.menutype == "3"){ %>
+										<label>社区</label>
+									<% } else if (m.menutype == "4"){ %>
+										<label>商城</label>
+									<% } %>
+									</td>
+									<td width="100">
+									<a href="menu/selectMenuById/${m.menuid}"><button class="btn btn-warning btn-mini" lable="修改">修改</button></a>
+									<a href="menu/deleteMenu/${m.menuid}" onclick="return confirm('确定删除？')"><button class="btn btn-danger btn-mini" lable="删除">刪除</button></a>
+									</td>
+							</tr>
+								<% } %>		
+						</tbody>
+					</table>
+			<% 
+			var menuType = menuType;
+			if(menuList != null){ layout("/common/page.html",
+			{"page":menuList,"pageAction":"./menu/find?menuType="+menuType,"fatherNode":"#page"}
+			){} }%>
+</article>
