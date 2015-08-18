@@ -1,17 +1,43 @@
-<aside>
-		<div class="AsideBTitle font_w"><a href="javascript:void(0);" onclick="skipCommunity(this)">发布主题</a></div>
-        <div class="AsideContent" id="asideHtml">
-        	<div id="showMoreHtml">
-        		<% layout(
-        			"/community/community_showMore.html",
-        			{
-        				"communitySonList":communitySonList,
-        				"communitySize":9
-        			}
-        		){} %>
-        	</div>
-        <div class="SeeMore font_r" id="showMore"><a href="javascript:void(0)" onclick="showMoreCommunity(this)">查看更多论坛版块&gt;&gt;</a></div>
-	</div>
-        <div class="AsideBTitle font_w"><a href="javascript:void(0)" onclick="goToVentWall()">签到 ${ventWallCount!}人</a></div>
-  </aside>
-  <div class="clear">&nbsp;</div>
+<div class="AsideBTitle font_w">
+	<a href="javascript:void(0);" onclick="skipPublishTheme('${communityForum.communityid!}')">发布主题</a>
+</div>
+<div class="AsideContent">
+	<% 
+		if(!isEmpty(forumList)){
+			var showSize = 8;
+			if(!isEmpty(limitSize)){
+				showSize = limitSize;
+			}
+			for(forum in forumList){
+		      	if(forumLP.index == showSize + 1){
+		        	break;
+		      	}
+		      	if(forumLP.odd){
+		      		if(!isEmpty(communityForum.communityid) && forum.communityid == communityForum.communityid) {
+	%>
+		<a href="javascript:void(0)" class="AL background_gray" onclick="skipForum(this,'${forum.communityid!}')">${forum.title!}</a>
+	<% 				} else { %>
+		<a href="javascript:void(0)" class="AL" onclick="skipForum(this,'${forum.communityid!}')">${forum.title!}</a>
+	<% 			
+					}
+				} else { 
+					if(!isEmpty(communityForum.communityid) && forum.communityid == communityForum.communityid) {
+	%>
+		<a href="javascript:void(0)" class="AR background_gray" onclick="skipForum(this,'${forum.communityid!}')">${forum.title!}</a>
+	<% 				} else { %>
+		<a href="javascript:void(0)" class="AR" onclick="skipForum(this,'${forum.communityid!}')">${forum.title!}</a>
+	<% 				
+					}
+				}
+			}
+		}
+	%>
+	<% if(isEmpty(limitSize)) { %>
+		<div class="SeeMore font_r" id="showMore">
+			<a href="javascript:void(0)" onclick="showMoreForum(this)">查看更多论坛版块&gt;&gt;</a>
+		</div>
+	<% } %>
+</div>
+<div class="AsideBTitle font_w">
+	<a href="javascript:void(0)" onclick="goToVentWall()">签到 ${ventWallCount!0}人</a>
+</div>

@@ -1,0 +1,53 @@
+<% layout("/community/community_layout.html"){ %>
+	<script type="text/javascript">
+		$(document).ready(function() {   
+			$("#forumClassify").trigger('onchange');
+			$("#forum").trigger('onchange');
+		});
+	</script>
+	<article id="publishForum">
+		<div class="ForumReply">
+			<table id="table" class="Table_Forum">
+				<tr>
+					<th>版块分类：</th>
+					<td>
+						<select id="forumClassify" class="input_Forum" onchange="selectForumClassify(this)" >
+							<option value="-1">
+							<% 
+								for( forumClassify in forumClassifyList) { 
+									if(!isEmpty(communityForum) && forumClassify.communityid == communityForum.pid) {
+							%>
+								<option value="${forumClassify.communityid!}" selected="selected">${forumClassify.title!}
+							<%		} else { %>
+								<option value="${forumClassify.communityid!}">${forumClassify.title!}
+							<% 		
+									}
+								}
+							 %>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>主题类型：</th>
+					<td>
+						<select id="forum" class="input_Forum" onchange="showTheme(this)">
+							<option value="-1" id="-1">
+							<% 
+								for( forum in forumList!) { 
+									if(!isEmpty(communityForum) && forum.communityid == communityForum.communityid) {
+							%>
+								<option value="${forum.communityid!}" id="${forum.pid!}" selected="selected">${forum.title!}
+							<%		} else { %>
+								<option value="${forum.communityid!}" id="${forum.pid!}">${forum.title!}
+							<% 		
+									}
+								} 
+							%>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div id="theme"></div>
+	</article>
+<% } %>

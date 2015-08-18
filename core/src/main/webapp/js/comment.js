@@ -3,24 +3,29 @@ function showCkeditor(node) {
 	CKEDITOR.instances.ckeditor.focus();
 }
 
-//提交回复信息
-function publishCkeditor(node,targetId,idtype,render) {
+//点击编辑器提交按钮，发表信息-异步刷新
+function publishCkeditor(node,targetid,idtype,render,pageSize) {
 	var content = CKEDITOR.instances.ckeditor.getData();
-	var replyComments = $(node).closest("#replyComments");
-	var commentContents = replyComments.find("#commentHtml").first();
+	var fatherNode = $(node).closest("#replyComments");
+	var targetNode = fatherNode.find("#commentHtml").first();
 	
 	$.post(
-		"./comment/reply", 
+		"./comment/publish", 
 		{
-			targetId : targetId,
+			targetid : targetid,
 			idtype : idtype,
 			render : render,
+			pageSize : pageSize,
 			message : content
 		}, 
 		function(data) {
-			CKEDITOR.instances.ckeditor.setData("");
-			commentContents.html(data);
-		});
+			if(data == false){
+				alert("发表失败！");
+			}else{
+				targetNode.html(data);
+			}
+		}
+	);
 }
 
 //跳转显示回复框信息
@@ -92,7 +97,7 @@ function insertCkeditorFace(img) {
 }
 
 //发表回复信息
-function publish(node,targetId,idtype,pId,toUserId,render) {
+function publish(node,targetid,idtype,pid,touserid,render) {
 	var showEditor = $(node).closest("#showEditor");
 	var editor = showEditor.find("#editor").first();
 	var message = showEditor.find("#message").first();
@@ -100,41 +105,47 @@ function publish(node,targetId,idtype,pId,toUserId,render) {
 	message.html(val);
 	
 	var fartherNode = $(node).closest("#commentHtml");
-	if(pId != null && pId !=""){
+	if(pid != null && pid !=""){
 		fartherNode = $(node).closest("#commentContents");
 		fartherNode = fartherNode.find("#commentHtml").first();
 	}
 	
 	$.post("./comment/reply", {
-		targetId : targetId,
+		targetid : targetid,
 		idtype : idtype,
-		pId : pId,
-		toUserId : toUserId,
+		pid : pid,
+		touserid : touserid,
 		message : message.text(),
 		render : render
 	}, function(data) {
-		var showEditor = $(node).closest("#showEditor");
-		showEditor.hide();
-		var editor = showEditor.find("#editor").first();
-		editor.html("");
-		var message = showEditor.find("#message").first();
-		message.html("");
-		
-		fartherNode.html(data);
+		if(data == false){
+			alert('发表失败！');
+		}else{
+			var showEditor = $(node).closest("#showEditor");
+			showEditor.hide();
+			var editor = showEditor.find("#editor").first();
+			editor.html("");
+			var message = showEditor.find("#message").first();
+			message.html("");
+			
+			fartherNode.html(data);
+		}
 	});
 }
 
 //添加支持
-function addSupport(node,commentId,recordType){
+function addSupport(node,commentid,recordtype){
 	$.post("./comment/addRecord", {
-		commentId : commentId,
-		recordType : recordType
+		commentid : commentid,
+		recordtype : recordtype
 	}, function(data) {
 		if(data == 1){
 			alert("已支持，禁止重复操作！");
 		}else if(data.number  != null){
 			var number = data.number;
-			$(node).text("支持(+" + number + ")");
+			$(node).attr("style","color:red");
+			$(node).attr("onclick","alert('已支持，禁止重复操作！')");
+			$(node).text("支持 (+" + number + ")");
 		}else{
 			$(node).html(data);
 		}
@@ -142,16 +153,18 @@ function addSupport(node,commentId,recordType){
 }
 
 //添加反对
-function addOppose(node,commentId,recordType){
+function addOppose(node,commentid,recordtype){
 	$.post("./comment/addRecord", {
-		commentId : commentId,
-		recordType : recordType
+		commentid : commentid,
+		recordtype : recordtype
 	}, function(data) {
 		if(data == 1){
 			alert("已反对，禁止重复操作！");
 		}else if(data.number  != null){
 			var number = data.number;
-			$(node).html("反对(+" + number + ")");
+			$(node).attr("style","color:red");
+			$(node).attr("onclick","alert('已反对，禁止重复操作！')");
+			$(node).html("反对 (+" + number + ")");
 		}else{
 			$(node).html(data);
 		}
@@ -159,15 +172,17 @@ function addOppose(node,commentId,recordType){
 }
 
 //添加有用
-function addUseful(node,commentId,recordType){
+function addUseful(node,commentid,recordtype){
 	$.post("./comment/addRecord", {
-		commentId : commentId,
-		recordType : recordType
+		commentid : commentid,
+		recordtype : recordtype
 	}, function(data) {
 		if(data == 1){
 			alert("已点击，禁止重复操作！");
 		}else if(data.number != null){
 			var number = data.number;
+			$(node).attr("style","color:red");
+			$(node).attr("onclick","alert('已点击，禁止重复操作！')");
 			$(node).html("有用(+" + number + ")");
 		}else{
 			$(node).html(data);

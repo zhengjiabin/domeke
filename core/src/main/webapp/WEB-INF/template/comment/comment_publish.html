@@ -1,0 +1,122 @@
+<% for (publish in publishPage.list){ %>
+<div class="ForumReply" id="commentContents">
+	<div class="ReplyHead">
+		<img src="${publish.imgurl!}">
+	</div>
+    <div class="ReplyBody">
+	    <div class="ReplyTop">
+			<span class="ReplyID font_ye"><a href="#">${publish.username!}</a></span>
+	        <span>${publish.dateline!}</span>
+	    </div>
+	   	<div class="ReplyInfo">
+	   		${publish.message!}
+	       	<div id="commentHtml" class="ForumReplyTo">
+				<%
+					if(!isEmpty(replyList)){
+						layout(
+							"/comment/comment_reply.html",
+							{
+								"publish":publish
+							}
+						){} 
+					}
+				%>
+			</div>
+		</div>
+	         
+		<div id="commentContent">
+			<div class="ReplyBottom font_9">
+		    	<span class="FL">
+					<a href="javascript:void(0);" onclick="showPublishHtml(this)">回复</a>
+					<% 
+						if(!isEmpty(publishUserRecord)) {
+							var groupKey = publish.commentid + ",10";
+							var record = @publishUserRecord.get(groupKey);
+							if(!isEmpty(record)) {
+					%>
+						<a href="javascript:void(0);" style="color:red;" onclick="alert('已支持，禁止重复操作！')">
+					<%		} else { %>
+						<a href="javascript:void(0);" onclick="addSupport(this,'${publish.commentid!}','10')">
+					<%	
+							}
+						} else {
+					%>
+						<a href="javascript:void(0);" onclick="addSupport(this,'${publish.commentid!}','10')">
+					<%	} %>	
+						支持
+					<% 
+						if(!isEmpty(publishRecord)){
+							var groupKey = publish.commentid + ",10";
+							var record = @publishRecord.get(groupKey);
+							if(!isEmpty(record) && record.number != 0){
+					%>
+								(+${record.number!})
+					<%
+							}
+						}
+					%>
+						</a>					
+					<% 
+						if(!isEmpty(publishUserRecord)) {
+							var groupKey = publish.commentid + ",20";
+							var record = @publishUserRecord.get(groupKey);
+							if(!isEmpty(record)) {
+					%>
+						<a href="javascript:void(0);" style="color:red;" onclick="alert('已反对，禁止重复操作！')">
+					<%		} else { %>
+						<a href="javascript:void(0);" onclick="addOppose(this,'${publish.commentid!}','20')">
+					<%	
+							}
+						} else {
+					%>
+						<a href="javascript:void(0);" onclick="addOppose(this,'${publish.commentid!}','20')">
+					<%	} %>
+						反对
+					<% 
+						if(!isEmpty(publishRecord)){
+							var groupKey = publish.commentid + ",20";
+							var record = @publishRecord.get(groupKey);
+							if(!isEmpty(record) && record.number != 0){
+					%>
+								(+${record.number!})
+					<%
+							}
+						}
+					%>
+						</a>
+				</span>
+				<span class="FR">
+					<a href="#">举报</a>
+				</span>
+			</div>
+			<div id="publishHtml">
+		    	<%
+					layout(
+						"/common/publishFace.html",
+						{
+							"pid":publish.commentid,
+							"render":"/comment/comment_reply.html"
+						}
+					){}
+				%>
+			</div>
+		</div>
+	</div>
+    <div class="clear"></div>
+</div> 
+<% } %>
+<div class="PageMore White">
+	<% if(!isEmpty(publishPage)){
+		var pageAction = "./comment?targetid=" + targetid + "&idtype=" + idtype;
+		if(!isEmpty(action)){
+			pageAction = action;
+		} 
+		layout(
+			"/common/page.html",
+			{
+				"page":publishPage,
+				"pageAction":pageAction
+			}
+		){} 
+	}%>
+</div> 

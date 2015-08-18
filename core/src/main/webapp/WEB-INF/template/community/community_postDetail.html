@@ -1,69 +1,88 @@
-<div class="ForumPath">
-	<a href="javascript:void(0)" onclick="goToHomeForum('${communityFat.actionkey!}')">${communityFat.title}</a>
-	/<a href="javascript:void(0)" onclick="goToOrderForum(this,${communitySon.communityid!})">${communitySon.title}</a>
-</div>
-<div class="ForumTheme">
-	<div class="ListPic">
-		<img src="${post.imgurl!}">
-	</div>
-	<div class="ListDtl">
-		<div class="ListName">
-			<a href="#">${post.subject!}</a>
+<% layout("/community/community_layout.html"){ %>
+	<article>
+		<div class="ForumPath">
+			<a href="javascript:void(0)" onclick="skipForumClassify(this,'${communityForumClassify.communityid!}')">${communityForumClassify.title}</a>
+			/<a href="javascript:void(0)" onclick="skipForum(this,'${communityForum.communityid!}')">${communityForum.title}</a>
 		</div>
-		<div class="font_9">
-			<span><a href="#">楼主：${post.username!}</a></span> 
-			<span>发表时间：${post.dateline!}</span>
-			<% if(post.top == 0 && "1" == session.user.userid){ %> 
-				<span>
-					<a href="javascript:void(0)" onclick="setTop(this,'${session.user.userid}','${post.postid!}')">置顶</a>
-				</span>
-			 <% } %> 
-			 <% if(post.essence == 0 && "1" == session.user.userid){ %> 
-			 	<span>
-			 		<a href="javascript:void(0)" onclick="setEssence(this,'${session.user.userid}','${post.postid!}')">精华</a>
-			 	</span> 
-			 <% } %>
-		</div>
-	</div>
-</div>
-<div class="clear"></div>
-<div id="replyComments">
-	<div class="ForumBody">
-		<div class="FBodyContent">${post.message!}</div>
-		<div class="FBodyBottom font_9">
-			<span class="FL">
-				<a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a>
-			</span>
+		<div class="ForumTheme">
+			<div class="ListPic">
+				<img src="${post.imgurl!}">
+			</div>
+			<div class="ListDtl">
+				<div class="ListName">
+	        		${post.subject!}
+	        		<% if(post.essence == 1) { %>
+		    			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/jing.gif" alt="精品 ">
+		    		<% } %>
+		    		<% if(post.top == 1) { %>
+		    			<img src="http://tb1.bdstatic.com/tb/static-frs/img/icon_bright/zding.gif?v=1" alt="置顶">
+		    		<% } %>
+		        </div>
+				<div class="font_9">
+					<span><a href="#">楼主：${post.username!}</a></span> 
+					<span>发表时间：${post.dateline!}</span>
+		            <span>
+	                	<% 
+	                		if(!isEmpty(session.user.userid) && 1 == session.user.userid) { 
+	                			if(post.top == 0) {	
+	                	%>
+	                		<a href="javascript:void(0)" onclick="setTop(this,'${post.postid!}','${post.communityid!}')">置顶</a>
+	                	<% 		
+	                			}
+	                			if(post.essence == 0) { 
+	                	%>
+	                		<a href="javascript:void(0)" onclick="setEssence(this,'${post.postid!}','${post.communityid!}')">精华</a>
+	                	<% 		
+	                			}
+	                		} 
+	                	%>
+		            </span>	
+				</div>
+			</div>
 		</div>
 		<div class="clear"></div>
-	</div>
-	<div class="ForumInfoA"></div>
-	<div id="commentHtml">
-		<% 
-			if(commentPage != null && post.postid != null){ 
-				layout(
-				"/comment/comment.html",
-				{
-					"targetId":post.postid,
-					"idtype":"10"
-				}
-				){}
-			}
-		%>
-	</div>
-	<div id="commentForm">
-		<% 
-   			if(post.postid != null){ 
-				layout(
-					"/common/ckeditor.html",
-					{
-						"targetId":post.postid,
-						"idtype":"10",
-						"render":"/comment/comment.html"
+		<div id="replyComments">
+			<div class="ForumBody">
+				<div class="FBodyContent">${post.message!}</div>
+				<div class="FBodyBottom font_9">
+					<span class="FL">
+						<a href="javascript:void(0);" onclick="showCkeditor(this)" id="reply">回复</a>
+					</span>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="ForumInfoA"></div>
+			<div id="commentHtml">
+				<% 
+					if(!isEmpty(publishPage)){ 
+						layout(
+							"/comment/comment_publish.html",
+							{
+								"targetid":post.postid,
+								"idtype":"10",
+								"action":"./community/skipTheme?communityid=" + post.communityid + "&targetid=" + post.postid
+							}
+						){}
 					}
-				){}
-			}
-		%>
-	</div>
-</div>
-
+				%>
+			</div>
+			<div id="commentForm">
+				<%
+					var size = 10;
+					if(!isEmpty(publishPage)){
+						size = publishPage.pageSize;
+					}
+					layout(
+						"/common/ckeditor.html",
+						{
+							"targetid":post.postid,
+							"idtype":"10",
+							"pageSize":size,
+							"render":"/comment/comment_publish.html"
+						}
+					){}
+				%>
+			</div>
+		</div>
+	</article>
+<% } %>

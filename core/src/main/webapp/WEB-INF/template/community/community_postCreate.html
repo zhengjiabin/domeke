@@ -1,4 +1,3 @@
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('form :input[required=required]').each(function(){
@@ -26,30 +25,27 @@
         }
     });
 </script>
-<article>
-	<div class="ForumReply">
-		<form action="#" method="post" id="createHtml">
-		
-      		<table border="0" cellspacing="0" cellpadding="0" class="Table_Forum">
-      			<tr hidden="block">
-      				<th>社区ID：</th>
-      				<td><input name="post.communityid" type="text" class="input_Forum" value="${communityId!}"></td>
-      			</tr>
-              	<tr>
-               	 	<th>标题：</th>
-                	<td><input id="subject" name="post.subject" type="text" class="input_Forum" value="${post.subject!}" required="required"></td>
-              	</tr>
-            </table>
-            <div class="ForumInfoA font_str">活动详细内容：</div>
-      		<div class="WhiteBg" style="height: 300px;padding: 30px;">
-      			<textarea name="ckeditor" id="ckeditor"></textarea>
-				<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
-				<input type="text" name="post.message" id="message" value="${post.message!}" hidden="block" />
-      		</div> 
-      		<div class="ForumButton font_w">
-      			<a href="javascript:void(0)" class="Fsubmit" onclick="submitPost(this,'${communityId!}')">确定发布</a>
-        		<a href="javascript:void(0)" class="Freset" onclick="goToOrderForum(this,'${communityId!}')">取消发布</a>
-     		</div>
-		</form>
-	</div>
-</article>
+<div class="ForumReply">
+	<form action="#" method="post" id="createHtml" onsubmit="return onSubmitTheme(this,'${communityForum.communityid!}')">
+		<table class="Table_Forum">
+			<tr hidden="block">
+				<th>社区ID：</th>
+      			<td><input name="post.communityid" type="text" class="input_Forum" value="${communityForum.communityid!}"></td>
+      		</tr>
+            <tr>
+            	<th>标题：</th>
+                <td><input id="subject" name="post.subject" type="text" class="input_Forum" value="${post.subject!}" required="required"></td>
+            </tr>
+		</table>
+        <div class="ForumInfoA font_str">活动详细内容：</div>
+      	<div class="WhiteBg" style="height: 300px;padding: 30px;">
+      		<textarea name="ckeditor" id="ckeditor"></textarea>
+			<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
+			<input type="text" name="post.message" id="message" value="${post.message!}" hidden="block" />
+      	</div> 
+      	<div class="ForumButton font_w">
+      		<a id="submitCreate" href="javascript:void(0)" class="Fsubmit" onclick="submitTheme(this)">确定发布</a>
+        	<a href="javascript:void(0)" class="Freset" onclick="cancelSubmit(this)">取消发布</a>
+     	</div>
+	</form>
+</div>

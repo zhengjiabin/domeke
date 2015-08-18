@@ -8,14 +8,162 @@ $(document).ready(function() {
 	});
 });
 
-//跳转更新论坛页面
-function skipUpdatePost(node,postId) {	
-	$.post("./post/skipUpdate", {
-		postId : postId
-	}, function(data) {
-		var fatherNode = $(node).closest("#page");
-		fatherNode.html(data);
+//跳转指定管理
+function goToManage(render) {
+	var userAgent = navigator.userAgent.toLowerCase();
+	if(/msie/.test(userAgent)) {
+	    // 此浏览器为 IE
+		window.location = ".."+render;
+		window.event.returnValue = false;
+	} else {
+		window.location.href = "./admin/goToManager?render=" + render;
+	}
+}
+
+//添加修改信息页面点击取消按钮
+function cancelSubmit(node){
+	window.history.back();
+}
+
+//提交前检查
+function submitBeforeCheck(node){
+	$("form :input[required=required]").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	return false;
+    }
+    var content = CKEDITOR.instances.ckeditor.getData();
+    if(content == ""){
+    	return false;
+    }
+    return true;
+}
+
+//添加修改信息页面点击提交按钮
+function onSubmit(node,render){
+	var fatherNode = $(node).closest("#submitForm");
+	var targetNode = fatherNode.find("#submitBtn").first();
+	targetNode.attr("type","button");
+	$(node).ajaxSubmit({
+		type:"post",
+		success:function(data) {
+			if(data == false){
+				targetNode.attr("type","submit");
+				alert("提交失败！");
+			}else{
+				goToManage(render);
+			}
+		}
 	});
+	return false;
+}
+
+//跳转社区版块或版块分类信息添加页面
+function skipAddCommunity(node){
+	window.location.href = "community/skipAddOfAdmin";
+}
+
+//跳转社区版块或版块分类信息修改页面
+function skipModifyCommunity(node,communityid){
+	window.location.href = "community/skipModifyOfAdmin?communityid=" + communityid;
+}
+
+//选择社区类型
+function selectCommunity(node){
+	var fatherNode = $(node).closest("#submitForm");
+	var typeNode = fatherNode.find("#type").first();
+	var rootNode = fatherNode.find("#root").first();
+	var actionkey = fatherNode.find("#actionkey").first();
+	var pidNode = fatherNode.find("#pid").first();
+	
+	var level = $(node).val();
+	if(level == 1){
+		pidNode.find("option:selected").removeAttr("selected");
+		pidNode.append("<option id='' value='0' selected='selected'></option>");
+		actionkey.val("");
+		actionkey.attr("required","required");
+		
+		typeNode.attr("hidden","block");
+		rootNode.removeAttr("hidden");
+	}else{
+		$("#pid option[value='0']").remove();
+		$("#pid option:first").attr("selected","selected");
+		var forumClassify = pidNode.find("option:selected").attr("id");
+		actionkey.val(forumClassify);
+		actionkey.removeAttr("required");
+		
+		typeNode.removeAttr("hidden");
+		rootNode.attr("hidden","block");
+	}
+}
+
+//选择版块分类下拉框
+function selectForumClassify(node){
+	var forumClassify = $(node).find("option:selected").attr("id");
+	var fatherNode = $(node).closest("#submitForm");
+	var actionkey = fatherNode.find("#actionkey").first();
+	actionkey.val(forumClassify);
+}
+
+//提交社区版块
+function submitCommunity(node,communityid) {
+	var canSubmit = true;
+	$("form :input[required=required]").trigger('blur');
+    var numError = $('form .onError').length;
+    if(numError){
+    	canSubmit = false;
+    }
+    if(canSubmit){
+    	var levelNode = $('input:radio:checked');
+    	levelNode.removeAttr("disabled");
+    	
+    	var render = "/community/goToManager";
+    	canSubmit = onSubmit(node,render);
+    	
+    	if(communityid != null && communityid != ''){
+    		levelNode.attr("disabled","disabled");
+    	}
+    } else {
+    	alert("提交失败，存在非规范内容，请检查！");
+    }
+    return canSubmit;
+}
+
+//删除社区分类或版块
+function deleteCommunity(node,communityid){
+	var result = confirm("确定删除？");
+	if(result){
+		$.post("./community/delete", {
+			communityid : communityid
+		}, function(data) {
+			if(data == false){
+				alert("删除失败！");
+			}else{
+				goToManage(render);
+			}
+		});
+	}
+}
+
+//跳转更新论坛页面
+function skipModifyPost(node,postid) {	
+	window.location.href = "post/skipModifyOfAdmin?postid=" + postid;
+}
+
+//提交论坛主题
+function submitPost(node){
+    var canSubmit = submitBeforeCheck(node);
+    if(canSubmit){
+    	var render = "/post/goToManager";
+    	canSubmit = onSubmit(node,render);
+	} else {
+		if(CKEDITOR.instances.ckeditor.getData() == ""){
+		  	alert("内容不能为空！");
+		}else{
+		  	alert("提交失败，存在非规范内容，请检查！");
+		}
+	}
+	return canSubmit;
 }
 
 //跳转更新活动页面
@@ -59,35 +207,8 @@ function skipUpdateWondersType(node,wondersTypeId,pId){
 	});
 }
 
-//跳转社区版块新建/修改页面
-function skipUpdateCommunity(node,communityId,pId){
-	$.post("./community/skipModify", {
-		communityId : communityId,
-		pId : pId
-	}, function(data) {
-		var fatherNode = $(node).closest("#page");
-		fatherNode.html(data);
-	});
-}
-
 //提交活动主题
 function submitActivity(node){
-	var canSubmit = submitBeforeCheck(node);
-    if(canSubmit){
-    	submitForm(node);
-    	canSubmit = onSubmit(node);
-    } else {
-    	if(CKEDITOR.instances.ckeditor.getData() == ""){
-    		alert("内容不能为空！");
-    	}else{
-    		alert("提交失败，存在非规范内容，请检查！");
-    	}
-    }
-    return canSubmit;
-}
-
-//提交论坛主题
-function submitPost(node){
 	var canSubmit = submitBeforeCheck(node);
     if(canSubmit){
     	submitForm(node);
@@ -153,37 +274,6 @@ function submitWondersType(node){
     return canSubmit;
 }
 
-//提交社区版块
-function submitCommunity(node) {
-	var canSubmit = true;
-	$("form :input[required=required]").trigger('blur');
-    var numError = $('form .onError').length;
-    if(numError){
-    	canSubmit = false;
-    }
-    if(canSubmit){
-    	var fatherNode = $(node).closest("#submitForm");
-    	var targetNode = fatherNode.find("#pid").first();
-    	targetNode.attr("disabled",false);
-    	canSubmit = onSubmit(node);
-    } else {
-    	alert("提交失败，存在非规范内容，请检查！");
-    }
-    return canSubmit;
-}
-
-//异步提交
-function onSubmit(node){
-	var fatherNode = $(node).closest("#page");
-	$(node).ajaxSubmit({
-		type:"post",
-		success:function(data) {
-			fatherNode.html(data);
-		}
-	});
-	return false;
-}
-
 //无奇不有异步提交
 function onSubmitOfWonders(node){
 	var fatherNode = $(node).closest("#page");
@@ -201,20 +291,6 @@ function onSubmitOfWonders(node){
 		}
 	});
 	return false;
-}
-
-//提交前检查
-function submitBeforeCheck(node){
-	$("form :input[required=required]").trigger('blur');
-    var numError = $('form .onError').length;
-    if(numError){
-    	return false;
-    }
-    var content = CKEDITOR.instances.ckeditor.getData();
-    if(content == ""){
-    	return false;
-    }
-    return true;
 }
 
 //更新主题
@@ -301,45 +377,6 @@ function deleteFat(node,wondersTypeId){
 			var fatherNode = $(node).closest("#page");
 			fatherNode.html(data);
 		});
-	}
-}
-
-//删除社区版块明细
-function deleteSon(node,communityId,pId){
-	var result = confirm("确定删除？");
-	if(result){
-		$.post("./community/deleteSon", {
-			communityId : communityId,
-			pId : pId
-		}, function(data) {
-			var fatherNode = $(node).closest("#detailCommunity");
-			fatherNode.html(data);
-		});
-	}
-}
-
-//删除社区版块
-function deleteFat(node,communityId){
-	var result = confirm("确定删除？");
-	if(result){
-		$.post("./community/deleteFat", {
-			communityId : communityId
-		}, function(data) {
-			var fatherNode = $(node).closest("#page");
-			fatherNode.html(data);
-		});
-	}
-}
-
-//跳转指定管理
-function goToManage(render) {
-	var userAgent = navigator.userAgent.toLowerCase();
-	if(/msie/.test(userAgent)) {
-	    // 此浏览器为 IE
-		window.location = ".."+render;
-		window.event.returnValue = false;
-	} else {
-		window.location.href = "./admin/goToManager?render=" + render;
 	}
 }
 

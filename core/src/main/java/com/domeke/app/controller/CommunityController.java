@@ -10,47 +10,213 @@ import com.domeke.app.model.Community;
 import com.domeke.app.model.User;
 import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
-import com.domeke.app.utils.CollectionKit;
+import com.domeke.app.utils.FileKit;
+import com.domeke.app.utils.MapKit;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 
 @ControllerBind(controllerKey = "community")
 public class CommunityController extends Controller {
+	
+	/** 统计各版块总帖子数方法名 */
+	private static final String FORUMPIDMETHODNAME = "getCountByCommunityPid";
+	
+	/** 统计版块用户总帖子数方法名 */
+	private static final String FORUMUSERMETHODNAME = "getCountOfUser";
+	
+	/** 统计版块今日总帖子数方法名 */
+	private static final String FORUMTODAYMETHODNAME = "getCountOfToday";
+	
+	/** 统计版块昨日总帖子数方法名 */
+	private static final String FORUMYESTERDAYMETHODNAME = "getCountOfYes";
+	
+	/** 统计版块总帖子数方法名 */
+	private static final String FORUMCOUNTMETHODNAME = "getCount";
+	
+	/** 更新主题状态方法名 */
+	private static final String UPDATESTATUSBYFORUMCLASSIFY = "updateStatusByForumClassify";
+	
+	/** 更新主题状态方法名 */
+	private static final String UPDATESTATUSBYFORUM = "updateStatusByForum";
+	
+	/** 删除主题状态方法名 */
+	private static final String DELETEBYFORUMCLASSIFY = "deleteByForumClassify";
+	
+	/** 删除主题状态方法名 */
+	private static final String DELETEBYFORUM = "deleteByForum";
+	
+	/** 跳转版块首页指令 */
+	private static final String HOME = "/home";
+	
+	/** 主题申请入口方法指令 */
+	private static final String SKIPCREATE = "/skipCreate";
+	
+	/** 跳转主题指令 */
+	private static final String SKIPTHEME = "/skipTheme";
+	
+	/** 主题保存指令 */
+	private static final String THEMESAVE = "/save";
+	
+	/** 主题设置置顶指令 */
+	private static final String SETTOP = "/setTop";
+	
+	/** 主题设置精华指令 */
+	private static final String SETESSENCE = "/setEssence";
+	
+	/** 社区id（主键） */
+	private static final String COMMUNITYID = "communityid";
+	
+	/** 各版块入口指令的包名 */
+	private static final String PACKAGENAME = "com.domeke.app.model";
+	
+	/** 各版块入口指令  */
+	private static final String ACTIONKEY = "actionkey";
+	
+	/** 版块父级id  */
+	private static final String PID = "pid";
+	
+	/** 版块等级  */
+	private static final String LEVEL = "level";
+	
+	/** 显示隐藏状态 */
+	private static final String STATUS = "status";
+	
+	/** 用户id  */
+	private static final String USERID = "userid";
 
 	/**
 	 * 版块入口
 	 * 请求 ./community
 	 */
 	public void index() {
-		setCommunityFatList();
-		setCommunitySonList();
-		setForumCount();
+		setBodyInfo();
 		setVentWall();
-		setPublishNumber();
-		
 		render("/community/community.html");
 	}
 	
 	/**
-	 * 跳转到指定主题
-	 * 请求 ./community/goToCommunity?communityId=${communityId!}
+	 * 显示更多的版块
+	 * 请求 ./community/showMoreForum
 	 */
-	public void goToCommunity(){
-		String communityId = getPara("communityId");
+	public void showMoreForum(){
+		List<Community> forumList = handleForumList("10");
+		setAttr("limitSize", forumList.size());
+		render("/community/community_aside.html");
+	}
+	
+	/**
+	 * 跳转到发布主题页面
+	 * 请求 点击发布主题按钮 
+	 * ./community/skipPublishForum?communityid={communityid!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipPublishTheme(){
+		handleForumClassifyList("10");
+		handleForumList("10");
+		setVentWall();
+		
+		String communityid = getPara(COMMUNITYID);
+		if(StrKit.notBlank(communityid)){
+			handleCommunityForum(communityid);
+		}
+		render("/community/community_publishTheme.html");
+	}
+	
+	/**
+	 * 跳转到主题申请页面
+	 * 请求 选择版块信息
+	 * ./community/showTheme?communityid=${communityid!}
+	 */
+	public void showTheme(){
+		String communityid = getPara(COMMUNITYID);
+		if(StrKit.isBlank(communityid)){
+			renderNull();
+			return;
+		}
+		Community community = handleCommunityForum(communityid);
+		String actionKey = community.getStr(ACTIONKEY);
+		actionKey = FileKit.getDirectory(actionKey, SKIPCREATE);
+		forwardAction(actionKey);
+	}
+	
+	/**
+	 * 跳转指定版块
+	 * <p>
+	 * 社区首页点击指定版块
+	 * <p> 
+	 * 请求 ./community/skipForum?communityid=${communityid!}&pageNumber=${pageNumber!}&pageSize=${pageSize!}
+	 * 
+	 */
+	public void skipForum() {
+		String communityId = getPara(COMMUNITYID);
+		Community.dao.updateTimes(communityId);
+		
+		setAsideInfo();
+		Community communityForum = handleCommunityInfo(communityId);
+		String actionKey = communityForum.get(ACTIONKEY);
+		forwardAction(actionKey);
+	}
+	
+	/**
+	 * 跳转指定版块首页
+	 * <p>
+	 * 菜单栏点击，跳转版块首页
+	 * <p> 
+	 * 请求 ./community/skipForumClassify?communityid=${communityid!}&pageNumber=${pageNumber!}&pageSize=${pageSize!}
+	 * 
+	 */
+	public void skipForumClassify() {
+		String communityId = getPara(COMMUNITYID);
+		Community.dao.updateTimes(communityId);
+		
+		setAsideInfo();
+		Community communityForum = handleCommunityInfo(communityId);
+		String actionKey = communityForum.get(ACTIONKEY);
+		actionKey = FileKit.getDirectory(actionKey, HOME);
+		forwardAction(actionKey);
+	}
+	
+	/**
+	 * 提交发布的主题
+	 * <p>
+	 * 点击发布主题按钮
+	 * <p>
+	 * 请求 ./community/submitTheme?communityid=${communityid!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void submitTheme() {
+		String communityId = getPara(COMMUNITYID);
 		if(StrKit.isBlank(communityId)){
 			renderNull();
 			return;
 		}
 		Community community = Community.dao.findById(communityId);
-		String actionKey = community.getStr("actionkey");
-		actionKey = actionKey + "/skipCreate";
+		String actionKey = community.getStr(ACTIONKEY);
+		actionKey = FileKit.getDirectory(actionKey, THEMESAVE);
 		forwardAction(actionKey);
 	}
 	
 	/**
-	 * 跳转置顶功能
-	 * 请求 ./community/setTop?communityId={communityId!}&targetId={targetId!}
+	 * 跳转指定主题
+	 * <p>
+	 * 点击主题列表中的主题信息
+	 * <p>
+	 * 请求 ./community/skipTheme?communityid=${communityid!}&targetid={targetid!}$pageNumber=${pageNumber!}$pageSize=${pageSize!}
+	 */
+	public void skipTheme() {
+		String communityId = getPara(COMMUNITYID);
+		setAsideInfo();
+		Community communityForum = handleCommunityInfo(communityId);
+		String actionKey = communityForum.getStr(ACTIONKEY);
+		actionKey = FileKit.getDirectory(actionKey, SKIPTHEME);
+		forwardAction(actionKey);
+	}
+	
+	/**
+	 * 主题页面设置置顶
+	 * <p>
+	 * 请求 ./community/setTop?communityid=${communityid!}&targetid=${targetid!}
 	 */
 	@Before(LoginInterceptor.class)
 	public void setTop(){
@@ -58,20 +224,20 @@ public class CommunityController extends Controller {
 			renderJson(1);
 			return;
 		}
-		String communityId = getPara("communityId");
-		if(communityId == null || communityId.length()<=0){
+		String communityId = getPara(COMMUNITYID);
+		if(StrKit.isBlank(communityId)){
 			renderJson(2);
 			return;
 		}
 		Community community = Community.dao.findById(communityId);
-		String actionKey = community.getStr("actionkey");
-		actionKey = actionKey + "/setTop";
+		String actionKey = community.getStr(ACTIONKEY);
+		actionKey = FileKit.getDirectory(actionKey, SETTOP);
 		forwardAction(actionKey);
 	}
 	
 	/**
-	 * 跳转精华功能
-	 * 请求 ./community/setEssence?communityId={communityId!}&targetId={targetId!}
+	 * 主题页面设置精华
+	 * 请求 ./community/setEssence?communityid=${communityid!}&targetid=${targetid!}
 	 */
 	@Before(LoginInterceptor.class)
 	public void setEssence(){
@@ -79,130 +245,133 @@ public class CommunityController extends Controller {
 			renderJson(1);
 			return;
 		}
-		String communityId = getPara("communityId");
-		if(communityId == null || communityId.length()<=0){
+		String communityId = getPara(COMMUNITYID);
+		if(StrKit.isBlank(communityId)){
 			renderJson(2);
 			return;
 		}
 		Community community = Community.dao.findById(communityId);
-		String actionKey = community.getStr("actionkey");
-		actionKey = actionKey + "/setEssence";
+		String actionKey = community.getStr(ACTIONKEY);
+		actionKey = FileKit.getDirectory(actionKey, SETESSENCE);
 		forwardAction(actionKey);
-	}
-	
-	/**
-	 * 显示更多的版块
-	 * 请求 ./community/showMoreCommunity
-	 */
-	public void showMoreCommunity(){
-		setCommunitySonList();
-		setAttr("communitySize", 81);
-		render("/community/community_showMore.html");
-	}
-	
-	private void setVentWall(){
-		Object ventWallCount = VentWall.venWdao.getTodayCount();
-		setAttr("ventWallCount", ventWallCount);
 	}
 	
 	/**
 	 * admin管理入口
 	 * 请求 ./community/goToManger
 	 */
+	@Before(LoginInterceptor.class)
 	public void goToManager() {
-		setCommunityFatList();
-		setCommunitySonList();
+		setBodyInfoOfAdmin();
 		render("/admin/admin_community.html");
 	}
 	
 	/**
-	 * admin管理--更新社区版块
-	 * 请求 ./community/updateCommunity
-	 */
-	@Before(LoginInterceptor.class)
-	public void updateCommunity() {
-		Community community = getModel(Community.class);
-		Object communityId = community.get("communityid");
-		if (communityId == null) {
-			community.save();
-		} else {
-			community.update();
-		}
-		setCommunityFatList();
-		setCommunitySonList();
-		render("/admin/admin_communityForum.html");
-	}
-	
-	/**
-	 * admin管理--删除版块
-	 * 请求 ./community/deleteSon?communityId={communityId!}&pId={pId!}
-	 */
-	@Before(LoginInterceptor.class)
-	public void deleteSon(){
-		String communityId = getPara("communityId");
-		if(communityId != null && communityId.length() > 0){
-			Community.dao.deleteById(communityId);
-		}
-		
-		Object pId = getPara("pId");
-		Community community = Community.dao.findById(pId);
-		setAttr("communityFat", community);
-		setCommunitySonListByPid(pId);
-		render("/admin/admin_communityDetail.html");
-	}
-	
-	/**
-	 * admin管理--删除区域版块
-	 * 请求 ./community/deleteFat?communityId={communityId!}
-	 */
-	@Before(LoginInterceptor.class)
-	public void deleteFat(){
-		String communityId = getPara("communityId");
-		if(communityId != null && communityId.length() > 0){
-			Community.dao.deleteFatAndSonByCommunityId(communityId);
-		}
-		
-		setCommunityFatList();
-		setCommunitySonList();
-		render("/admin/admin_communityForum.html");
-	}
-	
-	/**
-	 * admin管理--跳转修改社区版块页面
+	 * admin管理--跳转添加社区版块页面
 	 * 请求 ./community/skipModify?communityId={communityId!}&pId={pId!}
 	 */
 	@Before(LoginInterceptor.class)
-	public void skipModify(){
-		Community community = null;
-		String communityId = getPara("communityId");
-		if(StrKit.notBlank(communityId)){
-			community = Community.dao.findById(communityId);
-		}else {
-			community = addCommunity();
-		}
+	public void skipAddOfAdmin(){
+		Community community = getModel(Community.class);
 		setAttr("community", community);
-		
-		setCommunityFatList();
+		handleForumClassifyList();
 		render("/admin/admin_communityUpdate.html");
 	}
 	
 	/**
-	 * 设置各子版块帖子数
+	 * admin管理--跳转修改社区版块页面
+	 * 请求 ./community/skipModifyOfAdmin?communityid={communityid!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void skipModifyOfAdmin(){
+		String communityid = getPara(COMMUNITYID);
+		handleCommunity(communityid);
+		handleForumClassifyList();
+		render("/admin/admin_communityUpdate.html");
+	}
+	
+	/**
+	 * admin管理--新建社区分类或版块
+	 * 请求 ./community/updateCommunity
+	 */
+	@Before(LoginInterceptor.class)
+	public void save() {
+		Community community = getModel(Community.class);
+		try{
+			community.save();
+			renderJson(true);
+		}catch(Exception e){
+			e.printStackTrace();
+			renderJson(false);
+		}
+	}
+	
+	/**
+	 * admin管理--更新社区分类或版块
+	 * 请求 ./community/updateCommunity
+	 */
+	@Before(LoginInterceptor.class)
+	public void update() {
+		Community community = getModel(Community.class);
+		try{
+			community.update();
+			int level = community.getInt(LEVEL);
+			if(level == 1){
+				updateByForumClassify(community);
+				updateCommentByForumClassify(community);
+			}else{
+				updateByForum(community);
+			}
+			renderJson(true);
+		}catch(Exception e){
+			e.printStackTrace();
+			renderJson(false);
+		}
+	}
+	
+	/**
+	 * admin管理--删除社区分类或版块
+	 * 请求 ./community/delete?communityid=${communityid!}
+	 */
+	@Before(LoginInterceptor.class)
+	public void delete() {
+		try{
+			Object communityid = getPara(COMMUNITYID);
+			Community community = Community.dao.findById(communityid);
+			int level = community.getInt(LEVEL);
+			if(level == 1){
+				deleteByForumClassify(community);
+			}else{
+				deleteByForum(community);
+			}
+			renderJson(true);
+		}catch(Exception e){
+			e.printStackTrace();
+			renderJson(false);
+		}
+	}
+	
+	/**
+	 * 设置各版块总发帖数
 	 * @param <T>
 	 */
 	@SuppressWarnings("unchecked")
-	private <T> void setForumCount(){
-		List<Community> communityFatList = getAttr("communityFatList");
-
+	private <T> void setEveryForumCount(List<Community> forumClassifyList){
 		Map<String,T> map = null;
 		String className = null,communityId = null;
-		String methodName = "getCountByCommunityPid";
+		
 		Map<String,Map<String,T>> forumCountMap = new HashMap<String,Map<String,T>>(); 
-		for(Community community : communityFatList){
-			className = getClassName(community);
-			communityId = community.get("communityid").toString();
+		for(Community community : forumClassifyList){
+			className = getClassAllName(community);
+			if(StrKit.isBlank(className)){
+				continue;
+			}
+			communityId = community.get(COMMUNITYID).toString();
 			
-			map = (Map<String,T>)refrectMethod(className,methodName, communityId);
+			map = (Map<String,T>)refrectMethod(className,FORUMPIDMETHODNAME, communityId);
+			if(MapKit.isBlank(map)){
+				continue;
+			}
 			forumCountMap.put(communityId, map);
 		}
 		setAttr("forumCountMap", forumCountMap);
@@ -213,24 +382,34 @@ public class CommunityController extends Controller {
 	 * @param community
 	 * @return
 	 */
-	private String getClassName(Community community){
-		String actionKey = community.get("actionkey");
+	private String getClassAllName(Community community){
+		String actionKey = community.get(ACTIONKEY);
 		if(StrKit.isBlank(actionKey)){
 			return null;
 		}
-		int sep = actionKey.indexOf("/");
-		if(sep >= 0){
-			actionKey = actionKey.split("/")[1];
-		}
+		actionKey = getClassName(actionKey);
 		actionKey = actionKey.replaceFirst(actionKey.substring(0, 1), actionKey.substring(0, 1).toUpperCase());
-		String className = "com.domeke.app.model." + actionKey;
+		String className = PACKAGENAME + "." + actionKey;
 		return className;
 	}
 	
 	/**
-	 * 反射加载指定方法
+	 * 获取actionKey 对应的className
+	 * @return
 	 */
-	private Object refrectMethod(String className,String methodName,Object param ){
+	private String getClassName(String actionKey){
+		int sep = actionKey.indexOf("/");
+		if(sep >= 0){
+			actionKey = actionKey.split("/")[1];
+		}
+		return actionKey;
+	}
+	
+	/**
+	 * 反射加载指定方法
+	 * @param 
+	 */
+	private Object refrectMethod(String className,String methodName,Object...param){
 		if(StrKit.isBlank(className) || StrKit.isBlank(methodName)){
 			return null;
 		}
@@ -241,7 +420,11 @@ public class CommunityController extends Controller {
             	method=object.getClass().getMethod(methodName);
             	return method.invoke(object);
             }else{
-            	method=object.getClass().getMethod(methodName,Object.class);
+            	Class<?>[] classes = new Class[param.length];
+            	for(int i=0;i<param.length;i++){
+            		classes[i] = Object.class;
+            	}
+            	method=object.getClass().getMethod(methodName, classes);
             	return method.invoke(object, param);
             }
         } catch (Exception e) {
@@ -251,90 +434,59 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
-	 * 创建主题
+	 * 设置版块指定情况下的总发帖数
+	 * @param forumClassifyList 版块分类信息
 	 */
-	@Before(LoginInterceptor.class)
-	public void create() {
-		String communityId = getPara("communityId");
-		if(StrKit.isBlank(communityId)){
-			renderNull();
-			return;
-		}
-		Community community = Community.dao.findById(communityId);
-		String actionKey = community.getStr("actionkey");
-		actionKey = actionKey + "/create";
-		forwardAction(actionKey);
-	}
-	
-	/**
-	 * 跳转到选择主题页面
-	 */
-	@Before(LoginInterceptor.class)
-	public void skipCommunity(){
-		setCommunityFatList();
-		render("/community/community_select.html");
-	}
-	
-	/**
-	 * 下拉选择发布的主题
-	 */
-	@Before(LoginInterceptor.class)
-	public void selectSon(){
-		String pId = getPara("pId");
-		if(pId != null && pId.length()>0){
-			setCommunitySonListByPid(pId);
-		}
-		render("/community/community_selectDetail.html");
-	}
-	
-	/**
-	 * 设置发帖数
-	 */
-	private void setPublishNumber() {
+	private void setAllForumCount(List<Community> forumClassifyList) {
 		// 当前登录人发帖数
-		setUserCount();
+		setForumCountOfUser(forumClassifyList);
 		// 今日发帖数
-		setTodayCount();
+		setForumCountOfToday(forumClassifyList);
 		// 昨日发帖数
-		setYseCount();
+		setForumCountOfYes(forumClassifyList);
 		// 总发帖数
-		setCount();
+		setForumCount(forumClassifyList);
 	}
 	
 	/**
-	 * 当前登录人发帖数
+	 * 设置当前登录人发帖总数
+	 * @param forumClassifyList 版块分类信息
 	 */
-	private void setUserCount(){
+	private void setForumCountOfUser(List<Community> forumClassifyList){
 		Object userId = getUserId();
 		if (userId == null) {
 			return;
 		}
-		List<Community> communityFatList = getAttr("communityFatList");
 		String className = null;
-		String methodName = "getCountByUserId";
 		Long userCount = new Long(0),count = null;
-		for(Community community : communityFatList){
-			className = getClassName(community);
-			
-			count = (Long)refrectMethod(className,methodName, userId);
+		for(Community community : forumClassifyList){
+			className = getClassAllName(community);
+			if(StrKit.isBlank(className)){
+				continue;
+			}
+			count = (Long)refrectMethod(className, FORUMUSERMETHODNAME,userId);
+			if(count == null){
+				continue;
+			}
 			userCount = userCount + count;
 		}
 		setAttr("userCount", userCount);
 	}
 	
 	/**
-	 * 今日发帖数
+	 * 设置今日发帖总数
+	 * @param forumClassifyList 版块分类信息
 	 */
-	private void setTodayCount() {
-		List<Community> communityFatList = getAttr("communityFatList");
+	private void setForumCountOfToday(List<Community> forumClassifyList) {
 		String className = null;
-		String methodName = "getTodayCount";
 		Long todayCount = new Long(0);
 		Object count = null;
-		for (Community community : communityFatList) {
-			className = getClassName(community);
-
-			count = refrectMethod(className, methodName, null);
+		for (Community community : forumClassifyList) {
+			className = getClassAllName(community);
+			if(StrKit.isBlank(className)){
+				continue;
+			}
+			count = refrectMethod(className, FORUMTODAYMETHODNAME);
 			if(count == null){
 				continue;
 			}
@@ -344,18 +496,19 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
-	 * 昨日发帖数
+	 * 设置昨日发帖总数
+	 * @param forumClassifyList 版块分类信息
 	 */
-	private void setYseCount() {
-		List<Community> communityFatList = getAttr("communityFatList");
+	private void setForumCountOfYes(List<Community> forumClassifyList) {
 		String className = null;
-		String methodName = "getYesterdayCount";
 		Long yesCount = new Long(0);
 		Object count = null;
-		for (Community community : communityFatList) {
-			className = getClassName(community);
-			
-			count = refrectMethod(className, methodName, null);
+		for (Community community : forumClassifyList) {
+			className = getClassAllName(community);
+			if(StrKit.isBlank(className)){
+				continue;
+			}
+			count = refrectMethod(className, FORUMYESTERDAYMETHODNAME);
 			if(count == null){
 				continue;
 			}
@@ -365,36 +518,25 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
-	 * 总发帖数
+	 * 设置总发帖数
+	 * @param forumClassifyList 版块分类信息
 	 */
-	private void setCount() {
-		List<Community> communityFatList = getAttr("communityFatList");
+	private void setForumCount(List<Community> forumClassifyList) {
 		String className = null;
-		String methodName = "getCount";
 		Long counts = new Long(0);
 		Object count = null;
-		for (Community community : communityFatList) {
-			className = getClassName(community);
-			
-			count = refrectMethod(className, methodName, null);
+		for (Community community : forumClassifyList) {
+			className = getClassAllName(community);
+			if(StrKit.isBlank(className)){
+				continue;
+			}
+			count = refrectMethod(className, FORUMCOUNTMETHODNAME);
 			if(count == null){
 				continue;
 			}
 			counts = counts + (Long)count;
 		}
 		setAttr("count", counts);
-	}
-
-	/**
-	 * 跳转指定版块
-	 */
-	public void goToOrderForum() {
-		String communityId = getPara("communityId");
-		Community.dao.updateTimes(communityId);
-		
-		Community community = Community.dao.findById(communityId);
-		String actionKey = community.get("actionkey");
-		forwardAction(actionKey);
 	}
 
 	/**
@@ -456,25 +598,17 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
-	 * 设置子版块
-	 */
-	private void setCommunitySonList(){
-		List<Community> communitySonList = Community.dao.findSonList();
-		setAttr("communitySonList", communitySonList);
-	}
-	
-	/**
 	 * 
 	 * @param community
 	 */
 	@Before(LoginInterceptor.class)
 	private void updateCommuntiy(Community community){
-		setCommunity(community);
+		setCommunityData(community);
 		community.update();
 	}
 	
 	private void insertCommunity(Community community){
-		setCommunity(community);
+		setCommunityData(community);
 		community.save();
 	}
 	
@@ -500,7 +634,7 @@ public class CommunityController extends Controller {
 	 * 设置版块
 	 * @param communityId
 	 */
-	private void setCommunity(Community community){
+	private void setCommunityData(Community community){
 		String communityId = getPara("communityId");
 		if(communityId != null && communityId.length()>0){
 			community.set("communityid", communityId);
@@ -538,29 +672,215 @@ public class CommunityController extends Controller {
 	}
 	
 	/**
-	 * 设置父版块
-	 */
-	private void setCommunityFatList(){
-		List<Community> communityFatList = Community.dao.findFatList();
-		setAttr("communityFatList", communityFatList);
-	}
-	
-	/**
-	 * 设置版块明细
-	 */
-	private void setCommunitySonMap(){
-		List<Community> communityFatList = getAttr("communityFatList");
-		List<Object> list = CollectionKit.getFieldValueList(communityFatList, "communityid", Object.class);
-		Map<String,List<Community>> communitySonMapList = Community.dao.findSonMapList(list);
-		setAttr("communitySonMapList", communitySonMapList);
-	}
-	
-	/**
 	 * 设置子版块
 	 */
 	private void setCommunitySonListByPid(Object pId){
 		List<Community> communitySonList = Community.dao.findSonListByPid(pId);
 		setAttr("communitySonList", communitySonList);
+	}
+	
+	
+	/**
+	 * 根据版块分类删除版块以及主题信息
+	 * @param community
+	 */
+	private void deleteByForumClassify(Community community) {
+		Object communityid = community.get(COMMUNITYID);
+		Community.dao.deleteById(communityid);
+		
+		String className = getClassAllName(community);
+		if(StrKit.isBlank(className)){
+			return;
+		}
+		refrectMethod(className, DELETEBYFORUMCLASSIFY,communityid);
+	}
+	
+	
+	/**
+	 * 根据版块删除主题信息
+	 * @param community
+	 */
+	private void deleteByForum(Community community) {
+		Object communityid = community.get(COMMUNITYID);
+		Community.dao.deleteById(communityid);
+		
+		String className = getClassAllName(community);
+		if(StrKit.isBlank(className)){
+			return;
+		}
+		refrectMethod(className, DELETEBYFORUM,communityid);
+	}
+	
+	/**
+	 * 根据版块分类更新版块以及主题信息
+	 * @param community
+	 * @param communityid
+	 */
+	private void updateByForumClassify(Community community) {
+		Object communityid = community.get(COMMUNITYID);
+		Object actionkey = community.get(ACTIONKEY);
+		Object status = community.get(STATUS);
+		Community.dao.updateForum(communityid, actionkey, status);
+		
+		String className = getClassAllName(community);
+		if(StrKit.isBlank(className)){
+			return;
+		}
+		refrectMethod(className, UPDATESTATUSBYFORUMCLASSIFY,communityid,status);
+	}
+	
+	/**
+	 * 根据版块分类更新回复信息
+	 * @param community
+	 * @param communityid
+	 */
+	private void updateCommentByForumClassify(Community community) {
+		Object communityid = community.get(COMMUNITYID);
+		Object actionkey = community.get(ACTIONKEY);
+		Object status = community.get(STATUS);
+		Community.dao.updateForum(communityid, actionkey, status);
+		
+		String className = getClassAllName(community);
+		if(StrKit.isBlank(className)){
+			return;
+		}
+		refrectMethod(className, UPDATESTATUSBYFORUMCLASSIFY,communityid,status);
+	}
+	
+	/**
+	 * 根据版块更新主题信息
+	 * @param community
+	 * @param communityid
+	 */
+	private void updateByForum(Community community) {
+		Object communityid = community.get(COMMUNITYID);
+		Object status = community.get(STATUS);
+		String className = getClassAllName(community);
+		if(StrKit.isBlank(className)){
+			return;
+		}
+		refrectMethod(className, UPDATESTATUSBYFORUM,communityid,status);
+	}
+	
+	/**
+	 * 设置签到人数
+	 */
+	private void setVentWall(){
+		Object ventWallCount = VentWall.venWdao.getTodayCount();
+		setAttr("ventWallCount", ventWallCount);
+	}
+	
+	/**
+	 * 设置admin管理的主体信息
+	 */
+	private void setBodyInfoOfAdmin(){
+		handleForumClassifyList();
+		handleForumList();
+	}
+	
+	/**
+	 * 设置版块及版块分类集合信息
+	 */
+	private void setBodyInfo(){
+		List<Community> forumClassifyList = handleForumClassifyList("10");
+		handleForumList("10");
+		setEveryForumCount(forumClassifyList);
+		setAllForumCount(forumClassifyList);
+	}
+	
+	/**
+	 * 设置旁边信息
+	 * 
+	 */
+	private void setAsideInfo(){
+		handleForumList("10");
+		setVentWall();
+	}
+	
+	/**
+	 * 设置社区信息
+	 * @param communityid 社区id
+	 * @return
+	 */
+	private Community handleCommunity(Object communityid){
+		Community community = Community.dao.findCommunityInfo(communityid);
+		setAttr("community", community);
+		return community;
+	}
+	
+	/**
+	 * 设置版块分类集合信息
+	 * @param status 显示状态
+	 * @return 版块分类信息
+	 */
+	private List<Community> handleForumClassifyList(Object status){
+		List<Community> forumClassifyList = Community.dao.findForumClassifyList(status);
+		setAttr("forumClassifyList", forumClassifyList);
+		return forumClassifyList;
+	}
+	
+	/**
+	 * 设置版块分类集合信息
+	 * @return 版块分类信息
+	 */
+	private List<Community> handleForumClassifyList(){
+		List<Community> forumClassifyList = Community.dao.findForumClassifyList();
+		setAttr("forumClassifyList", forumClassifyList);
+		return forumClassifyList;
+	}
+	
+	/**
+	 * 设置版块集合信息
+	 * @param status 显示状态
+	 * @return 版块信息
+	 */
+	private List<Community> handleForumList(Object status){
+		List<Community> forumList = Community.dao.findForumList(status);
+		setAttr("forumList", forumList);
+		return forumList;
+	}
+	
+	/**
+	 * 设置版块集合信息
+	 * @return 版块信息
+	 */
+	private List<Community> handleForumList(){
+		List<Community> forumList = Community.dao.findForumList();
+		setAttr("forumList", forumList);
+		return forumList;
+	}
+	
+	/**
+	 * 设置版块及版块分类信息
+	 * @param communityid 版块id
+	 */
+	private Community handleCommunityInfo(Object communityid){
+		Community communityForum = handleCommunityForum(communityid);
+		Object pid = communityForum.get(PID);
+		handleCommunityForumClassify(pid);
+		return communityForum;
+	}
+	
+	/**
+	 * 设置版块信息
+	 * @param communityid 版块id
+	 * @return 版块信息
+	 */
+	private Community handleCommunityForum(Object communityid){
+		Community community = Community.dao.findById(communityid);
+		setAttr("communityForum", community);
+		return community;
+	}
+	
+	/**
+	 * 设置版块分类信息
+	 * @param communityid 版块分类id
+	 * @return 版块分类信息
+	 */
+	private Community handleCommunityForumClassify(Object communityid){
+		Community community = Community.dao.findById(communityid);
+		setAttr("communityForumClassify", community);
+		return community;
 	}
 	
 	/**
@@ -578,11 +898,11 @@ public class CommunityController extends Controller {
 	 * @return
 	 */
 	private Object getUserId(){
-		User user = getSessionAttr("user");
+		User user = getUser();
 		if(user == null){
 			return null;
 		}
-		return user.get("userid");
+		return user.get(USERID);
 	}
 	
 	/**
@@ -592,7 +912,7 @@ public class CommunityController extends Controller {
 	 */
 	private boolean isAdmin() {
 		User user = getUser();
-		Long userId = user.getLong("userid");
+		Long userId = user.getLong(USERID);
 		return userId.equals(new Long(1));
 	}
 }

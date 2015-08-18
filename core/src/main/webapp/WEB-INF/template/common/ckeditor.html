@@ -1,9 +1,8 @@
-<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
 <div class="PiecesText" id="ckeditorHtml">
 	<textarea name="message" id="ckeditor"></textarea>
 	<script type="text/javascript">CKEDITOR.replace('ckeditor');</script>
-	<img src='images/VentTip05.png' onclick='showCkeditorFace(this)' />
-	<input id="publish" type="button" value="发表" onclick="publishCkeditor(this,'${targetId!}','${idtype!}','${render!}')">
+	<img src='images/VentTip05.png' onclick='showCkeditorFace(this)' />	
+	<input id="publish" type="button" value="发表" onclick="publishCkeditor(this,'${targetid!}','${idtype!}','${render!}','${pageSize!}')">
 	<table id="face" style="display: none;">
 		<tr>
 			<td>

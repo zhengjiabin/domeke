@@ -10,12 +10,14 @@ import com.jfinal.plugin.activerecord.Page;
 
 @TableBind(tableName = "activity", pkName = "activityid")
 public class Activity extends Model<Activity> {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public static Activity dao = new Activity();
+	
+	public Page<Activity> getActivity(Long userId,int pageNumber,int pageSize){
+    	Page<Activity> page = this.paginate(pageNumber, pageSize, "select * ", "from activity where userid in (select userid from activity_apply where userid=?)",userId);
+    	return page;
+    }
 	
 	/**
 	 * 查询活动明细信息
@@ -64,7 +66,7 @@ public class Activity extends Model<Activity> {
 	}
 
 	/**
-	 * 分页查询活动
+	 * 根据版块信息分页查询活动
 	 * 
 	 * @param pageNumber
 	 *            页号
@@ -72,19 +74,19 @@ public class Activity extends Model<Activity> {
 	 *            页数
 	 * @return
 	 */
-	public Page<Activity> findPage(int pageNumber, int pageSize) {
+	public Page<Activity> findPageByForum(int pageNumber, int pageSize,Object communityId,Object status) {
 		String select = "select u.imgurl,u.username,aty.*,app.number as applynumber";
 		StringBuffer sqlExceptSelect = new StringBuffer();
 		sqlExceptSelect.append("from user u,activity aty left join (select count(1) as number,app.activityid from activity_apply app ");
 		sqlExceptSelect.append(" where app.status='10' group by app.activityid) app on aty.activityid=app.activityid where u.userid=aty.userid ");
-		sqlExceptSelect.append(" and aty.status='10'");
+		sqlExceptSelect.append(" and aty.status=? and aty.communityid=? ");
 		sqlExceptSelect.append(" order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc");
-		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
+		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),status,communityId);
 		return page;
 	}
-
+	
 	/**
-	 * 分页查询活动
+	 * 根据版块信息分页查询活动
 	 * 
 	 * @param pageNumber
 	 *            页号
@@ -92,14 +94,14 @@ public class Activity extends Model<Activity> {
 	 *            页数
 	 * @return
 	 */
-	public Page<Activity> findPageByCommunityId(int pageNumber, int pageSize,Object communityId) {
+	public Page<Activity> findPageByForumClassify(int pageNumber, int pageSize,Object communityId,Object status) {
 		String select = "select u.imgurl,u.username,aty.*,app.number as applynumber";
 		StringBuffer sqlExceptSelect = new StringBuffer();
-		sqlExceptSelect.append("from user u,activity aty left join (select count(1) as number,app.activityid from activity_apply app ");
+		sqlExceptSelect.append("from community c,user u,activity aty left join (select count(1) as number,app.activityid from activity_apply app ");
 		sqlExceptSelect.append(" where app.status='10' group by app.activityid) app on aty.activityid=app.activityid where u.userid=aty.userid ");
-		sqlExceptSelect.append(" and aty.status='10' and aty.communityid=? ");
+		sqlExceptSelect.append(" and aty.status=? and c.communityid=aty.communityid and c.pid=? ");
 		sqlExceptSelect.append(" order by to_days(aty.createtime) desc,aty.top desc,aty.essence desc");
-		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),communityId);
+		Page<Activity> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),status,communityId);
 		return page;
 	}
 
@@ -112,11 +114,26 @@ public class Activity extends Model<Activity> {
 	}
 	
 	/**
-     * 今日发表活动数
+     * 根据版块分类信息获取今日发表总活动数
+     * @param communityid 版块分类id
      * @return 汇总数
      */
-    public Long getTodayCount(){
-    	Long count = Db.queryLong("select count(1) from activity where status='10' and to_days(createtime)=to_days(now())");
+    public Long getCountOfTodayByForumClassify(Object communityid){
+    	StringBuffer sql = new StringBuffer("select count(1) from activity aty,community c ");
+    	sql.append(" where aty.communityid=c.communityid and aty.status='10' and c.pid=? ");
+    	sql.append(" and to_days(aty.createtime)=to_days(now()) ");
+    	Long count = Db.queryLong(sql.toString(),communityid);
+    	return count;
+    }
+    
+	/**
+     * 根据版块信息获取今日发表总活动数
+     * @param communityid 版块id
+     * @return 汇总数
+     */
+    public Long getCountOfTodayByForum(Object communityId){
+    	String sql = "select count(1) from activity where status='10' and communityid=? and to_days(createtime)=to_days(now())";
+    	Long count = Db.queryLong(sql,communityId);
     	return count;
     }
     
@@ -124,8 +141,31 @@ public class Activity extends Model<Activity> {
      * 今日发表活动数
      * @return 汇总数
      */
-    public Long getTodayCountByCommunityId(Object communityId){
-    	String sql = "select count(1) from activity where status='10' and communityid=? and to_days(createtime)=to_days(now())";
+    public Long getCountOfToday(){
+    	Long count = Db.queryLong("select count(1) from activity where status='10' and to_days(createtime)=to_days(now())");
+    	return count;
+    }
+    
+    /**
+     * 根据版块分类信息获取昨日发表活动数
+     * @param communityid 版块分类id
+     * @return 汇总数
+     */
+    public Long getCountOfYesByForumClassify(Object communityid){
+    	StringBuffer sql = new StringBuffer("select count(1) from activity aty,community c ");
+    	sql.append(" where aty.communityid=c.communityid and aty.status='10' and c.pid=? ");
+    	sql.append(" and date(aty.createtime) = date_sub(curdate(),interval 1 day)");
+    	Long count = Db.queryLong(sql.toString(),communityid);
+    	return count;
+    }
+    
+    /**
+     * 根据版块信息获取昨日发表活动数
+     * @param communityid 版块id
+     * @return 汇总数
+     */
+    public Long getCountOfYesByForum(Object communityId){
+    	String sql = "select count(1) from activity where status='10' and communityid=? and date(createtime) = date_sub(curdate(),interval 1 day)";
     	Long count = Db.queryLong(sql,communityId);
     	return count;
     }
@@ -134,18 +174,30 @@ public class Activity extends Model<Activity> {
      * 昨日发表活动数
      * @return 汇总数
      */
-    public Long getYesterdayCount(){
+    public Long getCountOfYes(){
     	Long count = Db.queryLong("select count(1) from activity where status='10' and date(createtime) = date_sub(curdate(),interval 1 day)");
     	return count;
     }
     
     /**
-     * 昨日发表活动数
+     * 根据版块分类信息获取总活动数
+     * @param communityid 版块分类id
      * @return 汇总数
      */
-    public Long getYesterdayCountByCommunityId(Object communityId){
-    	String sql = "select count(1) from activity where status='10' and communityid=? and date(createtime) = date_sub(curdate(),interval 1 day)";
-    	Long count = Db.queryLong(sql,communityId);
+    public Long getCountByForumClassify(Object communityid){
+    	StringBuffer sql = new StringBuffer("select count(1) from activity aty,community c ");
+    	sql.append(" where aty.communityid=c.communityid and aty.status='10' and c.pid=? ");
+    	Long count = Db.queryLong(sql.toString(),communityid);
+    	return count;
+    }
+    
+    /**
+     * 根据版块信息获取总活动数
+     * @param communityid 版块id
+     * @return 汇总数
+     */
+    public Long getCountByForum(Object communityId){
+    	Long count = Db.queryLong("select count(1) from activity where status='10' and communityid=?",communityId);
     	return count;
     }
     
@@ -159,29 +211,35 @@ public class Activity extends Model<Activity> {
     }
     
     /**
-     * 总活动数
+     * 根据版块分类信息获取当前登录人总活动数
+     * @param communityid 版块分类id
+     * @param userId 用户id
      * @return 汇总数
      */
-    public Long getCountByCommunityId(Object communityId){
-    	Long count = Db.queryLong("select count(1) from activity where status='10' and communityid=?",communityId);
+    public Long getCountOfUserByForumClassify(Object communityid,Object userId){
+    	StringBuffer sql = new StringBuffer("select count(1) from activity aty,community c ");
+    	sql.append(" where aty.communityid=c.communityid and aty.status='10' and c.pid=? and aty.userid=? ");
+    	Long count = Db.queryLong(sql.toString(),communityid,userId);
     	return count;
     }
     
     /**
-     * 当前登录人总活动数
+     * 根据版块信息获取当前登录人总活动数
+     * @param communityid 版块id
+     * @param userId 用户id
      * @return 汇总数
      */
-    public Long getCountByUserId(Object userId){
-    	Long count = Db.queryLong("select count(1) from activity where status='10' and userid=?",userId);
-    	return count;
-    }
-    
-    /**
-     * 当前登录人总活动数
-     * @return 汇总数
-     */
-    public Long getCountByCommunityAndUser(Object communityId,Object userId){
+    public Long getCountOfUserByForum(Object communityId,Object userId){
     	Long count = Db.queryLong("select count(1) from activity where status='10' and communityid=? and userid=?",communityId,userId);
+    	return count;
+    }
+    
+    /**
+     * 当前登录人总活动数
+     * @return 汇总数
+     */
+    public Long getCountOfUser(Object userId){
+    	Long count = Db.queryLong("select count(1) from activity where status='10' and userid=?",userId);
     	return count;
     }
     
@@ -215,8 +273,67 @@ public class Activity extends Model<Activity> {
     	return this.findFirst(sql, communityId, userId);
     }
     
-    public Page<Activity> getActivity(Long userId,int pageNumber,int pageSize){
-    	Page<Activity> page = this.paginate(pageNumber, pageSize, "select * ", "from activity where userid in (select userid from activity_apply where userid=?)",userId);
-    	return page;
+    /**
+     * 根据版块分类更新主题状态
+     * @param pid 版块分类id
+     * @param status 显示隐藏状态
+     */
+    public void updateStatusByForumClassify(Object pid,Object status){
+    	StringBuffer sql = new StringBuffer("update activity aty set aty.status = ? ");
+    	sql.append(" where exists(select 1 from community c where aty.communityid = c.communityid and c.pid = ? )");
+    	Db.update(sql.toString(), status,pid);
+    }
+    
+	/**
+	 * 根据版块分类id更新回复信息
+	 * @param pid 版块分类id
+	 * @param status 是否显示状态
+	 */
+	public void updateCommentStatusByForumClassify(Object pid,Object status){
+		StringBuffer sql = new StringBuffer("update comment c set c.status = ? where c.idtype = '20' ");
+		sql.append(" and exists(select 1 from activity aty,community cy where cy.communityid = aty.communityid ");
+		sql.append(" and aty.activityid = c.commentid and c.idtype = '20' and cy.pid = ?) ");
+		Db.update(sql.toString(), status,pid);
+	}
+    
+    /**
+     * 根据版块更新主题状态
+     * @param community 版块id
+     * @param status 显示隐藏状态
+     */
+    public void updateStatusByForum(Object community,Object status){
+    	String sql = "update activity aty set aty.status = ? where aty.communityid = ?";
+    	Db.update(sql, status,community);
+    }
+    
+	/**
+	 * 根据版块id更新回复信息
+	 * @param communityid 版块id
+	 * @param status 是否显示状态
+	 */
+	public void updateCommentStatusByForum(Object communityid,Object status){
+		StringBuffer sql = new StringBuffer("update comment c set c.status = ? where c.idtype = '20' ");
+		sql.append(" and exists(select 1 from activity aty where aty.activityid = c.commentid and c.idtype = '20' ");
+		sql.append(" and aty.communityid = ?) ");
+		Db.update(sql.toString(), status,communityid);
+	}
+    
+    /**
+     * 根据版块分类删除主题状态
+     * @param pid 版块分类id
+     */
+    public void deleteByForumClassify(Object pid){
+    	StringBuffer sql = new StringBuffer("delete from activity aty where exists(select 1 from community c where ");
+    	sql.append(" c.communityid = aty.communityid and c.pid = ?)");
+    	Db.update(sql.toString(), pid);
+    }
+    
+    /**
+     * 根据版块删除主题状态
+     * @param community 版块id
+     */
+    public void deleteByForum(Object community){
+    	String sql = "delete from activity aty where aty.communityid = ? ";
+    	Db.update(sql, community);
     }
 }

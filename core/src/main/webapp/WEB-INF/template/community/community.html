@@ -22,12 +22,43 @@
 	</div>
 	<div class="clear"></div>
 	<article>
-		<% layout(
-			"/community/community_detail.html", 
-			{
-				"communityFatList":communityFatList,
-				"communitySonList":communitySonList
-			} 
-		){} %>
+		<% for(forumClassify in forumClassifyList){ %>
+			<div class="ArticleTitle">
+				<img src="http://www.dongmark.com/images/FIcon03.png">${forumClassify.title}
+			</div>
+			<div class="ArticleContent">
+				<% 
+					for(forum in forumList){
+						if(forum.pid != forumClassify.communityid){
+							continue;
+						}
+				%>
+				<div class="ForumSubL">
+					<div class="ForumPic">
+						<img src="http://www.dongmark.com/images/${forum.images!}">
+					</div>
+					<div class="ForumDtl">
+						<span class="ForumName">
+							<a href="javascript:void(0)" onclick="skipForum(this,'${forum.communityid!}')">${forum.title!}</a>
+						</span>
+						<span class="ForumIntro">${forum.content!}<br />
+							<% 
+								if(!isEmpty(forumCountMap)){
+									var forumCount = @forumCountMap.get(forumClassify.communityid + "");
+									if(!isEmpty(forumCountMap)){
+										var forumData = @forumCount.get(forum.communityid + "");
+							%>
+								<span>帖数：${forumData.number!}</span>
+							<% 		
+									}  
+								}
+							%>
+						</span>
+					</div>
+				</div>
+				<% } %>
+				<div class="clear"></div>
+			</div>
+		<% } %>
 	</article>
 <% } %>

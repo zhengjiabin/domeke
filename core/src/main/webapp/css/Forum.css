@@ -339,10 +339,6 @@ nav li{
 	padding: 20px;
 }
 
-
-.White{
-	background: #fff;
-}
 .PiecesText{
 	margin: 20px 0px;
 	background: #fff;
@@ -426,7 +422,7 @@ nav li{
 	border: #f1f6fa solid;
 	border-width: 0px 1px 1px 0px;
 }
-
+zz
 
 
 
@@ -460,7 +456,12 @@ nav li{
 	background: #ccc;
 }
 
-
+.White{
+	background: #fff;
+}
+.background_gray{
+	background: gray;
+}
 
 .font_gr{
 	color: #2f9f39;

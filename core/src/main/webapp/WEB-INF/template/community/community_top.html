@@ -1,0 +1,21 @@
+<div class="TopFix">
+	<div class="TopFixZoom">
+		<span class="FixLeft">欢迎来到动漫方舟！
+    	<% if(session.user.username! == null) {%>
+    		<a href="user/goLogin">请登录</a><a href="user/goRegist">免费注册</a>
+    	<% } else{%>
+    		<% if(session.user.username! == "admin") {%>
+    			<a href="community/goToManager" style="color:#F00">${session.user.username!}</a>
+    		<%}else{%>
+    			<a href="personal/forMyProduction" style="color:#F00">${session.user.username!}</a>
+    		<%}%>
+    		<a href="login/logout">退出</a>
+    		<a href="personal/forMyProduction">个人中心</a>
+    	<%}%>
+		</span>
+        <span class="FixRight">
+        	<a href="#">收藏夹</a><a href="#">商家支持</a>
+        	<a href="#">网站导航</a>
+        </span>
+    </div>
+</div>

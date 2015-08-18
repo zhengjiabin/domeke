@@ -1,7 +1,7 @@
 <div id="showEditor" class="ArgumentReply" style="display: none;">
 	<div class="ReplyTitle">
-		<% if(!isEmpty(toUserId)) { %>
-			 回复<span class="font_b"></span>
+		<% if(!isEmpty(touserid)) { %>
+			 回复<span class="font_ye"> <a href="#">${tousername!}</a> </span>
 		<% } else { %>
 			发表我的看法
 		<% } %>
@@ -38,6 +38,6 @@
 			</tr>
 		</table>
 		<img src='images/VentTip05.png' onclick='showFace(this)' />
-		<a href="javascript:void(0);" onclick="publish(this,'${targetId!}','${idtype!}','${pId!}','${toUserId!}','${render!}')">发表</a>
+		<a href="javascript:void(0);" onclick="publish(this,'${targetid!}','${idtype!}','${pid!}','${touserid!}','${render!}')">发表</a>
 	</div>
 </div>

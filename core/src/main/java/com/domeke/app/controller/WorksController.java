@@ -1421,4 +1421,22 @@ public class WorksController extends Controller {
 	public void addPlay(){
 		renderNull();;
 	}
+	
+	public void publish(){
+		String targetId = getPara("targetid");
+		String idtype = getPara("idtype");
+		if("40".equals(idtype)){
+			//works
+			Works worksModel = getModel(Works.class).findById(targetId);
+			if(worksModel != null && worksModel.isNotEmpty()){
+				Long lcomment = 0L;
+				String comment = String.valueOf(worksModel.get("comment"));
+				if(!StrKit.isBlank(comment)){
+					lcomment = Long.parseLong(comment);
+				}
+				worksModel.set("comment", lcomment + 1);
+				worksModel.update();
+			}
+		}
+	}
 }

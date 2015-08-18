@@ -62,9 +62,9 @@ public class Treasure extends Model<Treasure> {
 		Page<Treasure> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(), userId);
 		return page;
 	}
-
+	
 	/**
-	 * 分页查询宝贝
+	 * 根据版块信息获取分页查询宝贝
 	 * 
 	 * @param pageNumber
 	 *            页号
@@ -72,30 +72,35 @@ public class Treasure extends Model<Treasure> {
 	 *            页数
 	 * @return
 	 */
-	public Page<Treasure> findPage(int pageNumber, int pageSize) {
-		String select = "select u.username,u.imgurl,t.*";
-		StringBuffer sqlExceptSelect = new StringBuffer("from treasure t,user u ");
-		sqlExceptSelect.append(" where t.userid=u.userid and t.status='10' ");
-		sqlExceptSelect.append(" order by to_days(t.createtime) desc,t.top desc,t.essence desc");
-		Page<Treasure> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString());
-		return page;
-	}
-	/**
-	 * 分页查询宝贝
-	 * 
-	 * @param pageNumber
-	 *            页号
-	 * @param pageSize
-	 *            页数
-	 * @return
-	 */
-	public Page<Treasure> findPageByCommunityId(int pageNumber, int pageSize,Object communityId) {
+	public Page<Treasure> findPageByForum(int pageNumber, int pageSize,Object communityId,Object status) {
 		String select = "select u.username,u.imgurl,t.*,cm.number as viewcount";
 		StringBuffer sqlExceptSelect = new StringBuffer("from user u,treasure t left join ");
 		sqlExceptSelect.append(" (select count(1) as number,targetid from comment where status='10' and idtype='30' group by targetid) cm ");
-		sqlExceptSelect.append(" on t.treasureid=cm.targetid where u.userid=t.userid and t.status='10' and t.communityid=? ");
+		sqlExceptSelect.append(" on t.treasureid=cm.targetid where u.userid=t.userid and t.status=? and t.communityid=? ");
 		sqlExceptSelect.append(" order by to_days(t.createtime) desc,t.top desc,t.essence desc");
-		Page<Treasure> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),communityId);
+		Page<Treasure> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),status,communityId);
+		return page;
+	}
+	
+	/**
+	 * 根据版块分类信息获取分页查询宝贝
+	 * 
+	 * @param pageNumber
+	 *            页号
+	 * @param pageSize
+	 *            页数
+	 * @param communityid
+	 *            版块分类id
+	 * @return
+	 */
+	public Page<Treasure> findPageByForumClassify(int pageNumber, int pageSize,Object communityId,Object status) {
+		String select = "select u.username,u.imgurl,t.*,cm.number as viewcount";
+		StringBuffer sqlExceptSelect = new StringBuffer("from community c,user u,treasure t left join ");
+		sqlExceptSelect.append(" (select count(1) as number,targetid from comment where status='10' and idtype='30' group by targetid) cm ");
+		sqlExceptSelect.append(" on t.treasureid=cm.targetid where u.userid=t.userid and t.status=? and t.communityid=c.communityid ");
+		sqlExceptSelect.append(" and c.pid=? ");
+		sqlExceptSelect.append(" order by to_days(t.createtime) desc,t.top desc,t.essence desc");
+		Page<Treasure> page = this.paginate(pageNumber, pageSize, select,sqlExceptSelect.toString(),status,communityId);
 		return page;
 	}
 
@@ -108,58 +113,99 @@ public class Treasure extends Model<Treasure> {
 	}
 	
 	/**
-     * 今日发宝贝数
+     * 根据版块分类信息获取今日发宝贝数
+     * @param community 版块分类id
      * @return 汇总数
      */
-    public Long getTodayCount(){
-    	Long count = Db.queryLong("select count(1) from treasure where status='10' and to_days(createtime)=to_days(now())");
+    public Long getCountOfTodayByForumClassify(Object communityid){
+    	StringBuffer sql = new StringBuffer("select count(1) from treasure t,community c ");
+    	sql.append(" where t.communityid=c.communityid and t.status='10' and c.pid=? ");
+    	sql.append(" and to_days(t.createtime)=to_days(now()) ");
+    	Long count = Db.queryLong(sql.toString(),communityid);
     	return count;
     }
     
 	/**
-     * 今日发宝贝数
+     * 根据版块信息获取今日发宝贝数
+     * @param community 版块信息
      * @return 汇总数
      */
-    public Long getTodayCountByCommunityId(Object communityId){
+    public Long getCountOfTodayByForum(Object communityId){
     	String sql = "select count(1) from treasure where status='10' and communityid=? and to_days(createtime)=to_days(now())";
     	Long count = Db.queryLong(sql,communityId);
     	return count;
     }
     
-    /**
-     * 昨日宝贝数
+	/**
+     * 今日发表宝贝数
      * @return 汇总数
      */
-    public Long getYesterdayCount(){
-    	Long count = Db.queryLong("select count(1) from treasure where status='10' and date(createtime) = date_sub(curdate(),interval 1 day)");
+    public Long getCountOfToday(){
+    	Long count = Db.queryLong("select count(1) from treasure where status='10' and to_days(createtime)=to_days(now())");
     	return count;
     }
     
     /**
-     * 昨日宝贝数
+     * 根据版块分类信息获取昨日宝贝数
+     * @param communityid　版块分类id
      * @return 汇总数
      */
-    public Long getYesterdayCountByCommunityId(Object communityId){
+    public Long getCountOfYesByForumClassify(Object communityid){
+    	StringBuffer sql = new StringBuffer("select count(1) from treasure t,community c ");
+    	sql.append(" where t.communityid=c.communityid and t.status='10' and c.pid=? ");
+    	sql.append(" and date(t.createtime) = date_sub(curdate(),interval 1 day) ");
+    	Long count = Db.queryLong(sql.toString(),communityid);
+    	return count;
+    }
+    
+    /**
+     * 根据版块信息获取昨日宝贝数
+     * @param communityid　版块id
+     * @return 汇总数
+     */
+    public Long getCountOfYesByForum(Object communityId){
     	String sql = "select count(1) from treasure where status='10' and communityid=? and date(createtime) = date_sub(curdate(),interval 1 day)";
     	Long count = Db.queryLong(sql,communityId);
     	return count;
     }
     
     /**
-     * 总宝贝数
+     * 昨日发表宝贝数
      * @return 汇总数
      */
-    public Long getCount(){
-    	Long count = Db.queryLong("select count(1) from treasure where status='10'");
+    public Long getCountOfYes(){
+    	Long count = Db.queryLong("select count(1) from treasure where status='10' and date(createtime) = date_sub(curdate(),interval 1 day)");
     	return count;
     }
     
     /**
-     * 总宝贝数
+     * 根据版块分类信息获取总宝贝数
+     * @param communityid 版块分类id
      * @return 汇总数
      */
-    public Long getCountByCommunityId(Object communityId){
+    public Long getCountByForumClassify(Object communityid){
+    	StringBuffer sql = new StringBuffer("select count(1) from treasure t,community c ");
+    	sql.append(" where t.communityid=c.communityid and t.status='10' and c.pid=? ");
+    	Long count = Db.queryLong(sql.toString(),communityid);
+    	return count;
+    }
+    
+    /**
+     * 根据版块信息获取总宝贝数
+     * @param communityid 版块id
+     * @return 汇总数
+     */
+    public Long getCountByForum(Object communityId){
     	Long count = Db.queryLong("select count(1) from treasure where status='10' and communityid=?",communityId);
+    	return count;
+    }
+    
+    /**
+     * 总帖子数
+     * @return 汇总数
+     */
+    public Long getCount(){
+    	Long count = Db.queryLong("select count(1) from treasure where status='10'");
     	return count;
     }
     
@@ -176,11 +222,27 @@ public class Treasure extends Model<Treasure> {
     }
     
     /**
-     * 当前登录人总宝贝数
+     * 根据版块分类信息获取当前登录人总宝贝数
+     * @param communityid 版块分类id
+     * @param userid 用户id
      * @return 汇总数
      */
-    public Long getCountByUserId(Object userId){
-    	Long count = Db.queryLong("select count(1) from treasure where status='10' and userid=?",userId);
+    public Long getCountOfUserByForumClassify(Object communityId,Object userId){
+    	StringBuffer sql = new StringBuffer("select count(1) from treasure t,community c ");
+    	sql.append(" where t.communityid=c.communityid and t.status='10' and c.pid=? and t.userid=? ");
+    	Long count = Db.queryLong(sql.toString(),communityId,userId);
+    	return count;
+    }
+    
+    /**
+     * 根据版块信息获取当前登录人总宝贝数
+     * @param communityid 版块id
+     * @param userid 用户id
+     * @return 汇总数
+     */
+    public Long getCountOfUserByForum(Object communityId,Object userId){
+    	String sql = "select count(1) from treasure where status='10' and communityid=? and userid=?";
+    	Long count = Db.queryLong(sql,communityId,userId);
     	return count;
     }
     
@@ -188,9 +250,8 @@ public class Treasure extends Model<Treasure> {
      * 当前登录人总宝贝数
      * @return 汇总数
      */
-    public Long getCountByCommunityAndUser(Object communityId,Object userId){
-    	String sql = "select count(1) from treasure where status='10' and communityid=? and userid=?";
-    	Long count = Db.queryLong(sql,communityId,userId);
+    public Long getCountOfUser(Object userId){
+    	Long count = Db.queryLong("select count(1) from treasure where status='10' and userid=?",userId);
     	return count;
     }
     
@@ -201,5 +262,69 @@ public class Treasure extends Model<Treasure> {
     public Object findHasPublish(Object communityId,Object userId){
     	String sql = "select 1 from treasure where communityid=? and userid=? and createtime >= date_sub(now(),interval 5 minute)";
     	return this.findFirst(sql, communityId, userId);
+    }
+    
+    /**
+     * 根据版块分类更新主题状态
+     * @param pid 版块分类id
+     * @param status 显示隐藏状态
+     */
+    public void updateStatusByForumClassify(Object pid,Object status){
+    	StringBuffer sql = new StringBuffer("update treasure t set t.status = ? ");
+    	sql.append(" where exists(select 1 from community c where t.communityid = c.communityid and c.pid = ? )");
+    	Db.update(sql.toString(), status,pid);
+    }
+    
+	/**
+	 * 根据版块分类id更新回复信息
+	 * @param pid 版块分类id
+	 * @param status 是否显示状态
+	 */
+	public void updateCommentStatusByForumClassify(Object pid,Object status){
+		StringBuffer sql = new StringBuffer("update comment c set c.status = ? where c.idtype = '30' ");
+		sql.append(" and exists(select 1 from treasure t,community cy where cy.communityid = t.communityid ");
+		sql.append(" and t.treasureid = c.commentid and c.idtype = '30' and cy.pid = ?) ");
+		Db.update(sql.toString(), status,pid);
+	}
+    
+    /**
+     * 根据版块更新主题状态
+     * @param community 版块id
+     * @param status 显示隐藏状态
+     */
+    public void updateStatusByForum(Object community,Object status){
+    	String sql = "update treasure t set t.status = ? where t.communityid = ?";
+    	Db.update(sql, status,community);
+    }
+    
+	/**
+	 * 根据版块id更新回复信息
+	 * @param communityid 版块id
+	 * @param status 是否显示状态
+	 */
+	public void updateCommentStatusByForum(Object communityid,Object status){
+		StringBuffer sql = new StringBuffer("update comment c set c.status = ? where c.idtype = '30' ");
+		sql.append(" and exists(select 1 from treasure t where t.treasureid = c.commentid and c.idtype = '30' ");
+		sql.append(" and t.communityid = ?) ");
+		Db.update(sql.toString(), status,communityid);
+	}
+    
+    /**
+     * 根据版块分类删除主题状态
+     * @param pid 版块分类id
+     */
+    public void deleteByForumClassify(Object pid){
+    	StringBuffer sql = new StringBuffer("delete from treasure t where exists(select 1 from community c where ");
+    	sql.append(" c.communityid = t.communityid and c.pid = ? )");
+    	Db.update(sql.toString(), pid);
+    }
+    
+    /**
+     * 根据版块删除主题状态
+     * @param community 版块id
+     */
+    public void deleteByForum(Object community){
+    	String sql = "delete from treasure t where t.communityid = ? ";
+    	Db.update(sql, community);
     }
 }

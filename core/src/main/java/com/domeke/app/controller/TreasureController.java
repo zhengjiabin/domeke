@@ -9,7 +9,6 @@ import com.domeke.app.model.Comment;
 import com.domeke.app.model.Community;
 import com.domeke.app.model.Treasure;
 import com.domeke.app.model.User;
-import com.domeke.app.model.VentWall;
 import com.domeke.app.route.ControllerBind;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -18,40 +17,70 @@ import com.jfinal.plugin.activerecord.Page;
 
 @ControllerBind(controllerKey = "treasure")
 public class TreasureController extends Controller {
+
+	/** 社区id（主键） */
+	private static final String COMMUNITYID = "communityid";
+
+	/** 目标id(主键) */
+	private static final String TARGETID = "targetid";
+	
+	/** 宝贝id(主键) */
+	private static final String TREASUREID = "treasureid";
+	
+	/** 跳转页面指令 */
+	private static final String RENDER = "render";
+	
+	/** 跳转回复指令 */
+	private static final String COMMENTACTION = "/comment";
 	
 	/** 回复类型 */
-	private static String IDTYPE = "30";
+	private static final String IDTYPE = "idtype";
+	
+	/** 置顶 */
+	private static final String TOP = "top";
+	
+	/** 精华 */
+	private static final String ESSENCE = "essence";
+	
+	/** 当前页号 */
+	private static final String PAGENUMBER = "pageNumber";
+	
+	/** 每页记录数 */
+	private static final String PAGESIZE = "pageSize";
+	
+	/** 回复类型 */
+	private static String IDTYPEVALUE = "30";
 
 	/**
-	 * 宝贝列表
-	 * 请求 ./treasure?communityId=${communityId!}
+	 * 根据版块信息分页查询宝贝信息
+	 * <p>
+	 * 1、入口
+	 * <p>
+	 * 2、宝贝列表中点击分页相关按钮
+	 * <p>
+	 * 请求 ./community/skipForum?communityid=${communityid!}&pageNumber=${pageNumber!}&pageSize=${pageSize!}
 	 */
 	public void index() {
-		String communityId = getPara("communityId");
-		setEntryData(communityId);
+		String communityid = getPara(COMMUNITYID);
+		int pageNumber = getParaToInt(PAGENUMBER, 1);
+		int pageSize = getParaToInt(PAGESIZE, 10);
+		setBodyInfoByForum(communityid, "10",pageNumber, pageSize);
 		render("/community/community_treasure.html");
 	}
 	
 	/**
-	 * 查询指定社区的分页宝贝信息
-	 * 
-	 * @return 宝贝信息
-	 */
-	public void find() {
-		String communityId = getPara("communityId");
-		setEntryData(communityId);
-		render("/community/community_treasurePage.html");
-	}
-	
-	/**
-	 * 版块入口
-	 * 请求 ./treasure/home
+	 * 根据版块分类信息分页查询宝贝信息
+	 * <p>
+	 * 版块首页
+	 * <p>
+	 * 请求 ./community/skipForumClassify?communityid=${communityid!}&pageNumber=${pageNumber!}&pageSize=${pageSize!}
 	 */
 	public void home(){
-		List<Community> communitySonList = Community.dao.findSonList();
-		setAttr("communitySonList", communitySonList);
-		setEntryData(null);
-		render("/community/community_treasureAll.html");
+		String communityid = getPara(COMMUNITYID);
+		int pageNumber = getParaToInt(PAGENUMBER, 1);
+		int pageSize = getParaToInt(PAGESIZE, 10);
+		setBodyInfoByForumClassify(communityid, "10",pageNumber, pageSize);
+		render("/community/community_treasure.html");
 	}
 	
 	/**
@@ -73,78 +102,75 @@ public class TreasureController extends Controller {
 	
 	/**
 	 * 创建宝贝主题
-	 * 请求 ./treasure/create
+	 * 请求 ./treasure/save
 	 */
-	public void create() {
-		Treasure treasure = getModel(Treasure.class);
-		Object communityId = treasure.get("communityid");
-		Object userId = getUserId();
-		Object treasureOld = Treasure.dao.findHasPublish(communityId, userId);
-		if(treasureOld != null){
+	public void save() {
+		try {
+			Treasure treasure = getModel(Treasure.class);
+			Object userId = getUserId();
+			HttpServletRequest request = getRequest();
+			String remoteIp = request.getRemoteAddr();
+
+			treasure.set("userid", userId);
+			treasure.set("userip", remoteIp);
+			treasure.save();
+			renderJson(true);
+		} catch (Exception e) {
+			e.printStackTrace();
 			renderJson(false);
-			return;
 		}
-		
-		HttpServletRequest request = getRequest();
-		String remoteIp = request.getRemoteAddr();
-
-		treasure.set("userid", userId);
-		treasure.set("userip", remoteIp);
-		treasure.save();
-
-		setPage(communityId);
-		setPublishNumber(communityId);
-		
-		render("/community/community_treasure.html");
 	}
 	
 	/**
-	 * 查询指定宝贝信息
-	 * 请求 ./treasure/findById?targetId={targetId!}&communityId={communityId!}
+	 * 跳转主题
+	 * <p>
+	 * 主题列表点击主题信息事件
+	 * 请求 community/skipTheme?communityid=${communityid!}&targetid=${targetid!}&pageNumber=${pageNumber!}&pageSize=${pageSize!}
 	 */
-	public void findById() {
-		String treasureId = getPara("targetId");
-		Treasure.dao.updateTimes(treasureId);
+	public void skipTheme() {
+		String treasureid = getPara(TARGETID);
+		int pageNumber = getParaToInt(PAGENUMBER, 1);
+		int pageSize = getParaToInt(PAGESIZE, 10);
 		
-		setTreasure(treasureId);
-		setCommunitys();
+		Treasure.dao.updateTimes(treasureid);
+		setBodyInfoOfTheme(treasureid, pageNumber, pageSize);
 		
 		String render = "/community/community_treasureDetail.html";
-		forwardComment(treasureId,render);
+		forwardComment(treasureid,render);
 	}
 	
 	/**
 	 * 置顶功能
-	 * 请求 ./treasure/setTop?targetId={targetId!}
+	 * 请求 ./community/setTop?targetid=${targetid!}
 	 */
 	@Before(LoginInterceptor.class)
 	public void setTop(){
-		String treasureId = getPara("targetId");
-		if(treasureId == null || treasureId.length()<=0){
+		String treasureId = getPara(TARGETID);
+		if(StrKit.isBlank(treasureId)){
 			renderJson(2);
 			return;
 		}
 		Treasure treasure = getModel(Treasure.class);
-		treasure.set("treasureid", treasureId);
-		treasure.set("top", 1);
+		treasure.set(TREASUREID, treasureId);
+		treasure.set(TOP, 1);
 		treasure.update();
 		renderJson(3);
 	}
 	
 	/**
 	 * 精华功能
-	 * 请求 ./treasure/setEssence?targetId={targetId!}
+	 * 请求 ./community/setEssence?targetid=${targetid!}
 	 */
 	@Before(LoginInterceptor.class)
 	public void setEssence(){
-		String treasureId = getPara("targetId");
-		if(treasureId == null || treasureId.length()<=0){
+		String treasureId = getPara(TARGETID);
+		if(StrKit.isBlank(treasureId)){
 			renderJson(2);
 			return;
 		}
 		Treasure treasure = getModel(Treasure.class);
-		treasure.set("treasureid", treasureId);
-		treasure.set("essence", 1);
+		treasure.set(TREASUREID, treasureId);
+		treasure.set(ESSENCE, 1);
 		treasure.update();
 		renderJson(3);
 	}
@@ -154,7 +180,9 @@ public class TreasureController extends Controller {
 	 * 请求 ./treasure/goToManager
 	 */
 	public void goToManager() {
-		findPageAll();
+		int pageNumber = getParaToInt(PAGENUMBER, 1);
+		int pageSize = getParaToInt(PAGESIZE, 10);
+		setBodyInfo(pageNumber, pageSize);
 		render("/admin/admin_treasure.html");
 	}
 	
@@ -163,7 +191,9 @@ public class TreasureController extends Controller {
 	 * 请求 ./treasure/findByAdminPage
 	 */
 	public void findByAdminPage(){
-		findPageAll();
+		int pageNumber = getParaToInt(PAGENUMBER, 1);
+		int pageSize = getParaToInt(PAGESIZE, 10);
+		setBodyInfo(pageNumber, pageSize);
 		render("/admin/admin_treasurePage.html");
 	}
 	
@@ -173,11 +203,13 @@ public class TreasureController extends Controller {
 	 */
 	@Before(LoginInterceptor.class)
 	public void deleteById() {
+		int pageNumber = getParaToInt(PAGENUMBER, 1);
+		int pageSize = getParaToInt(PAGESIZE, 10);
 		String treasureId = getPara("treasureId");
 		Treasure.dao.deleteById(treasureId);
 		
-		Comment.dao.deleteByTheme(treasureId, IDTYPE);
-		findPageAll();
+		Comment.dao.deleteByTheme(treasureId, IDTYPEVALUE);
+		setBodyInfo(pageNumber, pageSize);
 		render("/admin/admin_treasurePage.html");
 	}
 	
@@ -196,7 +228,7 @@ public class TreasureController extends Controller {
 		}
 		setAttr("treasure", treasure);
 		
-		List<Community> communityList = Community.dao.findSonList();
+		List<Community> communityList = Community.dao.findForumList();
 		setAttr("communityList", communityList);
 		render("/admin/admin_treasureUpdate.html");
 	}
@@ -207,6 +239,8 @@ public class TreasureController extends Controller {
 	 */
 	@Before(LoginInterceptor.class)
 	public void update() {
+		int pageNumber = getParaToInt(PAGENUMBER, 1);
+		int pageSize = getParaToInt(PAGESIZE, 10);
 		Treasure treasure = getModel(Treasure.class);
 		Object treasureId = treasure.get("treasureid");
 		if (treasureId == null) {
@@ -220,19 +254,8 @@ public class TreasureController extends Controller {
 		} else {
 			treasure.update();
 		}
-		findPageAll();
+		setBodyInfo(pageNumber, pageSize);
 		render("/admin/admin_treasurePage.html");
-	}
-	
-	/**
-	 * admin管理--分页查询论坛(不区分显示隐藏状态)
-	 * 请求 ./treasure/findPageAll?pageNumber={pageNumber!}&pageSize={pageSize!}
-	 */
-	private void findPageAll() {
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Page<Treasure> treasurePage = Treasure.dao.findPageAll(pageNumber, pageSize);
-		setAttr("treasurePage", treasurePage);
 	}
 	
 	/**
@@ -295,39 +318,9 @@ public class TreasureController extends Controller {
 		setTreasure(treasureId);
 		setCommunitys();
 		setCommunityList();
-		setVentWall();
 		
 		String render = "/community/community_treasureContain.html";
 		forwardComment(treasureId,render);
-	}
-	
-	/**
-	 * 设置入口所需数据
-	 * @param communityId
-	 */
-	private void setEntryData(Object communityId) {
-		setPage(communityId);
-		setPublishNumber(communityId);
-		setCommunity();
-	}
-	
-	/**
-	 * 设置签到人数
-	 */
-	private void setVentWall(){
-		Object ventWallCount = VentWall.venWdao.getTodayCount();
-		setAttr("ventWallCount", ventWallCount);
-	}
-	
-	/**
-	 * 跳转回复控制器，设置回复信息
-	 */
-	private void forwardComment(Object targetId,Object render){
-		String action = "/comment/setPage";
-		setAttr("render", render);
-		setAttr("targetId", targetId);
-		setAttr("idtype", IDTYPE);
-		forwardAction(action);
 	}
 	
 	/**
@@ -363,20 +356,39 @@ public class TreasureController extends Controller {
 	 * 设置版块集合
 	 */
 	private void setCommunityList(){
-		List<Community> communityFatList = Community.dao.findFatList();
+		List<Community> communityFatList = Community.dao.findForumClassifyList();
 		setAttr("communityFatList", communityFatList);
 		
-		List<Community> communitySonList = Community.dao.findSonList();
+		List<Community> communitySonList = Community.dao.findForumList();
 		setAttr("communitySonList", communitySonList);
+	}
+
+	/**
+	 * 删除回复信息
+	 */
+	public void deleteComment() {
+		Object commentId = getPara("commentId");
+		Comment.dao.deleteReplyAll(commentId);
+	}
+	
+	
+	/**
+	 * 跳转回复控制器，设置回复信息
+	 * @param targetid 宝贝主键
+	 * @param render 跳转页面
+	 */
+	private void forwardComment(Object targetid,Object render){
+		setAttr(RENDER, render);
+		setAttr(TARGETID, targetid);
+		setAttr(IDTYPE, IDTYPEVALUE);
+		forwardAction(COMMENTACTION);
 	}
 	
 	/**
-	 * 设置版块信息
+	 * 设置宝贝主题信息
 	 */
-	private void setCommunity(){
-		String communityId = getPara("communityId");
-		Community community = Community.dao.findById(communityId);
-		setAttr("community", community);
+	private void setBodyInfoOfTheme(String treasureid,int pageNumber,int pageSize){
+		setTreasure(treasureid);
 	}
 	
 	/**
@@ -389,6 +401,172 @@ public class TreasureController extends Controller {
 	}
 
 	/**
+	 * 根据用户设置分页
+	 */
+	private void setPageByUser() {
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Object userId = getUserId();
+		Page<Treasure> treasurePage = Treasure.dao.findByUserId(userId, pageNumber, pageSize);
+		setAttr("treasurePage", treasurePage);
+	}
+	
+	/**
+	 * admin管理--设置宝贝信息
+	 * @param pageNumber 当前页号
+	 * @param pageSize 每页记录数
+	 */
+	private void setBodyInfo(int pageNumber,int pageSize) {
+		Page<Treasure> treasurePage = Treasure.dao.findPageAll(pageNumber, pageSize);
+		setAttr("treasurePage", treasurePage);
+	}
+	
+	/**
+	 * 根据版块信息设置宝贝信息
+	 * @param communityId 版块id 
+	 * @param pageNumber 当前页号
+	 * @param pageSize 每页记录数
+	 */
+	private void setBodyInfoByForum(Object communityId,Object status,int pageNumber,int pageSize) {
+		setPageByForum(communityId, status, pageNumber, pageSize);
+		setPublishNumber(communityId);
+	}
+	
+	/**
+	 * 根据版块分类信息设置宝贝信息
+	 * @param communityId 版块分类id
+	 * @param pageNumber 当前页号
+	 * @param pageSize 每页记录数
+	 */
+	private void setBodyInfoByForumClassify(Object communityId,Object status,int pageNumber,int pageSize) {
+		setPageByForumClassify(communityId, status,pageNumber, pageSize);
+		setPublishNumberClassify(communityId);
+	}
+	
+	/**
+	 * 根据版块信息设置宝贝数
+	 * @param communityid 版块id
+	 */
+	private void setPublishNumber(Object communityId){
+		setUserPublishInfoByForum(communityId);
+		setTodayPublishInfoByForum(communityId);
+		setYesPublicInfoByForum(communityId);
+		setCountPublisInfoByForum(communityId);
+	}
+	
+	/**
+	 * 根据版块分类信息设置宝贝数
+	 * @param communityid 版块分类id
+	 */
+	private void setPublishNumberClassify(Object communityId){
+		setUserPublishInfoByForumClassify(communityId);
+		setTodayPublishInfoByForumClassify(communityId);
+		setYesPublicInfoByForumClassify(communityId);
+		setCountPublisInfoByForumClassify(communityId);
+	}
+
+	/**
+	 * 根据版块信息设置总发帖数
+	 * @param communityid
+	 */
+	private void setCountPublisInfoByForum(Object communityid){
+		Long count = Treasure.dao.getCountByForum(communityid);
+		setAttr("count", count);
+	}
+	
+	/**
+	 * 根据版块分类信息设置总发帖数
+	 * @param communityid 版块分类id
+	 */
+	private void setCountPublisInfoByForumClassify(Object communityid){
+		Long count = Treasure.dao.getCountByForumClassify(communityid);
+		setAttr("count", count);
+	}
+	
+	/**
+	 * 根据版块信息设置昨日发帖数
+	 * @param communityid 版块信息
+	 */
+	private void setYesPublicInfoByForum(Object communityid){
+		Long yesCount = Treasure.dao.getCountOfYesByForum(communityid);
+		setAttr("yesCount", yesCount);
+	}
+	
+	/**
+	 * 根据版块分类信息设置昨日发帖数
+	 * @param communityid 版块分类id
+	 */
+	private void setYesPublicInfoByForumClassify(Object communityid){
+		Long yesCount = Treasure.dao.getCountOfYesByForumClassify(communityid);
+		setAttr("yesCount", yesCount);
+	}
+	
+	/**
+	 * 根据版块信息设置今日发帖数
+	 * @param communityid 版块信息
+	 */
+	private void setTodayPublishInfoByForum(Object communityid){
+		Long todayCount = Treasure.dao.getCountOfTodayByForum(communityid);
+		setAttr("todayCount", todayCount);
+	}
+	
+	/**
+	 * 根据版块分类信息设置今日发帖数
+	 * @param communityid 版块分类id
+	 */
+	private void setTodayPublishInfoByForumClassify(Object communityid){
+		Long todayCount = Treasure.dao.getCountOfTodayByForumClassify(communityid);
+		setAttr("todayCount", todayCount);
+	}
+	
+	/**
+	 * 根据版块信息设置用户发帖数
+	 * @param communityid 版块信息
+	 */
+	private void setUserPublishInfoByForum(Object communityid){
+		Long userCount = new Long(0);
+		Object userId = getUserId();
+		if(userId != null){
+			userCount = Treasure.dao.getCountOfUserByForum(communityid, userId);
+		}
+		setAttr("userCount", userCount);
+	}
+	
+	/**
+	 * 根据版块分类信息设置用户发帖数
+	 * @param communityid 版块分类id
+	 */
+	private void setUserPublishInfoByForumClassify(Object communityid){
+		Long userCount = new Long(0);
+		Object userId = getUserId();
+		if(userId != null){
+			userCount = Treasure.dao.getCountOfUserByForumClassify(communityid, userId);
+		}
+		setAttr("userCount", userCount);
+	}
+	
+	/**
+	 * 根据版块设置分页宝贝
+	 * @param pageNumber 当前页号
+	 * @param pageSize 每页记录数
+	 */
+	private void setPageByForum(Object communityId,Object status,int pageNumber,int pageSize) {
+		Page<Treasure> treasurePage = Treasure.dao.findPageByForum(pageNumber,pageSize, communityId,status);
+		setAttr("treasurePage", treasurePage);
+	}
+	
+	/**
+	 * 根据版块分类设置分页宝贝
+	 * @param communityid 版块分类id
+	 * @param pageNumber 当前页号
+	 * @param pageSize 每页记录数
+	 */
+	private void setPageByForumClassify(Object communityId,Object status,int pageNumber,int pageSize) {
+		Page<Treasure> treasurePage = Treasure.dao.findPageByForumClassify(pageNumber,pageSize, communityId,status);
+		setAttr("treasurePage", treasurePage);
+	}
+	
+	/**
 	 * 获取用户Id
 	 * @return
 	 */
@@ -398,70 +576,6 @@ public class TreasureController extends Controller {
 			return null;
 		}
 		return user.get("userid");
-	}
-
-	/**
-	 * 删除回复信息
-	 */
-	public void deleteComment() {
-		Object commentId = getPara("commentId");
-		Comment.dao.deleteReplyAll(commentId);
-
-		findById();
-	}
-	
-	/**
-	 * 设置宝贝数
-	 */
-	private void setPublishNumber(Object communityId){
-		Long userTreasureCount = null,treasureTodayCount = null,treasureYesCount = null,treasureCount = null;
-		Object userId = getUserId();
-		if(StrKit.notNull(communityId)){
-			userTreasureCount = Treasure.dao.getCountByCommunityAndUser(communityId, userId);
-			treasureTodayCount = Treasure.dao.getTodayCountByCommunityId(communityId);
-			treasureYesCount = Treasure.dao.getYesterdayCountByCommunityId(communityId);
-			treasureCount = Treasure.dao.getCountByCommunityId(communityId);
-		}else{
-			userTreasureCount = Treasure.dao.getCountByUserId(userId);
-			treasureTodayCount = Treasure.dao.getTodayCount();
-			treasureYesCount = Treasure.dao.getYesterdayCount();
-			treasureCount = Treasure.dao.getCount();
-		}
-		// 当前登录人宝贝数
-		setAttr("userCount", userTreasureCount);
-		//今日宝贝数
-		setAttr("todayCount", treasureTodayCount);
-		//昨日宝贝数
-		setAttr("yesCount", treasureYesCount);
-		//总宝贝数
-		setAttr("count", treasureCount);
-	}
-
-	/**
-	 * 设置分页宝贝
-	 */
-	private void setPage(Object communityId) {
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Page<Treasure> treasurePage = null;
-		if(communityId == null){
-			treasurePage =Treasure.dao.findPage(pageNumber, pageSize);
-		}else{
-			treasurePage = Treasure.dao.findPageByCommunityId(pageNumber,pageSize, communityId);
-		}
-		setAttr("treasurePage", treasurePage);
-		setAttr("communityId", communityId);
-	}
-
-	/**
-	 * 根据用户设置分页
-	 */
-	private void setPageByUser() {
-		int pageNumber = getParaToInt("pageNumber", 1);
-		int pageSize = getParaToInt("pageSize", 10);
-		Object userId = getUserId();
-		Page<Treasure> treasurePage = Treasure.dao.findByUserId(userId, pageNumber, pageSize);
-		setAttr("treasurePage", treasurePage);
 	}
 	
 	/**
